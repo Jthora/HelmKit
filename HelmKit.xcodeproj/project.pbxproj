@@ -1,0 +1,754 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA0D024420F9039100772621 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D024320F9039100772621 /* AppDelegate.swift */; };
+		FA0D024620F9039100772621 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D024520F9039100772621 /* ViewController.swift */; };
+		FA0D024920F9039100772621 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0D024720F9039100772621 /* Main.storyboard */; };
+		FA0D024B20F9039200772621 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA0D024A20F9039200772621 /* Assets.xcassets */; };
+		FA0D024E20F9039200772621 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0D024C20F9039200772621 /* LaunchScreen.storyboard */; };
+		FA0D025920F9039300772621 /* HelmKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D025820F9039300772621 /* HelmKitTests.swift */; };
+		FA0D026420F9039300772621 /* HelmKitUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D026320F9039300772621 /* HelmKitUITests.swift */; };
+		FA109B2F21015E5B00EC0184 /* SwiftAA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; };
+		FA109B3121015E8000EC0184 /* SwiftAA.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */; };
+		FA109B3321015E9C00EC0184 /* SwiftAA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FA109B36210161B300EC0184 /* EventPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B35210161B300EC0184 /* EventPanelView.swift */; };
+		FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */; };
+		FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3A2101762C00EC0184 /* FluxSensor.swift */; };
+		FA109B3E2101768600EC0184 /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3D2101768600EC0184 /* GPS.swift */; };
+		FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */; };
+		FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E0511210406FF00C7617C /* MHDSensorScene.swift */; };
+		FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */; };
+		FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A020F9922E0014606E /* NASAAstronomy.swift */; };
+		FA5E11A420F9976C0014606E /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A320F9976C0014606E /* Regex.swift */; };
+		FA5E11A720F998FC0014606E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A620F998FC0014606E /* Time.swift */; };
+		FA5E11AA20F9A5320014606E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A920F9A5320014606E /* String.swift */; };
+		FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */; };
+		FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5752107E788001AB1B1 /* Astrology.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA0D025520F9039300772621 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA0D023820F9039100772621 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA0D023F20F9039100772621;
+			remoteInfo = HelmKit;
+		};
+		FA0D026020F9039300772621 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA0D023820F9039100772621 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA0D023F20F9039100772621;
+			remoteInfo = HelmKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA109B3421015E9C00EC0184 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FA109B3321015E9C00EC0184 /* SwiftAA.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FA0D024020F9039100772621 /* HelmKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelmKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA0D024320F9039100772621 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FA0D024520F9039100772621 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FA0D024820F9039100772621 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FA0D024A20F9039200772621 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FA0D024D20F9039200772621 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA0D024F20F9039200772621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA0D025420F9039300772621 /* HelmKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelmKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA0D025820F9039300772621 /* HelmKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelmKitTests.swift; sourceTree = "<group>"; };
+		FA0D025A20F9039300772621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA0D025F20F9039300772621 /* HelmKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelmKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA0D026320F9039300772621 /* HelmKitUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelmKitUITests.swift; sourceTree = "<group>"; };
+		FA0D026520F9039300772621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA109B2E21015E5B00EC0184 /* SwiftAA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftAA.framework; sourceTree = "<group>"; };
+		FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SwiftAA.framework.dSYM; sourceTree = "<group>"; };
+		FA109B35210161B300EC0184 /* EventPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPanelView.swift; sourceTree = "<group>"; };
+		FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetProgressionPanelView.swift; sourceTree = "<group>"; };
+		FA109B3A2101762C00EC0184 /* FluxSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxSensor.swift; sourceTree = "<group>"; };
+		FA109B3D2101768600EC0184 /* GPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
+		FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiMagnetometer.swift; sourceTree = "<group>"; };
+		FA1E0511210406FF00C7617C /* MHDSensorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHDSensorScene.swift; sourceTree = "<group>"; };
+		FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = mhdSensorAssets.scnassets; sourceTree = "<group>"; };
+		FA5E11A020F9922E0014606E /* NASAAstronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAAstronomy.swift; sourceTree = "<group>"; };
+		FA5E11A320F9976C0014606E /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		FA5E11A620F998FC0014606E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		FA5E11A920F9A5320014606E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
+		FA8BC5752107E788001AB1B1 /* Astrology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astrology.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA0D023D20F9039100772621 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA109B2F21015E5B00EC0184 /* SwiftAA.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025120F9039300772621 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025C20F9039300772621 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA0D023720F9039100772621 = {
+			isa = PBXGroup;
+			children = (
+				FA0D024220F9039100772621 /* HelmKit */,
+				FA0D025720F9039300772621 /* HelmKitTests */,
+				FA0D026220F9039300772621 /* HelmKitUITests */,
+				FA0D024120F9039100772621 /* Products */,
+				FA109B2920FEB73C00EC0184 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FA0D024120F9039100772621 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D024020F9039100772621 /* HelmKit.app */,
+				FA0D025420F9039300772621 /* HelmKitTests.xctest */,
+				FA0D025F20F9039300772621 /* HelmKitUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA0D024220F9039100772621 /* HelmKit */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B802103FC4200EC0184 /* MHDSensor */,
+				FA5E11A820F9A5260014606E /* String */,
+				FA5E11A520F998F20014606E /* Time */,
+				FA5E11A220F9975E0014606E /* Regex */,
+				FA8BC5742107E774001AB1B1 /* Astrology */,
+				FA5E119F20F992030014606E /* Astronomy */,
+				FA0D024320F9039100772621 /* AppDelegate.swift */,
+				FA0D024520F9039100772621 /* ViewController.swift */,
+				FA109B35210161B300EC0184 /* EventPanelView.swift */,
+				FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */,
+				FA0D024720F9039100772621 /* Main.storyboard */,
+				FA0D024A20F9039200772621 /* Assets.xcassets */,
+				FA0D024C20F9039200772621 /* LaunchScreen.storyboard */,
+				FA0D024F20F9039200772621 /* Info.plist */,
+			);
+			path = HelmKit;
+			sourceTree = "<group>";
+		};
+		FA0D025720F9039300772621 /* HelmKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D025820F9039300772621 /* HelmKitTests.swift */,
+				FA0D025A20F9039300772621 /* Info.plist */,
+			);
+			path = HelmKitTests;
+			sourceTree = "<group>";
+		};
+		FA0D026220F9039300772621 /* HelmKitUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D026320F9039300772621 /* HelmKitUITests.swift */,
+				FA0D026520F9039300772621 /* Info.plist */,
+			);
+			path = HelmKitUITests;
+			sourceTree = "<group>";
+		};
+		FA109B2920FEB73C00EC0184 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */,
+				FA109B2E21015E5B00EC0184 /* SwiftAA.framework */,
+			);
+			name = Frameworks;
+			path = HelmKit/Frameworks;
+			sourceTree = "<group>";
+		};
+		FA109B392101761900EC0184 /* FluxSensor */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B3A2101762C00EC0184 /* FluxSensor.swift */,
+			);
+			path = FluxSensor;
+			sourceTree = "<group>";
+		};
+		FA109B3C2101767800EC0184 /* GPS */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B3D2101768600EC0184 /* GPS.swift */,
+			);
+			path = GPS;
+			sourceTree = "<group>";
+		};
+		FA109B3F21018A6200EC0184 /* MultiMagnetometer */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */,
+			);
+			path = MultiMagnetometer;
+			sourceTree = "<group>";
+		};
+		FA109B802103FC4200EC0184 /* MHDSensor */ = {
+			isa = PBXGroup;
+			children = (
+				FA1E0511210406FF00C7617C /* MHDSensorScene.swift */,
+				FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */,
+				FA109B3F21018A6200EC0184 /* MultiMagnetometer */,
+				FA109B3C2101767800EC0184 /* GPS */,
+				FA109B392101761900EC0184 /* FluxSensor */,
+			);
+			path = MHDSensor;
+			sourceTree = "<group>";
+		};
+		FA5E119F20F992030014606E /* Astronomy */ = {
+			isa = PBXGroup;
+			children = (
+				FA5E11A020F9922E0014606E /* NASAAstronomy.swift */,
+				FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */,
+			);
+			path = Astronomy;
+			sourceTree = "<group>";
+		};
+		FA5E11A220F9975E0014606E /* Regex */ = {
+			isa = PBXGroup;
+			children = (
+				FA5E11A320F9976C0014606E /* Regex.swift */,
+			);
+			path = Regex;
+			sourceTree = "<group>";
+		};
+		FA5E11A520F998F20014606E /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				FA5E11A620F998FC0014606E /* Time.swift */,
+			);
+			path = Time;
+			sourceTree = "<group>";
+		};
+		FA5E11A820F9A5260014606E /* String */ = {
+			isa = PBXGroup;
+			children = (
+				FA5E11A920F9A5320014606E /* String.swift */,
+			);
+			path = String;
+			sourceTree = "<group>";
+		};
+		FA8BC5742107E774001AB1B1 /* Astrology */ = {
+			isa = PBXGroup;
+			children = (
+				FA8BC5752107E788001AB1B1 /* Astrology.swift */,
+			);
+			path = Astrology;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FA0D023F20F9039100772621 /* HelmKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA0D026820F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKit" */;
+			buildPhases = (
+				FA0D023C20F9039100772621 /* Sources */,
+				FA0D023D20F9039100772621 /* Frameworks */,
+				FA0D023E20F9039100772621 /* Resources */,
+				FA109B3421015E9C00EC0184 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HelmKit;
+			productName = HelmKit;
+			productReference = FA0D024020F9039100772621 /* HelmKit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FA0D025320F9039300772621 /* HelmKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA0D026B20F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKitTests" */;
+			buildPhases = (
+				FA0D025020F9039300772621 /* Sources */,
+				FA0D025120F9039300772621 /* Frameworks */,
+				FA0D025220F9039300772621 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA0D025620F9039300772621 /* PBXTargetDependency */,
+			);
+			name = HelmKitTests;
+			productName = HelmKitTests;
+			productReference = FA0D025420F9039300772621 /* HelmKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FA0D025E20F9039300772621 /* HelmKitUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA0D026E20F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKitUITests" */;
+			buildPhases = (
+				FA0D025B20F9039300772621 /* Sources */,
+				FA0D025C20F9039300772621 /* Frameworks */,
+				FA0D025D20F9039300772621 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA0D026120F9039300772621 /* PBXTargetDependency */,
+			);
+			name = HelmKitUITests;
+			productName = HelmKitUITests;
+			productReference = FA0D025F20F9039300772621 /* HelmKitUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA0D023820F9039100772621 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "Jordan Trana";
+				TargetAttributes = {
+					FA0D023F20F9039100772621 = {
+						CreatedOnToolsVersion = 9.3.1;
+					};
+					FA0D025320F9039300772621 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = FA0D023F20F9039100772621;
+					};
+					FA0D025E20F9039300772621 = {
+						CreatedOnToolsVersion = 9.3.1;
+						TestTargetID = FA0D023F20F9039100772621;
+					};
+				};
+			};
+			buildConfigurationList = FA0D023B20F9039100772621 /* Build configuration list for PBXProject "HelmKit" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FA0D023720F9039100772621;
+			productRefGroup = FA0D024120F9039100772621 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA0D023F20F9039100772621 /* HelmKit */,
+				FA0D025320F9039300772621 /* HelmKitTests */,
+				FA0D025E20F9039300772621 /* HelmKitUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA0D023E20F9039100772621 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA109B3121015E8000EC0184 /* SwiftAA.framework.dSYM in Resources */,
+				FA0D024E20F9039200772621 /* LaunchScreen.storyboard in Resources */,
+				FA0D024B20F9039200772621 /* Assets.xcassets in Resources */,
+				FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */,
+				FA0D024920F9039100772621 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025220F9039300772621 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025D20F9039300772621 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA0D023C20F9039100772621 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */,
+				FA5E11AA20F9A5320014606E /* String.swift in Sources */,
+				FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */,
+				FA109B36210161B300EC0184 /* EventPanelView.swift in Sources */,
+				FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */,
+				FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */,
+				FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */,
+				FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */,
+				FA109B3E2101768600EC0184 /* GPS.swift in Sources */,
+				FA0D024620F9039100772621 /* ViewController.swift in Sources */,
+				FA5E11A420F9976C0014606E /* Regex.swift in Sources */,
+				FA5E11A720F998FC0014606E /* Time.swift in Sources */,
+				FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */,
+				FA0D024420F9039100772621 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025020F9039300772621 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA0D025920F9039300772621 /* HelmKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA0D025B20F9039300772621 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA0D026420F9039300772621 /* HelmKitUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA0D025620F9039300772621 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA0D023F20F9039100772621 /* HelmKit */;
+			targetProxy = FA0D025520F9039300772621 /* PBXContainerItemProxy */;
+		};
+		FA0D026120F9039300772621 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA0D023F20F9039100772621 /* HelmKit */;
+			targetProxy = FA0D026020F9039300772621 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FA0D024720F9039100772621 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0D024820F9039100772621 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FA0D024C20F9039200772621 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0D024D20F9039200772621 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA0D026620F9039300772621 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FA0D026720F9039300772621 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FA0D026920F9039300772621 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HelmKit/Frameworks",
+				);
+				INFOPLIST_FILE = HelmKit/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FA0D026A20F9039300772621 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HelmKit/Frameworks",
+				);
+				INFOPLIST_FILE = HelmKit/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FA0D026C20F9039300772621 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = HelmKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
+			};
+			name = Debug;
+		};
+		FA0D026D20F9039300772621 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = HelmKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
+			};
+			name = Release;
+		};
+		FA0D026F20F9039300772621 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = HelmKitUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HelmKit;
+			};
+			name = Debug;
+		};
+		FA0D027020F9039300772621 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = HelmKitUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = HelmKit;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA0D023B20F9039100772621 /* Build configuration list for PBXProject "HelmKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D026620F9039300772621 /* Debug */,
+				FA0D026720F9039300772621 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA0D026820F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D026920F9039300772621 /* Debug */,
+				FA0D026A20F9039300772621 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA0D026B20F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D026C20F9039300772621 /* Debug */,
+				FA0D026D20F9039300772621 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA0D026E20F9039300772621 /* Build configuration list for PBXNativeTarget "HelmKitUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA0D026F20F9039300772621 /* Debug */,
+				FA0D027020F9039300772621 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA0D023820F9039100772621 /* Project object */;
+}
