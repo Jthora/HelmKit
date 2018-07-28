@@ -30,6 +30,10 @@
 		FA5E11AA20F9A5320014606E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A920F9A5320014606E /* String.swift */; };
 		FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */; };
 		FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5752107E788001AB1B1 /* Astrology.swift */; };
+		FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */; };
+		FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C9210CE874004D35B5 /* AstroMath.swift */; };
+		FF17B9CC210CEC3F004D35B5 /* MHDSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9CB210CEC3F004D35B5 /* MHDSensor.swift */; };
+		FF17B9CE210CEC7D004D35B5 /* AstroUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9CD210CEC7D004D35B5 /* AstroUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +96,10 @@
 		FA5E11A920F9A5320014606E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		FA8BC5752107E788001AB1B1 /* Astrology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astrology.swift; sourceTree = "<group>"; };
+		FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroTimer.swift; sourceTree = "<group>"; };
+		FF17B9C9210CE874004D35B5 /* AstroMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroMath.swift; sourceTree = "<group>"; };
+		FF17B9CB210CEC3F004D35B5 /* MHDSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHDSensor.swift; sourceTree = "<group>"; };
+		FF17B9CD210CEC7D004D35B5 /* AstroUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,12 +152,11 @@
 		FA0D024220F9039100772621 /* HelmKit */ = {
 			isa = PBXGroup;
 			children = (
+				FF17B9C8210CE7CB004D35B5 /* AstroTimer */,
 				FA109B802103FC4200EC0184 /* MHDSensor */,
 				FA5E11A820F9A5260014606E /* String */,
 				FA5E11A520F998F20014606E /* Time */,
 				FA5E11A220F9975E0014606E /* Regex */,
-				FA8BC5742107E774001AB1B1 /* Astrology */,
-				FA5E119F20F992030014606E /* Astronomy */,
 				FA0D024320F9039100772621 /* AppDelegate.swift */,
 				FA0D024520F9039100772621 /* ViewController.swift */,
 				FA109B35210161B300EC0184 /* EventPanelView.swift */,
@@ -217,6 +224,7 @@
 		FA109B802103FC4200EC0184 /* MHDSensor */ = {
 			isa = PBXGroup;
 			children = (
+				FF17B9CB210CEC3F004D35B5 /* MHDSensor.swift */,
 				FA1E0511210406FF00C7617C /* MHDSensorScene.swift */,
 				FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */,
 				FA109B3F21018A6200EC0184 /* MultiMagnetometer */,
@@ -265,6 +273,18 @@
 				FA8BC5752107E788001AB1B1 /* Astrology.swift */,
 			);
 			path = Astrology;
+			sourceTree = "<group>";
+		};
+		FF17B9C8210CE7CB004D35B5 /* AstroTimer */ = {
+			isa = PBXGroup;
+			children = (
+				FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */,
+				FA8BC5742107E774001AB1B1 /* Astrology */,
+				FA5E119F20F992030014606E /* Astronomy */,
+				FF17B9C9210CE874004D35B5 /* AstroMath.swift */,
+				FF17B9CD210CEC7D004D35B5 /* AstroUtils.swift */,
+			);
+			path = AstroTimer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,13 +426,17 @@
 				FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */,
 				FA109B36210161B300EC0184 /* EventPanelView.swift in Sources */,
 				FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */,
+				FF17B9CE210CEC7D004D35B5 /* AstroUtils.swift in Sources */,
 				FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */,
 				FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */,
 				FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */,
+				FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */,
 				FA109B3E2101768600EC0184 /* GPS.swift in Sources */,
 				FA0D024620F9039100772621 /* ViewController.swift in Sources */,
+				FF17B9CC210CEC3F004D35B5 /* MHDSensor.swift in Sources */,
 				FA5E11A420F9976C0014606E /* Regex.swift in Sources */,
 				FA5E11A720F998FC0014606E /* Time.swift in Sources */,
+				FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */,
 				FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */,
 				FA0D024420F9039100772621 /* AppDelegate.swift in Sources */,
 			);

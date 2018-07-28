@@ -78,16 +78,30 @@ class Astrology {
     }
     
     enum AspectBody:String {
-        case moon = "☽"
-        case sun = "☉"
-        case mercury = "☿"
-        case venus = "♀"
-        case mars = "♂︎"
-        case jupiter = "♃"
-        case saturn = "♄"
-        case uranus = "♅"
-        case neptune = "♆"
-        case pluto = "♇"
+        case moon
+        case sun
+        case mercury
+        case venus
+        case mars
+        case jupiter
+        case saturn
+        case uranus
+        case neptune
+        case pluto
+        /*
+         
+         case moon = "☽"
+         case sun = "☉"
+         case mercury = "☿"
+         case venus = "♀"
+         case mars = "♂︎"
+         case jupiter = "♃"
+         case saturn = "♄"
+         case uranus = "♅"
+         case neptune = "♆"
+         case pluto = "♇"
+         
+         */
         
         init?(with planet:PlanetaryBase) {
             switch planet.planetaryObject {
