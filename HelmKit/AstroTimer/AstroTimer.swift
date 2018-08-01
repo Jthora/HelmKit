@@ -56,4 +56,5 @@ class AstroTimer {
 struct AstroTimePoint {
     let date:Date
     let aspect:Astrology.Aspect
+    let accuracy:TimeInterval
 }

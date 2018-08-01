@@ -48,6 +48,15 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        let aspect = Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter)
+        AstroAngleForeteller.whenIsTheDateOfThisNextAspectAlignment(after: Date(), aspect: aspect, callback: { (date, i) in
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "Completed",
+                                              message: "\(date)\n\(i) iterations",
+                    preferredStyle: .alert)
+                self.show(alert, sender: nil)
+            }
+        })
     }
 
 }

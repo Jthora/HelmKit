@@ -149,19 +149,30 @@ class Astrology {
             let description = self.description
             let planetaryEffectDescription = self.planetaryEffectDescription()
             if description.count == planetaryEffectDescription.count {
-                return self.planetaryEffectDescription(flip: true)
+                return self.planetaryEffectDescription(flipPlanets: true)
             }
             return planetaryEffectDescription
+        }
+        
+        func angleDiff(for date:Date, magnitude:Bool = true) -> Degree {
+            
+            guard let p1 = self.primarybody.celestialLongitude(),
+                let p2 = self.secondaryBody.celestialLongitude() else { return 0 }
+            
+            let d = p1 - p2
+            
+            return magnitude ? abs(d) : d
         }
         
         var description:String {
             return primarybody.defaultDescription + relation.defaultDescription + secondaryBody.defaultDescription
         }
         
-        func planetaryEffectDescription(flip:Bool = false) -> String {
+        //
+        func planetaryEffectDescription(flipPlanets:Bool = false) -> String {
             
-            let primarybody = flip ? self.secondaryBody : self.primarybody
-            let secondaryBody = flip ? self.primarybody : self.secondaryBody
+            let primarybody = flipPlanets ? self.secondaryBody : self.primarybody
+            let secondaryBody = flipPlanets ? self.primarybody : self.secondaryBody
             
             switch primarybody {
             case .sun:

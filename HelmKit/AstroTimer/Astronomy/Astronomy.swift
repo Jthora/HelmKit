@@ -24,20 +24,6 @@ class Astronomy {
         case pluto
     }
     
-    static func orbitalProgression(_ planet:PlanetsAvailable) -> Degree? {
-        switch planet {
-        case .mercury: return Planet.mercuryAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .venus: return Planet.venusAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .earth: return Planet.earthAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .mars: return Planet.marsAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .jupiter: return Planet.jupiterAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .saturn: return Planet.saturnAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .uranus: return Planet.uranusAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .neptune: return Planet.neptuneAA.heliocentricEclipticCoordinates.celestialLongitude
-        case .pluto: return Planet.plutoAA.position().celestialLongitude
-        }
-    }
-    
     static func moonPhaseAngle() -> Degree {
         return Planet.moonAA.phaseAngle()
     }
@@ -121,6 +107,21 @@ struct Planet: Equatable {
         return orbitPeriod * 31557600
     }
     
+    var heliocentricPosition: Degree? {
+        guard let planet = self.type else { return nil }
+        switch planet {
+        case .mercury: return Planet.mercuryAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .venus: return Planet.venusAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .earth: return Planet.earthAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .mars: return Planet.marsAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .jupiter: return Planet.jupiterAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .saturn: return Planet.saturnAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .uranus: return Planet.uranusAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .neptune: return Planet.neptuneAA.heliocentricEclipticCoordinates.celestialLongitude
+        case .pluto: return Planet.plutoAA.position().celestialLongitude
+        }
+    }
+    
     
     static var timeOffset:TimeInterval?
     static var customDate:Date?
@@ -133,28 +134,40 @@ struct Planet: Equatable {
         return JulianDay(date)
     }
     
-    static var mercuryAA:Mercury { return Mercury(julianDay: julianDay) }
-    static var venusAA:Venus { return Venus(julianDay: julianDay) }
-    static var earthAA:Earth { return Earth(julianDay: julianDay) }
-    static var marsAA:Mars { return Mars(julianDay: julianDay) }
-    static var jupiterAA:Jupiter { return Jupiter(julianDay: julianDay) }
-    static var saturnAA:Saturn { return Saturn(julianDay: julianDay) }
-    static var uranusAA:Uranus { return Uranus(julianDay: julianDay) }
-    static var neptuneAA:Neptune { return Neptune(julianDay: julianDay) }
-    static var plutoAA:Pluto { return Pluto(julianDay: julianDay) }
-    static var moonAA:Moon { return Moon(julianDay: julianDay) }
+    static var mercuryAA:Mercury { return mercuryAA(date) }
+    static var venusAA:Venus { return venusAA(date) }
+    static var earthAA:Earth { return earthAA(date) }
+    static var marsAA:Mars { return marsAA(date) }
+    static var jupiterAA:Jupiter { return jupiterAA(date) }
+    static var saturnAA:Saturn { return saturnAA(date) }
+    static var uranusAA:Uranus { return uranusAA(date) }
+    static var neptuneAA:Neptune { return neptuneAA(date) }
+    static var plutoAA:Pluto { return plutoAA(date) }
+    static var moonAA:Moon { return moonAA(date) }
+    
+    static func mercuryAA(_ date: Date) -> Mercury { return Mercury(julianDay: JulianDay(date)) }
+    static func venusAA(_ date: Date) -> Venus { return Venus(julianDay: JulianDay(date)) }
+    static func earthAA(_ date: Date) -> Earth { return Earth(julianDay: JulianDay(date)) }
+    static func marsAA(_ date: Date) -> Mars { return Mars(julianDay: JulianDay(date)) }
+    static func jupiterAA(_ date: Date) -> Jupiter { return Jupiter(julianDay: JulianDay(date)) }
+    static func saturnAA(_ date: Date) -> Saturn { return Saturn(julianDay: JulianDay(date)) }
+    static func uranusAA(_ date: Date) -> Uranus { return Uranus(julianDay: JulianDay(date)) }
+    static func neptuneAA(_ date: Date) -> Neptune { return Neptune(julianDay: JulianDay(date)) }
+    static func plutoAA(_ date: Date) -> Pluto { return Pluto(julianDay: JulianDay(date)) }
+    static func moonAA(_ date: Date) -> Moon { return Moon(julianDay: JulianDay(date)) }
     
     static let sun = Planet(type: nil, name: "Sun", orbitalRadius: 0, radius: 695700, rotationDuration: 1000, axialTilt: 1, orbitPeriod: 1)
     static let mercury = Planet(type: .mercury, name: mercuryAA.name, orbitalRadius: 57.9, radius: 2439.7, rotationDuration: 1407.6, axialTilt: 0.03, orbitPeriod: 0.24084204)
     static let venus = Planet(type: .venus, name: venusAA.name, orbitalRadius: 108.2, radius: 6051.8, rotationDuration: 5832.6, axialTilt: 2.64, orbitPeriod: 0.61517237)
-    static let mars = Planet(type: .mars, name: marsAA.name, orbitalRadius: 227.9, radius: 3389.5, rotationDuration: 24.62, axialTilt: 25.19, orbitPeriod: 1.8808524)
+    static let earth = Planet(type: .earth, name: earthAA.name, orbitalRadius: 149.598023, radius: 6051.8, rotationDuration: 1, axialTilt: 23.4392811, orbitPeriod: 1)
+    static let mars = Planet(type: .mars, name: marsAA.name, orbitalRadius: 227.9, radius: 6371, rotationDuration: 24.62, axialTilt: 25.19, orbitPeriod: 1.8808524)
     static let jupiter = Planet(type: .jupiter, name: jupiterAA.name, orbitalRadius: 778.3, radius: 69911, rotationDuration: 9.93, axialTilt: 3.13, orbitPeriod: 11.86631421)
     static let saturn = Planet(type: .saturn, name: saturnAA.name, orbitalRadius: 1427, radius: 58232, rotationDuration: 10.66, axialTilt: 26.73, orbitPeriod: 29.47305083)
     static let uranus = Planet(type: .uranus, name: uranusAA.name, orbitalRadius: 2871, radius: 25362, rotationDuration: 17.24, axialTilt: 82.23, orbitPeriod: 84.05122725)
     static let neptune = Planet(type: .neptune, name: neptuneAA.name, orbitalRadius: 4497, radius: 24622, rotationDuration: 16.11, axialTilt: 28.32, orbitPeriod: 164.88839750)
     static let pluto = Planet(type: .pluto, name: plutoAA.name, orbitalRadius: 5907, radius: 1188, rotationDuration: 153.288, axialTilt: 122.53, orbitPeriod: 248.12989786)
     
-    static let allPlanets = [sun, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto]
+    static let allPlanets = [sun, mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto]
     
     static func planet(_ planet:Astronomy.PlanetsAvailable) -> Planet {
         return allPlanets.first(where: { $0.type == planet })!

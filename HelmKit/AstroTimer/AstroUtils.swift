@@ -15,6 +15,15 @@ struct AstroUtils {
     
     /// Get Closest Date for Aspect realtive to Date
     
+    static let astrologyPlanets:[Astrology.AspectBody] = [.mercury,
+                                                     .venus,
+                                                     .mars,
+                                                     .jupiter,
+                                                     .saturn,
+                                                     .uranus,
+                                                     .neptune,
+                                                     .pluto]
+    
     static let allAspectRelationTypes:[Astrology.AspectRelation] = [.conjunction,
                                                                     .semisextile,
                                                                     .novile,
@@ -27,15 +36,30 @@ struct AstroUtils {
                                                                     .quincunx,
                                                                     .opposition]
     
-    static func getAllAspects(within timeRange:TimeInterval = 3600) {
+    static func getAllAspects(closeTo date:Date = Date()) {
         
         // Sun - Earth - Moon
+        let nextMoonAspect = getClosestAspectForMoon(closeTo: date)
         
         // Earth - Moon - Planet
+        
         
         // Sun - Earth - Planet
         
         // Sun - Planet - Planet
+    }
+    
+    static func getNextAspectsBetweenMoonAndPlanets(useOrbRange:Bool = true) -> [AstroAspectTimeReport] {
+        var reports:[AstroAspectTimeReport] = []
+        
+        for planet in astrologyPlanets {
+            if let report = getClosestAspectForMoon(with: planet) {
+                guard !useOrbRange || report.withinRange else {  continue }
+                reports.append(report)
+            }
+        }
+        
+        return reports
     }
     
     // if returns nil that means none within timeRange
@@ -44,24 +68,22 @@ struct AstroUtils {
         let moonCurrentAngle = Astronomy.moonPhaseAngle()
         let (relation, degreeDiff) = closestAspectRelationForAngle(angle: moonCurrentAngle)
         
-        guard relation.orb > abs(degreeDiff) else { return nil }
-        
         let aspect = Astrology.Aspect(primarybody: .moon, relation: relation, secondaryBody: .sun)
-        return AstroAspectTimeReport(date: date, aspect: aspect)
+        return AstroAspectTimeReport(date: date, aspect: aspect, distance: degreeDiff)
     }
     
-    static func planet(_ planet:Astronomy.PlanetsAvailable) -> SwiftAA.EllipticalPlanetaryDetails? {
-        switch planet {
-        case .mercury: return Planet.mercuryAA
-        case .venus: return Planet.venusAA
-        case .earth: return nil
-        case .mars: return Planet.marsAA
-        case .jupiter: return Planet.jupiterAA
-        case .saturn: return Planet.saturnAA
-        case .uranus: return Planet.uranusAA
-        case .neptune: return Planet.neptuneAA
-        case .pluto: return Planet.plutoAA
-        }
+    static func getClosestAspectForMoon(with planet:Astrology.AspectBody) -> AstroAspectTimeReport? {
+        
+        let moonPhaseAngle = Astronomy.moonPhaseAngle()
+        let planetPhaseAngle = planet.geocentricLongitude()!
+        let (relation, degreeDiff) = closestAspectRelationForAngle(angle: moonPhaseAngle - planetPhaseAngle)
+        
+        let orbitPeriod = planet.orbitPeriodInSeconds()
+        let secondsUntil:TimeInterval = TimeInterval(degreeDiff.value/360.0)*orbitPeriod
+        let date = Date(timeIntervalSinceNow: secondsUntil)
+        
+        let aspect = Astrology.Aspect(primarybody: .moon, relation: relation, secondaryBody: .sun)
+        return AstroAspectTimeReport(date: date, aspect: aspect, distance: degreeDiff)
     }
     
     static func closestAspectRelationForAngle(angle:Degree) -> (Astrology.AspectRelation, Degree) {
@@ -76,23 +98,23 @@ struct AstroUtils {
             }
         }
         
-        
         return (closestAspectRelation, degreeDiff)
     }
     
     static func getClosestAspect(between firstPlanet:Astrology.AspectBody, and secondPlanet:Astrology.AspectBody) -> AstroAspectTimeReport? {
         
-        let primaryPhaseAngle = planet(firstPlanet.toAstronomy()!)!.phaseAngle
-        let secondaryPhaseAngle = planet(secondPlanet.toAstronomy()!)!.phaseAngle
-        let (relation, degreeDiff) = closestAspectRelationForAngle(angle: primaryPhaseAngle - secondaryPhaseAngle)
+        let primaryAngle = firstPlanet.heliocentricPosition()
+        let secondaryAngle = firstPlanet.heliocentricPosition()
+        let (relation, degreeDiff) = closestAspectRelationForAngle(angle: primaryAngle - secondaryAngle)
         
         guard relation.orb > abs(degreeDiff) else { return nil }
         
-        let orbitPeriod = Planet.planet(firstPlanet.toAstronomy()!).orbitPeriodInSeconds
+        let orbitPeriod = firstPlanet.orbitPeriodInSeconds()
         let secondsUntil:TimeInterval = TimeInterval(degreeDiff.value/360.0)*orbitPeriod
         let date = Date(timeIntervalSinceNow: secondsUntil)
+        
         let aspect = Astrology.Aspect(primarybody: firstPlanet, relation: relation, secondaryBody: secondPlanet)
-        return AstroAspectTimeReport(date: date, aspect: aspect)
+        return AstroAspectTimeReport(date: date, aspect: aspect, distance: degreeDiff)
     }
 }
 
@@ -103,6 +125,9 @@ struct AstroAspectTimeReport {
     
     /// The Aspect itself
     var aspect:Astrology.Aspect
+    
+    /// Angle Distance
+    var distance:Degree
     
     /// Convenience
     var primaryBody:Astrology.AspectBody { return aspect.primarybody }
@@ -119,6 +144,9 @@ struct AstroAspectTimeReport {
     
     /// Calculations for remainin
     var timeOffset:TimeInterval { return date.timeIntervalSince(Date()) }
+    
+    /// Is this aspect within Orb Range
+    var withinRange:Bool { return relation.orb > abs(distance) }
 }
 
 
@@ -127,6 +155,7 @@ struct AstroAspectTimeReport {
 extension Astronomy.PlanetsAvailable {
     func toAstrology() -> Astrology.AspectBody? {
         switch self {
+        case .earth: return .sun
         case .mercury: return .mercury
         case .venus: return .venus
         case .mars: return .mars
@@ -138,11 +167,84 @@ extension Astronomy.PlanetsAvailable {
         default: return nil
         }
     }
+    
+    func toPlanet() -> Planet? {
+        switch self {
+        case .mercury: return Planet.mercury
+        case .venus: return Planet.venus
+        case .mars: return Planet.mars
+        case .jupiter: return Planet.jupiter
+        case .saturn: return Planet.saturn
+        case .uranus: return Planet.uranus
+        case .neptune: return Planet.neptune
+        case .pluto: return Planet.pluto
+        default: return nil
+        }
+    }
 }
 
 extension Astrology.AspectBody {
+    
+    func celestialLongitude(_ date:Date? = nil) -> Degree? {
+        if let date = date {
+            switch self {
+            case .sun: return Planet.earthAA(date).position().celestialLongitude
+            case .mercury: return Planet.mercuryAA(date).position().celestialLongitude
+            case .venus: return Planet.venusAA(date).position().celestialLongitude
+            case .mars: return Planet.marsAA(date).position().celestialLongitude
+            case .jupiter: return Planet.jupiterAA(date).position().celestialLongitude
+            case .saturn: return Planet.saturnAA(date).position().celestialLongitude
+            case .uranus: return Planet.uranusAA(date).position().celestialLongitude
+            case .neptune: return Planet.neptuneAA(date).position().celestialLongitude
+            case .pluto: return Planet.plutoAA(date).position().celestialLongitude
+            default: return nil
+            }
+        }
+        switch self {
+        case .sun: return Planet.earthAA.position().celestialLongitude
+        case .mercury: return Planet.mercuryAA.position().celestialLongitude
+        case .venus: return Planet.venusAA.position().celestialLongitude
+        case .mars: return Planet.marsAA.position().celestialLongitude
+        case .jupiter: return Planet.jupiterAA.position().celestialLongitude
+        case .saturn: return Planet.saturnAA.position().celestialLongitude
+        case .uranus: return Planet.uranusAA.position().celestialLongitude
+        case .neptune: return Planet.neptuneAA.position().celestialLongitude
+        case .pluto: return Planet.plutoAA.position().celestialLongitude
+        default: return nil
+        }
+    }
+    
+    func geocentricLongitude(_ date:Date? = nil) -> Degree? {
+        if let date = date {
+            switch self {
+            case .moon: return Planet.moonAA(date).apparentEquatorialCoordinates.declination
+            case .mercury: return Planet.mercuryAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .venus: return Planet.venusAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .mars: return Planet.marsAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .jupiter: return Planet.jupiterAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .saturn: return Planet.saturnAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .uranus: return Planet.uranusAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .neptune: return Planet.neptuneAA(date).apparentGeocentricEquatorialCoordinates.declination
+            case .pluto: return Planet.plutoAA(date).apparentGeocentricEquatorialCoordinates.declination
+            default: return nil
+            }
+        }
+        switch self {
+        case .mercury: return Planet.mercuryAA.apparentGeocentricEquatorialCoordinates.declination
+        case .venus: return Planet.venusAA.apparentGeocentricEquatorialCoordinates.declination
+        case .mars: return Planet.marsAA.apparentGeocentricEquatorialCoordinates.declination
+        case .jupiter: return Planet.jupiterAA.apparentGeocentricEquatorialCoordinates.declination
+        case .saturn: return Planet.saturnAA.apparentGeocentricEquatorialCoordinates.declination
+        case .uranus: return Planet.uranusAA.apparentGeocentricEquatorialCoordinates.declination
+        case .neptune: return Planet.neptuneAA.apparentGeocentricEquatorialCoordinates.declination
+        case .pluto: return Planet.plutoAA.apparentGeocentricEquatorialCoordinates.declination
+        default: return nil
+        }
+    }
+    
     func toAstronomy() -> Astronomy.PlanetsAvailable? {
         switch self {
+        case .sun: return .earth
         case .mercury: return .mercury
         case .venus: return .venus
         case .mars: return .mars
@@ -153,5 +255,13 @@ extension Astrology.AspectBody {
         case .pluto: return .pluto
         default: return nil
         }
+    }
+    
+    func orbitPeriodInSeconds() -> TimeInterval {
+        return Planet.planet(self.toAstronomy()!).orbitPeriodInSeconds
+    }
+    
+    func heliocentricPosition() -> Degree {
+        return Planet.planet(self.toAstronomy()!).heliocentricPosition!
     }
 }
