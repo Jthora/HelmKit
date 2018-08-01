@@ -26,14 +26,11 @@ class AstroAngleForeteller {
     
     private static func getDateNextCloser(from date:Date, aspect:Astrology.Aspect, accuracy:TimeInterval = 0.01, callback:((Date, Int) -> Void)? = nil, _  i:Int = 0) {
         let diff = aspect.angleDiff(for: date) - aspect.relation.rawValue
-        
         let prototimeUntilArrival1 = TimeInterval((diff.value/360.0))*aspect.primarybody.orbitPeriodInSeconds()
-        let prototimeUntilArrival2 = TimeInterval((diff.value/360.0))*aspect.secondaryBody.orbitPeriodInSeconds()
+        let newDate = date.addingTimeInterval(prototimeUntilArrival1)
         
-        let avg = (prototimeUntilArrival1 + prototimeUntilArrival2) / 2
-        let newDate = date.addingTimeInterval(avg)
-        print("\(i) : \(diff.value) : \(avg)\nprototimeUntilArrival1: \(prototimeUntilArrival1)\nprototimeUntilArrival2: \(prototimeUntilArrival2)\n\(date)\n")
-        if avg < accuracy || i > 10000 {
+        print("\(i) : \(diff.value)\nTime until arrival: \(prototimeUntilArrival1)\n\(date)\n")
+        if prototimeUntilArrival1 < accuracy || i > 2500 {
             callback?(newDate, i)
         } else {
             getDateNextCloser(from: newDate, aspect: aspect, callback: callback, i+1)

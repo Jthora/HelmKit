@@ -156,8 +156,8 @@ class Astrology {
         
         func angleDiff(for date:Date, magnitude:Bool = true) -> Degree {
             
-            guard let p1 = self.primarybody.celestialLongitude(),
-                let p2 = self.secondaryBody.celestialLongitude() else { return 0 }
+            guard let p1 = self.primarybody.celestialLongitude(date),
+                let p2 = self.secondaryBody.celestialLongitude(date) else { return 0 }
             
             let d = p1 - p2
             
