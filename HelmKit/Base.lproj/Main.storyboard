@@ -120,12 +120,21 @@
                                             <constraint firstItem="TaI-Tw-Ka4" firstAttribute="top" secondItem="WS0-nt-YRW" secondAttribute="bottom" constant="2" id="xOs-CL-jDM"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6M-sg-e7D">
+                                        <rect key="frame" x="465" y="160" width="107" height="30"/>
+                                        <state key="normal" title="Calculate Again"/>
+                                        <connections>
+                                            <action selector="calculateAgainButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e50-vL-AMB"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="deZ-xK-9wr" firstAttribute="height" secondItem="x4C-bI-zQA" secondAttribute="height" multiplier="0.5" id="0BO-N9-VPr"/>
                                     <constraint firstItem="Xn9-6v-rbD" firstAttribute="leading" secondItem="x4C-bI-zQA" secondAttribute="leading" constant="95" id="0pQ-ZF-pHn"/>
                                     <constraint firstItem="deZ-xK-9wr" firstAttribute="top" secondItem="x4C-bI-zQA" secondAttribute="top" constant="8" id="8ty-i6-XxL"/>
+                                    <constraint firstAttribute="trailing" secondItem="t6M-sg-e7D" secondAttribute="trailing" constant="95" id="C77-4Z-UPh"/>
+                                    <constraint firstItem="Xn9-6v-rbD" firstAttribute="top" secondItem="t6M-sg-e7D" secondAttribute="bottom" constant="84" id="If0-FL-gNv"/>
                                     <constraint firstAttribute="trailing" secondItem="TNj-ls-Ulz" secondAttribute="trailing" constant="16" id="Mcq-wr-mEs"/>
                                     <constraint firstItem="Xn9-6v-rbD" firstAttribute="centerX" secondItem="x4C-bI-zQA" secondAttribute="centerX" id="NRk-x6-18Z"/>
                                     <constraint firstItem="HHS-xA-GBA" firstAttribute="leading" secondItem="zg0-07-ey6" secondAttribute="trailing" constant="16" id="OmP-Aw-e1H"/>

@@ -88,20 +88,6 @@ class Astrology {
         case uranus
         case neptune
         case pluto
-        /*
-         
-         case moon = "☽"
-         case sun = "☉"
-         case mercury = "☿"
-         case venus = "♀"
-         case mars = "♂︎"
-         case jupiter = "♃"
-         case saturn = "♄"
-         case uranus = "♅"
-         case neptune = "♆"
-         case pluto = "♇"
-         
-         */
         
         init?(with planet:PlanetaryBase) {
             switch planet.planetaryObject {
@@ -124,6 +110,21 @@ class Astrology {
             self = .sun
         }
         
+        var symbol:String {
+            switch self {
+                case .moon: return "☽"
+                case .sun: return "☉"
+                case .mercury: return "☿"
+                case .venus: return "♀"
+                case .mars: return "♂︎"
+                case .jupiter: return "♃"
+                case .saturn: return "♄"
+                case .uranus: return "♅"
+                case .neptune: return "♆"
+                case .pluto: return "♇"
+            }
+        }
+        
         var defaultDescription:String {
             switch self {
             case .moon: return "Feelings, moods and senses"
@@ -135,7 +136,7 @@ class Astrology {
             case .saturn: return "Authority, boundaries and rules"
             case .uranus: return "Surpise, reversals and breakthroughs"
             case .neptune: return "Romance, avoidance and fantasy"
-            case .pluto: return "Destruction, reincarnation and regeneration"
+            case .pluto: return "Destruction, reincarnation and regeneration" // not realistic: I mean destinially: the wibbily wobbly people are treating pluto as if it's the Void itself;: FOOLS (FOOD, all of them... I Hope alternative destinies for them, but I fate not: even still... how sad)
             }
         }
     }

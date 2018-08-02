@@ -47,16 +47,28 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let aspect = Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter)
+        calculateAspect(Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter))
+    }
+
+    func calculateAspect(_ aspect:Astrology.Aspect? = nil) {
+        let aspect:Astrology.Aspect = aspect != nil ? aspect! : Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter)
         AstroAngleForeteller.whenIsTheDateOfThisNextAspectAlignment(after: Date(), aspect: aspect, callback: { (date, i) in
             DispatchQueue.main.async {
+                let df = DateFormatter()
+                df.dateFormat = "y-MM-dd H:m:ss.SSSS"
                 let alert = UIAlertController(title: "Completed",
-                                              message: "\(date)\n\(i) iterations",
+                                              message: "\(df.string(from: date))\n\(i) iterations",
                     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Recalc", style: UIAlertActionStyle.default, handler: { btn in
+                    self.calculateAgainButtonTapped(btn)
+                }))
                 self.show(alert, sender: nil)
             }
         })
     }
-
-}
+    
+    @IBAction func calculateAgainButtonTapped(_ sender: Any) {
+        calculateAspect(Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter))
+    }
+  }
