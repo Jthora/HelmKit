@@ -45,9 +45,11 @@ class ViewController: UIViewController {
         
     }
     
+    var aspectToCalculate:Astrology.Aspect = Astrology.Aspect(primarybody: .mercury, relation: .square, secondaryBody: .jupiter)
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        calculateAspect(Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter))
+        calculateAspect(aspectToCalculate)
     }
 
     func calculateAspect(_ aspect:Astrology.Aspect? = nil) {
@@ -69,6 +71,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calculateAgainButtonTapped(_ sender: Any) {
-        calculateAspect(Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter))
+        calculateAspect(aspectToCalculate)
     }
   }

@@ -136,7 +136,7 @@ class Astrology {
             case .saturn: return "Authority, boundaries and rules"
             case .uranus: return "Surpise, reversals and breakthroughs"
             case .neptune: return "Romance, avoidance and fantasy"
-            case .pluto: return "Destruction, reincarnation and regeneration" // not realistic: I mean destinially: the wibbily wobbly people are treating pluto as if it's the Void itself;: FOOLS (FOOD, all of them... I Hope alternative destinies for them, but I fate not: even still... how sad)
+            case .pluto: return "Destruction, reincarnation and regeneration"
             }
         }
     }

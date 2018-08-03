@@ -27,3 +27,11 @@ extension Date {
         self = date
     }
 }
+
+extension TimeInterval {
+    
+    func toYears() -> Double {
+        return self / 3.154e+7
+    }
+    
+}
