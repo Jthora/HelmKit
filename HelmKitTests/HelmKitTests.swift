@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import HelmKit
 
 class HelmKitTests: XCTestCase {
     

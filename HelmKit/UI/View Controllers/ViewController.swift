@@ -61,8 +61,8 @@ class ViewController: UIViewController {
                 let alert = UIAlertController(title: "Completed",
                                               message: "\(df.string(from: date))\n\(i) iterations",
                     preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Recalc", style: UIAlertActionStyle.default, handler: { btn in
+                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Recalc", style: UIAlertAction.Style.default, handler: { btn in
                     self.calculateAgainButtonTapped(btn)
                 }))
                 self.show(alert, sender: nil)

@@ -24,12 +24,14 @@
 		FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */; };
 		FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E0511210406FF00C7617C /* MHDSensorScene.swift */; };
 		FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */; };
+		FA3326452186B9E40059F5A6 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3326442186B9E40059F5A6 /* Math.swift */; };
 		FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A020F9922E0014606E /* NASAAstronomy.swift */; };
 		FA5E11A420F9976C0014606E /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A320F9976C0014606E /* Regex.swift */; };
 		FA5E11A720F998FC0014606E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A620F998FC0014606E /* Time.swift */; };
 		FA5E11AA20F9A5320014606E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A920F9A5320014606E /* String.swift */; };
 		FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */; };
 		FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5752107E788001AB1B1 /* Astrology.swift */; };
+		FACC6E642186AEE500C9BFA6 /* AstroTicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */; };
 		FF163D282111ED1B003305C1 /* AstroAngleForeteller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */; };
 		FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */; };
 		FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C9210CE874004D35B5 /* AstroMath.swift */; };
@@ -91,12 +93,14 @@
 		FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiMagnetometer.swift; sourceTree = "<group>"; };
 		FA1E0511210406FF00C7617C /* MHDSensorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHDSensorScene.swift; sourceTree = "<group>"; };
 		FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = mhdSensorAssets.scnassets; sourceTree = "<group>"; };
+		FA3326442186B9E40059F5A6 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		FA5E11A020F9922E0014606E /* NASAAstronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAAstronomy.swift; sourceTree = "<group>"; };
 		FA5E11A320F9976C0014606E /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FA5E11A620F998FC0014606E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		FA5E11A920F9A5320014606E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		FA8BC5752107E788001AB1B1 /* Astrology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astrology.swift; sourceTree = "<group>"; };
+		FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AstroTicker.storyboard; sourceTree = "<group>"; };
 		FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroAngleForeteller.swift; sourceTree = "<group>"; };
 		FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroTimer.swift; sourceTree = "<group>"; };
 		FF17B9C9210CE874004D35B5 /* AstroMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroMath.swift; sourceTree = "<group>"; };
@@ -154,18 +158,14 @@
 		FA0D024220F9039100772621 /* HelmKit */ = {
 			isa = PBXGroup;
 			children = (
+				FA3326462186BDF20059F5A6 /* UI */,
+				FA3326432186B9C70059F5A6 /* Math */,
 				FF17B9C8210CE7CB004D35B5 /* AstroTimer */,
 				FA109B802103FC4200EC0184 /* MHDSensor */,
 				FA5E11A820F9A5260014606E /* String */,
 				FA5E11A520F998F20014606E /* Time */,
 				FA5E11A220F9975E0014606E /* Regex */,
 				FA0D024320F9039100772621 /* AppDelegate.swift */,
-				FA0D024520F9039100772621 /* ViewController.swift */,
-				FA109B35210161B300EC0184 /* EventPanelView.swift */,
-				FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */,
-				FA0D024720F9039100772621 /* Main.storyboard */,
-				FA0D024A20F9039200772621 /* Assets.xcassets */,
-				FA0D024C20F9039200772621 /* LaunchScreen.storyboard */,
 				FA0D024F20F9039200772621 /* Info.plist */,
 			);
 			path = HelmKit;
@@ -234,6 +234,44 @@
 				FA109B392101761900EC0184 /* FluxSensor */,
 			);
 			path = MHDSensor;
+			sourceTree = "<group>";
+		};
+		FA3326432186B9C70059F5A6 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				FA3326442186B9E40059F5A6 /* Math.swift */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		FA3326462186BDF20059F5A6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D024A20F9039200772621 /* Assets.xcassets */,
+				FA3326472186BE150059F5A6 /* Storyboards */,
+				FA3326482186BE3A0059F5A6 /* View Controllers */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		FA3326472186BE150059F5A6 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D024C20F9039200772621 /* LaunchScreen.storyboard */,
+				FA0D024720F9039100772621 /* Main.storyboard */,
+				FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		FA3326482186BE3A0059F5A6 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */,
+				FA0D024520F9039100772621 /* ViewController.swift */,
+				FA109B35210161B300EC0184 /* EventPanelView.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		FA5E119F20F992030014606E /* Astronomy */ = {
@@ -359,13 +397,16 @@
 				TargetAttributes = {
 					FA0D023F20F9039100772621 = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1000;
 					};
 					FA0D025320F9039300772621 = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = FA0D023F20F9039100772621;
 					};
 					FA0D025E20F9039300772621 = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = FA0D023F20F9039100772621;
 					};
 				};
@@ -399,6 +440,7 @@
 				FA0D024E20F9039200772621 /* LaunchScreen.storyboard in Resources */,
 				FA0D024B20F9039200772621 /* Assets.xcassets in Resources */,
 				FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */,
+				FACC6E642186AEE500C9BFA6 /* AstroTicker.storyboard in Resources */,
 				FA0D024920F9039100772621 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -443,6 +485,7 @@
 				FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */,
 				FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */,
 				FA0D024420F9039100772621 /* AppDelegate.swift in Sources */,
+				FA3326452186B9E40059F5A6 /* Math.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,7 +672,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -652,7 +695,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -672,7 +715,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
 			};
@@ -693,7 +736,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
 			};
@@ -713,7 +756,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HelmKit;
 			};
@@ -733,7 +776,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HelmKit;
 			};
