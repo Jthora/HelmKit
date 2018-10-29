@@ -24,8 +24,13 @@ class Astronomy {
         case pluto
     }
     
-    static func moonPhaseAngle() -> Degree {
-        return Planet.moonAA.phaseAngle()
+    static func orbitalProgression(_ planet:PlanetsAvailable, on date:Date = Date()) -> Degree? {
+        return Planet.orbitalProgression(for: planet, on: date)
+    }
+    
+    static func moonPhaseAngle(on date:Date = Date()) -> Degree {
+        let julianDay = JulianDay(date)
+        return Moon(julianDay: julianDay).phaseAngle()
     }
 }
 
@@ -171,5 +176,20 @@ struct Planet: Equatable {
     
     static func planet(_ planet:Astronomy.PlanetsAvailable) -> Planet {
         return allPlanets.first(where: { $0.type == planet })!
+    }
+    
+    static func orbitalProgression(for planet:Astronomy.PlanetsAvailable, on date:Date) -> Degree {
+        let julianDay = JulianDay(date)
+        switch planet {
+        case .mercury: return Mercury(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .venus: return Venus(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .earth: return Earth(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .mars: return Mars(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .jupiter: return Jupiter(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .saturn: return Saturn(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .uranus: return Uranus(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .neptune: return Neptune(julianDay: julianDay).heliocentricEclipticCoordinates.celestialLongitude
+        case .pluto: return Pluto(julianDay: julianDay).position().celestialLongitude
+        }
     }
 }
