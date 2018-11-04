@@ -8,28 +8,6 @@
 
 import Foundation
 
-struct Scalers: Codable {
-    var scalers:[Scaler]
-    
-    init(scalers:[Scaler]) {
-        self.scalers = scalers
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case scalers
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        scalers = try values.decode([Scaler].self, forKey: .scalers)
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(scalers, forKey: .scalers)
-    }
-}
-
 struct Scaler: Codable {
     
     enum TimeScaleUnit: Int, CaseIterable {
@@ -148,7 +126,7 @@ struct Scaler: Codable {
         
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(unit.hashValue, forKey: .unit)
+        try container.encode(unit.rawValue, forKey: .unit)
         try container.encode(name, forKey: .name)
         try container.encode(power, forKey: .power)
         try container.encode(scale, forKey: .scale)

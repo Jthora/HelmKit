@@ -28,7 +28,7 @@ class State {
         
         UserDefaults.standard.set(selectedScalerIndex, forKey: KEY_CURRENTSCALAR)
         
-        if let encodedScalers = try? JSONEncoder().encode(Scalers(scalers: scalers)) {
+        if let encodedScalers = try? JSONEncoder().encode(scalers) {
             UserDefaults.standard.set(encodedScalers, forKey: KEY_SCALARS)
             print("SET: KEY_SCALARS:: \(encodedScalers)")
         } else {
@@ -37,13 +37,17 @@ class State {
     }
     
     func Restore() {
+        
         selectedScalerIndex = UserDefaults.standard.integer(forKey: KEY_CURRENTSCALAR)
         if let storedScalerData = UserDefaults.standard.data(forKey: KEY_SCALARS) {
-            if let storedScalers = try? JSONDecoder().decode(Scalers.self, from: storedScalerData) {
-            print("RESTORE: KEY_SCALARS")
-            scalers = storedScalers.scalers
-            } else {
-                print("JSONDecoder FAILED TO  RESTORE: KEY_SCALARS")
+            do {
+                let storedScalers = try JSONDecoder().decode([Scaler].self, from: storedScalerData)
+                print("RESTORE: KEY_SCALARS")
+                print(storedScalers)
+                scalers = storedScalers
+            } catch {
+                print("JSONDecoder FAILED TO  RESTORE: KEY_SCALARS:: \(String(data: storedScalerData, encoding: .utf8) ?? "unknown data")")
+                print(error)
                 scalers = Scaler.defaultScalers
             }
         } else {
