@@ -31,7 +31,7 @@ class Astrology {
         var orb:Degree {
             switch self {
             case .conjunction: return 8
-            case .semisextile: return 4
+            case .semisextile: return 2
             case .novile: return 2
             case .semisquare: return 2
             case .sextile: return 4

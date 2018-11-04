@@ -9,8 +9,6 @@
 import Foundation
 import SwiftAA
 
-
-
 // Calculate date and time until conjunction and opposition between the moon a planet and earth
 
 // Calculate date and time until conjunction and opposition in either past or future between a planet and earth

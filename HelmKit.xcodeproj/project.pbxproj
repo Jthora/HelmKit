@@ -17,7 +17,6 @@
 		FA109B2F21015E5B00EC0184 /* SwiftAA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; };
 		FA109B3121015E8000EC0184 /* SwiftAA.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */; };
 		FA109B3321015E9C00EC0184 /* SwiftAA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FA109B36210161B300EC0184 /* EventPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B35210161B300EC0184 /* EventPanelView.swift */; };
 		FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */; };
 		FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3A2101762C00EC0184 /* FluxSensor.swift */; };
 		FA109B3E2101768600EC0184 /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3D2101768600EC0184 /* GPS.swift */; };
@@ -25,6 +24,13 @@
 		FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E0511210406FF00C7617C /* MHDSensorScene.swift */; };
 		FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */; };
 		FA3326452186B9E40059F5A6 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3326442186B9E40059F5A6 /* Math.swift */; };
+		FA33264B218BD1090059F5A6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33264A218BD1090059F5A6 /* Constants.swift */; };
+		FA33264E218BD2DD0059F5A6 /* CustomOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33264D218BD2DD0059F5A6 /* CustomOperators.swift */; };
+		FA332650218BD4250059F5A6 /* Scaler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33264F218BD4250059F5A6 /* Scaler.swift */; };
+		FA332653218BE6EC0059F5A6 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA332652218BE6EC0059F5A6 /* State.swift */; };
+		FA332657218C07D40059F5A6 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA332656218C07D40059F5A6 /* UIColor.swift */; };
+		FA332659218C29140059F5A6 /* NotchSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA332658218C29140059F5A6 /* NotchSprite.swift */; };
+		FA33265E218EB3250059F5A6 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33265D218EB3250059F5A6 /* App.swift */; };
 		FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A020F9922E0014606E /* NASAAstronomy.swift */; };
 		FA5E11A420F9976C0014606E /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A320F9976C0014606E /* Regex.swift */; };
 		FA5E11A720F998FC0014606E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A620F998FC0014606E /* Time.swift */; };
@@ -86,7 +92,6 @@
 		FA0D026520F9039300772621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA109B2E21015E5B00EC0184 /* SwiftAA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftAA.framework; sourceTree = "<group>"; };
 		FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SwiftAA.framework.dSYM; sourceTree = "<group>"; };
-		FA109B35210161B300EC0184 /* EventPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPanelView.swift; sourceTree = "<group>"; };
 		FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetProgressionPanelView.swift; sourceTree = "<group>"; };
 		FA109B3A2101762C00EC0184 /* FluxSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxSensor.swift; sourceTree = "<group>"; };
 		FA109B3D2101768600EC0184 /* GPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
@@ -94,6 +99,13 @@
 		FA1E0511210406FF00C7617C /* MHDSensorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHDSensorScene.swift; sourceTree = "<group>"; };
 		FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = mhdSensorAssets.scnassets; sourceTree = "<group>"; };
 		FA3326442186B9E40059F5A6 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		FA33264A218BD1090059F5A6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FA33264D218BD2DD0059F5A6 /* CustomOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOperators.swift; sourceTree = "<group>"; };
+		FA33264F218BD4250059F5A6 /* Scaler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scaler.swift; sourceTree = "<group>"; };
+		FA332652218BE6EC0059F5A6 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		FA332656218C07D40059F5A6 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		FA332658218C29140059F5A6 /* NotchSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchSprite.swift; sourceTree = "<group>"; };
+		FA33265D218EB3250059F5A6 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		FA5E11A020F9922E0014606E /* NASAAstronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NASAAstronomy.swift; sourceTree = "<group>"; };
 		FA5E11A320F9976C0014606E /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FA5E11A620F998FC0014606E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
@@ -158,6 +170,10 @@
 		FA0D024220F9039100772621 /* HelmKit */ = {
 			isa = PBXGroup;
 			children = (
+				FA332654218BE6F40059F5A6 /* App */,
+				FA332651218BD42D0059F5A6 /* Scaler */,
+				FA33264C218BD2CB0059F5A6 /* Custom Operators */,
+				FA332649218BD0F70059F5A6 /* Constants */,
 				FA3326462186BDF20059F5A6 /* UI */,
 				FA3326432186B9C70059F5A6 /* Math */,
 				FF17B9C8210CE7CB004D35B5 /* AstroTimer */,
@@ -247,9 +263,11 @@
 		FA3326462186BDF20059F5A6 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				FA332655218C07CA0059F5A6 /* Extensions */,
 				FA0D024A20F9039200772621 /* Assets.xcassets */,
 				FA3326472186BE150059F5A6 /* Storyboards */,
 				FA3326482186BE3A0059F5A6 /* View Controllers */,
+				FA332658218C29140059F5A6 /* NotchSprite.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -269,9 +287,49 @@
 			children = (
 				FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */,
 				FA0D024520F9039100772621 /* ViewController.swift */,
-				FA109B35210161B300EC0184 /* EventPanelView.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		FA332649218BD0F70059F5A6 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FA33264A218BD1090059F5A6 /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		FA33264C218BD2CB0059F5A6 /* Custom Operators */ = {
+			isa = PBXGroup;
+			children = (
+				FA33264D218BD2DD0059F5A6 /* CustomOperators.swift */,
+			);
+			path = "Custom Operators";
+			sourceTree = "<group>";
+		};
+		FA332651218BD42D0059F5A6 /* Scaler */ = {
+			isa = PBXGroup;
+			children = (
+				FA33264F218BD4250059F5A6 /* Scaler.swift */,
+			);
+			path = Scaler;
+			sourceTree = "<group>";
+		};
+		FA332654218BE6F40059F5A6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FA33265D218EB3250059F5A6 /* App.swift */,
+				FA332652218BE6EC0059F5A6 /* State.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		FA332655218C07CA0059F5A6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FA332656218C07D40059F5A6 /* UIColor.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		FA5E119F20F992030014606E /* Astronomy */ = {
@@ -469,20 +527,26 @@
 				FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */,
 				FA5E11AA20F9A5320014606E /* String.swift in Sources */,
 				FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */,
-				FA109B36210161B300EC0184 /* EventPanelView.swift in Sources */,
+				FA332653218BE6EC0059F5A6 /* State.swift in Sources */,
+				FA332659218C29140059F5A6 /* NotchSprite.swift in Sources */,
 				FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */,
 				FF163D282111ED1B003305C1 /* AstroAngleForeteller.swift in Sources */,
+				FA332650218BD4250059F5A6 /* Scaler.swift in Sources */,
 				FF17B9CE210CEC7D004D35B5 /* AstroUtils.swift in Sources */,
 				FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */,
 				FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */,
 				FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */,
 				FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */,
+				FA33265E218EB3250059F5A6 /* App.swift in Sources */,
+				FA33264B218BD1090059F5A6 /* Constants.swift in Sources */,
 				FA109B3E2101768600EC0184 /* GPS.swift in Sources */,
 				FA0D024620F9039100772621 /* ViewController.swift in Sources */,
 				FF17B9CC210CEC3F004D35B5 /* MHDSensor.swift in Sources */,
 				FA5E11A420F9976C0014606E /* Regex.swift in Sources */,
 				FA5E11A720F998FC0014606E /* Time.swift in Sources */,
+				FA332657218C07D40059F5A6 /* UIColor.swift in Sources */,
 				FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */,
+				FA33264E218BD2DD0059F5A6 /* CustomOperators.swift in Sources */,
 				FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */,
 				FA0D024420F9039100772621 /* AppDelegate.swift in Sources */,
 				FA3326452186B9E40059F5A6 /* Math.swift in Sources */,
