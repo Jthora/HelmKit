@@ -17,14 +17,36 @@ import SwiftAA
 
 class AstroAngleForeteller {
     
+    struct AstroAngleReport {
+        let afterDate:Date
+        let aspects:[Date:Astrology.Aspect]
+    }
+    
     static let DEFAULT_ACCURACY:TimeInterval = (1/1000) // Down to milliseconds of accuracy
     static let DEFAULT_INACCURACY:TimeInterval = 0.5
     
+    static func getFullReport(_ afterDate: Date) -> AstroAngleReport {
+        
+        var aspects:[Date:Astrology.Aspect] = [:]
+        
+        for primaryBody in Astrology.AspectBody.allCases {
+            for relation in Astrology.AspectRelation.allCases {
+                for secondaryBody in Astrology.AspectBody.allCases where primaryBody != secondaryBody {
+                    let aspect = Astrology.Aspect(primarybody: primaryBody, relation: relation, secondaryBody: secondaryBody)
+                    let date = AstroAngleForeteller.whenIsTheDateOfThisNextAspectAlignment(after: afterDate, aspect: aspect)
+                    aspects[date] = aspect
+                }
+            }
+        }
+        
+        return AstroAngleReport(afterDate: afterDate, aspects: aspects)
+    }
+    
     // This methods does the calculation and returns on a callback... cause this may take a couple iterations: a lot
-    static func whenIsTheDateOfThisNextAspectAlignment(after today:Date, aspect:Astrology.Aspect, accuracy:TimeInterval = DEFAULT_ACCURACY, callback:((Date, Int) -> Void)? = nil) {
+    static func whenIsTheDateOfThisNextAspectAlignment(after today:Date, aspect:Astrology.Aspect, accuracy:TimeInterval = DEFAULT_ACCURACY) -> Date {
         p1TotalAngleTravel = 0
         startDate = today
-        getDateNextCloser(from: today, aspect: aspect, accuracy: accuracy, callback: callback)
+        return getDateNextCloser(from: today, aspect: aspect, accuracy: accuracy)
     }
     
     private static var p1LastLong:Degree?
@@ -34,7 +56,7 @@ class AstroAngleForeteller {
     private static var p1TotalAngleTravel:Degree = 0
     private static var startDate:Date?
     
-    private static func getDateNextCloser(from date:Date, aspect:Astrology.Aspect, accuracy:TimeInterval = DEFAULT_ACCURACY, callback:((Date, Int) -> Void)? = nil, _  i:Int = 0) {
+    private static func getDateNextCloser(from date:Date, aspect:Astrology.Aspect, accuracy:TimeInterval = DEFAULT_ACCURACY, _  i:Int = 0) -> Date {
         let p1Long = aspect.primarybody.celestialLongitude(date)!
         let p2Long = aspect.secondaryBody.celestialLongitude(date)!
         
@@ -53,18 +75,15 @@ class AstroAngleForeteller {
         
         let df = DateFormatter()
         df.dateFormat = "y-MM-dd H:m:ss.SSSS"
-        print("\(i) : \(thisAngleDiff.value)\n\(p1Long) - \(p2Long)")
-        print("\((p1Long + p1DegreeBuffer)) - \((p2Long + p2DegreeBuffer)))\nNext sample:\n\(timeUntilArrival) seconds offset\n\(df.string(from: newDate))\n")
         
         if p1Long + thisAngleDiff > 360 { p1DegreeBuffer += 360 }
         if p2Long + thisAngleDiff > 360 { p2DegreeBuffer += 360 }
         
         if timeUntilArrival < accuracy || i > 500 || p1TotalAngleTravel > 720 {
             if p1TotalAngleTravel > 720 { print("OVER ANGLE: MALFUNCTION") }
-            callback?(newDate, i)
-            print("Total Angle Travel: \(p1TotalAngleTravel)\nTotal Years Until: \(newDate.timeIntervalSince(startDate!).toYears())")
+            return newDate
         } else {
-            getDateNextCloser(from: newDate, aspect: aspect, callback: callback, i+1)
+            return getDateNextCloser(from: newDate, aspect: aspect, i+1)
         }
     }
 }

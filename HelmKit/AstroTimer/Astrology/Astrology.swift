@@ -11,7 +11,7 @@ import SwiftAA
 
 class Astrology {
     
-    enum AspectRelation:Degree {
+    enum AspectRelation:Degree, CaseIterable {
         case conjunction = 0
         case semisextile = 30
         case novile = 40
@@ -77,7 +77,7 @@ class Astrology {
         }
     }
     
-    enum AspectBody:String {
+    enum AspectBody:String, CaseIterable {
         case moon
         case sun
         case mercury

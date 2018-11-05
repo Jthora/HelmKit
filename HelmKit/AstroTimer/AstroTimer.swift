@@ -10,13 +10,45 @@ import Foundation
 import SwiftAA
 
 protocol AstroTimerDelegate {
-    func didUpdate(_ timePoint:AstroTimePoint)
+    func didUpdate(_ astroTimer:AstroTimer, _ timePoint:AstroTimePoint)
 }
 
 class AstroTimer {
     static let shared = AstroTimer()
+    static func start() {
+        AstroTimer.shared.start()
+    }
+    static func addDelegate(delegate:AstroTimerDelegate, priority:DelegatePriority = .first) {
+        AstroTimer.shared.addDelegate(delegate: delegate, priority: priority)
+    }
     
-    var delegate:AstroTimerDelegate?
+    enum DelegatePriority {
+        case first
+        case middle
+        case last
+    }
+    private var delegates:[AstroTimerDelegate] = []
+    func addDelegate(delegate:AstroTimerDelegate, priority:DelegatePriority) {
+        switch priority {
+        case .first: delegates.insert(delegate, at: 0)
+        case .middle: delegates.insert(delegate, at: Int(Double(delegates.count)/Double(2.0)))
+        case .last: delegates.append(delegate)
+        }
+    }
+    
+    var timeVector:AstroTimeVector? {
+        if timePointHistory.count == 60 {
+            return AstroTimeVector(timePointA: timePointHistory.first!, timePointB: timePointHistory.last!)
+        }
+        return nil
+    }
+    var timePointHistory:[AstroTimePoint] = []
+    func addTimePointToHistory(_ timePoint:AstroTimePoint) {
+        timePointHistory.append(timePoint)
+        if timePointHistory.count > Int(sampleRate) {
+            timePointHistory.remove(at: 0)
+        }
+    }
     
     var sampleRate:Hz = 60
     
@@ -31,8 +63,11 @@ class AstroTimer {
     }
     
     func update() {
-        
-        delegate?.didUpdate(AstroTimePoint(date: Date()))
+        let timePoint = AstroTimePoint(date: Date())
+        addTimePointToHistory(timePoint)
+        for delegate in delegates {
+            delegate.didUpdate(self, timePoint)
+        }
     }
     
     func start(_ hz:Hz? = nil) {
@@ -50,6 +85,33 @@ class AstroTimer {
         start()
     }
     
+}
+
+struct AstroTimeVector {
+    let scale:TimeInterval = 1
+    let moon:Degree
+    let mercury:Degree
+    let venus:Degree
+    let earth:Degree
+    let mars:Degree
+    let jupiter:Degree
+    let saturn:Degree
+    let uranus:Degree
+    let neptune:Degree
+    let pluto:Degree
+    
+    init(timePointA:AstroTimePoint, timePointB:AstroTimePoint) {
+        self.moon = timePointB.moon - timePointA.moon
+        self.mercury = timePointB.mercury - timePointA.mercury
+        self.venus = timePointB.venus - timePointA.venus
+        self.earth = timePointB.earth - timePointA.earth
+        self.mars = timePointB.mars - timePointA.mars
+        self.jupiter = timePointB.jupiter - timePointA.jupiter
+        self.saturn = timePointB.saturn - timePointA.saturn
+        self.uranus = timePointB.uranus - timePointA.uranus
+        self.neptune = timePointB.neptune - timePointA.neptune
+        self.pluto = timePointB.pluto - timePointA.pluto
+    }
 }
 
 struct AstroTimePoint {

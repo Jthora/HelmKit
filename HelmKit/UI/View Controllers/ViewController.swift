@@ -12,19 +12,20 @@ import CoreMotion
 import SceneKit
 import SpriteKit
 
-  class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
-    @IBOutlet weak var planetProgressionPanel: PlanetProgressionPanelView!
+  class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AstroTimerDelegate {
     
-    @IBOutlet weak var leftPickerView: UIPickerView!
-    @IBOutlet weak var leftSubPickerView: UIPickerView!
+    @IBOutlet weak var timeWindowPickerView: UIPickerView!
+    @IBOutlet weak var colorModePickerView: UIPickerView!
+    @IBOutlet weak var planetResonanceScalePickerView: UIPickerView!
+    @IBOutlet weak var planetFocusPickerView: UIPickerView!
+    
+    @IBOutlet weak var metricPickerView: UIPickerView!
     @IBOutlet weak var rightPickerView: UIPickerView!
     @IBOutlet weak var rightSubPickerView: UIPickerView!
     
     @IBOutlet weak var topTimeWindowView: UIView!
     @IBOutlet weak var middleTimeWindowView: UIView!
     @IBOutlet weak var bottomTimeWindowView: UIView!
-    
     
     @IBOutlet weak var pickerTimeIntervalLabel: UILabel!
     
@@ -38,12 +39,22 @@ import SpriteKit
         
         App.state.Restore()
         
+        AstroTimer.addDelegate(delegate: self, priority: .last)
+        AstroTimer.start()
+        
         setTimeCycleWindowHighlight(.none)
         
-        leftPickerView.dataSource = self
-        leftPickerView.delegate = self
-        leftSubPickerView.dataSource = self
-        leftSubPickerView.delegate = self
+        timeWindowPickerView.dataSource = self
+        timeWindowPickerView.delegate = self
+        colorModePickerView.dataSource = self
+        colorModePickerView.delegate = self
+        planetFocusPickerView.dataSource = self
+        planetFocusPickerView.delegate = self
+        planetResonanceScalePickerView.dataSource = self
+        planetResonanceScalePickerView.delegate = self
+        
+        metricPickerView.dataSource = self
+        metricPickerView.delegate = self
         rightPickerView.dataSource = self
         rightPickerView.delegate = self
         rightSubPickerView.dataSource = self
@@ -60,16 +71,13 @@ import SpriteKit
         mhdScene.sphere(.strongChaos).isHidden = true
     }
     
-    var aspectToCalculate:Astrology.Aspect = Astrology.Aspect(primarybody: .mercury, relation: .square, secondaryBody: .jupiter)
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        calculateAspect(aspectToCalculate)
         
         let scaler = App.state.currentScaler
         
-        leftPickerView.selectRow(App.state.selectedScalerIndex, inComponent: 0, animated: true)
-        leftSubPickerView.selectRow(scaler.unit.rawValue, inComponent: 0, animated: true)
+        timeWindowPickerView.selectRow(App.state.selectedScalerIndex, inComponent: 0, animated: true)
+        metricPickerView.selectRow(scaler.timeUnit.rawValue, inComponent: 0, animated: true)
         rightPickerView.selectRow(scaler.scale + 1000000, inComponent: 0, animated: true)
         
         if let index:Int = rightSubPickerCustomContent.firstIndex(where: { $1 == scaler.power } )?.hashValue {
@@ -81,36 +89,17 @@ import SpriteKit
         
         lastSelectedSeconds = timeWindowScale()
         updatePickerTimeIntervalLabel()
-        
-    }
-
-    func calculateAspect(_ aspect:Astrology.Aspect? = nil) {
-        let aspect:Astrology.Aspect = aspect != nil ? aspect! : Astrology.Aspect(primarybody: .sun, relation: .sextile, secondaryBody: .jupiter)
-        AstroAngleForeteller.whenIsTheDateOfThisNextAspectAlignment(after: Date(), aspect: aspect, callback: { (date, i) in
-            DispatchQueue.main.async {
-                let df = DateFormatter()
-                df.dateFormat = "y-MM-dd H:m:ss.SSSS"
-                let alert = UIAlertController(title: "Completed",
-                                              message: "\(df.string(from: date))\n\(i) iterations",
-                    preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Recalc", style: UIAlertAction.Style.default, handler: { btn in
-                    self.calculateAgainButtonTapped(btn)
-                }))
-                self.show(alert, sender: nil)
-            }
-        })
     }
     
-    @IBAction func calculateAgainButtonTapped(_ sender: Any) {
-        calculateAspect(aspectToCalculate)
+    func didUpdate(_ astroTimer: AstroTimer, _ timePoint: AstroTimePoint) {
+        
     }
     
     var lastSelectedSeconds: TimeInterval = 1
     var closestValueConversion:Double {
         
         
-        let unitRow = leftSubPickerView.selectedRow(inComponent: 0)
+        let unitRow = metricPickerView.selectedRow(inComponent: 0)
         let multiplierRow = rightSubPickerView.selectedRow(inComponent: 0)
         let valueRow = rightPickerView.selectedRow(inComponent: 0)
         
@@ -139,7 +128,7 @@ import SpriteKit
     
     func timeWindowScale() ->TimeInterval {
     
-        let unitRow = leftSubPickerView.selectedRow(inComponent: 0)
+        let unitRow = metricPickerView.selectedRow(inComponent: 0)
         let multiplierRow = rightSubPickerView.selectedRow(inComponent: 0)
         let valueRow = rightPickerView.selectedRow(inComponent: 0)
         
@@ -158,18 +147,30 @@ import SpriteKit
     }
     
     func storeScalerData() {
-        let unitRow = leftSubPickerView.selectedRow(inComponent: 0)
+        
+        let colorModeRow = colorModePickerView.selectedRow(inComponent: 0)
+        let colorMode = Scaler.ColorMode(rawValue: colorModeRow)!
+        App.state.currentScaler.colorMode = colorMode
+        
+        let planetFocusRow = planetFocusPickerView.selectedRow(inComponent: 0)
+        let planetFocus = Scaler.PlanetFocus(rawValue: planetFocusRow)!
+        App.state.currentScaler.planetFocus = planetFocus
+        
+        let tickUnitRow = planetResonanceScalePickerView.selectedRow(inComponent: 0)
+        let tickUnit = Scaler.TickScaleUnit(rawValue: tickUnitRow)!
+        App.state.currentScaler.tickUnit = tickUnit
+        
         let powerRow = rightSubPickerView.selectedRow(inComponent: 0)
-        let scaleRow = rightPickerView.selectedRow(inComponent: 0)
-        
         let power = Double(leftSubPickerMultipler(row: powerRow))
-        let scale = Int(scaleRow - 1000000)
-        
         App.state.currentScaler.power = power
+        
+        let scaleRow = rightPickerView.selectedRow(inComponent: 0)
+        let scale = Int(scaleRow - 1000000)
         App.state.currentScaler.scale = scale
         
-        guard let unit = Scaler.TimeScaleUnit(rawValue: unitRow) else { return }
-        App.state.currentScaler.unit = unit
+        let timeUnitRow = metricPickerView.selectedRow(inComponent: 0)
+        guard let timeUnit = Scaler.TimeScaleUnit(rawValue: timeUnitRow) else { return }
+        App.state.currentScaler.timeUnit = timeUnit
         
         App.state.Store()
     }
@@ -184,18 +185,6 @@ import SpriteKit
     
     let rightSubPickerCustomContent: [String:Double] = ["e":Constants.e,
                                                        "π":Constants.π]
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == leftPickerView {
-            return App.state.scalers.count
-        } else if pickerView == leftSubPickerView {
-            return Scaler.TimeScaleUnit.allCases.count
-        } else if pickerView == rightSubPickerView {
-            return 1000000 + rightSubPickerCustomContent.count
-        } else {
-            return 2000000
-        }
-    }
     
     enum TimeCycleWindowHightlightMode {
         case top
@@ -244,8 +233,26 @@ import SpriteKit
         }
     }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == planetFocusPickerView {
+            return Scaler.PlanetFocus.allCases.count
+        } else if pickerView == planetResonanceScalePickerView {
+            return Scaler.TickScaleUnit.allCases.count
+        } else if pickerView == colorModePickerView {
+            return Scaler.ColorMode.allCases.count
+        } else if pickerView == timeWindowPickerView {
+            return App.state.scalers.count
+        } else if pickerView == metricPickerView {
+            return Scaler.TimeScaleUnit.allCases.count
+        } else if pickerView == rightSubPickerView {
+            return 1000000 + rightSubPickerCustomContent.count
+        } else {
+            return 2000000
+        }
+    }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView == leftPickerView {
+        if pickerView == timeWindowPickerView {
             let scaler = App.state.scalers[row]
             App.state.selectedScalerIndex = row
             switch scaler.name {
@@ -255,7 +262,11 @@ import SpriteKit
             default: setTimeCycleWindowHighlight(.all)
             }
             
-            leftSubPickerView.selectRow(scaler.unit.rawValue, inComponent: 0, animated: true)
+            colorModePickerView.selectRow(scaler.colorMode.rawValue, inComponent: 0, animated: true)
+            planetFocusPickerView.selectRow(scaler.planetFocus.rawValue, inComponent: 0, animated: true)
+            planetResonanceScalePickerView.selectRow(scaler.tickUnit.rawValue, inComponent: 0, animated: true)
+            
+            metricPickerView.selectRow(scaler.timeUnit.rawValue, inComponent: 0, animated: true)
             rightPickerView.selectRow(scaler.scale + 1000000, inComponent: 0, animated: true)
             
             if let index:Int = rightSubPickerCustomContent.firstIndex(where: { $1 == scaler.power } )?.hashValue {
@@ -274,17 +285,26 @@ import SpriteKit
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         
-        // Setup Style and Attributes
+        // Setup Style, Font and Attributes
         let style:NSMutableParagraphStyle = NSMutableParagraphStyle()
         style.lineBreakMode = .byClipping
         style.alignment = .left
+        
         var attributes:[NSAttributedString.Key:Any] = [.paragraphStyle : style,
+                                                       .font : UIFont.systemFont(ofSize: 8, weight: .light),
                                                        .backgroundColor : UIColor.white]
         
         // Determine Text
-        if pickerView == leftPickerView {
+        if pickerView == planetFocusPickerView {
+            return NSAttributedString(string: "\(Scaler.PlanetFocus.allCases[row].symbol)                ", attributes: attributes)
+        } else if pickerView == planetResonanceScalePickerView {
+            return NSAttributedString(string: "\(Scaler.TickScaleUnit.allCases[row].name)                ", attributes: attributes)
+        } else if pickerView == colorModePickerView {
+            //attributes += [.font : UIFont.systemFont(ofSize: 10, weight: .light) ]
+            return NSAttributedString(string: "\(Scaler.ColorMode.allCases[row].name)                ", attributes: attributes)
+        } else if pickerView == timeWindowPickerView {
             return NSAttributedString(string: "\(App.state.scalers[row].name)", attributes: attributes)
-        } else if pickerView == leftSubPickerView {
+        } else if pickerView == metricPickerView {
             return NSAttributedString(string: "\(Scaler.TimeScaleUnit.allCases[row])                ", attributes: attributes)
         } else if pickerView == rightSubPickerView {
             if row < rightSubPickerCustomContent.count {

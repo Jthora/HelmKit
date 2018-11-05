@@ -17,7 +17,6 @@
 		FA109B2F21015E5B00EC0184 /* SwiftAA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; };
 		FA109B3121015E8000EC0184 /* SwiftAA.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */; };
 		FA109B3321015E9C00EC0184 /* SwiftAA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FA109B2E21015E5B00EC0184 /* SwiftAA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */; };
 		FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3A2101762C00EC0184 /* FluxSensor.swift */; };
 		FA109B3E2101768600EC0184 /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3D2101768600EC0184 /* GPS.swift */; };
 		FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */; };
@@ -35,6 +34,7 @@
 		FA5E11A420F9976C0014606E /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A320F9976C0014606E /* Regex.swift */; };
 		FA5E11A720F998FC0014606E /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A620F998FC0014606E /* Time.swift */; };
 		FA5E11AA20F9A5320014606E /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E11A920F9A5320014606E /* String.swift */; };
+		FA715418218FAEB3009F85AF /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA715417218FAEB3009F85AF /* Ticker.swift */; };
 		FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */; };
 		FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5752107E788001AB1B1 /* Astrology.swift */; };
 		FACC6E642186AEE500C9BFA6 /* AstroTicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */; };
@@ -92,7 +92,6 @@
 		FA0D026520F9039300772621 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA109B2E21015E5B00EC0184 /* SwiftAA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SwiftAA.framework; sourceTree = "<group>"; };
 		FA109B3021015E8000EC0184 /* SwiftAA.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SwiftAA.framework.dSYM; sourceTree = "<group>"; };
-		FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanetProgressionPanelView.swift; sourceTree = "<group>"; };
 		FA109B3A2101762C00EC0184 /* FluxSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxSensor.swift; sourceTree = "<group>"; };
 		FA109B3D2101768600EC0184 /* GPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
 		FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiMagnetometer.swift; sourceTree = "<group>"; };
@@ -110,6 +109,7 @@
 		FA5E11A320F9976C0014606E /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		FA5E11A620F998FC0014606E /* Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		FA5E11A920F9A5320014606E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		FA715417218FAEB3009F85AF /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		FA8BC5752107E788001AB1B1 /* Astrology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astrology.swift; sourceTree = "<group>"; };
 		FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AstroTicker.storyboard; sourceTree = "<group>"; };
@@ -170,6 +170,7 @@
 		FA0D024220F9039100772621 /* HelmKit */ = {
 			isa = PBXGroup;
 			children = (
+				FA715416218FAE9D009F85AF /* Ticker */,
 				FA332654218BE6F40059F5A6 /* App */,
 				FA332651218BD42D0059F5A6 /* Scaler */,
 				FA33264C218BD2CB0059F5A6 /* Custom Operators */,
@@ -285,7 +286,6 @@
 		FA3326482186BE3A0059F5A6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				FA109B372101623C00EC0184 /* PlanetProgressionPanelView.swift */,
 				FA0D024520F9039100772621 /* ViewController.swift */,
 			);
 			path = "View Controllers";
@@ -365,6 +365,14 @@
 			path = String;
 			sourceTree = "<group>";
 		};
+		FA715416218FAE9D009F85AF /* Ticker */ = {
+			isa = PBXGroup;
+			children = (
+				FA715417218FAEB3009F85AF /* Ticker.swift */,
+			);
+			path = Ticker;
+			sourceTree = "<group>";
+		};
 		FA8BC5742107E774001AB1B1 /* Astrology */ = {
 			isa = PBXGroup;
 			children = (
@@ -377,11 +385,11 @@
 			isa = PBXGroup;
 			children = (
 				FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */,
+				FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */,
 				FA8BC5742107E774001AB1B1 /* Astrology */,
 				FA5E119F20F992030014606E /* Astronomy */,
 				FF17B9C9210CE874004D35B5 /* AstroMath.swift */,
 				FF17B9CD210CEC7D004D35B5 /* AstroUtils.swift */,
-				FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */,
 			);
 			path = AstroTimer;
 			sourceTree = "<group>";
@@ -533,10 +541,10 @@
 				FF163D282111ED1B003305C1 /* AstroAngleForeteller.swift in Sources */,
 				FA332650218BD4250059F5A6 /* Scaler.swift in Sources */,
 				FF17B9CE210CEC7D004D35B5 /* AstroUtils.swift in Sources */,
-				FA109B382101623C00EC0184 /* PlanetProgressionPanelView.swift in Sources */,
 				FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */,
 				FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */,
 				FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */,
+				FA715418218FAEB3009F85AF /* Ticker.swift in Sources */,
 				FA33265E218EB3250059F5A6 /* App.swift in Sources */,
 				FA33264B218BD1090059F5A6 /* Constants.swift in Sources */,
 				FA109B3E2101768600EC0184 /* GPS.swift in Sources */,

@@ -20,14 +20,7 @@
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x4C-bI-zQA">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xn9-6v-rbD" userLabel="centralPanel">
-                                        <rect key="frame" x="95" y="167.5" width="477" height="40"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.14999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="S8D-4R-dh9"/>
-                                        </constraints>
-                                    </view>
-                                    <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="deZ-xK-9wr" userLabel="magnetoSensorSceneView">
+                                    <sceneKitView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="deZ-xK-9wr" userLabel="magnetoSensorSceneView">
                                         <rect key="frame" x="16" y="8" width="187.5" height="187.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="deZ-xK-9wr" secondAttribute="height" multiplier="1:1" id="OZM-a1-6ja"/>
@@ -37,52 +30,79 @@
                                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="714-I3-6Bv" userLabel="Left Scale Selector">
-                                                <rect key="frame" x="8" y="8" width="192" height="303"/>
+                                                <rect key="frame" x="8" y="8" width="256" height="303"/>
                                                 <subviews>
-                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="130-KR-kw7">
-                                                        <rect key="frame" x="92" y="0.0" width="92" height="303"/>
-                                                    </pickerView>
                                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wwe-bc-IdF">
                                                         <rect key="frame" x="0.0" y="0.0" width="84" height="303"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="84" id="2Sp-tX-Cc3"/>
                                                         </constraints>
                                                     </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="130-KR-kw7">
+                                                        <rect key="frame" x="84" y="0.0" width="68" height="303"/>
+                                                    </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZo-VP-mBU">
+                                                        <rect key="frame" x="152" y="0.0" width="64" height="303"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="64" id="vAO-hF-OVd"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eUJ-iA-A0o">
+                                                        <rect key="frame" x="216" y="0.0" width="32" height="303"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="32" id="CDP-Cp-da2"/>
+                                                        </constraints>
+                                                    </pickerView>
                                                 </subviews>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.66000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
+                                                    <constraint firstItem="eUJ-iA-A0o" firstAttribute="top" secondItem="714-I3-6Bv" secondAttribute="top" id="5Fd-3M-eny"/>
                                                     <constraint firstItem="Wwe-bc-IdF" firstAttribute="leading" secondItem="714-I3-6Bv" secondAttribute="leading" id="EEf-w3-6dJ"/>
-                                                    <constraint firstAttribute="width" constant="192" id="HKe-4C-29K"/>
+                                                    <constraint firstAttribute="width" constant="256" id="HKe-4C-29K"/>
                                                     <constraint firstAttribute="bottom" secondItem="Wwe-bc-IdF" secondAttribute="bottom" id="Lxf-X9-EKh"/>
                                                     <constraint firstItem="130-KR-kw7" firstAttribute="top" secondItem="714-I3-6Bv" secondAttribute="top" id="OUx-Ep-81z"/>
-                                                    <constraint firstAttribute="trailing" secondItem="130-KR-kw7" secondAttribute="trailing" constant="8" id="kbX-7o-2zC"/>
-                                                    <constraint firstItem="130-KR-kw7" firstAttribute="leading" secondItem="Wwe-bc-IdF" secondAttribute="trailing" constant="8" id="opp-I1-UQa"/>
+                                                    <constraint firstAttribute="bottom" secondItem="rZo-VP-mBU" secondAttribute="bottom" id="PKH-bA-XPs"/>
+                                                    <constraint firstItem="rZo-VP-mBU" firstAttribute="leading" secondItem="130-KR-kw7" secondAttribute="trailing" id="VdR-5y-6Nf"/>
+                                                    <constraint firstItem="eUJ-iA-A0o" firstAttribute="leading" secondItem="rZo-VP-mBU" secondAttribute="trailing" id="dvj-eW-VFL"/>
+                                                    <constraint firstAttribute="trailing" secondItem="eUJ-iA-A0o" secondAttribute="trailing" constant="8" id="jSX-7F-sUc"/>
+                                                    <constraint firstItem="130-KR-kw7" firstAttribute="leading" secondItem="Wwe-bc-IdF" secondAttribute="trailing" id="opp-I1-UQa"/>
                                                     <constraint firstItem="Wwe-bc-IdF" firstAttribute="top" secondItem="714-I3-6Bv" secondAttribute="top" id="sOq-8c-Slz"/>
+                                                    <constraint firstAttribute="bottom" secondItem="eUJ-iA-A0o" secondAttribute="bottom" id="xPT-R1-MLQ"/>
+                                                    <constraint firstItem="rZo-VP-mBU" firstAttribute="top" secondItem="714-I3-6Bv" secondAttribute="top" id="xXp-f7-WxE"/>
                                                     <constraint firstAttribute="bottom" secondItem="130-KR-kw7" secondAttribute="bottom" id="xu9-1I-uNK"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Her-UH-8XT" userLabel="Right Scale Selector">
                                                 <rect key="frame" x="463" y="8" width="196" height="303"/>
                                                 <subviews>
-                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljd-GT-AE0">
-                                                        <rect key="frame" x="92" y="0.0" width="96" height="303"/>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kTl-mm-aP8">
+                                                        <rect key="frame" x="0.0" y="0.0" width="64" height="303"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="64" id="zwa-Y8-vHw"/>
+                                                        </constraints>
                                                     </pickerView>
                                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FZZ-hR-vNN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="84" height="303"/>
+                                                        <rect key="frame" x="64" y="0.0" width="64" height="303"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="84" id="JEC-rv-ijK"/>
+                                                            <constraint firstAttribute="width" constant="64" id="JEC-rv-ijK"/>
                                                         </constraints>
+                                                    </pickerView>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljd-GT-AE0">
+                                                        <rect key="frame" x="128" y="0.0" width="68" height="303"/>
                                                     </pickerView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="0.66000000000000003" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
+                                                    <constraint firstItem="kTl-mm-aP8" firstAttribute="top" secondItem="Her-UH-8XT" secondAttribute="top" id="2sK-Wz-ppB"/>
                                                     <constraint firstAttribute="width" constant="196" id="6qn-ta-enV"/>
-                                                    <constraint firstItem="FZZ-hR-vNN" firstAttribute="leading" secondItem="Her-UH-8XT" secondAttribute="leading" id="EHS-FD-6q0"/>
+                                                    <constraint firstItem="kTl-mm-aP8" firstAttribute="leading" secondItem="Her-UH-8XT" secondAttribute="leading" id="K8Z-9T-MA2"/>
                                                     <constraint firstItem="ljd-GT-AE0" firstAttribute="top" secondItem="Her-UH-8XT" secondAttribute="top" id="N5t-9v-kI0"/>
-                                                    <constraint firstItem="ljd-GT-AE0" firstAttribute="leading" secondItem="FZZ-hR-vNN" secondAttribute="trailing" constant="8" id="WAa-bP-kfs"/>
+                                                    <constraint firstItem="ljd-GT-AE0" firstAttribute="leading" secondItem="FZZ-hR-vNN" secondAttribute="trailing" id="WAa-bP-kfs"/>
+                                                    <constraint firstItem="FZZ-hR-vNN" firstAttribute="leading" secondItem="kTl-mm-aP8" secondAttribute="trailing" id="Yxh-nG-V5n"/>
                                                     <constraint firstItem="FZZ-hR-vNN" firstAttribute="top" secondItem="Her-UH-8XT" secondAttribute="top" id="gFU-xK-6ac"/>
                                                     <constraint firstAttribute="bottom" secondItem="ljd-GT-AE0" secondAttribute="bottom" id="n61-yl-2mw"/>
-                                                    <constraint firstAttribute="trailing" secondItem="ljd-GT-AE0" secondAttribute="trailing" constant="8" id="oGt-dO-WbS"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ljd-GT-AE0" secondAttribute="trailing" id="oGt-dO-WbS"/>
+                                                    <constraint firstAttribute="bottom" secondItem="kTl-mm-aP8" secondAttribute="bottom" id="vKM-q4-zyR"/>
                                                     <constraint firstAttribute="bottom" secondItem="FZZ-hR-vNN" secondAttribute="bottom" id="zAr-gK-mc3"/>
                                                 </constraints>
                                             </view>
@@ -186,33 +206,18 @@
                                             <constraint firstItem="zw1-Q5-gr2" firstAttribute="top" secondItem="rZf-f0-Rrp" secondAttribute="bottom" constant="2" id="utp-DC-aAr"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t6M-sg-e7D">
-                                        <rect key="frame" x="280" y="172.5" width="107" height="30"/>
-                                        <state key="normal" title="Calculate Again">
-                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="calculateAgainButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="e50-vL-AMB"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="deZ-xK-9wr" firstAttribute="height" secondItem="x4C-bI-zQA" secondAttribute="height" multiplier="0.5" id="0BO-N9-VPr"/>
-                                    <constraint firstItem="Xn9-6v-rbD" firstAttribute="leading" secondItem="x4C-bI-zQA" secondAttribute="leading" constant="95" id="0pQ-ZF-pHn"/>
                                     <constraint firstItem="deZ-xK-9wr" firstAttribute="top" secondItem="x4C-bI-zQA" secondAttribute="top" constant="8" id="8ty-i6-XxL"/>
                                     <constraint firstItem="2px-fK-FFU" firstAttribute="leading" secondItem="x4C-bI-zQA" secondAttribute="leading" id="Gnw-Fb-DOq"/>
-                                    <constraint firstItem="Xn9-6v-rbD" firstAttribute="centerY" secondItem="x4C-bI-zQA" secondAttribute="centerY" id="MyR-v3-7kX"/>
-                                    <constraint firstItem="Xn9-6v-rbD" firstAttribute="centerX" secondItem="x4C-bI-zQA" secondAttribute="centerX" id="NRk-x6-18Z"/>
                                     <constraint firstAttribute="bottom" secondItem="2px-fK-FFU" secondAttribute="bottom" id="Ua0-aJ-eTi"/>
                                     <constraint firstAttribute="bottom" secondItem="uC0-GP-HNL" secondAttribute="bottom" id="WEq-qM-cAq"/>
                                     <constraint firstAttribute="trailing" secondItem="uC0-GP-HNL" secondAttribute="trailing" id="WTO-pw-N1m"/>
                                     <constraint firstItem="uC0-GP-HNL" firstAttribute="leading" secondItem="x4C-bI-zQA" secondAttribute="leading" id="YUa-UP-H6n"/>
-                                    <constraint firstItem="t6M-sg-e7D" firstAttribute="centerY" secondItem="x4C-bI-zQA" secondAttribute="centerY" id="blQ-iz-8MJ"/>
-                                    <constraint firstItem="t6M-sg-e7D" firstAttribute="centerX" secondItem="x4C-bI-zQA" secondAttribute="centerX" id="j7C-ps-DaB"/>
                                     <constraint firstItem="2px-fK-FFU" firstAttribute="top" secondItem="x4C-bI-zQA" secondAttribute="top" id="jjI-wP-dp4"/>
                                     <constraint firstItem="deZ-xK-9wr" firstAttribute="leading" secondItem="x4C-bI-zQA" secondAttribute="leading" constant="16" id="ptm-z9-OG3"/>
-                                    <constraint firstAttribute="trailing" secondItem="Xn9-6v-rbD" secondAttribute="trailing" constant="95" id="qbB-53-ao5"/>
                                     <constraint firstAttribute="trailing" secondItem="2px-fK-FFU" secondAttribute="trailing" id="rsf-n1-HmC"/>
                                 </constraints>
                             </view>
@@ -228,13 +233,16 @@
                     </view>
                     <connections>
                         <outlet property="bottomTimeWindowView" destination="QPo-KA-igw" id="TZv-UZ-ecO"/>
-                        <outlet property="leftPickerView" destination="Wwe-bc-IdF" id="H9A-vE-dhF"/>
-                        <outlet property="leftSubPickerView" destination="130-KR-kw7" id="IeE-we-TdI"/>
+                        <outlet property="colorModePickerView" destination="130-KR-kw7" id="bh4-uu-WoU"/>
+                        <outlet property="metricPickerView" destination="kTl-mm-aP8" id="NU2-l5-h5V"/>
                         <outlet property="mhdSensorSceneView" destination="deZ-xK-9wr" id="5Ca-Un-chB"/>
                         <outlet property="middleTimeWindowView" destination="zw1-Q5-gr2" id="Y8I-nd-yWA"/>
                         <outlet property="pickerTimeIntervalLabel" destination="eOQ-IN-nJw" id="gvV-zW-JNp"/>
+                        <outlet property="planetFocusPickerView" destination="eUJ-iA-A0o" id="Dy2-uo-C74"/>
+                        <outlet property="planetResonanceScalePickerView" destination="rZo-VP-mBU" id="nZ8-jp-xaB"/>
                         <outlet property="rightPickerView" destination="ljd-GT-AE0" id="vUP-TO-l5f"/>
                         <outlet property="rightSubPickerView" destination="FZZ-hR-vNN" id="89J-l5-uie"/>
+                        <outlet property="timeWindowPickerView" destination="Wwe-bc-IdF" id="d4m-yi-Dr9"/>
                         <outlet property="topTimeWindowView" destination="rZf-f0-Rrp" id="n0V-uN-jlp"/>
                     </connections>
                 </viewController>
