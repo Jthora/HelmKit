@@ -14,27 +14,8 @@ protocol AstroTimerDelegate {
 }
 
 class AstroTimer {
-    static let shared = AstroTimer()
-    static func start() {
-        AstroTimer.shared.start()
-    }
-    static func addDelegate(delegate:AstroTimerDelegate, priority:DelegatePriority = .first) {
-        AstroTimer.shared.addDelegate(delegate: delegate, priority: priority)
-    }
     
-    enum DelegatePriority {
-        case first
-        case middle
-        case last
-    }
-    private var delegates:[AstroTimerDelegate] = []
-    func addDelegate(delegate:AstroTimerDelegate, priority:DelegatePriority) {
-        switch priority {
-        case .first: delegates.insert(delegate, at: 0)
-        case .middle: delegates.insert(delegate, at: Int(Double(delegates.count)/Double(2.0)))
-        case .last: delegates.append(delegate)
-        }
-    }
+    var delegate:AstroTimerDelegate? = nil
     
     var timeVector:AstroTimeVector? {
         if timePointHistory.count == Int(sampleRate) {
@@ -65,9 +46,7 @@ class AstroTimer {
     func update() {
         let timePoint = AstroTimePoint(date: Date())
         addTimePointToHistory(timePoint)
-        for delegate in delegates {
-            delegate.didUpdate(self, timePoint)
-        }
+        delegate?.didUpdate(self, timePoint)
     }
     
     func start(_ hz:Hz? = nil) {

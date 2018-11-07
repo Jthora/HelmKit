@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TickerDelegate {
+    func update(ticks:[Tick])
+}
+
 struct Tick {
     var date:Date
     var i:Int
@@ -16,21 +20,24 @@ struct Tick {
 
 class Ticker: NSObject, AstroTimerDelegate {
     
+    let astroTimer:AstroTimer = AstroTimer()
+    var delegate:TickerDelegate? = nil
     var scalers:[Scaler] {
         return App.state.scalers
     }
     
-    override init() {
+    init(delegate:TickerDelegate? = nil) {
         super.init()
-        setup()
+        setup(delegate: delegate)
     }
     
-    func setup() {
-        AstroTimer.addDelegate(delegate: self, priority: .first)
+    func setup(delegate:TickerDelegate? = nil) {
+        self.delegate = delegate
+        astroTimer.delegate = self
     }
     
     func start() {
-        AstroTimer.start()
+        astroTimer.start()
     }
     
     func didUpdate(_ astroTimer: AstroTimer, _ timePoint: AstroTimePoint) {
@@ -70,6 +77,7 @@ class Ticker: NSObject, AstroTimerDelegate {
             let tick = Tick(date: tickDate, i: i, offset: offset)
             ticks.append(tick)
         }
+        
         return ticks
     }
 }
