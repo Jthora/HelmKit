@@ -11,6 +11,13 @@ import SpriteKit
 
 class NotchSpriteNode: SKSpriteNode {
     
+    init() {
+        super.init(texture: nil, color: UIColor.white, size: CGSize(width: 3, height: 20))
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(texture: nil, color: UIColor.white, size: CGSize(width: 3, height: 20))
+    }
     
     
 }

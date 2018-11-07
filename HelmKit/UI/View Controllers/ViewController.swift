@@ -14,6 +14,9 @@ import SpriteKit
 
   class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AstroTimerDelegate {
     
+    
+    @IBOutlet weak var scaleSettingsView: UIView!
+    
     @IBOutlet weak var timeWindowPickerView: UIPickerView!
     @IBOutlet weak var colorModePickerView: UIPickerView!
     @IBOutlet weak var planetResonanceScalePickerView: UIPickerView!
@@ -331,4 +334,12 @@ import SpriteKit
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-}
+    
+    @IBAction func closeButtonAreaTap(_ sender: UIButton) {
+        scaleSettingsView.isHidden = !scaleSettingsView.isHidden
+    }
+    
+    @IBAction func timeCycleWindowButtonTap(_ sender: Any) {
+        scaleSettingsView.isHidden = !scaleSettingsView.isHidden
+    }
+  }

@@ -37,8 +37,8 @@ class AstroTimer {
     }
     
     var timeVector:AstroTimeVector? {
-        if timePointHistory.count == 60 {
-            return AstroTimeVector(timePointA: timePointHistory.first!, timePointB: timePointHistory.last!)
+        if timePointHistory.count == Int(sampleRate) {
+            return AstroTimeVector(scale: sampleRate.toTimeInterval(), timePointA: timePointHistory.first!, timePointB: timePointHistory.last!)
         }
         return nil
     }
@@ -100,7 +100,7 @@ struct AstroTimeVector {
     let neptune:Degree
     let pluto:Degree
     
-    init(timePointA:AstroTimePoint, timePointB:AstroTimePoint) {
+    init(scale:TimeInterval = 1, timePointA:AstroTimePoint, timePointB:AstroTimePoint) {
         self.moon = timePointB.moon - timePointA.moon
         self.mercury = timePointB.mercury - timePointA.mercury
         self.venus = timePointB.venus - timePointA.venus
@@ -111,6 +111,21 @@ struct AstroTimeVector {
         self.uranus = timePointB.uranus - timePointA.uranus
         self.neptune = timePointB.neptune - timePointA.neptune
         self.pluto = timePointB.pluto - timePointA.pluto
+    }
+    
+    func degrees(for planet:Scaler.PlanetFocus) -> Degree {
+        switch planet {
+        case .moon: return moon
+        case .mercury: return mercury
+        case .venus: return venus
+        case .earth: return earth
+        case .mars: return mars
+        case .jupiter: return jupiter
+        case .saturn: return saturn
+        case .uranus: return uranus
+        case .neptune: return neptune
+        case .pluto: return pluto
+        }
     }
 }
 
@@ -139,6 +154,21 @@ struct AstroTimePoint {
         self.uranus = Astronomy.orbitalProgression(.uranus, on: date)!
         self.neptune = Astronomy.orbitalProgression(.neptune, on: date)!
         self.pluto = Astronomy.orbitalProgression(.pluto, on: date)!
+    }
+    
+    func degrees(for planet:Scaler.PlanetFocus) -> Degree {
+        switch planet {
+        case .moon: return moon
+        case .mercury: return mercury
+        case .venus: return venus
+        case .earth: return earth
+        case .mars: return mars
+        case .jupiter: return jupiter
+        case .saturn: return saturn
+        case .uranus: return uranus
+        case .neptune: return neptune
+        case .pluto: return pluto
+        }
     }
 }
 

@@ -11,15 +11,15 @@ import Foundation
 struct Scaler: Codable {
     
     enum ColorMode: Int, CaseIterable {
-        case notches
-        case colorGradient
-        case hybrid
+        case ticks
+        case color
+        case both
         
         var name:String {
             switch self {
-            case .notches: return "Notches"
-            case .colorGradient: return "Color"
-            case .hybrid: return "Hybrid"
+            case .ticks: return "Ticks"
+            case .color: return "Color"
+            case .both: return "Both"
             }
         }
     }
@@ -196,9 +196,9 @@ struct Scaler: Codable {
     }
     
     static var defaultScalers: [Scaler] = {
-        return [Scaler(name: "Top", colorMode: .notches, planetFocus: .earth, timeUnit: .pt, tickUnit: .base48, power: 2.0, scale: 145),
-                Scaler(name: "Middle", colorMode: .notches, planetFocus: .mercury, timeUnit: .sec, tickUnit: .degrees, power: 10.0, scale: 1),
-                Scaler(name: "Bottom", colorMode: .notches, planetFocus: .moon, timeUnit: .day, tickUnit: .degrees, power: 7.0, scale: 1)]
+        return [Scaler(name: "Top", colorMode: .ticks, planetFocus: .earth, timeUnit: .pt, tickUnit: .base48, power: 2.0, scale: 145),
+                Scaler(name: "Middle", colorMode: .ticks, planetFocus: .mercury, timeUnit: .sec, tickUnit: .degrees, power: 10.0, scale: 1),
+                Scaler(name: "Bottom", colorMode: .ticks, planetFocus: .moon, timeUnit: .day, tickUnit: .degrees, power: 7.0, scale: 1)]
     }()
     
     static var multipliers : [String:NSNumber] = { return TranscendentalNumber.dictionary + PrimeNumber.dictionary }()
@@ -211,6 +211,14 @@ struct Scaler: Codable {
     var scale:Int
     var name:String
     
+    var timeWindow:TimeInterval {
+        return timeUnit.seconds * pow(power, Double(scale))
+    }
+    
+    var tickCount:Int {
+        return tickUnit.ticks
+    }
+    
     enum CodingKeys: String, CodingKey {
         case colorMode
         case planetFocus
@@ -221,7 +229,7 @@ struct Scaler: Codable {
         case scale
     }
     
-    init (name:String, colorMode:ColorMode = .notches, planetFocus:PlanetFocus = .earth, timeUnit:TimeScaleUnit = .pt, tickUnit:TickScaleUnit = .degrees, power:Double = 2, scale:Int = 150) {
+    init (name:String, colorMode:ColorMode = .ticks, planetFocus:PlanetFocus = .earth, timeUnit:TimeScaleUnit = .pt, tickUnit:TickScaleUnit = .degrees, power:Double = 2, scale:Int = 150) {
         self.colorMode = colorMode
         self.planetFocus = planetFocus
         self.timeUnit = timeUnit
