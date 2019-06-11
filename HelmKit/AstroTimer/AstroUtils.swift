@@ -101,6 +101,10 @@ struct AstroUtils {
         return (closestAspectRelation, degreeDiff)
     }
     
+    static func closestAspectRelation(for angle:Degree) -> Astrology.AspectRelation {
+        return closestAspectRelationForAngle(angle: angle).0
+    }
+    
     static func getClosestAspect(between firstPlanet:Astrology.AspectBody, and secondPlanet:Astrology.AspectBody) -> AstroAspectTimeReport? {
         
         let primaryAngle = firstPlanet.heliocentricPosition()

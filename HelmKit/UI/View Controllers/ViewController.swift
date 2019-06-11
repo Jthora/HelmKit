@@ -15,6 +15,8 @@ import SpriteKit
   class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, AstroTimerDelegate {
     
     
+    
+    
     @IBOutlet weak var scaleSettingsView: UIView!
     
     @IBOutlet weak var timeWindowPickerView: UIPickerView!
@@ -41,9 +43,6 @@ import SpriteKit
         super.viewDidLoad()
         
         App.state.Restore()
-        
-        AstroTimer.addDelegate(delegate: self, priority: .last)
-        AstroTimer.start()
         
         setTimeCycleWindowHighlight(.none)
         

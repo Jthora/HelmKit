@@ -192,4 +192,22 @@ struct Planet: Equatable {
         case .pluto: return Pluto(julianDay: julianDay).position().celestialLongitude
         }
     }
+    
+    static func geocentricPositions(for planet:Astrology.AspectBody, on date:Date) -> EquatorialCoordinates {
+        let julianDay = JulianDay(date)
+        switch planet {
+        case .sun: return Sun(julianDay: julianDay).equatorialCoordinates
+        case .moon: return Moon(julianDay: julianDay).equatorialCoordinates
+        case .mercury: return Mercury(julianDay: julianDay).equatorialCoordinates
+        case .venus: return Venus(julianDay: julianDay).equatorialCoordinates
+        case .mars: return Mars(julianDay: julianDay).equatorialCoordinates
+        case .jupiter: return Jupiter(julianDay: julianDay).equatorialCoordinates
+        case .saturn: return Saturn(julianDay: julianDay).equatorialCoordinates
+        case .uranus: return Uranus(julianDay: julianDay).equatorialCoordinates
+        case .neptune: return Neptune(julianDay: julianDay).equatorialCoordinates
+        case .pluto: return Pluto(julianDay: julianDay).apparentGeocentricEquatorialCoordinates
+        }
+    }
+    
+    
 }

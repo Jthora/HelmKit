@@ -12,67 +12,124 @@ import SwiftAA
 class Astrology {
     
     enum AspectRelation:Degree, CaseIterable {
+        
         case conjunction = 0
-        case semisextile = 30
-        case novile = 40
-        case semisquare = 45
-        case sextile = 60
-        case quintile = 72
-        case square = 90
-        case trine = 120
-        case biquintile = 144
-        case quincunx = 150
         case opposition = 180
+        
+        case semisextile = 30
+        case sextile = 60
+        case trine, trinovile = 120
+        
+        case quincunx = 150
+        
+        case semisquare = 45
+        case square = 90
+        case bisemisquare = 135
+        
+        case quintile = 72
+        case biquintile = 144
+        
+        case septile = 51.4285714286
+        case biseptile = 102.857142857
+        case triseptile = 154.285714286
+        
+        case novile = 40
+        case binovile = 80
+        case quadranovile = 160
         
         func withinRange(orbitDegreeOffset:Degree) -> Bool {
             return orbitDegreeOffset > self.rawValue - self.orb && orbitDegreeOffset < self.rawValue + self.orb
         }
         
+        var isEasyAspect:Bool {
+            switch self {
+            case .novile, .binovile, .quadranovile, .semisextile, .sextile, .trine:
+                return true
+            default:
+                return false
+            }
+        }
+        
         var orb:Degree {
             switch self {
-            case .conjunction: return 8
-            case .semisextile: return 2
-            case .novile: return 2
-            case .semisquare: return 2
-            case .sextile: return 4
-            case .quintile: return 2
-            case .square: return 8
-            case .trine: return 8
-            case .biquintile: return 2
-            case .quincunx: return 4
-            case .opposition: return 8
+            case .conjunction: return 7.5 // range(5-10) +/- 2.5   [ 15 degrees / 2 ]
+            case .opposition: return 7.5 // range(5-10) +/- 2.5   [ 15 degrees / 2 ]
+                
+            case .semisextile: return 1.875 // [ 15 degrees / 8 ]
+            case .sextile: return 3.75 // [ 15 degrees / 4 ]
+            case .trine: return 7.5 // range(5-10) +/- 2.5   [ 15 degrees / 2 ]
+            
+            case .semisquare: return 1.875 // [ 15 degrees / 8 ]
+            case .square: return 7.5 // range(5-10) +/- {0.0 to 2.5}   [ 15 degrees / 2 ]
+            case .bisemisquare: return 1.875 // [ 15 degrees / 8 ]
+                
+            case .quincunx: return 3.75 // [ 15 degrees / 4 ]
+                
+            case .quintile: return 1.875 // [ 15 degrees / 8 ]
+            case .biquintile: return 1.875 // [ 15 degrees / 8 ]
+            
+            case .septile: return 1.875 // [ 15 degrees / 8 ]
+            case .biseptile: return 1.875 // [ 15 degrees / 8 ]
+            case .triseptile: return 1.875 // [ 15 degrees / 8 ]
+                
+            case .novile: return 0.9375 // [ 15 degrees / 16 ]
+            case .binovile: return 0.9375 // [ 15 degrees / 16 ]
+            case .trinovile: return 0.9375 // [ 15 degrees / 16 ]
+            case .quadranovile: return 0.9375 // [ 15 degrees / 16 ]
             }
         }
         
         var symbol:String {
             switch self {
             case .conjunction: return "☌" // 0º ~(1...8º) orb
-            case .semisextile: return "⦟" // 30º ~(1...2º) orb
-            case .novile: return "⦥" // 40º ~(1...2º) orb
-            case .semisquare: return "✳︎" // 45º ~(1...2º) orb  aka: octile
-            case .sextile: return "✱" // 60º ~(1...2º) orb
-            case .quintile: return "⌿" // 72º ~(1...2º) orb
-            case .square: return "⦜" // 90º ~(1...8º) orb
-            case .trine: return "△" // 120º ~(1...8º) orb
-            case .biquintile: return "⦦" // 144º ~(1...2º) orb
-            case .quincunx: return "⌅" // 150º ~(1...2º) orb  aka: inconjunct
             case .opposition: return "☍" // 180º ~(1...8º) orb
+                
+            case .semisextile: return "⦟" // 30º ~(1...2º) orb
+            case .sextile: return "✱" // 60º ~(1...2º) orb
+            case .trine: return "△" // 120º ~(1...8º) orb
+                
+            case .semisquare: return "✳︎" // 45º ~(1...2º) orb  aka: octile
+            case .square: return "⦜" // 90º ~(1...8º) orb
+            case .bisemisquare: return "✳︎" // 45º ~(1...2º) orb  aka: octile
+                
+            case .septile: return "1/7"
+            case .biseptile: return "2/7"
+            case .triseptile: return "3/7"
+                
+            case .quintile, .biquintile: return "☆" // 72º ~(1...2º) orb
+                
+            case .quincunx: return "⌅" // 150º ~(1...2º) orb  aka: inconjunct
+                
+            case .novile, .binovile, .trinovile, .quadranovile: return "⑅" // 40º ~(1...2º) orb
             }
         }
         
         var defaultDescription:String {
             switch self {
             case .conjunction: return "Relationships, the blurring of differences"
-            case .semisextile: return "Dissociation, helping another"
-            case .novile: return "Initiation, successful"
-            case .semisquare: return "Friction, prompt action to reduce friction"
-            case .sextile: return "Friendly, with some talent, ease, and oomph"
-            case .quintile: return "Unleashed talent, use of creative energy"
-            case .square: return "Tension, expect difficulty and growth"
-            case .trine: return "Support, pleasure"
-            case .biquintile: return "Unleashed talent, use of creative energy"
-            case .quincunx: return "Challenging, misunderstanding and difference"
             case .opposition: return "Relationships, divided loyalties"
+                
+            case .semisextile: return "Dissociation, helping another"
+            case .sextile: return "Friendly, with some talent, ease, and oomph"
+            case .trine: return "Support, pleasure"
+                
+            case .semisquare: return "Friction, prompt action to reduce friction"
+            case .square: return "Tension, expect difficulty and growth"
+            case .bisemisquare: return ""
+                
+            case .quincunx: return "Challenging, misunderstanding and difference"
+                
+            case .quintile: return "Unleashed talent, use of creative energy"
+            case .biquintile: return "Unleashed talent, use of creative energy"
+                
+            case .septile: return ""
+            case .biseptile: return ""
+            case .triseptile: return ""
+                
+            case .novile: return "Initiation, successful"
+            case .binovile: return "Initiation, successful"
+            case .trinovile: return "Initiation, successful"
+            case .quadranovile: return "Initiation, successful"
             }
         }
     }
@@ -145,6 +202,7 @@ class Astrology {
         var primarybody:AspectBody
         var relation:AspectRelation
         var secondaryBody:AspectBody
+        
         
         var combinedDescription:String {
             let description = self.description

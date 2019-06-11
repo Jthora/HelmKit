@@ -20,6 +20,7 @@
 		FA109B3B2101762C00EC0184 /* FluxSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3A2101762C00EC0184 /* FluxSensor.swift */; };
 		FA109B3E2101768600EC0184 /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B3D2101768600EC0184 /* GPS.swift */; };
 		FA109B4121018A7300EC0184 /* MultiMagnetometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */; };
+		FA14FD8322AF369C00121283 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA14FD8222AF369C00121283 /* UIKitExtensions.swift */; };
 		FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E0511210406FF00C7617C /* MHDSensorScene.swift */; };
 		FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */; };
 		FA3326452186B9E40059F5A6 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3326442186B9E40059F5A6 /* Math.swift */; };
@@ -38,6 +39,12 @@
 		FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */; };
 		FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BC5752107E788001AB1B1 /* Astrology.swift */; };
 		FACC6E642186AEE500C9BFA6 /* AstroTicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */; };
+		FAEFB13922A8B689008AA2FD /* StarSeer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAEFB13722A8B689008AA2FD /* StarSeer.storyboard */; };
+		FAEFB13D22A8D0D1008AA2FD /* SubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEFB13C22A8D0D1008AA2FD /* SubViewController.swift */; };
+		FAEFB14022A8D24D008AA2FD /* TimeSpeedScrubberSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEFB13F22A8D24D008AA2FD /* TimeSpeedScrubberSubViewController.swift */; };
+		FAEFB14322A8D3FE008AA2FD /* StarSeerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEFB14222A8D3FE008AA2FD /* StarSeerViewController.swift */; };
+		FAEFB14522A8D458008AA2FD /* TimeOffsetScrubberSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEFB14422A8D458008AA2FD /* TimeOffsetScrubberSubViewController.swift */; };
+		FAEFB14722A8D48C008AA2FD /* StarChartSubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEFB14622A8D48C008AA2FD /* StarChartSubViewController.swift */; };
 		FF163D282111ED1B003305C1 /* AstroAngleForeteller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */; };
 		FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */; };
 		FF17B9CA210CE874004D35B5 /* AstroMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17B9C9210CE874004D35B5 /* AstroMath.swift */; };
@@ -95,6 +102,7 @@
 		FA109B3A2101762C00EC0184 /* FluxSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluxSensor.swift; sourceTree = "<group>"; };
 		FA109B3D2101768600EC0184 /* GPS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
 		FA109B4021018A7300EC0184 /* MultiMagnetometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiMagnetometer.swift; sourceTree = "<group>"; };
+		FA14FD8222AF369C00121283 /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		FA1E0511210406FF00C7617C /* MHDSensorScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHDSensorScene.swift; sourceTree = "<group>"; };
 		FA1E051321040D9D00C7617C /* mhdSensorAssets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = mhdSensorAssets.scnassets; sourceTree = "<group>"; };
 		FA3326442186B9E40059F5A6 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
@@ -113,6 +121,12 @@
 		FA8BC5722106C0E1001AB1B1 /* Astronomy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomy.swift; sourceTree = "<group>"; };
 		FA8BC5752107E788001AB1B1 /* Astrology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astrology.swift; sourceTree = "<group>"; };
 		FACC6E632186AEE500C9BFA6 /* AstroTicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AstroTicker.storyboard; sourceTree = "<group>"; };
+		FAEFB13822A8B689008AA2FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/StarSeer.storyboard; sourceTree = "<group>"; };
+		FAEFB13C22A8D0D1008AA2FD /* SubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubViewController.swift; sourceTree = "<group>"; };
+		FAEFB13F22A8D24D008AA2FD /* TimeSpeedScrubberSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSpeedScrubberSubViewController.swift; sourceTree = "<group>"; };
+		FAEFB14222A8D3FE008AA2FD /* StarSeerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarSeerViewController.swift; sourceTree = "<group>"; };
+		FAEFB14422A8D458008AA2FD /* TimeOffsetScrubberSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeOffsetScrubberSubViewController.swift; sourceTree = "<group>"; };
+		FAEFB14622A8D48C008AA2FD /* StarChartSubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarChartSubViewController.swift; sourceTree = "<group>"; };
 		FF163D272111ED1B003305C1 /* AstroAngleForeteller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroAngleForeteller.swift; sourceTree = "<group>"; };
 		FF17B9C6210CE7BF004D35B5 /* AstroTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroTimer.swift; sourceTree = "<group>"; };
 		FF17B9C9210CE874004D35B5 /* AstroMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstroMath.swift; sourceTree = "<group>"; };
@@ -149,6 +163,7 @@
 		FA0D023720F9039100772621 = {
 			isa = PBXGroup;
 			children = (
+				FAEFB13A22A8CE01008AA2FD /* StarSeer */,
 				FA0D024220F9039100772621 /* HelmKit */,
 				FA0D025720F9039300772621 /* HelmKitTests */,
 				FA0D026220F9039300772621 /* HelmKitUITests */,
@@ -328,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				FA332656218C07D40059F5A6 /* UIColor.swift */,
+				FA14FD8222AF369C00121283 /* UIKitExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -379,6 +395,43 @@
 				FA8BC5752107E788001AB1B1 /* Astrology.swift */,
 			);
 			path = Astrology;
+			sourceTree = "<group>";
+		};
+		FAEFB13A22A8CE01008AA2FD /* StarSeer */ = {
+			isa = PBXGroup;
+			children = (
+				FAEFB14122A8D3CD008AA2FD /* UI */,
+				FAEFB13E22A8D0D6008AA2FD /* SubView Controllers */,
+				FAEFB13B22A8CE13008AA2FD /* Storyboards */,
+			);
+			path = StarSeer;
+			sourceTree = "<group>";
+		};
+		FAEFB13B22A8CE13008AA2FD /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				FAEFB13722A8B689008AA2FD /* StarSeer.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		FAEFB13E22A8D0D6008AA2FD /* SubView Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FAEFB13C22A8D0D1008AA2FD /* SubViewController.swift */,
+				FAEFB13F22A8D24D008AA2FD /* TimeSpeedScrubberSubViewController.swift */,
+				FAEFB14422A8D458008AA2FD /* TimeOffsetScrubberSubViewController.swift */,
+				FAEFB14622A8D48C008AA2FD /* StarChartSubViewController.swift */,
+			);
+			path = "SubView Controllers";
+			sourceTree = "<group>";
+		};
+		FAEFB14122A8D3CD008AA2FD /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				FAEFB14222A8D3FE008AA2FD /* StarSeerViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		FF17B9C8210CE7CB004D35B5 /* AstroTimer */ = {
@@ -463,16 +516,16 @@
 				TargetAttributes = {
 					FA0D023F20F9039100772621 = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 					};
 					FA0D025320F9039300772621 = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						TestTargetID = FA0D023F20F9039100772621;
 					};
 					FA0D025E20F9039300772621 = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						TestTargetID = FA0D023F20F9039100772621;
 					};
 				};
@@ -508,6 +561,7 @@
 				FA1E051421040D9D00C7617C /* mhdSensorAssets.scnassets in Resources */,
 				FACC6E642186AEE500C9BFA6 /* AstroTicker.storyboard in Resources */,
 				FA0D024920F9039100772621 /* Main.storyboard in Resources */,
+				FAEFB13922A8B689008AA2FD /* StarSeer.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,12 +592,17 @@
 				FA332653218BE6EC0059F5A6 /* State.swift in Sources */,
 				FA332659218C29140059F5A6 /* NotchSprite.swift in Sources */,
 				FA1E0512210406FF00C7617C /* MHDSensorScene.swift in Sources */,
+				FA14FD8322AF369C00121283 /* UIKitExtensions.swift in Sources */,
+				FAEFB13D22A8D0D1008AA2FD /* SubViewController.swift in Sources */,
 				FF163D282111ED1B003305C1 /* AstroAngleForeteller.swift in Sources */,
 				FA332650218BD4250059F5A6 /* Scaler.swift in Sources */,
 				FF17B9CE210CEC7D004D35B5 /* AstroUtils.swift in Sources */,
 				FA8BC5762107E788001AB1B1 /* Astrology.swift in Sources */,
 				FA8BC5732106C0E1001AB1B1 /* Astronomy.swift in Sources */,
+				FAEFB14022A8D24D008AA2FD /* TimeSpeedScrubberSubViewController.swift in Sources */,
 				FF17B9C7210CE7BF004D35B5 /* AstroTimer.swift in Sources */,
+				FAEFB14322A8D3FE008AA2FD /* StarSeerViewController.swift in Sources */,
+				FAEFB14522A8D458008AA2FD /* TimeOffsetScrubberSubViewController.swift in Sources */,
 				FA715418218FAEB3009F85AF /* Ticker.swift in Sources */,
 				FA33265E218EB3250059F5A6 /* App.swift in Sources */,
 				FA33264B218BD1090059F5A6 /* Constants.swift in Sources */,
@@ -557,6 +616,7 @@
 				FA33264E218BD2DD0059F5A6 /* CustomOperators.swift in Sources */,
 				FA5E11A120F9922E0014606E /* NASAAstronomy.swift in Sources */,
 				FA0D024420F9039100772621 /* AppDelegate.swift in Sources */,
+				FAEFB14722A8D48C008AA2FD /* StarChartSubViewController.swift in Sources */,
 				FA3326452186B9E40059F5A6 /* Math.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,6 +667,14 @@
 				FA0D024D20F9039200772621 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		FAEFB13722A8B689008AA2FD /* StarSeer.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAEFB13822A8B689008AA2FD /* Base */,
+			);
+			name = StarSeer.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -744,7 +812,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -767,7 +835,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -787,7 +855,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
 			};
@@ -808,7 +876,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HelmKit.app/HelmKit";
 			};
@@ -828,7 +896,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HelmKit;
 			};
@@ -848,7 +916,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.ravelite.HelmKitUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HelmKit;
 			};
