@@ -110,10 +110,12 @@ class StarSeerViewController: UIViewController {
         if starChartHeight == view.bounds.height * 0.4 {
             UIView.animate(withDuration: 0.5) {
                 self.starChartHeight = self.view.bounds.height
+                self.view.layoutIfNeeded()
             }
         } else if starChartHeight == view.bounds.height {
             UIView.animate(withDuration: 0.5) {
                 self.starChartHeight = self.view.bounds.height * 0.4
+                self.view.layoutIfNeeded()
             }
         }
     }
