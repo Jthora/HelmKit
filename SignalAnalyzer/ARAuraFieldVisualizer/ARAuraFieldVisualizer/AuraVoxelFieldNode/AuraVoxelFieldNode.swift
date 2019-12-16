@@ -81,9 +81,9 @@ class AuraVoxelFieldNode:SCNNode {
         }
     }
     
-    init(divisions:Int, height:Int? = nil, subScale:CGFloat = 0.3) {
+    init(divisions:Int, height:Int? = nil, subScale:CGFloat = 0.2) {
         self.divisions = divisions > 3 ? divisions : 3
-        self._height = height != nil ? height! > 2 ? height : 2 : nil
+        self._height = height != nil ? height! > 3 ? height : 3 : nil
         self.subScale = subScale
         super.init()
         setup()
@@ -131,8 +131,8 @@ class AuraVoxelFieldNode:SCNNode {
                 for z in -dLimit ... dLimit {
                     voxelGrid[x]![y]![z]!.calculateDirectionalFlow(right: (voxelGrid[x+1]![y]![z]!),
                                                             left: (voxelGrid[x-1]![y]![z]!),
-                                                            up: (voxelGrid[x]![y+1]![z]!),
-                                                            down: (voxelGrid[x]![y-1]![z]!),
+                                                            above: (voxelGrid[x]![y+1]![z]!),
+                                                            below: (voxelGrid[x]![y-1]![z]!),
                                                             front: (voxelGrid[x]![y]![z+1]!),
                                                             back: (voxelGrid[x]![y]![z-1]!))
                     
@@ -177,8 +177,8 @@ class AuraVoxelFieldNode:SCNNode {
                     for iZ in z-1 ... z+1 {
                         voxelGrid[iX]?[iY]?[iZ]?.calculateDirectionalFlow(right: (voxelGrid[iX+1]?[iY]?[iZ]),
                                                                         left: (voxelGrid[iX-1]?[iY]?[iZ]),
-                                                                        up: (voxelGrid[iX]?[iY+1]?[iZ]),
-                                                                        down: (voxelGrid[iX]?[iY-1]?[iZ]),
+                                                                        above: (voxelGrid[iX]?[iY+1]?[iZ]),
+                                                                        below: (voxelGrid[iX]?[iY-1]?[iZ]),
                                                                         front: (voxelGrid[iX]?[iY]?[iZ+1]),
                                                                         back: (voxelGrid[iX]?[iY]?[iZ-1]))
                     }

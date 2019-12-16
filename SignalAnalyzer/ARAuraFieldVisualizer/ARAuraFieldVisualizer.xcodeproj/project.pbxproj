@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA0C63B123A7641D00C76589 /* Iceberg-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */; };
-		FA0C63B223A7641D00C76589 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */; };
 		FAB155FB235E600D00A1C2EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB155FA235E600D00A1C2EF /* AppDelegate.swift */; };
 		FAB155FD235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB155FC235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift */; };
 		FAB15602235E600D00A1C2EF /* ARSignalAnalyzer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB15600235E600D00A1C2EF /* ARSignalAnalyzer.storyboard */; };
@@ -52,8 +50,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Iceberg-Regular.ttf"; sourceTree = "<group>"; };
-		FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
 		FAB155F7235E600D00A1C2EF /* Signal Analyzer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Signal Analyzer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAB155FA235E600D00A1C2EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAB155FC235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSignalAnalyzerViewController.swift; sourceTree = "<group>"; };
@@ -146,8 +142,6 @@
 				FAB1563C2360AB9300A1C2EF /* AuraParticleSystem.scnp */,
 				FAB15605235E601100A1C2EF /* LaunchScreen.storyboard */,
 				FAB15608235E601100A1C2EF /* Info.plist */,
-				FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */,
-				FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */,
 				FAFC30EE2378941C004F43EC /* Hexagon_64x */,
 				FAFC30EA23765591004F43EC /* Fuzz_64x */,
 				FAFC30EC23765666004F43EC /* Smoke_128x.png */,
@@ -324,8 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAFC30EB23765595004F43EC /* Fuzz_64x in Resources */,
-				FA0C63B223A7641D00C76589 /* Aldrich-Regular.ttf in Resources */,
-				FA0C63B123A7641D00C76589 /* Iceberg-Regular.ttf in Resources */,
 				FAFC30ED23765666004F43EC /* Smoke_128x.png in Resources */,
 				FAB15607235E601100A1C2EF /* LaunchScreen.storyboard in Resources */,
 				FAD39E8A236AA60700E827C2 /* FieldParticleSystem.scnp in Resources */,
@@ -542,9 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = H4H7UN3F3K;
 				INFOPLIST_FILE = ARAuraFieldVisualizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
@@ -552,11 +542,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.signalanalyzer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.starcom.ARAuraFieldVisualizer;
 				PRODUCT_NAME = "Signal Analyzer";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -564,9 +553,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = H4H7UN3F3K;
 				INFOPLIST_FILE = ARAuraFieldVisualizer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
@@ -574,11 +561,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.signalanalyzer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.starcom.ARAuraFieldVisualizer;
 				PRODUCT_NAME = "Signal Analyzer";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
