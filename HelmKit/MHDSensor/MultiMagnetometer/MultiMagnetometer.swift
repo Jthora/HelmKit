@@ -17,6 +17,7 @@ protocol MultiMagnetometerDelegate {
     func updateMagneticHeading(x:Double)
     func updateHeading(x:Double, y:Double, z:Double, m:Double, s:Double)
     func updateMagnetometer(x:Double, y:Double, z:Double, m:Double, s:Double)
+    func updateMagnetometer(magnitude:Double)
     
     // Spacial
     func updateAcceleration(x:Double, y:Double, z:Double, m:Double)

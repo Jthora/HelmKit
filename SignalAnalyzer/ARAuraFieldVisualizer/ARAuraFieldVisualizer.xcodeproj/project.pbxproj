@@ -1,0 +1,711 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA0C63B123A7641D00C76589 /* Iceberg-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */; };
+		FA0C63B223A7641D00C76589 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */; };
+		FAB155FB235E600D00A1C2EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB155FA235E600D00A1C2EF /* AppDelegate.swift */; };
+		FAB155FD235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB155FC235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift */; };
+		FAB15602235E600D00A1C2EF /* ARSignalAnalyzer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB15600235E600D00A1C2EF /* ARSignalAnalyzer.storyboard */; };
+		FAB15604235E601100A1C2EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAB15603235E601100A1C2EF /* Assets.xcassets */; };
+		FAB15607235E601100A1C2EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB15605235E601100A1C2EF /* LaunchScreen.storyboard */; };
+		FAB15612235E601200A1C2EF /* ARAuraFieldVisualizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB15611235E601200A1C2EF /* ARAuraFieldVisualizerTests.swift */; };
+		FAB1561D235E601200A1C2EF /* ARAuraFieldVisualizerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB1561C235E601200A1C2EF /* ARAuraFieldVisualizerUITests.swift */; };
+		FAB1562E235E66E400A1C2EF /* GPS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB1562B235E66E300A1C2EF /* GPS.swift */; };
+		FAB1562F235E66E400A1C2EF /* MultiMagnetometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB1562D235E66E300A1C2EF /* MultiMagnetometer.swift */; };
+		FAB15632235E674400A1C2EF /* FluxSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB15631235E674400A1C2EF /* FluxSensor.swift */; };
+		FAB15637235F75FA00A1C2EF /* AuraVoxelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB15636235F75FA00A1C2EF /* AuraVoxelNode.swift */; };
+		FAB15639235F7C4600A1C2EF /* AuraVoxelFieldNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB15638235F7C4600A1C2EF /* AuraVoxelFieldNode.swift */; };
+		FAB1563D2360AB9300A1C2EF /* AuraParticleSystem.scnp in Resources */ = {isa = PBXBuildFile; fileRef = FAB1563C2360AB9300A1C2EF /* AuraParticleSystem.scnp */; };
+		FAB156402360F08F00A1C2EF /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB1563F2360F08F00A1C2EF /* UIColor.swift */; };
+		FAD39E8A236AA60700E827C2 /* FieldParticleSystem.scnp in Resources */ = {isa = PBXBuildFile; fileRef = FAD39E89236AA60700E827C2 /* FieldParticleSystem.scnp */; };
+		FAE9AEFF23638C5D00B4EAB1 /* Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE9AEFE23638C5D00B4EAB1 /* Primitives.swift */; };
+		FAFC30E523764ED5004F43EC /* Spark_Dense_64x in Resources */ = {isa = PBXBuildFile; fileRef = FAFC30E423764ED5004F43EC /* Spark_Dense_64x */; };
+		FAFC30E723765564004F43EC /* Spark_64x in Resources */ = {isa = PBXBuildFile; fileRef = FAFC30E623765051004F43EC /* Spark_64x */; };
+		FAFC30EB23765595004F43EC /* Fuzz_64x in Resources */ = {isa = PBXBuildFile; fileRef = FAFC30EA23765591004F43EC /* Fuzz_64x */; };
+		FAFC30ED23765666004F43EC /* Smoke_128x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAFC30EC23765666004F43EC /* Smoke_128x.png */; };
+		FAFC30EF2378941C004F43EC /* Hexagon_64x in Resources */ = {isa = PBXBuildFile; fileRef = FAFC30EE2378941C004F43EC /* Hexagon_64x */; };
+		FAFC30F123789D51004F43EC /* GameSphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC30F023789D51004F43EC /* GameSphere.swift */; };
+		FAFC30F32378B96F004F43EC /* SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFC30F22378B96F004F43EC /* SceneKit.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FAB1560E235E601200A1C2EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAB155EF235E600D00A1C2EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAB155F6235E600D00A1C2EF;
+			remoteInfo = ARAuraFieldVisualizer;
+		};
+		FAB15619235E601200A1C2EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAB155EF235E600D00A1C2EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAB155F6235E600D00A1C2EF;
+			remoteInfo = ARAuraFieldVisualizer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Iceberg-Regular.ttf"; sourceTree = "<group>"; };
+		FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
+		FAB155F7235E600D00A1C2EF /* Signal Analyzer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Signal Analyzer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB155FA235E600D00A1C2EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAB155FC235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSignalAnalyzerViewController.swift; sourceTree = "<group>"; };
+		FAB15601235E600D00A1C2EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/ARSignalAnalyzer.storyboard; sourceTree = "<group>"; };
+		FAB15603235E601100A1C2EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAB15606235E601100A1C2EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FAB15608235E601100A1C2EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB1560D235E601200A1C2EF /* ARAuraFieldVisualizerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARAuraFieldVisualizerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB15611235E601200A1C2EF /* ARAuraFieldVisualizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAuraFieldVisualizerTests.swift; sourceTree = "<group>"; };
+		FAB15613235E601200A1C2EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB15618235E601200A1C2EF /* ARAuraFieldVisualizerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARAuraFieldVisualizerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB1561C235E601200A1C2EF /* ARAuraFieldVisualizerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAuraFieldVisualizerUITests.swift; sourceTree = "<group>"; };
+		FAB1561E235E601200A1C2EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB1562B235E66E300A1C2EF /* GPS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPS.swift; sourceTree = "<group>"; };
+		FAB1562D235E66E300A1C2EF /* MultiMagnetometer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiMagnetometer.swift; sourceTree = "<group>"; };
+		FAB15631235E674400A1C2EF /* FluxSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluxSensor.swift; sourceTree = "<group>"; };
+		FAB15636235F75FA00A1C2EF /* AuraVoxelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraVoxelNode.swift; sourceTree = "<group>"; };
+		FAB15638235F7C4600A1C2EF /* AuraVoxelFieldNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraVoxelFieldNode.swift; sourceTree = "<group>"; };
+		FAB1563C2360AB9300A1C2EF /* AuraParticleSystem.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = AuraParticleSystem.scnp; sourceTree = "<group>"; };
+		FAB1563F2360F08F00A1C2EF /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		FAD39E89236AA60700E827C2 /* FieldParticleSystem.scnp */ = {isa = PBXFileReference; lastKnownFileType = file.scp; path = FieldParticleSystem.scnp; sourceTree = "<group>"; };
+		FAE9AEFE23638C5D00B4EAB1 /* Primitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitives.swift; sourceTree = "<group>"; };
+		FAFC30E423764ED5004F43EC /* Spark_Dense_64x */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spark_Dense_64x; sourceTree = "<group>"; };
+		FAFC30E623765051004F43EC /* Spark_64x */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spark_64x; sourceTree = "<group>"; };
+		FAFC30EA23765591004F43EC /* Fuzz_64x */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fuzz_64x; sourceTree = "<group>"; };
+		FAFC30EC23765666004F43EC /* Smoke_128x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Smoke_128x.png; path = ../../Smoke_128x.png; sourceTree = "<group>"; };
+		FAFC30EE2378941C004F43EC /* Hexagon_64x */ = {isa = PBXFileReference; lastKnownFileType = file; path = Hexagon_64x; sourceTree = "<group>"; };
+		FAFC30F023789D51004F43EC /* GameSphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSphere.swift; sourceTree = "<group>"; };
+		FAFC30F22378B96F004F43EC /* SceneKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneKit.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FAB155F4235E600D00A1C2EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB1560A235E601200A1C2EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB15615235E601200A1C2EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FAB155EE235E600D00A1C2EF = {
+			isa = PBXGroup;
+			children = (
+				FAB155F9235E600D00A1C2EF /* ARAuraFieldVisualizer */,
+				FAB15610235E601200A1C2EF /* ARAuraFieldVisualizerTests */,
+				FAB1561B235E601200A1C2EF /* ARAuraFieldVisualizerUITests */,
+				FAB155F8235E600D00A1C2EF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FAB155F8235E600D00A1C2EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAB155F7235E600D00A1C2EF /* Signal Analyzer.app */,
+				FAB1560D235E601200A1C2EF /* ARAuraFieldVisualizerTests.xctest */,
+				FAB15618235E601200A1C2EF /* ARAuraFieldVisualizerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAB155F9235E600D00A1C2EF /* ARAuraFieldVisualizer */ = {
+			isa = PBXGroup;
+			children = (
+				FAB1563E2360F07C00A1C2EF /* Extensions */,
+				FAB15635235F75DE00A1C2EF /* AuraVoxelFieldNode */,
+				FAB15630235E674400A1C2EF /* FluxSensor */,
+				FAB1562A235E66E300A1C2EF /* GPS */,
+				FAB1562C235E66E300A1C2EF /* MultiMagnetometer */,
+				FAB155FA235E600D00A1C2EF /* AppDelegate.swift */,
+				FAB155FC235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift */,
+				FAB15600235E600D00A1C2EF /* ARSignalAnalyzer.storyboard */,
+				FAB15603235E601100A1C2EF /* Assets.xcassets */,
+				FAD39E89236AA60700E827C2 /* FieldParticleSystem.scnp */,
+				FAB1563C2360AB9300A1C2EF /* AuraParticleSystem.scnp */,
+				FAB15605235E601100A1C2EF /* LaunchScreen.storyboard */,
+				FAB15608235E601100A1C2EF /* Info.plist */,
+				FA0C63B023A7641D00C76589 /* Aldrich-Regular.ttf */,
+				FA0C63AF23A7641D00C76589 /* Iceberg-Regular.ttf */,
+				FAFC30EE2378941C004F43EC /* Hexagon_64x */,
+				FAFC30EA23765591004F43EC /* Fuzz_64x */,
+				FAFC30EC23765666004F43EC /* Smoke_128x.png */,
+				FAFC30E623765051004F43EC /* Spark_64x */,
+				FAFC30E423764ED5004F43EC /* Spark_Dense_64x */,
+			);
+			path = ARAuraFieldVisualizer;
+			sourceTree = "<group>";
+		};
+		FAB15610235E601200A1C2EF /* ARAuraFieldVisualizerTests */ = {
+			isa = PBXGroup;
+			children = (
+				FAB15611235E601200A1C2EF /* ARAuraFieldVisualizerTests.swift */,
+				FAB15613235E601200A1C2EF /* Info.plist */,
+			);
+			path = ARAuraFieldVisualizerTests;
+			sourceTree = "<group>";
+		};
+		FAB1561B235E601200A1C2EF /* ARAuraFieldVisualizerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FAB1561C235E601200A1C2EF /* ARAuraFieldVisualizerUITests.swift */,
+				FAB1561E235E601200A1C2EF /* Info.plist */,
+			);
+			path = ARAuraFieldVisualizerUITests;
+			sourceTree = "<group>";
+		};
+		FAB1562A235E66E300A1C2EF /* GPS */ = {
+			isa = PBXGroup;
+			children = (
+				FAB1562B235E66E300A1C2EF /* GPS.swift */,
+			);
+			path = GPS;
+			sourceTree = "<group>";
+		};
+		FAB1562C235E66E300A1C2EF /* MultiMagnetometer */ = {
+			isa = PBXGroup;
+			children = (
+				FAB1562D235E66E300A1C2EF /* MultiMagnetometer.swift */,
+			);
+			path = MultiMagnetometer;
+			sourceTree = "<group>";
+		};
+		FAB15630235E674400A1C2EF /* FluxSensor */ = {
+			isa = PBXGroup;
+			children = (
+				FAB15631235E674400A1C2EF /* FluxSensor.swift */,
+			);
+			path = FluxSensor;
+			sourceTree = "<group>";
+		};
+		FAB15635235F75DE00A1C2EF /* AuraVoxelFieldNode */ = {
+			isa = PBXGroup;
+			children = (
+				FAB15636235F75FA00A1C2EF /* AuraVoxelNode.swift */,
+				FAB15638235F7C4600A1C2EF /* AuraVoxelFieldNode.swift */,
+				FAFC30F023789D51004F43EC /* GameSphere.swift */,
+			);
+			path = AuraVoxelFieldNode;
+			sourceTree = "<group>";
+		};
+		FAB1563E2360F07C00A1C2EF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FAB1563F2360F08F00A1C2EF /* UIColor.swift */,
+				FAE9AEFE23638C5D00B4EAB1 /* Primitives.swift */,
+				FAFC30F22378B96F004F43EC /* SceneKit.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FAB155F6235E600D00A1C2EF /* ARAuraFieldVisualizer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAB15621235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizer" */;
+			buildPhases = (
+				FAB155F3235E600D00A1C2EF /* Sources */,
+				FAB155F4235E600D00A1C2EF /* Frameworks */,
+				FAB155F5235E600D00A1C2EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARAuraFieldVisualizer;
+			productName = ARAuraFieldVisualizer;
+			productReference = FAB155F7235E600D00A1C2EF /* Signal Analyzer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FAB1560C235E601200A1C2EF /* ARAuraFieldVisualizerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAB15624235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizerTests" */;
+			buildPhases = (
+				FAB15609235E601200A1C2EF /* Sources */,
+				FAB1560A235E601200A1C2EF /* Frameworks */,
+				FAB1560B235E601200A1C2EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAB1560F235E601200A1C2EF /* PBXTargetDependency */,
+			);
+			name = ARAuraFieldVisualizerTests;
+			productName = ARAuraFieldVisualizerTests;
+			productReference = FAB1560D235E601200A1C2EF /* ARAuraFieldVisualizerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FAB15617235E601200A1C2EF /* ARAuraFieldVisualizerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAB15627235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizerUITests" */;
+			buildPhases = (
+				FAB15614235E601200A1C2EF /* Sources */,
+				FAB15615235E601200A1C2EF /* Frameworks */,
+				FAB15616235E601200A1C2EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAB1561A235E601200A1C2EF /* PBXTargetDependency */,
+			);
+			name = ARAuraFieldVisualizerUITests;
+			productName = ARAuraFieldVisualizerUITests;
+			productReference = FAB15618235E601200A1C2EF /* ARAuraFieldVisualizerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAB155EF235E600D00A1C2EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = "Jordan Trana";
+				TargetAttributes = {
+					FAB155F6235E600D00A1C2EF = {
+						CreatedOnToolsVersion = 11.2;
+					};
+					FAB1560C235E601200A1C2EF = {
+						CreatedOnToolsVersion = 11.2;
+						TestTargetID = FAB155F6235E600D00A1C2EF;
+					};
+					FAB15617235E601200A1C2EF = {
+						CreatedOnToolsVersion = 11.2;
+						TestTargetID = FAB155F6235E600D00A1C2EF;
+					};
+				};
+			};
+			buildConfigurationList = FAB155F2235E600D00A1C2EF /* Build configuration list for PBXProject "ARAuraFieldVisualizer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FAB155EE235E600D00A1C2EF;
+			productRefGroup = FAB155F8235E600D00A1C2EF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAB155F6235E600D00A1C2EF /* ARAuraFieldVisualizer */,
+				FAB1560C235E601200A1C2EF /* ARAuraFieldVisualizerTests */,
+				FAB15617235E601200A1C2EF /* ARAuraFieldVisualizerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FAB155F5235E600D00A1C2EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAFC30EB23765595004F43EC /* Fuzz_64x in Resources */,
+				FA0C63B223A7641D00C76589 /* Aldrich-Regular.ttf in Resources */,
+				FA0C63B123A7641D00C76589 /* Iceberg-Regular.ttf in Resources */,
+				FAFC30ED23765666004F43EC /* Smoke_128x.png in Resources */,
+				FAB15607235E601100A1C2EF /* LaunchScreen.storyboard in Resources */,
+				FAD39E8A236AA60700E827C2 /* FieldParticleSystem.scnp in Resources */,
+				FAB15604235E601100A1C2EF /* Assets.xcassets in Resources */,
+				FAFC30E723765564004F43EC /* Spark_64x in Resources */,
+				FAFC30EF2378941C004F43EC /* Hexagon_64x in Resources */,
+				FAB15602235E600D00A1C2EF /* ARSignalAnalyzer.storyboard in Resources */,
+				FAB1563D2360AB9300A1C2EF /* AuraParticleSystem.scnp in Resources */,
+				FAFC30E523764ED5004F43EC /* Spark_Dense_64x in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB1560B235E601200A1C2EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB15616235E601200A1C2EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FAB155F3235E600D00A1C2EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB155FD235E600D00A1C2EF /* ARSignalAnalyzerViewController.swift in Sources */,
+				FAB155FB235E600D00A1C2EF /* AppDelegate.swift in Sources */,
+				FAFC30F123789D51004F43EC /* GameSphere.swift in Sources */,
+				FAB15639235F7C4600A1C2EF /* AuraVoxelFieldNode.swift in Sources */,
+				FAB15637235F75FA00A1C2EF /* AuraVoxelNode.swift in Sources */,
+				FAB156402360F08F00A1C2EF /* UIColor.swift in Sources */,
+				FAB1562E235E66E400A1C2EF /* GPS.swift in Sources */,
+				FAFC30F32378B96F004F43EC /* SceneKit.swift in Sources */,
+				FAE9AEFF23638C5D00B4EAB1 /* Primitives.swift in Sources */,
+				FAB15632235E674400A1C2EF /* FluxSensor.swift in Sources */,
+				FAB1562F235E66E400A1C2EF /* MultiMagnetometer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB15609235E601200A1C2EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB15612235E601200A1C2EF /* ARAuraFieldVisualizerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAB15614235E601200A1C2EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB1561D235E601200A1C2EF /* ARAuraFieldVisualizerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FAB1560F235E601200A1C2EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAB155F6235E600D00A1C2EF /* ARAuraFieldVisualizer */;
+			targetProxy = FAB1560E235E601200A1C2EF /* PBXContainerItemProxy */;
+		};
+		FAB1561A235E601200A1C2EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAB155F6235E600D00A1C2EF /* ARAuraFieldVisualizer */;
+			targetProxy = FAB15619235E601200A1C2EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FAB15600235E600D00A1C2EF /* ARSignalAnalyzer.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAB15601235E600D00A1C2EF /* Base */,
+			);
+			name = ARSignalAnalyzer.storyboard;
+			sourceTree = "<group>";
+		};
+		FAB15605235E601100A1C2EF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAB15606235E601100A1C2EF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FAB1561F235E601200A1C2EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FAB15620235E601200A1C2EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FAB15622235E601200A1C2EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.signalanalyzer;
+				PRODUCT_NAME = "Signal Analyzer";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FAB15623235E601200A1C2EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.signalanalyzer;
+				PRODUCT_NAME = "Signal Analyzer";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FAB15625235E601200A1C2EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.ARAuraFieldVisualizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARAuraFieldVisualizer.app/ARAuraFieldVisualizer";
+			};
+			name = Debug;
+		};
+		FAB15626235E601200A1C2EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizerTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.ARAuraFieldVisualizerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARAuraFieldVisualizer.app/ARAuraFieldVisualizer";
+			};
+			name = Release;
+		};
+		FAB15628235E601200A1C2EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.ARAuraFieldVisualizerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ARAuraFieldVisualizer;
+			};
+			name = Debug;
+		};
+		FAB15629235E601200A1C2EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4H7UN3F3K;
+				INFOPLIST_FILE = ARAuraFieldVisualizerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.starcom.ARAuraFieldVisualizerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ARAuraFieldVisualizer;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FAB155F2235E600D00A1C2EF /* Build configuration list for PBXProject "ARAuraFieldVisualizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB1561F235E601200A1C2EF /* Debug */,
+				FAB15620235E601200A1C2EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAB15621235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB15622235E601200A1C2EF /* Debug */,
+				FAB15623235E601200A1C2EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAB15624235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB15625235E601200A1C2EF /* Debug */,
+				FAB15626235E601200A1C2EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAB15627235E601200A1C2EF /* Build configuration list for PBXNativeTarget "ARAuraFieldVisualizerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB15628235E601200A1C2EF /* Debug */,
+				FAB15629235E601200A1C2EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FAB155EF235E600D00A1C2EF /* Project object */;
+}
