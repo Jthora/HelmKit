@@ -123,8 +123,8 @@ class AuraVoxelNode:SCNNode {
         }
         AuraVoxelNode.blendmodeSwap = !AuraVoxelNode.blendmodeSwap
         
-        particleSystem.particleColor = UIColor.init(red: 1, green: 0.5, blue: 0.5, alpha: 1)
-        particleSystem.particleColorVariation = SCNVector4(1,0.25,0,0.5)
+        particleSystem.particleColor = UIColor.init(red: 0.5, green: 1.0, blue: 0.5, alpha: 1)
+        particleSystem.particleColorVariation = SCNVector4(1,1,1,0.5)
         particleSystem.particleAngleVariation = 360
         particleSystem.particleAngularVelocityVariation = 90
         particleSystem.particleCharge = 1
@@ -177,11 +177,18 @@ class AuraVoxelNode:SCNNode {
         cellularConnectionNode.isActive = false
     }
     
-    func calculateDirectionalFlow(right:AuraVoxelNode?, left:AuraVoxelNode?, above:AuraVoxelNode?, below:AuraVoxelNode?, front:AuraVoxelNode?, back:AuraVoxelNode?) {
+    func calculateDirectionalFlow(right:AuraVoxelNode?, left:AuraVoxelNode?, up:AuraVoxelNode?, down:AuraVoxelNode?, front:AuraVoxelNode?, back:AuraVoxelNode?) {
         
-        var dX = (right?.connection ?? self.connection) - (left?.connection ?? self.connection)
-        var dY = (above?.connection ?? self.connection) - (below?.connection ?? self.connection)
-        var dZ = (front?.connection ?? self.connection) - (back?.connection ?? self.connection)
+        let r = (right?.connection ?? self.connection)
+        let l = (left?.connection ?? self.connection)
+        let u = (up?.connection ?? self.connection)
+        let d = (down?.connection ?? self.connection)
+        let f = (front?.connection ?? self.connection)
+        let b = (back?.connection ?? self.connection)
+        
+        var dX = (r == 0 ? self.connection : r) - (l == 0 ? self.connection : l)
+        var dY = (u == 0 ? self.connection : u) - (d == 0 ? self.connection : d)
+        var dZ = (f == 0 ? self.connection : f) - (b == 0 ? self.connection : b)
         
         let maxVal = max(abs(dX),abs(dY),abs(dZ))
         

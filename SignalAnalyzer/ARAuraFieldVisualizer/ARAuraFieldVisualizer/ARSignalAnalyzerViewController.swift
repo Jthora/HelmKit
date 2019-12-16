@@ -22,10 +22,16 @@ class ARSignalAnalyzerViewController: UIViewController, ARSCNViewDelegate, Multi
     @IBOutlet weak var toggleSpheresButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var particleTypeButton: UIButton!
-    
+    @IBOutlet weak var flashlightButton: UIButton!
     
     var auraVoxelFieldNode: AuraVoxelFieldNode?
     var readings:[CLLocation:Double] = [:]
+    
+    var flashlightOn:Bool = false {
+        didSet {
+            setFlashlight()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +43,12 @@ class ARSignalAnalyzerViewController: UIViewController, ARSCNViewDelegate, Multi
         //arView.scene.anchors.append(boxAnchor)
         resetWorldTracking()
         
-        auraVoxelFieldNode = AuraVoxelFieldNode(divisions: 5, height: 3)
+        auraVoxelFieldNode = AuraVoxelFieldNode(divisions: 6, height: 2)
         arSceneView.scene.rootNode.addChildNode(auraVoxelFieldNode!)
         
         
         arSceneView.delegate = self
-        arSceneView.showsStatistics = true
+        //arSceneView.showsStatistics = true
         arSceneView.autoenablesDefaultLighting = true
         //arSceneView.debugOptions  = [.showConstraints, .showLightExtents, ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         //arSceneView.showsStatistics = true
@@ -50,6 +56,41 @@ class ARSignalAnalyzerViewController: UIViewController, ARSCNViewDelegate, Multi
         arSceneView.scene.physicsWorld.gravity = SCNVector3(0,0,0)
         
         MultiMagnetometer.shared.magnitudeDelegate = self
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { (notification) in
+            DispatchQueue.main.async {
+                self.setFlashlight()
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setFlashlight()
+    }
+    
+    
+    func reset() {
+        
+        // Disable AR Scene
+        arSceneView.session.pause()
+        auraVoxelFieldNode?.removeFromParentNode()
+        
+        // Reset AR Scene
+        resetWorldTracking()
+        
+        // Reset Voxel Field
+        auraVoxelFieldNode?.reset()
+        arSceneView.scene.rootNode.addChildNode(auraVoxelFieldNode!)
+
+        // Reset Buttons to Default
+        radialToggleButton.setTitleColor(UIColor.gray, for: .normal)
+        directionalToggleButton.setTitleColor(UIColor.systemBlue, for: .normal)
+        toggleSpheresButton.setTitleColor(.systemBlue, for: .normal)
+        particleTypeButton.setTitle("◼︎", for: .normal)
+        
+        arSceneView.scene.rootNode.printContents()
     }
     
     /// - Tag: ARFaceTrackingSetup
@@ -165,25 +206,7 @@ class ARSignalAnalyzerViewController: UIViewController, ARSCNViewDelegate, Multi
     
     @IBAction func resetButtonTap(_ sender: Any) {
 
-        arSceneView.session.pause()
-        arSceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
-            node.removeFromParentNode()
-        }
-        resetWorldTracking()
-        
-//        guard let position = arSceneView.defaultCameraController.pointOfView?.position,
-//            let rotation = arSceneView.defaultCameraController.pointOfView?.rotation else {
-//            return
-//        }
-//        auraVoxelFieldNode?.position = position
-        
-        arSceneView.scene.rootNode.addChildNode(auraVoxelFieldNode!)
-        auraVoxelFieldNode?.reset()
-
-        radialToggleButton.setTitleColor(UIColor.gray, for: .normal)
-        directionalToggleButton.setTitleColor(UIColor.systemBlue, for: .normal)
-        toggleSpheresButton.setTitleColor(.systemBlue, for: .normal)
-        particleTypeButton.setTitle("◼︎", for: .normal)
+        reset()
     }
     
     @IBAction func particleTypeButtonTap(_ sender: Any) {
@@ -212,6 +235,38 @@ class ARSignalAnalyzerViewController: UIViewController, ARSCNViewDelegate, Multi
             case .mix:
                 auraVoxelFieldNode?.particleImageType = .square
                 particleTypeButton.setTitle("◼︎", for: .normal)
+        }
+    }
+    
+    @IBAction func flashlightButtonTap(_ sender: UIButton) {
+        flashlightOn = !flashlightOn
+    }
+    
+    func setFlashlight() {
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard device.hasTorch else { return }
+
+        do {
+            try device.lockForConfiguration()
+
+            if !flashlightOn {
+                device.torchMode = AVCaptureDevice.TorchMode.off
+                flashlightButton.setTitle("☀︎", for: .normal)
+                flashlightButton.titleLabel!.font = flashlightButton.titleLabel!.font.withSize(78)
+            } else {
+                do {
+                    try device.setTorchModeOn(level: 1.0)
+                    flashlightButton.setTitle("☾", for: .normal)
+                    flashlightButton.titleLabel!.font = flashlightButton.titleLabel!.font.withSize(48)
+                    
+                } catch {
+                    print(error)
+                }
+            }
+
+            device.unlockForConfiguration()
+        } catch {
+            print(error)
         }
     }
 }
