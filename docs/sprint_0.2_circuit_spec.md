@@ -33,7 +33,7 @@ For Sprint 0.2 we lock down only what the platform itself must provide.
 1. **MCU-A (doer):** Pi 4. Hosts I²C bus, USB (SDR + sensors), real-time logging.
 2. **MCU-B (checker):** Nano v3. Independent watchdog + kill-line + safety blacklist firmware.
 3. **MCU-C (HUD + BLE + LoRa):** Heltec LoRa 32. OLED + BLE (Polar H10) + LoRa mesh + Li-Po PMIC.
-4. **Platform sensor front-end:** head-pose IMU (one MPU9250 on Pi 4 bus) + thermistor + capacitive touch (helm-on-head detect). *Module-specific sensors live on the module, not the platform.*
+4. **Platform sensor front-end:** six positions (see §2.1) — head-pose IMU (MPU9250), rail V+I monitor (INA219), helm-internal NTC, helm-on-head cap-touch (TTP223), battery-cell NTC, exterior ambient light (TEMT6000). *Module-specific sensors live on the module, not the platform.*
 5. **Power bus:** USB-C in (bench) or Talentcell 12V/5V dual rail (portable); 5V to Pi + MCU-C, 3.3V to logic, 12V passed through to module bus.
 6. **Module bus (NEW — §6.5):** mechanical hardpoints + 6-pin electrical connector providing power + I²C + safety line to clip-on modules.
 7. **Debug interface:** UART header + status LEDs.
@@ -52,26 +52,85 @@ For Sprint 0.2 we lock down only what the platform itself must provide.
 
 ## 2. Sensor list — inventory pass required
 
-Wiki-canonical Mk1 sensor stack is BME680 + MPU6050 + HMC5883L + PPG + Polar H10 BLE. For Mk0 we use whatever subset is **in the totes**. Tier by usefulness:
+**Doctrine (per §0 platform/module split):** sensors are now classified by **which board they live on**, not by tier alone. The HelmKit platform owns the minimum sensor set needed for *the rig itself to know its state*: helm-on-head, head-pose, internal thermal, battery health. Everything else — every sensor whose purpose is **psionic measurement or stimulus instrumentation** — belongs in a module.
 
-| Tier | Sensor class | Why it matters | Wiki Mk1 part | Mk0 pick (inventory-confirmed) |
-|---|---|---|---|---|
-| **Must-have** | 3-axis IMU (accel+gyro) | head pose, motion artifact rejection | MPU6050 / ICM-20948 | ✅ **3× MPU9250 (CHENBO×2 + HiLetgo×1)** + **1× MPU6050 (Diymore)** |
-| **Strong nice-to-have** | 3-axis magnetometer | ambient field baseline; F4-relevant geomagnetic-sensitivity studies | HMC5883L / LIS3MDL | ✅ **integrated on the MPU9250 (AK8963 on-die)** |
-| **Strong nice-to-have** | Environmental (T/RH/P/VOC) | session-context logging; thermal-safety floor | BME680 | ✅ **SGP40** (VOC) + **BMP180** (pressure) + **DHT11** (T/RH) from sensor kits |
-| **Want** | PPG (heart rate / HRV) | primary biomarker for stabilization studies | MAX30102 / Polar H10 | ❌ gap — Polar H10 deferred procurement (~$80); interim: build PPG from photoresistor + IR LED (in 730× IR LED stock) |
-| **Want** | Skin-contact electrodes (EEG / GSR) | optional Mk0.5 — needs analog front-end | ADS1299 / AD8232 | ❌ defer; **PCF8591 ADC shield** (in Pi kit) gives a path if we hand-build an instrumentation amp |
-| **Optional** | Microphone | ambient audio context | ICS-43434 / MEMS | ✅ Sound Detection module (Smart Home kit) + electret (Analog Sound Sensor, RPi kit) |
-| **Optional** | Ambient light | photic stim sham control + circadian context | TSL2591 / VEML7700 | ✅ **TEMT6000** + photoresistor (RPi kit), GUVA-S12SD UV |
-| **Bonus** | Magnetometer #2 (gradiometer) | wiki Defender 2× mag pattern | second HMC5883L | ✅ **second MPU9250** at 0x69 at known offset |
-| **Bonus** | Thermal IR | wiki Defender thermal sense | MLX90640 | ✅ **MLX90640** confirmed in inventory |
-| **Bonus** | SDR (RF wideband survey) | wiki Defender survey path | HackRF | ✅ **HackRF One + 3× NESDR + Ham It Up upconverter + 1:9 balun** |
-| **Bonus** | OLED HUD | wiki HelmKit HUD | SSD1306 0.96" | ✅ **integrated on Heltec LoRa 32** (2×) |
-| **Bonus** | Hall sensor / reed switch | digital magnetic-event sense | Hall element | ✅ in RPi kit (Hall Magnetic + Reed Switch) |
-| **Bonus** | Capacitive touch | wearer skin-contact verification | TTP223 | ✅ in both kits |
-| **Bonus** | Wide-FOV camera | situational awareness | fisheye | ✅ **ELP 170° 8 MP USB fisheye** |
+This is the single most important change to §2 from earlier drafts: most of the "Mk0 sensors" in prior tables were really Stabilizer-module or Defender-module or Recorder-module sensors that got mis-assigned to the platform. They are reassigned below.
 
-**Inventory rule:** anything we have ≥1 of goes on the spec at its tier. Anything we have zero of moves to "Mk1 procurement list" and **does not block Mk0**.
+### 2.1 Platform sensors (live on the HelmKit board itself)
+
+These are the only sensors physically mounted to / wired into the platform PCB. They report on the **rig**, not on the wearer's psionic state.
+
+| Tier | Sensor class | Why platform-side | Wiki Mk1 part | Mk0 pick (inventory-confirmed) | I²C addr |
+|---|---|---|---|---|---|
+| **Must-have** | 3-axis IMU + on-die mag (head pose) | rig orientation — every module needs this in its data stream; piping over the module bus is wasteful | MPU6050 / ICM-20948 | ✅ **1× MPU9250** (centerline top of shell); spares: 2× MPU9250 + 1× MPU6050 | 0x68 (IMU) / 0x0C (AK8963) |
+| **Must-have** | Battery / rail monitor (V + I) | platform power-bus telemetry; Nano needs this for safety latch | INA219 / shunt + ADC | ✅ **INA219** (sensor kit) on 12 V rail + Nano internal ADC on 5 V rail | 0x40 |
+| **Must-have** | Helm-internal thermistor | over-temp on Pi 4 + Heltec inside potted shell | NTC 10k | ✅ **NTC 10k** (XXXL kit) on Nano ADC | — |
+| **Must-have** | Helm-on-head detect (capacitive touch) | safety prerequisite for any module to leave standby; cheap and reliable | TTP223 | ✅ **TTP223 module** (both sensor kits) at scalp-contact pad | digital GPIO |
+| **Should-have** | Battery cell temp (charge-side) | wiki safety floor §7 item 1: cell > 50 °C → cut charger | NTC 10k | ✅ **NTC 10k** at 18650 holder, Nano ADC | — |
+| **Nice-to-have** | Ambient light at exterior | session-context (indoor/outdoor); also drives OLED auto-dim | TSL2591 / TEMT6000 | ✅ **TEMT6000** (RPi kit) | analog/ADC |
+
+That's it. Six sensor positions on the platform board. Anything else is module-side.
+
+### 2.2 Stabilizer Mk1 module sensors (§15 — built sprint 0.3a)
+
+Live on the Psi Stabilizer clip-on PCB, talk to platform only via the module bus.
+
+| Sensor | Wiki Mk1 part | Mk0 pick (inventory-confirmed) | Role |
+|---|---|---|---|
+| Scalp temperature (PBM safety) | DS18B20 | ✅ **DS18B20** (sensor kit) | thermal lockout on 730 nm halo |
+| Coil drive current sense | shunt + INA219 | ✅ **INA219** (second one in inventory) | enforces FDTD-certified envelope |
+| Coil-cavity field monitor | small loop antenna + ADC | ✅ small wound coil + Nano ADC (or stretch: nRF NESDR on bench) | confirms drive level matches commanded |
+| HRV input (closed-loop) | Polar H10 BLE | ❌ Polar H10 (~$80, procure for sprint 0.3a) — **only true gap** | the visible biofeedback |
+| Audio output-level sense | resistor divider + ADC | ✅ resistor divider into Heltec ADC | bone-conduction-substitute volume cap |
+
+### 2.3 Defender module sensors (future module)
+
+Live on the Psi Defender clip-on, not in this sprint. Listed for completeness so they don't get mis-assigned to the platform later.
+
+| Sensor | Inventory | Role |
+|---|---|---|
+| Magnetometer #2 (gradiometer pair with platform MPU9250) | ✅ second MPU9250 | wiki Defender 2× mag pattern |
+| Wideband SDR | ✅ HackRF One + 3× NESDR + Ham It Up + 1:9 balun | RF survey / emission-compliance |
+| Thermal IR | ✅ MLX90640 | wiki Defender thermal sense |
+| Hall / reed | ✅ in RPi kit | discrete magnetic-event triggers |
+
+### 2.4 Field Recorder module sensors (future module — see [beyond_wiki_concepts.md §5.1](beyond_wiki_concepts.md))
+
+Live on the Field Recorder clip-on, not in this sprint.
+
+| Sensor | Inventory | Role |
+|---|---|---|
+| Environmental (VOC + P + T/RH) | ✅ SGP40 + BMP180 + DHT11 | session-context envelope |
+| Wide-FOV camera | ✅ ELP 170° 8 MP USB fisheye | visual session log |
+| Ambient microphone | ✅ Sound Detection module + electret | audio session log |
+| UV index | ✅ GUVA-S12SD | circadian / outdoor sham control |
+| Photoresistor (back of head) | ✅ in RPi kit | sham-control for photic stim |
+
+### 2.5 Sensors that intentionally have no current home
+
+| Sensor | Inventory | Why deferred |
+|---|---|---|
+| PPG (MAX30102 / DIY photoresistor+IR) | ❌ no MAX30102; could DIY but Polar H10 is the real path | Stabilizer Mk1 uses Polar H10 instead; DIY PPG is a Mk3 falsifier exercise |
+| EEG / GSR (ADS1299 / AD8232) | ❌ no AFE | needs proper instrumentation amp; explicitly defer to Mk2+ when we have an AFE in inventory |
+
+### 2.6 Inventory rules
+
+- **Platform sensor set is locked.** Adding a 7th platform sensor requires explicit revision to this section.
+- A sensor may move from a module table to the platform table **only if** every future module would need it independently. The IMU passed this test; the magnetometer #2 did not (only Defender needs it as a gradiometer pair).
+- The platform's MPU9250 data stream is broadcast on the platform I²C bus and is **readable** by any attached module — modules do not need their own IMU for head-pose context.
+
+---
+
+### 2.7 Architectural note: why this matters
+
+In the earlier draft, the platform sensor table listed HackRF, MLX90640, ELP camera, MAX30102, second MPU9250, MLX, SGP40, etc. — none of which actually live on the rig itself. Loading the platform with all of those would have:
+
+1. Blown the platform power budget (HackRF alone draws ~500 mA on RX).
+2. Made the platform PCB un-routable in a clip-on-friendly form factor.
+3. Coupled platform iteration to every module's iteration — defeats the platform/module split entirely.
+4. Created a forever-Mk0 device instead of a platform that grows.
+
+The platform is now **six sensor positions**, all of which report on the rig's own state. The "psionic measurement" sensors are correctly attributed to the modules that own the physics they measure.
 
 ---
 
