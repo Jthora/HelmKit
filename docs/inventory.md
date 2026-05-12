@@ -11,9 +11,9 @@
 
 | Qty | Item | Notes |
 |---|---|---|
-| Several | **Raspberry Pi 4B** | MCU-A doer; Linux host; USB to SDR; full DSP / ML pipeline |
+| **3** | **Raspberry Pi 4B 8 GB** (Single Board Computer, Cortex-A72 quad-core @ 1.5 GHz, 8 GB LPDDR4) | MCU-A doer; Linux host; USB to SDR; full DSP / ML pipeline — confirmed 3× 8GB units (one per simultaneous build target: bench / portable / spare) |
 | Several | **Jetson Nano** | CUDA edge compute; FDTD/ML offload; Mk2+ |
-| 5 | **Arduino Nano v3** (ATmega328P, 16 MHz) | MCU-B watchdog candidate |
+| 5 | **Emakefun Arduino Nano v3.0** (ATmega328P, 5 V, 16 MHz, with USB cable; 5-pack) | MCU-B watchdog candidate — 5× boards + 5× USB cables in one Emakefun pack |
 | 5 | **Arduino Nano Terminal Adapter v2** | screwless breakout for the Nanos |
 | 2 | **Heltec LoRa 32** (ESP32 + 0.96" OLED + Li-Po PMIC + WiFi + BLE + LoRa 863–928 MHz, in enclosures) | **Wiki Mk1 Stabilizer-class MCU package, one board.** OLED HUD + BLE + LoRa mesh + battery management all integrated. |
 | 1 | **ESP8266 Deauth Detector v3** (DSTIKE / MakerFocus, ESP12N, 4 MB, RGB LED, buzzer, pre-flashed) | WiFi defensive monitoring; threat-sense at 2.4 GHz |
