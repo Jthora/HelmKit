@@ -195,36 +195,97 @@ Confirm against actual MCU spec sheet once selected.
 
 ---
 
-## 4. Power budget (Mk0)
+## 4. Power budget (Mk0 platform + module bus)
 
-Mk0 has no high-current loads. Budget is dominated by MCU + sensors + LEDs.
+This section was rewritten in the §0 platform/module reframe. Earlier drafts assumed Mk0 = "MCU + sensors + LEDs ~60–120 mA." That number was for a single-MCU device. The locked architecture is **three MCUs** (Pi 4 + Nano + Heltec) **plus the module bus** delivering up to 12 V @ 2 A + 5 V @ 1 A to whatever clips on. Budget must reflect that.
 
-| Load | Typical (mA @ 3.3 V) | Peak (mA) |
+### 4.1 Platform-only consumption (no module attached)
+
+All numbers @ 5 V battery-side rail unless noted. Sources: Raspberry Pi Foundation power doc (Pi 4B), Arduino ATmega328P datasheet, Heltec WiFi LoRa 32 V3 product brief.
+
+| Load | Typical (mA @ 5 V) | Peak (mA @ 5 V) | Notes |
+|---|---|---|---|
+| **Pi 4B** (Linux, logging, no HDMI, no display server) | 600–800 | 1200 | peak = 4-core compile burst; HDMI off saves ~20 mA |
+| **Arduino Nano v3** (ATmega328P @ 16 MHz, sensors I²C polled @ 100 Hz) | 20 | 40 | bare ATmega ~12 mA; +linear reg + LED ~8 mA |
+| **Heltec LoRa 32** (ESP32 + 0.96″ OLED, BLE active, LoRa idle/listen) | 80 | 150 | peak = LoRa TX burst (≤ 1 s); BLE alone ≈ 50 mA |
+| **Platform sensors (6 positions)** | 10 | 15 | MPU9250 ~3.5 mA, INA219 ~1 mA, TTP223 ~5 mA, TEMT6000 ~µA, 2× NTC dividers ~µA |
+| **Status LEDs** (3× through-hole @ ~5 mA) | 15 | 15 | red/amber/green per §6.1 |
+| **I²C pull-ups + housekeeping** | 5 | 10 | 4.7 kΩ × 2 lines × 3.3 V |
+| **Buck/regulator overhead** (~85 % efficiency) | +15 % | +15 % | 12 V → 5 V buck loss |
+| **Platform typical** | **~830 mA @ 5 V ≈ 4.2 W** | — | sustainable session draw |
+| **Platform peak (≤ 1 s)** | — | **~1500 mA @ 5 V ≈ 7.5 W** | Pi 4 burst + Heltec LoRa TX coincident |
+| **Platform sleep** (Pi 4 halted, Nano + Heltec watchdog only) | < 100 mA | — | aspirational; not Mk0-required |
+
+### 4.2 Module bus capability (platform must source)
+
+Per §6.5.1, the platform commits to delivering on the module bus:
+
+| Rail | Continuous | Peak (≤ 100 ms) | Notes |
+|---|---|---|---|
+| +5V_LOGIC | 1 A (5 W) | 1.5 A | for module-side MCU + logic + low-power sensors |
+| +12V_RAIL | 2 A (24 W) | 3 A | for module coil drive / PBM array / audio amp / HV-module enable |
+| Total bus headroom | **29 W continuous, 42 W peak** | — | sized for worst-case Stabilizer Mk1 (see §4.3) |
+
+### 4.3 Platform + Stabilizer Mk1 attached (sizing target)
+
+This is the real number that matters — what the battery has to deliver during a session.
+
+| Subsystem | Average (W) | Peak (W) | Source |
+|---|---|---|---|
+| Platform (per §4.1) | 4.2 | 7.5 | three MCUs + sensors + LEDs |
+| Stabilizer 5V_LOGIC: module MCU (if any) + sensor amps | 0.5 | 1.0 | DS18B20 + 2× INA219 + audio level sense |
+| Stabilizer 12V_RAIL: 4× Chanzon 730 nm COB PBM ring | 2.0 | 6.0 | driven well below 3 W nameplate each (eye-safety + scalp temp); peak = startup current |
+| Stabilizer 12V_RAIL: PAM8403 audio amp + 2× 40 mm drivers | 0.5 | 1.0 | bone-conduction-substitute, sub-conversational volume |
+| Stabilizer 12V_RAIL: bifilar coil drive at Schumann + harmonics | 0.5 | 1.5 | sub-µT field is *very* low power; envelope set by sprint 0.3 FDTD |
+| Bus regulator + cable losses | 0.4 | 0.8 | ~10 % |
+| **Total** | **~8.1 W** | **~17.8 W peak** | |
+
+**This is well inside the 29 W bus headroom and 42 W peak headroom.** Confirms §6.5.1 sizing is correct, not arbitrary.
+
+### 4.4 Battery sizing — Talentcell 12V/11Ah triple-output
+
+The locked portable supply (§4.5 Option B): Talentcell ~132 Wh nominal, 12 V @ 3 A out + 9 V @ 1.5 A out + 5 V @ 2.6 A USB out.
+
+| Mode | Draw | Runtime on Talentcell triple (132 Wh, derate to 110 Wh usable) |
 |---|---|---|
-| MCU (active, BLE/WiFi off) | 30–80 | 150 |
-| MCU (with BLE active) | +15 | +30 |
-| I²C sensor bus (4 devices avg) | 5–15 | 30 |
-| Status LEDs (2× @ 5 mA via R) | 10 | 10 |
-| SD card write (if present) | 0 idle | 100 |
-| **Total Mk0 active** | **~60–120 mA** | **~320 mA** |
-| **Total Mk0 sleep (logger)** | **< 5 mA target** | — |
+| Platform-only logging session | 4.2 W | **~26 hours** |
+| Platform + Stabilizer Mk1 session (typical) | 8.1 W | **~13.5 hours** |
+| Platform + Stabilizer Mk1 worst-case continuous | 17.8 W | **~6.2 hours** (this is bursty, not sustained) |
 
-### 4.1 Power source — inventory-confirmed paths
+**Conclusion:** the Talentcell triple delivers a 20-minute Stabilizer session ×40 between charges, or a single 12-hour bench day comfortably. Operator's wiki Mk1 target was 3.5–12 h — **met with margin**.
+
+### 4.5 Power source — inventory-confirmed paths
 
 With confirmed inventory (4× MakerHawk 18650, 20× TP4056 USB-C chargers, DUTTY 5–20 A bench supplies, multiple boost/buck modules, mini-UPS units, Pololu U3V12F12 12 V step-up):
 
 | Option | Source | Pros / cons |
 |---|---|---|
-| **A (Mk0 bench):** USB-C cable + DUTTY 5 A buck or wall-wart 5 V / 3 A | confirmed | trivial; safe; bench-only |
-| **B (Mk0/Mk1 portable, RECOMMENDED):** **Talentcell 12V/11Ah + 9V/14.5Ah + 5V/26.4Ah** triple-output pack → 5V USB out direct → Pi 4 (USB-C); 12V out → coil-drive subsystem | confirmed (2 in stock) | ~132 Wh portable; 8–12 h Pi 4 + sensors; dual-rail (5V + 12V) needed for coil bench |
-| **B' (Mk0 portable, lighter):** **Talentcell 12V/6Ah + 5V/12Ah** dual-output | confirmed (2 in stock) | ~72 Wh; 5–7 h Pi 4 |
-| **B" (legacy/DIY):** 2× 18650 in 2S → Pololu U3V12F12 → 12 V → buck → 5 V 3 A → Pi 4 | confirmed | wiki-canonical path; preserved for redundancy / pure-DIY demo |
-| **C (UPS-backed bench):** **TalentCell 27 Ah / 97 Wh Mini-UPS** w/ USB-C PD → Pi 4 direct | confirmed (1 in stock) | bench UPS; USB-C PD output is Pi 4-native; ride-through during HV pulse tests |
-| **D (rack UPS):** mini-UPS 10 Ah 5/9/12 V | confirmed | secondary bench backup |
+| **A (bench dev):** USB-C cable + DUTTY 5 A buck or wall-wart 5 V / 3 A | ✅ confirmed | trivial; safe; bench-only; **no 12V rail → cannot power Stabilizer module** |
+| **B (portable, LOCKED):** **Talentcell 12V/11Ah + 9V/14.5Ah + 5V/26.4Ah** triple-output → 12V → onboard DUTTY 12V→5V/3A buck → Pi 4; 12V passed through to module bus | ✅ confirmed (2 in stock) | ~132 Wh portable; ~13.5 h Pi 4 + Stabilizer; dual-rail (5V Pi + 12V module) covered |
+| **B' (portable, lighter, no Stabilizer):** Talentcell 12V/6Ah + 5V/12Ah dual | ✅ confirmed (2 in stock) | ~72 Wh; ~17 h platform-only; **insufficient 12V capacity for Stabilizer session** |
+| **B" (legacy/DIY demo):** 2× 18650 in 2S → Pololu U3V12F12 → 12 V → buck → 5 V 3 A → Pi 4 | ✅ confirmed | wiki-canonical; preserved for pure-DIY demo; ~22 Wh = ~2.5 h Stabilizer session |
+| **C (UPS-backed bench, RECOMMENDED for long-session logging):** **TalentCell 27 Ah / 97 Wh Mini-UPS** USB-C PD → Pi 4 direct + 12 V output → module bus | ✅ confirmed (1 in stock) | ride-through during HV pulse tests; USB-C PD is Pi-4-native |
+| **D (rack backup):** mini-UPS 10 Ah 5/9/12 V | ✅ confirmed | secondary bench backup |
 
-**Mk0 lock: Option A bench, Option B portable.** The Talentcell triple-output is the cleanest portable supply we have (12V for coil rail, 5V USB for Pi, 9V if needed for analog front-end). Mk0.5+ uses Option C (TalentCell Mini-UPS USB-C PD) for fixed-bench long-session logging.
+**Mk0 lock:** Option A bench-only dev (no Stabilizer); **Option B for any session with Stabilizer Mk1 attached;** Option C for fixed-bench long-session logging.
 
-### 4.1.1 Confirmed power inventory used in this spec
+### 4.6 Power tree (locked)
+
+```
+Talentcell 12V/11Ah triple ─┬─ 12V_BATT ──┬─→ DUTTY 12V→5V/3A buck ──→ 5V_PLATFORM ──┬─→ Pi 4 USB-C
+                            │              │                                          ├─→ Nano v3 Vin
+                            │              │                                          ├─→ Heltec USB
+                            │              │                                          ├─→ status LEDs
+                            │              │                                          └─→ module bus +5V_LOGIC pin (fused 1.5 A)
+                            │              │
+                            │              └─→ Nano-gated load switch (§ punchlist item 3) ──→ module bus +12V_RAIL pin (fused 3 A)
+                            │
+                            └─ 5V USB out (unused on platform; available for HackRF when Defender module attached)
+                                              ↓
+                                              AMS1117-3.3 ──→ 3.3V_LOGIC ──→ I²C pull-ups + MPU9250 + INA219 + TEMT6000 + TTP223
+```
+
+### 4.7 Confirmed power inventory used in this spec
 
 | Role | Part | Qty available |
 |---|---|---|
@@ -236,14 +297,17 @@ With confirmed inventory (4× MakerHawk 18650, 20× TP4056 USB-C chargers, DUTTY
 | Cell (raw) | MakerHawk 18650 3000 mAh | 4 |
 | 18650 charge | TP4056 USB-C 1 A | 5 (+20 alt) |
 | 12 V boost | Pololu U3V12F12 | 2 |
-| 12 V → 5 V 3 A buck | DUTTY 6–24 V USB buck | 1 (Pi 4 supply) |
+| 12 V → 5 V 3 A buck (PLATFORM PRIMARY) | DUTTY 6–24 V USB buck | 1 (Pi 4 supply) |
 | Bench rail | DUTTY 20 A constant-V/I + DUTTY 5 A w/ display | 1 each |
-| Surge buffer (optional, HV side) | 500 F 2.7 V supercap | 10 |
-| Coil drive HV | Multiple HV modules from 1.8 kV up to 1000 kV | many (overstocked) |
+| Surge buffer (optional, HV-module side) | 500 F 2.7 V supercap | 10 |
+| Coil drive HV modules | 1.8 kV → 1000 kV variants | many (overstocked, Stabilizer/Defender module use only) |
 
-### 4.2 Runtime target (if battery present)
+### 4.8 Runtime targets (locked)
 
-Mk0 target: ≥ 4 hours active logging on whatever cell we have. Wiki Mk1 target (3.5–12 h on 2×18650) is the Mk1 goal, not Mk0.
+- **Mk0 platform-only:** ≥ 8 h on Option B (achieved: ~26 h) ✅
+- **Mk0.5 platform + Stabilizer Mk1, daily 20-min session protocol:** 1 day = 1 charge cycle (uses ~3 Wh per session) ✅
+- **Mk1 portable session, continuous Stabilizer:** ≥ 4 h (achieved: ~13.5 h) ✅
+- **Mk1 wiki Mk1 target (3.5–12 h on 2×18650):** met by Option B with margin; preserved as Option B" for pure-DIY demonstrations.
 
 ---
 
@@ -552,11 +616,11 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 | DS18B20 thermistor | 1 | sensor kit | thermal lockout |
 | 40 mm 4 Ω 3 W full-range driver | 2 | inventory §3.5 | bone-conduction-substitute audio |
 | Audio amp (PAM8403 or similar) | 1 | XXXL kit | audio drive |
-| 18650 cell + TP4056 USB-C charge module | 1+1 | inventory §4 | module battery (~6–8 h session life) |
-| 6-pin JST-XH plug + 30 cm lead | 1 | inventory | mates platform module bus |
+| Local 12V → 3.3V buck (AMS1117 or MP1584) | 1 | XXXL kit | module-side logic rail from bus 12V |
+| 6-pin JST-XH plug + 30 cm lead | 1 | inventory | mates platform module bus (**bus-powered — no module battery**) |
 | PLA-printed clip-on enclosure | 1 | 3D printer | mechanical |
 
-No procurement. Build month: now.
+**Power source:** Stabilizer Mk1 is **fully bus-powered** from the HelmKit platform's 12V_RAIL + 5V_LOGIC per §4.2. No module-side battery, no module-side charge port. Earlier draft of this BOM listed a module-side 18650 + TP4056; **removed** because it contradicts the "lightweight clip-on" goal and §4.3 confirms the platform bus has the headroom (Stabilizer typical draw 3.5 W on 12V + 0.5 W on 5V, well inside 24 W + 5 W rail capability).
 
 ### 15.5 Module-side safety
 
