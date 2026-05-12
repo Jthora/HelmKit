@@ -986,3 +986,165 @@ The ritual is **not** decoration. It directs operator will — the operative-mag
 - Mounts: 4× M4 thumbscrews to the platform hardpoints ✅
 
 The platform spec'd in §§1–14 above carries this module without modification. **Mission accomplished for Sprint 0.2.**
+
+---
+
+## 16. Bring-up test plan (first-power-on procedure)
+
+This section defines the **gated power-on sequence** for the assembled HelmKit Mk0 platform. Every gate is go/no-go; any failure halts the bring-up and routes to the diagnosis column. Operator runs this from the bench with the helm sitting on a non-conductive surface, module bus EMPTY (no Stabilizer attached yet), and a multimeter + DSO oscilloscope (inventory) on hand.
+
+### 16.1 Pre-power checks (helm OFF, battery disconnected)
+
+| # | Check | Pass | Fail → diagnose |
+|---|---|---|---|
+| P1 | DMM continuity: 12V_BATT input pin → GND | open circuit | short = solder bridge at Z2; isolate and re-flow |
+| P2 | DMM continuity: 5V_LOGIC bus pin → GND | open circuit | short = polyfuse + TVS path miswired |
+| P3 | DMM continuity: 12V_RAIL bus pin → GND | open circuit | short = relay K1 stuck closed or downstream cap reversed |
+| P4 | DMM continuity: I²C SDA/SCL bus pins → 3.3V (Pi rail off) | ~4.7 kΩ (pull-ups present, platform side only) | <1 kΩ = duplicate pull-ups; >10 kΩ = missing pull-up resistor |
+| P5 | DMM continuity: SAFETY_n bus pin → 3.3V (Pi rail off) | ~10 kΩ (Nano-side pull-up) | check D2 trace and pull-up resistor |
+| P6 | Visual: relay K1 opto-input wired to Nano D4 + series with key-switch coil contact | both paths present | rework — single-path safety is unacceptable per §6.5.5 |
+| P7 | Visual: H1 battery harness 12 AWG, polarity tag on +V | matches §5.7 H1 | reverse-polarity Schottky will save it once, but DO NOT TEST THAT WAY |
+| P8 | Visual: ground star-point at Z2 (§5.4) — battery GND, Pi GND, Nano GND, Heltec GND, K1 coil GND all land at single screw terminal | one star | daisy-chained GND = redo before powering |
+
+### 16.2 First power (battery in, key OFF)
+
+| # | Step | Expected | Fail → |
+|---|---|---|---|
+| F1 | Insert charged battery (≥ 12.0 V, ≤ 12.6 V Talentcell), key in OFF position | DSO on 12V_BATT shows 12.4 V quiet; nothing else lights | unexpected current draw > 50 mA = phantom path, kill power immediately |
+| F2 | Confirm Nano +5V_LOGIC rail (key OFF should still power logic island via UPS HAT 5V) | 5.00 ± 0.05 V at Nano VIN | check 5 V buck regulator output and §4.6 power tree |
+| F3 | Confirm Pi 4 +5V rail | 5.10 ± 0.05 V at Pi GPIO pin 2 | UPS HAT not enabled / not in inventory location |
+| F4 | Confirm Heltec V3 +3.3V (it boots off platform 5 V → onboard buck) | 3.30 ± 0.05 V at OLED Vcc | Heltec onboard reg fault |
+| F5 | Confirm relay K1 is OPEN (12V_RAIL bus pin should read 0 V) | 0 V at bus pin 3 | K1 closed with key OFF = wiring fault, possibly K1 coil bypassing key contact. **STOP** until fixed. |
+
+### 16.3 Logic boot (key OFF → still no rail)
+
+| # | Step | Expected | Fail → |
+|---|---|---|---|
+| L1 | Pi 4 boots Raspberry Pi OS; green ACT LED blinks | normal boot logs on serial | check SD card / power-good |
+| L2 | Nano POST: 200 ms after power-good, amber LED on D5 blinks 3× then goes solid for 1 s indicating POST OK, then off | observable | firmware bug or D5 mis-wired |
+| L3 | Heltec OLED shows "HK Mk0 / BUS SAFE / KEY OFF" status | text on OLED | confirm OLED firmware loaded; check second I²C bus (GPIO19/20) wiring |
+| L4 | `i2cdetect -y 1` on Pi shows 0x40 (INA219), 0x42 (Nano), 0x43 (Heltec), 0x68 (MPU9250), 0x0C (AK8963) | 5 addresses | missing addr → check pull-up + slave firmware |
+| L5 | Pi reads SAFETY_n via GPIO17 = HIGH (line not pulled low) | HIGH | SAFETY_n stuck low → check Nano D2 latch state, key-switch wiring |
+
+### 16.4 Key to ARMED (still no module attached)
+
+| # | Step | Expected | Fail → |
+|---|---|---|---|
+| A1 | Turn key from OFF to ARMED | Heltec OLED updates to "ARMED / NO MODULE" within 200 ms | check key-switch wiring per §5.6, A2 on Nano |
+| A2 | Nano D4 still LOW (no module = no relay close) | DMM at K1 opto-input reads ~0 V | firmware decision logic bug (Nano should not close K1 without module ACK) |
+| A3 | 12V_RAIL bus pin still 0 V | confirmed | as A2 |
+| A4 | Pull SAFETY_n test: short bus pin 6 to GND with jumper wire for 50 ms | Nano latches: amber LED blinks SOS pattern, OLED shows "SAFETY LATCH / CLEAR: KEY OFF" | latch failed = §6.5.3 software contract not implemented; firmware fix required |
+| A5 | Clear: key OFF → back to ARMED | OLED returns to "ARMED / NO MODULE" | latch did not clear |
+
+### 16.5 Module attach (Psi Stabilizer Mk1 or dummy module)
+
+| # | Step | Expected | Fail → |
+|---|---|---|---|
+| M1 | Key OFF (mandatory per §6.5.7). Attach module via 6-pin Dupont. Tighten 4× M4 thumbscrews. | mechanical fit, no pin reversal possible (shroud) | shroud key broken / wrong housing |
+| M2 | Key → ARMED | Heltec OLED: "ARMED / MODULE 0x01 / POST PENDING" | OLED still says NO MODULE = I²C 0x10 read returning 0xFF; check module wiring |
+| M3 | Within 500 ms, module asserts self-test bit (reg 0x01 = 1) | OLED: "MODULE 0x01 OK"; Nano D4 goes HIGH; relay K1 audibly clicks closed | self-test fail = module fault, NOT platform fault. Detach and debug module. |
+| M4 | Confirm 12V_RAIL bus pin = 12.4 V | rail live | K1 not closing despite D4 HIGH = key-switch series contact open; check §6.5.5 path |
+| M5 | INA219 reports rail current via Pi → Nano → Heltec OLED: "RAIL 0.18 A" (Stabilizer idle) | within ±20 mA of §4.4 estimate | sensor bus issue or rail short on module |
+| M6 | Pi watchdog ping at 100 ms cadence; module ACKs | log clean | missed ACKs >1 % = §6.5.3 watchdog failure mode test |
+
+### 16.6 SESSION mode (Stabilizer engaged, coil drive on)
+
+Out of scope for sprint 0.2 bring-up — covered in sprint 0.3a Stabilizer firmware bring-up. Gate M6 is the end of platform-only bring-up.
+
+### 16.7 Definition of platform-bring-up DONE
+
+All gates P1–P8, F1–F5, L1–L5, A1–A5, M1–M6 pass with module attached and idling on the bus. Total time budget: ~45 minutes for a clean board on first attempt.
+
+---
+
+## 17. Grounding + RF coexistence
+
+This section locks the **single-point ground topology** and the **RF coexistence rules** between BLE (Heltec, 2.4 GHz), LoRa (Heltec, 915 MHz), I²C (100 kHz, edges rich in harmonics up to ~10 MHz), and the future Stabilizer coil drive (sprint 0.3a, 1–8 MHz audio + DC bias).
+
+### 17.1 Star-ground topology (LOCKED)
+
+```
+                    Battery GND (Talentcell –)
+                              │
+                              ▼
+                  ┌───────────────────────┐
+                  │  Z2 STAR GROUND POST  │  ← single M4 brass screw
+                  │   (chassis tie point) │     in Z2 power zone
+                  └───────────────────────┘
+                              │
+        ┌──────────┬──────────┼──────────┬──────────┬──────────┐
+        ▼          ▼          ▼          ▼          ▼          ▼
+     Pi 4 GND   Nano GND  Heltec GND   K1 coil   Z5 module   Faraday
+     (UPS HAT   (Z3      (Z3 HUD     return    bus GND      fabric
+      ground)   board)    board)     (Z3)      (H4 dedi-    drain
+                                                cated wire) (12 GA
+                                                            braid)
+```
+
+**Rules:**
+
+1. **Every GND in the platform connects ONLY to the star post**, never to another GND directly.
+2. **Module-bus GND is its own dedicated conductor** in H4 — not shared with chassis return. Prevents I²C noise from coupling into stim-driver ground reference.
+3. **Faraday-fabric Z3 + Z6 enclosure liner** ties to star post via 12 AWG copper braid (inventory §6 conductive textiles). One tie point only — no loop.
+4. **The shield foil drain on H1 (battery harness) lands at star**; the shield itself is grounded only at one end (battery end is left floating) to prevent ground-loop hum.
+5. **SAFETY_n carries its own ground reference via H4 pin 1.** It does NOT use chassis return. Reason: chassis ground can lift during a fault event; safety logic must not.
+
+### 17.2 RF coexistence rules
+
+| Source | Freq | Threat | Mitigation (LOCKED) |
+|---|---|---|---|
+| **BLE radio (Heltec ESP32-S3)** | 2.40–2.48 GHz | Desense from Pi 4 HDMI clock harmonics (~2.97 GHz × N) and from any switching-reg edge | Pi 4 HDMI off in /boot/firmware/config.txt (`hdmi_blank=2`); Heltec BLE antenna keeps Z9 RF window per §5.8 keep-outs; Pi 4 + switching regs inside Z3 Faraday liner |
+| **LoRa SX1262 (Heltec)** | 902–928 MHz US ISM | Same plus 5V buck switching at ~600 kHz × N harmonics into 900 MHz | TX duty-cycle ≤ 1 % per FCC Part 15.247; Heltec LoRa antenna in Z9 window, oriented vertically; switching regs choke-coupled (inventory ferrites) |
+| **I²C bus 100 kHz** | DC–10 MHz (edges) | Radiated into HackRF / NESDR / future MHD sensor | I²C wires twisted-pair where possible; H4 has overall foil drain; I²C runs INSIDE Faraday liner (Z3↔Z5 only) |
+| **Stabilizer coil drive** (sprint 0.3a) | 1–8 MHz audio + bias | Desense ALL receivers; couples back into I²C and SAFETY_n | Module-internal shield required (§15 BOM); module bus SAFETY_n latency budget (≤ 10 ms) is fast enough that a misbehaving coil drive faults out before causing receiver damage; coil drive NEVER runs while RF survey mode is active (firmware interlock, sprint 0.3a) |
+| **Pi 4 internal switching** (~1 MHz) | 1 MHz + harmonics to ~100 MHz | Couples into all sensitive analog (INA219 reads, NTC reads on Nano A1–A3) | Nano analog Vref via separate LDO (not bus 5 V); analog ground star-tied at Nano board, single trace to chassis star |
+| **Heltec OLED refresh** (~120 kHz) | 120 kHz + harmonics | Couples into I²C if shared bus | OLED is on Heltec's **factory I²C bus (GPIO17/18)**, NOT the platform bus (GPIO19/20). Buses are physically separate per §3.3.3. |
+
+### 17.3 Antenna keep-outs (referenced from §5.8 with RF justification)
+
+- **Z9 RF window** (rear-top quarter of helm shell): the only zone where Faraday fabric is INTENTIONALLY ABSENT. All RX/TX antennas (BLE, LoRa, future HackRF survey, future NESDR) live here. Minimum keep-out from any wire carrying switching current: 50 mm.
+- **No metal fasteners within 30 mm of any antenna feedpoint.** M4 brass inserts in Z5 (module mount) are far enough away (mount is bottom-rear; antennas top-rear).
+- **HackRF (future, modular)** mounts in a Defender module, not in the platform shell. Its antenna feedpoint sits inside the module envelope — module designer's problem, not platform's.
+
+### 17.4 Audio coexistence (sprint 0.3a preview)
+
+Stabilizer Mk1 coil drive is 1–8 MHz AM audio. This band overlaps:
+- **WWVB time signal** (60 kHz) — below band, no conflict
+- **AM broadcast** (530–1700 kHz) — partial overlap; expect mild AM-radio interference within 1 m of operator. Acceptable.
+- **Amateur HF** (1.8–30 MHz) — overlaps. Stabilizer must NOT exceed FCC Part 15.209 unintentional radiator limits. Module shield + coil orientation handle this; verified at sprint 0.3a with the NESDR + Ham It Up survey baseline (§13).
+
+### 17.5 Open RF items deferred past sprint 0.2
+
+- TDOA localizer module: needs >2 spatially separated NESDR; coordinate with grounding plan when module is spec'd.
+- Multi-helm operation: two HelmKits within 5 m share 2.4 GHz BLE space. Channel-hopping handled by ESP32-S3 firmware default; no platform-side mitigation needed at Mk0.
+
+---
+
+## 18. Definition of done — Sprint 0.2 (UPDATED 2026-05-12)
+
+Sprint 0.2 is DONE when this document defines, with parts on hand or with procurement gaps explicitly flagged:
+
+- [x] §0 Platform-vs-module architectural framing
+- [x] §1 Scope: platform-only at Mk0; modules deferred to later sprints
+- [x] §2 Sensor list with ownership scope (platform locks 6 sensors; modules own the rest)
+- [x] §3 MCU pick (Pi 4 + Nano v3 + Heltec V3) + §3.3 full pin-ownership across all three
+- [x] §4 Power budget across three MCUs + module bus + Talentcell sizing
+- [x] §5 Interior layout: 9 zones, harness map, thermal, RF keep-outs
+- [x] §6 Connector choices including §6.5 module bus full electrical+mechanical+software contract
+- [x] §6.5.5 SAFETY_n kill mechanism part pick (relay K1, two-path safety claim)
+- [x] §6.5.6 Protection part list with procurement gaps explicit (~$15 gap)
+- [x] §7 Safety floor restated
+- [x] §15 Psi Stabilizer Mk1 reference module BOM
+- [x] §16 Bring-up test plan with go/no-go gates
+- [x] §17 Grounding star topology + RF coexistence rules
+
+**Deferred to later sprints (not blocking sprint 0.2):**
+- KiCad schematic capture (sprint 0.4)
+- KiCad PCB layout for Z3 board (sprint 0.4)
+- 3D-printable PCB-mount brackets (sprint 0.4)
+- Final Z5 module-mount CAD dimensions (sprint 0.3 — CAD pass)
+- Mk1+ MOSFET load-switch migration (sprint 0.5+)
+- Hot-swap controller (sprint 0.5+)
+- Procurement order for 2× polyfuse strips + TVS strip (~$15)
+
+The platform is **buildable from this document alone** modulo CAD measurements (§5.10) and the two flagged procurement items.
