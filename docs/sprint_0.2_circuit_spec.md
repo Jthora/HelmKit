@@ -975,30 +975,37 @@ The wiki's [12-row blacklist](wiki_synthesis.md) is Mk1-relevant (coil drive); M
 
 ## 8. Today's deliverables
 
-| # | Task | Owner | Status |
-|---|---|---|---|
-| 1 | **Tote inventory pass** — categorize by: MCU/board, sensors, power components, connectors, passives, mechanical hardware. Result feeds §2 / §3 / §4 / §6 of this doc. | jono | ☐ |
-| 2 | Fill in `[INVENTORY-TBD]` markers in this doc | jono | ☐ |
-| 3 | Pick Mk0 MCU (one row from §3.1) and lock it | jono | ☐ |
-| 4 | Pick Mk0 sensor stack from §2 inventory subset (must-have IMU mandatory; mag + env + PPG if available) | jono | ☐ |
-| 5 | Confirm power source choice from §4.1 tree | jono | ☐ |
-| 6 | Sketch §5.1 footprint against 0.1 CAD shell (rough — mm-level OK) | jono | ☐ |
-| 7 | Identify Mk1 procurement list = wiki BOM **minus** what's in totes. Save as `docs/mk1_procurement.md` later. | jono | ☐ |
+*Superseded by [§18 Definition of Done](#18-definition-of-done--sprint-02-updated-2026-05-12). Retained here as historical record of the sprint kickoff checklist.*
 
-**Definition of done for Sprint 0.2:** every `[INVENTORY-TBD]` and `[CAD-MEASURE-TBD]` marker in §§2–6 resolved. Doc committed. No solder iron touched.
+<details>
+<summary>Original kickoff checklist (pre-inventory pass)</summary>
+
+| # | Task | Owner | Status (final) |
+|---|---|---|---|
+| 1 | Tote inventory pass | jono | ✅ (captured in [inventory.md](inventory.md)) |
+| 2 | Fill in `[INVENTORY-TBD]` markers | jono | ✅ |
+| 3 | Pick Mk0 MCU | jono | ✅ — Pi 4 + Nano v3 + Heltec V3 (§3) |
+| 4 | Pick Mk0 sensor stack | jono | ✅ — six platform sensors locked (§2.1) |
+| 5 | Confirm power source choice | jono | ✅ — Talentcell 12V/11Ah (§4) |
+| 6 | Sketch §5.1 footprint against 0.1 CAD shell | jono | 🟡 deferred to sprint 0.3 CAD pass (§5.10) |
+| 7 | Mk1 procurement list | jono | ✅ — net gap ~\$15 (§6.5.6) |
+
+</details>
 
 ---
 
 ## 9. Open items (remaining after 2026-05-12 inventory)
 
-Most questions from the original §9 are now resolved (see [inventory.md](inventory.md)). Remaining:
+*Superseded by [§18 Definition of Done](#18-definition-of-done--sprint-02-updated-2026-05-12) deferred-items list. Audit of original open items:*
 
-- **~~9-axis IMU specific part + count~~** — ✅ resolved: 3× MPU9250 (CHENBO×2 + HiLetgo×1) + 1× MPU6050 (Diymore)
-- **HV module enable-pin behavior** — active-high / active-low / opto-isolated? Test bench-only before circuit lock.
-- **PCB CNC bit set** — confirm 0.2 mm V-bit / 0.25 mm end mill + 1.0 mm drill availability for the [coil fab spec](mk0_pcb_bifilar_coil.md)
-- **Spare 2S 18650 holders + BMS** — likely in TP4056-adjacent stock; confirm
-- **Shielded cable / coax stock** for the magnetometer lead
-- **Decision RESOLVED:** ✅ 10× uxcell 200×200×1.5 mm double-sided FR4 in stock — proceed with wiki-canonical two-layer bifilar coil geometry, no procurement needed
+- ~~9-axis IMU specific part + count~~ ✅ resolved: 3× MPU9250 + 1× MPU6050
+- ~~HV module enable-pin behavior~~ → no longer a platform concern; HV module ownership moved to **Defender module** sprint (§2.3); platform Mk0 has no HV
+- **PCB CNC bit set** — still pending; not blocking sprint 0.2 (perfboard build at sprint 0.4); confirm 0.2 mm V-bit / 0.25 mm end mill / 1.0 mm drill before sprint 0.4 mill day
+- ~~Spare 2S 18650 holders + BMS~~ → not needed at platform Mk0 (Talentcell is the platform battery, §4.5)
+- **Shielded cable / coax stock for magnetometer lead** — still pending; not blocking sprint 0.2 (H1 is short enough to run unshielded twisted pair); confirm before sprint 0.3a if Stabilizer coil drive saturates the mag
+- ~~Double-sided FR4 for coil v0.1~~ ✅ resolved: 10× uxcell 200×200×1.5 mm in stock
+
+All remaining open items are now in §18's deferred-to-sprint-0.3/0.4 list.
 
 ---
 
@@ -1116,25 +1123,30 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 
 ## 14. Today's expanded deliverables (with inventory known)
 
-| # | Task | Owner | Status |
-|---|---|---|---|
-| 1 | **Tote inventory pass** — captured in [inventory.md](inventory.md) | jono | ✅ |
-| 2 | Confirm 9-axis IMU model + count | jono | ✅ 3× MPU9250 + 1× MPU6050 |
-| 3 | Confirm full Pi sensor kit contents | jono | ✅ (KS3016 + DKHK100200 fully catalogued) |
-| 4 | Confirm SDR model(s) + count | jono | ✅ (HackRF One + 2× NESDR v4 + 1× NESDR XTR + Ham It Up + balun) |
-| 5 | Confirm HV/VHV module spec | jono | 🟡 partial — counts done; enable-pin behavior TBD on bench |
-| 6 | Confirm PCB CNC mill | jono | ✅ Genmitsu CNC 3018-PRO; bit set TBD |
-| 7 | Confirm USB power source | jono | ✅ multiple paths confirmed |
-| 8 | Update remaining `[INVENTORY-TBD]` markers | jono / assistant | ✅ (this commit) |
-| 9 | Decide: procure double-sided FR4 (~$15) vs single-sided fallback for coil v0.1 | jono | ✅ resolved — 10× uxcell DS-FR4 200×200×1.5 mm already in stock |
-| 10 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | ☐ |
+*Superseded by [§18 Definition of Done](#18-definition-of-done--sprint-02-updated-2026-05-12). Retained as historical record of the post-inventory mid-sprint snapshot.*
 
-**Definition of done for Sprint 0.2:** ✅ inventory captured; ✅ MCU + sensor + power picks locked; ✅ wiki Mk1 coverage matrix produced; ✅ 9-axis IMU specific part confirmed (3× MPU9250 + 1× MPU6050); ✅ coil-PCB substrate decision (uxcell DS-FR4 in stock); ✅ **module bus spec locked (§6.5)**; ☐ footprint sketch vs. CAD shell remains for an in-physical-presence work session.
+<details>
+<summary>Mid-sprint expanded checklist (post-inventory, pre-deep-dive)</summary>
+
+| # | Task | Owner | Status (final) |
+|---|---|---|---|
+| 1 | Tote inventory pass — captured in [inventory.md](inventory.md) | jono | ✅ |
+| 2 | Confirm 9-axis IMU model + count | jono | ✅ 3× MPU9250 + 1× MPU6050 |
+| 3 | Confirm full Pi sensor kit contents | jono | ✅ (KS3016 + DKHK100200 catalogued) |
+| 4 | Confirm SDR model(s) + count | jono | ✅ (HackRF One + 2× NESDR v4 + 1× NESDR XTR + Ham It Up + balun) |
+| 5 | Confirm HV/VHV module spec | jono | 🟡 moved out of platform scope; lives in Defender module (§2.3) |
+| 6 | Confirm PCB CNC mill | jono | ✅ Genmitsu CNC 3018-PRO; bit set still to confirm before sprint 0.4 |
+| 7 | Confirm USB power source | jono | ✅ |
+| 8 | Update remaining `[INVENTORY-TBD]` markers | jono / assistant | ✅ |
+| 9 | Decide: procure DS-FR4 vs single-sided fallback for coil v0.1 | jono | ✅ 10× uxcell DS-FR4 already in stock |
+| 10 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | 🟡 deferred to sprint 0.3 CAD pass (§5.10) |
+
+</details>
 
 **Next sprints branching from this baseline:**
+- **Sprint 0.3** = CAD pass on the 0.1 shell against the locked §5 zone topology + §5.5 board outline; fill in §5.10 measurements
 - **Sprint 0.3a** = Psi Stabilizer Mk1 clip-on module against this bus (the capstone artifact)
-- **Sprint 0.3** = FDTD design-cert for the coil that lives inside the Stabilizer (Mk2 track, uses the GPU farm)
-- **Sprint 0.4** = platform perfboard build + integration test with a dummy module that just answers the bus probes
+- **Sprint 0.4** = platform perfboard build (B-PWR + B-SIG per §5.5) + bring-up per §16 with dummy module
 
 ---
 
@@ -1355,6 +1367,8 @@ Sprint 0.2 is DONE when this document defines, with parts on hand or with procur
 - [x] §15 Psi Stabilizer Mk1 reference module BOM
 - [x] §16 Bring-up test plan with go/no-go gates
 - [x] §17 Grounding star topology + RF coexistence rules
+- [x] §19 Consolidated platform BOM (single source of truth, 58 line items)
+- [x] §20 Platform mass budget (skull-mount comfort floor)
 
 **Deferred to later sprints (not blocking sprint 0.2):**
 - KiCad schematic capture (sprint 0.4)
@@ -1366,3 +1380,219 @@ Sprint 0.2 is DONE when this document defines, with parts on hand or with procur
 - Procurement order for 2× polyfuse strips + TVS strip (~$15)
 
 The platform is **buildable from this document alone** modulo CAD measurements (§5.10) and the two flagged procurement items.
+
+---
+
+## 19. Consolidated platform BOM (single-source-of-truth)
+
+Every part needed to build the HelmKit Mk0 **platform** (excludes modules — those have their own BOMs; Stabilizer Mk1 BOM is at §15.4). Grouped by function. Inventory locators reference [inventory.md](inventory.md) sections.
+
+### 19.1 MCUs + compute (§3)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | Raspberry Pi 4B (4 GB or 8 GB) + microSD | inventory §1 SBCs | §3.3.1 |
+| 1 | Arduino Nano v3 (ATmega328P) | inventory §1 MCUs | §3.3.2 |
+| 1 | Heltec WiFi LoRa 32 V3 (ESP32-S3 + SX1262 + OLED) | inventory §1 MCUs | §3.3.3 |
+| 1 | 28-pin DIP socket for Nano (service swap) | XXXL kit | §5.5.2 |
+| 2 | 19-pin female header rows for Heltec mounting | Dupont 635-pc kit | §5.5.3 |
+
+### 19.2 Sensors (§2.1 platform-only)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | MPU9250 9-axis IMU (CHENBO or HiLetgo) | inventory §3 sensors | §2.1 row 1 |
+| 1 | DS18B20 1-Wire battery thermistor | inventory §3 sensors | §2.1 row 2 + §7 row 1 |
+| 1 | INA219 current/voltage monitor breakout (0x40) | inventory §3 sensors | §2.1 row 3 + §5.5.2 |
+| 1 | BME280 environmental (temp/humidity/baro) | inventory §3 sensors | §2.1 row 4 |
+| 1 | TEMT6000 ambient light | inventory §3 sensors | §2.1 row 5 |
+| 1 | Cap-touch helm-on-head sense (homemade Z-pad + 10 MΩ) | XXXL kit (Z-pad + resistor) | §2.1 row 6 |
+| 2 | 10 kΩ NTC thermistors (Z3 internal + Stabilizer-attach point) | inventory §6 / XXXL kit | §3.3.2 A1/A3 |
+
+### 19.3 Power (§4)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | Talentcell 12 V / 11 Ah Li-ion pack (132 Wh, triple-output USB+5V+12V) | inventory §4 power | §4.4 |
+| 1 | DUTTY 12 V → 5 V 3 A buck module | inventory §4 power | §5.5.2 + §4.6 |
+| 1 | Pi 4 USB-C charge / power cable | inventory §4 cables | §5.5.5 |
+| 1 | DAOKI DC-022 5.5×2.1 mm panel-mount jack with weather cap | inventory §4.5 | §5.6 row 2 |
+| 1 | Boat-rocker master power switch | inventory §4 switches | §5.6 row 2 |
+| 1 | 3-position key-switch (OFF/ARMED/SESSION) | inventory §4 switches | §5.6 row 3 |
+| 1 | TO-220 clip-on heatsink for buck IC | XXXL kit | §5.9.6 |
+
+### 19.4 Safety + protection (§6.5.5, §6.5.6, §7)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | 5 V 2-channel relay module (K1 = bus 12V_RAIL kill; K2 reserved sprint 0.3a) | inventory §2 row "5V 2-Channel Relay" | §6.5.5 |
+| 1 | 1N5822 Schottky (reverse-polarity on 12V_BATT input) | XXXL kit (verify on build day) | §6.5.1 |
+| 1 | 3 A radial polyfuse (12V_RAIL, 16 V rated, e.g. Bourns MF-R300) | **🟡 procurement gap ~\\$5** | §6.5.6 |
+| 1 | 1.5 A radial polyfuse (5V_LOGIC, e.g. Bourns MF-R150) | **🟡 procurement gap ~\\$5** | §6.5.6 |
+| 1 | SMAJ15A TVS (12V_RAIL clamp) | **🟡 procurement gap ~\\$3 (or 18 V Zener substitute from XXXL kit)** | §6.5.6 |
+| 1 | SMAJ5.0A TVS (5V_LOGIC clamp) | **🟡 procurement gap ~\\$3 (or 5.6 V Zener substitute)** | §6.5.6 |
+| 6 | 1N4148 diodes (ESD pairs for SDA/SCL/SAFETY_n) | XXXL kit | §6.5.1 |
+| 2 | 4.7 kΩ resistors (I²C pull-ups, B-SIG) | XXXL kit | §3.3.4 + §5.5.3 |
+| 1 | 10 kΩ resistor (SAFETY_n pull-up, B-SIG) | XXXL kit | §3.3.2 + §5.5.3 |
+| 2 | 220 Ω resistors (ESD series, SDA/SCL) | XXXL kit | §6.5.1 |
+| 1 | 5 V piezo buzzer (audible alarm on SAFETY_n latch) | XXXL kit | §7 row 5 |
+
+### 19.5 Connectors + harnesses (§6, §5.7)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | 6-pin 2.54 mm Dupont housing + pins (Z5 module bus, female panel-mount) | 635-pc Dupont kit | §6.5.1 |
+| 1 | 6-pin 2.54 mm Dupont housing + pins (module-side mating) | 635-pc Dupont kit | §6.5.1 |
+| 1 | 10-pin 2.54 mm Dupont ribbon ~60 mm (BB inter-board) | Dupont kit + ribbon | §5.5.4 |
+| 1 | 4-pin JST-SH housing + pins (H1 I²C to Z2) | inventory §6 | §5.7 H1 |
+| 5 | 2-pin screw terminals 5.08 mm pitch (J1–J5 on B-PWR) | XXXL kit | §5.5.2 |
+| ~3 m | 22 AWG silicone hookup wire, 7-color set | inventory §6 | §5.7 |
+| ~1 m | 18 AWG silicone hookup wire (H3 battery harness, +/−) | inventory §6 | §5.7 H3 |
+| ~0.5 m | 10-wire 2.54 mm flat ribbon (H5 audio+LED+debug) | inventory §6 | §5.7 H5 |
+| 1 | 6-pin Dupont header for Z7 debug header | 635-pc Dupont kit | §5.6 row 6 |
+
+### 19.6 Indicators + UI (§5.6)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | Red LED (HV/coil armed) | XXXL kit | §5.6 row 5 |
+| 1 | Amber LED (watchdog OK) | XXXL kit | §5.6 row 5 |
+| 1 | Green LED (session active) | XXXL kit | §5.6 row 5 |
+| 3 | 2N3904 NPN low-side driver transistors (LED drive) | XXXL kit | §5.5.3 |
+| 3 | 470 Ω LED current-limit resistors | XXXL kit | §5.5.3 |
+| 2 | Tactile push-buttons (Heltec session-UI, Z1) | XXXL kit | §3.3.3 GPIO38/39 |
+
+### 19.7 Substrate + mechanical (§5.5)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 2 | 100 × 70 × 1.5 mm single-sided FR4 (Chanzon or MCIGICM stock) | inventory §6 row "Chanzon 70×100" / "MCIGICM 102×69" | §5.5.2 + §5.5.3 |
+| 16 | M3 × 8 mm brass standoffs (4 per board × 2 boards × 2 ends) | hardware kit | §5.5.2 |
+| 16 | M3 × 6 mm machine screws | hardware kit | §5.5.2 |
+| 8 | M3 brass heat-set inserts (for Z3 sled) | hardware kit | §5.5.5 |
+| 4 | M2.5 × 6 mm machine screws (Pi 4 mounting) | hardware kit | §5.5.5 |
+| 4 | M2.5 brass heat-set inserts (Pi sled) | hardware kit | §5.5.5 |
+| 4 | M4 × 12 mm thumbscrews (Z5 module attach) | hardware kit | §6.5.2 |
+| 4 | M4 brass heat-set inserts (Z5) | hardware kit | §6.5.2 |
+| 1 | Pi 4 factory aluminum heatsink case OR 40 mm Al heatsink clip-on | inventory §6 line 460 (4 in stock) | §5.5.5 + §5.9.5 |
+
+### 19.8 Shielding + RF (§12, §17)
+
+| Qty | Part | Inventory locator | Reference § |
+|---|---|---|---|
+| 1 | Faraday-fabric piece sized to line Z3 + Z6 interior (~0.25 m²) | inventory §6 conductive textiles | §12.1 |
+| 1 | MG Chemicals EMI/RFI shielding spray (Cu or Ni) | inventory §6 conductive paints | §12.2 |
+| 1 | MG Chemicals 838AR carbon ground spray | inventory §6 line 474 | §17.1 |
+| 12 GA | Copper braid (~0.3 m, star-ground bond) | inventory §6 | §17.1 |
+
+### 19.9 Mk0.5 / sprint 0.3 deferrals (not Mk0 build day)
+
+| Qty | Part | Inventory locator | Why deferred |
+|---|---|---|---|
+| 1 | HKWANTAT 40 × 40 × 10 mm 12 V blower fan (run at 5 V) | inventory §6 line 461 (3 in stock) | Mk0.5 upgrade per §5.9.3; not mandatory at Mk0 |
+| 1 | 2N3904 + ~220 Ω fan-driver | XXXL kit | as above |
+| 1 | DS18B20 spare (Z3 internal air-temp probe) | inventory §3 | sprint 0.3 thermal verification |
+| 2 | uxcell 200×200×1.5 mm DS-FR4 (optional B-PWR/B-SIG upgrade to two-layer milled PCB) | inventory §6 line 331 | sprint 0.4 if mill available |
+
+### 19.10 Build-day shopping list (parts NOT in inventory)
+
+The ONLY procurement gap for sprint-0.2-spec-compliant Mk0 build:
+
+| Item | Qty | Vendor | Approx cost | Substitute available? |
+|---|---|---|---|---|
+| Bourns MF-R150 polyfuse (1.5 A, 5 V) | 10-pc strip | DigiKey / Mouser | ~\\$5 | Y \u2014 1 Ω fusible resistor from XXXL kit (degraded, see §6.5.6) |
+| Bourns MF-R300 polyfuse (3 A, 16 V) | 10-pc strip | DigiKey / Mouser | ~\\$5 | Y \u2014 same as above |
+| SMAJ5.0A TVS | 10-pc strip | DigiKey | ~\\$3 | Y \u2014 5.6 V Zener from XXXL kit |
+| SMAJ15A TVS | 10-pc strip | DigiKey | ~\\$3 | Y \u2014 18 V Zener from XXXL kit |
+| **Total procurement** | | | **~\\$16** | All items have working substitutes; procurement is *recommended*, not *required*. |
+
+**Zero-budget Mk0 build is possible.** Sprint 0.2 deliverable does not block on procurement.
+
+### 19.11 Total Mk0 platform part count
+
+- **MCUs + compute:** 5 line items
+- **Sensors:** 7 line items
+- **Power:** 7 line items
+- **Safety + protection:** 11 line items
+- **Connectors + harnesses:** 9 line items
+- **Indicators + UI:** 6 line items
+- **Substrate + mechanical:** 9 line items
+- **Shielding + RF:** 4 line items
+- **TOTAL Mk0 BOM:** **58 line items**, of which **54 are on-hand and 4 are procurement-recommended with substitutes.**
+
+---
+
+## 20. Platform mass budget (skull-mount comfort floor)
+
+Sprint brief did not explicitly request mass budget, but it's load-bearing for "wearable for an hour without fatigue." Module mass is capped at 250 g per §6.5.2; this section caps the platform itself.
+
+### 20.1 Component mass (measured or datasheet)
+
+| Component | Mass (g) | Source |
+|---|---|---|
+| 0.1 CAD helm shell (PETG, ~3 mm wall, ~1.5 dm² surface) | ~280 | shell volume × PETG density 1.27 g/cm³; verify on print |
+| Helm liner / EVA foam | ~60 | comfort layer, estimated |
+| Pi 4B + factory heatsink case + microSD | 89 | Pi Foundation spec |
+| Pi 4 sled (3D-printed PLA, 3 mm wall) | ~25 | estimated |
+| Arduino Nano v3 + DIP socket | 8 | typical |
+| Heltec V3 board (with OLED + LoRa antenna pigtail) | 17 | datasheet |
+| B-PWR perfboard (100×70 mm FR4 single-sided populated) | ~45 | substrate ~14 g + Nano 8 g + INA219 4 g + buck 10 g + relay 9 g |
+| B-SIG perfboard (100×70 mm FR4 populated) | ~30 | substrate ~14 g + Heltec mounting hardware + LED drivers + passives |
+| Standoffs + M3 hardware (16 standoffs + 16 screws) | ~15 | brass 8 mm M3 |
+| H1 I²C harness (~120 mm 4-cond) | ~3 | 22 AWG silicone |
+| H3 battery harness (~200 mm 2-cond 18 AWG + sense) | ~12 | thick wire |
+| H4 module bus harness (~180 mm 6-cond) | ~6 | 22 AWG silicone |
+| H5 audio/LED/debug harness (~250 mm avg, 10-cond) | ~10 | mixed AWG |
+| BB inter-board ribbon (60 mm 10-cond) | ~3 | flat ribbon |
+| Faraday fabric Z3+Z6 liner | ~25 | inventory spec |
+| EMI spray + carbon spray cured on shell | ~20 | thin coats |
+| Star-ground copper braid + tie point | ~10 | 12 AWG braid + M4 brass |
+| Boat-rocker + key-switch + DC jack (Z4 controls) | ~35 | inventory |
+| 3× Z7 status LEDs + wiring | ~5 | small |
+| 2× Heltec session-UI buttons | ~4 | tactile + cap |
+| **Subtotal — helm shell + electronics + harnesses** | **~702 g** | |
+| **Plus** Talentcell 12 V/11 Ah pack | **~700 g** | spec |
+| **Plus** 4× M4 thumbscrews (Z5, module attach hardware) | ~8 g | |
+| **TOTAL Mk0 PLATFORM MASS (with battery)** | **~1410 g** | |
+
+### 20.2 Wear-distribution decision
+
+**1410 g is too much to skull-mount entirely.** Standard helmet design rule of thumb: head-mounted mass ≤ 1000 g for hour-long sessions without neck fatigue.
+
+**Locked split (Mk0):**
+
+| Carry location | Mass on operator | Notes |
+|---|---|---|
+| **On helm (head-mounted)** | **~710 g** (helm + electronics + harnesses, NO battery) | Within comfortable hour-session range. Center of mass roughly at Z2/Z3 — over the crown, slightly rear, which is the load-bearing region of the neck. |
+| **On belt or shoulder strap (battery pack)** | ~700 g (Talentcell) | Talentcell has a belt clip; alternatively a small shoulder pouch. Battery cable (H3) is ~600 mm long with strain relief at Z4. |
+| **Optional Mk0.5: chest-pack** | ~700 g | If operator prefers, Talentcell goes in a chest-pack with a 600 mm cable up to helm Z4. |
+
+**This means H3 (battery harness) must reach from Z4 (helm nape) down to the belt/chest position.** Length spec updated: H3 is **600 mm**, not 200 mm. Locked in §20.3 below.
+
+### 20.3 Harness length reconciliation (supersedes §5.7 H3)
+
+| Harness | OLD length | NEW length | Reason |
+|---|---|---|---|
+| H3 battery + bus | 200 mm | **600 mm** | Battery is belt/chest-carried, not in-helm |
+
+§5.7 H3 row should be read with this correction (in-place edit deferred to a future cleanup pass to avoid touching the harness table mid-sprint; **§20.3 is authoritative for H3 length**).
+
+### 20.4 Mk0 wear-comfort gates (operator-facing)
+
+1. **Head-mounted mass at Mk0 = 710 g.** Acceptable for sessions ≤ 60 min.
+2. **Battery on belt/chest, not on helm.** Non-negotiable at Mk0.
+3. **Mass distribution check:** when donned, helm should not require operator to brace neck. If it does, adjust liner padding to shift center-of-mass forward of Z2.
+4. **Modules add to head-mounted mass.** Each clip-on module is capped at 250 g (§6.5.2). With Stabilizer Mk1 attached: 710 + 250 = **960 g head-mounted — still within 1000 g comfort floor.**
+5. **Mk2+ mass-reduction path:** lighter shell (carbon-fiber instead of PETG, saves ~150 g), thinner Pi cooling (saves ~30 g), wireless I²C-over-BLE to remote sensor bank (saves harness ~25 g). Total achievable reduction ~200 g → ~510 g head-only at Mk2.
+
+### 20.5 What this locks vs. defers
+
+**LOCKED at sprint 0.2:**
+- Battery carried off-helm (belt/chest); H3 = 600 mm.
+- Head-mounted mass target ≤ 1000 g including module.
+- Total platform (helm + battery + module) ≤ 1500 g for hour-session viability.
+
+**Deferred to sprint 0.3 CAD:**
+- Verify shell mass against printed reality.
+- Verify center-of-mass placement against helmet liner geometry.
+- Design Talentcell belt-clip / chest-pack pouch (FreeCAD task).
