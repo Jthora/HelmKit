@@ -76,7 +76,8 @@ Listed in rough order of preference for an Mk0 build:
 - **MCU-A (doer): Raspberry Pi 4.** Hosts I²C bus, USB (SDR + sensors), real-time logging, optional ML inference. Runs Linux; Python + C extensions for the bus + control loops.
 - **MCU-B (checker): Arduino Nano v3 (ATmega328P).** Small enough to formally audit. Holds the 12-row safety blacklist in flash. Independent power monitoring + kill GPIO. Talks to Pi 4 over I²C as a watchdog slave; raises an open-drain SAFETY line on any violation.
 - **MCU-C (HUD / BLE / LoRa): Heltec LoRa 32 (ESP32).** Drives the 0.96" OLED HUD, BLE for Polar H10 (when procured), LoRa for inter-helm mesh, secondary Li-Po battery manager. **Two in inventory** — second one is hot spare or paired-helm mesh node.
-- **Heavy compute (off-board, Mk0.5+): Jetson Nano.** SDR DSP, FFT, HRV pipeline, FDTD verification. Connected via Pi 4 ethernet or USB.
+- **Heavy compute (rack, Mk0.5+): 1× NVIDIA Jetson AGX Orin 32 GB** (~200 TOPS / ~5.3 TFLOPs FP16). Closed-loop FDTD verification of coil emission; wideband SDR DSP at HackRF full rate; transformer-class ML on EEG/HRV.
+- **Edge compute (per-helm, Mk1+): 4× Jetson Nano** (2× Seeed J1020 production + 2× J1010 dev) — distributed inner-loop DSP, paired-helm mesh deployment.
 
 This is a *three*-MCU architecture instead of the wiki's two, but the third (Heltec) is a free addition since it consolidates OLED + BLE + LoRa + PMIC into one board we already have two of.
 

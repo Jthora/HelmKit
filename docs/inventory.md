@@ -12,7 +12,10 @@
 | Qty | Item | Notes |
 |---|---|---|
 | **3** | **Raspberry Pi 4B 8 GB** (Single Board Computer, Cortex-A72 quad-core @ 1.5 GHz, 8 GB LPDDR4) | MCU-A doer; Linux host; USB to SDR; full DSP / ML pipeline — confirmed 3× 8GB units (one per simultaneous build target: bench / portable / spare) |
-| Several | **Jetson Nano** | CUDA edge compute; FDTD/ML offload; Mk2+ |
+| **1** | 🟢 **NVIDIA Jetson AGX Orin 32 GB Developer Kit** (12-core Arm Cortex-A78AE, 2048-CUDA Ampere GPU, 64 Tensor Cores, 2× DLA, **~200 TOPS** INT8 / ~5.3 TFLOPs FP16, 32 GB LPDDR5) | 🔓 **Tier-1 unlock.** Real-time **FDTD verification** of coil emission fields; **wideband SDR DSP** at HackRF max rate; **on-device ML** (eg. transformer-class HRV/EEG classifiers); full ψ-Lagrangian numerical solver. Replaces "off-board pack" workflow with on-bench heavy compute. |
+| 2 | **Seeed reComputer J1020** — Jetson Nano production module in aluminium case w/ pre-installed JetPack | edge AI box; field-deployable Jetson Nano (~0.5 TFLOPs FP16 / 472 GFLOPs INT8); rugged enclosure |
+| 2 | **Seeed reComputer J1010** — Jetson Nano module in aluminium case w/ pre-installed JetPack | edge AI mini-PC (Jetson Nano dev-kit class); SD-card slot NOT included on J1010 |
+| (4 total Jetson Nano boxes above) | **4× Jetson Nano units** packaged and ready | distributed compute: per-helm Nano for FDTD inner loop + Defender SDR DSP + Stabilizer HRV pipeline; reserves for paired-helm experiments |
 | 5 | **Emakefun Arduino Nano v3.0** (ATmega328P, 5 V, 16 MHz, with USB cable; 5-pack) | MCU-B watchdog candidate — 5× boards + 5× USB cables in one Emakefun pack |
 | 5 | **Arduino Nano Terminal Adapter v2** | screwless breakout for the Nanos |
 | 2 | **Heltec LoRa 32** (ESP32 + 0.96" OLED + Li-Po PMIC + WiFi + BLE + LoRa 863–928 MHz, in enclosures) | **Wiki Mk1 Stabilizer-class MCU package, one board.** OLED HUD + BLE + LoRa mesh + battery management all integrated. |
@@ -20,7 +23,15 @@
 | 1 | **RangePi Board 433 MHz** (sb components) + **RangePi Enclosure** | LoRa-class long-range receiver at 433 MHz |
 | 1 | **Keywishbot MEGA2560 starter bundle** (breadboard, passives) | spare AVR + breadboard kit |
 
-**Verdict:** dual-MCU + BLE + LoRa + WiFi mesh **all covered**, with redundancy. The 2× Heltec LoRa 32 are the single most useful items in the entire inventory for Mk1.
+**Verdict:** Compute stack is now **lab-grade tier-1**.
+
+- **Heavy compute (rack):** 1× AGX Orin 32 GB (~200 TOPS) — does FDTD, SDR DSP, ML.
+- **Edge compute (field, x4):** 2× Seeed J1020 + 2× Seeed J1010 — per-helm Jetson Nano for distributed Mk1/Mk2 deployment + paired-helm experiments.
+- **Bench/portable host (x3):** Pi 4B 8 GB — MCU-A doer.
+- **Safety co-MCU (x5):** Emakefun Nano v3 — MCU-B watchdog.
+- **HUD/BLE/LoRa (x2):** Heltec LoRa 32 — wiki Mk1 Stabilizer MCU package.
+
+The AGX Orin alone is **enough compute to run a full real-time FDTD simulation of the coil + helmet cavity at sub-millisecond timestep** — which means **closed-loop emission verification is in reach**, not just open-loop measurement. This is the difference between "we measured it" and "we predicted-and-verified it."
 
 ---
 

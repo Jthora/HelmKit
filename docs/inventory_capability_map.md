@@ -14,7 +14,9 @@
 - **HackRF One** (1 MHz – 6 GHz TX+RX) + **2× NESDR Smart v4** + **1× NESDR Smart XTR** + **Nooelec Ham It Up** upconverter + **Nooelec 1:9 antenna balun** (HF emission monitor)
 - **MAX2870 PLL signal source** (23.5 MHz – 6 GHz) + **ADF4351 PLL dev board** (35 MHz – 4.4 GHz) + **2× XR2206 function generator kits** (1 Hz – 1 MHz, for 7.83 Hz envelope)
 - Several **Raspberry Pi 4B** (MCU-A doer)
-- Several **Jetson Nano** (CUDA edge compute, FDTD/ML offload)
+- Several **Raspberry Pi 4B 8 GB** (3 confirmed; MCU-A doer)
+- **NVIDIA Jetson AGX Orin 32 GB Developer Kit** (~200 TOPS INT8 / ~5.3 TFLOPs FP16) — lab-grade heavy compute
+- **4× Jetson Nano** (2× Seeed reComputer J1020 + 2× J1010) — distributed edge AI / FDTD inner loop
 - **5× Arduino Nano v3** (MCU-B watchdog) + 5× Nano terminal adapters
 - **2× Heltec LoRa 32** (ESP32 + 0.96" OLED + Li-Po PMIC + WiFi + BLE + LoRa 863–928 MHz, in enclosures) — *wiki Mk1 Stabilizer MCU stack in one board*
 - **1× ESP8266 Deauth Detector v3** + **1× RangePi 433 MHz Board** + enclosure
@@ -98,7 +100,7 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 
 | Capability | Have | Status |
 |---|---|---|
-| Heavy compute (ML inference, FDTD simulation, real-time SDR DSP) | **Jetson Nano** | ✅ huge unlock |
+| Heavy compute (ML inference, FDTD simulation, real-time SDR DSP) | **1× AGX Orin 32GB (~200 TOPS) + 4× Jetson Nano edge** | ✅ **tier-1 lab-grade** — enables real-time closed-loop FDTD verification of coil emission |
 | EM shielding for sensors (isolate mag from coil) | **Faraday fabric + EMI spray** | ✅ |
 | Magnetic field source for IMU calibration | **Neodymium magnets** | ✅ |
 | Field-visualization media (Mk2 demo / Q.A. tool) | **Ferrofluid** | ✅ niche use |
@@ -170,10 +172,20 @@ This is the **Mk0 + Mk1-coil-prefab combo**, executable from totes.
 - **Mk0.5 use:** record sham vs. active coil-drive sessions to verify coil emission stays in the design band (1–8 MHz) and below leak thresholds at GSM/WiFi bands.
 - **Mk1 use:** Defender module's primary sensor.
 
-### 6.5 Jetson Nano
-- **Mk0/Mk1 use:** offload real-time SDR DSP, FFT, HRV analysis. Pi 4 handles control; Jetson handles compute.
-- **Mk2 use:** onboard FDTD coil-emission model (openEMS / MEEP), verifying SAR compliance live against the field the SDR measures. This is the wiki-spec'd "FDTD modelling required for design cert" loop, but **in the device**.
-- **ML use:** EEG/HRV biomarker inference if/when EEG path lands.
+### 6.5 Compute hierarchy (Jetson AGX Orin + 4× Jetson Nano)
+- **Tier-1 (rack / bench): 1× AGX Orin 32 GB.** ~200 TOPS INT8 / ~5.3 TFLOPs FP16, 32 GB LPDDR5. Runs:
+  - **Closed-loop FDTD** of coil + helmet cavity at sub-ms timestep — *predicted* field vs. measured field, in real time. This collapses the wiki-spec'd "FDTD modelling required for design cert" from offline workflow into live verification.
+  - **Wideband SDR DSP** at HackRF full rate (20 MS/s); simultaneous channelized monitoring of GSM / WiFi / coil drive band
+  - **Transformer-class ML inference** on EEG/HRV signals
+  - Full ψ-Lagrangian numerical solver experiments
+- **Tier-2 (per-helm edge): Jetson Nano × 4** (2× Seeed J1020 production + 2× J1010 dev). Per-helm distributed compute:
+  - **Defender SDR DSP** inner loop (FFT, channelization)
+  - **Stabilizer HRV** pipeline
+  - **FDTD inner-cell** updates streamed to Orin for fusion
+  - Paired-helm experiments (multi-helm mesh) get 2 helms in J1020 enclosures field-deployable today
+- **Tier-3 (control host): Pi 4 × 3.** I²C bus master, USB to SDR, sensor logging, control loops, OLED HUD.
+- **Tier-4 (safety co-MCU): Nano v3 × 5.** Hard-real-time watchdog, kill-line, formally-auditable safety blacklist firmware.
+- **Tier-5 (HUD/BLE/LoRa): Heltec LoRa 32 × 2.** Wireless mesh + wearable HUD package.
 
 ### 6.6 Faraday fabric + EMI spray
 - **Inside the helm:** line the inner cavity around the magnetometer to reduce coupling from the coil. This is what makes co-located mag+coil viable.
