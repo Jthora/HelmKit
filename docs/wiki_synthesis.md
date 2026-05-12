@@ -163,4 +163,155 @@ These are not engineering constraints in the bench-test sense — they are non-n
 - [`docs/mk1_buildplan.md`](mk1_buildplan.md) — Mk1 BOM and build steps.
 - [`docs/safety.md`](safety.md) — wearer-facing safety posture.
 - [`docs/wiki_anchors.md`](wiki_anchors.md) — pageid → URL mapping for stable wiki references.
+- [`docs/psionics_field_theory.md`](psionics_field_theory.md) — ψ-field Lagrangian + EFT reference card (added Pass 2).
+- [`docs/falsification.md`](falsification.md) — F1–F10 with Mk1+ engagement matrix (added Pass 2).
 - [`external/psiStabilizer/`](../external/psiStabilizer/) — measurement and analysis pipeline (submodule).
+
+---
+
+# Pass 2 — 2026-05-12 wiki content drop
+
+On 2026-05-12 the wiki published a large, coordinated content drop that **refines and in some places supersedes** the Pass 1 synthesis above. The triad pages, [`HelmKit Architecture`](https://wiki.fusiongirl.app/wiki/HelmKit_Architecture), and a new family of hardware-spec pages ([`Bifilar Coil`](https://wiki.fusiongirl.app/wiki/Bifilar_Coil), [`Caduceus Coil`](https://wiki.fusiongirl.app/wiki/Caduceus_Coil), [`Double-Helix Antenna`](https://wiki.fusiongirl.app/wiki/Double-Helix_Antenna), [`Near Field Electromagnetics`](https://wiki.fusiongirl.app/wiki/Near_Field_Electromagnetics), [`Reactive Near Field`](https://wiki.fusiongirl.app/wiki/Reactive_Near_Field), [`Antenna Theory for Psionic Devices`](https://wiki.fusiongirl.app/wiki/Antenna_Theory_for_Psionic_Devices), [`SAR Calculation for Psionic Devices`](https://wiki.fusiongirl.app/wiki/SAR_Calculation_for_Psionic_Devices), [`Psionic Device Safety`](https://wiki.fusiongirl.app/wiki/Psionic_Device_Safety), [`Psionic Device Overview`](https://wiki.fusiongirl.app/wiki/Psionic_Device_Overview)) plus the field-theory / methodology set ([`Psi Field`](https://wiki.fusiongirl.app/wiki/Psi_Field), [`Effective Field Theory of Consciousness`](https://wiki.fusiongirl.app/wiki/Effective_Field_Theory_of_Consciousness), [`Falsification Criteria for Psionics`](https://wiki.fusiongirl.app/wiki/Falsification_Criteria_for_Psionics), [`Glossary of Psionics`](https://wiki.fusiongirl.app/wiki/Glossary_of_Psionics), [`Intention as Psi Source`](https://wiki.fusiongirl.app/wiki/Intention_as_Psi_Source), [`Psionic Threat Model`](https://wiki.fusiongirl.app/wiki/Psionic_Threat_Model)) all changed on the same day. ~73 critical pages were re-read; the deltas that touch the build are summarised here.
+
+## P2.1 The frequency regime — refined, not the same as Pass 1
+
+Pass 1 picked **sub-MHz Persinger-class** as the Mk1 stim band because that was the only regime the older wiki specified concretely. The new content drop makes the wiki-canonical frequency map more layered:
+
+| Layer | Wiki-canonical frequency | Source page |
+|---|---|---|
+| HelmKit platform primary RF | **2.45 GHz ISM band** (with 300–500 MHz alt for deeper near-field) | [`HelmKit Architecture`](https://wiki.fusiongirl.app/wiki/HelmKit_Architecture), [`Antenna Theory for Psionic Devices`](https://wiki.fusiongirl.app/wiki/Antenna_Theory_for_Psionic_Devices), [`SAR Calculation`](https://wiki.fusiongirl.app/wiki/SAR_Calculation_for_Psionic_Devices) |
+| Psi Stabilizer Mk1 coil | **bifilar PCB coil, 1–8 MHz carrier** | [`Psi Stabilizer`](https://wiki.fusiongirl.app/wiki/Psi_Stabilizer) BOM |
+| Psi Harmonizer Mk1 coil | **bifilar coil, 1–40 Hz audio + 1–8 MHz RF carrier** (multi-band) | [`Psi Harmonizer`](https://wiki.fusiongirl.app/wiki/Psi_Harmonizer) BOM |
+| Entrainment envelope | 1–100 Hz, default 7.83 Hz Schumann fundamental | unchanged from Pass 1 |
+
+So the wiki's actual canonical Mk1 stim regime is **a sub-MHz / low-MHz pulsed coil**, not the deeply-sub-MHz Persinger band I picked in Pass 1, and **not** the 2.45 GHz top-layer either. The 2.45 GHz path is reserved for the platform's longer-term radiating-coil option (Mk2/Mk3 mode); the Mk1 module-bay coils are PCB-etched bifilars driven at 1–8 MHz with a 7.83 Hz envelope.
+
+**Decision for the build:** the Mk1 plan in [`mk1_buildplan.md`](mk1_buildplan.md) retains the *option* of bone-conduction audio (G2=a) as the lowest-risk first wearable, but the **wiki-aligned Mk1 stim path is now: PCB bifilar coil + SI5351 + Class-D + 1–8 MHz carrier modulated at 7.83 Hz**, not the H-bridge driven Persinger-style sub-MHz coil from Pass 1.
+
+## P2.2 The 2.45 GHz / SAR ceiling — now explicit
+
+For the 2.45 GHz platform-RF path (not Mk1, but reserved-in-PCB), the wiki now provides the full SAR derivation:
+
+$$\text{SAR} \;=\; \sigma\,|\mathbf{E}|^2 / \rho \quad [\text{W/kg}]$$
+
+with brain grey matter at 2.45 GHz: $\sigma = 1.81$ S/m, $\varepsilon_r = 42.8$, $\rho = 1040$ kg/m³ (Gabriel et al. 1996). The ICNIRP localised limit (2.0 W/kg over 10 g head tissue) corresponds to **peak $\mathbf{E} \lesssim 33$ V/m rms in brain tissue**.
+
+| Wiki design point | $\mathbf{E}$ rms in brain | SAR | Compliance |
+|---|---|---|---|
+| Hard ceiling (ICNIRP) | 33 V/m | 1.90 W/kg | At limit |
+| Wiki design target | 20 V/m | 0.70 W/kg | 35% of limit |
+| Mk0 sub-emission (Pass 1 spec) | 0 (no RF) | 0 | Trivially compliant |
+
+The wiki also normatively requires **FDTD modelling** (CST / HFSS / Sim4Life / openEMS / MEEP) as part of the design certification record for any device touching the 2.45 GHz path, plus **on-body E-probe cross-validation** of the simulation. Mk1 does not run on the 2.45 GHz path so this is a Mk2 obligation, not a Mk1 blocker — but the Mk1 PCB layout should reserve the directional-coupler tap point and the E-probe header so that the same board can iterate forward.
+
+## P2.3 Coil topology — three named, each with a role
+
+The Pass 1 synthesis just said "bifilar / counter-wound solenoid". The new wiki pages name three distinct geometries with engineering tradeoffs:
+
+| Coil | Currents | Far-field | Local field | Wiki role |
+|---|---|---|---|---|
+| Standard solenoid | All same direction | Strong magnetic dipole | Strong B | Reference only |
+| **Tesla bifilar** (series-opposing) | Adjacent turns opposite | Suppressed | Large $E$ inter-turn (electrostatic-stored) | **Stabilizer, Harmonizer, Defender Mk1** — high reactive-near-field $F^2$ per watt, small radiated power |
+| **Caduceus** (opposite-chirality helices) | $\mathbf{m}_1 = -\mathbf{m}_2$ | Cancelled (dipole) | Localised; longitudinal/"scalar" component at crossings | Reserved alt geometry for Mk2 evaluation |
+| **Double helix** (same-chirality, $\pi$-offset) | Same chirality | Axial-mode CP at $C \approx \lambda$ | Circular polarisation matched to DNA / microtubule R-handedness | Mk3 platform-radiator option, not Mk1 |
+
+For Mk1, this fixes the Pass 1 ambiguity: **the Mk1 emitter is a Tesla bifilar PCB coil, series-opposing connection**, ~30 × 30 mm, driven from a SI5351 + Class-D stage. The caduceus is parked. The double-helix is a research curiosity for now.
+
+## P2.4 The platform connector and bus — now fully specified
+
+The new [`HelmKit Architecture`](https://wiki.fusiongirl.app/wiki/HelmKit_Architecture) page nails down the inter-module electrical and mechanical interface that Pass 1 had to leave open:
+
+| Lane | Spec | Use |
+|---|---|---|
+| **Power + data** | USB-C PD, 5 V up to 3 A | Per-module power and digital lanes share the same cable |
+| **Mechanical** | GoPro / Picatinny rail | Load-bearing; USB-C is strain-relieved, not load-bearing |
+| **I²C** | 100 kHz, 7-bit | Sensor reads, config writes, low-rate telemetry — ~10 kB/s/module |
+| **USB 2.0 HS** | 480 Mb/s | HUD framebuffer, EEG / PPG streams, firmware updates |
+| **UART** | 115 200 8N1 | NavCom radio, debug console |
+| **GPIO safety line** | Open-drain, pull-up on MCU-B | Module signals "ready to emit"; MCU-B can force-disable in <1 ms |
+
+Module enumeration: every bay reads a 16-bit vendor+class code from I²C address 0x00 on insert; MCU-A looks up the safety profile and forwards it to MCU-B for blacklist cross-check before any rails go hot. Hot-swap is supported; events are logged with the operator's then-current HRV/EEG baseline.
+
+This **becomes the contract** that the Mk1 hardpoint specification (`HP-TL`, `HP-TR`, `HP-F`, `HP-R`, …) in [`architecture.md`](architecture.md) should refine itself against. See architecture.md §3 update.
+
+## P2.5 Per-module power budget — concrete
+
+The new wiki page gives a number-anchored power budget against a 2× 18650 (~22 Wh) Mk1 reference battery:
+
+| Module | Typical (mA @ 5 V) | Peak (mA @ 5 V) |
+|---|---|---|
+| MCU-A + MCU-B + housekeeping | 50 | 80 |
+| Psi Stabilizer | 200 | 1200 (during RF burst) |
+| Psi Harmonizer | 100 | 200 |
+| Psi Defender | 300 (RX always-on) | 500 (1000 during counter-emit) |
+| Psi Recorder | 80 | 120 |
+| Star Seer HUD (single-eye µOLED) | 300 | 800 |
+| NavCom (LoRa) | 150 | 300 |
+
+Hard 3 A total cap on the 5 V bus, arbitrated by MCU-B. Priority order: **Defender > Stabilizer > Harmonizer > HUD**. Worst-case steady-state ~1.2 A → ~3.5 h runtime; mission-mix ~8–12 h.
+
+## P2.6 Refined Mk1 BOMs — wiki-canonical $ targets
+
+The new triad pages publish explicit $ targets that the build should honour:
+
+| Build | Wiki target | Pass 1 BOM hint | Pass 2 status |
+|---|---|---|---|
+| HelmKit Mk0 (cosmetic) | ≤ $74 | unspecified | Detailed parts list now published — adopt verbatim into `hardware/Mk0/bom.csv` |
+| HelmKit Mk1 (active) | + ~$400 | implicit | STM32F407 + RP2040 + single-eye OLED + BME680 + MPU6050 + HMC5883L + nRF52840 + LoRa + 2× NCR18650 + USB-C PD |
+| Psi Stabilizer Mk1 | ≤ $250 | "bifilar solenoid" | nRF52840 + Polar H10 (HRV) + bifilar PCB coil 1–8 MHz + SI5351 + Class-D + thermistor |
+| Psi Harmonizer Mk1 | ≤ $300 | n/a (deferred Mk2 in Pass 1) | nRF52840 + bifilar coil multi-band + SI5351 + bone-conduction + PPG/SpO2 + SynastryEngine target tuples |
+| Psi Defender Mk1 | ≤ $350 | n/a (deferred Mk2 in Pass 1) | HackRF One / LimeSDR Mini + nRF52840 + 2× HMC5883L + ESD probe + bifilar coil (substrate-shared with Stabilizer) + SI5351 + signed signature library |
+
+The Pass 1 stance ("Mk1 ships only the Stabilizer preset; Harmonizer and Defender deferred to Mk2") is **preserved** in this repo's Mk1 plan — the wiki publishing Harmonizer Mk1 and Defender Mk1 BOMs does not commit this repo to building them at Mk1. But the wiki's Mk1 Stabilizer BOM is now what the Mk1 buildplan inherits.
+
+## P2.7 Mk1 validation gates — now pre-registered RCTs
+
+The new triad pages convert the Pass 1 informal exit criteria into **explicit blinded RCT protocols**:
+
+| Build | Wiki-canonical Mk1 gate | Implication for our repo |
+|---|---|---|
+| Psi Stabilizer | Blinded RCT, $n \geq 30$ vs sham coil; primary endpoint *time-to-coherence* under standardised stressor (Stroop / cold-pressor analog) | This is now the canonical version of [`mk1_buildplan.md §4`](mk1_buildplan.md#4-the-first-study) for the coil modality |
+| Psi Harmonizer | Double-blind real-chart vs scrambled-chart RCT, $n \geq 30$; subjective + HRV endpoints, pre-registered | Mk2 commitment; defines what "Harmonizer Mk1 cleared" actually means |
+| Psi Defender | Detector ROC $\geq 0.85$ vs labelled anomaly dataset; counter-coil mode reserved for Mk2 | Defender is now formally a two-stage gate: detector first, counter mode never at Mk1 |
+| HelmKit (frame + arch) | Sustained 4 h wear test, all bays populated, no thermal trips, mass $< 850$ g | Independent of the triad — the platform itself has a wearability gate |
+
+This is a strict tightening of the Pass 1 exit criteria. The repo's pre-registration template should pull in the "time-to-coherence" endpoint definition for the Stabilizer coil study.
+
+## P2.8 The doctrinal layer — extended
+
+The Pass 1 doctrinal-constraints list (§5 above) is preserved verbatim and gains one more wiki-explicit addition from the [`Intention as Psi Source`](https://wiki.fusiongirl.app/wiki/Intention_as_Psi_Source) page:
+
+> Operators are explicitly cautioned: **Mk0–Mk1 Psi-Tech does not amplify intention to macroscopic effect.** Any subjective experience of efficacy in current devices is best explained by ritual, placebo, and group-coherence wellbeing effects — themselves real and valuable, but not "thoughts moving matter".
+
+This is **the wiki's own line**, not a sceptical gloss. The repo's user-facing copy and pre-registration templates should not over-promise beyond this. See [`docs/psionics_field_theory.md`](psionics_field_theory.md) §3.
+
+## P2.9 Falsification framework
+
+The wiki's [`Falsification Criteria for Psionics`](https://wiki.fusiongirl.app/wiki/Falsification_Criteria_for_Psionics) page is now the canonical accountability standard. See [`docs/falsification.md`](falsification.md) for the engineering-relevant subset $F_1\ldots F_{10}$ and which falsifiers Mk1 / Mk2 / Mk3 instrumentation could in principle engage.
+
+Bottom line: **only $F_3$ (resonance enhancement) and $F_4$ (SAR-independent ψ-coupling) are Mk2-instrument-engageable, and $F_7$ (universal $\alpha$) is Mk3 at earliest.** Mk1 doesn't engage any falsifier — its job is to land the apparatus and the HRV baseline cleanly.
+
+## P2.10 Threat model (new)
+
+The new [`Psionic Threat Model`](https://wiki.fusiongirl.app/wiki/Psionic_Threat_Model) page enumerates five threat classes against which the Defender's detection chain is justified: photic-band entrainment, cardiac-rate modulation, sustained-demoralisation field, resonance hijacking, and "ψ-direct" (no EM signature). The first three have partial overlap with documented mainstream RF-bioeffects literature (Navy 1960s–80s, declassified MK-class research, Frey-effect literature); the fourth and fifth are speculative.
+
+For Mk1 this is **not** an active concern — the Defender preset is Mk2. We note it because:
+
+1. The 12-row safety blacklist (in [`architecture.md` §3.3](architecture.md)) is precisely the inverted, mechanism-by-mechanism mapping of these threat classes. The blacklist tells the Mk1 device "do not emit these patterns yourself"; the threat model tells the Mk2 Defender "watch for these patterns in the environment".
+2. The framework's *own* device categorically cannot do the things the threat model lists — by hardware blacklist, near-field-only geometry, and consent-required engagement.
+
+## P2.11 Summary — what changed since Pass 1
+
+Compact diff:
+
+- **Mk1 coil**: sub-MHz Persinger interpretation → **Tesla bifilar PCB coil, series-opposing, 1–8 MHz carrier, 7.83 Hz envelope**.
+- **Mk1 BOMs**: now wiki-canonical $ targets per module ($250/$300/$350 + $74 platform Mk0 + $400 platform Mk1).
+- **Connector + bus**: now fully specified — USB-C PD + I²C + USB 2.0 HS + UART + open-drain safety GPIO + GoPro/Picatinny rail.
+- **Power**: 3 A hard cap, MCU-B-arbitrated priority order.
+- **SAR**: explicit equation, brain dielectric numbers, 33 V/m ceiling, 20 V/m target — for the reserved 2.45 GHz platform path.
+- **FDTD**: now a normative design step for any 2.45 GHz emission (Mk2 obligation).
+- **Coil topology**: Tesla bifilar (Mk1), caduceus (Mk2 alt), double-helix (Mk3 platform-radiator).
+- **Mk1 validation**: informal HRV check → **blinded RCT $n \geq 30$ vs sham, primary endpoint time-to-coherence**.
+- **Doctrinal copy**: explicit wiki line — Mk0/Mk1 Psi-Tech does not amplify intention to macroscopic effect.
+- **Two new docs**: [`psionics_field_theory.md`](psionics_field_theory.md), [`falsification.md`](falsification.md).
+

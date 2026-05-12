@@ -109,3 +109,43 @@ Additional pages consulted for [`wiki_synthesis.md`](wiki_synthesis.md) (pageids
 - `Tho'ra Mission Doctrine` — consent / shield-not-sword / disengage-on-instability / astrology-rules / transparency.
 - `Psi Scanner`, `Psi Ward`, `Neural Firewall` — Mk2+ scoping for sensing, area-shielding, and comms-layer security.
 
+### Pages added in Pass 2 (2026-05-12 wiki content drop)
+
+These pages were published or substantially rewritten on 2026-05-12 and feed [`wiki_synthesis.md` § Pass 2](wiki_synthesis.md#pass-2--2026-05-12-wiki-content-drop), [`psionics_field_theory.md`](psionics_field_theory.md), [`falsification.md`](falsification.md), and the §3.6 connector/bus spec in [`architecture.md`](architecture.md):
+
+**Hardware specs (Mk1+ design anchors):**
+
+- [`Bifilar Coil`](https://wiki.fusiongirl.app/wiki/Bifilar_Coil) — Tesla series-opposing geometry; Mk1 emitter choice.
+- [`Caduceus Coil`](https://wiki.fusiongirl.app/wiki/Caduceus_Coil) — opposite-chirality helices, far-field cancellation; Mk2 alt.
+- [`Double-Helix Antenna`](https://wiki.fusiongirl.app/wiki/Double-Helix_Antenna) — same-chirality axial-mode CP; Mk3 platform-radiator option.
+- [`Near Field Electromagnetics`](https://wiki.fusiongirl.app/wiki/Near_Field_Electromagnetics) — reactive vs Fresnel vs far-field zone formulas.
+- [`Reactive Near Field`](https://wiki.fusiongirl.app/wiki/Reactive_Near_Field) — E×H reactive Poynting, $r < 0.62\sqrt{D^3/\lambda}$, $1/r^3$ scaling.
+- [`Antenna Theory for Psionic Devices`](https://wiki.fusiongirl.app/wiki/Antenna_Theory_for_Psionic_Devices) — Chu-Harrington Q bound, Wheeler $R_\text{rad}$, body detuning.
+- [`SAR Calculation for Psionic Devices`](https://wiki.fusiongirl.app/wiki/SAR_Calculation_for_Psionic_Devices) — $\text{SAR}=\sigma|E|^2/\rho$, brain $\sigma=1.81$ S/m, ICNIRP 2 W/kg ceiling, FDTD requirement.
+- [`Psionic Device Safety`](https://wiki.fusiongirl.app/wiki/Psionic_Device_Safety) — 12-row safety blacklist (in OTP fuses on MCU-B).
+- [`Psionic Device Overview`](https://wiki.fusiongirl.app/wiki/Psionic_Device_Overview) — emitter family map.
+
+**Field theory (feeds [`psionics_field_theory.md`](psionics_field_theory.md)):**
+
+- [`Psi Field`](https://wiki.fusiongirl.app/wiki/Psi_Field) — canonical Lagrangian, $\Psi \equiv T^{00}(\psi)$, $J_\psi$ definition.
+- [`Effective Field Theory of Consciousness`](https://wiki.fusiongirl.app/wiki/Effective_Field_Theory_of_Consciousness) — $C$ order parameter + 5-coupling effective theory; phase diagram including runaway regime.
+- [`Quantization of the Psi Field`](https://wiki.fusiongirl.app/wiki/Quantization_of_the_Psi_Field).
+- [`Soliton Solutions of Psi Field`](https://wiki.fusiongirl.app/wiki/Soliton_Solutions_of_Psi_Field).
+- [`Renormalization of Psi Theory`](https://wiki.fusiongirl.app/wiki/Renormalization_of_Psi_Theory).
+- [`CEMI Field Theory`](https://wiki.fusiongirl.app/wiki/CEMI_Field_Theory) — sub-case of EFT $g_F C F^2$ coupling.
+- [`Intention as Psi Source`](https://wiki.fusiongirl.app/wiki/Intention_as_Psi_Source) — $J_\psi = \beta\Phi$, $\beta\sim10^{-40}$, Mk0/Mk1 not amplifying intention.
+- [`Glossary of Psionics`](https://wiki.fusiongirl.app/wiki/Glossary_of_Psionics) — plain-language symbol/term lookup.
+
+**Methodology (feeds [`falsification.md`](falsification.md)):**
+
+- [`Falsification Criteria for Psionics`](https://wiki.fusiongirl.app/wiki/Falsification_Criteria_for_Psionics) — F1–F10 with current-status notes.
+- [`Open Questions in Psionics`](https://wiki.fusiongirl.app/wiki/Open_Questions_in_Psionics).
+- [`Psionic Threat Model`](https://wiki.fusiongirl.app/wiki/Psionic_Threat_Model) — five threat classes; mirrors the safety blacklist.
+- [`Psionics Primer`](https://wiki.fusiongirl.app/wiki/Psionics_Primer), [`Psionics FAQ`](https://wiki.fusiongirl.app/wiki/Psionics_FAQ).
+
+**Biology + biomarker pages (cited but not yet ingested in detail):**
+
+- [`Resonant Neurobiology`](https://wiki.fusiongirl.app/wiki/Resonant_Neurobiology), [`Heart Rate Variability and Psi`](https://wiki.fusiongirl.app/wiki/Heart_Rate_Variability_and_Psi), [`Geomagnetic Sensitivity in Humans`](https://wiki.fusiongirl.app/wiki/Geomagnetic_Sensitivity_in_Humans).
+- [`Microtubule`](https://wiki.fusiongirl.app/wiki/Microtubule), [`Orchestrated Objective Reduction`](https://wiki.fusiongirl.app/wiki/Orchestrated_Objective_Reduction), [`Biophotons`](https://wiki.fusiongirl.app/wiki/Biophotons).
+- [`Dotta Saroka Persinger 2012`](https://wiki.fusiongirl.app/wiki/Dotta_Saroka_Persinger_2012), [`Celardo Microtubule Superradiance`](https://wiki.fusiongirl.app/wiki/Celardo_Microtubule_Superradiance), [`Kalra Anaesthetic Microtubule`](https://wiki.fusiongirl.app/wiki/Kalra_Anaesthetic_Microtubule), [`Bandyopadhyay Microtubule Conductance`](https://wiki.fusiongirl.app/wiki/Bandyopadhyay_Microtubule_Conductance) — primary-paper citation-anchor pages.
+

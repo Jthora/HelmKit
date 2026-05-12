@@ -18,6 +18,8 @@ Default recommendation if no other constraints: **G1 = (a) PPG-only, G2 = (a) au
 
 **Wiki-aligned recommendation** (per [`wiki_synthesis.md`](wiki_synthesis.md)): **G1 = (a) PPG-only, G2 = (c) sub-MHz pulsed coil at 7.83 Hz default, G3 = (a) Pi Zero 2 W.** This is the Persinger-class apparatus the wiki specifies for the Mk1 Stabilizer preset. It costs an extra build pass — the dual-MCU safety architecture (see [`architecture.md` §3](architecture.md#3-safety-architecture-dual-mcu)) must be on the bench and validated before the first wear session, which audio entrainment does not require. Choose this path if the goal is to land the Stabilizer preset of the Psi-Tech triad rather than to land a working device fastest.
 
+> **Pass 2 refresh (2026-05-12 wiki drop, see [`wiki_synthesis.md` §P2.1](wiki_synthesis.md#p21-the-frequency-regime--refined-not-the-same-as-pass-1)):** the wiki-canonical Mk1 stim path is now a **Tesla bifilar PCB coil (~30 × 30 mm, series-opposing connection) driven 1–8 MHz carrier modulated at 7.83 Hz** via SI5351 + Class-D, *not* the H-bridge-driven sub-MHz coil Pass 1 inferred. The G2=(c) option above remains the wiki-aligned path; the parts list under §1 changes from "Persinger-class solenoid + H-bridge + isolated supply" to "bifilar PCB coil + SI5351 + Class-D + thermistor". Mk1 stim target per the wiki Stabilizer Mk1 page is **≤ $250**, primary endpoint **time-to-coherence under standardised stressor**, blinded RCT $n \geq 30$ vs sham coil.
+
 ---
 
 ## 1. Bill of materials (representative; finalize after G1–G3)
@@ -36,7 +38,8 @@ Reusing the psiStabilizer A01 BOM where possible. Indicative line items, not aut
 | JST-SH 6-pin pigtails | Bus cabling | — | Per hardpoint |
 | **If G2 = audio:** bone-conduction transducers ×2, headphone amp | Stimulation | — | `HP-EL`, `HP-ER` |
 | **If G2 = photic:** addressable LED strip segment, current-limited driver | Stimulation | Inventory | Inside visor accessory |
-| **If G2 = coil:** Persinger-class solenoid coils ×2, H-bridge driver, isolated supply | Stimulation | Custom-build | Temple booms; requires safety review |
+| **If G2 = coil (Pass 1 spec):** Persinger-class solenoid coils ×2, H-bridge driver, isolated supply | Stimulation | Custom-build | Temple booms; requires safety review |
+| **If G2 = coil (Pass 2 wiki-canonical):** Tesla bifilar PCB coil ~30×30 mm + SI5351 clock + Class-D amp + low-pass + current-sense + thermistor | Stimulation | Custom PCB | Per wiki Stabilizer Mk1 BOM (≤ $250); 1–8 MHz carrier, 7.83 Hz envelope |
 | **If G1 = (b) EEG:** OpenBCI Ganglion or equivalent single-channel module + dry electrodes | EEG | — | Fp1 or Fp2 contact at forehelm |
 
 A real `hardware/Mk1/bom.csv` gets committed before the order is placed, in the same format as `external/psiStabilizer/hardware/A01/bom.csv`.
@@ -93,10 +96,10 @@ Mk1's first study should be the simplest defensible one:
 
 | | If G2 = audio | If G2 = photic | If G2 = coil |
 |---|---|---|---|
-| **Primary measure** | HRV (RMSSD) before/during/after | HRV; photic-driving in EEG if G1=b | HRV; subjective state report |
-| **Stimulus** | 10 Hz isochronic tone, 30 min | 10 Hz LED flicker, 20 min, photic-screened wearer only | 5–10 Hz sub-MHz pulsed field, 20 min, single-blind sham/active |
-| **N** | self, ≥ 10 sessions before any second wearer | self, ≥ 10 sessions | self, ≥ 10 sessions |
-| **Falsifier** | No measurable RMSSD shift outside expected diurnal variance | No photic driving response | No HRV shift; no subjective state shift vs sham |
+| **Primary measure** | HRV (RMSSD) before/during/after | HRV; photic-driving in EEG if G1=b | HRV; subjective state report; **time-to-coherence under standardised stressor** (wiki-canonical, Pass 2) |
+| **Stimulus** | 10 Hz isochronic tone, 30 min | 10 Hz LED flicker, 20 min, photic-screened wearer only | bifilar PCB coil, 1–8 MHz carrier modulated at 7.83 Hz, 20 min, single-blind sham/active |
+| **N** | self, ≥ 10 sessions before any second wearer | self, ≥ 10 sessions | self-pilot first; **wiki Mk1 gate: $n \geq 30$ blinded RCT vs sham coil** before claiming Mk1 cleared |
+| **Falsifier** | No measurable RMSSD shift outside expected diurnal variance | No photic driving response | No time-to-coherence improvement vs sham at $\alpha = 0.05$, primary endpoint pre-registered |
 
 Commit the pre-registration to `experiments/Mk1/EH01_<modality>.md` **before** the first session.
 

@@ -135,6 +135,50 @@ The wiki notes that tissue loading detunes a near-field coil by 5–20% downward
 - Tuneable matching network (varactor or switched-cap) restores match.
 - If body is removed mid-session, MCU-A detects via reflectometry and MCU-B confirms via proximity — drive cut either path.
 
+### 3.6 Inter-module bus and connector spec (wiki-canonical, added 2026-05-12)
+
+The wiki's [`HelmKit Architecture`](https://wiki.fusiongirl.app/wiki/HelmKit_Architecture) page (re-read on 2026-05-12, see [`docs/wiki_synthesis.md` §P2.4](wiki_synthesis.md#p24-the-platform-connector-and-bus--now-fully-specified)) now specifies a single mechanical + electrical interface for all attachable Psi-Tech modules. This supersedes the placeholder Mk1 bus description in §2 below for any module at L3.
+
+#### 3.6.1 Connector
+
+- **USB-C PD** (5 V, up to 3 A) carries power **and** data on the same cable.
+- **Keyed module-bay shells** guarantee orientation; a mechanical index pin blocks insertion in the wrong slot.
+- **GoPro / Picatinny rail** segment carries the mechanical load; the USB-C connector is strain-relieved and **not** load-bearing.
+
+#### 3.6.2 Data lanes
+
+| Lane | Use | Bandwidth |
+|---|---|---|
+| **I²C** (100 kHz, 7-bit) | Sensor reads, config writes, low-rate telemetry | ~10 kB/s per module |
+| **USB 2.0 HS** | HUD framebuffer, EEG / PPG streams, firmware updates | 480 Mbit/s |
+| **UART** (115 200 8N1) | NavCom radio, debug console | 11 kB/s |
+| **GPIO safety line** (open-drain, MCU-B pull-up) | Module signals "ready to emit"; MCU-B can force-disable | 1-bit, < 1 ms latency |
+
+#### 3.6.3 Module enumeration
+
+Every module exposes an I²C identity register at address `0x00` containing a 16-bit vendor+class code. On hot-plug:
+
+1. Power-good asserts after the PMIC sees the new load.
+2. MCU-A reads the identity register, looks up the module's safety profile.
+3. MCU-A forwards the profile to MCU-B for blacklist cross-check.
+4. Only after MCU-B acknowledges does MCU-A enable the module's data lane and RF-enable GPIO.
+
+Hot-swap during a session is supported; a swap event is logged with timestamp, module ID, and the operator's then-current HRV / EEG baseline.
+
+#### 3.6.4 Per-module power budget (Mk1 reference battery: 2× 18650, ~22 Wh)
+
+| Module | Typical (mA @ 5 V) | Peak (mA @ 5 V) |
+|---|---|---|
+| MCU-A + MCU-B + housekeeping | 50 | 80 |
+| Psi Stabilizer | 200 | 1200 (RF burst) |
+| Psi Harmonizer | 100 | 200 |
+| Psi Defender | 300 (RX always-on) | 500 (1000 during counter-emit) |
+| Psi Recorder | 80 | 120 |
+| Star Seer HUD (single-eye µOLED) | 300 | 800 (backlight-dominated) |
+| NavCom radio (LoRa fallback) | 150 | 300 (TX-burst) |
+
+PMIC enforces a **hard 3 A total cap** on the 5 V bus; MCU-B arbitrates when multiple modules request simultaneous bursts that would exceed it. Priority order: **Defender > Stabilizer > Harmonizer > HUD**. Worst-case steady draw ~1.2 A @ 5 V (6 W) → ~3.5 h runtime; typical mission mix ~8–12 h.
+
 ---
 
 ## 4. Module classes
