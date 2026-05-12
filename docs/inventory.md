@@ -529,6 +529,9 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 
 - [inventory_capability_map.md](inventory_capability_map.md) — coverage matrix vs wiki BOM (now backed by this inventory)
 - [sprint_0.2_circuit_spec.md](sprint_0.2_circuit_spec.md) — circuit spec referencing these parts
+- [sprint_0.3_fdtd_coil_design.md](sprint_0.3_fdtd_coil_design.md) — FDTD design-certification sprint (uses §1 + §1.A compute)
 - [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md) — fab spec for the coil
+- [gpu_farm_workloads.md](gpu_farm_workloads.md) — analysis of §1.A GPU farm vs HelmKit & adjacent tech
+- [beyond_wiki_concepts.md](beyond_wiki_concepts.md) — what this inventory enables that the wiki does not describe
 - [wiki_synthesis.md § Pass 2](wiki_synthesis.md) — wiki BOM source
 - [safety.md](safety.md) — HV/VHV safety posture
