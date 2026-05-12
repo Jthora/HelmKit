@@ -169,9 +169,15 @@ Highlights only (full list in original inventory):
 
 | Qty | Item | Use |
 |---|---|---|
-| 730 | **IR LEDs (small package)** | **photic stim at IR; wiki-relevant for retinal-IR** |
-| 365 | **UV LEDs** | curing / sterilization / experimental photic |
-| Various | **Colored LEDs** | status / photic stim |
+| 730 | **IR LEDs (small package, 5 mm class)** | **photic stim at IR; wiki-relevant for retinal-IR** |
+| 365 | **UV LEDs (small package)** | curing / sterilization / experimental photic |
+| **10** | **Chanzon 3 W high-power UV 365 nm SMD/COB** (3.0–3.2 V, 400–500 mA) | **high-irradiance UV-A** for photic stim experiments; sterilization gates |
+| 10 | **uxcell 3 W 365–370 nm SMD COB** (3.2–3.8 V, 700 mA) | second high-power UV COB stock (higher current variant) |
+| 10 | **uxcell 365–370 nm 3 mm DIP UV LEDs** (3.4 V, 20 mA) | low-power indicator UV |
+| **10** | **Chanzon 3 W high-power far-red 730 nm SMD/COB** (1.8–2.2 V, 400–500 mA) | **wiki-relevant retinal-IR / NIR photic stim** at high irradiance |
+| 10 | **Jammas 3 W far-red 730/740 nm IR COB** (3 W class) | second 730 nm stock for paired-cheek / paired-temple emitter pattern |
+| 100 | **Chanzon 3 mm white LEDs** (clear, 3 V / 20 mA) | status / illumination / sham control |
+| Various | **Colored LEDs** (assorted) | status / photic stim |
 | 1 | **ELP 170° fisheye 8MP USB camera** | **head-cam / situational awareness; Defender vision** |
 | 10 pairs | **Gikfun IR emit+receive diode pair** (EK8460) | IR comms / IR sense |
 | 5 sets | **MELIFE 38 kHz IR receiver + transmitter module** (EK8477) | discrete IR |
@@ -251,13 +257,17 @@ Highlights only (full list in original inventory):
 | Qty | Item | Notes |
 |---|---|---|
 | 1 | **Genmitsu CNC 3018-PRO** (GRBL, 300×180×45 mm work area) | **PCB mill confirmed; bifilar coil fab path enabled** |
-| 10 | **Chanzon single-sided copper-clad 70×100 mm** | **stock for bifilar coil milling** (note: single-sided only — see [mk0_pcb_bifilar_coil.md § 1.4](mk0_pcb_bifilar_coil.md) for single-sided fallback geometry) |
-| 18 | **Pure copper sheet kit** (3 sizes, 0.02" / 0.5 mm thick) | EMI shield / antenna ground plane / coil shield |
-| 1 set | **MK10 nozzles + 3D printer cleaning tools** | (3D-print tooling, adjacent) |
+| **10** | 🟢 **uxcell DOUBLE-SIDED FR4 copper-clad 200×200×1.5 mm** | 🔓 **UNLOCKS wiki-canonical two-layer bifilar coil.** Cut 200×200 into 9× ~65×65 mm or 4× ~100×100 mm coupons on the CNC — yields ~40 coil blanks. Procurement gap *closed*. |
+| 10 | Chanzon single-sided copper-clad 70×100 mm | bench / RF ground-plane / etch test pieces |
+| 10 | MCIGICM single-sided copper-clad 4×2.7" (102×69 mm) | additional single-sided stock |
+| 5 | **MECCANIXITY single-sided FR4 200×100×1.5 mm** | larger format — single-coil + driver-on-same-board prototypes |
+| 5 | Qimoo single-sided FR4 100×70×1.5 mm | small single-sided coupons |
+| 18 | Pure copper sheet kit (Swpeet, 3 sizes ¾"/6/5"/2", 0.02" / 0.5 mm thick) | EMI shield / antenna ground plane / coil shield |
+| 1 set | MK10 nozzles + 3D printer cleaning tools | 3D-print tooling, adjacent |
 
-**Important:** stock is **single-sided** copper-clad. The wiki-canonical bifilar coil is two-layer series-opposing. We need **either** (a) double-sided stock procured (~$15 for a small batch) **or** (b) the single-sided fallback geometry (two side-by-side spirals on one face, connected by an underside jumper). The single-sided path **does work** but loses the through-substrate E-field — we get dipole cancellation but not the high-V inter-layer gradient.
+**🟢 Substrate gap CLOSED.** 10× 200×200 mm double-sided FR4 1.5 mm is *more than enough* for the wiki bifilar coil and every Mk1/Mk2 PCB variant we've imagined. Single-sided stock (Chanzon + MCIGICM + MECCANIXITY + Qimoo = 30 boards) remains available for RF ground planes, test coupons, and shielding.
 
-**Decision pending:** procure 5–10 pieces of double-sided FR4 70×100 mm (~$15) or proceed with single-sided fallback. Operator's call given the budget posture.
+**Fab plan locked:** mill the wiki-canonical two-layer series-opposing bifilar coil on the uxcell double-sided 1.5 mm FR4. See [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md) § 1.1–1.3 (canonical geometry); the single-sided fallback in § 1.4 is no longer needed for v0.1.
 
 ### 5.2 Hand tools / mechanical
 
@@ -299,11 +309,20 @@ Highlights only (full list in original inventory):
 | Many | **EDGELEC Dupont jumper wires** 20 cm M/M, M/F, F/F | breadboard |
 | 1 | **635-pc 2.54 mm Dupont housing + pin kit** + 5-ft 10-wire ribbon | wiring |
 | 1 | **Copper magnet wire spools + audio cable spools + enameled wire** (various gauges, heavy stock) | **hand-wound coil stock if PCB-coil path fails or for solenoid alternatives** |
-| 1 | **BNTECHGO 20 AWG enameled magnet wire**, 1.0 lb spool, 0.0315" Ø, 155°C-rated | **wiki Mk1-class hand-wound bifilar coil stock** — ~315 ft per lb at 20 AWG; ample for multiple 30×30 mm coil rewinds + Mk2 solenoid experiments |
+| 1 | **BNTECHGO 20 AWG enameled magnet wire** (natural), 1.0 lb spool, 0.0315" Ø, 155°C-rated | **wiki Mk1-class hand-wound bifilar coil stock** — ~315 ft per lb at 20 AWG |
+| 1 | **BINNEKER 20 AWG enameled magnet wire** (red), 1.0 lb spool, 0.0315" Ø, 155°C-rated | second 20 AWG spool — enables bifilar hand-wound (two strands wound simultaneously) |
+| 1 | **BNTECHGO 28 AWG enameled magnet wire** (red), **5 lb** spool, 0.0122" Ø, 155°C-rated | **high-turn-count fine coils** — ~7700 ft; for Mk2 multilayer solenoids, Tesla-style flat spirals, fine pickup coils, RX antennas |
+| 1 | **INSPIRELLE 8-pack craft copper wire kit** 32–18 AWG mixed | thin-gauge bus + sense leads + jewelry-class field probes |
 | 25 | **E BAVITE neodymium bar magnets 60×10×3 mm, double-side-adhesive** | calibration jig + experimental field generators |
 | 7 | **Junarter neodymium cube magnets** | calibration / DIY field sources |
 | 100 | **LOVIMAG neodymium cube magnets 10×10×10 mm** (2× 50-pc packs) | uniform-cube experimental field arrays; ferrofluid-pattern jigs |
 | 500 (mixed) | **Small magnets, 7 sizes** | fridge-mag class; cumulative field sources |
+
+### 6.1 Soldering consumables
+
+| Qty | Item |
+|---|---|
+| 4 | **Essmetuin no-clean rosin soldering flux paste** (lead-free electronics class) |
 
 ---
 
@@ -322,8 +341,20 @@ Highlights only (full list in original inventory):
 | Item | Notes |
 |---|---|
 | **Faraday fabric** (silver/nickel-plated textile) | EMI cavity inside helm + sham coil pouch |
-| **Industrial EMI/RFI shielding spray** (conductive paint) | inside enclosures, grounded |
-| **Ferrofluid** | passive magnetic damper / field-line visualizer (Mk2 demo + QA) |
+| **Industrial EMI/RFI shielding spray** (generic conductive paint) | inside enclosures, grounded |
+| **MG Chemicals 843AR Super Shield Silver-Coated-Copper conductive paint**, 12 oz aerosol | **high-conductivity RFI/EMI shielding** — Ag-on-Cu, low surface resistance; for HV-module enclosure interiors + helm-shell inner liner |
+| **MG Chemicals 841AR Super Shield Nickel conductive paint**, 12 oz aerosol | **Ni-based EMI shielding** — mid-range conductivity, cheaper for large-area coverage; second-layer over 843AR or bulk shielding |
+| **MG Chemicals 838AR Total Ground Carbon conductive paint**, 12 oz aerosol | **carbon-graphite anti-static / ESD-dissipative** — lower conductivity, for ESD floor on bench, sham-coil pouch lining, low-current grounding |
+| **Ferrofluid stock** (4× sources: 2× 1000 mL Educational Innovations, 1× 120 mL bottle, 1× 60 mL CMS) | ~2.18 L total — passive magnetic damper / field-line visualizer (Mk2 demo + QA + ferrofluid-pattern jigs) |
+| **Black iron oxide Fe₃O₄ powder**, ~5 lb | magnetite — ferrofluid stock / ferrite-core feedstock / field-line dust visualizer |
+| **TITGGI ultra-fine pure graphite powder**, 1 qt | dry lubricant; conductive paint thickener; ESD-dissipative additive |
+| **AOSWTLIF white quartz sand 40–80 mesh**, 4 lb | piezo-relevant test medium; ferrofluid-pattern substrate; thermal mass for HV-module enclosures |
+| **SUNYIK quartz tumbled chips**, 1 lb | piezo-relevant test stones; resonant-cavity / dielectric experiments |
+
+**Conductive-paint stack — use-case map:**
+- 843AR (Ag-Cu, high conductivity): inside HV-module enclosures; helm-shell inner EMI liner; coil-PCB ground-plane patching
+- 841AR (Ni, medium): bulk EMI-spray for large-area helmet-interior cavities (cost-effective over 843AR)
+- 838AR (carbon, ESD): sham-coil pouch (drains static without forming a conductive loop that would itself emit), bench mat, dissipative ground paths
 
 ---
 
@@ -331,13 +362,13 @@ Highlights only (full list in original inventory):
 
 | Item | Cost | Priority | Use |
 |---|---|---|---|
-| **Double-sided 70×100 mm FR4 copper-clad** (5–10 pc) | ~$15 | **medium-high** — enables wiki-canonical two-layer bifilar | coil PCB |
+| ~~Double-sided 70×100 mm FR4 copper-clad~~ | ~~$15~~ | ✅ **CLOSED** — 10× uxcell 200×200 mm 1.5 mm double-sided in stock | wiki-canonical bifilar coil now buildable to spec |
 | Polar H10 chest strap | ~$80 | medium | Mk1 Stabilizer HRV gold standard |
 | Bone-conduction transducer pair | ~$10 | low (we have 6× 40 mm full-range that can substitute on cheek/temple) | Harmonizer |
 | Si5351 breakout if we want exact wiki carrier IC | ~$5 | low (ESP32 LEDC PWM substitutes natively in 1–8 MHz) | coil carrier |
 | nRF52840 dev board (Adafruit Feather / XIAO BLE) | ~$15 | low (Heltec LoRa 32 substitutes) | BLE-only path |
 
-**Total procurement gap < $130. Of that, the $15 double-sided FR4 batch is the only item that actually unlocks a meaningful capability we don't already have.**
+**Total procurement gap: ~$110, all *nice-to-haves with viable substitutes already on hand*. No item meaningfully blocks any planned Mk0 or Mk1 capability.**
 
 ---
 
@@ -351,7 +382,7 @@ Highlights only (full list in original inventory):
 | **Defender Mk1** | ✅ complete (HackRF One + 3× NESDR + Ham It Up + 9-axis IMU dual for gradiometer + MLX90640 thermal + SGP40 VOC + DSO for emission verification) |
 | **Platform safety floor** | ✅ complete (Faraday fabric + EMI spray + DS18B20 thermistor + relays + supercaps for surge + Peltier for HV-module cooling) |
 
-**Verdict:** Inventory clears wiki Mk1 spec end-to-end. The only hardware purchase that meaningfully changes the achievable build is **$15 of double-sided FR4** to enable the two-layer bifilar coil geometry exactly as the wiki specifies. Everything else is a substitution within engineering-equivalent envelopes.
+**Verdict:** Inventory clears wiki Mk1 spec end-to-end. **All meaningful procurement gaps are now closed** — the double-sided FR4 batch I flagged earlier turned out to already be in stock (uxcell 10× 200×200×1.5 mm). Every remaining "gap" item has a viable substitute already on hand. Build can proceed to Sprint 0.3 (perfboard prototype + first coil PCB mill) without any purchase.
 
 ---
 

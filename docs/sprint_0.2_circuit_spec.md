@@ -4,7 +4,7 @@
 **Hard constraint:** Near-zero cash budget. Build from existing tote inventory. Anything not in the totes is **defer or omit**, not "buy."
 **Status:** DRAFT — sections marked `[INVENTORY-TBD]` get filled after today's physical count. Many sections already concretized from operator-stated inventory (2026-05-12). See [inventory_capability_map.md](inventory_capability_map.md).
 
-> **Scope expansion (2026-05-12 inventory pass):** Inventory complete — see [inventory.md](inventory.md). **Inventory clears wiki Mk1 spec end-to-end.** Sprint 0.2 doc now covers both: §§1–10 = Mk0 board; §§11–14 = parallel Mk1 prep tasks. Only meaningful procurement gap is **~$15 of double-sided FR4** for wiki-canonical two-layer bifilar coil (single-sided fallback available without it).
+> **Scope expansion (2026-05-12 inventory pass):** Inventory complete — see [inventory.md](inventory.md). **Inventory clears wiki Mk1 spec end-to-end with zero procurement gaps.** Sprint 0.2 doc now covers both: §§1–10 = Mk0 board; §§11–14 = parallel Mk1 prep tasks. Double-sided FR4 (10× uxcell 200×200×1.5 mm) confirmed in stock — wiki-canonical two-layer bifilar coil buildable to spec; single-sided fallback geometry no longer needed for v0.1.
 
 > **Wiki alignment:** The wiki Mk1 BOMs are treated as **engineering intent**, not aspiration. Sprint 0.2 (Mk0) defers the coil drive chain only because we cannot yet enclose, current-limit, and watchdog it on this budget — not because the geometry is in doubt. Mk0 collects the biomarkers and platform that Mk1 will need; the wiki Mk1 spec is the next jump. See [wiki_synthesis.md § Pass 2](wiki_synthesis.md), [mk1_buildplan.md](mk1_buildplan.md), and the AI-onboarding note in [../README.md](../README.md).
 
@@ -256,7 +256,7 @@ Most questions from the original §9 are now resolved (see [inventory.md](invent
 - **PCB CNC bit set** — confirm 0.2 mm V-bit / 0.25 mm end mill + 1.0 mm drill availability for the [coil fab spec](mk0_pcb_bifilar_coil.md)
 - **Spare 2S 18650 holders + BMS** — likely in TP4056-adjacent stock; confirm
 - **Shielded cable / coax stock** for the magnetometer lead
-- **Decision:** procure ~$15 of double-sided FR4 70×100 mm, OR proceed with single-sided fallback geometry for coil v0.1
+- **Decision RESOLVED:** ✅ 10× uxcell 200×200×1.5 mm double-sided FR4 in stock — proceed with wiki-canonical two-layer bifilar coil geometry, no procurement needed
 
 ---
 
@@ -381,7 +381,7 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 | 6 | Confirm PCB CNC mill | jono | ✅ Genmitsu CNC 3018-PRO; bit set TBD |
 | 7 | Confirm USB power source | jono | ✅ multiple paths confirmed |
 | 8 | Update remaining `[INVENTORY-TBD]` markers | jono / assistant | ✅ (this commit) |
-| 9 | Decide: procure double-sided FR4 (~$15) vs single-sided fallback for coil v0.1 | jono | ☐ |
+| 9 | Decide: procure double-sided FR4 (~$15) vs single-sided fallback for coil v0.1 | jono | ✅ resolved — 10× uxcell DS-FR4 200×200×1.5 mm already in stock |
 | 10 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | ☐ |
 
 **Definition of done for Sprint 0.2:** ✅ inventory captured; ✅ MCU + sensor + power picks locked; ✅ wiki Mk1 coverage matrix produced; ☐ 9-axis IMU specific part confirmed; ☐ coil-PCB substrate decision made; ☐ footprint sketch vs. CAD shell. **Targets for Sprint 0.3** = perfboard build + first coil PCB mill.

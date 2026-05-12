@@ -61,7 +61,7 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 |---|---|---|---|
 | MCU (nRF52840) | **Heltec LoRa 32** (ESP32) | ✅ **direct substitute** | ESP32 has BLE; talks to Polar H10 over BLE GATT natively. Plus WiFi + LoRa + OLED + battery management. |
 | Polar H10 chest strap | ❌ | ❌ procurement (~$80) | Mk1 procurement target; or use sensor-kit pulse modules as interim. |
-| **Bifilar PCB coil ~30×30 mm** | **Genmitsu CNC 3018-PRO + copper-clad** | 🟡 fab path enabled | **Stock is single-sided only.** Double-sided FR4 (~$15) enables exact wiki two-layer geometry; otherwise use single-sided fallback per [mk0_pcb_bifilar_coil.md § 1.4](mk0_pcb_bifilar_coil.md). |
+| **Bifilar PCB coil ~30×30 mm** | **Genmitsu CNC 3018-PRO + 10× uxcell DOUBLE-SIDED FR4 200×200×1.5 mm** | ✅ **fab path COMPLETE** | Wiki-canonical two-layer series-opposing geometry is now buildable to spec. Cut 200×200 coupons → ~40 coil blanks per board. See [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md) § 1.1–1.3. |
 | SI5351 clock gen | **ESP32 LEDC PWM** (Heltec) + **XR2206 kit** (1 Hz–1 MHz) + **MAX2870 PLL** (>23.5 MHz) + **ADF4351 PLL** (>35 MHz) | ✅ multiple paths | ESP32 LEDC is the cleanest current-inventory option for the wiki 1–8 MHz drive band. XR2206 covers the lower edge + handles the 7.83 Hz Schumann envelope. |
 | Class-D audio amp (PAM8403 / TPA3116) | **BT Amp boards 2×5W** + **discrete MOSFETs from 5228-pc kit** | ✅ | Discrete MOSFET H-bridge is preferred at 1–8 MHz where audio-band Class-D won't reach. |
 | **Coil driver up to 1–8 MHz at safe V** | **HV modules + DUTTY 20A bench supply + DSO for verification** | ✅ | HV modules drive the coil; DUTTY supply provides clean low-voltage rail for control; DSO verifies waveform. |
@@ -110,13 +110,13 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 
 | Item | Cost | Priority | Used in |
 |---|---|---|---|
-| **Double-sided 70×100 mm FR4 copper-clad** (5–10 pc) | ~$15 | **medium-high** | Wiki-canonical two-layer bifilar coil geometry. Single-sided fallback exists but loses the inter-layer E-field. **This is the single highest-impact procurement.** |
+| ~~Double-sided FR4 copper-clad~~ | ~~$15~~ | ✅ **CLOSED** — 10× uxcell 200×200×1.5 mm DS-FR4 confirmed in stock | wiki-canonical two-layer bifilar coil now buildable to spec |
 | Polar H10 chest strap | ~$80 | medium | Mk1 Stabilizer HRV gold standard. Pi sensor kit PPG is the interim. |
 | Bone-conduction transducer pair | ~$10 | low | Harmonizer Mk1. 6× 40 mm full-range drivers substitute on cheek/temple. |
 | nRF52840 dev board (Adafruit Feather / Seeed XIAO) | ~$15 | low | Heltec LoRa 32 substitutes (ESP32 BLE). |
 | Si5351 module if we want exact wiki carrier IC | ~$5 | low | ESP32 LEDC PWM substitutes natively in 1–8 MHz. |
 
-**Total procurement gap: ~$15 of critical items + ~$110 of nice-to-haves. The $15 of double-sided FR4 is the only meaningful unlock; everything else is substitutable.**
+**Total procurement gap: ~$110 of nice-to-haves, zero blockers. Every remaining item has a viable on-hand substitute. The FR4 gap is closed.**
 
 ---
 
