@@ -4,7 +4,7 @@
 **Hard constraint:** Near-zero cash budget. Build from existing tote inventory. Anything not in the totes is **defer or omit**, not "buy."
 **Status:** DRAFT — sections marked `[INVENTORY-TBD]` get filled after today's physical count. Many sections already concretized from operator-stated inventory (2026-05-12). See [inventory_capability_map.md](inventory_capability_map.md).
 
-> **Scope expansion (2026-05-12 inventory):** Operator confirmed Pi 4, Jetson Nano, Arduino Nano v3, 9-axis IMU(s), Pi sensor kit, PCB CNC mill + stock, SDR modules, HV/VHV modules, Faraday fabric, EMI shielding spray, neodymium magnets, ferrofluid all on hand. **This pushes the achievable ceiling from Mk0-sensors-only to Mk0 + Mk1-coil-prefab.** Sprint 0.2 doc now covers both: §§1–10 = Mk0 board; §11–14 = parallel Mk1 prep tasks made possible by current inventory.
+> **Scope expansion (2026-05-12 inventory pass):** Inventory complete — see [inventory.md](inventory.md). **Inventory clears wiki Mk1 spec end-to-end.** Sprint 0.2 doc now covers both: §§1–10 = Mk0 board; §§11–14 = parallel Mk1 prep tasks. Only meaningful procurement gap is **~$15 of double-sided FR4** for wiki-canonical two-layer bifilar coil (single-sided fallback available without it).
 
 > **Wiki alignment:** The wiki Mk1 BOMs are treated as **engineering intent**, not aspiration. Sprint 0.2 (Mk0) defers the coil drive chain only because we cannot yet enclose, current-limit, and watchdog it on this budget — not because the geometry is in doubt. Mk0 collects the biomarkers and platform that Mk1 will need; the wiki Mk1 spec is the next jump. See [wiki_synthesis.md § Pass 2](wiki_synthesis.md), [mk1_buildplan.md](mk1_buildplan.md), and the AI-onboarding note in [../README.md](../README.md).
 
@@ -44,15 +44,20 @@ Wiki-canonical Mk1 sensor stack is BME680 + MPU6050 + HMC5883L + PPG + Polar H10
 
 | Tier | Sensor class | Why it matters | Wiki Mk1 part | Mk0 pick (inventory-confirmed) |
 |---|---|---|---|---|
-| **Must-have** | 3-axis IMU (accel+gyro) | head pose, motion artifact rejection | MPU6050 / ICM-20948 | ✅ **9-axis IMU module** (operator-stated; specific part TBD — MPU-9250 / ICM-20948 / BNO055 class) |
+| **Must-have** | 3-axis IMU (accel+gyro) | head pose, motion artifact rejection | MPU6050 / ICM-20948 | 🟡 **9-axis IMU module** (count + specific part TBD; abundant) |
 | **Strong nice-to-have** | 3-axis magnetometer | ambient field baseline; F4-relevant geomagnetic-sensitivity studies | HMC5883L / LIS3MDL | ✅ **integrated on the 9-axis IMU above** |
-| **Strong nice-to-have** | Environmental (T/RH/P/VOC) | session-context logging; thermal-safety floor | BME680 | 🟡 **Pi sensor kit** likely contains BME280/680, BMP280, or DHT22 — confirm during inventory |
-| **Want** | PPG (heart rate / HRV) | primary biomarker for stabilization studies | MAX30102 | 🟡 **Pi sensor kit** — confirm MAX30100/30102 presence |
-| **Want** | Skin-contact electrodes (EEG / GSR) | optional Mk0.5 — needs analog front-end | ADS1299 / AD8232 | ❌ defer; not in scope without analog front-end IC |
-| **Optional** | Microphone | ambient audio context | ICS-43434 / MEMS | 🟡 likely in Pi sensor kit (MAX9814 / electret) |
-| **Optional** | Ambient light | photic stim sham control + circadian context | TSL2591 / VEML7700 | 🟡 likely in Pi sensor kit (BH1750 / TSL2561) |
-| **Bonus** | Magnetometer #2 (gradiometer) | wiki Defender 2× mag pattern | second HMC5883L | ✅ **second 9-axis IMU** mounted ~5 cm offset gives free gradiometer |
-| **Bonus** | SDR (RF wideband survey) | wiki Defender survey path | RTL-SDR / HackRF | ✅ **SDR module** on hand (model TBD) — connects to Pi 4 USB |
+| **Strong nice-to-have** | Environmental (T/RH/P/VOC) | session-context logging; thermal-safety floor | BME680 | ✅ **SGP40** (VOC) + **BMP180** (pressure) + **DHT11** (T/RH) from sensor kits |
+| **Want** | PPG (heart rate / HRV) | primary biomarker for stabilization studies | MAX30102 / Polar H10 | ❌ gap — Polar H10 deferred procurement (~$80); interim: build PPG from photoresistor + IR LED (in 730× IR LED stock) |
+| **Want** | Skin-contact electrodes (EEG / GSR) | optional Mk0.5 — needs analog front-end | ADS1299 / AD8232 | ❌ defer; **PCF8591 ADC shield** (in Pi kit) gives a path if we hand-build an instrumentation amp |
+| **Optional** | Microphone | ambient audio context | ICS-43434 / MEMS | ✅ Sound Detection module (Smart Home kit) + electret (Analog Sound Sensor, RPi kit) |
+| **Optional** | Ambient light | photic stim sham control + circadian context | TSL2591 / VEML7700 | ✅ **TEMT6000** + photoresistor (RPi kit), GUVA-S12SD UV |
+| **Bonus** | Magnetometer #2 (gradiometer) | wiki Defender 2× mag pattern | second HMC5883L | ✅ **second 9-axis IMU** at known offset |
+| **Bonus** | Thermal IR | wiki Defender thermal sense | MLX90640 | ✅ **MLX90640** confirmed in inventory |
+| **Bonus** | SDR (RF wideband survey) | wiki Defender survey path | HackRF | ✅ **HackRF One + 3× NESDR + Ham It Up upconverter + 1:9 balun** |
+| **Bonus** | OLED HUD | wiki HelmKit HUD | SSD1306 0.96" | ✅ **integrated on Heltec LoRa 32** (2×) |
+| **Bonus** | Hall sensor / reed switch | digital magnetic-event sense | Hall element | ✅ in RPi kit (Hall Magnetic + Reed Switch) |
+| **Bonus** | Capacitive touch | wearer skin-contact verification | TTP223 | ✅ in both kits |
+| **Bonus** | Wide-FOV camera | situational awareness | fisheye | ✅ **ELP 170° 8 MP USB fisheye** |
 
 **Inventory rule:** anything we have ≥1 of goes on the spec at its tier. Anything we have zero of moves to "Mk1 procurement list" and **does not block Mk0**.
 
@@ -66,11 +71,14 @@ Wiki canonical: STM32F407 (doer) + RP2040 (checker). For Mk0 we use whatever MCU
 
 Listed in rough order of preference for an Mk0 build:
 
-**LOCKED — picks based on operator-stated inventory (2026-05-12):**
+**LOCKED — picks based on 2026-05-12 inventory:**
 
-- **MCU-A (doer): Raspberry Pi 4.** Hosts I²C bus, USB (SDR + sensors), real-time logging, optional ML inference. Runs Linux; Python + C extensions for the bus + control loops. Headless or HDMI debug.
-- **MCU-B (checker): Arduino Nano v3 (ATmega328P).** Small enough to formally audit. Holds the 12-row safety blacklist (see [wiki_synthesis.md § Pass 2](wiki_synthesis.md)) in flash. Independent power monitoring + kill GPIO. Talks to Pi 4 over I²C as a watchdog slave; raises an open-drain SAFETY line on any violation.
-- **Heavy compute: Jetson Nano (optional Mk0.5+).** Off-board (in pack, on belt) for SDR DSP, FFT, HRV pipeline, FDTD verification. Connected via Pi 4 ethernet or USB.
+- **MCU-A (doer): Raspberry Pi 4.** Hosts I²C bus, USB (SDR + sensors), real-time logging, optional ML inference. Runs Linux; Python + C extensions for the bus + control loops.
+- **MCU-B (checker): Arduino Nano v3 (ATmega328P).** Small enough to formally audit. Holds the 12-row safety blacklist in flash. Independent power monitoring + kill GPIO. Talks to Pi 4 over I²C as a watchdog slave; raises an open-drain SAFETY line on any violation.
+- **MCU-C (HUD / BLE / LoRa): Heltec LoRa 32 (ESP32).** Drives the 0.96" OLED HUD, BLE for Polar H10 (when procured), LoRa for inter-helm mesh, secondary Li-Po battery manager. **Two in inventory** — second one is hot spare or paired-helm mesh node.
+- **Heavy compute (off-board, Mk0.5+): Jetson Nano.** SDR DSP, FFT, HRV pipeline, FDTD verification. Connected via Pi 4 ethernet or USB.
+
+This is a *three*-MCU architecture instead of the wiki's two, but the third (Heltec) is a free addition since it consolidates OLED + BLE + LoRa + PMIC into one board we already have two of.
 
 Why this stack over the wiki-canonical STM32F407+RP2040:
 - Pi 4 is wildly over-spec for the doer role, which is fine — gives us margin to run SDR DSP, full Linux logging, and ML inference without a second board.
@@ -129,19 +137,30 @@ Mk0 has no high-current loads. Budget is dominated by MCU + sensors + LEDs.
 | **Total Mk0 active** | **~60–120 mA** | **~320 mA** |
 | **Total Mk0 sleep (logger)** | **< 5 mA target** | — |
 
-### 4.1 Power source — Pi 4 changes the calculation
+### 4.1 Power source — inventory-confirmed paths
 
-The Pi 4 needs **5 V @ ~1–2 A** continuous (3 A peak under USB load). That's well above what a single 18650 + LDO will deliver cleanly. Options:
+With confirmed inventory (4× MakerHawk 18650, 20× TP4056 USB-C chargers, DUTTY 5–20 A bench supplies, multiple boost/buck modules, mini-UPS units, Pololu U3V12F12 12 V step-up):
 
 | Option | Source | Pros / cons |
 |---|---|---|
-| **A (recommended Mk0):** USB-C power bank (5 V / 3 A) on belt | likely in tote, otherwise the operator owns several already | tethered to short USB cable; trivially safe; no charging IC needed |
-| **B (Mk1 portable):** 2× 18650 in series + buck to 5 V | inventory + buck module | wiki-canonical 2×18650 path; needs buck rated ≥ 3 A and proper BMS |
-| **C (bench):** wall-wart 5 V / 3 A USB-C | inventory | bench-only |
+| **A (Mk0 bench):** USB-C cable + DUTTY 5 A buck or wall-wart 5 V / 3 A | confirmed | trivial; safe; bench-only |
+| **B (Mk0 portable):** 2× 18650 in 2S → Pololu U3V12F12 to 12 V → DC-DC buck 12 V → 5 V 3 A → Pi 4 | confirmed | wiki-canonical 2×18650 path. Pi 4 sits on regulated 5 V; Heltec LoRa 32 sits on its own Li-Po (separate cell). Mini-UPS modules give bench fail-over. |
+| **C (UPS-backed bench):** mini-UPS 12V → buck → 5 V → Pi 4; mini-UPS battery provides ride-through | confirmed | for long-session logging without USB cable strain |
 
-**Mk0 lock: Option A** (USB-C power bank, belt-worn, short tether to helm). Defers the BMS/charger design to Mk1 where it belongs.
+**Mk0 lock: Option A bench, Option B portable.** Build the Option B chain on perfboard with current-sense on the 12 V rail (Nano ADC) so MCU-B can monitor pack health.
 
-`[INVENTORY-TBD]` — confirm during pass: USB-C power bank(s), 5 V buck modules, 18650 cells + holders, BMS modules.
+### 4.1.1 Confirmed power inventory used in this spec
+
+| Role | Part | Qty available |
+|---|---|---|
+| Cell | MakerHawk 18650 3000 mAh | 4 |
+| 18650 charge | TP4056 USB-C 1 A | 5 (+20 alt) |
+| 12 V boost | Pololu U3V12F12 | 2 |
+| 12 V → 5 V 3 A buck | DUTTY 6–24 V USB buck | 1 (Pi 4 supply) |
+| Bench rail | DUTTY 20 A constant-V/I + DUTTY 5 A w/ display | 1 each |
+| UPS bench backup | Multi-output mini-UPS (12/9/5 V) | several |
+| Surge buffer (optional, HV side) | 500 F 2.7 V supercap | 10 |
+| Coil drive HV | Multiple HV modules from 1.8 kV up to 1000 kV | many (overstocked) |
 
 ### 4.2 Runtime target (if battery present)
 
@@ -228,18 +247,16 @@ The wiki's [12-row blacklist](wiki_synthesis.md) is Mk1-relevant (coil drive); M
 
 ---
 
-## 9. Open questions to resolve during inventory
+## 9. Open items (remaining after 2026-05-12 inventory)
 
-- Specific 9-axis IMU model in totes? (MPU-9250 = I²C 0x68; ICM-20948 = I²C 0x68; BNO055 = I²C 0x28 — affects driver pick on Pi 4)
-- Exact SDR model(s)? (RTL-SDR R820T2 = 24 MHz–1.7 GHz; HackRF = 1 MHz–6 GHz; LimeSDR = 100 kHz–3.8 GHz) — determines Mk1 Defender survey range
-- HV/VHV module spec? (output V, max I, enable pin? built-in oscillator or pure boost?)
-- PCB CNC mill min trace/space spec? (drives §1 of [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md))
-- Copper-clad stock dimensions + thickness available?
-- USB-C power bank capacity + output current rating?
-- Pi sensor kit contents (full list — drives §2 confirmations)
-- Shielded cable / coax / twisted pair on hand?
-- microSD module or breakout? (Pi 4 already takes SD natively, so this is for Nano if needed)
-- Neodymium magnet sizes/grades? (needed for §11 calibration jig)
+Most questions from the original §9 are now resolved (see [inventory.md](inventory.md)). Remaining:
+
+- **9-axis IMU specific part + count** (driver pick on Pi 4: MPU-9250/ICM-20948 = 0x68; BNO055 = 0x28)
+- **HV module enable-pin behavior** — active-high / active-low / opto-isolated? Test bench-only before circuit lock.
+- **PCB CNC bit set** — confirm 0.2 mm V-bit / 0.25 mm end mill + 1.0 mm drill availability for the [coil fab spec](mk0_pcb_bifilar_coil.md)
+- **Spare 2S 18650 holders + BMS** — likely in TP4056-adjacent stock; confirm
+- **Shielded cable / coax stock** for the magnetometer lead
+- **Decision:** procure ~$15 of double-sided FR4 70×100 mm, OR proceed with single-sided fallback geometry for coil v0.1
 
 ---
 
@@ -354,19 +371,17 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 
 ## 14. Today's expanded deliverables (with inventory known)
 
-Updated from §8 given the parts-on-hand picture:
-
 | # | Task | Owner | Status |
 |---|---|---|---|
-| 1 | **Tote inventory pass** — categorize by: dev boards, sensors, power, connectors, passives, RF, mechanical, fabric/shielding, magnets, chemicals (ferrofluid) | jono | ☐ |
+| 1 | **Tote inventory pass** — captured in [inventory.md](inventory.md) | jono | ✅ |
 | 2 | Confirm 9-axis IMU model + count | jono | ☐ |
-| 3 | Confirm Pi sensor kit contents (env / PPG / ambient light / mic — list each part) | jono | ☐ |
-| 4 | Confirm SDR model(s) + count | jono | ☐ |
-| 5 | Confirm HV/VHV module spec (output V, max I, enable pin) | jono | ☐ |
-| 6 | Confirm PCB CNC mill min trace/space + copper-clad stock dims | jono | ☐ |
-| 7 | Confirm USB-C power bank capacity / output current | jono | ☐ |
-| 8 | Fill in remaining `[INVENTORY-TBD]` markers | jono | ☐ |
-| 9 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | ☐ |
-| 10 | Commit inventory results back into this doc + [inventory_capability_map.md](inventory_capability_map.md) | jono | ☐ |
+| 3 | Confirm full Pi sensor kit contents | jono | ✅ (KS3016 + DKHK100200 fully catalogued) |
+| 4 | Confirm SDR model(s) + count | jono | ✅ (HackRF One + 2× NESDR v4 + 1× NESDR XTR + Ham It Up + balun) |
+| 5 | Confirm HV/VHV module spec | jono | 🟡 partial — counts done; enable-pin behavior TBD on bench |
+| 6 | Confirm PCB CNC mill | jono | ✅ Genmitsu CNC 3018-PRO; bit set TBD |
+| 7 | Confirm USB power source | jono | ✅ multiple paths confirmed |
+| 8 | Update remaining `[INVENTORY-TBD]` markers | jono / assistant | ✅ (this commit) |
+| 9 | Decide: procure double-sided FR4 (~$15) vs single-sided fallback for coil v0.1 | jono | ☐ |
+| 10 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | ☐ |
 
-**Definition of done for Sprint 0.2:** every `[INVENTORY-TBD]` and `[CAD-MEASURE-TBD]` marker resolved; §§11–13 confirmed feasible with on-hand parts; PCB coil Gerber-generation script queued for Sprint 0.3. No solder iron touched today.
+**Definition of done for Sprint 0.2:** ✅ inventory captured; ✅ MCU + sensor + power picks locked; ✅ wiki Mk1 coverage matrix produced; ☐ 9-axis IMU specific part confirmed; ☐ coil-PCB substrate decision made; ☐ footprint sketch vs. CAD shell. **Targets for Sprint 0.3** = perfboard build + first coil PCB mill.
