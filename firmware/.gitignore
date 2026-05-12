@@ -1,0 +1,15 @@
+# arduino-cli build artifacts
+build/
+.pio/
+.vscode/
+
+# AVR / ESP32 binaries
+*.hex
+*.bin
+*.elf
+*.eep
+*.map
+
+# editor scratch
+*.swp
+.DS_Store
