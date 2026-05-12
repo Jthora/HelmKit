@@ -144,21 +144,28 @@ With confirmed inventory (4× MakerHawk 18650, 20× TP4056 USB-C chargers, DUTTY
 | Option | Source | Pros / cons |
 |---|---|---|
 | **A (Mk0 bench):** USB-C cable + DUTTY 5 A buck or wall-wart 5 V / 3 A | confirmed | trivial; safe; bench-only |
-| **B (Mk0 portable):** 2× 18650 in 2S → Pololu U3V12F12 to 12 V → DC-DC buck 12 V → 5 V 3 A → Pi 4 | confirmed | wiki-canonical 2×18650 path. Pi 4 sits on regulated 5 V; Heltec LoRa 32 sits on its own Li-Po (separate cell). Mini-UPS modules give bench fail-over. |
-| **C (UPS-backed bench):** mini-UPS 12V → buck → 5 V → Pi 4; mini-UPS battery provides ride-through | confirmed | for long-session logging without USB cable strain |
+| **B (Mk0/Mk1 portable, RECOMMENDED):** **Talentcell 12V/11Ah + 9V/14.5Ah + 5V/26.4Ah** triple-output pack → 5V USB out direct → Pi 4 (USB-C); 12V out → coil-drive subsystem | confirmed (2 in stock) | ~132 Wh portable; 8–12 h Pi 4 + sensors; dual-rail (5V + 12V) needed for coil bench |
+| **B' (Mk0 portable, lighter):** **Talentcell 12V/6Ah + 5V/12Ah** dual-output | confirmed (2 in stock) | ~72 Wh; 5–7 h Pi 4 |
+| **B" (legacy/DIY):** 2× 18650 in 2S → Pololu U3V12F12 → 12 V → buck → 5 V 3 A → Pi 4 | confirmed | wiki-canonical path; preserved for redundancy / pure-DIY demo |
+| **C (UPS-backed bench):** **TalentCell 27 Ah / 97 Wh Mini-UPS** w/ USB-C PD → Pi 4 direct | confirmed (1 in stock) | bench UPS; USB-C PD output is Pi 4-native; ride-through during HV pulse tests |
+| **D (rack UPS):** mini-UPS 10 Ah 5/9/12 V | confirmed | secondary bench backup |
 
-**Mk0 lock: Option A bench, Option B portable.** Build the Option B chain on perfboard with current-sense on the 12 V rail (Nano ADC) so MCU-B can monitor pack health.
+**Mk0 lock: Option A bench, Option B portable.** The Talentcell triple-output is the cleanest portable supply we have (12V for coil rail, 5V USB for Pi, 9V if needed for analog front-end). Mk0.5+ uses Option C (TalentCell Mini-UPS USB-C PD) for fixed-bench long-session logging.
 
 ### 4.1.1 Confirmed power inventory used in this spec
 
 | Role | Part | Qty available |
 |---|---|---|
-| Cell | MakerHawk 18650 3000 mAh | 4 |
+| **Portable battery (primary)** | **Talentcell 12V/11Ah + 9V/14.5Ah + 5V/26.4Ah triple** (~132 Wh) | **2** |
+| **Portable battery (secondary)** | Talentcell 12V/6Ah + 5V/12Ah dual (~72 Wh) | 2 |
+| **Portable battery (compact)** | Talentcell 12V/3Ah dual 12V/5V USB (~36 Wh) | 2 |
+| **Bench UPS (primary)** | TalentCell Mini-UPS 27Ah/97Wh w/ 12V/9V + 18W USB-A + USB-C PD | 1 |
+| **Bench UPS (secondary)** | Generic Mini-UPS 10Ah 5/9/12V 2A | 1 |
+| Cell (raw) | MakerHawk 18650 3000 mAh | 4 |
 | 18650 charge | TP4056 USB-C 1 A | 5 (+20 alt) |
 | 12 V boost | Pololu U3V12F12 | 2 |
 | 12 V → 5 V 3 A buck | DUTTY 6–24 V USB buck | 1 (Pi 4 supply) |
 | Bench rail | DUTTY 20 A constant-V/I + DUTTY 5 A w/ display | 1 each |
-| UPS bench backup | Multi-output mini-UPS (12/9/5 V) | several |
 | Surge buffer (optional, HV side) | 500 F 2.7 V supercap | 10 |
 | Coil drive HV | Multiple HV modules from 1.8 kV up to 1000 kV | many (overstocked) |
 

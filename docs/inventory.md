@@ -177,6 +177,7 @@ Highlights only (full list in original inventory):
 | **10** | **Chanzon 3 W high-power far-red 730 nm SMD/COB** (1.8–2.2 V, 400–500 mA) | **wiki-relevant retinal-IR / NIR photic stim** at high irradiance |
 | 10 | **Jammas 3 W far-red 730/740 nm IR COB** (3 W class) | second 730 nm stock for paired-cheek / paired-temple emitter pattern |
 | 100 | **Chanzon 3 mm white LEDs** (clear, 3 V / 20 mA) | status / illumination / sham control |
+| 5 | **GEZEE G4 LED bulb** 5 W / 400 lm, 12 V AC/DC, 33×2835 SMD, 6000 K daylight, 360° | **12 V illumination source** for bench enclosure interior / experimental stim lighting (high-CRI daylight) |
 | Various | **Colored LEDs** (assorted) | status / photic stim |
 | 1 | **ELP 170° fisheye 8MP USB camera** | **head-cam / situational awareness; Defender vision** |
 | 10 pairs | **Gikfun IR emit+receive diode pair** (EK8460) | IR comms / IR sense |
@@ -221,16 +222,22 @@ Highlights only (full list in original inventory):
 
 ### 4.4 Backup / UPS modules
 
-| Qty | Item | Notes |
-|---|---|---|
-| Several | **Battery-backup / mini-UPS modules** outputting 12 V / 9 V / 5 V | bench fail-over for Pi 4 during long-session logging |
-| 10 | **500 F 2.7 V supercaps** (35×60 mm) | **HV-pulse current reservoir** if needed for coil; or smoothing for noisy rails |
+| Qty | Item | Capacity | Notes |
+|---|---|---|---|
+| 2 | **Talentcell 12 V 6000 mAh / 5 V 12000 mAh dual-output Li-ion power bank** (with 12.6 V charger) | ~72 Wh @ 12 V rail | **Mk0 portable Pi 4 supply** — 12 V can feed Pololu / DUTTY buck → 5 V; 5 V rail direct-feeds Pi |
+| 2 | **Talentcell 12 V 11000 mAh / 9 V 14500 mAh / 5 V 26400 mAh** triple-output Li-ion pack (AC/DC charger) | ~132 Wh | **long-session field supply** — highest-capacity portable in inventory; ~8–12 h Pi 4 + sensors |
+| 2 | **Talentcell 12 V 3000 mAh** dual-output (12 V / 5 V USB) Li-ion pack | ~36 Wh | small / wearable-class supply |
+| 1 | **TalentCell Mini UPS 27000 mAh / 97.2 Wh** UPS w/ DC 12V/9V + 18W USB-A + USB-C PD | ~97 Wh | **bench UPS** — USB-C PD output direct-feeds Pi 4; ride-through during HV-module tests |
+| 1 | **Generic Mini-UPS 10000 mAh** DC/USB in, 5/9/12 V output, 2 A | ~37 Wh | bench backup |
+| Several | Battery-backup / mini-UPS modules outputting 12 V / 9 V / 5 V | varied | bench fail-over for Pi 4 during long-session logging |
+| 10 | 500 F 2.7 V supercaps (35×60 mm) | ~470 J each @ 2.7 V | HV-pulse current reservoir if needed for coil; or smoothing for noisy rails |
 
 ### 4.5 Power connectors
 
 | Qty | Item |
 |---|---|
 | 6 | DC barrel jacks 5.5×2.1 mm threaded female (Ruibapa) |
+| 30 | **DAOKI DC-022 DC power jack socket 5.5×2.1 mm female panel-mount** with waterproof cap + male plug + screw nut | bulk panel-mount with weather seal — enclosure power-in |
 | 500 | Auto/electrical pin terminals 1–3.5 mm M/F (Swpeet kit) |
 | 700 | Automotive 2–9 pin connectors + 4 mm bullet (Swpeet) |
 
@@ -312,6 +319,7 @@ Highlights only (full list in original inventory):
 | 1 | **BNTECHGO 20 AWG enameled magnet wire** (natural), 1.0 lb spool, 0.0315" Ø, 155°C-rated | **wiki Mk1-class hand-wound bifilar coil stock** — ~315 ft per lb at 20 AWG |
 | 1 | **BINNEKER 20 AWG enameled magnet wire** (red), 1.0 lb spool, 0.0315" Ø, 155°C-rated | second 20 AWG spool — enables bifilar hand-wound (two strands wound simultaneously) |
 | 1 | **BNTECHGO 28 AWG enameled magnet wire** (red), **5 lb** spool, 0.0122" Ø, 155°C-rated | **high-turn-count fine coils** — ~7700 ft; for Mk2 multilayer solenoids, Tesla-style flat spirals, fine pickup coils, RX antennas |
+| 4 (4 oz ea = 1 lb) | **Remington 36 AWG enameled magnet wire** (natural), 0.0055" Ø, 3193 ft / 4 oz | **ultra-fine high-turn coil stock** — 4 spools = ~12,772 ft total; for very-high-Q small pickup coils, ferrite-core inductors, micro-coil experiments |
 | 1 | **INSPIRELLE 8-pack craft copper wire kit** 32–18 AWG mixed | thin-gauge bus + sense leads + jewelry-class field probes |
 ### 6.2 Magnets — full neodymium stack
 
@@ -341,6 +349,20 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 | Qty | Item | Use |
 |---|---|---|
 | 6 | **LOVIMAG waterproof cup magnets**, 150 lb+ pull, neodymium with screw mount, black | **high-pull mechanical mounts** — helm-shell rigging, removable accessories, heavy-duty bench fixtures |
+
+#### Electromagnets (12 VDC solenoid lifters)
+
+| Qty | Item | Pull | Body | Use |
+|---|---|---|---|---|
+| 1 | **DC 12 V 200 N (44 lb / 20 kg)** round suction electromagnet, 70×9 mm | 200 N | 70×9 mm | medium-pull switchable — mechanical actuator / latch / sham-coil DC-only control |
+| 2 | **DC 12 V 800 N (176 lb / 80 kg)** round suction electromagnet, 65×30 mm | 800 N each | 65×30 mm | **high-pull switchable** — large mechanical actuator; or repurpose iron core for Mk2 wound-solenoid experiments |
+| 1 | **DC 12 V 50 N (11 lb / 5 kg)** round electromagnet, 25×11 mm | 50 N | 25×11 mm | small-pull — ferrofluid pump / actuator / sham emulation |
+| 2 | **DC 12 V 50 N (11 lb / 5 kg)** round electromagnet, 25×20 mm | 50 N each | 25×20 mm | small-pull — paired actuators |
+
+**Use notes:**
+- These are *DC-only* lifter electromagnets. They are **not** drop-in coil-drive substitutes (no resonant tuning, ferromagnetic core, optimized for static pull not AC field generation).
+- However, the **iron cores** can be extracted and rewound with the BNTECHGO 28 AWG spool for Mk2 solenoid experiments.
+- The 800 N units can serve as **mechanical clamping fixtures** during coil-drive bench tests (e.g., holding the helm chassis to a steel bench during HV pulse work).
 
 #### Bulk assortment
 
@@ -372,6 +394,7 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 |---|---|---|
 | 1 | **Lsgoodcare 5V USB Peltier kit** + 1 **KOOBOOK 12V Peltier kit** | active cooling for HV-module enclosure |
 | 4 | **40 mm Al heatsinks** | TEC1-12706 + stepper / MOSFET / regulator |
+| **3** | **HKWANTAT 40×40×10 mm 12 V brushless blower fan** (dual ball-bearing, 2-pin) | enclosure forced-air cooling — sized for helm-shell vent & HV-module enclosure |
 | Multiple | **Heatsink + Peltier modules** (in adjacent items) | thermal control |
 
 ---
