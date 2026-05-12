@@ -1,0 +1,82 @@
+name: firmware
+
+on:
+  push:
+    paths:
+      - 'firmware/**'
+      - '.github/workflows/firmware.yml'
+  pull_request:
+    paths:
+      - 'firmware/**'
+      - '.github/workflows/firmware.yml'
+  workflow_dispatch:
+
+jobs:
+  compile-and-smoketest:
+    name: compile + smoketest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install arduino-cli
+        run: |
+          mkdir -p "$HOME/bin"
+          curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh \
+            | BINDIR="$HOME/bin" sh
+          echo "$HOME/bin" >> "$GITHUB_PATH"
+
+      - name: Install AVR core
+        run: |
+          arduino-cli config init --overwrite
+          arduino-cli core update-index
+          arduino-cli core install arduino:avr
+
+      - name: Show toolchain versions
+        run: |
+          arduino-cli version
+          arduino-cli core list
+
+      - name: Build every sketch under firmware/
+        shell: bash
+        run: |
+          set -euo pipefail
+          fail=0
+          # Iterate every directory that contains a .ino of matching name.
+          for ino in firmware/*/*.ino; do
+            sketch_dir="$(dirname "$ino")"
+            sketch="$(basename "$sketch_dir")"
+            echo "::group::compile $sketch"
+            if ./firmware/build.sh "$sketch"; then
+              echo "ok: $sketch"
+            else
+              echo "::error::compile failed: $sketch"
+              fail=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $fail
+
+      - name: Set up Python for smoketest
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Smoketest — good fixture must pass
+        run: |
+          python3 firmware/tools/heartbeat_smoketest.py \
+            --fixture firmware/tools/fixtures/good_boot.txt
+
+      - name: Smoketest — wdt fixture must FAIL without --allow-fault-bits
+        run: |
+          if python3 firmware/tools/heartbeat_smoketest.py \
+               --fixture firmware/tools/fixtures/wdt_reset.txt; then
+            echo "::error::wdt_reset fixture should have failed without --allow-fault-bits"
+            exit 1
+          fi
+          echo "ok: wdt_reset fixture failed as expected"
+
+      - name: Smoketest — wdt fixture must PASS with --allow-fault-bits
+        run: |
+          python3 firmware/tools/heartbeat_smoketest.py \
+            --fixture firmware/tools/fixtures/wdt_reset.txt \
+            --allow-fault-bits
