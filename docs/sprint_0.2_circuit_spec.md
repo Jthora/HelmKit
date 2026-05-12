@@ -311,34 +311,212 @@ Talentcell 12V/11Ah triple ─┬─ 12V_BATT ──┬─→ DUTTY 12V→5V/3A 
 
 ---
 
-## 5. Board outline — Mk0 form factor
+## 5. Interior layout — what goes inside the 0.1 CAD shell
 
-**Decision:** Mk0 is **breadboard or perfboard, NOT a fab'd PCB.** Reasons:
-- Zero budget → no JLCPCB run.
-- 0.1 CAD shell is the testbed; mechanical fit can be hand-iterated.
-- Sprint 0.2 deliverable is a *document*, so the board outline is a *target footprint*, not a routed board.
+**Reframe** (responding to the brief literally): the brief asked *"what's going inside it"* — the shell, not just the board. This section specs the entire **interior**: PCB zone, wiring harnesses, battery bay, sensor mount positions, operator controls, antenna keep-outs, thermal venting, and the module-bus exit. Exact millimeters wait on the in-CAD measurement pass (see §5.10); the *zone topology* below is buildable without exact mm and is what locks while we're at the desk.
 
-### 5.1 Target footprint inside the helm shell
+### 5.1 Fab-class decision
 
-- Main board zone: behind/above the rear cranium curvature, on the 0.1 shell.
-- Approx envelope: `[CAD-MEASURE-TBD]` mm × `[CAD-MEASURE-TBD]` mm × ≤ 12 mm thick.
-- Off-board mounting points for: IMU (centerline top), magnetometer (rear, away from speakers/motors), PPG (forehead or earlobe clip), battery (rear nape).
+Mk0 is **perfboard, NOT a fab'd PCB.** Reasons:
+- Zero budget → no JLCPCB run
+- 0.1 CAD shell is the testbed; mechanical fit hand-iterated
+- Sprint 0.2 deliverable is a *document*; routing is sprint 0.4
 
-### 5.2 Topology
+That said: this doc must constrain perfboard layout enough that the first build doesn't require re-cutting the shell or re-wiring on day one of sprint 0.4. The zone spec below does that.
+
+### 5.2 Interior coordinate frame
+
+Standard helm-fixed frame; right-handed; origin at scalp-vertex top-centerline; viewer's perspective.
+
+| Axis | Direction | Range across head |
+|---|---|---|
+| **+X** | wearer's right ear | ±90 mm |
+| **+Y** | wearer's forward (nose) | ±100 mm |
+| **+Z** | up (vertex) | 0 to −120 mm (downward) |
+
+All interior positions below cite a zone label (Z1–Z9) defined in §5.3, with `[CAD-MEASURE-TBD]` only on absolute millimeter coords that need the actual shell open.
+
+### 5.3 Interior zones
+
+The shell interior is divided into **nine zones** by function. Each zone has one owner (subsystem); zone boundaries are where harnesses cross.
 
 ```
-            ┌──── IMU (centerline, top) ──────────────┐
-            │                                          │
-[BATT]──[PMIC/CHRG]──[3.3V REG]──[MCU]──[I²C bus]──┤
-            │                          │              │
-            └── thermistor             └── status LEDs│
-                                                       │
-                                          [MAG] (rear)│
-                                          [ENV]       │
-                                          [PPG] (off-board, lead)
+                   ┌─ Z1: FOREHEAD STRIP ─┐
+                   │ • cap-touch pad      │
+                   │ • TEMT6000 (exterior │
+                   │   facing pinhole)    │
+                   │ • OLED window        │
+                   │   (Heltec OLED)      │
+                   └──────────────────────┘
+                              │
+         ┌────────────────────┴────────────────────┐
+         │                                          │
+   Z6: LEFT TEMPLE                          Z7: RIGHT TEMPLE
+   • module audio driver pad                • module audio driver pad
+   • cable strain relief                    • debug header window
+                                            • status LEDs window
+         │                                          │
+         └────────────────────┬────────────────────┘
+                              │
+                  ┌─ Z2: VERTEX (TOP) ─┐
+                  │ • MPU9250 head-pose│
+                  │ • star-ground pad  │
+                  │ • shell hardpoints │
+                  └────────────────────┘
+                              │
+                  ┌─ Z3: REAR DOME ────┐
+                  │ • Pi 4 main board  │
+                  │ • Nano v3 board    │
+                  │ • Heltec LoRa 32   │
+                  │ • INA219 + buck    │
+                  │ • Faraday-lined    │
+                  └────────────────────┘
+                              │
+                  ┌─ Z4: NAPE ─────────┐
+                  │ • Talentcell battery
+                  │   (external clip)   │
+                  │ • DC-022 jack inlet │
+                  │ • boat-rocker arm   │
+                  │ • module-bus exit   │
+                  │ • thermal vent slot │
+                  └────────────────────┘
+                              │
+                  ┌─ Z5: MODULE MOUNT ─┐
+                  │ • 4× M4 inserts at │
+                  │   60×80 mm pattern │
+                  │ • JST-XH bus conn  │
+                  │ • Stabilizer clips │
+                  │   here             │
+                  └────────────────────┘
+
+   Z8: INTERIOR LINER (everywhere) — Faraday fabric pocket around Z2/Z3
+   Z9: SCALP-CONTACT SURFACE — TTP223 pad in Z1 only
 ```
 
-Five-node star around the MCU. No fabrication required — wire it on perfboard.
+### 5.4 Zone owners + parts assigned (locked)
+
+| Zone | Function | Parts | Source |
+|---|---|---|---|
+| **Z1** Forehead strip | operator-facing telemetry + ambient sensing | TTP223 cap-touch pad (helm-on-head) · TEMT6000 ambient-light via pinhole · Heltec OLED 0.96″ window | sensor kits · Heltec board itself |
+| **Z2** Vertex | head-pose anchor + star-ground | 1× MPU9250 (I²C 0x68) potted in foam-damped pocket · star-ground solder lug · 2× M4 inserts (HelmKit→0.1-shell attachment) | inventory §2 |
+| **Z3** Rear dome | main-board zone (the actual perfboard) | Pi 4B (heatsink side out toward Z4 vent) · Nano v3 · Heltec LoRa 32 (Z3-front so OLED reaches Z1 window via FFC) · INA219 · DUTTY 12V→5V buck · star-ground bus bar | inventory §1, §4 |
+| **Z4** Nape | power-in + manual controls + thermal exit | DC-022 panel-mount jack · 2-pos boat-rocker (12V_BATT master) · 3-pos key-switch (SAFETY_n arm, sprint 0.3a-mandatory) · vent slot to outside air for Pi 4 thermal · 1× shell hardpoint | DAOKI DC-022 (30 in stock) · rocker kit (20 in stock) · keyed-switch (sprint 0.3a procurement) |
+| **Z5** Module mount | mechanical + electrical attachment for clip-on modules | 4× M4 brass threaded inserts @ 60×80 mm rect pattern · JST-XH 6-pin panel-mount female · short cable to Z3 main board | inventory M4 kit |
+| **Z6** Left temple | audio output to wearer | 1× 40mm full-range driver bonded to inner shell (bone-conduction-substitute via temple) — Stabilizer Mk1 owns this; platform pre-wires harness from Z3 | inventory §3.5 |
+| **Z7** Right temple | debug + status visibility | 6-pin 2.54mm debug header (under hinged shell flap) · 3× status LEDs (red/amber/green) through pinholes | XXXL kit |
+| **Z8** Interior liner | EMI containment + acoustic comfort | Faraday fabric pocket lining Z2+Z3 interior surfaces; grounded to star-ground at Z2 via single tab; foam liner over fabric for fit + acoustic absorption | inventory §12 (planned procurement: Faraday fabric — TBD; EMI-spray in stock per §12 of this doc) |
+| **Z9** Scalp-contact surface | safety + sensor contact | TTP223 cap-touch pad at Z1 only (forehead-band scalp contact). No other live contact to wearer skin from platform side. | sensor kit |
+
+### 5.5 PCB / perfboard placement inside Z3
+
+Z3 is the only zone with a board in it. Everything else is wires + discrete elements.
+
+```
+   Z3 INTERIOR (looking from inside head toward rear shell)
+   ┌─────────────────────────────────────────────────────┐
+   │  [Heltec LoRa 32]                                   │ ← Z3-front (closer to Z1)
+   │   ‾‾‾OLED face‾‾‾  → FFC to Z1 OLED window          │
+   │   ▪ LoRa antenna  → keep-out zone (no metal w/in    │
+   │                      30mm), points to Z4 vent dir   │
+   │                                                     │
+   │  [Pi 4B]            heatsink face                   │ ← Z3-center
+   │   Pi USB-C (5V in)  → harness to Z4 boat-rocker→buck│
+   │   GPIO header       → I²C ribbon to Z2/Z3-bottom    │
+   │   USB-A ports       → external harness to Z5 (BLE   │
+   │                       lives on Heltec, not Pi USB)  │
+   │                                                     │
+   │  [Nano v3 + INA219 + DUTTY buck + load switch]      │ ← Z3-rear
+   │   12V_BATT in       → from Z4 rocker                │
+   │   5V_PLAT out       → to Pi USB-C + Heltec USB      │
+   │   12V_BUS out       → to Z5 JST-XH via fused        │
+   │                       load switch (item 3 sprint)   │
+   └─────────────────────────────────────────────────────┘
+                                ↓ harness exits Z3
+                          to Z4 vent / Z5 mount / Z2 IMU
+```
+
+Approximate Z3 internal envelope (will refine in CAD pass §5.10): **130 × 100 × 25 mm** (W × H × D), pi 4 horizontal, perfboard mounted via M2.5 standoffs to a 3D-printed sled bonded to the inner shell. Sled removable for service.
+
+### 5.6 Operator-facing controls (Z1 + Z4 + Z7)
+
+Order is the **ritual order** for don + arm + engage, mapped to physical placement:
+
+| # | Control | Location | Function | State at Mk0 | State at Mk1 (Stabilizer) |
+|---|---|---|---|---|---|
+| 1 | Helm-on-head (passive) | Z1 / Z9 cap-touch | sensor; no operator action | logs only | gates module standby exit |
+| 2 | Boat-rocker (master power) | Z4 nape, recessed | switches 12V_BATT to Z3 buck | functional | functional |
+| 3 | 3-position key-switch | Z4 nape, adjacent rocker | OFF / ARMED / SESSION; Nano-readable | absent; through-hole reserved | active; gates SAFETY_n latch clear |
+| 4 | Heltec OLED + 2× side buttons | Z1 forehead window | session UI: intention entry, biofeedback, dose, timer, journal close | active (display + button reads) | three-button commit sequence per §15.6 |
+| 5 | Status LEDs (3×) | Z7 temple | red=HV/coil armed · amber=watchdog OK · green=session active | red OFF; amber active; green active | red active under Stabilizer coil drive |
+| 6 | Debug header | Z7 temple, behind flap | UART TX/RX/GND/3V3/RST/GPIO0 | active | active |
+
+### 5.7 Wiring harness map
+
+Five primary harnesses cross zones. All harness lengths assume Z3 board sled center as 0,0,0 in helm-internal frame.
+
+| Harness | From → To | Wires | Length | Connector ends | Shielding |
+|---|---|---|---|---|---|
+| **H1** I²C bus | Z3 board → Z2 MPU9250 | SDA + SCL + 3V3 + GND (4 cond) | ~120 mm | 4-pin JST-SH on Z2 side; JST-SH on board | foil shield drained to star-ground at Z2 |
+| **H2** OLED FFC | Heltec OLED face → Z1 window | OLED is on Heltec board; just routes through Z1 cutout — no harness, board faces Z1 | ~30 mm of board overhang | n/a | n/a |
+| **H3** Battery + bus | Z4 rocker/jack/key → Z3 buck input + Z3 load-switch input | 12V_BATT + GND (2× 18 AWG silicone) + SAFETY-arm sense (1× 22 AWG) | ~200 mm | screw-terminal at Z3, solder lug at Z4 | none (DC) |
+| **H4** Module bus | Z3 load-switch + buck → Z5 JST-XH female panel-mount | 6 cond per §6.5.1 (GND, 5V, 12V, SDA, SCL, SAFETY_n) | ~180 mm | JST-XH 6-pin both ends | overall foil drain to star-ground; SAFETY_n NOT shielded (it must work even if shield grounds open) |
+| **H5** Audio + status | Z3 → Z6 audio driver (pre-wired for Stabilizer) + Z7 LEDs + Z7 header | 2× 22 AWG audio (twisted pair) + 3× 24 AWG LED + 6× 24 AWG ribbon for header | left ~250 mm, right ~280 mm | board-side: pin headers; Z6: spade or solder; Z7: 6-pin header | audio twisted pair only |
+
+**Wire spec lives in inventory §6:** silicone hookup wire 22/20/18 AWG 7-color sets confirmed; 635-pc 2.54 mm Dupont housing + pin kit confirmed; 10-wire ribbon confirmed. **No procurement.**
+
+### 5.8 Antenna keep-outs + RF coexistence (preview of §17)
+
+Three radios in the helm: Heltec **LoRa 868/915 MHz**, Heltec **BLE 2.4 GHz**, **WiFi 2.4 GHz** (Pi 4 — disabled in software for sessions, but present).
+
+Constraints baked into the §5.3 zone topology:
+
+- Heltec antenna points **toward Z4 vent direction** (rear-down) — radiates away from wearer's brain into the lowest-density direction (out the back).
+- Faraday-fabric pocket Z8 lines **Z2 + Z3 only**, not Z1 or Z4 — leaves Heltec antenna an unobstructed path out the rear vent. The Faraday pocket would otherwise detune the LoRa antenna ~30 %.
+- Pi 4 WiFi antenna chip is on the Pi PCB, omnidirectional, mostly absorbed by the Pi heatsink + Z8 fabric — **acceptable** because Pi WiFi is SW-disabled during sessions.
+- Z5 module bus is **outside the Faraday pocket** so module-side LoRa/SDR (Defender) has its own RF window. Pull-down implication: I²C noise on H4 will be higher than H1; mitigated by 4.7 kΩ pull-ups + 100 kHz max rate (§6.5.1 already specs this).
+
+### 5.9 Thermal path
+
+Pi 4B under full Linux + logging averages 4 W and peaks at 7.5 W (§4.1). Without venting, an enclosed plastic shell traps that and the Pi will thermal-throttle inside 10 minutes.
+
+| Element | Placement | Effect |
+|---|---|---|
+| Pi 4 heatsink (passive) | Pi 4 SoC side facing **Z4 vent slot** | conduction path to outside |
+| Z4 vent slot | nape, ~50 × 8 mm rectangular cut in shell, angled down | convective exit; gravity-aided; no rain entry on operator |
+| Heltec + Nano thermal | both <100 mW; passive convection in Z3 dome | no extra venting needed |
+| Z3 air gap | board sled standoffs leave ≥ 5 mm air all around boards | natural convection |
+| 12V buck heatsink | small clip-on TO-220 heatsink on DUTTY buck IC | inventory XXXL kit; ~30 °C delta at 17 W |
+| Coil drive heatsink (sprint 0.3a) | on Stabilizer module side, not platform — module owns its own thermal | per §15 |
+
+**Hot-day operational ceiling:** Pi 4 will throttle if ambient > 35 °C with helm donned for > 30 min. Acceptable: session protocol is morning, indoor, ambient < 25 °C. **Documented constraint, not a defect.**
+
+### 5.10 Deferred to in-CAD measurement pass
+
+Items that can't be locked at the desk; require opening `3D-Models/HelmKit-mk2/HelmKit_Mk2-01a.blend` and measuring against the actual shell:
+
+- Exact internal envelope of Z3 (current estimate 130 × 100 × 25 mm — to verify)
+- Exact M4 insert positions at Z5 (currently spec'd 60 × 80 mm rect — to verify against shell curvature)
+- Z2 IMU pocket coordinates (currently "centerline top" — needs exact mm)
+- Z4 vent slot exact size + angle (currently 50 × 8 mm @ 30° downward — to verify against shell geometry)
+- Heltec antenna keep-out: needs measurement of which direction the antenna trace actually faces relative to shell rear
+- Board-sled exact dimensions for 3D printing
+- Cable lengths H1–H5: rough estimates above, will refine to ±10 mm in CAD
+
+**CAD-session deliverable:** an annotated Blender file with these positions placed as empty objects; mm coords back-filled into this doc; sled STL exported for printing. *Sprint 0.2 does not require these to be filled.*
+
+### 5.11 What this section locks vs. defers
+
+| Locked at sprint 0.2 desk | Deferred to CAD session |
+|---|---|
+| ✅ 9-zone interior topology | ⏸ exact mm coords (all `[CAD-MEASURE-TBD]`) |
+| ✅ Zone ownership (which subsystem lives where) | ⏸ shell cutout dimensions |
+| ✅ Harness map (5 harnesses, endpoints, lengths approximate, shielding) | ⏸ harness exact length |
+| ✅ Operator-control placement order + zone (Z1/Z4/Z7) | ⏸ exact button-cluster mm coords |
+| ✅ Antenna direction (LoRa → out Z4 vent rear) | ⏸ Heltec antenna trace orientation in CAD |
+| ✅ Thermal path strategy (Pi heatsink → Z4 vent) | ⏸ vent slot exact geometry |
+| ✅ Faraday pocket scope (Z2+Z3 only) | ⏸ fabric procurement spec |
+
+Sprint 0.2 deliverable is **the zone spec** — a builder can wire-harness this from the inventory shelf today; CAD measurements then close the millimeter loop in a separate session.
 
 ---
 
