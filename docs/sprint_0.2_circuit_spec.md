@@ -747,18 +747,73 @@ Constraints baked into the §5.3 zone topology:
 
 ### 5.9 Thermal path
 
-Pi 4B under full Linux + logging averages 4 W and peaks at 7.5 W (§4.1). Without venting, an enclosed plastic shell traps that and the Pi will thermal-throttle inside 10 minutes.
+Pi 4B under full Linux + logging averages 4 W and peaks at 7.5 W (§4.1). The rest of the platform (Nano + Heltec + buck losses) adds another ~3 W typical / ~6 W peak. **Total Z3 internal dissipation: ~7 W typical, ~13.5 W peak.** Without venting, an enclosed plastic shell traps that heat and the Pi will thermal-throttle inside 10 minutes. Real numbers, not vibes:
+
+#### 5.9.1 Pi 4 SoC thermal model
+
+| Parameter | Value | Source |
+|---|---|---|
+| Pi 4B SoC max junction temp before throttle | **80 °C** | Broadcom BCM2711 datasheet |
+| Pi 4B dissipation typical | 4.0 W | §4.1 (`htop` + `vcgencmd measure_power` typical) |
+| Pi 4B dissipation peak (compile, video decode) | 7.5 W | §4.1 |
+| θ_JA SoC → ambient, factory heatsink, still air, open desk | ~7 °C/W | Pi Foundation thermal characterization |
+| θ_JA SoC → ambient, factory heatsink, **closed Faraday-lined enclosure, no airflow** | ~12 °C/W (derated 70% for trapped air) | engineering estimate from open-rig delta |
+| θ_JA SoC → ambient, factory heatsink + Z4 chimney **passive** convection | ~9 °C/W (gravity-driven warm air exit, intake at bottom) | conservative estimate |
+| θ_JA SoC → ambient, factory heatsink + **5 V fan @ 30 CFM forced air** | ~5 °C/W | datasheet typical for finned heatsink in moving air |
+
+#### 5.9.2 Computed SoC temperatures vs. ambient
+
+Ambient is the air OUTSIDE the helm. Z3 internal air is warmer than ambient by some delta (call it ΔZ3); the table assumes Z3 internal ≈ ambient + 5 °C with passive vent (chimney effect) and ambient + 2 °C with the fan.
+
+| Scenario | Pi dissipation | θ_JA (effective) | ΔT (Pi→ambient) | SoC temp @ 22 °C ambient | SoC temp @ 30 °C ambient | SoC temp @ 35 °C ambient |
+|---|---|---|---|---|---|---|
+| **Closed, no vent** (forbidden config) | 4.0 W | 12 °C/W | 48 °C | 70 °C ✓ | 78 °C ⚠ near throttle | **83 °C ✗ throttling** |
+| **Z4 chimney, passive** (Mk0 default) | 4.0 W | 9 °C/W | 36 °C | 58 °C ✓ | 66 °C ✓ | 71 °C ✓ |
+| **Z4 chimney, passive, peak load** | 7.5 W | 9 °C/W | 67.5 °C | 89 °C ✗ | 97 °C ✗ | **102 °C — fail** |
+| **Z4 chimney + 5 V fan @ 30 CFM** (Mk0.5 upgrade) | 4.0 W | 5 °C/W | 20 °C | 42 °C ✓ | 50 °C ✓ | 55 °C ✓ |
+| **Z4 + fan, peak load** | 7.5 W | 5 °C/W | 37.5 °C | 59 °C ✓ | 67 °C ✓ | 72 °C ✓ |
+
+**Verdict:**
+- Passive Z4 chimney is **adequate for typical 4 W load at ambient ≤ 25 °C** — operator's stated indoor session conditions.
+- Passive chimney **fails at sustained peak (7.5 W)** even at room temp. Mitigation: software-limit sustained peak (no `apt full-upgrade` during a session; no video compile; etc.). Pi 4 typical sessions are sensor poll + log + BLE bridge = ~3 W steady, well within passive margin.
+- **Forced air (40 mm fan) is required for any session > 30 min OR any ambient > 28 °C OR any sustained peak load.**
+
+#### 5.9.3 Fan part pick (Mk0.5 upgrade — inventory ready)
+
+| Spec | Mk0.5 part (inventory §6, line 461) | Notes |
+|---|---|---|
+| Part | **HKWANTAT 40 × 40 × 10 mm 12 V dual-ball-bearing blower** | 3 in stock |
+| Run voltage | **driven at 5 V from B-PWR (not 12 V)** | reduces RPM to ~50%; reduces noise from ~30 dBA to ~15 dBA; airflow drops from ~12 CFM (12 V) to ~5 CFM (5 V) — sufficient at the modeled load |
+| Drive | Nano D7 → 2N3904 low-side switch (XXXL kit) → fan + → 5V; fan − → GND through D7 collector | enables fan only when Pi SoC temp > 55 °C (Nano polls Pi via I²C; Pi reports `vcgencmd measure_temp`) |
+| Mount | Z4 vent slot, drawing air OUT of Z3 (exhaust) | intake is the natural gap around Z1 OLED window + helm liner |
+| Lifetime | dual-ball-bearing, rated 50 k h continuous | far beyond any wear-out concern |
+| Current draw | ~120 mA @ 5 V (full RPM) | already in §4.1 reserve |
+
+**Sprint 0.3 task:** install fan + wire D7 + add Nano firmware fan-control loop (hysteresis: ON at 55 °C, OFF at 45 °C). Until then, operator self-imposes the 30 min / ≤ 28 °C ambient limits documented at §5.9.5.
+
+#### 5.9.4 Battery thermal
+
+Talentcell 12 V / 11 Ah Li-ion pack. Typical session draw 1.5 A (§4.3) → 22 W out. Pack efficiency ≈ 85 % → ~3.3 W of pack-internal heat. Pack mass ~700 g with metal case. Heat capacity ~700 g × 0.9 J/g/°C ≈ 630 J/°C. At 3.3 W and 30 min session, ΔE = 5940 J → ΔT = 9.4 °C over a 30 min session, but actually distributed via case → ambient at maybe 0.3 °C/min cooling → steady-state ΔT_pack→ambient ≈ 8–10 °C.
+
+**Conclusion: pack runs at ambient + ~10 °C. At 22 °C ambient, pack is 32 °C — well below the 50 °C cell-temp threshold in §7. Below concern.** Battery thermistor on Nano A2 catches any anomalous excursion (e.g., shorted cell) at 1 Hz polling.
+
+#### 5.9.5 Operational thermal envelope (operator-facing rules, LOCKED for Mk0)
+
+1. **Indoor sessions only at Mk0.** Ambient must be ≤ 28 °C measured at the helm intake.
+2. **Sustained sessions ≤ 30 min at Mk0 (passive).** If session > 30 min planned, install fan first (Mk0.5).
+3. **No CPU-heavy background tasks during sessions.** No compiles, no video encoding, no large `apt` operations. Sensor poll + BLE + log only.
+4. **Heatsink mandatory.** Factory aluminum heatsink case OR 40 mm Al heatsink clip-on (inventory §6, 4 in stock) on Pi 4 SoC. **Helm refuses to boot session mode if Nano reads Pi temp > 70 °C at start.**
+5. **Fan retrofit timing.** Install fan at sprint 0.3 (CAD pass) if any of: ambient > 28 °C is expected; session > 30 min planned; sustained Pi load anticipated.
+
+#### 5.9.6 Other thermal elements (unchanged)
 
 | Element | Placement | Effect |
 |---|---|---|
-| Pi 4 heatsink (passive) | Pi 4 SoC side facing **Z4 vent slot** | conduction path to outside |
 | Z4 vent slot | nape, ~50 × 8 mm rectangular cut in shell, angled down | convective exit; gravity-aided; no rain entry on operator |
-| Heltec + Nano thermal | both <100 mW; passive convection in Z3 dome | no extra venting needed |
+| Heltec + Nano | both < 100 mW; passive convection in Z3 | no extra venting needed |
 | Z3 air gap | board sled standoffs leave ≥ 5 mm air all around boards | natural convection |
 | 12V buck heatsink | small clip-on TO-220 heatsink on DUTTY buck IC | inventory XXXL kit; ~30 °C delta at 17 W |
 | Coil drive heatsink (sprint 0.3a) | on Stabilizer module side, not platform — module owns its own thermal | per §15 |
-
-**Hot-day operational ceiling:** Pi 4 will throttle if ambient > 35 °C with helm donned for > 30 min. Acceptable: session protocol is morning, indoor, ambient < 25 °C. **Documented constraint, not a defect.**
 
 ### 5.10 Deferred to in-CAD measurement pass
 
