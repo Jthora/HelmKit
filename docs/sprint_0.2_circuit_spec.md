@@ -1,40 +1,52 @@
-# Sprint 0.2 — HelmKit Mk0 Circuit Spec (Inventory-Driven)
+# Sprint 0.2 — HelmKit Mk0 **Platform** Circuit Spec (Inventory-Driven)
 
 **Sprint goal:** A *document*, not a board. Define what goes inside the 0.1 CAD shell.
 **Hard constraint:** Near-zero cash budget. Build from existing tote inventory. Anything not in the totes is **defer or omit**, not "buy."
-**Status:** DRAFT — sections marked `[INVENTORY-TBD]` get filled after today's physical count. Many sections already concretized from operator-stated inventory (2026-05-12). See [inventory_capability_map.md](inventory_capability_map.md).
+**Status:** ✅ FINAL — inventory pass complete (2026-05-12); all `[INVENTORY-TBD]` resolved except `[CAD-MEASURE-TBD]` items which wait on the 0.1 shell measurement pass.
 
-> **Scope expansion (2026-05-12 inventory pass):** Inventory complete — see [inventory.md](inventory.md). **Inventory clears wiki Mk1 spec end-to-end with zero procurement gaps.** Sprint 0.2 doc now covers both: §§1–10 = Mk0 board; §§11–14 = parallel Mk1 prep tasks. Double-sided FR4 (10× uxcell 200×200×1.5 mm) confirmed in stock — wiki-canonical two-layer bifilar coil buildable to spec; single-sided fallback geometry no longer needed for v0.1.
+## 0. Framing — HelmKit is a platform, not a device
 
-> **Wiki alignment:** The wiki Mk1 BOMs are treated as **engineering intent**, not aspiration. Sprint 0.2 (Mk0) defers the coil drive chain only because we cannot yet enclose, current-limit, and watchdog it on this budget — not because the geometry is in doubt. Mk0 collects the biomarkers and platform that Mk1 will need; the wiki Mk1 spec is the next jump. See [wiki_synthesis.md § Pass 2](wiki_synthesis.md), [mk1_buildplan.md](mk1_buildplan.md), and the AI-onboarding note in [../README.md](../README.md).
+This is the architectural reframe that supersedes earlier drafts: **HelmKit** is the **rig** — the skull-mount chassis, the MCU spine, the power bus, the safety bus, and the module-connector spec. It does not, by itself, do psionics.
+
+The psionic / cognitive-modulation work lives in **modules** that clip onto the HelmKit:
+
+- **Psi Stabilizer** — the first module; *"stabilizes the mind"* via PBM + Schumann audio + gentle coil + HRV biofeedback. See [§15](#15-psi-stabilizer-mk1--first-module-against-this-bus) below.
+- **Psi Defender** — RF/EM monitoring + emission countermeasures. Future module.
+- **HUD** — visual / OLED feedback for the operator. Heltec LoRa 32 already in the platform spine handles this.
+- **Field Recorder** — multi-modal session logger. Future module ([beyond_wiki_concepts.md § 5.1](beyond_wiki_concepts.md)).
+- **Future:** PBM-halo standalone, multispectral imager, TDOA localizer, paired-helm sync.
+
+Sprint 0.2 specs the **platform**, including the module-bus the Psi Stabilizer Mk1 will clip onto. The Stabilizer itself is its own sprint (planned: sprint 0.3a). Sprint 0.3 (FDTD design-cert) is a separate Mk2-enabler track. See [gpu_farm_workloads.md § W4](gpu_farm_workloads.md).
+
+> **Wiki alignment:** The wiki Mk1 BOMs are treated as **engineering intent**, not aspiration. Inventory clears wiki Mk1 spec end-to-end with zero procurement gaps — see [inventory.md § 10](inventory.md). The wiki conflates platform + modules into a single "helm." This doc separates them.
 
 ---
 
-## 1. Scope of Mk0
+## 1. Scope of Mk0 platform
 
-Mk0 is the **minimum-viable instrumented helm**: sensors-only or sensors + low-risk audio/photic stim. **No coil emitter at Mk0.** The coil (Tesla bifilar) is a Mk1 task gated behind:
-- enclosed, instrumented, current-limited drive stage
-- MCU-B watchdog firmware against the 12-row blacklist
-- skin/scalp distance verified by CAD shell
+Mk0 is the **minimum-viable HelmKit platform** — the chassis + spine that future modules clip into. **No psionic payload at Mk0.** The Psi Stabilizer module is sprint 0.3a (parallel track); the coil drive lives inside *that* module, not on the platform board.
 
-For Sprint 0.2 we lock down only what we will *actually populate* on the Mk0 board.
+For Sprint 0.2 we lock down only what the platform itself must provide.
 
-### 1.1 Mk0 functional blocks (locked)
+### 1.1 Mk0 platform functional blocks (locked)
 
-1. **MCU-A (doer):** sensor sampling, USB, optional audio/LED stim PWM.
-2. **MCU-B (checker):** independent watchdog, kill-line on rail current / RF drive / temperature excursion. *May be deferred to Mk0.5 if we have only one MCU in inventory — see §3.*
-3. **Sensor front-end:** whatever IMU / env / bio sensors we have.
-4. **Power:** single-cell Li-ion or USB-bus, regulated to 3.3 V logic + isolated stim rail (Mk1).
-5. **Connector / interface:** USB (data + charge) + at minimum one debug header.
+1. **MCU-A (doer):** Pi 4. Hosts I²C bus, USB (SDR + sensors), real-time logging.
+2. **MCU-B (checker):** Nano v3. Independent watchdog + kill-line + safety blacklist firmware.
+3. **MCU-C (HUD + BLE + LoRa):** Heltec LoRa 32. OLED + BLE (Polar H10) + LoRa mesh + Li-Po PMIC.
+4. **Platform sensor front-end:** head-pose IMU (one MPU9250 on Pi 4 bus) + thermistor + capacitive touch (helm-on-head detect). *Module-specific sensors live on the module, not the platform.*
+5. **Power bus:** USB-C in (bench) or Talentcell 12V/5V dual rail (portable); 5V to Pi + MCU-C, 3.3V to logic, 12V passed through to module bus.
+6. **Module bus (NEW — §6.5):** mechanical hardpoints + 6-pin electrical connector providing power + I²C + safety line to clip-on modules.
+7. **Debug interface:** UART header + status LEDs.
 
-### 1.2 Explicitly OUT of Mk0
+### 1.2 Explicitly OUT of Mk0 platform (lives in modules)
 
-- Coil drive stage
-- nRF52840 / LoRa / mesh
-- HackRF or SDR
-- OLED HUD
-- Bone-conduction transducers
-- BLE pairing to Polar H10 (Mk1 if H10 is in inventory)
+- **Coil drive stage** → in Psi Stabilizer module (sprint 0.3a)
+- **HackRF / wideband SDR** → in Psi Defender module (future)
+- **NESDR coil-emission monitor** → in Psi Stabilizer module (sprint 0.3a)
+- **PBM 730 nm halo** → in Psi Stabilizer module (sprint 0.3a)
+- **MLX90640 thermal + SGP40 VOC + ELP camera** → in Field Recorder module (future, beyond-wiki §5.1)
+- **Polar H10 BLE pairing** → platform *provides* the BLE radio (Heltec); module *consumes* the data
+- **Any active stim (audio, photic, magnetic)** → module-side, never platform-side
 
 ---
 
@@ -209,19 +221,65 @@ Five-node star around the MCU. No fabrication required — wire it on perfboard.
 
 ## 6. Connector choices
 
-Wiki-canonical: USB-C PD + GoPro/Picatinny + I²C + USB 2.0 HS + UART + open-drain safety GPIO.
-Mk0 reality:
+### 6.1 Platform-side connectors (Mk0)
 
-| Connector | Mk0 implementation | Wiki Mk1 target |
+| Connector | Mk0 spec | Notes |
 |---|---|---|
-| Host data + charge | **Whatever the dev-board has** (micro-USB if ESP32, USB-C if Pico W / S3 / Feather). Don't add a second connector. | USB-C PD 5 V / 3 A |
-| External sensor (PPG lead, EEG future) | **3.5 mm TRRS** or **4-pin JST-SH** — whichever has more inventory | JST-SH |
-| Inter-module bus (Mk1 only) | Not present at Mk0 | I²C 100 kHz on JST-SH 4-pin (SDA/SCL/3V3/GND) |
-| Safety kill line (Mk1 only) | Not present at Mk0 | open-drain GPIO, one shared line |
-| Debug | 6-pin header (TX/RX/GND/3V3/RST/BOOT) | same |
-| Mount | Velcro to 0.1 shell (Mk0). Picatinny/GoPro is Mk1+. | GoPro / Picatinny |
+| Host data + charge in | **USB-C** on the Pi 4 directly | wiki Mk1-aligned (USB-C PD ≤ 5 V / 3 A) |
+| Portable battery in | **DC-022 5.5×2.1 mm panel-mount jack** (30 in stock) | accepts Talentcell 12 V output; goes to onboard buck → 5 V Pi rail + 12 V module-bus rail |
+| Debug | **6-pin 2.54 mm header** (TX / RX / GND / 3V3 / RST / GPIO0) | UART + reset; from XXXL passive kit |
+| Status LEDs | **3× through-hole LEDs on Nano-driven side** | red=HV-armed (off at Mk0), amber=watchdog-OK, green=session-active |
+| Mount to 0.1 shell | **M4 thumbscrews × 4** into shell hardpoints | from inventory M4 kit |
 
-**Mk0 rule:** one charge/data port + one debug header + one off-board sensor lead. That's it.
+### 6.2 Module bus connector (the headline addition — see §6.5)
+
+See §6.5 for the full spec. Headline: **6-pin JST-XH on the platform, mating 6-pin JST-XH lead on each module.** Delivers 12 V (module rail) + 5 V (logic) + GND + I²C SDA/SCL + open-drain SAFETY line.
+
+## 6.5 Module bus specification (NEW — first-class platform feature)
+
+This is the architectural commitment that makes HelmKit a *platform* rather than a one-off device. Every clip-on module (Stabilizer, Defender, HUD, Field Recorder, future PBM-halo, TDOA-localizer, etc.) connects via this bus.
+
+### 6.5.1 Electrical
+
+6-pin connector, JST-XH 2.5 mm pitch (operator pick — robust, polarized, in inventory; alternative: 5-pin Mini-DIN if connector stock dictates).
+
+| Pin | Signal | Direction | Spec |
+|---|---|---|---|
+| 1 | **GND** | shared | 0 V reference, ≥ 3 A return capacity |
+| 2 | **+5V_LOGIC** | platform → module | 5 V ± 5 %, 1 A continuous, fused on platform side |
+| 3 | **+12V_RAIL** | platform → module | 12 V ± 10 %, 2 A continuous, soft-start on platform side, current-monitored by Nano |
+| 4 | **I²C_SDA** | bidirectional | 100 kHz default, 3.3 V logic (with 5 V tolerant pull-ups on platform); module presents a single I²C device with unique address |
+| 5 | **I²C_SCL** | platform → module | clock master is the Pi 4 |
+| 6 | **SAFETY_n** | open-drain, bidirectional | active-low; any participant can pull low to kill the bus; Nano monitors and latches |
+
+**Power topology rationale:** Pi 4 stays on 5 V from the platform UPS; the module gets 12 V for any coil drive / HV-module enable / Peltier / fan / high-current LED string. Module-internal buck regulates 12 V → 3.3 V as needed (modules are responsible for their own logic-rail buck).
+
+### 6.5.2 Mechanical
+
+| Spec | Value | Notes |
+|---|---|---|
+| Module envelope (max) | 150 × 100 × 30 mm | Stabilizer Mk1 target |
+| Mass (max) | 250 g | for skull-mount comfort |
+| Mount points | 4× M4 threaded inserts in platform shell | thumbscrew or quarter-turn fasteners |
+| Mount-point spacing | 60 × 80 mm rectangular pattern | locked at platform CAD level |
+| Connector position | bottom-rear of module, mating to platform connector at top-rear | strain relief built into shell geometry |
+| Hot-swap | **No** (Mk1). Power off the bus before swapping modules. | Mk2+ may add a hot-swap controller |
+
+### 6.5.3 Software contract
+
+- **Module identity:** every module presents a 1-byte ID at I²C address 0x10 on first power-up (Stabilizer = 0x01, Defender = 0x02, HUD = 0x03, Field Recorder = 0x04, reserved 0x05–0xFF).
+- **Module self-test:** within 100 ms of power-on, module must clear an internal POST and assert its self-test bit at register 0x01. Failure to do so within 500 ms = Nano latches SAFETY_n.
+- **Watchdog ping:** Pi 4 writes to module register 0x02 every 100 ms; module must ACK. Missing ACKs > 1 s = Nano latches SAFETY_n.
+- **Safety latch:** any participant pulling SAFETY_n low for ≥ 10 ms causes Nano to:
+  1. Cut 12 V rail to module bus within 5 ms
+  2. Log the event with timestamp + last I²C transaction
+  3. Hold latched until operator clears via the platform key-switch (Mk1+) or power-cycle (Mk0)
+
+### 6.5.4 Why this matters for the techno-mage capstone
+
+The module bus is what lets the **Psi Stabilizer Mk1 be lightweight and clip-on** (operator's stated requirement). Stabilizer Mk2 / Mk3 / Mk5 can change radically — different coil, different audio, different sensors, different drive chemistry — and the **platform doesn't change**. That's the whole point of a platform. The operator-as-techno-mage iterates on payload; the rig remains the rig.
+
+**Mk0 rule:** the platform exposes one charge/data port + one debug header + the module bus. That's it. Modules clip on.
 
 ---
 
@@ -275,8 +333,11 @@ Most questions from the original §9 are now resolved (see [inventory.md](invent
 - [wiki_synthesis.md § Pass 2](wiki_synthesis.md) — wiki BOM
 - [safety.md](safety.md) — full safety posture
 - [falsification.md](falsification.md) — biomarker measures we will eventually need to support (HRV via PPG is the key Mk0→Mk1 enabler)
+- [inventory.md](inventory.md) — authoritative parts inventory
 - [inventory_capability_map.md](inventory_capability_map.md) — what we have vs. wiki BOM
-- [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md) — fab spec for the bifilar coil PCB
+- [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md) — fab spec for the bifilar coil PCB (used by Stabilizer module, not platform)
+- [gpu_farm_workloads.md](gpu_farm_workloads.md) — compute substrate for FDTD design-cert (sprint 0.3, Mk2 track)
+- [beyond_wiki_concepts.md](beyond_wiki_concepts.md) — module ideas beyond the wiki spec
 
 ---
 
@@ -392,4 +453,78 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 | 9 | Decide: procure double-sided FR4 (~$15) vs single-sided fallback for coil v0.1 | jono | ✅ resolved — 10× uxcell DS-FR4 200×200×1.5 mm already in stock |
 | 10 | Sketch §5.1 footprint vs. 0.1 CAD shell | jono | ☐ |
 
-**Definition of done for Sprint 0.2:** ✅ inventory captured; ✅ MCU + sensor + power picks locked; ✅ wiki Mk1 coverage matrix produced; ☐ 9-axis IMU specific part confirmed; ☐ coil-PCB substrate decision made; ☐ footprint sketch vs. CAD shell. **Targets for Sprint 0.3** = perfboard build + first coil PCB mill.
+**Definition of done for Sprint 0.2:** ✅ inventory captured; ✅ MCU + sensor + power picks locked; ✅ wiki Mk1 coverage matrix produced; ✅ 9-axis IMU specific part confirmed (3× MPU9250 + 1× MPU6050); ✅ coil-PCB substrate decision (uxcell DS-FR4 in stock); ✅ **module bus spec locked (§6.5)**; ☐ footprint sketch vs. CAD shell remains for an in-physical-presence work session.
+
+**Next sprints branching from this baseline:**
+- **Sprint 0.3a** = Psi Stabilizer Mk1 clip-on module against this bus (the capstone artifact)
+- **Sprint 0.3** = FDTD design-cert for the coil that lives inside the Stabilizer (Mk2 track, uses the GPU farm)
+- **Sprint 0.4** = platform perfboard build + integration test with a dummy module that just answers the bus probes
+
+---
+
+## 15. Psi Stabilizer Mk1 — first module against this bus
+
+*Reference spec only — full module sprint is 0.3a. Listed here so the platform §6.5 bus is grounded against a real payload, not abstract.*
+
+### 15.1 Mission
+
+*"Stabilizes the mind."* Operator dons the HelmKit + clips on the Psi Stabilizer module + runs a 20-minute morning session. Over a 21-day daily protocol the operator's autonomic balance (HRV LF/HF), sustained-attention (PVT variance), subjective stability (journal), and sleep-latency trend toward more parasympathetic, more focused, more centered. **That trend is the falsifier on whether the device works.**
+
+### 15.2 Three independent stabilization channels (Layer-1 grounded)
+
+| Channel | Mechanism | Layer | Evidence |
+|---|---|---|---|
+| **PBM 730 nm halo** | 4× Chanzon 3W far-red COBs ringing the helm liner at ~10 mW/cm² on scalp; DS18B20 thermal lockout | 1 | Gonzalez-Lima / Hamblin PBM cognitive literature |
+| **Schumann audio entrainment** | XR2206 or ESP32 LEDC at 7.83 Hz envelope; pulse-modulated audio through 40 mm full-range drivers (bone-conduction substitute) at cheek/temple | 1–2 | theta-band auditory entrainment; Schumann frequency choice is wiki Layer-3 wink |
+| **Bifilar coil at Schumann** | Mk0 PCB bifilar coil (per [mk0_pcb_bifilar_coil.md](mk0_pcb_bifilar_coil.md)) driven at sub-µT field at 7.83 Hz fundamental + first 3 harmonics; ESP32 LEDC PWM through low-side filter | 2–3 | wiki-canonical Stabilizer; mixed-positive literature; FDTD-certified by sprint 0.3 before Mk2 |
+
+### 15.3 One closed-loop input
+
+- **HRV biofeedback** via **Polar H10 over BLE → Heltec LoRa 32 → live OLED**. Operator watches their own HRV coherence during the session. *This is the visible biofeedback that proves the device is doing something measurable in real time.*
+
+### 15.4 Module-side BOM (everything in inventory)
+
+| Item | Qty | Source | Role |
+|---|---|---|---|
+| Bifilar coil PCB | 1 | CNC mill on uxcell DS-FR4 200×200×1.5 mm | coil drive |
+| MOSFET coil driver (low-side) | 1 | XXXL passive kit | drive switch |
+| Chanzon 3W 730 nm far-red COB | 4 | inventory §2.6 | PBM halo |
+| Constant-current LED driver | 4 | XXXL passive kit | PBM current control |
+| DS18B20 thermistor | 1 | sensor kit | thermal lockout |
+| 40 mm 4 Ω 3 W full-range driver | 2 | inventory §3.5 | bone-conduction-substitute audio |
+| Audio amp (PAM8403 or similar) | 1 | XXXL kit | audio drive |
+| 18650 cell + TP4056 USB-C charge module | 1+1 | inventory §4 | module battery (~6–8 h session life) |
+| 6-pin JST-XH plug + 30 cm lead | 1 | inventory | mates platform module bus |
+| PLA-printed clip-on enclosure | 1 | 3D printer | mechanical |
+
+No procurement. Build month: now.
+
+### 15.5 Module-side safety
+
+- All drive chains gated by the platform SAFETY_n line
+- DS18B20 scalp temp > 40 °C → assert SAFETY_n
+- Coil drive current sense > envelope (per FDTD-certified envelope from sprint 0.3) → assert SAFETY_n
+- Loss of capacitive-touch "helm-on-head" signal from platform → module enters standby
+- Loss of Polar H10 BLE → audio + PBM continue (these are passive); coil drive drops to keep-alive
+
+### 15.6 Ritual layer (the techno-mage part)
+
+- Operator dons helm + module deliberately
+- Boat-rocker arms the 12V module rail (visible mechanical commit)
+- Three-button commit sequence on Heltec OLED authenticates operator + session intention
+- OLED displays live HRV coherence + dose accumulated + session timer
+- Audio plays operator-chosen invocation track at session start
+- Closure ritual: rocker off, session logged with intention-vs-outcome journal note
+
+The ritual is **not** decoration. It directs operator will — the operative-magic component that distinguishes this from passive biofeedback. See [README.md](../README.md) for the epistemic-stance disclaimer that this work sits inside of.
+
+### 15.7 Why this fits sprint 0.2's platform
+
+- Mass: ≤ 250 g ✅
+- Envelope: 150×100×30 mm ✅
+- Power: 12V rail @ < 500 mA peak (coil drive) + 5V logic @ < 200 mA ✅
+- I²C: one device at 0x01 (StabilizerMk1) ✅
+- SAFETY_n: drives + observes ✅
+- Mounts: 4× M4 thumbscrews to the platform hardpoints ✅
+
+The platform spec'd in §§1–14 above carries this module without modification. **Mission accomplished for Sprint 0.2.**
