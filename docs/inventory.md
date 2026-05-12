@@ -63,8 +63,11 @@
 | 1 | **Antenna stand, magnetic base** | ground-plane bench mount |
 | 1 | **Nooelec small antenna stand** | tabletop |
 | 18 | **Type S antenna FPV connectors** (ALLiSHOP) | RP-SMA-class adapters |
-| 20 | **Exgoofit exotic antenna adapters** | wide compatibility |
-| 5 | **SDTC RF jumper cables, 6"** | SMA jumpers |
+| 1 | **exgoofit 18-in-1 SMA / RP-SMA M/F coupling-nut barrel kit** (WiFi antenna / FPV drone / extension) | **canonical SMA adapter set** — covers most HackRF / NESDR / antenna swaps |
+| 1 | **exgoofit 20-in-1 SMA ↔ N / BNC / TNC / F-Type RF adapter kit** | **cross-connector bridge** — SDR-to-test-equipment, lab-grade RF interop |
+| 5 | **SDTC SMA male-to-male RG316 jumper, 6" / 15 cm** | short SMA jumpers (HackRF → balun, NESDR → antenna) |
+| 2 | **SDTC SMA male-to-female RG316 extender, 20"** | medium-length SMA extension cables |
+| 1 | **Bingfu 4G LTE SMA F→M+M V-splitter, 15 cm** | dual-antenna feed for diversity RX or 2-port SDR |
 | 1 bag | **BingFu antenna connectors** (variety) | adapter stock |
 | 1 bag | **4 unique antenna adapters incl. coax** | TV/F-type bridging |
 | 1 | **Mystery antenna kit "G9000-SY" (xerials Corporation)** | mounts to unknown; investigate during build |
@@ -224,6 +227,8 @@ Highlights only (full list in original inventory):
 
 | Qty | Item | Capacity | Notes |
 |---|---|---|---|
+| 1 | **MakerHawk Raspberry Pi UPS HAT** (18650-based, 5 V out, Pi 4B / 3B+ / 3B compatible) | 1× 18650 | **Pi 4 native UPS HAT** — stacks on GPIO header; gives Pi 4 hot-swap power + battery monitor I²C. Combine with TalentCell Mini-UPS on the wall side for two-stage hold-up. |
+| 1 | **SunFounder Raspberry Pi UPS power supply module** (5 V / 3 A Li, Pi 4B / 3B+ / 3B / 2B / 1B+, battery NOT included) | 1× 18650 (use MakerHawk cells) | second Pi-native UPS option; redundant Pi 4 path |
 | 2 | **Talentcell 12 V 6000 mAh / 5 V 12000 mAh dual-output Li-ion power bank** (with 12.6 V charger) | ~72 Wh @ 12 V rail | **Mk0 portable Pi 4 supply** — 12 V can feed Pololu / DUTTY buck → 5 V; 5 V rail direct-feeds Pi |
 | 2 | **Talentcell 12 V 11000 mAh / 9 V 14500 mAh / 5 V 26400 mAh** triple-output Li-ion pack (AC/DC charger) | ~132 Wh | **long-session field supply** — highest-capacity portable in inventory; ~8–12 h Pi 4 + sensors |
 | 2 | **Talentcell 12 V 3000 mAh** dual-output (12 V / 5 V USB) Li-ion pack | ~36 Wh | small / wearable-class supply |
