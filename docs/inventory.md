@@ -37,16 +37,18 @@ The AGX Orin alone is **enough compute to run a full real-time FDTD simulation o
 
 **4× ex-mining rigs**, each typically housing 5–7 GPUs on PCIe risers, with PSU + cheap mobo + USB-to-PCIe-1x risers. Aggregate GPU stack across the 4 rigs:
 
-| Qty | GPU | Arch | VRAM | FP32 (TFLOPs) | TDP | ML usable? | Render usable? |
-|---|---|---|---|---|---|---|---|
-| 2 | MSI **GeForce GTX 1080 Ti** | NVIDIA Pascal GP102, CC 6.1 | 11 GB GDDR5X | ~11.3 | 250 W | ✅ CUDA / FP32 only (no Tensor Cores, no FP16/INT8 accel) | ✅ Cycles CUDA (no OptiX) |
-| 5 | ZOTAC **GeForce GTX 1080** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5X | ~8.9 | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
-| 1 | MSI **GeForce GTX 1070 Ti** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5 | ~8.1 | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
-| 2 | PNY **GeForce GTX 1050 Ti** | NVIDIA Pascal GP107, CC 6.1 | 4 GB GDDR5 | ~2.1 | 75 W | ⚠️ small model only (4 GB VRAM) | ✅ Cycles CUDA |
-| 6 | XFX **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | ~6.2 | 185 W | ⚠️ ROCm dropped Polaris support (≤ ROCm 4.x); usable via OpenCL / Vulkan only | ❌ Blender Cycles HIP needs RDNA2+ (no Polaris); OpenCL backend removed in Blender 3.0+ |
-| 3 | MSI **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | ~6.2 | 185 W | ⚠️ same as XFX RX 580 | ❌ same as XFX RX 580 |
-| 3 | XFX **Radeon RX 560** | AMD GCN4 Polaris 21 | 4 GB GDDR5 | ~2.6 | 80 W | ⚠️ OpenCL / Vulkan only, 4 GB | ❌ same constraint |
-| **22** | **Total GPUs across 4 rigs** | — | **~162 GB aggregate VRAM** | **~143 TFLOPs FP32 aggregate** | ~3.5 kW @ 100 % | — | — |
+| Qty | GPU | Arch | VRAM / card | VRAM subtotal | FP32 / card (TFLOPs) | FP32 subtotal | TDP / card | ML usable? | Render usable? |
+|---:|---|---|---:|---:|---:|---:|---:|---|---|
+| 2 | MSI **GeForce GTX 1080 Ti** | NVIDIA Pascal GP102, CC 6.1 | 11 GB GDDR5X | **22 GB** | ~11.3 | **~22.6** | 250 W | ✅ CUDA / FP32 only (no Tensor Cores, no FP16/INT8 accel) | ✅ Cycles CUDA (no OptiX) |
+| 5 | ZOTAC **GeForce GTX 1080** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5X | **40 GB** | ~8.9 | **~44.5** | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
+| 1 | MSI **GeForce GTX 1070 Ti** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5 | **8 GB** | ~8.1 | **~8.1** | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
+| 2 | PNY **GeForce GTX 1050 Ti** | NVIDIA Pascal GP107, CC 6.1 | 4 GB GDDR5 | **8 GB** | ~2.1 | **~4.2** | 75 W | ⚠️ small model only (4 GB VRAM/card) | ✅ Cycles CUDA |
+| 6 | XFX **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | **48 GB** | ~6.2 | **~37.2** | 185 W | ⚠️ ROCm dropped Polaris (≤ ROCm 4.x); OpenCL / Vulkan only | ❌ Cycles HIP needs RDNA2+; OpenCL backend removed in Blender 3.0+ |
+| 3 | MSI **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | **24 GB** | ~6.2 | **~18.6** | 185 W | ⚠️ same as XFX RX 580 | ❌ same as XFX RX 580 |
+| 3 | XFX **Radeon RX 560** | AMD GCN4 Polaris 21 | 4 GB GDDR5 | **12 GB** | ~2.6 | **~7.8** | 80 W | ⚠️ OpenCL / Vulkan only, 4 GB / card | ❌ same constraint |
+| **22** | **Total GPUs across 4 rigs** | — | — | **162 GB aggregate** | — | **~143 TFLOPs FP32** | ~3.5 kW @ 100 % | — | — |
+
+**Arithmetic audit:** 22 + 40 + 8 + 8 + 48 + 24 + 12 = **162 GB**; 22.6 + 44.5 + 8.1 + 4.2 + 37.2 + 18.6 + 7.8 = **143.0 TFLOPs**. Card count: 2 + 5 + 1 + 2 + 6 + 3 + 3 = **22 GPUs**.
 
 **Subtotals:**
 - **NVIDIA Pascal:** 10 cards, ~78 GB VRAM, **~79 TFLOPs FP32** — fully usable with CUDA toolchain (PyTorch + CUDA 11.x last supported, CUDA 12.x dropped Pascal in some kernels; llama.cpp + Stable Diffusion + Blender Cycles all run today).
