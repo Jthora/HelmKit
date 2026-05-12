@@ -313,10 +313,50 @@ Highlights only (full list in original inventory):
 | 1 | **BINNEKER 20 AWG enameled magnet wire** (red), 1.0 lb spool, 0.0315" Ø, 155°C-rated | second 20 AWG spool — enables bifilar hand-wound (two strands wound simultaneously) |
 | 1 | **BNTECHGO 28 AWG enameled magnet wire** (red), **5 lb** spool, 0.0122" Ø, 155°C-rated | **high-turn-count fine coils** — ~7700 ft; for Mk2 multilayer solenoids, Tesla-style flat spirals, fine pickup coils, RX antennas |
 | 1 | **INSPIRELLE 8-pack craft copper wire kit** 32–18 AWG mixed | thin-gauge bus + sense leads + jewelry-class field probes |
-| 25 | **E BAVITE neodymium bar magnets 60×10×3 mm, double-side-adhesive** | calibration jig + experimental field generators |
-| 7 | **Junarter neodymium cube magnets** | calibration / DIY field sources |
-| 100 | **LOVIMAG neodymium cube magnets 10×10×10 mm** (2× 50-pc packs) | uniform-cube experimental field arrays; ferrofluid-pattern jigs |
-| 500 (mixed) | **Small magnets, 7 sizes** | fridge-mag class; cumulative field sources |
+### 6.2 Magnets — full neodymium stack
+
+Parsed from order history with order-count multipliers (Amazon's per-line count = number of separate orders of that pack).
+
+#### Bar magnets
+
+| Pack-count × packs ordered | Total | Item | Use |
+|---|---|---|---|
+| 12 × 6 | **72** | **LOVIMAG 60×10×5 mm** bar, double-side-adhesive | wiki-coil-class **N52** field generators; calibration jigs |
+| 25 × 1 | **25** | **E BAVITE 60×10×3 mm** bar, DS-adhesive | thinner bar variant |
+| 50 × 1 | **50** | **MIKEDE 60×10×3 mm** bar, heavy-duty DS-adhesive | bulk 60×10×3 stock |
+| 60 × 10 | **600** | **LOVIMAG 60-pc bar packs** (rectangular, small) | bulk thin bars |
+| 30 × 8 | **240** | **LOVIMAG 25×5×3 mm** bar | small bars |
+| 10 × 6 | **60** | **DIYMAG / N52 60×10×5 mm** bar (33 lb strength, silver), DS-adhesive | premium N52 grade |
+| **Σ bar** | **~1047** | | |
+
+#### Cube magnets
+
+| Pack-count × packs ordered | Total | Item | Use |
+|---|---|---|---|
+| (unspecified pack size) × 7 | **~7 packs** | **Junarter** rare-earth cube magnets (pack size TBD — small) | DIY field sources |
+| 50 × 2 | **100** | **LOVIMAG 10×10×10 mm** cube, 50-pc packs | uniform-cube experimental field arrays; ferrofluid-pattern jigs |
+
+#### Cup magnets
+
+| Qty | Item | Use |
+|---|---|---|
+| 6 | **LOVIMAG waterproof cup magnets**, 150 lb+ pull, neodymium with screw mount, black | **high-pull mechanical mounts** — helm-shell rigging, removable accessories, heavy-duty bench fixtures |
+
+#### Bulk assortment
+
+| Qty | Item | Use |
+|---|---|---|
+| 500 (mixed, 7 sizes) | **Small magnets** assortment | fridge-mag class; cumulative field sources |
+
+**Total neodymium stock: ~1700+ pieces.** This is *vastly* over-stocked for HelmKit's needs and opens Mk2 options (Halbach arrays, large solenoid back-iron substitutes, deployable field-pattern test rigs, ferrofluid demonstrators at scale).
+
+**Coil-context picks:**
+- **N52 60×10×5 (DIYMAG, 60 pc)** = highest field density, reserve for actual coil-adjacent / wearable-side-magnet experiments
+- **60×10×5 LOVIMAG (72 pc) + 60×10×3 (75 pc total)** = bench-side calibration jigs; pair-up for known-gradient field test
+- **600× 60-pc bar packs + 240× 25×5×3** = Halbach-array experiments and field-pattern visualizations (Mk2+)
+- **6× cup magnets (150 lb)** = mechanical mount stock, NOT for use as field sources near electronics
+
+**Safety note:** N52 magnets at 60×10×5 / 60×10×3 are pinch-injury class. 150 lb cup magnets are bone-fracture class if mishandled. Keep separated, single-layer storage, away from CRT-class displays and credit cards. Pacemaker-class warning for any operator with implanted medical devices.
 
 ### 6.1 Soldering consumables
 
