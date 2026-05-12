@@ -177,21 +177,128 @@ Given the inventory has both Pi 4 and Nano v3 in quantity, **we go dual-MCU from
 - **Mk0.5:** Audio/LED stim added; Nano can now actually cut the stim line.
 - **Mk1:** Coil drive added; Nano kill-line cuts HV-module enable. **Hard requirement** before any on-head test.
 
-### 3.3 Pin / peripheral budget (target MCU TBD)
+### 3.3 Pin ownership — three-MCU architecture
 
-Whatever MCU we pick must provide at least:
+This section replaces an earlier single-MCU pin budget. Each pin is owned by exactly one MCU. Inter-MCU communication uses I²C (Pi 4 master, Nano + Heltec as slaves) so the three MCUs can be physically wired with minimum harness count.
 
-| Peripheral | Count | Purpose |
+Pinouts referenced: Pi 4B 40-pin GPIO header (BCM numbering); Arduino Nano v3 ATmega328P (Arduino-pin numbering, D0–D13 + A0–A7); Heltec WiFi LoRa 32 V3 (ESP32-S3, GPIO numbering).
+
+#### 3.3.1 Raspberry Pi 4B (doer) — pin assignments
+
+The Pi 4 is the I²C master, USB host, primary logger, and module-bus orchestrator. Uses only the 40-pin GPIO header + USB-A ports + USB-C power-in.
+
+| Pi 4 pin (BCM) | Header pin | Function | Connects to | Harness |
+|---|---|---|---|---|
+| GPIO2 (SDA1) | 3 | **I²C-1 SDA** (master) | platform I²C bus → MPU9250 Z2, INA219 Z3, Heltec slave, Nano slave, module bus Z5 | H1 + H4 |
+| GPIO3 (SCL1) | 5 | **I²C-1 SCL** (master) | same bus as above | H1 + H4 |
+| GPIO14 (TXD0) | 8 | UART TX (debug) | Z7 debug header | H5 |
+| GPIO15 (RXD0) | 10 | UART RX (debug) | Z7 debug header | H5 |
+| GPIO4 | 7 | NTC-1 read (helm-internal temp) via DS18B20 1-Wire (NTC alternative if DS18B20 procured) | Z3 internal NTC | onboard |
+| GPIO17 | 11 | SAFETY_n sense (read-only; Pi can observe but only Nano can drive) | Z3 SAFETY_n bus | onboard |
+| GPIO22 | 15 | Helm-on-head sense (TTP223 output, level-shifted from 3.3 V to 3.3 V — direct connect) | Z1 TTP223 | H5 |
+| GPIO23 | 16 | Status LED — green (session active) | Z7 LED | H5 |
+| GPIO27 | 13 | TEMT6000 read (analog → use MCP3008 SPI ADC on Pi, or hand off to Nano A1 — see §3.3.4) | — | H5 |
+| 5V_USB-C in | (USB-C jack) | power-in from Z3 buck output | Z3 5V_PLATFORM rail | H3 path |
+| GND | 6, 9, 14, 20, 25, 30, 34, 39 | shared ground | star-ground at Z2 | onboard |
+| USB-A × 4 | (USB-A jack) | sensors / SDR / external | external | external harness |
+| HDMI / DSI / CSI | — | **unused at Mk0** | — | — |
+| GPIO0/1 (ID EEPROM) | 27, 28 | **reserved** for future HAT EEPROM | — | — |
+| GPIO5–GPIO13 (SPI, SCLK, etc.) | 29–33 | **free for sprint 0.4+** (SPI ADC, SD card, etc.) | — | — |
+| GPIO16, 19–26 | various | **free for future expansion** | — | — |
+
+**Pi 4 GPIO utilization at Mk0: 8 of 28 usable pins. Plenty of headroom.**
+
+#### 3.3.2 Arduino Nano v3 (checker) — pin assignments
+
+The Nano is the safety watchdog. Owns the SAFETY_n line, the 12V_RAIL load switch enable, battery + rail current sense via INA219, and two ADC channels for NTC thermistors. **Holds the 12-row safety blacklist in firmware** (§7).
+
+| Nano pin | Function | Connects to | Drive direction |
+|---|---|---|---|
+| **D0 (RX)** | USB-serial RX (programming + debug log out via FTDI on USB) | onboard | input |
+| **D1 (TX)** | USB-serial TX | onboard | output |
+| **D2 (INT0)** | **SAFETY_n line** — open-drain, bidirectional. Pulled high by 10 kΩ. Nano drives low to latch. External (module / Pi / key-switch) can also pull low. Falling edge wakes Nano via INT0. | Z3 SAFETY_n bus + Z5 module bus pin 6 + Pi GPIO17 (read) | open-drain (output via INT) + input |
+| **D3 (INT1, PWM)** | Boat-rocker arm sense (12V_BATT detect via voltage divider) — falling edge means rocker was just opened, latch SAFETY_n | Z4 rocker | input |
+| **D4** | **12V_RAIL load-switch enable** — drives the gate of the bus 12V switch (see §6.5.x; specific load-switch IC chosen in next-pass item) | Z3 load switch IC | output, default low (rail OFF) |
+| **D5 (PWM)** | Status LED — red (HV/coil armed) | Z7 LED | output |
+| **D6 (PWM)** | Status LED — amber (watchdog OK / heartbeat) — Nano blinks this at 1 Hz so loss = visible | Z7 LED | output |
+| **D7** | Key-switch state read (3-pos: OFF / ARMED / SESSION). One GPIO + one ADC channel (A2 below) decode three states | Z4 key-switch | input |
+| **D8** | Reserved — Mk0.5 fault-mode visible-on-OLED trigger | — | — |
+| **D9 (PWM)** | Reserved — Mk1 audible alarm tone out (piezo) | — | output |
+| **D10–D13 (SPI)** | **reserved** for sprint 0.4 SD-card audit log | — | — |
+| **A0** | INA219 alert read (digital, conventionally A-pin) — could move to D-pin later | — | input |
+| **A1** | NTC-1 read (helm-internal temp Z3) — 10 kΩ NTC voltage divider | Z3 NTC | analog input |
+| **A2** | NTC-2 read (battery-cell temp Z4) | Z4 NTC | analog input |
+| **A3** | TEMT6000 ambient light (decision: Nano A3 owns this, not Pi — keeps Pi GPIO27 free) | Z1 TEMT6000 | analog input |
+| **A4 (SDA)** | **I²C SDA** (slave; Nano answers Pi 4 master at 0x42) | platform I²C bus | bidir |
+| **A5 (SCL)** | **I²C SCL** (slave) | platform I²C bus | input |
+| **A6 / A7** | analog-only ADCs — **free for Mk1 expansion** | — | — |
+| Vin | 7–12 V regulated input (Nano onboard linear reg) | Z3 5V_PLATFORM rail (Vin tolerates 5 V on Nano clone) | input |
+| GND | shared | star-ground Z2 | — |
+| 5V / 3V3 | not used externally | — | — |
+
+**Nano utilization at Mk0: 13 of ~20 usable pins. ~6 pins reserved for SPI / Mk1 expansion.**
+
+> **Note on Nano A4/A5 vs §6.5 module-bus I²C:** the Nano is a *slave* on the platform I²C bus; it does NOT have a separate I²C bus. Pi 4 GPIO2/3 is the only bus. Nano answers at 0x42. This is intentional — keeps wiring count down — but it means a Pi I²C lockup also takes out Nano comms. Nano's SAFETY_n latch behavior is therefore **independent of I²C**: even if I²C dies, Nano still drives D2 SAFETY_n low via its INT0 watchdog timer running off the internal RC oscillator. Safety is preserved through total I²C failure.
+
+#### 3.3.3 Heltec LoRa 32 V3 (HUD / BLE / LoRa) — pin assignments
+
+The Heltec drives the OLED (Z1 window), runs BLE for the Polar H10 link (Stabilizer Mk1), and reserves LoRa for inter-helm mesh (Mk2+). Many of its pins are factory-committed; we use only the user-available ones.
+
+| Heltec V3 pin (ESP32-S3 GPIO) | Function | Connects to | Notes |
+|---|---|---|---|
+| GPIO17 | **factory OLED SDA** (internal I²C bus to SSD1306) | onboard OLED | reserved by Heltec |
+| GPIO18 | **factory OLED SCL** | onboard OLED | reserved by Heltec |
+| GPIO36 (Vext) | factory Vext enable (powers the OLED) | onboard | reserved; drive HIGH at boot |
+| GPIO8–14 | factory **LoRa SX1262** (NSS, SCK, MOSI, MISO, RST, BUSY, DIO1) | onboard | reserved by Heltec |
+| GPIO35 | factory user LED | onboard | usable as 4th status LED if needed |
+| GPIO0 | factory **USR / BOOT button** + Heltec OLED-side button 1 | onboard | session-UI button-1 (intention entry) |
+| GPIO1 | factory VBAT ADC | onboard | battery monitor (Heltec has its own Li-Po path; we'll just leave it disconnected at Mk0) |
+| **GPIO19** | **Platform I²C SDA** (slave; Heltec answers Pi master at 0x43) — separate I²C bus from the factory OLED bus | platform I²C bus | bidir |
+| **GPIO20** | **Platform I²C SCL** (slave) | platform I²C bus | input |
+| **GPIO38** | Heltec OLED-side button 2 (session-UI button-2: commit) | onboard side-button via inventory tactile | input |
+| **GPIO39** | Heltec OLED-side button 3 (session-UI button-3: engage) | onboard side-button via inventory tactile | input |
+| **GPIO40** | BLE-status LED (optional — driven LOW when Polar H10 paired) | reserved | output |
+| **GPIO41** | UART TX (debug log to USB-serial through CP2102) | onboard | output |
+| **GPIO42** | UART RX | onboard | input |
+| **GPIO37** | Reserved — Mk1 audio enable (drives PAM8403 SD pin from platform side, sprint 0.3a may move this to module) | — | output |
+| 5V_USB-C | power-in from Z3 5V_PLATFORM rail | Z3 | — |
+| GND | shared | star-ground Z2 | — |
+
+**Heltec utilization at Mk0: 6 user pins out of ~14 user-accessible. The board is mostly its own factory peripherals.**
+
+> **Note on Heltec second I²C bus:** ESP32-S3 has two I²C controllers; we use #2 on GPIO19/20 for the platform bus, leaving #1 on GPIO17/18 for the factory OLED. **No conflict.** Required arduino-esp32 init: `Wire1.begin(19, 20, 100000)` or equivalent ESP-IDF call.
+
+#### 3.3.4 Cross-MCU I²C bus map (the platform's only shared bus)
+
+| Address | Device | Owner location | Behavior |
+|---|---|---|---|
+| 0x40 | INA219 (platform 12V rail monitor) | Z3 | sensor |
+| 0x42 | **Nano v3 (slave)** | Z3 | watchdog comms + SAFETY_n status read |
+| 0x43 | **Heltec V3 (slave)** | Z3 | UI events: button presses, OLED-display-state echo, BLE link status |
+| 0x48 | MCP3008-equivalent SPI-ADC bridge (Mk1, sprint 0.4) | Z3 | reserved |
+| 0x68 | MPU9250 IMU (accel + gyro) | Z2 | sensor |
+| 0x0C | AK8963 (MPU9250 on-die magnetometer) | Z2 | sensor (accessed via MPU9250 bypass) |
+| 0x10 + N | Module-bus device IDs (Stabilizer = 0x01 → I²C 0x11; Defender = 0x12; HUD = 0x13; Recorder = 0x14) | Z5 (out the bus) | module identity + watchdog + telemetry per §6.5.3 |
+
+**Bus voltage:** 3.3 V (Pi 4 native; Nano A4/A5 5V-tolerant inputs accept 3.3 V; Heltec ESP32-S3 native 3.3 V; module-side modules level-shift if they're 5 V).
+**Pull-ups:** 4.7 kΩ on platform side only, **once** on the bus (Z3 board), not on every device. Module-side modules must NOT add pull-ups (sprint 0.3a Stabilizer compliance).
+**Speed:** 100 kHz (standard mode). Pi 4 master polls round-robin: INA219 → Nano → Heltec → MPU9250 → AK8963 → modules. Worst-case full poll ≈ 10 ms.
+
+#### 3.3.5 Pin-count sanity check vs. earlier §3.3 generic budget
+
+The earlier draft demanded "≥ 6 free GPIO, ≥ 2 ADC, ≥ 2 PWM, 1 I²C bus ≥ 4 devices, 1 UART, 1 USB, optional SPI." Reality check across the three MCUs:
+
+| Demand | Available | Verdict |
 |---|---|---|
-| I²C (any speed ≥ 100 kHz) | 1 bus, ≥ 4 devices | sensors |
-| UART | 1 | debug / log out |
-| USB device | 1 | data + charge (or charge via VBUS pass-through) |
-| GPIO (digital) | ≥ 6 free | LEDs, button, safety line stub |
-| ADC | ≥ 2 | battery monitor + thermistor |
-| PWM | ≥ 2 | future LED stim + future audio |
-| SPI | 1 (optional) | SD logging if card slot available |
+| 1 I²C ≥ 4 devices | 1 bus, 6+ devices, room for ~120 more addresses | ✅ over-spec |
+| 1 UART | 3 UARTs (one per MCU) — all wired to USB-serial | ✅ over-spec |
+| 1 USB device | Pi 4 USB-C in (data + 5 V) + Pi 4× USB-A out + Heltec USB-C | ✅ over-spec |
+| ≥ 6 free GPIO | Pi 4: 20+ free; Nano: 6 free; Heltec: ~8 user-free | ✅ over-spec |
+| ≥ 2 ADC | Pi 4 has none native (needs SPI-ADC); Nano: 5 ADC available; Heltec: ~2 user-free | ✅ via Nano |
+| ≥ 2 PWM | Nano: 4 PWM remaining; Heltec: many | ✅ over-spec |
+| Optional SPI | Pi 4 SPI0/SPI1; Nano D10-D13 SPI; Heltec SX1262 already uses SPI | ✅ reserved for sprint 0.4 SD-card audit |
 
-Confirm against actual MCU spec sheet once selected.
+**Pin budget closed at sprint 0.2.** No deferred decisions in this section. Architecture is wireable.
 
 ---
 
