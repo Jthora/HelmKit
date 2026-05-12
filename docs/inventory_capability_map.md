@@ -13,10 +13,10 @@
 - General electronics workbench + **YEAPOOK ADS1014D 100 MHz DSO** (covers coil drive band 5× over)
 - **HackRF One** (1 MHz – 6 GHz TX+RX) + **2× NESDR Smart v4** + **1× NESDR Smart XTR** + **Nooelec Ham It Up** upconverter + **Nooelec 1:9 antenna balun** (HF emission monitor)
 - **MAX2870 PLL signal source** (23.5 MHz – 6 GHz) + **ADF4351 PLL dev board** (35 MHz – 4.4 GHz) + **2× XR2206 function generator kits** (1 Hz – 1 MHz, for 7.83 Hz envelope)
-- Several **Raspberry Pi 4B** (MCU-A doer)
 - Several **Raspberry Pi 4B 8 GB** (3 confirmed; MCU-A doer)
 - **NVIDIA Jetson AGX Orin 32 GB Developer Kit** (~200 TOPS INT8 / ~5.3 TFLOPs FP16) — lab-grade heavy compute
 - **4× Jetson Nano** (2× Seeed reComputer J1020 + 2× J1010) — distributed edge AI / FDTD inner loop
+- **4× ex-crypto-miner GPU rigs** — aggregate **22 GPUs / ~162 GB VRAM / ~143 TFLOPs FP32** (10× NVIDIA Pascal: 1080 Ti / 1080 / 1070 Ti / 1050 Ti + 12× AMD Polaris RX 580 / RX 560). Auxiliary openEMS sweep farm + Cycles render farm + local LLM server.
 - **5× Arduino Nano v3** (MCU-B watchdog) + 5× Nano terminal adapters
 - **2× Heltec LoRa 32** (ESP32 + 0.96" OLED + Li-Po PMIC + WiFi + BLE + LoRa 863–928 MHz, in enclosures) — *wiki Mk1 Stabilizer MCU stack in one board*
 - **1× ESP8266 Deauth Detector v3** + **1× RangePi 433 MHz Board** + enclosure
@@ -100,7 +100,7 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 
 | Capability | Have | Status |
 |---|---|---|
-| Heavy compute (ML inference, FDTD simulation, real-time SDR DSP) | **1× AGX Orin 32GB (~200 TOPS) + 4× Jetson Nano edge** | ✅ **tier-1 lab-grade** — enables real-time closed-loop FDTD verification of coil emission |
+| Heavy compute (ML inference, FDTD simulation, real-time SDR DSP) | **1× AGX Orin 32GB (~200 TOPS) + 4× Jetson Nano edge + 4× ex-miner rigs (22 GPUs, ~143 TFLOPs FP32, ~162 GB VRAM aggregate)** | ✅ **tier-1 lab-grade** — Orin does real-time closed-loop FDTD; rigs do overnight openEMS parameter sweeps + Cycles render farm |
 | EM shielding for sensors (isolate mag from coil) | **Faraday fabric + EMI spray** | ✅ |
 | Magnetic field source for IMU calibration | **Neodymium magnets** | ✅ |
 | Field-visualization media (Mk2 demo / Q.A. tool) | **Ferrofluid** | ✅ niche use |
@@ -186,6 +186,7 @@ This is the **Mk0 + Mk1-coil-prefab combo**, executable from totes.
 - **Tier-3 (control host): Pi 4 × 3.** I²C bus master, USB to SDR, sensor logging, control loops, OLED HUD.
 - **Tier-4 (safety co-MCU): Nano v3 × 5.** Hard-real-time watchdog, kill-line, formally-auditable safety blacklist firmware.
 - **Tier-5 (HUD/BLE/LoRa): Heltec LoRa 32 × 2.** Wireless mesh + wearable HUD package.
+- **Tier-0 (aux farm, bursty / WoL): 4× ex-miner rigs, 22 GPUs, ~143 TFLOPs FP32, ~162 GB VRAM.** 10× NVIDIA Pascal + 12× AMD Polaris. Wakes up overnight for openEMS parametric coil sweeps (both AMD via OpenCL + NVIDIA via CUDA contribute), Blender Cycles helm-viz render farm (NVIDIA Pascal only — AMD Polaris dropped by Cycles), local LLM coding-agent server (1080 Ti 11 GB = comfortable 13B Q4 host), Stable Diffusion / ComfyUI for concept art. **Constraint:** Pascal has no Tensor Cores → no FP16/INT8 ML acceleration; AMD Polaris is post-ROCm → llama.cpp Vulkan backend is the only modern ML path. **Power budget:** ~3.5 kW at full bore — run bursty, not 24/7. AGX Orin acts as the Ray/Slurm scheduler that fans jobs out.
 
 ### 6.6 Faraday fabric + EMI spray
 - **Inside the helm:** line the inner cavity around the magnetometer to reduce coupling from the coil. This is what makes co-located mag+coil viable.

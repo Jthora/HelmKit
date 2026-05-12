@@ -33,6 +33,52 @@
 
 The AGX Orin alone is **enough compute to run a full real-time FDTD simulation of the coil + helmet cavity at sub-millisecond timestep** — which means **closed-loop emission verification is in reach**, not just open-loop measurement. This is the difference between "we measured it" and "we predicted-and-verified it."
 
+### 1.A Auxiliary GPU farm — 4× repurposed crypto-miner rigs
+
+**4× ex-mining rigs**, each typically housing 5–7 GPUs on PCIe risers, with PSU + cheap mobo + USB-to-PCIe-1x risers. Aggregate GPU stack across the 4 rigs:
+
+| Qty | GPU | Arch | VRAM | FP32 (TFLOPs) | TDP | ML usable? | Render usable? |
+|---|---|---|---|---|---|---|---|
+| 2 | MSI **GeForce GTX 1080 Ti** | NVIDIA Pascal GP102, CC 6.1 | 11 GB GDDR5X | ~11.3 | 250 W | ✅ CUDA / FP32 only (no Tensor Cores, no FP16/INT8 accel) | ✅ Cycles CUDA (no OptiX) |
+| 5 | ZOTAC **GeForce GTX 1080** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5X | ~8.9 | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
+| 1 | MSI **GeForce GTX 1070 Ti** | NVIDIA Pascal GP104, CC 6.1 | 8 GB GDDR5 | ~8.1 | 180 W | ✅ CUDA / FP32 only | ✅ Cycles CUDA |
+| 2 | PNY **GeForce GTX 1050 Ti** | NVIDIA Pascal GP107, CC 6.1 | 4 GB GDDR5 | ~2.1 | 75 W | ⚠️ small model only (4 GB VRAM) | ✅ Cycles CUDA |
+| 6 | XFX **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | ~6.2 | 185 W | ⚠️ ROCm dropped Polaris support (≤ ROCm 4.x); usable via OpenCL / Vulkan only | ❌ Blender Cycles HIP needs RDNA2+ (no Polaris); OpenCL backend removed in Blender 3.0+ |
+| 3 | MSI **Radeon RX 580** | AMD GCN4 Polaris 20 | 8 GB GDDR5 | ~6.2 | 185 W | ⚠️ same as XFX RX 580 | ❌ same as XFX RX 580 |
+| 3 | XFX **Radeon RX 560** | AMD GCN4 Polaris 21 | 4 GB GDDR5 | ~2.6 | 80 W | ⚠️ OpenCL / Vulkan only, 4 GB | ❌ same constraint |
+| **22** | **Total GPUs across 4 rigs** | — | **~162 GB aggregate VRAM** | **~143 TFLOPs FP32 aggregate** | ~3.5 kW @ 100 % | — | — |
+
+**Subtotals:**
+- **NVIDIA Pascal:** 10 cards, ~78 GB VRAM, **~79 TFLOPs FP32** — fully usable with CUDA toolchain (PyTorch + CUDA 11.x last supported, CUDA 12.x dropped Pascal in some kernels; llama.cpp + Stable Diffusion + Blender Cycles all run today).
+- **AMD GCN4 Polaris:** 12 cards, ~84 GB VRAM, **~64 TFLOPs FP32** — *modern ML frameworks dropped Polaris*. Usable only via Vulkan compute (llama.cpp Vulkan backend works), OpenCL (limited), or SHARK / ComfyUI Vulkan forks. Cannot run modern PyTorch/ROCm.
+
+**Verdict:** This is a serious aux compute farm, but it is **Pascal-era / GCN4-era**, not modern. See [§1.A.1 Repurposing analysis](#1a1-repurposing-analysis-render-farm--ai-offload) below.
+
+#### 1.A.1 Repurposing analysis — render farm / AI offload
+
+**Realistic uses (ranked by HelmKit relevance):**
+
+1. **openEMS / MEEP parametric coil sweeps (HIGH HelmKit value).** openEMS has OpenCL acceleration that runs on *both* AMD GCN4 and NVIDIA Pascal. Use rigs to run **overnight parameter sweeps** of coil geometry (diameter, turns, spacing, layer count, ferrite presence) → AGX Orin gets the converged-on design and runs the live closed-loop verification. **This is the killer app for these cards.** All 22 GPUs contribute; embarrassingly parallel; no FP16/Tensor Core requirement.
+
+2. **Blender Cycles render farm for helm CAD visualization (MEDIUM value).** 10× NVIDIA Pascal cards via Blender's CUDA backend = a real render farm for product viz, datasheet imagery, manuals. The 12× AMD cards are mostly dead for this — Blender removed OpenCL in 3.0, and HIP needs RDNA2+.
+
+3. **Local LLM inference for coding agents (MEDIUM value).** 1× 1080 Ti (11 GB) hosts a **7B–13B Q4-quantized model** via llama.cpp + CUDA. Run a local coding assistant per-rig (or pool VRAM with tensor-parallel inference). 1080 / 1070 Ti (8 GB) handle 7B Q4 comfortably. AMD cards via llama.cpp **Vulkan backend** actually do work — slower than CUDA but functional. Aggregate: ~70 GB of LLM-usable VRAM if you Vulkan-pool the AMDs.
+
+4. **Stable Diffusion / image generation (LOW–MEDIUM value).** SD 1.5 runs on 6 GB+; SDXL needs 8 GB+ and prefers FP16 (no Tensor Cores → slow on Pascal). Useful for design / concept imagery, less for science.
+
+5. **Distributed FDTD inner-cell solvers (SPECULATIVE).** If the AGX Orin runs the master FDTD loop, the rigs can run **independent sub-volumes** of a larger room/building-scale EM simulation (eg. "what does the helm look like to a wifi router 3 m away?"). Useful for EMC compliance proxy modelling.
+
+6. **General render farm for non-helm work / Wikia art / map generation (LOW HelmKit value but real).** The 10 NVIDIA cards make a respectable Cycles farm even today.
+
+**Honest red flags:**
+- **Power cost is real.** At full bore, 4 rigs ≈ **3.5 kW**. At $0.10/kWh that's ~$8/day if all 4 run 24/7 (~$250/mo). Cloud A100 rental is often cheaper than this. Run rigs *bursty* on overnight sweeps, not 24/7.
+- **Pascal is 8–9 years old.** No Tensor Cores → no FP16/INT8 ML acceleration. Modern ML throughput per-watt is ~10–30× worse than a current RTX 5080. CUDA 12.x is dropping Pascal kernels piecemeal — pin to CUDA 11.8 + PyTorch 2.3 for stability.
+- **AMD Polaris is essentially abandoned for ML.** ROCm 5+ doesn't support it. Vulkan compute via llama.cpp / SHARK is the only realistic ML path. For pure FP32 compute (openEMS via OpenCL) they're still fine.
+- **Heat + noise.** 4 mining rigs in a room without dedicated ventilation is 3 kW of heat + jet-engine fans. Lab placement matters.
+- **PCIe risers are flaky.** Mining risers are USB-3-cable PCIe 1x; if any rig is unstable, swap risers before blaming GPUs.
+
+**Recommended config:** One rig as an **always-on llama.cpp + ComfyUI server** (best 1080 Ti + best 1080 + a few RX 580 on Vulkan for VRAM aggregation). Keep the other 3 rigs **powered-off, wake-on-LAN**, fire them up for overnight openEMS parameter sweeps or Cycles render farm jobs. Sprint 0.2+ task: stand up a **Ray / Slurm / Dask cluster controller** on the AGX Orin that fans work out to the rigs.
+
 ---
 
 ## 2. SDR / RF signal generation / antenna
