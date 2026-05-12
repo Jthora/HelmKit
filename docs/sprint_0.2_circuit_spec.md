@@ -44,14 +44,14 @@ Wiki-canonical Mk1 sensor stack is BME680 + MPU6050 + HMC5883L + PPG + Polar H10
 
 | Tier | Sensor class | Why it matters | Wiki Mk1 part | Mk0 pick (inventory-confirmed) |
 |---|---|---|---|---|
-| **Must-have** | 3-axis IMU (accel+gyro) | head pose, motion artifact rejection | MPU6050 / ICM-20948 | 🟡 **9-axis IMU module** (count + specific part TBD; abundant) |
-| **Strong nice-to-have** | 3-axis magnetometer | ambient field baseline; F4-relevant geomagnetic-sensitivity studies | HMC5883L / LIS3MDL | ✅ **integrated on the 9-axis IMU above** |
+| **Must-have** | 3-axis IMU (accel+gyro) | head pose, motion artifact rejection | MPU6050 / ICM-20948 | ✅ **3× MPU9250 (CHENBO×2 + HiLetgo×1)** + **1× MPU6050 (Diymore)** |
+| **Strong nice-to-have** | 3-axis magnetometer | ambient field baseline; F4-relevant geomagnetic-sensitivity studies | HMC5883L / LIS3MDL | ✅ **integrated on the MPU9250 (AK8963 on-die)** |
 | **Strong nice-to-have** | Environmental (T/RH/P/VOC) | session-context logging; thermal-safety floor | BME680 | ✅ **SGP40** (VOC) + **BMP180** (pressure) + **DHT11** (T/RH) from sensor kits |
 | **Want** | PPG (heart rate / HRV) | primary biomarker for stabilization studies | MAX30102 / Polar H10 | ❌ gap — Polar H10 deferred procurement (~$80); interim: build PPG from photoresistor + IR LED (in 730× IR LED stock) |
 | **Want** | Skin-contact electrodes (EEG / GSR) | optional Mk0.5 — needs analog front-end | ADS1299 / AD8232 | ❌ defer; **PCF8591 ADC shield** (in Pi kit) gives a path if we hand-build an instrumentation amp |
 | **Optional** | Microphone | ambient audio context | ICS-43434 / MEMS | ✅ Sound Detection module (Smart Home kit) + electret (Analog Sound Sensor, RPi kit) |
 | **Optional** | Ambient light | photic stim sham control + circadian context | TSL2591 / VEML7700 | ✅ **TEMT6000** + photoresistor (RPi kit), GUVA-S12SD UV |
-| **Bonus** | Magnetometer #2 (gradiometer) | wiki Defender 2× mag pattern | second HMC5883L | ✅ **second 9-axis IMU** at known offset |
+| **Bonus** | Magnetometer #2 (gradiometer) | wiki Defender 2× mag pattern | second HMC5883L | ✅ **second MPU9250** at 0x69 at known offset |
 | **Bonus** | Thermal IR | wiki Defender thermal sense | MLX90640 | ✅ **MLX90640** confirmed in inventory |
 | **Bonus** | SDR (RF wideband survey) | wiki Defender survey path | HackRF | ✅ **HackRF One + 3× NESDR + Ham It Up upconverter + 1:9 balun** |
 | **Bonus** | OLED HUD | wiki HelmKit HUD | SSD1306 0.96" | ✅ **integrated on Heltec LoRa 32** (2×) |
@@ -251,7 +251,7 @@ The wiki's [12-row blacklist](wiki_synthesis.md) is Mk1-relevant (coil drive); M
 
 Most questions from the original §9 are now resolved (see [inventory.md](inventory.md)). Remaining:
 
-- **9-axis IMU specific part + count** (driver pick on Pi 4: MPU-9250/ICM-20948 = 0x68; BNO055 = 0x28)
+- **~~9-axis IMU specific part + count~~** — ✅ resolved: 3× MPU9250 (CHENBO×2 + HiLetgo×1) + 1× MPU6050 (Diymore)
 - **HV module enable-pin behavior** — active-high / active-low / opto-isolated? Test bench-only before circuit lock.
 - **PCB CNC bit set** — confirm 0.2 mm V-bit / 0.25 mm end mill + 1.0 mm drill availability for the [coil fab spec](mk0_pcb_bifilar_coil.md)
 - **Spare 2S 18650 holders + BMS** — likely in TP4056-adjacent stock; confirm
@@ -374,7 +374,7 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 | # | Task | Owner | Status |
 |---|---|---|---|
 | 1 | **Tote inventory pass** — captured in [inventory.md](inventory.md) | jono | ✅ |
-| 2 | Confirm 9-axis IMU model + count | jono | ☐ |
+| 2 | Confirm 9-axis IMU model + count | jono | ✅ 3× MPU9250 + 1× MPU6050 |
 | 3 | Confirm full Pi sensor kit contents | jono | ✅ (KS3016 + DKHK100200 fully catalogued) |
 | 4 | Confirm SDR model(s) + count | jono | ✅ (HackRF One + 2× NESDR v4 + 1× NESDR XTR + Ham It Up + balun) |
 | 5 | Confirm HV/VHV module spec | jono | 🟡 partial — counts done; enable-pin behavior TBD on bench |

@@ -75,9 +75,22 @@
 
 ## 3. Sensors
 
-### 3.1 IMU / mag (NOT YET CONFIRMED specific part)
+### 3.1 IMU / mag — CONFIRMED
 
-The operator has stated "multiple 9-axis IMU modules" in prior message. Specific module(s) **TBD during continued inventory** — likely MPU-9250, ICM-20948, or BNO055. Not in the lists above; flag as `[NEEDS-COUNT]`.
+| Qty | Part | Notes |
+|---|---|---|
+| 2 | **CHENBO GY-9250** — MPU9250/6500 9-DOF (accel + gyro + mag), SPI/I²C | wiki-spec class for HelmKit core IMU + gradiometer pair |
+| 1 | **HiLetgo GY-9250** — MPU9250/6500 9-DOF, 16-bit, SPI/I²C | spare / second gradiometer head |
+| 1 | **Diymore GY-521** — MPU-6050 6-DOF (accel + gyro only, no mag) | secondary motion sense; MCU-B (Nano) attitude watchdog (decoupled from main IMU bus) |
+
+**Total: 3× 9-DOF (MPU9250 class) + 1× 6-DOF (MPU6050).** This locks the IMU pick.
+
+- I²C addresses: MPU9250 = 0x68 (AD0 low) / 0x69 (AD0 high); on-die AK8963 mag = 0x0C (via I²C master pass-through). MPU6050 = 0x68 — collides with MPU9250 default, so wire MPU6050 to MCU-B's bus or strap to 0x69.
+- **Recommended deployment:**
+  - HelmKit core (Pi 4 bus): 1× GY-9250 @ 0x68 (head-pose / motion)
+  - Defender gradiometer pair (Pi 4 bus): 2× GY-9250 at known offset — one at 0x68, one at 0x69, mounted ~5 cm apart
+  - MCU-B (Nano) watchdog: 1× GY-521 @ 0x68 on Nano's independent I²C bus — redundant motion sense for the safety blacklist ("helm-on-ground" detection independent of Pi 4)
+  - Spare: 1× GY-9250 cold spare
 
 ### 3.2 Smart Home Sensor Kit (DKHK100200) — confirmed contents
 
@@ -286,7 +299,10 @@ Highlights only (full list in original inventory):
 | Many | **EDGELEC Dupont jumper wires** 20 cm M/M, M/F, F/F | breadboard |
 | 1 | **635-pc 2.54 mm Dupont housing + pin kit** + 5-ft 10-wire ribbon | wiring |
 | 1 | **Copper magnet wire spools + audio cable spools + enameled wire** (various gauges, heavy stock) | **hand-wound coil stock if PCB-coil path fails or for solenoid alternatives** |
+| 1 | **BNTECHGO 20 AWG enameled magnet wire**, 1.0 lb spool, 0.0315" Ø, 155°C-rated | **wiki Mk1-class hand-wound bifilar coil stock** — ~315 ft per lb at 20 AWG; ample for multiple 30×30 mm coil rewinds + Mk2 solenoid experiments |
 | 25 | **E BAVITE neodymium bar magnets 60×10×3 mm, double-side-adhesive** | calibration jig + experimental field generators |
+| 7 | **Junarter neodymium cube magnets** | calibration / DIY field sources |
+| 100 | **LOVIMAG neodymium cube magnets 10×10×10 mm** (2× 50-pc packs) | uniform-cube experimental field arrays; ferrofluid-pattern jigs |
 | 500 (mixed) | **Small magnets, 7 sizes** | fridge-mag class; cumulative field sources |
 
 ---
@@ -341,7 +357,7 @@ Highlights only (full list in original inventory):
 
 ## 11. Open items (continue inventory pass)
 
-- [ ] **9-axis IMU module(s)** — count, exact part number(s), confirm I²C address(es)
+- [x] ~~**9-axis IMU module(s)** — count, exact part number(s), confirm I²C address(es)~~ — resolved §3.1: 3× MPU9250 (CHENBO×2 + HiLetgo×1) + 1× MPU6050 (Diymore)
 - [ ] **USB-C power bank(s)** — count, capacity (mAh), output current rating
 - [ ] **Shielded cable / coax / twisted pair** stock
 - [ ] **PCB CNC bit set** — V-bit angles, end-mill diameters, drill sizes available

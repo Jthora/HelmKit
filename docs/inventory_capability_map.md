@@ -46,7 +46,7 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 | MCU-A (doer): STM32F407 class | Raspberry Pi 4 | ✅ over-spec | Pi 4 has more compute than F407 by 2 orders of magnitude. Runs Linux, full SDR stack, ML inference. |
 | MCU-B (checker): RP2040 | Arduino Nano v3 (ATmega328P) | 🟡 acceptable | ATmega328P is small enough to formally audit; runs the watchdog firmware. |
 | **Wireless mesh / BLE node** | **Heltec LoRa 32** (ESP32 + WiFi + BLE + LoRa) | ✅ **better** | One board replaces the wiki's separate nRF52840 + LoRa + OLED. **2 in inventory.** |
-| 9-DOF IMU (MPU6050+HMC5883L) | 9-axis IMU modules ×N | ✅ better | One integrated 9-axis is cleaner than two separate parts. |
+| 9-DOF IMU (MPU6050+HMC5883L) | **3× MPU9250 (GY-9250)** + **1× MPU6050 (GY-521)** | ✅ over-spec | MPU9250 is one chip = wiki's MPU6050+HMC5883L combo. 3× enables core IMU + Defender gradiometer pair. MPU6050 reserved for MCU-B watchdog. |
 | Env sensor (BME680) | **SGP40 VOC** + **BMP180 + DHT11 + DS18B20** from sensor kits | ✅ covered (split across parts) | Better VOC than BME680; pressure and temp are separate but covered. |
 | OLED HUD (SSD1306 0.96") | **Built into Heltec LoRa 32** | ✅ | Two of them; one per HUD path or one as backup. |
 | USB-C PD 5V/3A | USB-C cables + mini-UPS + DUTTY buck 6–24 V → 5 V 3 A | ✅ | Multiple paths. |
@@ -85,7 +85,7 @@ Legend: ✅ covered · 🟡 substitutable · ❌ gap
 | Wiki spec | Have | Status |
 |---|---|---|
 | SDR for survey + jamming-aware listening | **HackRF One + 3× NESDR + Ham It Up + 1:9 balun** | ✅ over-spec |
-| 2× magnetometer (gradiometer) | 9-axis IMUs ×N — each has mag — pair two at known offset | ✅ |
+| 2× magnetometer (gradiometer) | 2× MPU9250 (one at 0x68, one at 0x69) at ~5 cm offset | ✅ |
 | ESD probe | Build from passives + neon bulb / spark gap | ✅ |
 | Bifilar coil (for active counter-emit) | Same fab path as Stabilizer | ✅ |
 | Thermal sense | **MLX90640 32×24 thermal IR array** | ✅ **direct wiki Defender spec match** |
