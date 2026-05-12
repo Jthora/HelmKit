@@ -542,7 +542,170 @@ Z3 is the only zone with a board in it. Everything else is wires + discrete elem
                           to Z4 vent / Z5 mount / Z2 IMU
 ```
 
-Approximate Z3 internal envelope (will refine in CAD pass §5.10): **130 × 100 × 25 mm** (W × H × D), pi 4 horizontal, perfboard mounted via M2.5 standoffs to a 3D-printed sled bonded to the inner shell. Sled removable for service.
+The diagram above is the **conceptual overview** (one box per assembly). The actual electrical layout is **three rigid assemblies on three substrates**, detailed below.
+
+#### 5.5.1 Board strategy — two perfboards + Pi 4 SBC (LOCKED)
+
+Z3 holds **three rigid electronic assemblies**, not one:
+
+| ID | Assembly | Substrate | Role |
+|---|---|---|---|
+| **B-PWR** | Power + Safety board | 100 × 70 mm single-sided FR4 (Chanzon or MCIGICM stock — inventory §6) | Nano v3 socketed + INA219 module + DUTTY buck + 5V 2-ch relay (K1) + protection passives + screw terminals for H1/H3/H4 |
+| **B-SIG** | Signal + HUD board | 100 × 70 mm single-sided FR4 (Chanzon stock) | Heltec V3 socketed + 4.7 kΩ platform-side I²C pull-ups + 220 Ω ESD series + 1N4148 ESD clamps + Z7 LED drivers + headers for H5 (audio/LED/debug) |
+| **B-PI** | Pi 4B SBC | factory PCB (no perfboard) | doer; mounts on dedicated 3D-printed sled directly to Z3 inner shell via M2.5 brass inserts |
+
+**Why two perfboards, not one stacked HAT:** (a) the helmet's inner curvature in Z3 is more forgiving to two ~100×70 mm slabs side-by-side than to one larger slab; (b) signal/HUD board can be removed for OLED maintenance without disturbing the power/safety side; (c) inventory has 30+ single-sided 70–100×100 mm FR4 coupons — no procurement, no waste; (d) keeps the high-current relay-switching board physically separated from the Heltec radio board (RF coexistence per §17.2).
+
+#### 5.5.2 Board B-PWR — Power / Safety (100 × 70 mm)
+
+```
+   B-PWR (Power + Safety perfboard) — top view
+   100 mm wide × 70 mm tall
+   +------------------------------------------------+
+   | o M3                                      M3 o |  <- mounting hole (4x)
+   |                                                |     M3 brass insert into
+   |   +-------------+    +-------------+           |     Z3 inner-shell sled
+   |   | NANO v3     |    | DUTTY BUCK  |           |
+   |   | (28-pin DIP |    | 12V -> 5V   |           |
+   |   |  socket)    |    | module      |           |
+   |   +-------------+    +-------------+           |
+   |   +-----------+                                |
+   |   | INA219    |  +------------------+          |
+   |   | breakout  |  | 5V 2-CH RELAY    |          |
+   |   +-----------+  | module (K1 + K2) |          |
+   |  [] 1N5822 rev-pol  +-----------------+        |
+   |  [] 3A polyfuse                                |
+   |  [] 1.5A polyfuse                              |
+   |  [] SMAJ15A TVS (12V_RAIL)                     |
+   |  [] SMAJ5.0A TVS (5V_LOGIC)                    |
+   |                                                |
+   | [J1]  [J2]  [J3]  [J4]  [J5]                   |  <- screw terminals
+   | 12V   GND   5V    Pi    H4                     |     facing rear of helm
+   | IN          OUT   GPIO  bus                    |     (toward Z4 vent)
+   | o M3                                      M3 o |
+   +------------------------------------------------+
+```
+
+| Spec | Value |
+|---|---|
+| Outer dimensions | **100 × 70 mm** (cut from Chanzon 70×100 mm or MCIGICM 102×69 mm stock; mill or score-and-snap) |
+| Thickness | 1.5 mm single-sided FR4 |
+| Mounting holes | **4× M3** at corners, 3.5 mm dia, 5 mm inset from each edge → effective hole pattern **90 × 60 mm** |
+| Standoff height above sled | 8 mm M3 brass standoffs |
+| Component side | top (away from shell) |
+| Edge keep-out | 5 mm on all four edges; no traces or pads |
+| Harness exit | rear edge (toward Z4), screw terminals J1–J5 |
+| Inter-board connector | left edge: 10-pin 2.54 mm Dupont male header (BB — board-to-board) at center-left, mating ribbon to B-SIG |
+| Component side keep-outs | relay K1/K2 audible-click region not against operator's skull — mount relay on top side (away from inner shell) |
+
+**Component placement rules (locked):**
+- Nano v3 in a **28-pin DIP socket**, NOT soldered direct — service swap if MCU fails.
+- INA219 and DUTTY buck are pre-assembled modules with male pin headers; B-PWR has female header rows to receive them. No SMT soldering at Mk0.
+- 5V 2-ch relay module is the factory module with onboard opto + flyback diode; sits on B-PWR via female headers.
+- All polyfuses + TVS + Schottky on the same edge as the screw terminals so harness-side overstress lands on protection first.
+- Pull-ups (4.7 kΩ × 2 for I²C, 10 kΩ × 1 for SAFETY_n) live on **B-SIG**, not here, because B-SIG owns the I²C/SAFETY signals at the bus header.
+
+#### 5.5.3 Board B-SIG — Signal / HUD (100 × 70 mm)
+
+```
+   B-SIG (Signal + HUD perfboard) — top view
+   100 mm wide × 70 mm tall
+   +------------------------------------------------+
+   | o M3                                      M3 o |
+   |                                                |
+   |     +------------------------------+           |
+   |     | HELTEC V3 (mounted on        |           |
+   |     | female header rows so OLED   |           |
+   |     | face is FLUSH with Z1        | -> OLED-> Z1
+   |     | forehead window)             |    window |
+   |     |  (USB-C edge faces rear)     |           |
+   |     +------------------------------+           |
+   |                                                |
+   |  [] 4.7k SDA pull-up    [] 220ohm SDA series   |
+   |  [] 4.7k SCL pull-up    [] 220ohm SCL series   |
+   |  [] 10k SAFETY_n pull-up                       |
+   |  [] 2x 1N4148 ESD pair per line                |
+   |                                                |
+   |  [Q1] [Q2] [Q3]  Z7 LED drivers (XXXL kit)     |
+   |   red  amb   grn  2N3904 + series R            |
+   |                                                |
+   | [J6 BB]    [J7 H5: audio+LED+debug]  [J8 H4]   |  <- right edge harness exit
+   | o M3                                      M3 o |
+   +------------------------------------------------+
+```
+
+| Spec | Value |
+|---|---|
+| Outer dimensions | **100 × 70 mm** (same stock, same cut process as B-PWR) |
+| Mounting holes | 4× M3, same 90 × 60 mm pattern |
+| Standoff height | 8 mm M3 (matches B-PWR) |
+| Heltec mounting | Heltec V3 sits on **2× 19-pin female header rows** (XXXL kit / Dupont kit), spaced per Heltec V3 0.6" pitch — OLED face sits **flush with Z1 forehead window** (board overhangs front edge by ~10 mm) |
+| OLED window alignment | front edge of B-SIG protrudes ~10 mm beyond front of Z3 envelope; helm shell Z1 has matching cutout |
+| Inter-board connector | left edge meets B-PWR's right edge: 10-pin Dupont ribbon |
+| Harness exits | right edge: H5 (audio+LED+debug, to Z6/Z7); H4 signal pins (SDA/SCL/SAFETY_n) bridge to B-PWR's H4 power pins via BB |
+
+#### 5.5.4 Board-to-board interconnect (BB ribbon)
+
+A single **10-pin 2.54 mm Dupont ribbon, ~60 mm** between B-PWR's left-edge header and B-SIG's right-edge header (boards sit side-by-side with B-SIG forward, B-PWR rear). Carries:
+
+| BB pin | Signal | Direction | Notes |
+|---|---|---|---|
+| 1 | GND | shared | star-ground reference for both boards |
+| 2 | +5V_LOGIC | B-PWR → B-SIG | powers Heltec via its USB-C-equivalent rail pin |
+| 3 | +3.3V (from Heltec onboard reg) | B-SIG → B-PWR | for I²C pull-up bias (avoids needing a 3.3V LDO on B-PWR) |
+| 4 | I²C SDA (platform bus, Pi master) | bidirectional | pulled up on B-SIG; bus device 0x40 INA219 lives on B-PWR |
+| 5 | I²C SCL | Pi → slaves | pulled up on B-SIG |
+| 6 | SAFETY_n | bidirectional open-drain | pulled up on B-SIG (10 kΩ); Nano D2 drive lives on B-PWR |
+| 7 | Pi-UART TXD (Pi GPIO14 → Heltec GPIO42) | Pi → Heltec | per §3.3.1 + §3.3.3 |
+| 8 | Pi-UART RXD (Heltec GPIO41 → Pi GPIO15) | Heltec → Pi | same |
+| 9 | reserved | — | sprint 0.3+ (likely module-detect interrupt) |
+| 10 | reserved | — | sprint 0.3+ |
+
+Ribbon is **NOT shielded** (short length, inside Z3 Faraday liner per §12.1). 10 mm of slack allows board removal without disconnect.
+
+#### 5.5.5 Pi 4B placement (separate sled, no perfboard)
+
+The Pi 4B does not need a perfboard — it is a finished SBC. It mounts on a **dedicated 3D-printed sled** bonded to the Z3 inner shell:
+
+| Spec | Value |
+|---|---|
+| Sled material | PLA or PETG, ~3 mm wall (printable in-house) |
+| Pi mounting | factory Pi 4 hole pattern (4× M2.5 at 58 × 49 mm) into M2.5 brass inserts |
+| Sled bonding | E6000 or epoxy to Z3 inner shell flat zone |
+| Pi orientation | **GPIO header facing rear** (toward B-PWR); USB-C charge port facing Z4 vent; HDMI / micro-HDMI forward (unused during sessions); RJ45 ethernet side (debug only) |
+| Pi heatsink | factory aluminum heatsink case OR clip-on 40 mm Al heatsink from inventory §6 (4 in stock) on SoC; **mandatory for any session > 15 min** per §5.9 |
+| GPIO→B-PWR harness | 16-pin ribbon ~80 mm from Pi GPIO header (only the §3.3.1 signal subset wired: GPIO2/3/4/14/15/17/22/23 + GND returns + 5V if Pi is powered via GPIO instead of USB-C) to B-PWR's J4 header |
+| GPIO→B-SIG path | not direct — Pi GPIO signals reach B-SIG via B-PWR + BB ribbon |
+
+**Revised Z3 placement (replaces overview diagram above):**
+
+```
+   Z3 INTERIOR (looking from inside head toward rear shell)
+   +----------------------------------------------------+
+   |     <- front (Z1 forehead window)                  |
+   |  +----------------+     +----------------+         |
+   |  |  B-SIG         | BB  |  B-PWR         |         |
+   |  |  100x70 mm     |<--->|  100x70 mm     |         |
+   |  |  Heltec (OLED  |     |  Nano + INA219 |         |
+   |  |   face fwd)    |     |   + buck + K1  |         |
+   |  +----------------+     +----------------+         |
+   |                                                    |
+   |  +-------------------------------+                 |
+   |  |  Pi 4B (on dedicated sled,    |                 |
+   |  |   GPIO -> rear, USB-C -> Z4)  |                 |
+   |  +-------------------------------+                 |
+   |                                                    |
+   |   harness exits -> H1/H3/H4/H5 to Z2/Z4/Z5/Z6/Z7   |
+   +----------------------------------------------------+
+```
+
+**Z3 internal envelope (revised, supersedes 130×100×25 mm estimate):** **220 × 100 × 30 mm** (W × H × D) — wider because three assemblies sit in there. **CAD pass must verify this fits the 0.1 shell or trigger a shell revision.** Flagged in §5.10.
+
+#### 5.5.6 Locked vs. deferred for sprint 0.4 PCB pass
+
+**LOCKED at sprint 0.2:** board count (2 perfboards + Pi SBC), substrate (single-sided FR4 100×70 mm from stock), mounting hole pattern (M3 × 4 @ 90×60 mm), standoff height (8 mm), inter-board ribbon (10-pin Dupont 60 mm), Pi 4 sled concept.
+
+**Deferred to sprint 0.4 (KiCad):** copper trace routing, ground-plane partitioning, exact component XY coordinates, silkscreen, drill files. Sprint 0.4 may also upgrade B-PWR and B-SIG to two-layer milled PCBs using the uxcell 200×200 mm double-sided FR4 stock if the bench mill is available; outer geometry stays identical.
 
 ### 5.6 Operator-facing controls (Z1 + Z4 + Z7)
 
