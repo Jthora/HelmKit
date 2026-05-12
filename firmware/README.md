@@ -3,14 +3,31 @@
 Firmware tree for the HelmKit platform and modules. Each MCU
 target gets its own subdirectory.
 
+## Read these first
+
+1. **[`SAFETY.md`](SAFETY.md)** — the four-belt safety model.
+   Non-negotiable for every firmware target.
+2. **[`PROTOCOL.md`](PROTOCOL.md)** — serial frame format.
+   The contract between chip and host.
+3. **[`BENCH_CHECKLIST.md`](BENCH_CHECKLIST.md)** — first-flash
+   bench procedure.
+
 ## Layout
 
 ```
 firmware/
 ├── README.md              ← you are here
-├── .gitignore             ← build artifacts, .pio, *.hex, *.elf
-└── nano_bringup/          ← sprint 0.3 deliverable — Nano v3 alive
-    └── nano_bringup.ino
+├── SAFETY.md              ← four-belt safety model (READ FIRST)
+├── PROTOCOL.md            ← serial heartbeat frame spec
+├── BENCH_CHECKLIST.md     ← first-flash procedure
+├── build.sh               ← arduino-cli wrapper with BUILD_ID injection
+├── .gitignore
+├── nano_bringup/          ← sprint 0.3 deliverable — Nano v3 alive
+│   ├── nano_bringup.ino
+│   └── wokwi/             ← in-browser simulation (no hardware needed)
+└── tools/
+    ├── heartbeat_smoketest.py
+    └── fixtures/          ← canned serial output for CI
 ```
 
 Future sprints will add:
@@ -67,78 +84,97 @@ prove the chip wakes up."*
 **MCU spec'd in [sprint 0.2 §3.3.2](../docs/sprint_0.2_circuit_spec.md):**
 Arduino Nano v3 (ATmega328P) as the B-PWR safety MCU.
 
-### What `nano_bringup.ino` does
+### What `nano_bringup.ino` does (phase-2 hardened)
 
+- Implements the four-belt safety model from
+  [`SAFETY.md`](SAFETY.md): fail-safe pin init, INPUT_PULLUP on
+  every other §3.3.2 pin, watchdog at 2 s, MCUSR snapshot at
+  `.init3`.
 - Blinks the on-board D13 LED at 1 Hz.
-- Emits `helmkit-mk0 nano alive tick=N` on Serial @ 115200 baud,
-  once per second.
-- Prints `F_CPU` at boot to confirm fuse/clock setup.
+- Emits a structured, CRC-protected heartbeat frame per
+  [`PROTOCOL.md`](PROTOCOL.md) once per second.
+- Reports BUILD_ID (`git rev-parse --short HEAD`) so multiple
+  flashed chips are distinguishable.
+- Reports free SRAM so stack/heap headroom is visible.
 
 ### What it deliberately does NOT do
 
-- Does **not** touch any of the §3.3.2 platform pins (SAFETY_n,
-  K1 relay, INA219 I²C, etc.). Those wire up in sprint 0.3a.
-- Does **not** implement the §6.5.5 safety state machine.
-- Does **not** assume any external hardware. Pure on-chip.
-
-This is *bring-up only*. It proves: toolchain → compile → flash →
-boot → LED → serial. End to end.
+- Does **not** raise K1_DRIVE. K1 stays de-energized. §6.5.5
+  safety state machine is sprint 0.3a.
+- Does **not** read SAFETY_n meaningfully. Pin is pulled up
+  but the read is not wired to logic.
+- Does **not** read any sensors. Sprint 0.4.
+- Does **not** assume external hardware beyond a USB host.
 
 ### Build
 
 ```bash
-cd /Users/jono/Documents/GitHub/HelmKit
-arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328 firmware/nano_bringup
+./firmware/build.sh nano_bringup
 ```
 
-Verified clean on sprint 0.3 day-one:
-> Sketch uses 2522 bytes (8%) of program storage space.
-> Global variables use 197 bytes (9%) of dynamic memory.
+The wrapper injects `BUILD_ID` from git and runs arduino-cli
+with `--warnings all`.
 
-### Flash (when a Nano is on the bench)
+Phase-2 size: **4860 B flash (15 %), 238 B RAM (11 %)**.
+
+### Flash
+
+See [`BENCH_CHECKLIST.md`](BENCH_CHECKLIST.md) for the first-flash
+procedure. Daily flash short loop:
 
 ```bash
-# List ports — the Nano shows up as /dev/cu.usbserial-* or
-# /dev/cu.wchusbserial-* depending on the USB-UART chip.
-arduino-cli board list
-
-# Upload (replace PORT). For OLD-bootloader Nanos add
-# :cpu=atmega328old to the FQBN.
-arduino-cli upload -p /dev/cu.usbserial-XXXX \
-  --fqbn arduino:avr:nano:cpu=atmega328 \
-  firmware/nano_bringup
-
-# Watch heartbeat
-arduino-cli monitor -p /dev/cu.usbserial-XXXX -c baudrate=115200
+./firmware/build.sh nano_bringup /dev/cu.wchusbserial-XXXX
+python3 firmware/tools/heartbeat_smoketest.py --port /dev/cu.wchusbserial-XXXX
 ```
 
-Expected output after flash:
+### Simulate (no hardware required)
 
-```
-helmkit-mk0 nano boot
-sprint 0.3 firmware bring-up — blink + heartbeat
-F_CPU=16000000 Hz
-helmkit-mk0 nano alive tick=1
-helmkit-mk0 nano alive tick=2
-helmkit-mk0 nano alive tick=3
-...
-```
+See [`nano_bringup/wokwi/README.md`](nano_bringup/wokwi/README.md).
+Open the diagram in [wokwi.com](https://wokwi.com/) or via the
+VS Code Wokwi extension and verify identical behavior. The
+diagram includes a visual indicator LED on K1_DRIVE that stays
+OFF as long as Belt 1 is healthy.
 
-### Acceptance gates (sprint 0.3 DoD)
+### Acceptance gates (sprint 0.3 DoD — phase 2)
+
+Phase 1 (compile + repo + blink):
 
 - [x] Toolchain picked and documented (`arduino-cli`).
 - [x] `firmware/` directory created with `.gitignore`.
-- [x] Bring-up sketch compiles clean for `arduino:avr:nano:cpu=atmega328`.
-- [ ] *(bench)* Sketch flashes to a physical Nano v3.
-- [ ] *(bench)* On-board LED blinks at ~1 Hz.
-- [ ] *(bench)* `arduino-cli monitor` shows the heartbeat string
-      incrementing.
+- [x] Bring-up sketch compiles clean.
 
-The three bench gates are the operator's hands-on verification
-step — they don't gate the sprint commit because the toolchain
-+ clean compile is already evidence that the workspace is wired
-correctly. The bench check converts compile-time confidence into
-on-silicon confidence.
+Phase 2 (hardening — added after re-open):
+
+- [x] Four-belt safety model documented in `SAFETY.md`.
+- [x] Sketch implements all four belts.
+- [x] WDT enabled at 2 s; pet path verified.
+- [x] MCUSR snapshot + decode at boot.
+- [x] Fail-safe pin init covers every §3.3.2 platform pin.
+- [x] Structured heartbeat with CRC-8 per `PROTOCOL.md`.
+- [x] BUILD_ID injection from git via `build.sh`.
+- [x] Free-RAM reporting + min-headroom assertion in smoketest.
+- [x] Host smoketest (`heartbeat_smoketest.py`) with fixture
+      mode and live-serial mode.
+- [x] CI workflow runs compile + smoketest on every push.
+- [x] Wokwi simulation unblocks bench-only gates for any
+      reviewer.
+- [x] `BENCH_CHECKLIST.md` covers the unsafe step (socketing
+      into B-PWR) with multimeter D3-LOW verification.
+
+Bench gates (one-time per physical chip):
+
+- [ ] *(bench)* Sketch flashes to a physical Nano v3.
+- [ ] *(bench)* Boot banner reports `mcusr=0x01 (POR )` on cold
+      boot.
+- [ ] *(bench)* On-board D13 LED blinks at ~1 Hz.
+- [ ] *(bench)* D3 measured 0.00 V (Belt 1 verified on silicon).
+- [ ] *(bench)* `heartbeat_smoketest.py --port ...` exits 0.
+- [ ] *(bench, once per chip)* WDT actually fires: temporary
+      `while(1){}` causes WDRF on next banner.
+
+The bench gates are now per-chip rather than per-sprint —
+sprint 0.3 closes when all phase-2 git-visible gates are green;
+each new physical chip clears its own bench list on first flash.
 
 ---
 

@@ -146,9 +146,13 @@ Clean compile. **8% flash / 9% RAM** for a blink + heartbeat is
 fine — leaves comfortable headroom for the sprint-0.3a safety
 state machine (estimated ~6 KB / 400 B more).
 
+> **Phase-1 size figures preserved for the record.** Phase-2
+> hardening grew the sketch to 4860 B (15%) / 238 B RAM (11%),
+> still leaving 25 KB / 1.8 KB of headroom. See §9.
+
 ---
 
-## 6. Definition of Done
+## 6. Definition of Done — Phase 1 (compile-gate close)
 
 | # | Gate | Status | Evidence |
 |---|---|---|---|
@@ -160,31 +164,123 @@ state machine (estimated ~6 KB / 400 B more).
 | 6 | *(bench)* Sketch flashes to a physical Nano and blinks | ⏳ | operator hands-on; not blocking |
 | 7 | *(bench)* Serial heartbeat visible at 115200 baud | ⏳ | operator hands-on; not blocking |
 
-Gates 1–5 are reproducible from this repo alone and constitute
-the sprint's git-visible deliverable. Gates 6–7 are
-operator-side hands-on verification — they convert compile-time
-confidence into on-silicon confidence and should be ticked off
-when the operator next has the Nano on the bench.
+Gates 1–5 are reproducible from this repo alone. Gates 6–7
+require physical hardware. **Phase 1 closed the sprint at
+commit `ee15859`.**
 
 ---
 
-## 7. What sprint 0.3 explicitly did NOT settle
+## 7. What phase 1 explicitly did NOT settle (and why we re-opened)
 
-These are flagged so the next sprint doesn't trip on them:
+After phase 1 closed, the sprint was re-opened on the
+operator's challenge: *"I want it to be exceedingly robust, and
+redundantly safe."*
 
-- **Old-vs-new bootloader.** Nano clones split between the
-  stock `atmega328` and the older `atmega328old` bootloader.
-  The compile is identical; the upload `--fqbn` must match.
-  Operator picks at flash time.
-- **USB-UART chip.** Nanos in the inventory use either CH340 or
-  FT232. macOS Tahoe handles both natively as of 14.4. If a
-  port doesn't appear, install the CH340 driver from WCH. Not
-  in scope to bake into firmware.
-- **Brown-out detection fuse.** Default BOD on a stock Nano is
-  ~2.7 V. For the §4 power story (5V_LOGIC behind a polyfuse +
-  TVS) this is fine for Mk0 but should be revisited in sprint
-  0.3a alongside the watchdog timer config.
-- **Watchdog timer.** Not enabled. Sprint 0.3a problem.
+Honest critique of phase 1:
+
+- **No watchdog.** The MCU that will later drive K1 could hang
+  silently. Unacceptable even at bring-up.
+- **No reset-cause reporting.** `MCUSR` ignored. WDT/BOD/EXT
+  resets were indistinguishable from cold boot.
+- **No fail-safe pin init.** §3.3.2 pins were left at power-on
+  default. If the Nano were socketed into B-PWR before sprint
+  0.3a, K1_DRIVE behavior was "whatever the floating gate does."
+- **No build-ID in firmware.** Multiple flashed chips were
+  indistinguishable.
+- **Freeform heartbeat string.** Sprint 0.5's parser would have
+  been fragile.
+- **No CI.** Compile worked on one laptop on one day.
+- **No host-side smoketest.** No way to assert protocol
+  conformance.
+- **No simulation path.** Bench gates were indefinite blockers.
+- **No bench checklist.** Operator had to assemble the safe
+  ordering themselves.
+- **No safety doc.** Convention announced ≠ convention enforced.
+
+Phase 2 closes each of these.
+
+---
+
+## 8. Definition of Done — Phase 2 (hardening pass)
+
+Five commits, each independently reviewable.
+
+### Phase-2 gates
+
+| # | Gate | Commit | Status |
+|---|---|---|---|
+| A1 | Four-belt safety model implemented in `nano_bringup.ino` | `50167b9` | ✅ |
+| A2 | WDT at `WDTO_2S`, pet path verified by inspection | `50167b9` | ✅ |
+| A3 | MCUSR snapshot at `.init3`, decoded in boot banner | `50167b9` | ✅ |
+| A4 | All §3.3.2 platform pins fail-safe initialized | `50167b9` | ✅ |
+| A5 | `BUILD_ID` from `git rev-parse --short HEAD` injected | `50167b9` | ✅ |
+| A6 | `firmware/build.sh` wrapper with FQBN mapping + `--warnings all` | `50167b9` | ✅ |
+| A7 | Free-RAM reporting on every heartbeat | `50167b9` | ✅ |
+| B1 | `firmware/PROTOCOL.md` — formal serial protocol contract | `6afa4c9` | ✅ |
+| B2 | CRC-8 reference implementations (C + Python) match | `6afa4c9` + `7132129` | ✅ |
+| C1 | `tools/heartbeat_smoketest.py` with `--port` + `--fixture` modes | `7132129` | ✅ |
+| C2 | Fixtures cover happy path AND WDT-reset failure path | `7132129` | ✅ |
+| C3 | `.github/workflows/firmware.yml` — compile + smoketest on every push | `7132129` | ✅ |
+| C4 | Meta-test: CI asserts the WDT fixture FAILS without `--allow-fault-bits` | `7132129` | ✅ |
+| D1 | Wokwi `diagram.json` + `wokwi.toml` for `nano_bringup` | `880f954` | ✅ |
+| D2 | Visual K1-coil indicator on the diagram (Belt 1 visible) | `880f954` | ✅ |
+| D3 | `firmware/BENCH_CHECKLIST.md` with per-chip first-flash gates | `880f954` | ✅ |
+| D4 | Multimeter D3-LOW verification step before socketing | `880f954` | ✅ |
+| E1 | `firmware/SAFETY.md` — four-belt model codified | this commit | ✅ |
+| E2 | Banned-API list documented and enforced by review | this commit | ✅ |
+| E3 | Pin-citation convention documented | this commit | ✅ |
+| E4 | `firmware/README.md` updated for phase-2 reality | this commit | ✅ |
+| E5 | This phase-2 section written | this commit | ✅ |
+
+**Phase 2 closes sprint 0.3 in commit `<this>` after `880f954`.**
+
+### Bench gates (per-chip, not per-sprint)
+
+These are now **per physical chip, run once on first flash**,
+governed by [`firmware/BENCH_CHECKLIST.md`](../firmware/BENCH_CHECKLIST.md):
+
+- [ ] Sketch flashes to a physical Nano v3.
+- [ ] Boot banner reports `mcusr=0x01 (POR )` on cold boot.
+- [ ] D13 LED blinks at ~1 Hz.
+- [ ] D3 measured **0.00 V** (Belt 1 verified on silicon).
+- [ ] `heartbeat_smoketest.py --port ...` exits 0.
+- [ ] WDT actually fires (one-time verification per chip).
+
+Anyone with a browser can clear the equivalent of the first
+three via Wokwi *today*, without a Nano on their bench.
+
+---
+
+## 9. Size + headroom budget after phase 2
+
+| Resource | Phase 1 | Phase 2 | Headroom remaining |
+|---|---|---|---|
+| Flash | 2522 B (8%) | **4860 B (15%)** | 25.9 KB |
+| SRAM (statics) | 197 B (9%) | **238 B (11%)** | 1810 B |
+
+Sprint-0.3a safety state machine is estimated at +6 KB flash /
++400 B RAM. Post-0.3a projection: ~35% flash / ~30% RAM. Well
+inside budget on this MCU.
+
+---
+
+## 10. Lessons from this re-open (recorded for future sprints)
+
+1. **"Compile-gate closed" is not the same as "sprint closed"**
+   for any deliverable on the safety path. A safety MCU needs
+   the four belts even at bring-up, not as a future addition.
+2. **Re-opens are valid even after a clean DoD.** The first DoD
+   was honestly satisfied; it was just too low a bar. Re-opening
+   to *raise the bar* is a different kind of work than re-opening
+   to *fix a defect* — both belong on the menu.
+3. **CI is not a luxury for safety firmware.** Without it, the
+   compile gate evaporates the moment I close my laptop.
+4. **Simulation removes one whole class of blockers.** "I don't
+   have a Nano on this bench today" should never block review.
+5. **The bench checklist is the firmware's last line of defense.**
+   Anything that could go wrong between "binary works in sim"
+   and "binary on chip in platform" needs a numbered step with
+   a checkbox.
 
 ---
 
