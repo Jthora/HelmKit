@@ -11,6 +11,10 @@ The HelmKit is staged in four generations. Each generation has a **defining ques
 
 The bridge from each generation to the next is **gated on evidence**, not on aesthetics or hardware count.
 
+## Cross-project milestone
+
+Per the wiki's [`Tho'ra Tech Maturity Levels`](https://wiki.fusiongirl.app/wiki/Tho%27ra_Tech_Maturity_Levels) page, the broader mission "goes live" the moment **(a)** the core Psi-Tech triad (Stabilizer / Harmonizer / Defender) clears Mk1, and **(b)** the Resonant Finder reaches Mk2. The HelmKit repo owns (a). Because the wiki's [`Psi-Tech`](https://wiki.fusiongirl.app/wiki/Psi-Tech) page confirms the triad shares one substrate (HelmKit psi-bay + near-field RF emitter + dual-MCU safety), clearing Mk1 means: one Mk1 HelmKit device + all three signal-pattern presets running on it. See [`wiki_synthesis.md`](wiki_synthesis.md) for the engineering translation.
+
 ---
 
 ## <a name="mk0"></a>Mk0 — Frame-Only Cosplay Prototype (current)
@@ -52,11 +56,12 @@ The bridge from each generation to the next is **gated on evidence**, not on aes
 
 Mk1 is the first generation that has to *work*. "Work" here is the same definition the psiStabilizer project uses: **a measurement is recorded, a stimulus is delivered, and the relationship between them is logged falsifiably.**
 
+Mk1 also bears the first preset of the wiki's Psi-Tech triad. Because the [wiki specifies](https://wiki.fusiongirl.app/wiki/Psi-Tech) that all three modules share one substrate, Mk1 ships the **Stabilizer preset only**: a baseline-locked steady reference field. The Harmonizer and Defender presets are firmware additions in Mk2 once their input pipelines exist (see [`wiki_synthesis.md`](wiki_synthesis.md)).
+
 ### Scope: minimum viable Psi-Tech
 Mk1 carries exactly two functional payloads:
 
-1. **One sensing module** — biometric/neural channel, chosen for safety and signal quality:
-   - PPG (heart-rate / HRV) — `MAX30102` class, on the temple or behind-ear.
+1. **One sensing module** — biometric/neural channel, chosen for safety and signal quality:   - PPG (heart-rate / HRV) — `MAX30102` class, on the temple or behind-ear.
    - **Optional** single-channel dry EEG over Fp1 / Fp2 — only if the Mk1 wearer accepts the cleanliness/contact discipline that requires.
    - Ambient triaxial magnetometer (`RM3100`) on a temple boom — same sensor family the psiStabilizer A01 uses, so data pipelines are shared.
 

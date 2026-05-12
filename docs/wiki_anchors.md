@@ -73,20 +73,39 @@ The full wiki corpus is in the psiStabilizer submodule:
 - Curated extracts: `external/psiStabilizer/docs/wiki_extracts/`
 - Engineering dossier: `external/psiStabilizer/docs/fusiongirl_psi_engineering_dossier.md`
 
+The wiki also exposes a live MediaWiki API at https://wiki.fusiongirl.app/api.php (MediaWiki 1.41.0, fully open query). For a one-off page lookup the simplest call is:
+
+```
+https://wiki.fusiongirl.app/api.php?action=query&format=json&prop=revisions&rvprop=content&rvslots=main&redirects=1&titles=Psi%20Stabilizer
+```
+
 Relevant pageids for HelmKit-specific consultation:
 
-| pageid | Title |
-|--------|-------|
-| 542 | HelmKit |
-| 473 | Helm Kit (alias) |
-| 540 | The HelmKit (redirect-ish stub) |
-| 474 | Psi Stabilizers |
-| 541 | Psi Tech (real-world parallel table) |
-| 4538 | Psi Emitter |
-| 4529 | PsiLink |
-| 552 | PsiSys |
-| 4516 | Holo Projectors |
-| 4512 | Psionic Defenses |
-| 151 | Psionics |
-| 152 | Psi Field |
-| 159 | Tho'ra Tech |
+| pageid | Title | Used in |
+|--------|-------|---------|
+| 542 | HelmKit | All |
+| 473 | Helm Kit (alias) | — |
+| 540 | The HelmKit (redirect-ish stub) | — |
+| 474 | Psi Stabilizers | architecture, anchors |
+| 541 | Psi Tech (real-world parallel table) | All |
+| 4538 | Psi Emitter | wiki_synthesis |
+| 4529 | PsiLink | anchors |
+| 552 | PsiSys | anchors |
+| 4516 | Holo Projectors | — |
+| 4512 | Psionic Defenses | anchors |
+| 151 | Psionics | wiki_synthesis |
+| 152 | Psi Field | wiki_synthesis |
+| 159 | Tho'ra Tech | — |
+
+Additional pages consulted for [`wiki_synthesis.md`](wiki_synthesis.md) (pageids not enumerated here; titles are stable):
+
+- `HelmKit Architecture` — dual-MCU checker-doer pattern (anchors [`architecture.md` §3](architecture.md#3-safety-architecture-dual-mcu)).
+- `Psi-Tech` — triad shares one substrate, signal-pattern differs.
+- `Psi Stabilizer`, `Psi Harmonizer`, `Psi Defender` — per-module functional spec.
+- `Scientific Foundations of Psionics` — peer-reviewed citation roster (Dotta 2012, Tang & Dai 2014, Celardo 2019, Kalra 2023, Zarkeshian 2018, Roth 2023, Rea 2021, Bok 2024, Utts 1996, Hameroff & Penrose 2014, Schumann 1952, US Patent 3,951,134).
+- `Schumann Resonance` — 7.83 Hz default Mk1 entrainment target.
+- `Michael Persinger` — Mk1 apparatus precedent (microtesla complex-waveform, temporal lobe solenoids).
+- `Tho'ra Tech Maturity Levels` — Mk0→Mk3 convention; "mission-live = triad@Mk1 + Resonant Finder@Mk2" milestone.
+- `Tho'ra Mission Doctrine` — consent / shield-not-sword / disengage-on-instability / astrology-rules / transparency.
+- `Psi Scanner`, `Psi Ward`, `Neural Firewall` — Mk2+ scoping for sensing, area-shielding, and comms-layer security.
+

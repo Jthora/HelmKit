@@ -46,37 +46,128 @@ Every module mounts at a **hardpoint**: a printed feature on the frame with a fi
 
 ---
 
-## 3. Module classes
+## 3. Safety architecture (dual-MCU)
+
+The HelmKit Mk1+ adopts the **dual-MCU checker-doer pattern** specified by the wiki's [`HelmKit Architecture`](https://wiki.fusiongirl.app/wiki/HelmKit_Architecture) page. The pattern is inherited from RTCA DO-178C DAL-A (avionics) and IEC 61508 SIL-3 (industrial functional safety). HelmKit does not target medical or avionics certification — but it adopts the architectural pattern.
+
+**The non-negotiable invariant: no single software fault may cause an overexposure event.**
+
+### 3.1 Two-MCU split
+
+```
+            ┌──────────────┐         ┌──────────────┐
+            │   MCU-A      │         │   MCU-B      │
+            │  ("doer")    │         │  ("checker") │
+            │              │         │              │
+            │  RF / coil   │         │  Sensors     │
+            │  modulation  │         │  Blacklist   │
+            │  UI / BLE    │         │  RF cutoff   │
+            │  Capture     │         │  Watchdog    │
+            └──────────────┘         └──────────────┘
+                  │                          │
+                  │ drive                    │ opto-isolated cutoff
+                  ▼                          ▼
+            ┌──────────────────────────────────────────┐
+            │ Stim driver (H-bridge / PA / matching)   │
+            └──────────────────────────────────────────┘
+```
+
+**MCU-A (doer):**
+- Generates the drive waveform (Mk1: sub-MHz pulsed coil drive; Mk2+: optional Class-E PA + matching network).
+- Runs the capture loop (PPG, optional EEG, magnetometer) — same pipeline as `psistabilizer.capture.a01_capture`.
+- Handles UI, BLE telemetry, session logging.
+- Reference part: ESP32-S3 or RP2040; standard firmware-update path.
+
+**MCU-B (checker):**
+- Independent LDO from battery, independent crystal, independent firmware, independent reviewer.
+- Read-only authority over an **opto-isolated cutoff** on the stim drive path.
+- Continuously measures: drive forward/reflected power (directional coupler), coil temperature (thermistor), body-proximity (capacitive sensor on the headband), and ambient field (independent E/B probe).
+- Enforces the **safety blacklist** (§3.3) at the hardware layer — MCU-A cannot bypass it.
+- Heartbeat watchdog: if MCU-A misses a heartbeat for > 100 ms, MCU-B cuts drive.
+- Reference part: ARM Cortex-M0+ class (e.g. STM32G0, RP2040 second core in isolated configuration). Target ≤ 5 kLOC, no dynamic allocation, formally reviewable.
+
+### 3.2 Fail-safe state
+
+On any MCU-B alert (blacklist hit, watchdog timeout, sensor out of envelope, body-proximity lost):
+
+1. RF/coil drive is **cut immediately** via the opto-isolated relay.
+2. The system enters a **non-resettable lockout**.
+3. Lockout requires a **physical reset action** (manual switch inside the helmet).
+4. The event is logged in tamper-evident memory (sequence number + cause code + timestamp).
+5. Wearer notification via status LED + BLE message.
+
+### 3.3 Safety blacklist (Mk1 minimum)
+
+MCU-B firmware ships with this blacklist hardcoded. Any drive configuration MCU-A requests that matches any row is refused before the power stage is enabled.
+
+| # | Forbidden configuration | Reason |
+|---|---|---|
+| 1 | DC pulses with rise time < 1 ms targeted near thorax-coupled hardpoints | Cardiac stimulation risk |
+| 2 | 10–100 Hz pulse trains delivering > 1 mA effective into chest area | Cardiac stimulation risk |
+| 3 | 3–8 Hz photic-frequency RF at > 100 V/m head-field | Seizure risk |
+| 4 | Strong 1 Hz pulse trains with envelope > 50% depth | Cardiac entrainment risk |
+| 5 | Modulation envelope matching cardiac (0.8–3 Hz) or respiratory (0.1–0.5 Hz) rates at > 5% depth | Cardiac/respiratory coupling |
+| 6 | Pulsed RF 200–3000 MHz with peak power density > 40 mW/cm² and pulse width < 1 ms | Microwave auditory (Frey) effect |
+| 7 | Continuous-wave near-field > 50 V/m rms at the head | ICNIRP exceedance |
+| 8 | Peak pulsed E-field > 300 V/m | ICNIRP exceedance |
+| 9 | **Any** drive while the recording-active GPIO is low | Stim-without-recording forbidden |
+| 10 | Any drive while body-proximity capacitive sensor reads "off" | No drive into open air |
+| 11 | Any drive while coil temperature > 45 °C | Burn risk |
+| 12 | Drive duty cycle > 60% averaged over 10 s | Defense-in-depth on rate control |
+
+The blacklist is **factory-set**. There is no field-modifiable path to change it; doing so requires reflashing MCU-B with physical access.
+
+### 3.4 Firmware discipline for MCU-B
+
+- Formal review (Frama-C / SPARK / TLA+ or equivalent peer audit) of the safety logic.
+- Independent reviewer (not on MCU-A development).
+- Static memory only; no `malloc`.
+- No external dependencies beyond the MCU vendor's HAL.
+- Signed firmware images, hardware-fused public key.
+- No remote update path — MCU-B updates require physical access to the helmet.
+
+### 3.5 Body-aware operation (Mk2+, planned)
+
+The wiki notes that tissue loading detunes a near-field coil by 5–20% downward. Mk1 ignores this (the sub-MHz drive is forgiving). Mk2 picks it up:
+
+- Body-proximity sensor confirms device-on-head (already required at Mk1).
+- Directional coupler reflectometry tracks VSWR drift.
+- Tuneable matching network (varactor or switched-cap) restores match.
+- If body is removed mid-session, MCU-A detects via reflectometry and MCU-B confirms via proximity — drive cut either path.
+
+---
+
+## 4. Module classes
 
 Modules fall into five classes. Each class has its own design rules.
 
-### 3.1 Sensing modules
+### 4.1 Sensing modules
 - Must declare: channel name, sample rate, units, calibration procedure.
 - Must emit data in the psiStabilizer NDJSON channel schema (`external/psiStabilizer/docs/data_schemas.md`).
 - Mk1 examples: PPG (HRV), dry EEG (single channel), ambient magnetometer.
 
-### 3.2 Stimulation modules
+### 4.2 Stimulation modules
 - Must declare: modality, dosage envelope (min/max/typical), contraindication list, interlock conditions.
 - Must accept a hardware enable line and an emergency stop line. Both lines OR'd into disable.
 - Mk1 examples: bone-conduction audio entrainment, photic entrainment, sub-MHz pulsed magnetic coil.
 - Mk2+ examples: tACS electrode, sub-GHz RF emitter (SAR-gated).
 
-### 3.3 Optics / HUD modules
+### 4.3 Optics / HUD modules
 - Mk2+ only. Mk1 reserves the `HP-F` hardpoint but does not populate it with optics.
 - Must not occlude the gaze cone; off-axis combiners only.
 
-### 3.4 Comms modules
+### 4.4 Comms modules
 - BLE / Wi-Fi / sub-GHz radio for telemetry off-head.
 - Mk1 may use the compute node's onboard radio; Mk2+ may add dedicated comms in `HP-SL` or `HP-SR`.
 
-### 3.5 Power / compute modules
+### 4.5 Power / compute modules
 - Live in the larger rear and side hardpoints.
 - Compute reference: same family as psiStabilizer A01 (Raspberry Pi class).
 - Battery reference: 1S Li-ion with protection PCB; Mk2+ moves to hot-swap pairs.
 
 ---
 
-## 4. Coordinate system & fit
+## 5. Coordinate system & fit
 
 - **Origin** = midpoint between the tragi (ear-canal openings), projected to the headband plane.
 - **+X** = right, **+Y** = forward, **+Z** = up (anatomical convention).
@@ -84,7 +175,7 @@ Modules fall into five classes. Each class has its own design rules.
 
 ---
 
-## 5. Relationship to the psiStabilizer submodule
+## 6. Relationship to the psiStabilizer submodule
 
 The HelmKit repo **does not duplicate** anything in `external/psiStabilizer/`:
 
@@ -101,7 +192,7 @@ The HelmKit repo **does not duplicate** anything in `external/psiStabilizer/`:
 
 ---
 
-## 6. Versioning
+## 7. Versioning
 
 Every generation freezes:
 1. **Frame**: one canonical `.blend` and matching `.stl` set, tagged.
