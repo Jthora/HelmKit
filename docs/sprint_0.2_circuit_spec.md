@@ -689,6 +689,12 @@ This is the architectural commitment that makes HelmKit a *platform* rather than
   2. Log the event with timestamp + last I²C transaction to Nano EEPROM
   3. Hold latched until operator clears via the platform key-switch (cycle to OFF then back to ARMED — §5.6) or power-cycle
 
+### 6.5.4 Why this matters for the techno-mage capstone
+
+The module bus is what lets the **Psi Stabilizer Mk1 be lightweight and clip-on** (operator's stated requirement). Stabilizer Mk2 / Mk3 / Mk5 can change radically — different coil, different audio, different sensors, different drive chemistry — and the **platform doesn't change**. That's the whole point of a platform. The operator-as-techno-mage iterates on payload; the rig remains the rig.
+
+**Mk0 rule:** the platform exposes one charge/data port + one debug header + the module bus. That's it. Modules clip on.
+
 ### 6.5.5 SAFETY_n kill mechanism — part pick (LOCKED)
 
 The earlier draft said "Nano cuts the 12 V rail within 5 ms" without naming the switching element. That was fiction. Spec'd now:
@@ -732,12 +738,6 @@ Mk0 module bus is **NOT hot-swappable**. Operator MUST:
 6. Reconnect, screw down, key to ARMED, observe Nano POST OK on amber LED
 
 Mk2+ may add a hot-swap controller (LTC4231 class) but not at sprint 0.2 scope.
-
-### 6.5.4 Why this matters for the techno-mage capstone
-
-The module bus is what lets the **Psi Stabilizer Mk1 be lightweight and clip-on** (operator's stated requirement). Stabilizer Mk2 / Mk3 / Mk5 can change radically — different coil, different audio, different sensors, different drive chemistry — and the **platform doesn't change**. That's the whole point of a platform. The operator-as-techno-mage iterates on payload; the rig remains the rig.
-
-**Mk0 rule:** the platform exposes one charge/data port + one debug header + the module bus. That's it. Modules clip on.
 
 ---
 
