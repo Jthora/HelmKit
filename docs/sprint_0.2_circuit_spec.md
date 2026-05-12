@@ -218,7 +218,7 @@ The Nano is the safety watchdog. Owns the SAFETY_n line, the 12V_RAIL load switc
 | **D1 (TX)** | USB-serial TX | onboard | output |
 | **D2 (INT0)** | **SAFETY_n line** — open-drain, bidirectional. Pulled high by 10 kΩ. Nano drives low to latch. External (module / Pi / key-switch) can also pull low. Falling edge wakes Nano via INT0. | Z3 SAFETY_n bus + Z5 module bus pin 6 + Pi GPIO17 (read) | open-drain (output via INT) + input |
 | **D3 (INT1, PWM)** | Boat-rocker arm sense (12V_BATT detect via voltage divider) — falling edge means rocker was just opened, latch SAFETY_n | Z4 rocker | input |
-| **D4** | **12V_RAIL load-switch enable** — drives the gate of the bus 12V switch (see §6.5.x; specific load-switch IC chosen in next-pass item) | Z3 load switch IC | output, default low (rail OFF) |
+| **D4** | **12V_RAIL kill enable** — drives the opto input of the 5 V 2-channel relay module (K1), in series with key-switch coil contact. HIGH = K1 closed = rail enabled. LOW (or key OFF) = rail open. See §6.5.5 for part pick and §6.5.6 for protection passives. | Z3 relay K1 | output, default low (rail OFF at boot) |
 | **D5 (PWM)** | Status LED — red (HV/coil armed) | Z7 LED | output |
 | **D6 (PWM)** | Status LED — amber (watchdog OK / heartbeat) — Nano blinks this at 1 Hz so loss = visible | Z7 LED | output |
 | **D7** | Key-switch state read (3-pos: OFF / ARMED / SESSION). One GPIO + one ADC channel (A2 below) decode three states | Z4 key-switch | input |
@@ -491,7 +491,7 @@ The shell interior is divided into **nine zones** by function. Each zone has one
                   ┌─ Z5: MODULE MOUNT ─┐
                   │ • 4× M4 inserts at │
                   │   60×80 mm pattern │
-                  │ • JST-XH bus conn  │
+                  │ • JST-XH bus conn  │→ *2.54 mm Dupont in Mk0*
                   │ • Stabilizer clips │
                   │   here             │
                   └────────────────────┘
@@ -508,7 +508,7 @@ The shell interior is divided into **nine zones** by function. Each zone has one
 | **Z2** Vertex | head-pose anchor + star-ground | 1× MPU9250 (I²C 0x68) potted in foam-damped pocket · star-ground solder lug · 2× M4 inserts (HelmKit→0.1-shell attachment) | inventory §2 |
 | **Z3** Rear dome | main-board zone (the actual perfboard) | Pi 4B (heatsink side out toward Z4 vent) · Nano v3 · Heltec LoRa 32 (Z3-front so OLED reaches Z1 window via FFC) · INA219 · DUTTY 12V→5V buck · star-ground bus bar | inventory §1, §4 |
 | **Z4** Nape | power-in + manual controls + thermal exit | DC-022 panel-mount jack · 2-pos boat-rocker (12V_BATT master) · 3-pos key-switch (SAFETY_n arm, sprint 0.3a-mandatory) · vent slot to outside air for Pi 4 thermal · 1× shell hardpoint | DAOKI DC-022 (30 in stock) · rocker kit (20 in stock) · keyed-switch (sprint 0.3a procurement) |
-| **Z5** Module mount | mechanical + electrical attachment for clip-on modules | 4× M4 brass threaded inserts @ 60×80 mm rect pattern · JST-XH 6-pin panel-mount female · short cable to Z3 main board | inventory M4 kit |
+| **Z5** Module mount | mechanical + electrical attachment for clip-on modules | 4× M4 brass threaded inserts @ 60×80 mm rect pattern · 6-pin 2.54 mm Dupont panel-mount female (was JST-XH in early drafts; corrected per §6.5.1) · short cable to Z3 main board | inventory M4 kit + 635-pc Dupont kit |
 | **Z6** Left temple | audio output to wearer | 1× 40mm full-range driver bonded to inner shell (bone-conduction-substitute via temple) — Stabilizer Mk1 owns this; platform pre-wires harness from Z3 | inventory §3.5 |
 | **Z7** Right temple | debug + status visibility | 6-pin 2.54mm debug header (under hinged shell flap) · 3× status LEDs (red/amber/green) through pinholes | XXXL kit |
 | **Z8** Interior liner | EMI containment + acoustic comfort | Faraday fabric pocket lining Z2+Z3 interior surfaces; grounded to star-ground at Z2 via single tab; foam liner over fabric for fit + acoustic absorption | inventory §12 (planned procurement: Faraday fabric — TBD; EMI-spray in stock per §12 of this doc) |
@@ -535,7 +535,7 @@ Z3 is the only zone with a board in it. Everything else is wires + discrete elem
    │  [Nano v3 + INA219 + DUTTY buck + load switch]      │ ← Z3-rear
    │   12V_BATT in       → from Z4 rocker                │
    │   5V_PLAT out       → to Pi USB-C + Heltec USB      │
-   │   12V_BUS out       → to Z5 JST-XH via fused        │
+   │   12V_BUS out       → to Z5 Dupont 6-pin via fused   │
    │                       load switch (item 3 sprint)   │
    └─────────────────────────────────────────────────────┘
                                 ↓ harness exits Z3
@@ -566,7 +566,7 @@ Five primary harnesses cross zones. All harness lengths assume Z3 board sled cen
 | **H1** I²C bus | Z3 board → Z2 MPU9250 | SDA + SCL + 3V3 + GND (4 cond) | ~120 mm | 4-pin JST-SH on Z2 side; JST-SH on board | foil shield drained to star-ground at Z2 |
 | **H2** OLED FFC | Heltec OLED face → Z1 window | OLED is on Heltec board; just routes through Z1 cutout — no harness, board faces Z1 | ~30 mm of board overhang | n/a | n/a |
 | **H3** Battery + bus | Z4 rocker/jack/key → Z3 buck input + Z3 load-switch input | 12V_BATT + GND (2× 18 AWG silicone) + SAFETY-arm sense (1× 22 AWG) | ~200 mm | screw-terminal at Z3, solder lug at Z4 | none (DC) |
-| **H4** Module bus | Z3 load-switch + buck → Z5 JST-XH female panel-mount | 6 cond per §6.5.1 (GND, 5V, 12V, SDA, SCL, SAFETY_n) | ~180 mm | JST-XH 6-pin both ends | overall foil drain to star-ground; SAFETY_n NOT shielded (it must work even if shield grounds open) |
+| **H4** Module bus | Z3 relay K1 + buck → Z5 6-pin Dupont female panel-mount | 6 cond per §6.5.1 (GND, 5V, 12V, SDA, SCL, SAFETY_n) | ~180 mm | 6-pin 2.54 mm Dupont both ends | overall foil drain to star-ground; SAFETY_n NOT shielded (it must work even if shield grounds open) |
 | **H5** Audio + status | Z3 → Z6 audio driver (pre-wired for Stabilizer) + Z7 LEDs + Z7 header | 2× 22 AWG audio (twisted pair) + 3× 24 AWG LED + 6× 24 AWG ribbon for header | left ~250 mm, right ~280 mm | board-side: pin headers; Z6: spade or solder; Z7: 6-pin header | audio twisted pair only |
 
 **Wire spec lives in inventory §6:** silicone hookup wire 22/20/18 AWG 7-color sets confirmed; 635-pc 2.54 mm Dupont housing + pin kit confirmed; 10-wire ribbon confirmed. **No procurement.**
@@ -641,7 +641,7 @@ Sprint 0.2 deliverable is **the zone spec** — a builder can wire-harness this 
 
 ### 6.2 Module bus connector (the headline addition — see §6.5)
 
-See §6.5 for the full spec. Headline: **6-pin JST-XH on the platform, mating 6-pin JST-XH lead on each module.** Delivers 12 V (module rail) + 5 V (logic) + GND + I²C SDA/SCL + open-drain SAFETY line.
+See §6.5 for the full spec. Headline: **6-pin 2.54 mm Dupont connector on the platform, mating 6-pin Dupont lead on each module.** Delivers 12 V (module rail) + 5 V (logic) + GND + I²C SDA/SCL + open-drain SAFETY line. (Earlier drafts spec'd JST-XH — not in inventory; Dupont locked at §6.5.1.)
 
 ## 6.5 Module bus specification (NEW — first-class platform feature)
 
@@ -649,18 +649,24 @@ This is the architectural commitment that makes HelmKit a *platform* rather than
 
 ### 6.5.1 Electrical
 
-6-pin connector, JST-XH 2.5 mm pitch (operator pick — robust, polarized, in inventory; alternative: 5-pin Mini-DIN if connector stock dictates).
+**Connector (Mk0 LOCKED):** 6-pin **2.54 mm Dupont housing** (polarized via shroud + keyed pin-1), platform-side female, module-side male with 30 cm flying lead. Sourced from the 635-pc 2.54 mm Dupont housing + pin kit ([inventory.md §6](inventory.md)). Confirmed in stock; zero procurement.
 
-| Pin | Signal | Direction | Spec |
-|---|---|---|---|
-| 1 | **GND** | shared | 0 V reference, ≥ 3 A return capacity |
-| 2 | **+5V_LOGIC** | platform → module | 5 V ± 5 %, 1 A continuous, fused on platform side |
-| 3 | **+12V_RAIL** | platform → module | 12 V ± 10 %, 2 A continuous, soft-start on platform side, current-monitored by Nano |
-| 4 | **I²C_SDA** | bidirectional | 100 kHz default, 3.3 V logic (with 5 V tolerant pull-ups on platform); module presents a single I²C device with unique address |
-| 5 | **I²C_SCL** | platform → module | clock master is the Pi 4 |
-| 6 | **SAFETY_n** | open-drain, bidirectional | active-low; any participant can pull low to kill the bus; Nano monitors and latches |
+> **Earlier drafts spec'd JST-XH 2.5 mm.** Not in inventory — picked without checking. **2.54 mm Dupont is the locked Mk0 choice** because (a) it's in stock in bulk, (b) operator-familiar (used everywhere else in inventory), (c) polarized with shroud preventing reversal, (d) current rating (3 A/pin standard) exceeds bus spec. Trade-off: less retention than JST-XH; mitigated by mechanical M4 thumbscrews at §6.5.2 holding the module body — the connector itself bears no mechanical load. JST-XH remains an optional Mk2+ polish upgrade once a connector procurement happens.
 
-**Power topology rationale:** Pi 4 stays on 5 V from the platform UPS; the module gets 12 V for any coil drive / HV-module enable / Peltier / fan / high-current LED string. Module-internal buck regulates 12 V → 3.3 V as needed (modules are responsible for their own logic-rail buck).
+| Pin | Signal | Direction | Spec | Protection (platform side) |
+|---|---|---|---|---|
+| 1 | **GND** | shared | 0 V reference, ≥ 3 A return capacity | star-ground tie at Z2 (§5.4) |
+| 2 | **+5V_LOGIC** | platform → module | 5 V ± 5 %, 1 A continuous, 1.5 A peak ≤ 100 ms | 1.5 A self-resetting polyfuse (PROCUREMENT GAP — see §6.5.6) + TVS clamp to GND (SMAJ5.0A or equivalent, PROCUREMENT GAP) |
+| 3 | **+12V_RAIL** | platform → module | 12 V ± 10 %, 2 A continuous, 3 A peak ≤ 100 ms | series Schottky for reverse polarity (1N5822 from XXXL kit, ~0.5 V drop) → 3 A polyfuse (PROCUREMENT GAP) → **5V 2-channel relay K1** (inventory; §6.5.5) → bus pin → TVS clamp to GND (SMAJ15A) |
+| 4 | **I²C_SDA** | bidirectional | 100 kHz default, 3.3 V logic | 4.7 kΩ pull-up to 3.3 V on platform side (§3.3.4) + 220 Ω series ESD resistor (XXXL kit) + ESD clamp (PESD3V3L5UY or two 1N4148s back-to-back — 1N4148 IS in XXXL kit) |
+| 5 | **I²C_SCL** | platform → module | clock master is the Pi 4 | 4.7 kΩ pull-up + 220 Ω series + ESD clamp (same as SDA) |
+| 6 | **SAFETY_n** | open-drain, bidirectional | active-low; any participant can pull low to kill the bus; Nano monitors at D2/INT0 and latches | 10 kΩ pull-up to 3.3 V on Nano side (§3.3.2) + no series resistor (latency-critical) + ESD clamp |
+
+**Power topology rationale:** Pi 4 stays on 5 V from the platform UPS; the module gets 12 V for any coil drive / HV-module enable / Peltier / fan / high-current LED string. Module-internal buck regulates 12 V → 3.3 V as needed (modules are responsible for their own logic-rail buck — see §15 BOM).
+
+**Pull-up doctrine (locked):** I²C 4.7 kΩ pull-ups live on the **platform Z3 board only**. Module-side modules MUST NOT add I²C pull-ups. Adding pull-ups on the module side would reduce effective pull-up to ~2.3 kΩ and exceed the I²C standard-mode 3 mA sink limit on the Pi 4's GPIO2/3 drivers. (Documented in §3.3.4; restated here because it's a module-author-facing contract.)
+
+**Wire spec (locked for H4 platform pigtail):** 22 AWG silicone hookup (inventory §6), ~180 mm length per §5.7. Module-side flying lead is operator-chosen by module; Stabilizer Mk1 §15 BOM specifies 30 cm 22 AWG silicone, same stock.
 
 ### 6.5.2 Mechanical
 
@@ -679,9 +685,53 @@ This is the architectural commitment that makes HelmKit a *platform* rather than
 - **Module self-test:** within 100 ms of power-on, module must clear an internal POST and assert its self-test bit at register 0x01. Failure to do so within 500 ms = Nano latches SAFETY_n.
 - **Watchdog ping:** Pi 4 writes to module register 0x02 every 100 ms; module must ACK. Missing ACKs > 1 s = Nano latches SAFETY_n.
 - **Safety latch:** any participant pulling SAFETY_n low for ≥ 10 ms causes Nano to:
-  1. Cut 12 V rail to module bus within 5 ms
-  2. Log the event with timestamp + last I²C transaction
-  3. Hold latched until operator clears via the platform key-switch (Mk1+) or power-cycle (Mk0)
+  1. De-assert relay K1 enable (Nano D4 → LOW), opening 12V_RAIL within **≤ 10 ms** (relay mechanical cutoff time — see §6.5.5)
+  2. Log the event with timestamp + last I²C transaction to Nano EEPROM
+  3. Hold latched until operator clears via the platform key-switch (cycle to OFF then back to ARMED — §5.6) or power-cycle
+
+### 6.5.5 SAFETY_n kill mechanism — part pick (LOCKED)
+
+The earlier draft said "Nano cuts the 12 V rail within 5 ms" without naming the switching element. That was fiction. Spec'd now:
+
+| Spec | Mk0 LOCKED part | Rationale |
+|---|---|---|
+| **12V_RAIL switching element** | **5 V 2-channel relay module** (inventory §2; canonical "coil-drive hard cutoff via MCU-B") | In stock. Channel K1 = bus 12V_RAIL cutoff. Channel K2 = reserved for module-side stim cutoff at sprint 0.3a (e.g., coil-drive enable, parallel kill path inside the Stabilizer module). |
+| **Drive** | Nano D4 → onboard relay opto-coupler input | Module is opto-isolated; protects Nano from inductive kick. Drive HIGH = relay closed = rail enabled. |
+| **Default state at reset / power-up** | OPEN (rail OFF) | Nano boot sequence: POST → read SAFETY_n → confirm key-switch in ARMED or SESSION → *only then* assert D4 HIGH. Boot defaults are safe. |
+| **Cutoff latency** | ≤ 10 ms typical (mechanical relay + driver) | Adequate for cell-temp, watchdog, and rail-overcurrent faults. *Not* adequate for fault classes requiring sub-ms shutoff (e.g., RF-emission excursion) — those need module-side discrete MOSFET cutoff, owned by the module per §15.5. |
+| **Cycle life** | rated ≥ 100k mechanical operations | At realistic SAFETY events / day < 5, cycle life is irrelevant; arc-suppression diode across coil is included on the module board. |
+| **Mk1+ upgrade path** | Discrete logic-level N-channel MOSFET (e.g., AO3400 or IRLZ44N depending on XXXL kit contents) + flyback Schottky | <1 ms cutoff, no audible click, fits inside Z3 board. Migration deferred until XXXL kit MOSFET inventory is counted. |
+
+> **Two-MCU safety architecture restated:** relay K1 has TWO independent kill paths to OPEN: (a) Nano D4 driven LOW (firmware decision — 12-row blacklist), and (b) key-switch in OFF position physically opens the relay-coil supply via series contact in the K1 coil return path. **Operator can always kill the bus by turning the key**, even if Nano firmware is hung. This is the load-bearing safety claim.
+
+### 6.5.6 Protection part list — procurement gaps explicit
+
+Most protection passives are in inventory (XXXL kit covers 1N5822 Schottky, 1N4148 ESD-clamp candidates, 4.7 kΩ / 220 Ω / 10 kΩ resistors). Two genuine gaps:
+
+| Part | Purpose | Inventory status | Procurement cost (if no substitute) |
+|---|---|---|---|
+| 1.5 A self-resetting polyfuse (radial, 5 V rated) | 5V_LOGIC bus pin | ❌ not confirmed in inventory — XXXL kit *may* contain some | ~$5 / 10-pc strip (Bourns MF-R150) |
+| 3 A self-resetting polyfuse (radial, 16 V rated) | 12V_RAIL bus pin | ❌ not confirmed | ~$5 / 10-pc strip (Bourns MF-R300) |
+| SMAJ5.0A TVS (5 V unidirectional) | 5V_LOGIC clamp | ❌ not in inventory | ~$3 / 10-pc (or 5.6 V Zener from XXXL kit can substitute degraded) |
+| SMAJ15A TVS (15 V unidirectional) | 12V_RAIL clamp | ❌ not in inventory | ~$3 / 10-pc (or 18 V Zener substitute degraded) |
+| PESD3V3L5UY (5-line ESD array) for I²C+SAFETY_n | ESD on signal lines | ❌ not in inventory | ~$2 / chip; substitute: 1N4148 pair per line from XXXL kit (~2.5 V clamp, marginal but workable) |
+| 1N5822 Schottky (reverse-polarity 12 V) | series diode on 12V_BATT input | ✅ likely in XXXL kit (verify on build day) | n/a if present |
+| 4.7 kΩ / 10 kΩ / 220 Ω resistors | pull-ups + series | ✅ XXXL kit | n/a |
+
+**Procurement decision:** total gap ~$15 for proper polyfuses + TVS strip. Operator decision: (a) procure the strip now and have it ship before sprint 0.4 build, or (b) build Mk0 with **Zener substitutes from XXXL kit and a low-value 1 Ω fusible resistor in series with 12V_RAIL** (acts as a fuse that fails open at ~3 A and limits short-circuit current to ~12 A peak; cheap and ugly but adequate for bench bring-up). Path (a) recommended; path (b) is the zero-budget fallback.
+
+### 6.5.7 Hot-swap warning (operator-facing)
+
+Mk0 module bus is **NOT hot-swappable**. Operator MUST:
+
+1. Turn key-switch to OFF (cuts SAFETY_n logic + relay K1 coil)
+2. Confirm red HV-armed LED is OFF
+3. Confirm OLED shows "BUS SAFE" status
+4. Wait ≥ 2 s (allows module-side caps to discharge through bleeder resistors)
+5. Unscrew 4× M4 thumbscrews, separate connector, swap module
+6. Reconnect, screw down, key to ARMED, observe Nano POST OK on amber LED
+
+Mk2+ may add a hot-swap controller (LTC4231 class) but not at sprint 0.2 scope.
 
 ### 6.5.4 Why this matters for the techno-mage capstone
 
@@ -902,7 +952,7 @@ This is the wiki-spec'd FDTD-verification loop, executed empirically.
 | 40 mm 4 Ω 3 W full-range driver | 2 | inventory §3.5 | bone-conduction-substitute audio |
 | Audio amp (PAM8403 or similar) | 1 | XXXL kit | audio drive |
 | Local 12V → 3.3V buck (AMS1117 or MP1584) | 1 | XXXL kit | module-side logic rail from bus 12V |
-| 6-pin JST-XH plug + 30 cm lead | 1 | inventory | mates platform module bus (**bus-powered — no module battery**) |
+| 6-pin 2.54 mm Dupont plug + 30 cm 22 AWG silicone lead | 1 | inventory §6 (Dupont kit + silicone wire) | mates platform module bus (**bus-powered — no module battery**) |
 | PLA-printed clip-on enclosure | 1 | 3D printer | mechanical |
 
 **Power source:** Stabilizer Mk1 is **fully bus-powered** from the HelmKit platform's 12V_RAIL + 5V_LOGIC per §4.2. No module-side battery, no module-side charge port. Earlier draft of this BOM listed a module-side 18650 + TP4056; **removed** because it contradicts the "lightweight clip-on" goal and §4.3 confirms the platform bus has the headroom (Stabilizer typical draw 3.5 W on 12V + 0.5 W on 5V, well inside 24 W + 5 W rail capability).
