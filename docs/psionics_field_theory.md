@@ -4,6 +4,8 @@ This page is an **engineering reference**, not a physics claim. It collects the 
 
 We need these so that when wiki-derived signal patterns land in firmware, we know which symbol is which and what (if anything) it engages empirically.
 
+> **Companion document.** The quantum-of-the-field naming pass, the psi-phonon polariton, the axion analogy, and the build-side firewall around all of this live in [`docs/psion_quasiparticle.md`](psion_quasiparticle.md). The empirical face of the polariton (Frey-class GHz hypothesis, H2) is in [`docs/h2_modulated_uhf_hypothesis.md`](h2_modulated_uhf_hypothesis.md). The wiki-side propagation runbook is [`docs/wiki_refactor_brief.md`](wiki_refactor_brief.md).
+
 ---
 
 ## 1. The ψ-field Lagrangian (canonical)
@@ -115,6 +117,9 @@ Bottom line for the build: **F4 (SAR-independent ψ-coupling) and F7 (one-α uni
 
 ## See also
 
+- [`docs/psion_quasiparticle.md`](psion_quasiparticle.md) — naming pass: psion, psi-field as classical-field configuration, psi-phonon polariton, axion analogy, build-side firewall.
+- [`docs/h2_modulated_uhf_hypothesis.md`](h2_modulated_uhf_hypothesis.md) — Frey-class H2 hypothesis; empirical face of the psi-phonon polariton.
+- [`docs/wiki_refactor_brief.md`](wiki_refactor_brief.md) — wiki-curator runbook for propagating the above across wiki pages.
 - [`docs/wiki_synthesis.md`](wiki_synthesis.md) — engineering translation of the wiki, Pass 1 + Pass 2.
 - [`docs/falsification.md`](falsification.md) — the F1–F10 set with Mk1+ engagement notes.
 - [`docs/architecture.md`](architecture.md) §3 — how the dual-MCU safety architecture maps onto the "runaway regime" of the EFT.
