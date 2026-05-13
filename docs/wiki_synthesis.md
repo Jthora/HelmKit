@@ -136,7 +136,7 @@ These are not engineering constraints in the bench-test sense — they are non-n
 1. **Consent.** The device starts disengaged on every power-on. The operator must explicitly engage. No auto-resume from sleep.
 2. **Shield, not sword.** No offensive mode exists. No mode radiates effects on bystanders. Near-field by construction. The Defender preset is counter-coherence, not jamming.
 3. **Disengage on instability.** If MCU-B's baseline-stability check fails (HRV outside expected envelope, body-proximity lost, temperature drift, RF reflectometry mismatched), the device cuts drive. This is enforced in MCU-B firmware, not MCU-A.
-4. **The astrology rules — for the Harmonizer.** When Mk2 ships the Harmonizer preset, the entrainment target is computed from astrology, not chosen from a hardcoded preset list. (Mk1 ships only the Stabilizer preset, so this doesn't apply yet.)
+4. **The astrology rules — for the Harmonizer.** When Mk2 ships the Harmonizer preset, the entrainment target is computed from astrology, not chosen from a hardcoded preset list. (Mk1 ships only the Stabilizer preset — specifically, the L0+L1+L2 biofeedback floor from [`mk1_session_protocol.md`](mk1_session_protocol.md) plus the bifilar-coil stim payload on top — so this doesn't apply yet.)
 5. **Transparency.** Every dosage envelope, every blacklist entry, every modality's intended-use is documented publicly in this repo. The wiki specifies this for Psi-Tech as a class.
 
 ---
@@ -263,6 +263,8 @@ The new triad pages publish explicit $ targets that the build should honour:
 | Psi Defender Mk1 | ≤ $350 | n/a (deferred Mk2 in Pass 1) | HackRF One / LimeSDR Mini + nRF52840 + 2× HMC5883L + ESD probe + bifilar coil (substrate-shared with Stabilizer) + SI5351 + signed signature library |
 
 The Pass 1 stance ("Mk1 ships only the Stabilizer preset; Harmonizer and Defender deferred to Mk2") is **preserved** in this repo's Mk1 plan — the wiki publishing Harmonizer Mk1 and Defender Mk1 BOMs does not commit this repo to building them at Mk1. But the wiki's Mk1 Stabilizer BOM is now what the Mk1 buildplan inherits.
+
+**Refinement (2026-05).** The Mk1 Stabilizer that ships is not coil-only. It is the **L0+L1+L2 biofeedback floor** (resonance-breath pacer + closed-loop HRV-coherence rendering + structured 30-min session container; full spec in [`mk1_session_protocol.md`](mk1_session_protocol.md)) **plus the wiki-canonical bifilar-coil stim payload as a sham-controlled experiment on top.** The biofeedback floor is the wearer-benefit deliverable (G2-graded, evidence-base independent of any ψ-field claim); the coil stim payload is the framework-contribution endpoint (G3-graded, blinded RCT). The wiki's Mk1 BOM lists the coil; this repo adds bone-conduction transducers and LED breathing indicator as *always-on* hardware required by the floor, not as optional accessories. See [`mk1_buildplan.md §4.0`](mk1_buildplan.md#40-what-works-means--three-independent-grades-g1--g2--g3) for the three-grade structure.
 
 ## P2.7 Mk1 validation gates — now pre-registered RCTs
 

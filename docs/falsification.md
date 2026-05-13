@@ -20,6 +20,7 @@ The framework, on its own terms, stands or falls on this list. The HelmKit repo'
 | **F8** | $\lambda \psi^4$ self-coupling consistent with stable solitons. | "Thought-form" interpretation. | Theoretical work in progress. |
 | **F9** | No violation of energy / momentum / charge conservation. | The framework's structure (would falsify the action principle). | No credible over-unity claim survives rigorous testing. **Consistent.** |
 | **F10** | Standard-Model physics recovered as $\alpha \to 0$. | Compatibility with mainstream physics. | $\alpha \lesssim 10^{-10}$ of EM coupling — consistent with no observed Standard-Model anomaly. |
+| **F11** | If psions exist as a real quasiparticle (per [`psion_quasiparticle.md §10`](psion_quasiparticle.md)), a haloscope-class null search at predicted mass ranges should detect a Primakoff-class signal. | Quasiparticle ontology of psions (the framework survives if F11 nulls only if treated as effective-field-theory). | No null search at appropriate parameters yet performed. **Mk2+ haloscope adapter could engage.** |
 
 ---
 
@@ -43,13 +44,16 @@ Most of $F_1\ldots F_{10}$ require multi-operator population-scale studies that 
 
 | Falsifier | Earliest possible engagement | What it would take |
 |---|---|---|
-| **F3** (resonance enhancement) | Mk2 | Same emitter at on/off-resonance, identical input power, RNG / sensor cohort downstream. |
+| **F3 precursor** (matched-$F^2$ baseline data) | **Mk1.5** | Same $F^2$ envelope on H1 (sub-MHz bifilar coil) vs H2 (Frey-class pulsed UHF) vs sham, three-arm RCT. Does not adjudicate F3 (no resonance scan); produces calibrated baseline data Mk2 inherits. |
+| **F4 precursor** (SAR–$F^2$ separability check) | **Mk1.5** | H1 and H2 deposit very different SAR at matched $F^2$; baseline ratio of effect to SAR can be characterized before Mk2's full SAR-vs-$F^2$ decoupling experiment. |
+| **F3** (resonance enhancement) | Mk2 | Scan envelope frequency across 6.5–9.5 Hz at matched $F^2$; predict-and-verify enhancement at Schumann band vs detuned. |
 | **F4** (SAR-independence of ψ-coupling) | Mk2 with calibrated FDTD SAR map + matched coherent vs incoherent substrate. | Decouple the deposited thermal power from substrate coherence — non-trivial. |
-| **F7** (universal $\alpha$) | Mk3 at earliest | Precision device-side emission measurement; matched precision AC-effect measurement on same operator. |
+| **F7** (universal $\alpha$) | Mk3 at earliest | Precision device-side emission measurement; matched precision AC-effect measurement on same operator. Two Mk3 pairs in independent setups. |
+| **F11** (psion null search) | Mk2 with haloscope adapter | Haloscope-class detector at predicted mass range; null search at integration time set by predicted Primakoff cross-section. |
 | **F1, F2, F5, F6** | Not Mk* device-side | Population-scale neuroscience / parapsychology lab work; HelmKit data could be a side input. |
 | **F8, F9, F10** | Theoretical / cosmological | Out of repo scope. |
 
-**Mk1's job is none of these.** Mk1's job is to land the apparatus, the safety architecture, and the validated HRV-biofeedback baseline (see [`mk1_buildplan.md` §4](mk1_buildplan.md#4-the-first-study)) so that Mk2 and beyond can engage F3 and F4 honestly.
+**Mk1's job is none of these.** Mk1's job is to land the apparatus (G1), deliver the wearer-benefit floor (G2: L0+L1+L2 biofeedback running independently of any ψ-field claim), and produce calibrated $F^2$-instrumented sham-controlled session data (G3) that Mk1.5 and Mk2 inherit. See [`mk1_buildplan.md §4.0`](mk1_buildplan.md#40-what-works-means--three-independent-grades-g1--g2--g3) for the three-grade structure. A G1✓/G2✓/G3-null Mk1 outcome is *honest success*: device benefits wearer, framework hypothesis takes a hit on this implementation, and Mk1.5 inherits the calibrated null as input.
 
 ---
 
