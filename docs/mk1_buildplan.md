@@ -4,6 +4,32 @@ The first generation that has to **work**. This document is what the Mk1 build w
 
 > **Key insight from [`wiki_synthesis.md`](wiki_synthesis.md):** the Psi-Tech triad (Stabilizer / Harmonizer / Defender) is **one substrate, three signal-pattern presets** — same coil, same MCUs, same power, same matching. Mk1 ships the device + the **Stabilizer preset only**. Harmonizer and Defender presets are firmware additions in Mk2 once their input pipelines (SynastryEngine handoff for Harmonizer; ambient-EM scanner channel for Defender) exist.
 
+## 0a. Mission — what this device is *for*
+
+The HelmKit Mk1 with Stabilizer preset exists to **psionically stabilize the wearer's psyche**. Concretely: to shorten the time the wearer's autonomic and cognitive state takes to return to a coherent baseline after a stressor, and over repeated use, to lower the *amplitude* of stressor-driven excursions away from that baseline. That is the deliverable. That is the success criterion in the user's terms.
+
+This document calls that "stabilization." The wiki calls it "operator-state stabilization" on the [`Psi Stabilizer`](https://wiki.fusiongirl.app/wiki/Psi_Stabilizer) page. In the framing of [`docs/psionics_field_theory.md §2`](psionics_field_theory.md), it is *driving the consciousness order parameter $C$ toward the symmetric phase and away from the runaway phase*. All three descriptions point at the same wearer-experienced outcome.
+
+The Mk1 build is **not an experiment to prove that psionics is real**. The framework-level question ("is the ψ-field real?") is structurally out of scope here, by design — it lives at Mk2+ instrumentation that Mk1 cannot reach (see [`docs/falsification.md`](falsification.md), and the Layer 3 disclaimer in §4.0 below). What lives at Mk1 is the *engineering and user-benefit* question: does this device, on this wearer, in blinded conditions, deliver the stabilization benefit it promises?
+
+### Why the discipline (sham, blinding, pre-registration) is still mandatory
+
+Even though the goal is the wearer's benefit and not academic validation, the L2 discipline in §4.0 is not negotiable. The reason is simple and entirely self-interested:
+
+- **Placebo response in biofeedback devices is real, measurable, and large.** Any well-designed-looking head device worn with intent produces a meaningful HRV/state response purely from expectation and ritual.
+- **Without sham-controlled blinding, we cannot tell whether our device is doing anything beyond what an empty enclosure would do.**
+- That matters operationally: if the active configuration is no better than sham, **we are wasting the wearer's time, battery, and bench iteration on a coil that adds nothing.** We need to know.
+- A Mk1 L2 pass means *the active configuration outperforms sham on the wearer's stabilization endpoint*. That is the only honest claim that the device "psionically stabilizes" — anything weaker is indistinguishable from a fancy-looking placebo headband.
+- A Mk1 L2 null means *this implementation* didn't outperform sham, and we have actionable feedback (envelope, geometry, drive, sensor) to redesign before Mk1.5. Without the discipline, a null is invisible and we iterate blind.
+
+The discipline serves the mission. It is not a tribute paid to institutions we don't respect; it is the only known method by which a builder can know whether the thing they built actually works for the wearer. We keep it for that reason.
+
+### What the framework reframe (psion ontology) does and does not change here
+
+The recent ontology work in [`docs/psion_quasiparticle.md`](psion_quasiparticle.md) sharpens *what the device is theoretically doing* (reactive-near-field Primakoff-class converter; driving $C$ on the EFT phase diagram via both direct CEMI and indirect psion-mediated channels). It does **not** change the Mk1 build, BOM, safety architecture, or operator-claim language. The wearer-facing description of the device remains **"a head-worn stabilizer that helps your autonomic state return to a calm coherent baseline after stress."** That description is honest at Mk1 and consistent with both the ψ-field framework and any future framework that displaces it.
+
+The build-side firewall from [`docs/psion_quasiparticle.md §7`](psion_quasiparticle.md) applies in full: psion vocabulary is internal engineering language; wearer-facing copy stays in physiological-effect language.
+
 ## 0. Decision gates (decide BEFORE ordering parts)
 
 These three choices fix everything else in this plan. Don't skip them.
@@ -165,18 +191,11 @@ MAX30102.
 
 #### Layer 3 — Framework pass/fail (is the science underneath real?)
 
-**Mk1 deliberately does not engage any framework-level falsifier.**
-Per [`falsification.md`](falsification.md), framework-level claims
-(F1–F10) require population-scale studies (F1, F2, F5, F6) or
-apparatus capabilities Mk1 does not yet have (F3 resonance
-enhancement, F4 SAR-independence, F7 universal $\alpha$, all
-$\geq$ Mk2). A Layer-2 Mk1 pass means: *this specific intervention
-produced this specific physiological effect under blinded control on
-this wearer cohort.* It does **not** mean "psi is real" — that claim
-is structurally out of scope at Mk1.
+**Mk1 deliberately does not engage any framework-level falsifier, and this is not the layer the project's success is measured on.**
 
-The point of landing Mk1 honestly is to make a **Mk2 apparatus**
-that *can* engage F3 and F4 defensible by inheritance.
+The wearer-benefit win (Layer 2 pass) is what this device exists to deliver. Layer 3 is a *separate, much harder, much later* question that population-scale studies and Mk2+ instrumentation address (see [`falsification.md`](falsification.md): F1, F2 are population; F3, F4, F7 are $\geq$ Mk2; F5, F6 are pharmacological). A Layer-2 Mk1 pass means: *this specific intervention produced this specific physiological effect under blinded control on this wearer cohort.* That is the mission, and it is sufficient on its own.
+
+The reason Layer 3 is named here at all is forward-compatibility: landing Mk1 honestly (correct geometry, calibrated drive, clean data) makes a **Mk2 apparatus** that *can* engage F3 and F4 defensible by inheritance. We are not building Mk2 here. We are leaving a clean foundation for it.
 
 ### 4.1 The pre-registration
 
