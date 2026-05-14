@@ -1,8 +1,8 @@
-# HelmKit
+# HelmKit™
 
 > Open, non-enclosed psionic headpiece. A 3D-printed **mounting frame** with interchangeable **Psi-Tech** modules for cognitive protection, stabilization, and enhancement.
 
-The HelmKit itself is **not** the psi-tech. It is the **hardware platform** — a head-worn skeleton with standardized hardpoints — that lets specialized modules (Psi Stabilizer, Psi Defender, sensors, HUD optics, etc.) be swapped in and out.
+The HelmKit™ itself is **not** the psi-tech. It is the **hardware platform** — a head-worn skeleton with standardized hardpoints — that lets specialized modules (Psi Stabilizer™, Psi Defender™, sensors, HUD optics, etc.) be swapped in and out.
 
 This repo is the platform: frame geometry, hardpoint spec, power/data bus, fit-and-mount, and the integration plan for each module generation (Mk0 → Mk3).
 
@@ -20,6 +20,9 @@ This repo is the platform: frame geometry, hardpoint spec, power/data bus, fit-a
 | 3D-printable parts inventory | [3D-Models/](3D-Models/) |
 | Sister project: Psi Stabilizer | [external/psiStabilizer/](external/psiStabilizer/) (submodule) |
 | Legacy iOS apps (not used going forward) | [iOS_oldBuild/](iOS_oldBuild/) |
+| **License (multi-license: AGPL / CERN-OHL-S / CC-BY-SA)** | [LICENSE](LICENSE) |
+| **Trademark & copyright notice** | [NOTICE.md](NOTICE.md) |
+| **Prior-art declaration (defensive publication)** | [PRIOR_ART.md](PRIOR_ART.md) |
 
 ---
 

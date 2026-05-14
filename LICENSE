@@ -1,0 +1,81 @@
+# HelmKit Licensing
+
+The HelmKit repository is multi-licensed by content type. The full text of each
+license is included in this repository.
+
+| Content type | Path globs | License | SPDX identifier | License file |
+|---|---|---|---|---|
+| **Source code** (firmware, host software, build scripts, CI) | `firmware/**`, `software/**`, `tools/**`, `scripts/**`, `.github/**`, root-level scripts | GNU Affero General Public License v3.0 | `AGPL-3.0-or-later` | [`LICENSE-code.txt`](LICENSE-code.txt) |
+| **Hardware design** (mechanical CAD, PCB sources, BOMs, fabrication outputs) | `3D-Models/**`, `hardware/**`, `**/*.step`, `**/*.stl`, `**/*.f3d`, `**/*.kicad_pcb`, `**/*.kicad_sch`, `**/*.kicad_pro`, `**/*.gbr`, `**/*.drl`, `**/bom.csv` | CERN Open Hardware Licence Version 2 — Strongly Reciprocal | `CERN-OHL-S-2.0` | [`LICENSE-hardware.txt`](LICENSE-hardware.txt) |
+| **Documentation, theory, specifications** (`docs/`, READMEs, this file) | `docs/**`, `**/*.md` (other than license/notice files), `experiments/**/*.md`, `**/README.md` | Creative Commons Attribution-ShareAlike 4.0 International | `CC-BY-SA-4.0` | [`LICENSE-docs.txt`](LICENSE-docs.txt) |
+| **Third-party content** | as marked in `external/` and `iOS_oldBuild/Frameworks/` | per original license | (varies) | per submodule |
+
+## SPDX tagging
+
+Source files SHOULD include an SPDX header on the first or second line. Examples:
+
+```c
+// SPDX-License-Identifier: AGPL-3.0-or-later
+```
+
+```python
+# SPDX-License-Identifier: AGPL-3.0-or-later
+```
+
+```text
+SPDX-License-Identifier: CERN-OHL-S-2.0
+```
+
+```markdown
+<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+```
+
+Files lacking an explicit SPDX header are governed by the path-glob mapping above.
+
+## Trademarks
+
+**HelmKit™** is an unregistered trademark of Jordan Trana, claimed by first use
+in commerce on this public repository. See [`NOTICE.md`](NOTICE.md).
+
+The names of associated Psi-Tech presets and modules ("Psi Stabilizer™",
+"Psi Harmonizer™", "Psi Defender™") are similarly claimed as unregistered
+marks where used in this repository to identify HelmKit-substrate products.
+
+Use of these marks to identify products or services other than those produced
+by the HelmKit project requires written permission. Nominative or descriptive
+use (e.g., comparative review, academic discussion, interoperability
+documentation) is permitted under standard trademark fair-use principles.
+
+The licenses above grant rights in copyright and (where applicable) patent;
+they do **not** grant any right to use the HelmKit trademarks.
+
+## Patent posture
+
+The HelmKit project explicitly disclaims any intent to assert patents against
+implementers of this design. The AGPL-3.0 and CERN-OHL-S-2.0 licenses both
+contain express patent grants; any contribution to this repository is made
+under those terms.
+
+This repository is also intended as **defensive publication**: see
+[`PRIOR_ART.md`](PRIOR_ART.md) for the prior-art declaration and inventory of
+disclosed inventive elements.
+
+## Why these choices
+
+- **AGPL-3.0** for code: strong copyleft including the network-use clause.
+  Anyone who runs a modified HelmKit firmware or back-end as a service must
+  release the modifications. Blocks closed-source clones in cloud form.
+- **CERN-OHL-S-2.0** for hardware: the strongly-reciprocal variant of the
+  CERN Open Hardware Licence. Manufacturers who ship modified HelmKit hardware
+  must release their modifications under the same license. This is the
+  standard for open hardware projects with copyleft intent (cf. the Open
+  Source Hardware Association recommendation list).
+- **CC-BY-SA-4.0** for docs: the Wikipedia-compatible share-alike copyleft for
+  prose, schematics-as-images, and explanatory diagrams. Anyone who publishes
+  a derivative wiki, book, or training corpus must release the result under
+  the same terms.
+
+The combination is engineered so that a hostile fork that omits attribution,
+closes the source, or relicenses the docs is in license violation in at least
+one of the three channels — and a fork that complies with all three is, by
+definition, an open, attributed contribution to the HelmKit ecosystem.
