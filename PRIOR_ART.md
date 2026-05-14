@@ -3,6 +3,8 @@
 **Document version:** 1.0
 **Date of this declaration:** 2026-05-14
 **Repository:** <https://github.com/Jthora/HelmKit>
+**Zenodo concept DOI (always-latest):** [10.5281/zenodo.20183948](https://doi.org/10.5281/zenodo.20183948)
+**Zenodo version DOI (this baseline, `v0.1-prior-art-baseline`):** [10.5281/zenodo.20183949](https://doi.org/10.5281/zenodo.20183949)
 **Inventor / declarant:** Jordan Trana
 **Status:** Public — intentionally non-confidential.
 
@@ -227,7 +229,10 @@ evaluation, and theory disciplines described above.
 To strengthen the prior-art posture, the following actions are scheduled:
 
 1. **Zenodo** — automatic archival of every tagged GitHub release as a
-   DOI-stamped citable snapshot. First release tag: `v0.1-prior-art-baseline`.
+   DOI-stamped citable snapshot. First release tag: `v0.1-prior-art-baseline`,
+   archived at [10.5281/zenodo.20183949](https://doi.org/10.5281/zenodo.20183949).
+   The concept DOI [10.5281/zenodo.20183948](https://doi.org/10.5281/zenodo.20183948)
+   always resolves to the latest archived version.
 2. **Internet Archive Wayback Machine** — periodic snapshot submission of
    the GitHub repository URL and any associated wiki.
 3. **arXiv** — submission of [`docs/psionics_field_theory.md`](docs/psionics_field_theory.md),

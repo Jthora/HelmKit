@@ -1,5 +1,7 @@
 # HelmKit™
 
+[![DOI](https://zenodo.org/badge/142250849.svg)](https://doi.org/10.5281/zenodo.20183948)
+
 > Open, non-enclosed psionic headpiece. A 3D-printed **mounting frame** with interchangeable **Psi-Tech** modules for cognitive protection, stabilization, and enhancement.
 
 The HelmKit™ itself is **not** the psi-tech. It is the **hardware platform** — a head-worn skeleton with standardized hardpoints — that lets specialized modules (Psi Stabilizer™, Psi Defender™, sensors, HUD optics, etc.) be swapped in and out.
