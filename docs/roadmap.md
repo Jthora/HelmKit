@@ -1,16 +1,20 @@
-# HelmKit Roadmap: Mk0 → Mk3
+# HelmKit Roadmap: Mk0.0 → Mk3.0
 
-The HelmKit is staged across five generations. Each generation has a **defining question** it must answer before the next begins.
+The HelmKit is staged across seven steps along an `x.0` / `x.5` ladder. Each step has a **defining question** it must answer before the next begins. The semantic pattern (what `.0` vs `.5` mean across every rung) is defined canonically in [mk_ladder.md](mk_ladder.md); this roadmap supplies the per-step engineering detail.
 
 | Gen | Defining question | Status |
 |-----|-------------------|--------|
-| **Mk0** | Does it fit a real head, can it be printed, does it look the part? | Done (v2 type-b iter 9) |
-| **Mk1** | Does it deliver *real wearer benefit* (L0+L1+L2 biofeedback floor) on its own merits, with the bifilar coil stim payload riding on top as a sham-controlled experiment? | Next |
-| **Mk1.5** | Does a matched-$F^2$ H1-vs-H2 comparison favour either stim path above the biofeedback floor? | Scoped |
-| **Mk2** | Can the wearer use a state-aware closed-loop device standalone, with EEG + adaptive stim, and engage F3 / F4 directly? | Scoped |
-| **Mk3** | Dyadic / population device that engages F7 + Dicke superradiance scaling; manufacturable, regulatory-defensible. | Scoped |
+| **Mk0.0** | Does it fit a real head, can it be printed, does it look the part? | ✅ Done (v2 type-b iter 9) |
+| **Mk0.5** | Does the L0+L1+L2 biofeedback floor (sensing + feedback, no stim) deliver measurable wearer benefit on its own? | 🚧 In flight (Sensor Wave 1 ETA 2026-05-16) |
+| **Mk1.0** | Does the bifilar-coil stim payload, sham-controlled, add value above the Mk0.5 floor for a stationary wearer (Tranquil mode)? | ⏸ Pending Mk0.5 G2 |
+| **Mk1.5** | Does the device retain Tranquil performance AND deliver a Combat-mode loop (motion-tolerant, sweat-tolerant) for a moving / exerting wearer? | ⏸ Pending Mk1.0 |
+| **Mk2.0** | Can the wearer use a state-aware closed-loop device standalone, with EEG + adaptive stim, and engage F3 / F4 directly? Focus / Creative / Vigilance / Social / Recovery modes unlocked. | ⏸ Pending Mk1.x |
+| **Mk2.5** | Does a matched-$F^2$ H1-vs-H2 comparison favour either stim path above the closed-loop biofeedback floor? *(Repositioned from legacy Mk1.5 — matched-$F^2$ rigour requires the Mk2.0 state-aware substrate.)* | ⏸ Pending Mk2.0 |
+| **Mk3.0** | Can two synchronized helmets deliver dyadic stabilization to a pair while engaging F7 and the Dicke superradiance $N^2$ scaling prediction? Manufacturable, regulatory-defensible. | ⏸ Pending Mk2.x |
 
-The bridge from each generation to the next is **gated on evidence**, not on aesthetics or hardware count.
+The bridge from each step to the next is **gated on evidence**, not on aesthetics or hardware count. See [mk_ladder.md §3](mk_ladder.md) for the gating logic.
+
+> **Note on numbering.** Earlier revisions of this roadmap used a coarser five-step ladder (`Mk0 / Mk1 / Mk1.5 / Mk2 / Mk3`). The current seven-step ladder is the May-2026 refinement after the sensor-wave purchase and the Tranquil-only vs Tranquil+Combat split was made explicit. The legacy `Mk1.5` (matched-$F^2$ H1-vs-H2) has been repositioned to `Mk2.5`; the legacy `Mk1` is now `Mk1.0`; a new `Mk0.5` and `Mk1.5` step have been inserted. The per-step detail in this file is being migrated to the new numbering; sections below may still reflect the legacy names until updated.
 
 ## Cross-cutting principles (the spine of the whole ladder)
 

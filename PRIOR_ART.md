@@ -68,9 +68,10 @@ For full text and provenance, fetch the named commit from the repository.
 | # | Element | First disclosure | Date | Primary file(s) |
 |---|---|---|---|---|
 | A1 | **HelmKit modular psionic headpiece** — 3D-printed open mounting frame with standardized hardpoints for swappable Psi-Tech modules | `d61c911` | 2026-04 | [`README.md`](README.md), [`docs/architecture.md`](docs/architecture.md), [`docs/roadmap.md`](docs/roadmap.md) |
-| A2 | **Mk0 → Mk1 → Mk1.5 → Mk2 → Mk3 staged-evidence roadmap** with explicit per-Mk defining-question gates | `d61c911`, refined `e1e301d` | 2026-04 → 2026-05 | [`docs/roadmap.md`](docs/roadmap.md) |
+| A2 | **Mk0.0 → Mk0.5 → Mk1.0 → Mk1.5 → Mk2.0 → Mk2.5 → Mk3.0 seven-step staged-evidence roadmap** with explicit per-Mk defining-question gates | `d61c911`, refined `e1e301d`, expanded to seven steps in commit landing this disclosure | 2026-04 → 2026-05 | [`docs/roadmap.md`](docs/roadmap.md), [`docs/mk_ladder.md`](docs/mk_ladder.md) |
 | A3 | **Hardpoint specification** — standardized mechanical/electrical mounting points (`HP-F`, `HP-EL`, `HP-ER`, etc.) | `d61c911` | 2026-04 | [`docs/architecture.md`](docs/architecture.md) |
 | A4 | **Cross-cutting principles** — eight ladder-wide invariants for every HelmKit generation | `e1e301d` | 2026-05 | [`docs/roadmap.md`](docs/roadmap.md) |
+| A5 | **x.0 / x.5 sub-revision discipline** — a generic Mk-step grammar where Mk x.0 = canonical minimum-viable single-arm single-wearer form of the rung's new capability, and Mk x.5 = same architecture stress-tested or compared against an alternative within the rung. Provides a project-management spine that prevents scope creep across generations of an evidence-staged head-worn device programme. | this disclosure | 2026-05 | [`docs/mk_ladder.md`](docs/mk_ladder.md) |
 
 ### 3.2 Dual-MCU safety architecture
 
@@ -158,6 +159,18 @@ For full text and provenance, fetch the named commit from the repository.
 | K4 | **Psi-phonon polariton** — hybrid in tissue; technical referent for Frey-effect-class observations | `9080283` | 2026-05 | [`docs/psion_quasiparticle.md`](docs/psion_quasiparticle.md), [`docs/h2_modulated_uhf_hypothesis.md`](docs/h2_modulated_uhf_hypothesis.md) |
 | K5 | **Wiki-claim-firewall** — Mk-level-bracketed claim discipline: psion-mediated effects do not appear in Mk1 operator-facing copy | `9080283` | 2026-05 | [`docs/wiki_refactor_brief.md`](docs/wiki_refactor_brief.md) §1.6 |
 
+### 3.11 Mode roster + multi-axis sensor architecture
+
+| # | Element | First disclosure | Date | Primary file(s) |
+|---|---|---|---|---|
+| M1 | **Mode-tuple schema for a head-worn psi-tech device** — each operator-facing mode formally specified as a tuple of `(target physiological state, sensor loadout, feedback-rendering rules, optional stim preset, validation endpoint, Mk gate)` | this disclosure | 2026-05 | [`docs/modes.md`](docs/modes.md) §1 |
+| M2 | **Eight-mode roster** for a head-worn psi-tech device — Tranquil / Combat / Focus / Creative / Vigilance / Social / Recovery / Dyadic, each with its own mode-tuple and Mk-gate assignment per the seven-step ladder (Tranquil Mk0.5; Combat Mk1.5; Focus/Creative/Vigilance/Social/Recovery Mk2.0; Dyadic Mk3.0) | this disclosure | 2026-05 | [`docs/modes.md`](docs/modes.md) §2 |
+| M3 | **Tranquil + Combat dual-flagship architecture** — the deliberate pairing of a relaxation-target mode (Tranquil) with a tension-under-load target mode (Combat) as co-equal Mk1.x flagships, on the rationale that the *same* upper-trapezius EMG channel + dual-temple thermography + GSR + PPG sensor stack serves both, enabling within-wearer comparison of "calm down at rest" vs "stay regulated under exertion" on a single substrate | this disclosure | 2026-05 | [`docs/modes.md`](docs/modes.md) §2.1–2.2, [`docs/sensor_roster.md`](docs/sensor_roster.md) §5 |
+| M4 | **Multi-axis physiological measurement architecture** — explicit decomposition of "psyche state" into independently-measurable axes (parasympathetic / sympathetic / motor / kinematic / peripheral-vasomotor / cortical / cognitive / respiratory / visual / vocal / environmental-context), with multi-axis convergence as the unit of evidence rather than any single sensor | this disclosure | 2026-05 | [`docs/sensor_roster.md`](docs/sensor_roster.md) §1 |
+| M5 | **Dual-temple differential thermography on a head-worn device** — two clinical-grade I²C contact temp sensors (MAX30205-class, ±0.1 °C, address-selectable) symmetrically placed on left + right temples, with the *differential* reading used as a physiological measurement channel for asymmetric vasomotor / hemispheric perfusion state. Optionally extended to dual-temple-plus-wrist for central-vs-peripheral perfusion contrast. Distinguished from prior wearables which use either single-point peripheral temperature or full-face thermal imaging cameras. | this disclosure | 2026-05 | [`docs/sensor_roster.md`](docs/sensor_roster.md) §3.1, [`docs/modes.md`](docs/modes.md) (Social, Recovery target states) |
+| M6 | **Wave-1 / Wave-2 sensor-procurement pattern** matched to Mk0.5 / Mk1.x gates — a procurement discipline in which Prime-fast sensors (PPG + GSR + IR temp + biopotential electrodes + leads) enable the Mk0.5 G1 floor while slower-ship sensors (biopotential amplifier + dual contact-temp) arrive in time for the Mk1.x stim and motion-tolerant rungs, with documented anti-precedents for connector-spec verification and pad-chemistry distinction. | this disclosure | 2026-05 | [`docs/sensor_roster.md`](docs/sensor_roster.md) §4 |
+| M7 | **Mk0.5 firmware-bringup checklist** — explicit per-sensor smoke-test → L0 pacer → L1 HRV-coherence → L2 session-container → NDJSON logging → G1 engineering gate → G2 wearer-benefit ABAB gate, all *before* any stim payload is added | this disclosure | 2026-05 | [`docs/mk0.5_firmware_bringup.md`](docs/mk0.5_firmware_bringup.md) |
+
 ---
 
 ## 4. Itemized novelty statement
@@ -195,6 +208,24 @@ independently disclosed as inventive:
    honest-success matrix (D6)** — a discipline under which a vendor of
    head-worn stim devices structurally cannot make wearer-facing claims
    beyond the evidence available at the device's Mk-grade.
+8. The combination of **M1+M2+M3+M5** — a head-worn device whose operator-facing
+   modes are each specified by the mode-tuple schema (M1), drawn from an
+   eight-mode roster (M2), in which a Tranquil relaxation-target mode and a
+   Combat tension-under-load mode are co-equal Mk1.x flagships (M3) sharing a
+   single multi-axis sensor stack including dual-temple differential
+   thermography (M5), with the same substrate evaluated under both at-rest
+   and under-exertion conditions on a single wearer to isolate
+   condition-dependent vs condition-independent stabilization effects.
+9. The combination of **A2 + A5 + M7** — a head-worn psi-tech device programme
+   staged across a seven-step Mk ladder (Mk0.0 / 0.5 / 1.0 / 1.5 / 2.0 / 2.5 /
+   3.0) governed by x.0 / x.5 sub-revision discipline (canonical capability at
+   x.0, stress-tested extension at x.5), in which the Mk0.5 step ships an
+   L0+L1+L2 biofeedback floor *without* any stim payload as a stand-alone
+   evidence-yielding gate (G1 + G2 only; no G3) before the bifilar-coil stim
+   payload is integrated at Mk1.0. This pattern allows publication of
+   biofeedback-floor wearer-benefit data before any stim claim is made, and
+   converts a possibly-null stim result into a structurally smaller injury to
+   the programme.
 
 Each item above is disclosed in this repository's commit history as of the
 dates in §3. No party may obtain a valid patent on any of these combinations

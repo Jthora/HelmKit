@@ -1,6 +1,6 @@
 # HelmKit Modes — Cognitive-Optimization Mode Roster
 
-**Status:** Mk1-era roster, May 2026. Operator-facing modes the HelmKit substrate is intended to support across its Mk0 → Mk3 evolution. Two modes are Mk1-scope flagships (Tranquil, Combat); the rest are deferred-but-architected so the hardware and sensor decisions made now don't foreclose them.
+**Status:** May 2026, current as of the seven-step Mk ladder (see [mk_ladder.md](mk_ladder.md)). Operator-facing modes the HelmKit substrate is intended to support across its Mk0.0 → Mk3.0 evolution. Tranquil is the **Mk0.5 / Mk1.0 flagship**; Combat is the **Mk1.5 flagship**; the rest are deferred-but-architected so the hardware and sensor decisions made now don't foreclose them.
 
 > **The framing.** HelmKit is not a single-purpose device. It is a **techno-mage substrate** with mode-presets for distinct cognitive-optimization targets. A *mode* is a tuple `(target state, sensor loadout, feedback rules, optional stim preset, validation endpoint)` that closes a loop driving the wearer's measured state toward the target.
 
@@ -15,9 +15,9 @@ Every mode declares:
 | **Target state vector** | Measurable physiological / motor / cognitive markers the mode is trying to produce |
 | **Sensor loadout** | Which sensors the mode reads. Subset of the full sensor roster. |
 | **Feedback rules** | What the device does in response to live sensor readings. May include audio cue, haptic, LED, visual HUD, or a state transition. |
-| **Optional stim preset** | (Mk1.5+) Bifilar-coil drive waveform, if any. Mk1 modes all run with stim = none / sham. |
+| **Optional stim preset** | (Mk1.0+) Bifilar-coil drive waveform, if any. Mk0.5 modes run with stim = none. |
 | **Validation endpoint** | The specific G1/G2/G3 evaluation that confirms this mode "works." |
-| **Mk gate** | The Mk-generation at which this mode first ships. |
+| **Mk gate** | The Mk-step at which this mode first ships. Uses the seven-step ladder per [mk_ladder.md](mk_ladder.md). |
 
 This schema is intentionally identical to how the build plan thinks about `(stim payload, sham, evaluation)` triples — modes plug into the existing G1/G2/G3 framework.
 
@@ -25,31 +25,31 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 
 ## 2. The mode roster
 
-### 2.1 Tranquil — *flagship A (Mk1 default)*
+### 2.1 Tranquil — *flagship A (Mk0.5 floor; Mk1.0 with stim)*
 
-**Target state.** High HRV (RMSSD ↑); parasympathetic-dominant; alpha-theta cortical (deferred to Mk2 EEG); EDA tonic level low; peripheral skin temperature warm; respiration slow + diaphragmatic.
+**Target state.** High HRV (RMSSD ↑); parasympathetic-dominant; alpha-theta cortical (deferred to Mk2.0 EEG); EDA tonic level low; peripheral skin temperature warm; respiration slow + diaphragmatic.
 
-**Sensor loadout.** PPG (MAX30102) + EDA + skin-temp + (optional EEG at Mk2).
+**Sensor loadout.** PPG (MAX30102) + EDA + skin-temp + (optional EEG at Mk2.0).
 
 **Feedback rules.**
 - L0 paced breath: 6 bpm bone-conduction audio cue + LED breathing.
 - L1 HRV-coherence rendering: live coherence ratio audible as a harmonic locked to breath tone.
 - L2 30-min session container: settle → onboarding → active → closure → reflection.
 
-**Stim preset.** Mk1: none / sham. Mk1.5+: bifilar coil at 7.83 Hz envelope (the Schumann-Persinger pattern).
+**Stim preset.** Mk0.5: none. Mk1.0+: bifilar coil at 7.83 Hz envelope (the Schumann-Persinger pattern).
 
 **Validation endpoint.**
-- G1: dual-MCU + sham-equivalence gates pass.
-- G2: 4-week ABAB, composite of ΔRMSSD-morning + ΔPSS-weekly + Δsleep-onset.
-- G3: sham-controlled, cold-pressor at minute 22, time-to-coherence primary.
+- G1: at Mk0.5, four-sensor concurrent capture; at Mk1.0, dual-MCU + sham-equivalence gates pass.
+- G2: 4-week ABAB on biofeedback floor (Mk0.5) and on floor+stim (Mk1.0), composite of ΔRMSSD-morning + ΔPSS-weekly + Δsleep-onset.
+- G3: sham-controlled, cold-pressor at minute 22, time-to-coherence primary. (Mk1.0 only — Mk0.5 has no stim and therefore no G3.)
 
-**Mk gate.** Mk1.
+**Mk gate.** **Mk0.5** (floor only, no stim, no G3) → **Mk1.0** (+ bifilar coil + G3 RCT). See [mk_ladder.md](mk_ladder.md).
 
 **Use case.** Pre-sleep, post-stress recovery, base ANS regulation, meditation scaffold.
 
 ---
 
-### 2.2 Combat — *flagship B (Mk1 stretch)*
+### 2.2 Combat — *flagship B (Mk1.5)*
 
 **Target state.** Flow under exertion. Operationally:
 - Vagally-engaged-but-not-collapsed HRV (not the panic-zone collapse, not the rest-zone passivity).
@@ -68,20 +68,20 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - **Guard-recovery time.** IMU detects strike → return-to-guard latency reported in ms.
 - **Breath metronome.** Audio tick locked to prescribed pattern; silent when compliant.
 
-**Stim preset.** Mk1: none / sham. Speculative future: beta-band entrainment, or gamma 40 Hz, or per-wearer learned. **Defer all stim claims; ship the biofeedback loop first.**
+**Stim preset.** Mk1.5: none / sham. Speculative future: beta-band entrainment, or gamma 40 Hz, or per-wearer learned. **Defer all stim claims; ship the biofeedback loop first.**
 
 **Validation endpoint.**
 - G1: EMG calibrated against personal MVC; IMU strike-velocity validated against video; sham mode sensory-indistinguishable.
 - G2: 4-week within-subject ABAB on your own training. Endpoint: composite of (strike velocity at fixed shoulder EMG) + (round-recovery HRV time) + (post-session RT delta) + (subjective fight-feel Likert).
 - G3: sham-controlled with sparring partners; exertion stressor (90s burpees) at minute 22 replacing cold pressor.
 
-**Mk gate.** Mk1 stretch (depends on EMG module + electrodes + the IMU-from-inventory plus the firmware to fuse them).
+**Mk gate.** **Mk1.5** (depends on Mk1.0 floor+stim integration cleared + EMG module from Wave 2 + IMU-from-inventory + Combat-firmware fusion). See [mk_ladder.md](mk_ladder.md) for why Combat is `1.5` not `1.0`: same substrate, exercised under harder mechanical conditions (sweat + motion).
 
 **Use case.** Backyard martial-arts practice, sparring prep, athletic performance training. **Operator's primary use case.**
 
 ---
 
-### 2.3 Focus / Deep Work — *Mk2*
+### 2.3 Focus / Deep Work — *Mk2.0*
 
 **Target state.** Sustained attention; frontal beta engaged; alpha suppressed; HRV stable but not maximally coherent (focus is mildly sympathetic); low blink rate; minimal task-switching evidence.
 
@@ -98,13 +98,13 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - G2: task-completion-rate ABAB on real coding/writing work; subjective focus Likert.
 - G3: sham-controlled cognitive battery (PVT, Stroop) post-session vs sham.
 
-**Mk gate.** Mk2 (requires EEG which is Mk2-scope).
+**Mk gate.** **Mk2.0** (requires EEG which is Mk2.0-scope per [mk_ladder.md](mk_ladder.md)).
 
 **Use case.** Coding, writing, study, focused-craft work.
 
 ---
 
-### 2.4 Creative / Ideation — *Mk2*
+### 2.4 Creative / Ideation — *Mk2.0*
 
 **Target state.** Diffuse attention; relaxed alpha-theta dominant; default-mode-network signatures; low arousal; permissive associative state. *Opposite of Focus mode.*
 
@@ -122,13 +122,13 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - G2: idea-generation rate (think AUT — alternate uses task — pre/post comparisons) ABAB.
 - G3: sham-controlled AUT cohort.
 
-**Mk gate.** Mk2.
+**Mk gate.** **Mk2.0**.
 
 **Use case.** Brainstorming, art, problem incubation, lyric / design / writing-flow work.
 
 ---
 
-### 2.5 Vigilance / Sentinel — *Mk2*
+### 2.5 Vigilance / Sentinel — *Mk2.0*
 
 **Target state.** Sustained low-grade alertness over long duration. Not high-arousal — endurance, not intensity. ANS in moderate sympathetic but stable; no drift toward drowsiness; reaction time preserved.
 
@@ -145,13 +145,13 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - G2: long-task vigilance metrics (1-hour sustained-attention task); subjective fatigue Likert.
 - G3: sham-controlled long-task with vigilance decrement comparison.
 
-**Mk gate.** Mk2.
+**Mk gate.** **Mk2.0**.
 
 **Use case.** Night drive, watch duty, long-form security / sentinel work, all-night work sprints.
 
 ---
 
-### 2.6 Social / Charisma — *Mk2*
+### 2.6 Social / Charisma — *Mk2.0*
 
 **Target state.** Porges "social engagement system" engaged — vagal tone on; warm peripheral perfusion; relaxed jaw / face; open posture (IMU-detectable); steady prosody-friendly breath.
 
@@ -168,13 +168,13 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - G2: pre/post social-event self-report; observer ratings if available.
 - G3: standardized social-stress task (e.g., TSST — Trier Social Stress Test) sham-controlled.
 
-**Mk gate.** Mk2.
+**Mk gate.** **Mk2.0** (precursor in Mk1.x once dual-temple MAX30205 is online — peripheral perfusion + posture IMU available without EEG, partial-loop only).
 
 **Use case.** Public speaking, interviews, dates, networking, first impressions.
 
 ---
 
-### 2.7 Recovery / Healing — *Mk2*
+### 2.7 Recovery / Healing — *Mk2.0*
 
 **Target state.** Maximum parasympathetic; near-sleep cortical signatures; reduced peripheral perfusion (cool extremities, classic recovery-state); high tonic vagal HRV; minimal sympathetic activity.
 
@@ -191,13 +191,13 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 - G2: sleep-onset latency, sleep-quality Likert, morning-RMSSD ABAB.
 - G3: sham-controlled actigraphy-validated sleep metrics.
 
-**Mk gate.** Mk2 (overlaps strongly with Tranquil; may merge or specialize).
+**Mk gate.** **Mk2.0** (overlaps strongly with Tranquil; may merge or specialize). Precursor in Mk1.x once dual-temple MAX30205 is online — the warm-then-drop peripheral-vasomotor trajectory is detectable without EEG.
 
 **Use case.** Post-illness, jet lag, injury recovery, scheduled deep-rest blocks.
 
 ---
 
-### 2.8 Dyadic / Co-regulation — *Mk3*
+### 2.8 Dyadic / Co-regulation — *Mk3.0*
 
 **Target state.** Two wearers synchronize physiology — HRV cross-coherence, breath entrainment, possibly EEG inter-brain coupling.
 
@@ -209,7 +209,7 @@ This schema is intentionally identical to how the build plan thinks about `(stim
 
 **Validation endpoint.** Dicke superradiance test: 4× output at N=2 vs linear sum null.
 
-**Mk gate.** Mk3.
+**Mk gate.** **Mk3.0**.
 
 **Use case.** Therapy dyads, partner training, synastry-pair experiments, **the F-test for the psion-quasiparticle hypothesis.**
 

@@ -2,7 +2,7 @@
 
 **Companion to:** [modes.md](modes.md). This document maps the **sensor catalog** (what each sensor measures, what it costs, which mode-tuples need it) so purchase decisions can be made against the mode roadmap.
 
-**Status:** Mk1-era roster, May 2026. Inventory snapshot per [inventory.md](inventory.md) (operator-confirmed 2026-05-12) plus [MAX30102 PPG breakout added 2026-05-14 per psiStabilizer v0.1 buy list].
+**Status:** Mk0.5-era roster, May 2026 (seven-step ladder per [mk_ladder.md](mk_ladder.md)). Inventory snapshot per [inventory.md](inventory.md) (operator-confirmed 2026-05-12) plus MAX30102 PPG breakout added 2026-05-14, plus **Sensor Wave 1 + Wave 2 purchase orders placed 2026-05-14** (see [§4](#4-the-actual-purchase-ledger-may-2026))—the Mk0.5 sensor stack is on-order.
 
 ---
 
@@ -26,7 +26,7 @@ Stabilizing or steering "psyche state" decomposes into independently-measurable 
 
 ---
 
-## 2. What's already in inventory (Mk1-relevant)
+## 2. What's already in inventory (Mk0.5-relevant)
 
 Pulled from [inventory.md §3](inventory.md). **You already own all of the following.**
 
@@ -57,7 +57,7 @@ Pulled from [inventory.md §3](inventory.md). **You already own all of the follo
 
 What you might buy. Costs are May 2026 Amazon US ballpark unless noted.
 
-### 3.1 Tier-1 — directly enables Mk1 Tranquil + Combat
+### 3.1 Tier-1 — directly enables Mk0.5 floor + Mk1.0 Tranquil + Mk1.5 Combat
 
 | # | Item | Axis | $ Amazon | $ AliExpress | Modes enabled | Notes |
 |---|---|---|---:|---:|---|---|
@@ -69,7 +69,7 @@ What you might buy. Costs are May 2026 Amazon US ballpark unless noted.
 
 **P1 + P2 + P3(×2) + P4 = $60 Amazon / $30 AliExpress.** Buys EMG (Combat unlock), IR + contact temp redundancy, and EDA. Leaves $25 of the $85 budget for Polar H10 down the road or other extras.
 
-### 3.2 Tier-2 — Mk2 modes
+### 3.2 Tier-2 — Mk2.0 modes
 
 | # | Item | Axis | $ | Modes enabled | Notes |
 |---|---|---|---:|---|---|
@@ -94,103 +94,78 @@ These don't require purchase — just plumbing decisions:
 
 ---
 
-## 4. Budget allocation against $85
+## 4. The actual purchase ledger (May 2026)
 
-### Plan A — "Full Mk1 sensor stack" — $60 Amazon
+The abstract Plan A / B / C / D analysis that historically lived here has been replaced with the **decision made and acted on 2026-05-14**: a hybrid leaning to Plan A, executed as a two-wave Amazon order (~$76 of an $88.23 gift-card balance, paid via Prime trial). The decision rationale is preserved in commit `cc352d8` history.
 
-| Item | $ |
+### 4.1 Wave 1 — Prime, ETA 2026-05-16
+
+The fast-shipping items that gate the Mk0.5 firmware bringup (see [mk0.5_firmware_bringup.md](mk0.5_firmware_bringup.md)).
+
+| Item | Role | $ | Mk gate served |
+|---|---|---:|---|
+| **CJMCU-6701 GSR module** (Amazon listing titled "SPI Measurement…" — Chinese listing copy-paste artifact; module is **analog out**, 3.5 mm TRS jack) | EDA / sympathetic arousal | $16.99 | Mk0.5 G1, Mk1.0 Tranquil |
+| **EC Buying GY-906 MLX90614** IR temp breakout | Peripheral vasomotor (non-contact) | $12.59 | Mk0.5 G1, Mk1.0 Tranquil |
+| **3M Red Dot 2560 Ag/AgCl electrodes** (50-pack clinical-grade ECG monitoring electrodes) | Biopotential sensing electrode — *not* TENS stim pads | $9.96 | All biopotential channels (GSR Mk0.5; EMG Mk1.5; ECG cross-val if Polar deferred) |
+| **VOVOU 3.5 mm TENS leads** (snap-to-3.5 mm TRS, direction-agnostic copper — fine for sensing despite "TENS" branding) | Cable, electrode → module | $7.59 | Wires both GSR + (later) EMG |
+| **Wave 1 subtotal** | | **$47.13** | |
+
+### 4.2 Wave 2 — slow ship, ETA 2026-05-27 → 2026-06-15
+
+The items that don't block Mk0.5 firmware bringup but land in time for Mk1.0 / Mk1.5.
+
+| Item | Role | $ | Mk gate served |
+|---|---|---:|---|
+| **AD8232 "Measurement Beat Sensor"** (board + 3-lead cable + pads bundle) | Biopotential amplifier — sold as ECG; used here for **EMG via filter swap** for Mk1.5 Combat | $13.09 | Mk1.5 Combat (EMG primary) |
+| **MAX30205MTA** (clinical contact temp, ±0.1 °C, I²C, address-selectable) × 1 | Peripheral vasomotor, temple A | $16.00 | Mk1.0 Tranquil dual-temple thermography |
+| **MAX30205MTA** × 1 (with ship) | Peripheral vasomotor, temple B | $5.70 ship | (same; the dual unit enables differential) |
+| **Wave 2 subtotal** | | **$34.79** | |
+
+### 4.3 Combined totals + status
+
+| | Amount |
 |---|---:|
-| P1 EMG (MyoWare clone + electrodes + cable) | $20 |
-| P2 MLX90614 IR temp | $8 |
-| P3 MAX30205 contact temp (×2) | $24 |
-| P4 EDA module | $8 |
-| **Subtotal** | **$60** |
-| **Reserve** | **$25** |
+| Wave 1 + Wave 2 hardware | **$81.92** |
+| Prime trial fee (one-time) | $2.00 |
+| Tax estimate | est. $4–10 |
+| Gift-card balance available | $88.23 |
+| **Out-of-pocket** | **$0 (covered by gift card)** |
 
-**What this gets you:** Combat Mode unlocked (EMG). Tranquil Mode upgraded (EDA + temp). Sham-equivalence thermal channel hardened (dual MAX30205). Reserve $25 for: respiration belt, RT tactor parts, or saving toward Polar H10 ($80–90).
+### 4.4 Items rejected during cart review (caught 2026-05-13)
 
-**Modes unlocked at Mk1 with this plan:** Tranquil ✅, Combat ✅, Social-precursor ✅, Recovery-precursor ✅. Three out of seven non-dyadic modes operational at Mk1.
+Documented here as anti-precedent. Future buying decisions should re-check these.
 
-### Plan B — "Aggressive Combat focus" — $50 Amazon
-
-| Item | $ |
-|---|---:|
-| P1 EMG (MyoWare clone + electrodes + cable) | $20 |
-| P2 MLX90614 IR temp | $8 |
-| P3 MAX30205 contact temp (×1, not ×2) | $12 |
-| P4 EDA module | $8 |
-| Extra Ag/AgCl electrodes (100-pack bulk) | $5 |
-| **Subtotal** | **$53** |
-| **Reserve** | **$32** |
-
-**Trade-off vs Plan A:** lose dual-temple differential temp; gain ~$30 toward Polar H10 saving.
-
-### Plan C — "Cross-validation first" — $85 Amazon
-
-| Item | $ |
-|---|---:|
-| P5 Polar H10 chest strap (refurbished) | $50 |
-| P1 EMG (MyoWare clone + electrodes + cable) | $20 |
-| P2 MLX90614 IR temp | $8 |
-| (no EDA, no MAX30205) | — |
-| **Subtotal** | **$78** |
-| **Reserve** | **$7** |
-
-**Trade-off:** sacrifices EDA + clinical-precision contact temp; **gains G1-grade HRV cross-validation** (the strongest possible single boost to scientific credibility of the project). EMG still in for Combat Mode. MLX90614 still in for fast vasomotor.
-
-### Plan D — "AliExpress maximizer" — ~$30 AliExpress + 3-week wait
-
-| Item | $ |
-|---|---:|
-| P1 EMG module | $8 |
-| Electrodes (200-pack from AliExpress) | $5 |
-| P2 MLX90614 (GY-906) | $3 |
-| P3 MAX30205 ×2 | $10 |
-| P4 EDA module | $3 |
-| **Subtotal** | **~$30** |
-| **Reserve** | **~$55** for Polar H10 or other |
-
-**Trade-off:** 2–3 week shipping delay; somewhat-spotty quality assurance. Best value if Mk1 timeline allows the delay. Reserve nearly covers a Polar H10.
+| Rejected item | Why rejected |
+|---|---|
+| MyoWare 2.0 **Link Shield** ($13.50) | Not a muscle sensor; an Arduino shield accessory that *connects* to a MyoWare sensor. Replaced with AD8232 (true biopotential amplifier IC). |
+| Second/duplicate GSR module (Grove GSR $34.50) | Two GSR modules in cart at once; kept the cheaper CJMCU-6701 at $16.99. |
+| NURSAL TENS pads ($7.99) | TENS pads are carbon/rubber for **stimulation**, not Ag/AgCl for **sensing**. Wrong chemistry for biopotential pickup. Replaced with 3M Red Dot 2560. |
+| VOVOU 2.35 mm TENS leads | Wrong plug diameter for the CJMCU-6701 jack. Plug-diameter verification discipline now codified in `/memories/hardware_buying.md`: never infer connector size from photo alone. |
 
 ---
 
-## 5. Recommendation
+## 5. Mode unlock matrix at each Mk gate, given the actual purchase
 
-**Plan A if you want the full Mk1 multi-mode stack now.** Plan C if cross-validation credibility matters most for the prior-art / scientific-evidence track. Plan D if you can wait 3 weeks and want maximum hardware per dollar.
-
-**Operator-preference factors to weigh:**
-
-- **Timeline.** If Mk1 session-protocol bench validation is starting this week, Amazon shipping (Plan A or C) wins. If it's a month out, Plan D wins.
-- **Primary use case.** Combat Mode is the flagship; EMG is non-negotiable. All four plans include EMG.
-- **Validation philosophy.** If you want the *strongest possible defense* against "but your sensor is just a toy" critique, Plan C with the Polar H10 is the answer. If you want *the most modes operational*, Plan A.
-- **Mode breadth.** Plan A activates the most modes; Plan C activates the fewest but at higher quality.
-
-### Default recommendation: **Plan A**.
-
-Reasoning: Mk1 is about demonstrating that **the platform** works across multiple modes. Plan A activates Tranquil + Combat as flagship pair and seeds the precursors for Social and Recovery. The $25 reserve is enough to add a Polar H10 in 1–2 paychecks. EMG-for-Combat is the load-bearing buy, and Plan A includes it. The MAX30205 ×2 lets you do dual-temple differential thermography — that's a small but real instrumentation advantage no competitor wearable has.
-
-If you have any concern about the Combat-Mode use case dominating Mk1 attention vs Tranquil Mode being the easier near-term G2 win, downgrade P3 from ×2 to ×1 and add the $12 saving to your Polar H10 fund (effectively Plan B).
-
----
-
-## 6. Mode-by-purchase decision table
-
-What modes each plan activates at Mk1.
-
-| Mode | Plan A | Plan B | Plan C | Plan D |
+| Mode | Mk0.5 (Wave 1 only) | Mk1.0 (+ Wave 2) | Mk1.5 (+ Wave 2 EMG live) | Mk2.0 (+ EEG capex) |
 |---|:--:|:--:|:--:|:--:|
-| **Tranquil** | ✅ full | ✅ full | ◐ no EDA | ✅ full |
-| **Combat** | ✅ full | ✅ full | ✅ full | ✅ full |
-| Focus | ⏸ Mk2 | ⏸ Mk2 | ⏸ Mk2 | ⏸ Mk2 |
-| Creative | ⏸ Mk2 | ⏸ Mk2 | ⏸ Mk2 | ⏸ Mk2 |
-| Vigilance | ◐ EDA only | ◐ EDA only | — | ◐ EDA only |
-| Social-precursor | ✅ dual temp | ◐ single temp | ◐ IR only | ✅ dual temp |
-| Recovery-precursor | ✅ | ◐ single temp | ◐ IR only | ✅ |
-| Dyadic | ⏸ Mk3 | ⏸ Mk3 | ⏸ Mk3 | ⏸ Mk3 |
-| **G1 cross-validation** | ⏸ Polar later | ⏸ Polar later | ✅ Polar now | ⏸ Polar later |
+| **Tranquil** | ✅ floor (PPG + GSR + IR-temp + audio) | ✅ + stim + dual-temple differential | ✅ | ✅ + EEG-driven |
+| **Combat** | ⏸ deferred | ⏸ deferred | ✅ (EMG + IMU + sweat-tolerant electrodes) | ✅ |
+| Focus | ⏸ | ⏸ | ⏸ | ✅ |
+| Creative | ⏸ | ⏸ | ⏸ | ✅ |
+| Vigilance | ◐ GSR-only partial | ◐ GSR-only partial | ◐ GSR-only partial | ✅ |
+| Social-precursor | ◐ IR-temp only | ✅ dual-temple differential | ✅ | ✅ |
+| Recovery-precursor | ◐ IR-temp only | ✅ dual-temple differential | ✅ | ✅ |
+| Dyadic | ⏸ | ⏸ | ⏸ | ⏸ Mk3.0 |
+| **G1 cross-validation (Polar H10 chest ECG)** | ⏸ deferred ($80–90 future buy) | ⏸ | ⏸ | ⏸ |
 
 ---
 
-## 7. Next decision required
+## 6. Next purchases scoped (not ordered yet)
 
-Operator picks A / B / C / D / a hybrid → I write the purchase list and the firmware-side capture-loop work-items, plus the matching `PRIOR_ART.md` update adding EMG / EDA / dual-temp inventive elements.
+Things to add when budget or evidence justifies them:
+
+- **Polar H10 chest-strap ECG, ~$80** — The single biggest G1-credibility upgrade. Cross-validates MAX30102 PPG. Defer until Mk0.5 G2 result is in; if positive, this becomes the strongest argument we have for "the floor really works."
+- **Respiration belt, $20–60** — Direct breath measurement (currently derived from PPG envelope). Mk1.0 luxury; Mk1.5 Combat necessity for tactical-breathing training.
+- **OpenBCI Ganglion 4-ch / Muse S, $100–250** — Mk2.0 prerequisite. EEG capex.
+- **3M Red Dot 2560 refill 50-pack, ~$10** — Reorder when first pack hits ~10 remaining. ~3 pads per session × multiple weeks of ABAB depletes faster than expected.
+
