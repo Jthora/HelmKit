@@ -1,0 +1,14 @@
+--------------------------  -----------------------------------------------------------
+PlatformIO Core             6.1.19
+Python                      3.14.5-final.0
+System Type                 darwin_arm64
+Platform                    macOS-26.3.1
+File System Encoding        utf-8
+Locale Encoding             UTF-8
+PlatformIO Core Directory   /Users/jono/.platformio
+PlatformIO Core Executable  /opt/homebrew/bin/platformio
+Python Executable           /opt/homebrew/Cellar/platformio/6.1.19_2/libexec/bin/python
+Global Libraries            0
+Development Platforms       1
+Tools & Toolchains          5
+--------------------------  -----------------------------------------------------------

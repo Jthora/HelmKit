@@ -169,3 +169,22 @@ Things to add when budget or evidence justifies them:
 - **OpenBCI Ganglion 4-ch / Muse S, $100–250** — Mk2.0 prerequisite. EEG capex.
 - **3M Red Dot 2560 refill 50-pack, ~$10** — Reorder when first pack hits ~10 remaining. ~3 pads per session × multiple weeks of ABAB depletes faster than expected.
 
+---
+
+## 7. Bench equipment (not sensors, but on-hand)
+
+Tracked here because the bench-readiness audit (BLACKOUT_PLAN §2 Day 1) needs a single ledger. Promote to a dedicated `docs/inventory_bench.md` if this list grows past ~15 items.
+
+| Equipment | Use | Mk gate where it activates | Status |
+|---|---|---|---|
+| **WANPTEK DPS3010U** programmable DC supply (0–30 V, 0–10 A, USB control) | Coil-driver bench bring-up; current-limited safety envelope for any stim-payload prototype | **Mk1.0** (Tranquil stim integration) — NOT used at Mk0.5 (USB-powered) | ✅ on hand. Safety lockout: any output ≥50 V open-circuit prohibited near the head per [external/psiStabilizer/docs/safety_guidelines.md HX-1](../external/psiStabilizer/docs/safety_guidelines.md). DPS3010U max output (30 V) is well below that ceiling — safe for benchwork but pre-commit to a 12 V cap at the helm interface. |
+| USB-C data cable (not charge-only) | Heltec flash + monitor | Mk0.5 Day 1 | Required — verify with `pio device list`. |
+| Breadboard + jumper wires | Sensor bring-up | Mk0.5 Day 2+ | TBD inventory check. |
+| Multimeter | Pinout continuity verification (PINOUT.md §5) | Mk0.5 Day 1 afternoon | TBD inventory check. |
+| Soldering iron + flux + solder | MAX30205 / AD8232 lead attach | Mk0.5 Day 4 (Wave 2) | TBD inventory check. |
+| Digital calipers | 3D-print fit-checks | Mk1.0 enclosure | TBD. |
+| Label tape (Brother / Dymo) | Sensor + cable identification | Mk0.5 Day 2 | TBD. |
+
+**TBD items** are the actionable output of the Day 1 afternoon bench-readiness walk-through. Any "TBD" still standing at end-of-Day-1 either gets sourced from inventory or added to the Day 2 acquisition list.
+
+
