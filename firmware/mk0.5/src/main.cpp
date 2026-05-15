@@ -12,6 +12,7 @@
 #include "board/pins.h"
 #include "drivers/max30102.h"
 #include "drivers/smoke_fail.h"
+#include "layers/pacer.h"
 #include "log/ndjson.h"
 #include "log/session.h"
 #include "ui/status_led.h"
@@ -20,6 +21,7 @@ namespace {
 
 helmkit::drivers::SmokeResult g_last_result{};
 bool                          g_last_was_safety_halt = false;
+helmkit::layers::Pacer        g_pacer;
 
 void run_smoke() {
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kTesting);
@@ -72,12 +74,38 @@ void poll_serial_commands() {
             case 'h':
                 helmkit::log::emit_hello();
                 break;
+            case 'p':
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 'p' refused after safety halt; "
+                                     "use 'R' first."));
+                    break;
+                }
+                if (g_pacer.running()) {
+                    Serial.println(F("[main] pacer already running."));
+                    break;
+                }
+                Serial.println(F("[main] starting L0 pacer (6 bpm)."));
+                helmkit::ui::status_led_set(
+                    helmkit::ui::Pattern::kPacing);
+                g_pacer.start(millis());
+                break;
+            case 's':
+                if (!g_pacer.running()) {
+                    Serial.println(F("[main] pacer not running."));
+                    break;
+                }
+                Serial.println(F("[main] stopping L0 pacer."));
+                g_pacer.stop(millis());
+                helmkit::ui::status_led_set_intensity(0);
+                helmkit::ui::status_led_set(
+                    helmkit::ui::Pattern::kIdle);
+                break;
             case '\n':
             case '\r':
             case ' ':
                 break;
             default:
-                Serial.printf("[main] unknown cmd '%c' (try: r R ? h)\n",
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s)\n",
                               (char)c);
                 break;
         }
@@ -93,7 +121,7 @@ void prose_banner() {
     Serial.print  (F(" "));
     Serial.println(F(__TIME__));
     Serial.println(F(" commands: r=retry  R=force-retry-after-safety-halt  "
-                     "?=last-result  h=hello"));
+                     "?=last-result  h=hello  p=pacer-start  s=pacer-stop"));
     Serial.println(F("===================================================="));
 }
 
@@ -130,10 +158,16 @@ void setup() {
     }
 
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+    g_pacer.begin();
     run_smoke();
 }
 
 void loop() {
+    const uint32_t now = millis();
+    if (g_pacer.running()) {
+        g_pacer.tick(now);
+        helmkit::ui::status_led_set_intensity(g_pacer.intensity_u8(now));
+    }
     helmkit::ui::status_led_pump();
     poll_serial_commands();
     delay(10);

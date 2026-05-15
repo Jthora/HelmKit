@@ -37,11 +37,17 @@ enum class Pattern : uint8_t {
     kFail,
     kSafetyHalt,
     kIdle,
+    kPacing,     // PWM intensity driven by status_led_set_intensity()
 };
 
 void status_led_begin(uint8_t pin);
 void status_led_set(Pattern p);
 Pattern status_led_get();
+
+// When the active pattern is kPacing, this 0..255 value is written to the
+// LED via analogWrite() on each pump(). Ignored for other patterns. Set
+// by the L0 pacer; see layers/pacer.h::intensity_u8().
+void status_led_set_intensity(uint8_t v);
 
 // Call from main loop. No-op if <16 ms has passed since last invocation.
 void status_led_pump();

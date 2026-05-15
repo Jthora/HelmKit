@@ -11,9 +11,15 @@ uint8_t  g_pin            = 0;
 Pattern  g_pattern        = Pattern::kBoot;
 uint32_t g_pattern_started_ms = 0;
 uint32_t g_last_pump_ms       = 0;
+uint8_t  g_pacing_intensity   = 0;
 
 void write(bool on) {
     digitalWrite(g_pin, on ? HIGH : LOW);
+}
+
+void write_pwm(uint8_t v) {
+    // arduino-esp32 v2+ supports analogWrite() on any GPIO via LEDC.
+    analogWrite(g_pin, v);
 }
 
 // Returns the LED state (on/off) for a given pattern + elapsed-ms since
@@ -58,6 +64,9 @@ bool render(Pattern p, uint32_t t_ms) {
             const uint32_t phase = t_ms % 2000;
             return phase < 200;
         }
+        case Pattern::kPacing:
+            // Pacing uses PWM; the bool render path is unused.
+            return false;
     }
     return false;
 }
@@ -82,10 +91,18 @@ void status_led_set(Pattern p) {
 
 Pattern status_led_get() { return g_pattern; }
 
+void status_led_set_intensity(uint8_t v) {
+    g_pacing_intensity = v;
+}
+
 void status_led_pump() {
     const uint32_t now = millis();
     if (now - g_last_pump_ms < 16) return;  // 60 Hz cap
     g_last_pump_ms = now;
+    if (g_pattern == Pattern::kPacing) {
+        write_pwm(g_pacing_intensity);
+        return;
+    }
     // Auto-fail if pump() stalls. (Self-watchdog: only trips if pump itself
     // stopped being called, which proves the main loop is alive.)
     write(render(g_pattern, now - g_pattern_started_ms));
