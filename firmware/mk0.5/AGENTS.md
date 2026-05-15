@@ -113,3 +113,98 @@ Current calibration constants:
 For multi-session context that survives AI resets, see:
 - `/memories/repo/helmkit_blackout_strategy.md` — locked decisions
 - `/memories/repo/helmkit_anchors.md` — wiki-canonical anchors
+
+---
+
+## Error UX — three channels, three audiences
+
+Mk0.5 emits failure information on **three independent channels**, each
+sized for one consumer. Confusing them is the most common bug a future
+contributor will introduce, so read this section before touching any
+error-path code.
+
+### Channel 1 — NDJSON over USB-CDC (canonical, for the Pi sink + future-AI)
+
+Every failure produces a structured line:
+- `kind:"smoke"` for smoke-test results (one per smoke run).
+- `kind:"error"` for runtime errors during normal operation.
+- `kind:"hello"` once at boot to anchor the `boot_id` to a specific build.
+
+These lines carry `code` (string), `code_num` (integer), `health`, two
+evidence integers, a free-text `note`, and `boot`. They are the
+**only** authoritative record. The Pi log-sink and psiStabilizer
+analysis pipeline both parse this channel. Wire shapes are documented in
+[`src/log/ndjson.h`](src/log/ndjson.h); the code dictionary lives in
+[`src/drivers/smoke_fail.h`](src/drivers/smoke_fail.h); human-readable
+explanations are in [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md).
+
+**Discipline:** never add a code path that emits only to the prose
+banner without also emitting an NDJSON line.
+
+### Channel 2 — Status LED (operator, real-time, visible across a room)
+
+Patterns are defined in [`src/ui/status_led.h`](src/ui/status_led.h):
+
+| Pattern | Visual | Meaning |
+|---|---|---|
+| `kBoot` | off | Before `setup()` completes. |
+| `kTesting` | solid on | Smoke test in progress. |
+| `kPass` | 1 Hz square (50% duty) | Last smoke test passed. |
+| `kFail` | 3×100 ms blink + 800 ms gap | Last smoke test failed (non-safety). |
+| `kSafetyHalt` | **5 s solid preamble** + 5×80 ms blink + 2 s gap | Safety condition tripped. **Distinguishable from `kFail` at a glance.** |
+| `kIdle` | 0.5 Hz (long off, short on) | Operational, no recent activity. |
+
+The 5-second solid preamble on `kSafetyHalt` is a defensive-publication
+claim (M10). A passing observer who sees only the preamble must read
+"safety state, not transient fault." Do not shorten it without updating
+the claim.
+
+### Channel 3 — Prose banner over Serial (human at the desk)
+
+The `[main]` prefixed lines printed at boot and on retry are for a
+human reading `pio device monitor` live. They are **not parsed by
+anything downstream**. They duplicate Channel 1 information in a
+glanceable form. Discrepancies between Channel 1 and Channel 3 are bugs
+in Channel 3 — Channel 1 wins.
+
+### Operator-acknowledgement gate
+
+Serial commands:
+- `r` — re-run smoke. **Refused after a safety-halt** with a Channel 1
+  `kStimSafetyHalt` error log.
+- `R` — force-acknowledge a safety-halt and re-run. Required after any
+  `kSafetyHalt` LED pattern. The case-difference is deliberate (M10):
+  a reflexive single-keystroke retry cannot defeat the safety floor.
+- `?` — re-emit the last `kind:"smoke"` line (useful when the Pi sink
+  lost it).
+- `h` — re-emit the `kind:"hello"` line (useful when the Pi sink
+  attached after boot).
+
+Do not add lower-case shortcuts for safety-bypass operations. The shape
+of the grammar is part of the safety protocol.
+
+### What is NOT a channel
+
+The OLED display, when wired in Wave 2, will mirror Channel 2 + a one-line
+summary of Channel 1 for the operator. It is not an independent error
+surface. Code that emits to the OLED but not to Channels 1+2 is a bug.
+
+---
+
+## When a future AI reads the logs
+
+If you are an AI session opening this directory because the operator
+asked you to interpret a set of NDJSON logs, your starting point is:
+
+1. Find the `kind:"hello"` line. Extract `git`, `dirty`, `schema`,
+   `boot`. This identifies which build produced the rest of the lines.
+2. Filter for `kind:"smoke"` and `kind:"error"`. The `code` field is
+   the structured handle; the `note` field is the observation.
+3. Cross-reference `code` against [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md).
+4. If `code` is `kUnknown` (65535), the call-site has migration debt.
+   The `note` is your only handle. File a Wave-2 ticket.
+5. If you find a code in the 100–199 range from a Mk0.5 build, that is
+   a bug — Mk0.5 has no stim hardware.
+
+See [`docs/MANIFESTO.md`](docs/MANIFESTO.md) for why the schema is
+shaped this way.
