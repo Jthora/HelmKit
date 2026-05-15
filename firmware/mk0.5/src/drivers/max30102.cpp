@@ -46,6 +46,7 @@ bool Max30102::begin(TwoWire& bus, const Max30102Config& cfg) {
     if (!sf->begin(bus, I2C_SPEED_FAST, kI2cAddr)) {
         delete sf;
         impl_ = nullptr;
+        health_ = Health::kNoAck;
         return false;
     }
 
@@ -56,6 +57,7 @@ bool Max30102::begin(TwoWire& bus, const Max30102Config& cfg) {
     // INT pin: input with pull-up (sensor drives low on FIFO-almost-full).
     pinMode(pins::kMax30102Int, INPUT_PULLUP);
 
+    health_ = Health::kOk;
     return true;
 }
 
@@ -83,8 +85,13 @@ uint8_t Max30102::pump(Max30102Callback cb) {
         // overflowed. The MAX30102 FIFO is 32 deep; >32 here implies wrap.
         if (drained >= 32) {
             ++fifo_overflows_;
+            health_ = Health::kOverflow;
             break;
         }
+    }
+    // Update health: gap if no finger, else ok (preserve overflow sticky).
+    if (health_ != Health::kOverflow) {
+        health_ = finger_present_ ? Health::kOk : Health::kGap;
     }
     return drained;
 }
@@ -118,24 +125,26 @@ void on_sample(const Max30102Sample& s) {
 }
 }  // namespace
 
-bool max30102_smoke_test() {
+SmokeResult max30102_smoke_test() {
     Serial.println(F("[smoke] MAX30102 start"));
 
     Wire1.begin(pins::kExtI2cSda, pins::kExtI2cScl, pins::kExtI2cHz);
 
     Max30102 dev;
     Max30102Config cfg;
+    // CALIBRATION: 100 Hz target tied to docs/SCHEMA.md §2.1 ppg-hrv rate.
     cfg.sample_rate_hz = 100;
     cfg.sample_avg = 4;
 
     if (!dev.begin(Wire1, cfg)) {
         Serial.println(F("[smoke] FAIL: MAX30102 no ACK on Wire1@0x57"));
-        return false;
+        return SmokeResult::fail("no-ack-on-Wire1@0x57", 0, 0);
     }
     Serial.println(F("[smoke] MAX30102 begin OK"));
 
     const uint32_t t_start = millis();
-    const uint32_t t_end = t_start + 10000;  // 10 s window
+    // CALIBRATION: 10-second smoke window. Tied to G1 gate.
+    const uint32_t t_end = t_start + 10000;
     g_smoke = {};
 
     while (millis() < t_end) {
@@ -151,6 +160,7 @@ bool max30102_smoke_test() {
         }
     }
 
+    // CALIBRATION: >= 950 samples in 10s @ 100 Hz target. Tied to G1 gate.
     const bool rate_ok    = g_smoke.count >= 950;
     const bool no_overflow = dev.fifo_overflows() == 0;
 
@@ -159,7 +169,15 @@ bool max30102_smoke_test() {
                   rate_ok ? 1 : 0,
                   (unsigned long)dev.fifo_overflows());
 
-    return rate_ok && no_overflow;
+    if (!rate_ok) {
+        return SmokeResult::fail("sample-count-below-threshold",
+                                 g_smoke.count, dev.fifo_overflows());
+    }
+    if (!no_overflow) {
+        return SmokeResult::fail("fifo-overflow",
+                                 g_smoke.count, dev.fifo_overflows());
+    }
+    return SmokeResult::pass(g_smoke.count, 0);
 }
 
 }  // namespace helmkit::drivers

@@ -18,6 +18,9 @@
 #include <Wire.h>
 #include <stdint.h>
 
+#include "drivers/sensor.h"
+#include "drivers/smoke_result.h"
+
 namespace helmkit::drivers {
 
 struct Max30102Sample {
@@ -30,13 +33,21 @@ struct Max30102Sample {
 using Max30102Callback = void (*)(const Max30102Sample&);
 
 struct Max30102Config {
-    uint8_t led_brightness   = 0x1F;  // 0..0xFF, ~6 mA at 0x1F (safe default)
-    uint8_t sample_avg       = 4;     // 1,2,4,8,16,32 — hardware averaging
-    uint8_t led_mode         = 2;     // 1=red only, 2=red+IR, 3=red+IR+green (no green on -102)
-    uint16_t sample_rate_hz  = 100;   // 50,100,200,400,800,1000,1600,3200
-    uint16_t pulse_width_us  = 411;   // 69,118,215,411 — wider = more resolution
-    uint16_t adc_range       = 4096;  // 2048,4096,8192,16384
-    uint32_t finger_ir_threshold = 50000;  // raw IR; empirical, validate at smoke test
+    // CALIBRATION: LED brightness. Tied to L0 smoke threshold. Do not modify
+    // without re-running the G1 gate (mk0.5_firmware_bringup.md §1.1).
+    uint8_t led_brightness   = 0x1F;  // ~6 mA, safe default
+    // CALIBRATION: hardware averaging. Tied to effective sample rate.
+    uint8_t sample_avg       = 4;
+    uint8_t led_mode         = 2;     // 1=red, 2=red+IR, 3=red+IR+green
+    // CALIBRATION: target sample rate. Schema docs/SCHEMA.md §2.1 declares
+    // ppg-hrv at 100 Hz. Changing this requires a SCHEMA.md update.
+    uint16_t sample_rate_hz  = 100;
+    uint16_t pulse_width_us  = 411;   // wider = more resolution
+    uint16_t adc_range       = 4096;
+    // CALIBRATION: finger-present threshold. Empirical. Tied to the `q="gap"`
+    // emission rule in docs/SCHEMA.md §4. Tuning this invalidates session
+    // gap-fraction statistics. DO NOT modify without re-running G1.
+    uint32_t finger_ir_threshold = 50000;
 };
 
 class Max30102 {
@@ -61,6 +72,12 @@ public:
     // finger-detection threshold. Cached from the last `pump()`.
     bool finger_present() const { return finger_present_; }
 
+    // Last-known health, idempotent.
+    Health health() const { return health_; }
+
+    // Channel name per docs/SCHEMA.md §2.1.
+    static constexpr const char* name() { return "ppg-hrv"; }
+
     // Diagnostic counters for smoke tests.
     uint32_t total_samples()  const { return total_samples_; }
     uint32_t fifo_overflows() const { return fifo_overflows_; }
@@ -69,6 +86,7 @@ private:
     void* impl_ = nullptr;   // type-erased SparkFun MAX30105 instance
     Max30102Config cfg_{};
     bool finger_present_  = false;
+    Health health_  = Health::kUninit;
     uint32_t total_samples_  = 0;
     uint32_t fifo_overflows_ = 0;
 };
@@ -76,13 +94,15 @@ private:
 // ---- Day 1 L0 smoke test --------------------------------------------------
 //
 // Prints sensor presence, sample rate, and 10 seconds of IR/red raw values
-// to USB-CDC at 115200. Returns true if:
-//   - chip ACKs on the bus,
-//   - >= 950 samples observed in 10 s @ 100 Hz target,
-//   - no FIFO overflows.
+// to USB-CDC at 115200. Returns a SmokeResult with:
+//   ok=true iff: chip ACKs, >= 950 samples in 10s @ 100 Hz, no FIFO overflows.
+// On failure, `reason` identifies which precondition broke.
+// `evidence_a` = sample count, `evidence_b` = overflow count.
 //
-// Used as the L0 gate criterion for MAX30102 per
-// `docs/mk0.5_firmware_bringup.md`.
-bool max30102_smoke_test();
+// Used as the L0 gate criterion per docs/mk0.5_firmware_bringup.md §1.1.
+//
+// CALIBRATION: smoke window = 10s, pass threshold = 950 samples.
+// Tied to G1 gate. DO NOT modify without re-running G1.
+SmokeResult max30102_smoke_test();
 
 }  // namespace helmkit::drivers

@@ -46,9 +46,16 @@ void setup() {
     banner();
 
     // Day 1 smoke test (MAX30102 only; skipped if no chip on bus).
-    const bool ok = helmkit::drivers::max30102_smoke_test();
+    const auto r = helmkit::drivers::max30102_smoke_test();
     Serial.print(F("[main] L0 MAX30102 gate: "));
-    Serial.println(ok ? F("PASS") : F("FAIL"));
+    Serial.println(r.ok ? F("PASS") : F("FAIL"));
+    if (!r.ok) {
+        Serial.print(F("[main]   reason: "));
+        Serial.println(r.reason ? r.reason : "(null)");
+        Serial.printf("[main]   evidence: a=%lu b=%lu\n",
+                      (unsigned long)r.evidence_a,
+                      (unsigned long)r.evidence_b);
+    }
 }
 
 void loop() {
