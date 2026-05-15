@@ -23,22 +23,37 @@
 
 namespace helmkit::board {
 
-// Singleton mutex protecting ADC1. Lazily initialized on first acquire().
-// Returns true if the caller now owns the mutex; false on timeout.
+// Singleton mutex protecting ADC1. Eagerly initialized via adc1_init() in
+// setup() (Wave I change; previously lazy). Returns true if the caller now
+// owns the mutex; false on timeout.
+//
+// Closes R6 (mutex creation failure was silently absorbed).
+bool adc1_init();
 bool adc1_acquire(uint32_t timeout_ms = 50);
 void adc1_release();
 
-// RAII helper.
+// RAII helper. [[nodiscard]] makes "forgot to check ok()" a build warning.
 class Adc1Lock {
 public:
     explicit Adc1Lock(uint32_t timeout_ms = 50)
         : held_(adc1_acquire(timeout_ms)) {}
     ~Adc1Lock() { if (held_) adc1_release(); }
-    bool ok() const { return held_; }
+    [[nodiscard]] bool ok() const { return held_; }
     Adc1Lock(const Adc1Lock&) = delete;
     Adc1Lock& operator=(const Adc1Lock&) = delete;
 private:
     bool held_;
 };
+
+// Safer alternative: the lambda only runs if the lock was acquired. Returns
+// true iff the lock was held AND the lambda ran. Closes R5 — there is no
+// way to opt out by accident.
+template <typename Fn>
+inline bool with_adc1_lock(uint32_t timeout_ms, Fn&& fn) {
+    Adc1Lock lock(timeout_ms);
+    if (!lock.ok()) return false;
+    fn();
+    return true;
+}
 
 }  // namespace helmkit::board

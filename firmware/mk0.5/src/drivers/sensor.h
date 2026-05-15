@@ -21,18 +21,22 @@
 #include <Wire.h>
 #include <stdint.h>
 
-#include "drivers/smoke_result.h"
+// NOTE: drivers/smoke_result.h was previously included here, but Wave F
+// reversed the dependency (SmokeResult carries a Health field). To avoid
+// the cycle, callers needing the smoke-test signature include smoke_result.h
+// directly. The concept doc-comment below still references SmokeResult by
+// name; that's intentional and not a real symbol dependency.
 
 namespace helmkit::drivers {
 
 enum class Health : uint8_t {
     kUninit = 0,   // begin() not yet called
     kOk,
-    kNoAck,        // I2C address did not ACK
+    kNoAck,        // I2C address did not ACK             [sticky: only begin() clears]
     kOutOfRange,   // last sample outside calibrated range
     kGap,          // sensor not in contact / leads off
-    kOverflow,     // FIFO or driver-internal overflow
-    kError,        // catch-all
+    kOverflow,     // FIFO or driver-internal overflow    [sticky: only begin() clears]
+    kError,        // catch-all                           [sticky: only begin() clears]
 };
 
 inline const char* health_str(Health h) {

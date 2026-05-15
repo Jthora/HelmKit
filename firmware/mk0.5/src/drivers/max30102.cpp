@@ -5,9 +5,11 @@
 
 #include "drivers/max30102.h"
 
+#include <new>          // std::nothrow
 #include <MAX30105.h>   // SparkFun MAX3010x library, pinned 1.1.2
 
 #include "board/pins.h"
+#include "drivers/smoke_fail.h"
 
 namespace helmkit::drivers {
 
@@ -39,7 +41,21 @@ SfArgs to_sf(const Max30102Config& c) {
 bool Max30102::begin(TwoWire& bus, const Max30102Config& cfg) {
     cfg_ = cfg;
 
-    auto* sf = new MAX30105();
+    // Wave I (R1): clean up prior instance on re-begin. Without this, every
+    // call after the first leaks a MAX30105*.
+    if (impl_) {
+        delete static_cast<MAX30105*>(impl_);
+        impl_ = nullptr;
+    }
+
+    // Wave I (R1): nothrow new on the embedded heap. Hard-fault on OOM is
+    // worse than a clean kHeapExhausted in the SmokeResult.
+    auto* sf = new (std::nothrow) MAX30105();
+    if (!sf) {
+        health_ = Health::kNoAck;  // closest pre-existing terminal state;
+                                   // smoke test maps to kHeapExhausted
+        return false;
+    }
     impl_ = sf;
 
     // SparkFun's begin() probes the I2C address and returns false on no-ACK.
@@ -59,6 +75,13 @@ bool Max30102::begin(TwoWire& bus, const Max30102Config& cfg) {
 
     health_ = Health::kOk;
     return true;
+}
+
+Max30102::~Max30102() {
+    if (impl_) {
+        delete static_cast<MAX30105*>(impl_);
+        impl_ = nullptr;
+    }
 }
 
 uint8_t Max30102::pump(Max30102Callback cb) {
@@ -89,8 +112,12 @@ uint8_t Max30102::pump(Max30102Callback cb) {
             break;
         }
     }
-    // Update health: gap if no finger, else ok (preserve overflow sticky).
-    if (health_ != Health::kOverflow) {
+    // Update health: gap if no finger, else ok. Per Wave F precedence
+    // rules in drivers/sensor.h, kNoAck/kOverflow/kError are sticky and
+    // only begin() may clear them.
+    if (health_ != Health::kOverflow &&
+        health_ != Health::kNoAck    &&
+        health_ != Health::kError) {
         health_ = finger_present_ ? Health::kOk : Health::kGap;
     }
     return drained;
@@ -138,7 +165,9 @@ SmokeResult max30102_smoke_test() {
 
     if (!dev.begin(Wire1, cfg)) {
         Serial.println(F("[smoke] FAIL: MAX30102 no ACK on Wire1@0x57"));
-        return SmokeResult::fail("no-ack-on-Wire1@0x57", 0, 0);
+        return SmokeResult::fail(SmokeFail::kNoAck,
+                                 "MAX30102 no ACK on Wire1@0x57",
+                                 0, 0, dev.health());
     }
     Serial.println(F("[smoke] MAX30102 begin OK"));
 
@@ -147,8 +176,25 @@ SmokeResult max30102_smoke_test() {
     const uint32_t t_end = t_start + 10000;
     g_smoke = {};
 
+    // Wave I addition (H4): stall watchdog. If pump() returns 0 samples for
+    // >2s consecutive, the I2C bus or sensor has wedged; abort with a
+    // structured code rather than wait the full 10s.
+    uint32_t last_sample_at = t_start;
+    uint32_t last_count = 0;
+
     while (millis() < t_end) {
         dev.pump(on_sample);
+        if (g_smoke.count != last_count) {
+            last_count = g_smoke.count;
+            last_sample_at = millis();
+        } else if (millis() - last_sample_at > 2000) {
+            Serial.println(F("[smoke] FAIL: I2C stalled (no samples in 2s)"));
+            return SmokeResult::fail(SmokeFail::kI2cStalled,
+                                     "no samples in 2s",
+                                     g_smoke.count,
+                                     dev.fifo_overflows(),
+                                     dev.health());
+        }
         if (millis() - g_smoke.last_print_ms >= 1000) {
             g_smoke.last_print_ms = millis();
             Serial.printf("[smoke] t=%lus n=%lu ir_min=%lu ir_max=%lu finger=%d\n",
@@ -170,14 +216,18 @@ SmokeResult max30102_smoke_test() {
                   (unsigned long)dev.fifo_overflows());
 
     if (!rate_ok) {
-        return SmokeResult::fail("sample-count-below-threshold",
-                                 g_smoke.count, dev.fifo_overflows());
+        return SmokeResult::fail(SmokeFail::kLowSampleRate,
+                                 "sample-count below threshold (>=950 in 10s)",
+                                 g_smoke.count, dev.fifo_overflows(),
+                                 dev.health());
     }
     if (!no_overflow) {
-        return SmokeResult::fail("fifo-overflow",
-                                 g_smoke.count, dev.fifo_overflows());
+        return SmokeResult::fail(SmokeFail::kFifoOverflow,
+                                 "FIFO overflow during smoke window",
+                                 g_smoke.count, dev.fifo_overflows(),
+                                 dev.health());
     }
-    return SmokeResult::pass(g_smoke.count, 0);
+    return SmokeResult::pass(g_smoke.count, 0, dev.health());
 }
 
 }  // namespace helmkit::drivers

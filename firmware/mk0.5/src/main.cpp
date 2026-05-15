@@ -1,28 +1,90 @@
 // HelmKit Mk0.5 — main dispatcher.
 //
-// Day 1: runs the MAX30102 smoke test, then idles with a heartbeat LED.
-// Day 2+: dispatches to L0/L1/L2 state machines per
-//         docs/mk0.5_firmware_bringup.md.
+// Wave F/G/H/I integration. Banner emits both a human-readable preamble
+// and a structured kind:"hello" NDJSON line. Smoke test result drives a
+// distinct LED pattern. Operator can re-run via single-char serial command
+// ('r'), but safety-halts require the explicit 'R' (capital) escape so a
+// reflexive retry cannot defeat the safety floor.
 
 #include <Arduino.h>
 
+#include "board/adc_mutex.h"
 #include "board/pins.h"
 #include "drivers/max30102.h"
+#include "drivers/smoke_fail.h"
+#include "log/ndjson.h"
+#include "log/session.h"
+#include "ui/status_led.h"
 
 namespace {
 
-void heartbeat() {
-    static uint32_t t_last = 0;
-    static bool on = false;
-    const uint32_t now = millis();
-    if (now - t_last >= 500) {
-        t_last = now;
-        on = !on;
-        digitalWrite(helmkit::pins::kStatusLed, on ? HIGH : LOW);
+helmkit::drivers::SmokeResult g_last_result{};
+bool                          g_last_was_safety_halt = false;
+
+void run_smoke() {
+    helmkit::ui::status_led_set(helmkit::ui::Pattern::kTesting);
+    Serial.println(F("[main] starting MAX30102 smoke..."));
+    helmkit::log::emit_error(
+        "mk0.5", helmkit::drivers::SmokeFail::kNone,
+        "smoke-start", 0, 0, helmkit::drivers::Health::kOk);
+    // Note: emit_error with kNone is being used as a "trace" event here.
+    // Wave 2 may split this into a dedicated kind:"trace" emitter.
+
+    g_last_result = helmkit::drivers::max30102_smoke_test();
+    helmkit::log::emit_smoke_result("ppg-hrv", g_last_result);
+
+    Serial.print(F("[main] L0 MAX30102 gate: "));
+    Serial.println(g_last_result.ok ? F("PASS") : F("FAIL"));
+
+    helmkit::ui::status_led_set(g_last_result.ok
+        ? helmkit::ui::Pattern::kPass
+        : helmkit::ui::Pattern::kFail);
+}
+
+void poll_serial_commands() {
+    while (Serial.available() > 0) {
+        const int c = Serial.read();
+        switch (c) {
+            case 'r':
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 'r' refused: last halt was a "
+                                     "safety halt; use 'R' (capital) to "
+                                     "force-acknowledge."));
+                    helmkit::log::emit_error(
+                        "mk0.5",
+                        helmkit::drivers::SmokeFail::kStimSafetyHalt,
+                        "retry-refused-after-safety-halt", 0, 0,
+                        helmkit::drivers::Health::kError);
+                } else {
+                    Serial.println(F("[main] re-running smoke..."));
+                    run_smoke();
+                }
+                break;
+            case 'R':
+                Serial.println(F("[main] safety-halt acknowledged by operator; "
+                                 "re-running smoke."));
+                g_last_was_safety_halt = false;
+                run_smoke();
+                break;
+            case '?':
+                helmkit::log::emit_smoke_result("ppg-hrv", g_last_result);
+                break;
+            case 'h':
+                helmkit::log::emit_hello();
+                break;
+            case '\n':
+            case '\r':
+            case ' ':
+                break;
+            default:
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h)\n",
+                              (char)c);
+                break;
+        }
     }
 }
 
-void banner() {
+void prose_banner() {
     Serial.println();
     Serial.println(F("===================================================="));
     Serial.println(F(" HelmKit Mk0.5  --  Heltec WiFi LoRa 32 V3"));
@@ -30,36 +92,49 @@ void banner() {
     Serial.print  (F(__DATE__));
     Serial.print  (F(" "));
     Serial.println(F(__TIME__));
+    Serial.println(F(" commands: r=retry  R=force-retry-after-safety-halt  "
+                     "?=last-result  h=hello"));
     Serial.println(F("===================================================="));
 }
 
 }  // namespace
 
 void setup() {
-    pinMode(helmkit::pins::kStatusLed, OUTPUT);
-    digitalWrite(helmkit::pins::kStatusLed, LOW);
+    helmkit::ui::status_led_begin(helmkit::pins::kStatusLed);
+    helmkit::ui::status_led_set(helmkit::ui::Pattern::kBoot);
 
     Serial.begin(115200);
     // Give USB-CDC a moment to attach so the banner isn't lost.
     const uint32_t t0 = millis();
-    while (!Serial && (millis() - t0) < 2000) { /* wait */ }
-    banner();
-
-    // Day 1 smoke test (MAX30102 only; skipped if no chip on bus).
-    const auto r = helmkit::drivers::max30102_smoke_test();
-    Serial.print(F("[main] L0 MAX30102 gate: "));
-    Serial.println(r.ok ? F("PASS") : F("FAIL"));
-    if (!r.ok) {
-        Serial.print(F("[main]   reason: "));
-        Serial.println(r.reason ? r.reason : "(null)");
-        Serial.printf("[main]   evidence: a=%lu b=%lu\n",
-                      (unsigned long)r.evidence_a,
-                      (unsigned long)r.evidence_b);
+    while (!Serial && (millis() - t0) < 2000) {
+        helmkit::ui::status_led_pump();
     }
+    helmkit::log::init();
+
+    prose_banner();
+    helmkit::log::emit_hello();
+
+    // Eager ADC1 mutex init (Wave I / R6). If this fails, every downstream
+    // ADC consumer would get mutex-timeouts forever; surface the OS-layer
+    // failure with a distinct code.
+    if (!helmkit::board::adc1_init()) {
+        helmkit::log::emit_error(
+            "board",
+            helmkit::drivers::SmokeFail::kHeapExhausted,
+            "adc1 mutex create failed",
+            0, 0, helmkit::drivers::Health::kError);
+        helmkit::ui::status_led_set(helmkit::ui::Pattern::kSafetyHalt);
+        g_last_was_safety_halt = true;
+        // Fall through into loop(); the safety pattern + emitted error are
+        // the witness artifacts.
+    }
+
+    helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+    run_smoke();
 }
 
 void loop() {
-    heartbeat();
-    // TODO(Day 3): dispatch to layer state machines.
+    helmkit::ui::status_led_pump();
+    poll_serial_commands();
     delay(10);
 }

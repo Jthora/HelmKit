@@ -4,6 +4,7 @@
 #include "drivers/gsr.h"
 #include "board/adc_mutex.h"
 #include "board/pins.h"
+#include "drivers/smoke_fail.h"
 
 namespace helmkit::drivers {
 
@@ -17,21 +18,27 @@ bool Gsr::begin() {
 }
 
 void Gsr::pump() {
-    // Wave 2: 100 Hz read with adc1_acquire() RAII lock, push to log/sink.
+    // Wave 2: 100 Hz read with with_adc1_lock() RAII lock, push to log/sink.
 }
 
 SmokeResult gsr_smoke_test() {
-    // Smoke procedure (Wave 2): contend with battery.cpp by issuing 10 reads
-    // each while battery is also reading; verify no corrupted samples and
-    // that the mutex was actually acquired both ways. For now: stub fail.
     Gsr g;
-    if (!g.begin()) return SmokeResult::fail("gsr-begin-failed", 0, 0);
+    if (!g.begin()) {
+        return SmokeResult::fail(SmokeFail::kBeginFailed,
+                                 "gsr begin failed", 0, 0, g.health());
+    }
 
-    // Single-shot raw read proving the mutex path links.
-    helmkit::board::Adc1Lock lock(50);
-    if (!lock.ok()) return SmokeResult::fail("adc1-mutex-timeout", 0, 0);
-    const uint16_t raw = analogRead(pins::kGsrAdc);
-    return SmokeResult::fail("not-yet-implemented", raw, 0);
+    uint16_t raw = 0;
+    const bool got_lock = helmkit::board::with_adc1_lock(50, [&] {
+        raw = analogRead(pins::kGsrAdc);
+    });
+    if (!got_lock) {
+        return SmokeResult::fail(SmokeFail::kMutexTimeout,
+                                 "gsr: adc1 mutex timeout", 0, 0, g.health());
+    }
+    // Stub returns kNotImplemented with sensor-specific note (closes UX5).
+    return SmokeResult::fail(SmokeFail::kNotImplemented,
+                             "gsr-wave2-stub", raw, 0, g.health());
 }
 
 }  // namespace helmkit::drivers

@@ -57,6 +57,9 @@ public:
     // ACK on the I2C address (0x57) — caller MUST check this.
     bool begin(TwoWire& bus, const Max30102Config& cfg);
 
+    // Wave I: clean up the type-erased SparkFun instance on destruction.
+    ~Max30102();
+
     // Pumps the internal FIFO. Call from the main loop at >= sample_rate_hz
     // (recommended: every loop iteration). Invokes `cb` once per new sample.
     // Returns the number of samples drained on this call (0 if FIFO empty).

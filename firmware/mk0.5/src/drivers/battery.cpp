@@ -4,6 +4,7 @@
 #include "drivers/battery.h"
 #include "board/adc_mutex.h"
 #include "board/pins.h"
+#include "drivers/smoke_fail.h"
 
 namespace helmkit::drivers {
 
@@ -32,21 +33,31 @@ void Battery::pump() {
 
 SmokeResult battery_smoke_test() {
     Battery b;
-    if (!b.begin()) return SmokeResult::fail("battery-begin-failed", 0, 0);
+    if (!b.begin()) {
+        return SmokeResult::fail(SmokeFail::kBeginFailed,
+                                 "battery begin failed", 0, 0, b.health());
+    }
 
-    helmkit::board::Adc1Lock lock(50);
-    if (!lock.ok()) return SmokeResult::fail("adc1-mutex-timeout", 0, 0);
-
-    digitalWrite(pins::kAdcCtrl, LOW);    // enable divider (active-low)
-    delayMicroseconds(50);                // settle
-    const uint16_t raw = analogRead(pins::kVbatAdc);
-    digitalWrite(pins::kAdcCtrl, HIGH);   // disable
+    uint16_t raw = 0;
+    const bool got_lock = helmkit::board::with_adc1_lock(50, [&] {
+        digitalWrite(pins::kAdcCtrl, LOW);    // enable divider (active-low)
+        delayMicroseconds(50);                // settle (R8: TODO Wave 2 verify)
+        raw = analogRead(pins::kVbatAdc);
+        digitalWrite(pins::kAdcCtrl, HIGH);   // disable — RAII inside lambda
+                                              // closes R7 (ADC_CTRL leak path)
+    });
+    if (!got_lock) {
+        return SmokeResult::fail(SmokeFail::kMutexTimeout,
+                                 "vbat: adc1 mutex timeout", 0, 0, b.health());
+    }
 
     const float v = (raw / 4095.0f) * kAdcRefV * kVbatDividerFactor;
-    // Evidence: raw in evidence_a; millivolts*1000 in evidence_b.
-    return SmokeResult::fail("not-yet-implemented",
+    // Evidence: raw in evidence_a; millivolts in evidence_b.
+    return SmokeResult::fail(SmokeFail::kNotImplemented,
+                             "vbat-wave2-stub",
                              raw,
-                             static_cast<uint32_t>(v * 1000.0f));
+                             static_cast<uint32_t>(v * 1000.0f),
+                             b.health());
 }
 
 }  // namespace helmkit::drivers
