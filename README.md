@@ -1,14 +1,3 @@
-<p align="center">
-  <a href="https://www.tiktok.com/t/ZP8N7uY97/"><img src="external/psionicDefender/tiktokVideo-Screenshot1.png" alt="TikTok screenshot" height="320" /></a>
-  <img src="external/psionicDefender/psiDefenderDisc-mk0_prototype.jpeg" alt="Psi Defender Disc Prototype" height="320" />
-</p>
-
-**Psi Defender** is now included as a submodule in this repository under [`external/psionicDefender`](external/psionicDefender/).
-
-The images above show the Psi Defender prototype and a TikTok demo. For full build instructions, hardware details, and the latest research, see the [Psi Defender README](external/psionicDefender/README.md).
-
----
-
 # HelmKit™
 
 [![DOI](https://zenodo.org/badge/142250849.svg)](https://doi.org/10.5281/zenodo.20183948)
@@ -20,6 +9,13 @@ The HelmKit™ itself is **not** the psi-tech. It is the **hardware platform** �
 This repo is the platform: frame geometry, hardpoint spec, power/data bus, fit-and-mount, and the integration plan for each module generation (Mk0 → Mk3).
 
 ---
+
+<p align="center">
+  <a href="https://www.tiktok.com/t/ZP8N7uY97/"><img src="tiktokVideo-Screenshot1.png" alt="TikTok screenshot" height="320" /></a>
+  <img src="psiDefenderDisc-mk0_prototype.jpeg" alt="Psi Defender Disc Prototype" height="320" />
+</p>
+
+*The images above show the Psi Defender prototype and a TikTok demo. For full build instructions, hardware details, and the latest research, see the [Psi Defender README](external/psionicDefender/README.md).*
 
 ## Quick links
 
