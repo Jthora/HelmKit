@@ -1,6 +1,6 @@
 # HelmKit™
 
-[![DOI](https://zenodo.org/badge/142250849.svg)](https://doi.org/10.5281/zenodo.20183948)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20183949.svg)](https://doi.org/10.5281/zenodo.20183949)
 
 > Open, non-enclosed psionic headpiece. A 3D-printed **mounting frame** with interchangeable **Psi-Tech** modules for cognitive protection, stabilization, and enhancement.
 
