@@ -1,0 +1,10 @@
+# Ignore 3D-Models directory
+3D-Models/
+
+# Ignore legacy iOS build
+iOS_oldBuild/
+
+# Ignore Psi Defender images (submodule)
+external/psionicDefender/tiktokVideo-Screenshot1.png
+external/psionicDefender/psiDefenderDisc-mk0_prototype.jpeg
+external/psionicDefender/IMG_9328_resized.jpeg
