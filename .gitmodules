@@ -1,3 +1,6 @@
 [submodule "external/psiStabilizer"]
 	path = external/psiStabilizer
 	url = https://github.com/Jthora/psiStabilizer.git
+[submodule "external/psionicDefender"]
+	path = external/psionicDefender
+	url = https://github.com/Jthora/psionicDefender
