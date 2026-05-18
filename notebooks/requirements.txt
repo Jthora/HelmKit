@@ -1,0 +1,8 @@
+# Numeric pins (Python 3.11+).
+# Keep this lean — domain libs are deliberately excluded; if a notebook
+# needs scipy.special or scipy.integrate that is fine, but we do not
+# pull in any psi-domain or wiki-tied package.
+numpy>=1.26,<3
+scipy>=1.11,<2
+matplotlib>=3.8,<4
+jupyter>=1.0,<2

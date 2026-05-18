@@ -8,7 +8,7 @@ Original first-principles math for HelmKit. Each derivation here is owned end-to
 
 | # | Slug | Title | Status |
 |---|------|-------|--------|
-| 1 | `bifilar_near_field_enhancement` | Bifilar series-opposing near-field enhancement factor | planned |
+| 1 | [`bifilar_near_field_enhancement`](bifilar_near_field_enhancement.md) | Bifilar series-opposing near-field enhancement factor | v0 (2026-05-18) |
 | 2 | `caduceus_far_field_null` | Caduceus coil mutual-cancellation completeness | planned |
 | 3 | `schumann_envelope_entrainment` | Envelope modulation depth vs cortical entrainment | planned |
 | 4 | `group_coherence_scaling` | N-wearer coherent ensemble SNR vs N | planned |
