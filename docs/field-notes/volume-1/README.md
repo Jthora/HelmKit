@@ -2,7 +2,7 @@
 
 **Status**: scaffolding (no content drafted yet — only this outline)
 **Target ship**: late June 2026
-**Track plan**: [`../../plan/track-F-field-notes-vol-1.md`](../../plan/track-F-field-notes-vol-1.md)
+**Track plan**: [`../../plans/2026-tier1-launch/track-F-field-notes-vol-1.md`](../../plans/2026-tier1-launch/track-F-field-notes-vol-1.md)
 
 ---
 
@@ -59,7 +59,7 @@ out/              ← .gitignored
 
 ## Acceptance for v1.0 ship
 
-See [`../../plan/track-F-field-notes-vol-1.md#acceptance-criteria`](../../plan/track-F-field-notes-vol-1.md).
+See [`../../plans/2026-tier1-launch/track-F-field-notes-vol-1.md#acceptance-criteria`](../../plans/2026-tier1-launch/track-F-field-notes-vol-1.md).
 
 ## Working log
 

@@ -4,7 +4,7 @@ A series of polished, citable PDFs documenting the engineering, theory, and disc
 
 These are the Tier 1 sellable artifacts of the project. They are also the public record of the work.
 
-**Track plan**: [`../plan/track-F-field-notes-vol-1.md`](../plan/track-F-field-notes-vol-1.md)
+**Track plan**: [`../plans/2026-tier1-launch/track-F-field-notes-vol-1.md`](../plans/2026-tier1-launch/track-F-field-notes-vol-1.md)
 
 ## Volumes
 

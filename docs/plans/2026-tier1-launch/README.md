@@ -51,10 +51,10 @@ Short version:
 
 The tracks produce content under these new subdirectories:
 
-- [`docs/derivations/`](../derivations/) — original math, Track C
-- [`docs/field-notes/`](../field-notes/) — Field Notes Vol. I et seq., Track F
-- [`docs/tools/`](../tools/) — design docs for tooling (Track B, Track H). Actual tool code lives at repo root under `tools/`.
-- [`docs/firmware/`](../firmware/) — firmware feature plans (Track E and beyond). Actual firmware code lives at `firmware/`.
+- [`docs/derivations/`](../../derivations/) — original math, Track C
+- [`docs/field-notes/`](../../field-notes/) — Field Notes Vol. I et seq., Track F
+- [`docs/tools/`](../../tools/) — design docs for tooling (Track B, Track H). Actual tool code lives at repo root under `tools/`.
+- [`docs/firmware/`](../../firmware/) — firmware feature plans (Track E and beyond). Actual firmware code lives at `firmware/`.
 
 ---
 

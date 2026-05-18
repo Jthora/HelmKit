@@ -2,7 +2,7 @@
 
 Original first-principles math for HelmKit. Each derivation here is owned end-to-end by this project — not summarized from the wiki, not consensus citation chains.
 
-**Track plan**: [`../plan/track-C-derivations.md`](../plan/track-C-derivations.md)
+**Track plan**: [`../plans/2026-tier1-launch/track-C-derivations.md`](../plans/2026-tier1-launch/track-C-derivations.md)
 
 ## Index
 
@@ -16,7 +16,7 @@ Original first-principles math for HelmKit. Each derivation here is owned end-to
 
 ## Format
 
-Every doc here follows the template in [`../plan/track-C-derivations.md`](../plan/track-C-derivations.md#format-for-every-derivation):
+Every doc here follows the template in [`../plans/2026-tier1-launch/track-C-derivations.md`](../plans/2026-tier1-launch/track-C-derivations.md#format-for-every-derivation):
 
 - Claim (one sentence, quantitative)
 - Setup (geometry + variables + units + assumptions)

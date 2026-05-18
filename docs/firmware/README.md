@@ -11,7 +11,7 @@ For the overall bring-up arc, see [`../mk0.5_firmware_bringup.md`](../mk0.5_firm
 | Wave | Title | Plan | Status |
 |------|-------|------|--------|
 | L0 | Paced-breathing pacer | (shipped, commit `2872333`) | done |
-| M1 | MAX30102 PPG + Pan-Tompkins + RR NDJSON | [`../plan/track-E-firmware-wave-m1.md`](../plan/track-E-firmware-wave-m1.md) | planned |
+| M1 | MAX30102 PPG + Pan-Tompkins + RR NDJSON | [`../plans/2026-tier1-launch/track-E-firmware-wave-m1.md`](../plans/2026-tier1-launch/track-E-firmware-wave-m1.md) | planned |
 | M2 | BLE transport + HRV metrics (RMSSD, SDNN, pNN50) | not planned yet | future |
 | M3 | GSR fusion + state classifier | not planned yet | future |
 | M4 | Bifilar emitter driver + safety interlock | not planned yet | future |
@@ -22,4 +22,4 @@ When a wave ships:
 
 1. Add a `wave-<id>.md` doc here with: hardware target, build instructions, validation results, known issues.
 2. Update the table above with the commit SHA and status `done`.
-3. Cross-link from the corresponding `../plan/track-*.md` doc.
+3. Cross-link from the corresponding `../plans/2026-tier1-launch/track-*.md` doc.
