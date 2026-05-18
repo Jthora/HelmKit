@@ -25,7 +25,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **B** | `tools/wiki_sync.py` — auto-ingestion tool | `done` (commit `31ea41a`) | no | [track-B-wiki-sync-tool.md](track-B-wiki-sync-tool.md) |
 | **C** | Original math derivations (`docs/derivations/`) | `v0` (bifilar landed) | no | [track-C-derivations.md](track-C-derivations.md) |
 | **D** | Executable notebooks (figures for Field Notes) | `v0` (script-only; `.ipynb` deferred) | no | [track-D-notebooks.md](track-D-notebooks.md) |
-| **E** | Firmware Wave M1 (MAX30102 + R-peak + RR NDJSON) | `ready` | no | [track-E-firmware-wave-m1.md](track-E-firmware-wave-m1.md) |
+| **E** | Firmware Wave M1 (MAX30102 + R-peak + RR NDJSON) | `dsp-landed; pending on-target validation` | no | [track-E-firmware-wave-m1.md](track-E-firmware-wave-m1.md) |
 | **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `v0-complete` (§§0-10 all drafted) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
 | **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `landed` (tools + CI gate + allowlist) | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |

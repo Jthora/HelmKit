@@ -137,14 +137,27 @@ keyboard. RMSSD trend over a single 25-minute wear session, before and
 after a guided breath protocol. Subjective Likert panel — calm,
 energy, clarity — pre- and post-session.
 
-**What we expect to change.** Whatever the data forces. The Sensor
-Wave 1 entry will be filled in fully in the next revision of this
-volume. If the temple-position PPG signal-to-noise is unworkable under
-motion, the L2 container will gate Combat mode behind an "HRV
-unavailable" flag rather than degrade silently. If the resonance-breath
-pacer fails to drive subjective calm in the developer's own
-within-subject ABAB block, the Mk0.5 → Mk1.0 gate has not been crossed
-and the project says so on record.
+**What we expect to change.** Whatever the data forces. As of the
+late-update to this volume, the firmware-side R-peak detector has
+landed in master: streaming Pan–Tompkins variant on PPG IR with
+adaptive SPKI/NPKI threshold, 250 ms refractory, RR sanity gate
+250–2000 ms; emitted on the NDJSON wire as channel `ppg-rr` with
+the same `{t, ch, v, q, boot}` shape the rest of the schema uses;
+verified algorithmically against a pure-Python port in
+`firmware/mk0.5/scripts/rr_replay.py` (60 s synthetic, 100 % beat
+detection, RMS RR jitter under 75 ms — the residual jitter is the MWI
+integration window asserting itself and matches firmware). Operator
+turns the stream on with the `g` command and off with `x`; the
+boot smoke test still gates startup unchanged. What has **not**
+happened yet at print time is the on-wrist 5-minute resting vs
+paced-breathing RMSSD comparison — that is a hardware session,
+not a software session, and is the open G2 row in the falsification
+matrix. If the temple-position PPG signal-to-noise is unworkable
+under motion, the L2 container will gate Combat mode behind an
+"HRV unavailable" flag rather than degrade silently. If the
+resonance-breath pacer fails to drive subjective calm in the
+developer's own within-subject ABAB block, the Mk0.5 → Mk1.0 gate
+has not been crossed and the project says so on record.
 
 ---
 
