@@ -48,6 +48,41 @@ The HelmKit is the integration point. A Psi Stabilizer module **runs on it**. A 
 
 ---
 
+## Support, pre-orders, and commissions
+
+HelmKit™ is an open, non-enclosed psionic headpiece — a 3D-printed frame with interchangeable Psi-Tech modules. It is sold and distributed as an **open-source research and educational platform**. It is **not a medical device**. See [`docs/legal/disclaimer.md`](docs/legal/disclaimer.md).
+
+There are four doors for getting involved, in order of commitment:
+
+1. **Star and share.** Costs you nothing, helps the project find the people it's for.
+2. **Tip the work.** Funds firmware development, parts, certification testing, hours not sold to other clients.
+   - Ko-fi → **[ko-fi.com/fusionguy](https://ko-fi.com/fusionguy)**
+   - GitHub Sponsors → use the **Sponsor** button at the top of this repo
+3. **Pre-order interest list.** Zero cost, zero commitment. Get notified when pre-orders open, when commissions are available, when something new ships.
+   - **[Join the interest list →](https://docs.google.com/forms/d/e/1FAIpQLScESYAx0iFJynlNEPns250Foy3LRBQ6G8HrXOtipnrbTl9CBw/viewform?usp=header)**
+4. **Custom commissions.** A small number of bespoke builds are open. Starting at **$5,000**, **8–12 week lead time**, 50% non-refundable deposit, balance on completion. Built to your spec on the open HelmKit™ platform. Inquire through the interest form above and select the commission option.
+
+### What your support funds
+
+- Firmware development (Mk0.5 hardening, Mk1 platform features)
+- Hardware iteration (PCB design, sensor integration, frame revisions)
+- Compliance work (FCC self-cert paperwork, CE self-declaration, attorney vetting of terms-of-sale before first paid shipment)
+- Parts, tooling, and small-batch manufacturing
+- Documentation, build guides, and the open-source artifacts that ship with every tier
+
+### Sale terms in brief
+
+- Digital downloads ("Maker's Kit"): file pack delivered on payment, **no refunds after delivery**.
+- Parts kits / assembled units: **30-day return window** for unopened product, **90-day warranty** against manufacturing defects.
+- Pre-orders: **full refund** any time before shipment; refund triggered if Seller slips more than **90 days** past the latest estimate.
+- Commissions: **50% deposit non-refundable** once work begins.
+- Full terms: [`docs/legal/terms-of-sale.md`](docs/legal/terms-of-sale.md). Governing law: **Illinois, USA**.
+
+---
+
+
+---
+
 ## Status
 
 - **Mk0** (cosplay-grade frame, v2 type-b iter 9) — already 3D-printed and fits well on head. Frame only. No electronics.
