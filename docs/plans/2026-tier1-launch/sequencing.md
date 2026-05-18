@@ -67,6 +67,34 @@ Stack-ranked by **expected value × independence-from-blockers**. Updated as tra
 
 Parts in hand by end of week; first physical Mk0.5 session opens early July.
 
+*Track I landed early (May 18) per chain `bf38f67`…`0a7da22` — the
+week-of-June-22 row above is preserved as the original plan-of-record;
+the actual landing date is captured in [`track-I-pre-hardware-sprint.md §What shipped`](track-I-pre-hardware-sprint.md).*
+
+---
+
+## Track J overlay (Mk0.5 sensor bring-up, runs in parallel with Vol. I)
+
+Added 2026-05-18 after the in-inventory sensor surface ([inventory §3.7](../../inventory.md))
+proved larger than Track I assumed. Track J is the bench-bring-up
+bridge from Track I's paper artifacts to a working bench + closed G2.
+Full doc: [`track-J-sensor-bring-up.md`](track-J-sensor-bring-up.md).
+
+| Bridge | When | Output |
+|--------|------|--------|
+| **A** — PPG-only bring-up | Week of May 18 (this week) | Real `ppg` + `ppg-rr` NDJSON from one Diitao MAX30102 wired per [`mk0.5_wiring.md`](../../firmware/mk0.5_wiring.md). Defers G2 pass/fail until Bridge C. |
+| **B** — Thermal + electrodermal | Week of May 25 (gated on MAX30205 arrival ~May 27) | MLX90614 / GSR / MAX30205 drivers; new `ir-temp` / `gsr` / `contact-temp` NDJSON channels; MLX-vs-MAX30205 still-air cross-check ≤ 0.5 °C. |
+| **C** — ECG + G2 closure | Week of June 1+ (gated on AD8232 arrival ~June 1–15) | AD8232 driver + Pan-Tompkins reuse + `ecg` / `ecg-rr` NDJSON; `tools/analyze_g2.py`; three G2 sessions on three different days → G2 **closes**. |
+
+Pre-conditions (all bench-side, no purchases): Heltec board revision
+verification, Diitao breakout pull-up state, GSR connector geometry.
+See [`track-J-sensor-bring-up.md §3`](track-J-sensor-bring-up.md).
+
+Capacity: Track J runs in parallel with the Field Notes writing
+block above; the writing block stays on the critical path for Tier 1
+Vol. I ship. Track J only blocks Tier 1 DIY (August) and Mk1.x
+physiological work, both of which sit downstream of Vol. I.
+
 ---
 
 ## After Vol. I ships (late June → August)
@@ -90,7 +118,8 @@ F (field notes PDF) ◄── C (bifilar derivation, optional but boosts Vol. I)
                     ◄── D (notebook figures, optional)
 
 Tier 1 DIY (August) ◄── E (Wave J firmware, for honest demo) — dsp-landed
-                    ◄── I (pre-hardware sprint: BOM, wiring, G2, capture)
+                    ◀── I (pre-hardware sprint: BOM, wiring, G2, capture) — landed
+                    ◀── J (sensor bring-up: drivers + G2 closure) — scoped
                     ◄── Mk0.5 physical build (for build-guide photos + G2 data)
 
 Tier 2 Hand-Built (Sept–Oct) ◄── Tier 1 DIY shipped

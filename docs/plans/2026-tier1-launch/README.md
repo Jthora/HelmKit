@@ -30,6 +30,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `landed` (tools + CI gate + allowlist) | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |
 | **I** | Pre-Hardware Sprint (Mk0.5 BOM + wiring + G2 protocol + capture tool) | `landed` | no | [track-I-pre-hardware-sprint.md](track-I-pre-hardware-sprint.md) |
+| **J** | Mk0.5 Sensor Bring-up Sprint (MAX30102/MLX90614/MAX30205/GSR/AD8232 drivers + G2 analyser + G2 closure) | `scoped` | no | [track-J-sensor-bring-up.md](track-J-sensor-bring-up.md) |
 
 ---
 
