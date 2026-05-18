@@ -535,9 +535,9 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 ## 11. Open items (continue inventory pass)
 
 - [x] ~~**9-axis IMU module(s)** — count, exact part number(s), confirm I²C address(es)~~ — resolved §3.1: 3× MPU9250 (CHENBO×2 + HiLetgo×1) + 1× MPU6050 (Diymore)
-- [ ] **Heltec LoRa 32 revision** — silkscreen on the 2 in-inventory boards (§1): is it V3 (`HTIT-WB32LAF`, ESP32-S3, what `firmware/mk0.5` targets) or V2 (ESP32)? 30-second visual check, gates the firmware path.
-- [ ] **Diitao MAX30102 breakout characterisation** (§3.7) — (a) on-board pull-ups present? (look for ~10k SMT near SDA/SCL); (b) VIN voltage range (3.3 V strict vs 1.8–5.5 V auto-level-shift). Both gate the wiring detail in [`docs/firmware/mk0.5_wiring.md`](firmware/mk0.5_wiring.md).
-- [ ] **GSR module connector geometry** (§3.7) — 3.5mm TRS vs Dupont vs JST? Determines how the Red Dot electrodes wire in.
+- [x] ~~**Heltec LoRa 32 revision**~~ — **resolved 2026-05-18**: silkscreen reads `HTIT-WB32LAF` → **V3 (ESP32-S3)**. Confirms `firmware/mk0.5` target. No port needed.
+- [x] ~~**Diitao MAX30102 breakout characterisation**~~ (§3.7) — **partially resolved 2026-05-18**: on-board SMT markings read `472` → **4.7 kΩ pull-ups present** on SDA/SCL. Do not add externals. VIN tolerance still treated as 3V3-only by policy until a Diitao listing/data-sheet pins down the auto-level-shift range; the 3V3 rail is safe on all clones so this is a zero-cost default.
+- [x] ~~**GSR module connector geometry**~~ (§3.7) — **resolved 2026-05-18**: **3.5mm TRS** (tip-ring-sleeve, 3-conductor headphone-style jack). Tip + Ring carry the two finger electrodes; Sleeve is ground/shield. Determines the lead-routing pattern from the GSR PCB to the Red Dot electrodes.
 - [ ] **USB-C power bank(s)** — count, capacity (mAh), output current rating
 - [ ] **Shielded cable / coax / twisted pair** stock
 - [ ] **PCB CNC bit set** — V-bit angles, end-mill diameters, drill sizes available

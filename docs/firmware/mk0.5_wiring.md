@@ -81,8 +81,16 @@ each line to 3V3 on the breadboard, as drawn above.
 ### 3.1 Diitao 4-pack (the in-inventory units, 2026-05-18)
 
 The inventory MAX30102 units are Diitao clones, not SparkFun. Pull-up
-state is not guaranteed and varies by batch. Verify on one unit
-before wiring the rest:
+state is not guaranteed and varies by batch.
+
+**Verified on the in-hand units (2026-05-18):** SMT resistors near the
+I²C lines are marked `472` → **4.7 kΩ pull-ups present on SDA and
+SCL**. Do **not** add external pull-ups on the breadboard for these
+units — parallel pull-ups would halve effective resistance and degrade
+the rise time at 400 kHz, same caveat as §3 (SparkFun).
+
+If you ever receive a Diitao batch from a different production run,
+re-verify before wiring:
 
 1. Look at the breakout PCB near the SDA and SCL pads. Two small
    SMT resistors marked `103` (= 10 kΩ) or `472` (= 4.7 kΩ) means
@@ -93,7 +101,8 @@ before wiring the rest:
 3. Diitao listings commonly say "VIN 1.8–5.5 V auto level-shift".
    Some clones cannot tolerate 5 V on VIN. Wire VIN to the Heltec V3
    **3V3** rail only — it is safe for any MAX30102 clone in any state.
-   Do **not** experiment with 5 V on a brand-new unit.
+   Do **not** experiment with 5 V on a brand-new unit. This is the
+   standing policy until a per-batch data-sheet confirms otherwise.
 
 ---
 

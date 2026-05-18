@@ -59,16 +59,18 @@ Out of scope (defer to a later track):
 
 ## 3. Pre-conditions
 
-These are operator-side bench checks. None require purchases.
+All three operator-side bench checks resolved 2026-05-18 (see
+[`inventory.md §11`](../../inventory.md)). Recorded here for the audit
+trail.
 
-| # | Check | Source | Resolves |
-|---|-------|--------|----------|
-| 1 | Heltec board revision: silkscreen reads `HTIT-WB32LAF` (V3, ESP32-S3) — *not* V2 (ESP32). | inventory §1 + §11 | Confirms firmware target. If V2, the whole firmware tree needs porting; halt Track J and re-scope. |
-| 2 | Diitao MAX30102: on-board pull-up state (SMT marking `472`/`103` near SDA/SCL) and VIN rail (3V3 only until verified). | inventory §3.7 + §11; [`mk0.5_wiring.md §3.1`](../../firmware/mk0.5_wiring.md) | Confirms wiring detail before first power-on. |
-| 3 | GSR module connector geometry (3.5mm TRS / Dupont / JST). | inventory §3.7 + §11 | Determines lead routing to Red Dot electrodes. |
+| # | Check | Status | Resolution |
+|---|-------|--------|------------|
+| 1 | Heltec board revision: silkscreen reads `HTIT-WB32LAF` (V3, ESP32-S3) — *not* V2 (ESP32). | ✅ resolved 2026-05-18 | Silkscreen confirmed `HTIT-WB32LAF`. Firmware target stands; no port. |
+| 2 | Diitao MAX30102: on-board pull-up state (SMT marking `472`/`103` near SDA/SCL) and VIN rail. | ✅ resolved 2026-05-18 | SMT marking `472` confirmed → 4.7 kΩ pull-ups present. Do not add externals. VIN held at 3V3 by [`mk0.5_wiring.md §3.1`](../../firmware/mk0.5_wiring.md) policy (safe on any clone). |
+| 3 | GSR module connector geometry (3.5mm TRS / Dupont / JST). | ✅ resolved 2026-05-18 | 3.5mm TRS confirmed. Tip + Ring carry the two finger electrodes; Sleeve = ground/shield. Lead-routing pattern to the Red Dot electrodes is therefore standard 2-conductor + shield. |
 
-All three are 30-second visual inspections. They are pre-conditions
-for Bridge A (below).
+**Bridge A is unblocked.** Bridges B and C remain gated on hardware
+arrivals (MAX30205 ~May 27, AD8232 ~Jun 1–15) per §4.
 
 ---
 
@@ -80,9 +82,11 @@ serialised on AD8232 arrival but not on each other.
 
 ### Bridge A — PPG-only bring-up (this week, May 18–24)
 
-Pre-conditions §3 #1 and #2 must be confirmed before starting.
+Pre-conditions §3 #1 and #2 resolved 2026-05-18. Bridge A is a go.
 
-- Wire one Diitao MAX30102 per [`mk0.5_wiring.md`](../../firmware/mk0.5_wiring.md).
+- Wire one Diitao MAX30102 per [`mk0.5_wiring.md`](../../firmware/mk0.5_wiring.md)
+  §1–§4 (5-wire pin table; VIN to 3V3 rail only; no external pull-ups
+  needed — the in-hand units carry `472` = 4.7 kΩ on-board).
 - Flash current `master` (firmware Wave J already emits `ppg` and
   `ppg-rr`). No firmware changes required.
 - Run a 60-second capture via `tools/capture_ndjson.py` against the
