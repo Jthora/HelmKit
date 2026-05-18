@@ -122,7 +122,7 @@ Seller is not liable for delay or failure of performance caused by events beyond
 
 ## 16. Contact
 
-Questions about these Terms should be directed to the project maintainer via the project's published contact channel ([interest form](https://docs.google.com/forms/d/e/1FAIpQLScESYAx0iFJynlNEPns250Foy3LRBQ6G8HrXOtipnrbTl9CBw/viewform?usp=header) or via Ko-fi message at [ko-fi.com/fusionguy](https://ko-fi.com/fusionguy)).
+Questions about these Terms should be directed to the project maintainer via the project's published contact channel ([interest form](https://docs.google.com/forms/d/e/1FAIpQLScESYAx0iFJynlNEPns250Foy3LRBQ6G8HrXOtipnrbTl9CBw/viewform?usp=header) or via Ko-fi message at [ko-fi.com/helmkit](https://ko-fi.com/helmkit)).
 
 ---
 

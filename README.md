@@ -56,7 +56,7 @@ There are four doors for getting involved, in order of commitment:
 
 1. **Star and share.** Costs you nothing, helps the project find the people it's for.
 2. **Tip the work.** Funds firmware development, parts, certification testing, hours not sold to other clients.
-   - Ko-fi → **[ko-fi.com/fusionguy](https://ko-fi.com/fusionguy)**
+   - Ko-fi → **[ko-fi.com/helmkit](https://ko-fi.com/helmkit)**
    - GitHub Sponsors → use the **Sponsor** button at the top of this repo
 3. **Pre-order interest list.** Zero cost, zero commitment. Get notified when pre-orders open, when commissions are available, when something new ships.
    - **[Join the interest list →](https://docs.google.com/forms/d/e/1FAIpQLScESYAx0iFJynlNEPns250Foy3LRBQ6G8HrXOtipnrbTl9CBw/viewform?usp=header)**

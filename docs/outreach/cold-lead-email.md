@@ -52,7 +52,7 @@ Door 2 — Tip / sponsor. If you want to put a little fuel in the
 tank while I get the first batches over the line, Ko-fi is the
 fastest way. Every dollar buys parts, certification testing, or
 hours I would otherwise have to sell to other clients.
-   ↳ https://ko-fi.com/fusionguy
+   ↳ https://ko-fi.com/helmkit
 
 Door 3 — Commission. If what you actually want is your own unit,
 custom-built to your spec, I'm now taking a small number of
@@ -94,7 +94,7 @@ $5k. Links if you want them, and zero pressure if not. You'd asked
 me to remember you when something happened, so — this is that.
 
 Interest:    [interest form link]
-Support:     ko-fi.com/fusionguy
+Support:     ko-fi.com/helmkit
 Commission:  reply here
 
 — J
