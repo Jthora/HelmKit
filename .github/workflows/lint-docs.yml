@@ -1,0 +1,21 @@
+name: lint-docs
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  lint-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install tool deps
+        run: pip install -r tools/requirements.txt
+      - name: Check Markdown links
+        run: python tools/check_links.py
+      - name: Probe wiki URLs
+        run: python tools/check_wiki_urls.py

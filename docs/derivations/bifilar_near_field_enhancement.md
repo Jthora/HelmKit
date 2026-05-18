@@ -2,7 +2,7 @@
 
 - **Status**: v0 (analytic on-axis result; off-axis + integrated-energy treatment deferred)
 - **Track**: [C — Original math derivations](../plans/2026-tier1-launch/track-C-derivations.md)
-- **Paired notebook**: [`notebooks/bifilar_near_field.ipynb`](../../notebooks/bifilar_near_field.ipynb)
+- **Paired notebook**: [`notebooks/bifilar_near_field.py`](../../notebooks/bifilar_near_field.py)
 - **Last updated**: 2026-05-18
 
 ---
@@ -241,7 +241,7 @@ A bench result outside $\pm 20\%$ that cannot be traced to one of these mundane 
 
 ## Notebook
 
-[`notebooks/bifilar_near_field.ipynb`](../../notebooks/bifilar_near_field.ipynb) regenerates Figure 4 (on-axis $\eta_B(r)$ vs $r/a$) and the numerical-example table.
+[`notebooks/bifilar_near_field.py`](../../notebooks/bifilar_near_field.py) regenerates Figure 4 (on-axis $\eta_B(r)$ vs $r/a$) and the numerical-example table.
 
 Reproducibility contract: editing eq. (7) requires re-running the notebook and committing the updated figure file in the same change.
 

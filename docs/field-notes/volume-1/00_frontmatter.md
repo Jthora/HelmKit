@@ -60,8 +60,7 @@ project and ships with its source under
 [`docs/derivations/`](https://github.com/Jthora/HelmKit/tree/master/docs/derivations).
 The build script that produced this PDF lives at
 [`docs/field-notes/volume-1/build.sh`](https://github.com/Jthora/HelmKit/blob/master/docs/field-notes/volume-1/build.sh)
-and uses pandoc plus tectonic with the LaTeX template under
-[`docs/field-notes/volume-1/template.tex`](https://github.com/Jthora/HelmKit/blob/master/docs/field-notes/volume-1/template.tex).
+and uses pandoc plus tectonic against pandoc's default LaTeX template.
 A reader who clones the repository at the same git tag this volume was
 built at can regenerate this PDF byte-for-byte modulo timestamps.
 

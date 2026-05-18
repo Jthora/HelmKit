@@ -1,0 +1,16 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-links
+        name: Markdown link integrity
+        entry: python tools/check_links.py
+        language: system
+        pass_filenames: false
+        types_or: [markdown]
+      - id: check-wiki-urls
+        name: Wiki URL probe
+        entry: python tools/check_wiki_urls.py
+        language: system
+        pass_filenames: false
+        types_or: [markdown]
+        stages: [pre-push]

@@ -23,7 +23,7 @@ The repo becomes self-contained: anyone (human or AI assistant) cloning HelmKit 
 
 ### Inputs
 
-- `tools/wiki_pages.yml` — list of pages to track, seeded from [`../wiki_anchors.md`](../wiki_anchors.md):
+- `tools/wiki_pages.yml` — list of pages to track, seeded from [`docs/wiki_anchors.md`](../../wiki_anchors.md):
   ```yaml
   api_endpoint: https://wiki.fusiongirl.app/api.php
   pages:

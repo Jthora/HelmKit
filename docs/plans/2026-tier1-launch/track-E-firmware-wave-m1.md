@@ -11,7 +11,7 @@
 
 Add a **continuous PPG sensing + R-peak detection + RR-interval NDJSON output** stage to the Mk0.5 firmware. After this lands, the device measures something real (heart-rate variability) and emits it to the serial stream in a format downstream tools can consume.
 
-This is Wave M1 of the Mk0.5 firmware bring-up plan ([../mk0.5_firmware_bringup.md](../mk0.5_firmware_bringup.md)).
+This is Wave M1 of the Mk0.5 firmware bring-up plan ([docs/mk0.5_firmware_bringup.md](../../mk0.5_firmware_bringup.md)).
 
 ## Hardware target
 

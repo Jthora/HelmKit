@@ -47,7 +47,7 @@ Body: 4–6 sentences. What it is. Four tiers. Link to GitHub. Link to interest 
 
 ## Cold-lead outreach
 
-Template lives at [`../outreach/cold-lead-email.md`](../outreach/cold-lead-email.md) (create if missing). 5 emails/day Mon–Fri.
+Template lives at [`docs/outreach/cold-lead-email.md`](../../outreach/cold-lead-email.md) (create if missing). 5 emails/day Mon–Fri.
 
 **Target list seeds** (build over week 1):
 

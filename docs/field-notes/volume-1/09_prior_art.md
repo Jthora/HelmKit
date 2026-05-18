@@ -208,9 +208,9 @@ safety envelope.
 
 ## What this chapter is not
 
-This bibliography is **not exhaustive** — the project's bibliography
-file at [`docs/bibliography.md`](https://github.com/Jthora/HelmKit/blob/master/docs/bibliography.md)
-is the longer version. The entries above are the ones that are either
+This bibliography is **not exhaustive**. A longer working
+bibliography is maintained in the project repository alongside the
+derivations. The entries above are the ones that are either
 load-bearing for a current design decision or have shaped the
 project's hypothesis space in a way the reader needs to know about to
 evaluate the volume's claims.

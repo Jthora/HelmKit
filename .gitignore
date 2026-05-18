@@ -1,2 +1,5 @@
 # Ignore all 3D-Models (including subfolders)
 3D-Models/
+
+# Local caches (link checker, wiki probe, etc.)
+.cache/

@@ -1,0 +1,25 @@
+# Known-missing references — explicit debt list
+#
+# This file enumerates external URLs and wiki pages that we link to from
+# the docs but that are not (yet) resolvable. Adding an entry here turns
+# a hard CI failure into a tracked warning. Removing an entry once the
+# upstream resource is created flips the corresponding link back to
+# strict checking.
+#
+# Maintenance rules:
+#   1. Every entry must have a `reason` field. No vague placeholders.
+#   2. Every entry should reference the track or task that will resolve it.
+#   3. When a link starts resolving, delete its entry — do not leave
+#      stale rows.
+
+# External URLs (any scheme). Matched as exact strings against the URL
+# extracted from Markdown.
+external_urls:
+  - url: https://github.com/Jthora/SynastryEngine
+    reason: SynastryEngine repo is not public yet; Mk3 dependency.
+    track: future / Mk3 prereq
+
+# Wiki titles (MediaWiki-style, spaces). The probe normalizes underscores
+# to spaces, so write the human-readable form here. Currently empty —
+# every wiki page we link to resolves via the MediaWiki API.
+wiki_pages: []
