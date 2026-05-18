@@ -1,0 +1,3 @@
+# Build artifacts — ignored from version control.
+out/
+*.pdf

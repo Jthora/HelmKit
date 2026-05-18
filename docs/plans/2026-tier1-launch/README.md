@@ -22,12 +22,12 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | ID | Track | Status | Wiki-blocked? | Design doc |
 |----|-------|--------|---------------|------------|
 | **A** | Wiki content → engineering translation | `blocked-pending` | yes | [track-A-wiki-translation.md](track-A-wiki-translation.md) |
-| **B** | `tools/wiki_sync.py` — auto-ingestion tool | `ready` | no | [track-B-wiki-sync-tool.md](track-B-wiki-sync-tool.md) |
+| **B** | `tools/wiki_sync.py` — auto-ingestion tool | `done` (commit `31ea41a`) | no | [track-B-wiki-sync-tool.md](track-B-wiki-sync-tool.md) |
 | **C** | Original math derivations (`docs/derivations/`) | `ready` | no | [track-C-derivations.md](track-C-derivations.md) |
 | **D** | Executable notebooks (figures for Field Notes) | `ready` | no | [track-D-notebooks.md](track-D-notebooks.md) |
 | **E** | Firmware Wave M1 (MAX30102 + R-peak + RR NDJSON) | `ready` | no | [track-E-firmware-wave-m1.md](track-E-firmware-wave-m1.md) |
-| **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `ready` | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
-| **G** | Social launch + cold-lead outreach | `ready` | no | [track-G-social-launch.md](track-G-social-launch.md) |
+| **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `scaffold-done` (v0) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
+| **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `ready` | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |
 
 ---

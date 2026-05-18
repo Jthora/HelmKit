@@ -1,0 +1,8 @@
+# Figures will be placed here.
+#
+# Naming convention: `NN_short-slug.{png,pdf,svg}` where `NN` matches the
+# leading two-digit section number that consumes the figure, and the slug
+# is a short kebab-case description. PDF preferred for vector, PNG for
+# bitmap, SVG kept alongside for source.
+#
+# Example: `02_hardpoint-layout.pdf` for the platform hardpoint diagram.
