@@ -12,6 +12,7 @@
 #include "board/pins.h"
 #include "drivers/max30102.h"
 #include "drivers/smoke_fail.h"
+#include "dsp/r_peak.h"
 #include "layers/pacer.h"
 #include "log/ndjson.h"
 #include "log/session.h"
@@ -22,6 +23,22 @@ namespace {
 helmkit::drivers::SmokeResult g_last_result{};
 bool                          g_last_was_safety_halt = false;
 helmkit::layers::Pacer        g_pacer;
+
+// Wave J: persistent PPG instance and R-peak detector for streaming mode.
+// Smoke test (above) still uses its own scoped Max30102 — it exercises a
+// full begin/destroy cycle on every retry, which is part of the gate.
+// The streaming instance below is initialised lazily on first 'g' command
+// and torn down on 'x'.
+helmkit::drivers::Max30102    g_ppg;
+helmkit::dsp::RPeakDetector   g_rpeak;
+bool                          g_streaming = false;
+
+void on_ppg_sample(const helmkit::drivers::Max30102Sample& s) {
+    // Driver emits gap-quality samples when finger is removed; feed the
+    // detector regardless — its high-pass + adaptive threshold absorb the
+    // discontinuity. If finger-off persists, no peaks will cross threshold.
+    g_rpeak.process(s.t_ms, s.ir);
+}
 
 void run_smoke() {
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kTesting);
@@ -100,12 +117,50 @@ void poll_serial_commands() {
                 helmkit::ui::status_led_set(
                     helmkit::ui::Pattern::kIdle);
                 break;
+            case 'g': {
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 'g' refused after safety halt; "
+                                     "use 'R' first."));
+                    break;
+                }
+                if (g_streaming) {
+                    Serial.println(F("[main] PPG stream already running."));
+                    break;
+                }
+                // Wave J: enter PPG streaming mode. Reuses the Wire1 bus
+                // that the smoke test already initialised.
+                helmkit::drivers::Max30102Config cfg;
+                cfg.sample_rate_hz = 100;
+                cfg.sample_avg = 4;
+                if (!g_ppg.begin(Wire1, cfg)) {
+                    Serial.println(F("[main] PPG stream begin FAILED."));
+                    helmkit::log::emit_error(
+                        "mk0.5",
+                        helmkit::drivers::SmokeFail::kNoAck,
+                        "ppg-stream-begin-failed", 0, 0,
+                        helmkit::drivers::Health::kError);
+                    break;
+                }
+                g_rpeak.reset();
+                g_streaming = true;
+                Serial.println(F("[main] PPG stream started; emitting ppg-rr."));
+                break;
+            }
+            case 'x':
+                if (!g_streaming) {
+                    Serial.println(F("[main] PPG stream not running."));
+                    break;
+                }
+                g_streaming = false;
+                g_ppg.shutdown();
+                Serial.println(F("[main] PPG stream stopped."));
+                break;
             case '\n':
             case '\r':
             case ' ':
                 break;
             default:
-                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s)\n",
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x)\n",
                               (char)c);
                 break;
         }
@@ -121,7 +176,8 @@ void prose_banner() {
     Serial.print  (F(" "));
     Serial.println(F(__TIME__));
     Serial.println(F(" commands: r=retry  R=force-retry-after-safety-halt  "
-                     "?=last-result  h=hello  p=pacer-start  s=pacer-stop"));
+                     "?=last-result  h=hello  p=pacer-start  s=pacer-stop  "
+                     "g=ppg-stream-start  x=ppg-stream-stop"));
     Serial.println(F("===================================================="));
 }
 
@@ -167,6 +223,17 @@ void loop() {
     if (g_pacer.running()) {
         g_pacer.tick(now);
         helmkit::ui::status_led_set_intensity(g_pacer.intensity_u8(now));
+    }
+    if (g_streaming) {
+        // Pump driver, then drain any peaks the detector accumulated this
+        // tick. Bounded loop — RPeakDetector FIFO is 8 deep; at 100 Hz with
+        // a 10 ms loop period we expect 0 or 1 peaks per tick.
+        g_ppg.pump(on_ppg_sample);
+        while (g_rpeak.has_peak()) {
+            const auto p = g_rpeak.consume_peak();
+            helmkit::log::emit_ppg_rr(p.t_ms, p.rr_ms,
+                                      p.in_range, p.confidence);
+        }
     }
     helmkit::ui::status_led_pump();
     poll_serial_commands();
