@@ -31,11 +31,13 @@ In scope:
 - Drivers for every sensor in [`inventory.md §3.7`](../../inventory.md):
   Diitao MAX30102 (already running via firmware Wave J), MLX90614,
   GSR, MAX30205, AD8232.
-- New NDJSON channels per [`firmware/mk0.5/docs/SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md):
-  `ir-temp`, `gsr`, `contact-temp`, `ecg`, `ecg-rr`.
+- New NDJSON channels per [`firmware/mk0.5/docs/SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md)
+  §2.2 (all reserved 2026-05-18, only `ecg-rr` newly added):
+  `temp-forehead` + `temp-forehead.amb` (MLX90614), `gsr` (GSR
+  module), `temp-skin.L` + `temp-skin.R` (MAX30205 ×2), `ecg`
+  (AD8232), `ecg-rr` (Pan-Tompkins reuse).
 - One Pan-Tompkins reuse from Wave J for `ecg-rr` (same detector,
-  ECG-band coefficients).
-- `tools/analyze_g2.py` per [`g2_hrv_validation.md §5`](../../protocols/g2_hrv_validation.md):
+  ECG-band coefficients).- `tools/analyze_g2.py` per [`g2_hrv_validation.md §5`](../../protocols/g2_hrv_validation.md):
   consumes a capture session + oracle, emits the three pass-gate
   metrics, writes a session report.
 - Three G2 sessions on three different days → close G2.
@@ -97,23 +99,25 @@ survive contact with the physical world.
 
 ### Bridge B — Thermal + electrodermal (week of May 25, gated on MAX30205 arrival ~May 27)
 
-- MLX90614 driver: I²C `0x5A` read, emit `{"ch":"ir-temp","v":<°C>}` at
-  1 Hz on the existing NDJSON stream.
+- MLX90614 driver: I²C `0x5A` read, emit `{"ch":"temp-forehead","v":<°C>}`
+  and `{"ch":"temp-forehead.amb","v":<°C>}` at 4 Hz on the existing
+  NDJSON stream (per [`SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md)
+  §2.2).
 - GSR driver: ADC read on `kGsrAdc=4`, light low-pass, emit
-  `{"ch":"gsr","v":<µS or raw>}` at 10 Hz. Schema field `unit` is
-  literally the unit string emitted; both `µS` (if module documentation
-  found) and `raw` (if not) are acceptable for Track J.
+  `{"ch":"gsr","v":<raw>}` at 50 Hz (matches SCHEMA §2.2 sample rate).
+  Calibration to µS happens downstream per `data_schemas.md` §6.
 - MAX30205 driver: I²C `0x48` and `0x49`, emit
-  `{"ch":"contact-temp","v":<°C>,"id":<addr>}` at 1 Hz.
+  `{"ch":"temp-skin.L","v":<°C>}` and `{"ch":"temp-skin.R","v":<°C>}`
+  at 5 Hz.
 - Cross-validation: MLX90614 vs MAX30205 in still air on a paired
   bench fixture must agree within ≤ 0.5 °C. If they don't, the
   MLX90614 emissivity assumption (default 0.95) is wrong for the
   target surface and gets noted, not corrected here.
-- Update [`SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md) with the
-  new channels (and bump schema version per its existing rules).
+- No SCHEMA.md bump required — all channels are pre-reserved in §2.2.
 
-Output: full thermal + electrodermal NDJSON surface. Three new
-channels in the wire format.
+Output: full thermal + electrodermal NDJSON surface. Five new
+emitting channels (`temp-forehead`, `temp-forehead.amb`, `gsr`,
+`temp-skin.L`, `temp-skin.R`) in the wire format.
 
 ### Bridge C — ECG + G2 closure (week of June 1+, gated on AD8232 arrival ~June 1–15)
 
@@ -145,10 +149,10 @@ land independently.
 
 | # | Commit | Bridge | Gated on |
 |---|--------|--------|----------|
-| 1 | `schema(mk0.5): reserve ir-temp / gsr / contact-temp / ecg / ecg-rr channels` | A pre-flight | — |
-| 2 | `firmware(mk0.5): MLX90614 driver + ir-temp NDJSON channel` | B | MAX30205 arrival not required for MLX |
+| 1 | `schema(mk0.5): add ecg-rr; align Track J to canonical channel names` | A pre-flight | — (this commit) |
+| 2 | `firmware(mk0.5): MLX90614 driver + temp-forehead/temp-forehead.amb NDJSON` | B | MLX in hand; §3 #1 |
 | 3 | `firmware(mk0.5): GSR driver + gsr NDJSON channel` | B | GSR connector confirmed (§3 #3) |
-| 4 | `firmware(mk0.5): MAX30205 driver + contact-temp NDJSON channel + MLX cross-check note` | B | MAX30205 arrival (~May 27) |
+| 4 | `firmware(mk0.5): MAX30205 driver + temp-skin.L/R NDJSON + MLX cross-check` | B | MAX30205 arrival (~May 27) |
 | 5 | `firmware(mk0.5): AD8232 driver + ecg NDJSON channel + lead-off watch` | C | AD8232 arrival (~June 1) |
 | 6 | `dsp(mk0.5): Pan-Tompkins reuse on ECG band + ecg-rr emit` | C | commit 5 |
 | 7 | `tools(g2): analyze_g2.py — RMSSD pass/fail per g2_hrv_validation.md §5` | C | commit 6 |
@@ -173,9 +177,10 @@ bench and the GSR module's actual data behaviour is known.
 
 ## 7. What "Track J lands" means
 
-- Five new NDJSON channels (`ir-temp`, `gsr`, `contact-temp`, `ecg`,
-  `ecg-rr`) shipped in firmware on `master`, documented in
-  [`SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md).
+- Five new NDJSON channel emitters live on `master` against the
+  canonical names in [`SCHEMA.md`](../../../firmware/mk0.5/docs/SCHEMA.md)
+  §2.2: `temp-forehead` (+ `.amb`), `gsr`, `temp-skin.L`/`temp-skin.R`,
+  `ecg`, `ecg-rr`.
 - `tools/analyze_g2.py` shipped.
 - Three G2 sessions on three different days passing the [`g2_hrv_validation.md`](../../protocols/g2_hrv_validation.md)
   gate with the same firmware commit.

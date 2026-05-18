@@ -50,7 +50,8 @@ One JSON object per line, NDJSON. Conforms to psiStabilizer §3.
 | `gsr`               | CJMCU-6701 ADC    | 50 Hz   | uint16 ADC (0..4095) | Calibrated to µS in analysis. Quality: `out-of-range` if rail-pinned. |
 | `temp-forehead`     | MLX90614 obj      | 4 Hz    | float32 °C       | Ambient (`temp-forehead.amb`) emitted at same cadence for environmental cross-ref. |
 | `temp-forehead.amb` | MLX90614 ambient  | 4 Hz    | float32 °C       | |
-| `ecg`               | AD8232 out        | 250 Hz  | uint16 ADC       | Wave 2. Quality: `gap` when LO+ or LO- asserted (leads-off). |
+| `ecg`               | AD8232 out        | 250 Hz  | uint16 ADC       | Wave 2 / Track J Bridge C. Quality: `gap` when LO+ or LO- asserted (leads-off). |
+| `ecg-rr`            | Mk0.5 R-peak DSP  | event   | uint16 ms        | Per-beat RR interval derived from `ecg` via Pan-Tompkins-on-ECG (Track J Bridge C; same detector as `ppg-rr` with classical 5–15 Hz ECG-band coefficients, `src/dsp/r_peak.cpp`). Wire shape identical to `ppg-rr` (carries non-standard `conf` field). First peak in stream emits with `v=0` and `q=ok`. This is the **canonical G2 oracle channel** per [`g2_oracle_device.md`](../../../docs/protocols/g2_oracle_device.md) v0.1. |
 | `temp-skin.L`       | MAX30205 @ 0x48   | 5 Hz    | float32 °C       | Left temple. Wave 2. ±0.1°C accuracy. |
 | `temp-skin.R`       | MAX30205 @ 0x49   | 5 Hz    | float32 °C       | Right temple. Wave 2. PRIOR_ART §3.11 M5 differential channel. |
 | `vbat`              | ESP32 ADC1_CH0    | 1 Hz    | uint16 ADC       | Health channel, not physiology. Useful for session-quality flagging. |
@@ -103,7 +104,8 @@ Mk0.5 firmware emits `q` explicitly on every sample. Decision tree per sensor:
 | `ppg-rr`    | `ok` if `250 <= rr_ms <= 2000` or `rr_ms == 0` (first peak); `out-of-range` otherwise. Refractory-suppressed peaks (<250 ms gap to previous accepted) are not emitted at all. |
 | GSR         | `ok` if `100 < raw < 4000`; `out-of-range` at rails; `gap` if no electrodes (not yet detectable in hardware — placeholder TODO). |
 | MLX90614    | `ok` if `15 < obj_c < 45`; `out-of-range` otherwise. |
-| AD8232      | `gap` if `LO+` OR `LO-` asserted; `ok` otherwise. (Wave 2.) |
+| AD8232      | `gap` if `LO+` OR `LO-` asserted; `ok` otherwise. (Wave 2 / Track J Bridge C.) |
+| `ecg-rr`    | `ok` if `250 <= rr_ms <= 2000` or `rr_ms == 0` (first peak); `out-of-range` otherwise. Refractory-suppressed peaks (<250 ms gap to previous accepted) are not emitted at all. Identical rule to `ppg-rr`. |
 | MAX30205    | `ok` if `30 < temp_c < 42`; `out-of-range` otherwise. (Wave 2.) |
 | VBAT        | `ok` always; downstream consumers ignore `vbat` for physiology gating. |
 
@@ -165,6 +167,15 @@ detect noise online.
 First peak after stream-start emits with `v=0` and `q=ok` to anchor the
 series. `conf` is a non-standard extension (additionalProperties
 permissive); analysis can ignore it.
+
+### ECG-derived RR interval (v0.2, Track J Bridge C — canonical G2 oracle)
+```
+{"t":12.870,"ch":"ecg-rr","v":870,"q":"ok","conf":4.12,"boot":"a3f2c91e0bd4abcd"}
+{"t":13.752,"ch":"ecg-rr","v":882,"q":"ok","conf":4.08,"boot":"a3f2c91e0bd4abcd"}
+```
+Wire shape is byte-for-byte identical to `ppg-rr` so `analyze_g2.py`
+can diff the two streams without per-channel decoding logic. The
+higher `conf` reflects ECG's tighter SNR vs PPG.
 
 ---
 
