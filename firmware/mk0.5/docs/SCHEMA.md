@@ -46,6 +46,7 @@ One JSON object per line, NDJSON. Conforms to psiStabilizer §3.
 
 | Channel             | Source            | Rate    | Raw unit         | Notes |
 |---------------------|-------------------|---------|------------------|-------|
+| `ppg-rr`            | Mk0.5 R-peak DSP  | event   | uint16 ms        | Per-beat RR interval derived from `ppg-hrv` via Pan-Tompkins-on-PPG (firmware Wave J, `src/dsp/r_peak.cpp`). `v` = interval in ms to previous accepted peak; `v=0` for the first peak in a stream. Quality `ok` when 250 ≤ v ≤ 2000; `out-of-range` otherwise. Carries a non-standard `conf` field = peak_amp / adaptive_threshold (≥ 1.0). |
 | `gsr`               | CJMCU-6701 ADC    | 50 Hz   | uint16 ADC (0..4095) | Calibrated to µS in analysis. Quality: `out-of-range` if rail-pinned. |
 | `temp-forehead`     | MLX90614 obj      | 4 Hz    | float32 °C       | Ambient (`temp-forehead.amb`) emitted at same cadence for environmental cross-ref. |
 | `temp-forehead.amb` | MLX90614 ambient  | 4 Hz    | float32 °C       | |
@@ -99,6 +100,7 @@ Mk0.5 firmware emits `q` explicitly on every sample. Decision tree per sensor:
 | Sensor      | Emit `q` |
 |-------------|----------|
 | MAX30102    | `ok` if `ir > finger_ir_threshold`; `gap` otherwise. |
+| `ppg-rr`    | `ok` if `250 <= rr_ms <= 2000` or `rr_ms == 0` (first peak); `out-of-range` otherwise. Refractory-suppressed peaks (<250 ms gap to previous accepted) are not emitted at all. |
 | GSR         | `ok` if `100 < raw < 4000`; `out-of-range` at rails; `gap` if no electrodes (not yet detectable in hardware — placeholder TODO). |
 | MLX90614    | `ok` if `15 < obj_c < 45`; `out-of-range` otherwise. |
 | AD8232      | `gap` if `LO+` OR `LO-` asserted; `ok` otherwise. (Wave 2.) |
@@ -153,6 +155,16 @@ detect noise online.
 ```
 {"t":12.000,"ch":"ecg","v":0,"q":"gap"}
 ```
+
+### PPG-derived RR interval (v0.2, Wave J)
+```
+{"t":12.872,"ch":"ppg-rr","v":872,"q":"ok","conf":2.31,"boot":"a3f2c91e0bd4abcd"}
+{"t":13.756,"ch":"ppg-rr","v":884,"q":"ok","conf":2.18,"boot":"a3f2c91e0bd4abcd"}
+{"t":15.900,"ch":"ppg-rr","v":2144,"q":"out-of-range","conf":1.42,"boot":"a3f2c91e0bd4abcd"}
+```
+First peak after stream-start emits with `v=0` and `q=ok` to anchor the
+series. `conf` is a non-standard extension (additionalProperties
+permissive); analysis can ignore it.
 
 ---
 

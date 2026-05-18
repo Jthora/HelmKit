@@ -43,4 +43,22 @@ void emit_error(const char* source,
                 helmkit::drivers::Health terminal_health =
                     helmkit::drivers::Health::kError);
 
+// Wave J. Emit an RR-interval sample on the `ppg-rr` channel (docs/SCHEMA.md
+// §2.2). Sample shape conforms to psiStabilizer v0.1: {t, ch, v, q, boot}
+// plus a non-standard `conf` extension (peak_amp / threshold). The first
+// peak after a reset has rr_ms == 0 and is still emitted with q="ok" — it
+// anchors the per-session RR series so analysis can timestamp the rising
+// edge of the first beat. Subsequent peaks emit q="ok" when in_range, or
+// q="out-of-range" when the gap is < 250 ms (refractory-survivor) or
+// > 2000 ms (drop / artefact).
+//   t_ms: millis()-since-boot at peak centroid (bridged to wall-clock at
+//         ingest per SCHEMA.md §3).
+//   rr_ms: RR interval in milliseconds; 0 = first peak in stream.
+//   in_range: true if 250 <= rr_ms <= 2000 OR rr_ms == 0.
+//   confidence: peak_amp / threshold; >= 1.0 by construction.
+void emit_ppg_rr(uint32_t t_ms,
+                 uint16_t rr_ms,
+                 bool in_range,
+                 float confidence);
+
 }  // namespace helmkit::log

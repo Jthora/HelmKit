@@ -129,4 +129,24 @@ void emit_error(const char* source,
     emit_line(buf);
 }
 
+void emit_ppg_rr(uint32_t t_ms,
+                 uint16_t rr_ms,
+                 bool in_range,
+                 float confidence) {
+    if (!g_attached) return;
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    // Use the supplied peak-timestamp (millis), not millis() at emit-time —
+    // peak-time is what RR is computed against and what downstream analysis
+    // needs to be deterministic across replays.
+    const float t = (float)t_ms / 1000.0f;
+    const char* q = in_range ? "ok" : "out-of-range";
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"ppg-rr\",\"v\":%u,\"q\":\"%s\","
+             "\"conf\":%.2f,\"boot\":\"%s\"}",
+             t, (unsigned)rr_ms, q, (double)confidence, hex);
+    emit_line(buf);
+}
+
 }  // namespace helmkit::log
