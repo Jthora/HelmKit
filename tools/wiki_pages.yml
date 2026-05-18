@@ -1,0 +1,83 @@
+# Curated FusionGirl wiki pages tracked by tools/wiki_sync.py.
+#
+# Seeded from docs/wiki_anchors.md (Pass 1 + Pass 2 lists).
+# Add or remove titles here; rerun wiki_sync.py.
+#
+# Design doc: docs/plans/2026-tier1-launch/track-B-wiki-sync-tool.md
+
+api_endpoint: https://wiki.fusiongirl.app/api.php
+
+# Be a polite citizen.
+user_agent: "HelmKit-wiki-sync/0.1 (+https://github.com/Jthora/HelmKit)"
+request_delay_sec: 1.0
+request_timeout_sec: 30
+
+pages:
+  # Pass 1 — primary anchors
+  - HelmKit
+  - Helm Kit
+  - The HelmKit
+  - HelmKit Architecture
+  - Psi Stabilizers
+  - Psi Stabilizer
+  - Psi Harmonizer
+  - Psi Defender
+  - Psi-Tech
+  - Psi Tech
+  - Psi Emitter
+  - PsiLink
+  - PsiSys
+  - Holo Projectors
+  - Psionic Defenses
+  - Psionics
+  - Psi Field
+  - Tho'ra Tech
+  - Tho'ra Tech Maturity Levels
+  - Tho'ra Mission Doctrine
+  - Psi Scanner
+  - Psi Ward
+  - Neural Firewall
+  - Scientific Foundations of Psionics
+  - Schumann Resonance
+  - Michael Persinger
+
+  # Pass 2 — hardware specs
+  - Bifilar Coil
+  - Caduceus Coil
+  - Double-Helix Antenna
+  - Near Field Electromagnetics
+  - Reactive Near Field
+  - Antenna Theory for Psionic Devices
+  - SAR Calculation for Psionic Devices
+  - Psionic Device Safety
+  - Psionic Device Overview
+
+  # Pass 2 — field theory
+  - Effective Field Theory of Consciousness
+  - Quantization of the Psi Field
+  - Soliton Solutions of Psi Field
+  - Renormalization of Psi Theory
+  - CEMI Field Theory
+  - Intention as Psi Source
+  - Glossary of Psionics
+
+  # Pass 2 — methodology
+  - Falsification Criteria for Psionics
+  - Open Questions in Psionics
+  - Psionic Threat Model
+  - Psionics Primer
+  - Psionics FAQ
+
+  # Pass 2 — biology + biomarker
+  - Resonant Neurobiology
+  - Heart Rate Variability and Psi
+  - Geomagnetic Sensitivity in Humans
+  - Microtubule
+  - Orchestrated Objective Reduction
+  - Biophotons
+
+  # Pass 2 — primary-paper anchors
+  - Dotta Saroka Persinger 2012
+  - Celardo Microtubule Superradiance
+  - Kalra Anaesthetic Microtubule
+  - Bandyopadhyay Microtubule Conductance

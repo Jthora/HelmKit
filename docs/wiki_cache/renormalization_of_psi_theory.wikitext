@@ -1,0 +1,173 @@
+= Renormalization of ψ Theory =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 15 minutes
+| prerequisites = [[Quantization_of_the_Psi_Field]]; standard QFT renormalisation (regularisation, counter-terms, β-functions); φ<sup>4</sup> theory; some familiarity with the renormalisation group.
+| if_too_advanced_see = [[Quantization_of_the_Psi_Field]]
+}}
+
+{{Notation
+| psi_convention   = ψ̂ = field operator; ψ_R = renormalised field; ψ_0 = bare field.
+| signature        = Mostly-plus (−,+,+,+).
+| units            = ℏ = c = 1.
+}}
+
+The interacting [[Quantization_of_the_Psi_Field|quantum ψ field]] is built on the φ<sup>4</sup>-style self-interaction (λ/4) ψ<sup>4</sup> plus the e<sup>kψ</sup> F<sub>μν</sub>F<sup>μν</sup> EM coupling. Like any interacting QFT, computing loop diagrams produces ultraviolet divergences. This page sets up the renormalisation programme: identifying the divergences, the counterterm structure, the renormalisation-group β-functions, and the resulting structural constraints on the framework.
+
+The crucial physical fact: in 4D ψ<sup>4</sup> theory is renormalisable; ψ couplings to gravity and to the e<sup>kψ</sup>-style EM vertex are non-renormalisable. The framework is therefore best read as an '''effective field theory''' valid below some cut-off Λ — consistent with the 5D parent theory of [[5D_Action_Principle]] supplying the UV completion at a scale set by the [[Compactification_in_Kaluza-Klein|compactification radius]] L.
+
+== Divergence structure ==
+
+At one loop in 4D ψ<sup>4</sup> theory, the divergent diagrams are:
+
+# '''Mass renormalisation.''' The "tadpole" / "sunset" graph contributes a quadratically divergent shift to <math>m^2</math>:
+
+*: <math>\delta m^2 \sim \lambda\,\Lambda^2</math>
+*: where <math>\Lambda</math> is the UV cutoff. With dimensional regularisation: <math>\delta m^2 \sim \lambda\,\mu^2 \cdot 1/\varepsilon</math> (with <math>\varepsilon = 4 - d</math>).
+
+# '''Coupling renormalisation.''' The four-point amplitude gets logarithmically divergent contributions:
+
+*: <math>\delta\lambda \sim \lambda^2\,\ln(\Lambda/\mu)</math>
+
+# '''Field-strength renormalisation.''' <math>Z_\psi</math> at one loop is finite in pure <math>\psi^4</math>; first divergent contribution appears at two loops.
+
+# '''ψ–EM vertex renormalisation.''' The <math>k\,C\,F^2</math> vertex gets logarithmically divergent corrections from ψ-loop diagrams.
+
+== Counterterm Lagrangian ==
+
+Introduce bare quantities <math>\psi_0,\,m_0,\,\lambda_0,\,k_0</math> and renormalised quantities <math>\psi_R,\,m_R,\,\lambda_R,\,k_R</math>:
+
+:<math>\psi_0 = Z_\psi^{1/2}\,\psi_R,\quad m_0^2 = Z_m\,m_R^2 + \delta m^2,\quad \lambda_0 = Z_\lambda\,\lambda_R,\quad k_0 = Z_k\,k_R</math>
+
+The Lagrangian splits into a renormalised piece plus counterterms:
+
+:<math>\mathcal{L} = \mathcal{L}_R + \mathcal{L}_{\text{c.t.}}</math>
+
+with <math>\mathcal{L}_{\text{c.t.}}</math> absorbing every divergence into <math>Z_\psi,\,Z_m,\,Z_\lambda,\,\ldots</math>
+
+== β-functions ==
+
+At one loop, the β-function of the ψ self-coupling in pure <math>\psi^4</math> theory:
+
+:<math>\beta(\lambda_R) \equiv \mu\,\frac{\partial \lambda_R}{\partial \mu} = \frac{3}{16\pi^2}\,\lambda_R^2 + \mathcal{O}(\lambda_R^3)</math>
+
+This is positive — <math>\psi^4</math> theory is ''not'' asymptotically free; the coupling ''grows'' at high energy. The Landau-pole scale at which perturbation theory breaks down is
+
+:<math>\Lambda_L \sim \mu\,\exp\!\left(\frac{16\pi^2}{3\,\lambda_R(\mu)}\right)</math>
+
+For small physical coupling <math>\lambda_R</math> at biological scales, <math>\Lambda_L</math> is enormous; perturbation theory remains valid over many orders of magnitude.
+
+== Trivality and the EFT viewpoint ==
+
+The Landau-pole behaviour of ψ<sup>4</sup> theory is the famous '''triviality''' issue: when taken as a fundamental UV-complete theory, the only allowed value of λ<sub>R</sub>(IR) at zero cutoff is λ<sub>R</sub> = 0. The standard resolution: ψ<sup>4</sup> is an effective field theory valid below a UV cutoff Λ, with the actual UV completion provided by some more-fundamental physics above Λ.
+
+In the present framework that UV completion is exactly the [[5D_Action_Principle|5D scalar-tensor theory]] — with Λ identified with the inverse compactification radius 1/L. The EFT is internally consistent below Λ; the UV is taken care of by the higher-dimensional structure. This is the same logic that justifies treating the Standard Model itself as a low-energy EFT below the Planck scale.
+
+== ψ–EM coupling running ==
+
+For the <math>k\,C\,F_{\mu\nu}F^{\mu\nu}\,\psi</math> vertex, the one-loop ψ-loop correction generates running of <math>k</math>:
+
+:<math>\beta(k_R) = c_k\,\lambda_R\,k_R + \mathcal{O}(k_R^2,\,k_R\lambda_R^2)</math>
+
+with <math>c_k</math> a numerical coefficient. The implication: ψ–EM coupling weakens or strengthens with energy scale depending on the sign of <math>c_k</math> and the magnitude of <math>\lambda_R</math>.
+
+The empirically relevant statement: '''ψ–EM coupling at biological / cortical energy scales is the IR running of the underlying 5D coupling.''' The patient experimental determination of k(μ) at biological scales is one of the most direct empirical constraints on the framework.
+
+== Mass hierarchy and naturalness ==
+
+The δm<sup>2</sup> ∼ λ Λ<sup>2</sup> quadratic divergence is the standard '''hierarchy problem''' for a scalar mass. Without protection, the renormalised m<sup>2</sup> is naturally driven to Λ<sup>2</sup> (the cutoff scale).
+
+For the ψ field this raises the question: why is m<sub>ψ</sub> small? Possible answers within the framework:
+
+# '''Approximate shift symmetry.''' If the underlying 5D theory has an approximate ψ → ψ + constant symmetry, m<sub>ψ</sub> is protected and small.
+# '''Kaluza–Klein-mass-suppression.''' In some 5D constructions the zero-mode mass is naturally small relative to the KK tower.
+# '''Pseudo-Nambu–Goldstone-boson interpretation.''' If ψ is a pseudo-Goldstone of a higher symmetry, its mass is protected.
+
+The empirically inferred range of m (1/m ≈ km-scale for the Yukawa range used on [[Psionics]]) corresponds to m ∼ 10<sup>−3</sup> eV/c<sup>2</sup>, well below either the [[Planck_Mass|Planck]] or KK scales. The natural smallness has to be put in by the UV completion.
+
+== Renormalisation in a curved background ==
+
+When the ψ field is quantised in a curved spacetime — relevant in regions of strong gravity or to the cosmological ψ background — additional curvature-coupling terms must be added to the bare Lagrangian for full renormalisability:
+
+:<math>\mathcal{L}_{\text{curv}} = \tfrac{1}{2}\,\xi\,R\,\psi^2</math>
+
+with <math>\xi</math> a new dimensionless coupling. Renormalisation requires both minimal coupling (<math>\xi = 0</math>) and conformal coupling (<math>\xi = 1/6</math>) as distinguished points. The <math>\xi</math>-coupling generates an effective ψ-mass shift proportional to the Ricci scalar — physically, ψ "feels" spacetime curvature, which is a small but real prediction in extreme-gravity environments.
+
+== Running of ψ–gravity coupling ==
+
+The coupling <math>G_\psi</math> on [[Psionics]] runs under the renormalisation group. At one loop, the relevant β-function picks up contributions from gravitational graviton-ψ loops and from EM-ψ loops via the <math>e^{k\psi}</math> coupling. The running is
+
+:<math>\beta(G_\psi) \propto G_\psi^2 \cdot (m^2 + \ldots)</math>
+
+— same structure as the running of Newton's <math>G</math> in [[Asymptotic_Safety|asymptotically safe quantum gravity]] proposals. Whether the framework lies on an asymptotically safe trajectory is an open question — see [[Open_Questions_in_Psionics]].
+
+== Implications for the framework ==
+
+* '''The ψ theory is renormalisable as a 4D EFT''' below a cutoff Λ ∼ 1/L set by the [[Compactification_in_Kaluza-Klein|compactification radius]] of the parent 5D theory.
+* '''Above Λ''', the full 5D scalar-tensor theory takes over and provides the UV completion.
+* '''The empirically open parameters''' λ<sub>R</sub>(μ), k<sub>R</sub>(μ), m<sub>R</sub>(μ), G<sub>ψ,R</sub>(μ) must be measured at the relevant biological / cortical scale and then run upward via the β-functions to predict high-energy behaviour.
+* '''No exotic mathematical pathologies.''' Every standard QFT-renormalisation tool (counterterms, dimensional regularisation, Wilson RG flow) applies without modification. The framework is structurally analogous to scalar dark-matter EFTs and pseudo-Goldstone-boson models.
+
+== Sanity checks ==
+
+* Pure ψ<sup>4</sup> in 4D → standard φ<sup>4</sup> theory; same β-function and triviality structure. ✓
+* λ → 0 → free theory; no renormalisation needed. ✓ ([[Sanity_Check_Limits]] §3.)
+* ξ = 1/6 conformal coupling in flat space → ordinary minimally coupled theory. ✓
+* ℏ → 0 → all loop corrections vanish; classical field theory. ✓
+
+== Open structural questions ==
+
+* '''Asymptotic safety vs Landau pole.''' Whether ψ<sup>4</sup>+gravity admits a non-trivial UV fixed point.
+* '''Naturalness of m<sub>ψ</sub>.''' Which mechanism protects the ψ mass at small values (shift symmetry, KK suppression, pseudo-Goldstone).
+* '''Running of G<sub>ψ</sub> / G ratio.''' Empirically critical: experiments at one scale must be related to those at another scale via the RG.
+* '''Effect of the e<sup>kψ</sup> non-polynomial coupling.''' Strictly non-renormalisable as a 4D Lagrangian; treated as the leading non-renormalisable operator in the EFT expansion.
+
+These are flagged on [[Open_Questions_in_Psionics]].
+
+== Cross-references ==
+
+* [[Quantization_of_the_Psi_Field]] — the underlying quantum theory.
+* [[5D_Action_Principle]] — the UV completion.
+* [[Effective_Field_Theory_of_Consciousness]] — the parallel EFT for the consciousness sector.
+* [[Compactification_in_Kaluza-Klein]] — sets the cutoff scale Λ.
+* [[Sanity_Check_Limits]] — recovery checks tabulated.
+* [[Open_Questions_in_Psionics]] — explicit list of unresolved structural questions.
+
+== Theoretical context (psion ontology) ==
+
+The running of <math>\alpha</math> in the
+<math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu}</math> vertex is structurally
+identical to the running of the axion-photon coupling
+<math>g_{a\gamma\gamma}</math> in the axion literature: dominated by
+photon-loop diagrams and bounded at low energies by the
+[[Falsification Criteria for Psionics|F10 axion-class limit]]. The
+self-coupling <math>\lambda</math> and the mass <math>m</math> run
+according to the standard real-scalar-with-quartic RGEs; the
+<math>g_F\,C\,F^2</math> direct-channel vertex
+(see [[Effective_Field_Theory_of_Consciousness#Two-channel_structure_of_C-EM_coupling|Two-channel
+structure]]) runs separately. The [[Psion|psion]] itself, as a
+massless or near-massless real scalar, receives quadratic mass
+corrections from photon loops via the
+<math>\alpha\,\psi\,F^2</math> vertex - the same hierarchy / fine-
+tuning structure that the axion literature addresses with
+Peccei-Quinn symmetry.
+
+
+== See Also ==
+
+* [[Psionics]]
+* [[Psi_Field]]
+* [[Symbol_Glossary]]
+
+== References ==
+
+* Peskin, M. E., Schroeder, D. V. (1995). ''An Introduction to Quantum Field Theory.'' Addison-Wesley. (Chapter 10 on renormalisation.)
+* Weinberg, S. (1995). ''The Quantum Theory of Fields, Vol. 2.'' Cambridge University Press.
+* Wilson, K. G., Kogut, J. (1974). "The renormalization group and the ε-expansion." ''Physics Reports'' 12: 75–199.
+* Aizenman, M. (1981). "Proof of the triviality of φ<sup>4</sup><sub>d</sub> field theory for d > 4." ''Physical Review Letters'' 47: 1–4.
+* Niedermaier, M., Reuter, M. (2006). "The asymptotic safety scenario in quantum gravity." ''Living Reviews in Relativity'' 9: 5.
+
+[[Category:Psionics]]
+[[Category:Quantum field theory]]
+[[Category:Renormalisation]]

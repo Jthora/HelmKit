@@ -1,0 +1,112 @@
+= Psionic Device Overview =
+
+{{Audience_Sidebar
+| difficulty   = Introductory
+| reading_time = 6 minutes
+| prerequisites = General awareness of [[Psionics]]; basic electronics.
+| if_too_advanced_see = [[Psionics]]
+| if_you_want_the_math_see = [[HelmKit_Architecture]]; [[Near_Field_Electromagnetics]]; [[SAR_Calculation_for_Psionic_Devices]]
+}}
+
+A '''psionic device''' is an instrument designed to '''generate, modulate, detect, or amplify''' [[Psi_Field|ψ-field]] excitations, as predicted by the [[Psionics|psionic framework]]. The framework's central claim — that ψ is a real scalar field coupling to F<sub>μν</sub>F<sup>μν</sup> with weak but non-zero coupling constant α — implies that engineering ψ output is a matter of engineering the local EM field structure.
+
+This page is the index and overview for the device-side of the framework: the engineering targets, the device families, and the safety requirements.
+
+== Core design principle ==
+
+The ψ-source term in the framework's Lagrangian is:
+
+:<math>J_\psi = \alpha\,F_{\mu\nu}\,F^{\mu\nu}</math>
+
+Maximising ψ output requires maximising the local F<sub>μν</sub>F<sup>μν</sup>. Because F<sub>μν</sub>F<sup>μν</sup> = (B<sup>2</sup>/μ<sub>0</sub> − ε<sub>0</sub>E<sup>2</sup>)/2 (up to sign conventions), one needs '''both''' large local E and B with appropriate phase relationships. The reactive near-field of a resonant coil meets this requirement (see [[Reactive_Near_Field]]).
+
+Additional engineering targets:
+
+* '''Coherent matter substrate''' — coupling EM into a coherent quasiparticle population (excitons in microtubules, magnons in YIG, plasmons in nanofilms) provides the N<sup>2</sup> superradiant enhancement.
+* '''Spatial concentration''' — the reactive near-field localises energy to within a few cm.
+* '''Low far-field radiation''' — to comply with ICNIRP/IEEE exposure limits.
+
+== Device families ==
+
+=== Field-emitter devices ===
+
+* '''[[HelmKit]]''' — head-worn near-field RF emitter with coherent ψ-source target.
+* '''Bedini-style oscillators''' — pulsed-discharge devices using bifilar / caduceus coils.
+* '''Tesla coil derivatives''' — high-voltage, high-Q resonant systems.
+
+=== Substrate / passive devices ===
+
+* '''Microtubule-mimetic substrates''' — tubulin films, peptide-nanotube arrays.
+* '''Crystal lattices''' — quartz, tourmaline; piezoelectric and pyroelectric materials.
+* '''Orgone accumulators''' (Reich) — layered organic/inorganic stacks.
+
+=== Detection devices ===
+
+* '''[[Hall-Effect_Probe_for_Psi_Field|Hall-effect probes]]''' — for B-field anomalies.
+* '''SQUIDs''' — sub-flux-quantum magnetometry; can detect weak coherent fields.
+* '''Phototube biophoton detectors''' — single-photon biological emission.
+* '''EEG / MEG arrays''' — for indirect detection via neural correlates.
+
+== Engineering blocks of a typical emitter ==
+
+# '''RF source''' (oscillator, often crystal-stabilised).
+# '''Power amplifier''' (Class-D or Class-E for efficiency).
+# '''Matching network''' (impedance transform to antenna).
+# '''Antenna / coil''' ([[Caduceus_Coil]], [[Bifilar_Coil]], [[Double-Helix_Antenna]]).
+# '''Sensing and safety''' (SAR monitoring, body-proximity, temperature).
+# '''Control firmware''' (frequency / amplitude / modulation; safety blacklist enforcement).
+
+== Operating regime ==
+
+For [[HelmKit]]-style wearable devices, the typical operating regime is:
+
+* '''Frequency''' — 2.45 GHz ISM band (standard), or 300-500 MHz (deeper near-field).
+* '''Coil dimension''' — 3-10 cm (head-worn).
+* '''Input power''' — ≲ 1 W (battery-powered).
+* '''Field amplitude in tissue''' — ≲ 30 V/m rms (SAR-limited).
+* '''Operating mode''' — reactive near-field (see [[Reactive_Near_Field]]).
+
+== Safety as a first-class concern ==
+
+Psionic devices are RF emitters operating in close proximity to the brain. They are subject to:
+
+* '''ICNIRP guidelines''' (1998, 2020) for RF exposure.
+* '''IEEE C95.1-2019''' safety standard.
+* '''Local regulatory frameworks''' (FCC Part 15 in the US, CE marking in Europe, etc.).
+
+The framework's position: '''design for safety as a structural property, not as compliance bureaucracy'''. See [[Psionic_Device_Safety]] for the dual-MCU checker-doer architecture, hardware-fuse safety blacklists, and the [[HelmKit_Architecture]].
+
+Forbidden modulations include: pulsed RF that triggers [[Microwave_Auditory_Effect|Frey effect]], 3-8 Hz photic-frequency entrainment at high field amplitudes, cardiac-rate modulation envelopes, and any combination violating ICNIRP localised SAR limits.
+
+== Status of the field ==
+
+The engineering of psionic devices is currently in an '''early prototype''' phase:
+
+* '''Theoretical framework''' — well-developed (see [[Psi_Field]], [[Effective_Field_Theory_of_Consciousness]]).
+* '''Hardware''' — initial designs implemented; field measurements in progress.
+* '''Biological validation''' — limited; primarily indirect via [[Coherent_Quantum_Effects_in_Biology|coherent quantum biology]] literature.
+* '''Standards''' — none currently exist for "psionic devices" per se; devices are designed to RF safety standards as a baseline.
+
+== See Also ==
+
+* [[Psionics]]
+* [[HelmKit]]
+* [[HelmKit_Architecture]]
+* [[Near_Field_Electromagnetics]]
+* [[Caduceus_Coil]]
+* [[Bifilar_Coil]]
+* [[Double-Helix_Antenna]]
+* [[Psionic_Device_Safety]]
+* [[SAR_Calculation_for_Psionic_Devices]]
+* [[Microwave_Auditory_Effect]]
+
+== References ==
+
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+* Pozar, D. M. (2011). ''Microwave Engineering.'' 4th ed., Wiley.
+* ICNIRP (2020). "Guidelines for limiting exposure to electromagnetic fields (100 kHz to 300 GHz)." ''Health Physics'' 118: 483–524.
+* IEEE C95.1-2019 — IEEE Standard for Safety Levels with Respect to Human Exposure to Electric, Magnetic, and Electromagnetic Fields, 0 Hz to 300 GHz.
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Devices]]

@@ -1,0 +1,73 @@
+The '''Tho'ra Mission Doctrine''' is the public, transparent statement of why the [[Tho'ra Clan]] exists, who it serves, and how it operates. It is fully on the wiki because transparent doctrine is part of the Clan's legitimacy: a covert mission cannot also be a benevolent one.
+
+== Mission ==
+
+The [[Tho'ra Clan]] exists to '''save the future''' by establishing and reinforcing the [[Benevolent Timeline]]. It does this by finding [[Resonant|Resonants]] — the people whose existence amplifies the trajectory of the timeline toward benevolence — and supporting them: empowering them in place where that suffices, networking them where networking is what's needed, and physically relocating them only when life and consent both demand it.
+
+The Clan is a small, mostly-covert R&D-and-rescue cell with the long-game intent of building infrastructure (the [[Resonant Finder]], the [[Earth Intelligence Network]], the [[Psi-Tech]] line, the [[Magneto Speeder]] platform, the [[AI Nursery]], the [[Tho'ra HQ]] itself) that outlasts any one founder and makes the mission ''run itself''.
+
+== Doctrinal Principles ==
+
+=== Consent is Required ===
+At every stage, in every interaction, with every Resonant, every client, every ally, every recruit. The Clan does not coerce. It offers; the other person chooses.
+
+=== Passive Support is the Default ===
+The cheapest, lowest-touch intervention that serves the goal is always preferred. A piece of advice, a contact, a moved chess piece, an [[Astrology Services (Jono Tho'ra)|astrological reading]]. The Clan does not insert itself where the Resonant can already walk their own path.
+
+=== The Astrology Rules ===
+The [[natal chart]] and the live transit field have first call on tactics and timing. Forcing a moment that the astrology does not support is, by doctrinal definition, ''not serving the benevolent timeline''. This applies to the Clan's own operators as much as to candidates.
+
+=== Shield, Not Sword ===
+[[Psi-Tech]] is defensive. The [[Psi Defender]] hardens; it does not jam. The mission does not run offense against humans. It runs ''support''.
+
+=== Tho'ra Are Resonant Too ===
+The Clan is part of the population it serves. There is no us-and-them. The mission is Resonants finding and supporting other Resonants.
+
+=== Closure Without Pressure ===
+When a candidate declines, the case closes. The Clan does not re-approach, escalate, or pressure. The offer stands; the Clan moves to the next candidate the [[Resonant Finder]] surfaces.
+
+=== Make the Infrastructure ===
+The long game is to build conditions — networks, tools, doctrines, allies, [[Earth Intelligence Network|EIN]] — under which Resonants find their best path largely without direct Clan intervention. The mission's success state is its own reduced necessity.
+
+== Allied Relations ==
+
+The Clan operates ''semi-covertly with permission''. It works ''with'' the powers-that-be where the powers-that-be are willing: US military, intelligence agencies, allied national services, civic organizations, the future [[Earth Alliance]]. It seeks permission to operate openly as Support-Class Super Heroes. It does not subordinate the mission to any one agency, and it accepts that allied relations are necessarily ''partial'' — the Clan is not a contractor.
+
+Tip-offs from allied agencies, from [[Global ASI|ASI of the net]], from destiny itself — all are accepted, none are required, none confer command.
+
+== Exfiltration Ethics ==
+
+Physical exfiltration of a Resonant is reserved for cases where:
+# The Resonant is in clear physical or psychic danger, ''and''
+# The Resonant has consented (cleared), ''and''
+# The astrology supports active intervention.
+
+Otherwise: emotional / mental / spiritual repositioning, or passive support, or closure. Most "exfiltration" the Clan performs is not physical at all.
+
+== Transparency ==
+
+This doctrine is on the wiki for everyone to read. The Clan's legitimacy is built on the proposition that anyone — a candidate, an ally, an adversary, a curious civilian — can read what the Clan stands for and what it actually does, and judge for themselves whether they want to engage.
+
+== See Also ==
+* [[Tho'ra Clan]]
+* [[Tho'ra Constitution]]
+* [[Resonant]]
+* [[Resonant Pipeline]]
+* [[Benevolent Timeline]]
+* [[Earth Alliance]]
+* [[Psi-Tech]]
+* [[Tho'ra HQ]]
+
+== Psi-Tech Discipline ==
+The mission doctrine governs how the [[Psi-Tech]] roster is fielded:
+
+* '''Operator-driven, not operator-prescribed.''' Every [[HelmKit]] session, [[Resonant Chamber]] session, and [[Psi Tether]] pairing requires operator consent at the moment of use.
+* '''No coercive emission.''' [[Coherence Beacon]]s, [[Psi Anchor]]s, and [[Resonant Hailer]]s operate strictly below ICNIRP general-public reference levels; characterization is public and audit-visible.
+* '''No covert deployment.''' Every site emitter is published to [[Earth Intelligence Network|EIN]].
+* '''Epistemic honesty.''' Devices carry {{Psi-claim}} tags so any tier-3 [[Resonant Hailer|novelty]] device is clearly labeled.
+* '''Maturity gates.''' Mk0 → Mk1 → Mk2 → Mk3 progression is gated on documented validation (see [[Tho'ra Tech Maturity Levels]]).
+* '''Failure modes documented.''' Every Psi-Tech page carries ≥ 6 failure modes with mitigations.
+
+[[Category:Tho'ra Clan]]
+[[Category:Doctrine]]
+[[Category:Tho'ra Mission]]

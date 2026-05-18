@@ -1,0 +1,508 @@
+= Psionics =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 30 minutes
+| prerequisites = [[Psionics_Primer]]; calculus through partial derivatives; vector calculus (∇, ∇<sup>2</sup>); some special relativity; familiarity with the [[Symbol_Glossary]].
+| if_too_advanced_see = [[Psionics_Primer]] · [[What_is_the_Psi_Field]] · [[Glossary_of_Psionics]]
+| if_too_basic_see    = [[5D_Action_Principle]] · [[Quantization_of_the_Psi_Field]] · [[Renormalization_of_Psi_Theory]]
+| if_you_want_the_math_see = [[5D_Action_Principle]] (full derivation)
+}}
+
+{{Notation
+| psi_convention   = ψ = scalar field amplitude; Ψ = T<sup>00</sup>(ψ) energy density (see [[Psi_Field]]).
+| signature        = Mostly-plus (−, +, +, +).
+| units            = ℏ = c = 1 unless explicitly noted.
+| index_convention = Greek μ,ν,ρ,σ over 4D; capital M,N over 5D; Latin i,j,k over spatial 3D.
+}}
+
+'''Psionics''' (from ''[[Psychic]]'' + ''[[Electronics]]'') is the science and technology of [[Psi_Energy|psi phenomena]] — the intersection of consciousness, electromagnetic biology, scalar field theory, and higher-dimensional physics. In the [[Natra|Natura]] universe, psionics is both a natural phenomenon governed by a rigorous equation set and a technology domain explored through [[Psi_Tech]].
+
+This page is the canonical 4D equation reference. For the deeper 5D origin see [[5D_Action_Principle]]; for plain-language entry see [[Psionics_Primer]]; for the symbol-only reference see [[Symbol_Glossary]].
+
+== Related Pages ==
+
+{| class="wikitable" style="width:100%;"
+! Category !! Pages
+|-
+| '''Core Concepts''' || [[Psi_Energy]] · [[Psi_Field]] · [[Psi_Flow]]
+|-
+| '''Plain Language''' || [[Psionics_Primer]] · [[Psionics_Reading_Guide]] · [[Psionics_FAQ]] · [[Glossary_of_Psionics]]
+|-
+| '''Equation Trunk''' || [[5D_Action_Principle]] · [[Sanity_Check_Limits]] · [[Modified_Einstein_Equations_with_Psi]] · [[Soliton_Solutions_of_Psi_Field]]
+|-
+| '''Field Quantum / EFT''' || [[Effective_Field_Theory_of_Consciousness]] · [[Quantization_of_the_Psi_Field]] · [[Renormalization_of_Psi_Theory]]
+|-
+| '''Technology''' || [[Psi_Tech]] · [[Psi_Emitters]] · [[PsiNet]] · [[PsiSys]] · [[HelmKit_Architecture]]
+|-
+| '''Operations''' || [[Psi-Ops]] · [[Psychotronics]] · [[Psionic_Resonance_Uplink]] · [[Psi_Stabilizers]]
+|-
+| '''Foundations''' || [[Scientific_Foundations_of_Psionics]] · [[Collective_Consciousness]]
+|}
+
+== Conceptual Overview ==
+
+The psionic framework treats consciousness-mediated effects as the dynamics of a real scalar field ψ(x<sup>μ</sup>) coupled to electromagnetism and gravity. Three levels of description, from intuitive to fundamental:
+
+* '''Non-relativistic (3+1).''' Everyday-scale psionics: weak fields, slow motion. Reduces to Yukawa / Poisson form. Easiest entry point.
+* '''Relativistic 4D.''' Full covariant theory after compactification of the fifth dimension. Master equation □ψ − m<sup>2</sup>ψ − λψ<sup>3</sup> = αF<sup>2</sup> + J<sub>ψ</sub>.
+* '''Parent 5D scalar-tensor theory.''' The deepest layer; see [[5D_Action_Principle]] for the derivation.
+
+== Psionic Equations ==
+
+=== Non-Relativistic Limit — Intuitive Entry Point ===
+
+These equations describe everyday-scale psionics in the weak-field, slow-motion regime — the easiest place to build intuition. They are the exact non-relativistic limit of the full theory below.
+
+==== Psionic Poisson / Yukawa equation ====
+
+:<math>\nabla^2\psi - m^2\psi = -4\pi G_\psi\,\rho_\psi</math>
+
+''The static, non-relativistic master equation for the psionic field: spatial curvature of ψ balanced by its mass term equals the source density.''
+
+{| class="wikitable"
+! Symbol !! Meaning
+|-
+| <math>\psi</math> || Psionic scalar potential
+|-
+| <math>m</math> || ψ-field mass (m ≈ 0 → infinite range; m > 0 → short-range [[Yukawa_Potential|Yukawa screening]])
+|-
+| <math>\rho_\psi</math> || Source density (coherent neural activity, focused intent, or technological emitter)
+|-
+| <math>G_\psi</math> || Psionic coupling constant
+|}
+
+For m = 0 this is identical to the Poisson equation of Newtonian gravity or electrostatics.
+
+'''Point-source solution:'''
+
+:<math>\psi(r) = -\frac{G_\psi M_\psi}{r}\, e^{-m r}</math>
+
+Historical note: identical form to [[Hideki_Yukawa|Yukawa]]'s 1935 meson potential for the strong nuclear force.
+
+==== Psionic force on a test particle ====
+
+:<math>\vec{F}_\psi = -p\,\nabla\psi</math>
+
+* <math>p</math> = psionic charge (positive = repels high-ψ regions → defensive shield; negative = attracts → telekinetic pull).
+* For a point source with m = 0 the force law is exactly Coulomb / Newtonian but scalar-mediated.
+
+==== Psionic energy density (non-relativistic) ====
+
+:<math>\rho_\psi = \tfrac{1}{2}\,(\nabla\psi)^2 + \tfrac{1}{2}\,m^2\psi^2</math>
+
+* First term = gradient (kinetic) energy; second term = mass / rest energy of the field.
+* Total field energy in a volume V: <math>E = \int_V \rho_\psi\, dV</math>.
+
+=== Relativistic 4D Effective Theory ===
+
+Full covariant equations after compactification of the fifth dimension. These are the direct 4D descendants of the parent 5D theory derived on [[5D_Action_Principle]].
+
+==== Psionic scalar field equation (4D) ====
+
+:<math>\Box\psi - m^2\psi - \lambda\psi^3 = \alpha\, F_{\mu\nu}F^{\mu\nu} + J_\psi</math>
+
+''The master psionic field equation. Reads: the wave behaviour of ψ, corrected by its mass and nonlinear self-interaction, equals its coupling to the EM field plus any externally driven source.''
+
+'''Symbols:'''
+
+{| class="wikitable"
+! Symbol !! Name !! Meaning / units
+|-
+| <math>\Box</math> || d'Alembertian || <math>g^{\mu\nu}\nabla_\mu\nabla_\nu</math>; wave operator. Mass dimension [M<sup>2</sup>].
+|-
+| <math>\psi</math> || Psionic scalar field || Real, spin-0, classical macroscopic field. Mass dimension [M].
+|-
+| <math>m</math> || ψ-field mass || Inverse coherence length; effective range <math>\sim 1/m</math>.
+|-
+| <math>\lambda</math> || Self-interaction coupling || Dimensionless. λ > 0 stabilises against runaway; supports [[Soliton_Solutions_of_Psi_Field|solitons]].
+|-
+| <math>\alpha</math> || EM–ψ coupling || Strength of how strongly EM curvature sources ψ.
+|-
+| <math>F_{\mu\nu}</math> || EM field-strength tensor || Standard Maxwell tensor. <math>F_{\mu\nu}F^{\mu\nu} = 2(B^2 - E^2/c^2)</math> in SI.
+|-
+| <math>J_\psi</math> || Psionic source current || Biological / technological driver of ψ. See [[Wilson-Cowan_Coupled_to_Psi]].
+|}
+
+'''Dimensional check''' (natural units, <math>\hbar = c = 1</math>): every term has mass dimension [M<sup>3</sup>]:
+* <math>\Box\psi</math>: [M<sup>2</sup>]·[M] = [M<sup>3</sup>] ✓
+* <math>m^2\psi</math>: [M<sup>2</sup>]·[M] = [M<sup>3</sup>] ✓
+* <math>\lambda\psi^3</math>: [1]·[M<sup>3</sup>] = [M<sup>3</sup>] ✓
+* <math>J_\psi</math>: [M<sup>3</sup>] ✓ (the EM term's coupling absorbs the remaining dimensional balance via [α] = [M<sup>−1</sup>]).
+
+'''Special cases:'''
+
+* '''Free massless wave limit''' (m = 0, λ = 0, J<sub>ψ</sub> = 0, F = 0):
+:<math>\Box\psi = 0 \quad\Longrightarrow\quad \omega^2 = k^2</math>
+:''ψ propagates exactly at the speed of light. Rigorous basis for relativistic telepathy and precognition models.''
+
+* '''Static Yukawa limit''' (∂<sub>t</sub> = 0, λ = 0):
+:<math>(\nabla^2 - m^2)\psi = -J_\psi \quad\Longrightarrow\quad \psi(r) \propto \frac{e^{-mr}}{r}</math>
+:''Massive ψ is exponentially screened with range 1/m. See [[Yukawa_Potential]].''
+
+* '''Linearised dispersion''' (small ψ around background ψ<sub>0</sub>):
+:<math>\omega^2 = k^2 + m^2 + 3\lambda\psi_0^2</math>
+:''Nonlinearity shifts the effective mass — focussed practitioners may experience an apparent stiffening of the medium.''
+
+'''Programmer analogy:''' Treat ψ as a 4D array indexed by (t, x, y, z) updated by a finite-difference scheme. The left-hand side is the spacetime curvature of that array (second differences). The right-hand side is the *forcing function* — EM field intensity plus an external "ping" J<sub>ψ</sub> from neural activity. The <math>\lambda\psi^3</math> term is the *self-coupling*: large local values produce a restoring force, like a damped oscillator's cubic spring.
+
+'''Derivation:''' Varying the action <math>S = \int d^4x\, \mathcal{L}</math> with <math>\mathcal{L} = -\tfrac{1}{2}\partial_\mu\psi\,\partial^\mu\psi - \tfrac{1}{2}m^2\psi^2 - \tfrac{\lambda}{4}\psi^4 + \alpha\psi\, F_{\mu\nu}F^{\mu\nu} - J_\psi\psi</math> with respect to ψ. Full derivation: [[5D_Action_Principle]] (after compactification) and [[Modified_Einstein_Equations_with_Psi]].
+
+'''Sanity check:''' In the limit m = 0, λ = 0 with no sources, this reduces to the [[Klein-Gordon_Equation|massless Klein–Gordon equation]] for a free real scalar — a textbook result. Logged in [[Sanity_Check_Limits]].
+
+'''Numerical example:''' If m ~ 10<sup>−3</sup> eV/c<sup>2</sup> (a benchmark from current ψ-mass falsification literature), the Yukawa range is <math>1/m \sim \hbar c/(10^{-3}\,\mathrm{eV}) \approx 200\,\mu\mathrm{m}</math>. ''Interpretation:'' if ψ carries this mass, its static field is screened beyond roughly the thickness of a sheet of paper, implying the relevant psionic dynamics live in the *wave* (∂<sub>t</sub> ≠ 0) regime rather than the static-field regime.
+
+'''Term-by-term role:'''
+
+{| class="wikitable"
+! Term !! Role
+|-
+| <math>\Box = \partial_\mu\partial^\mu</math> || Wave operator → psionic disturbances propagate at c
+|-
+| <math>\lambda\psi^3</math> || Stabilising quartic self-interaction (λ > 0 prevents runaway collapse; supports [[Soliton_Solutions_of_Psi_Field|solitons]])
+|-
+| <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> || Direct coupling to electromagnetic energy density (brain waves can source ψ)
+|-
+| <math>J_\psi</math> || Explicit psionic current (biological or technological driver)
+|}
+
+In vacuum with m = λ = 0: <math>\Box\psi = 0</math> — pure massless wave equation.
+
+==== Psionic stress-energy tensor ====
+
+:<math>T_{\mu\nu}^{\psi} = \partial_\mu\psi\,\partial_\nu\psi - g_{\mu\nu}\left[\, \tfrac{1}{2}\,\partial^\rho\psi\,\partial_\rho\psi + \tfrac{1}{2}\,m^2\psi^2 + \tfrac{\lambda}{4}\,\psi^4 \,\right]</math>
+
+{| class="wikitable"
+! Term !! Physical meaning
+|-
+| <math>\partial_\mu\psi\,\partial_\nu\psi</math> || Momentum flux of the psionic field
+|-
+| <math>-g_{\mu\nu}\,[\,\ldots\,]</math> || Isotropic pressure and energy density
+|}
+
+The T<sup>00</sup> component is the directly-felt energy density Ψ discussed on [[Psi_Field]].
+
+==== Modified Einstein equations (Jordan frame) ====
+
+:<math>G_{\mu\nu} = 8\pi G\,\left( T_{\mu\nu}^{\text{matter}} + T_{\mu\nu}^{\text{EM}} + T_{\mu\nu}^{\psi} \right)</math>
+
+ψ directly curves spacetime → strong sustained ψ gradients produce measurable gravity-like effects. Full discussion on [[Modified_Einstein_Equations_with_Psi]].
+
+==== Geodesic equation with psionic fifth force ====
+
+:<math>\frac{D^2 x^\mu}{d\tau^2} = q\, F^{\mu}{}_{\nu}\,\frac{dx^\nu}{d\tau} + p\,\partial^\mu\psi</math>
+
+* The <math>p\,\partial^\mu\psi</math> term is the additional acceleration on any object with non-zero psionic charge.
+* For ordinary matter p ≈ 0; for biologically or technologically "tuned" objects p can be large.
+
+=== Parent 5D Scalar-Tensor Theory ===
+
+The deepest, most rigorous level — the higher-dimensional origin of all equations above. Full derivation on [[5D_Action_Principle]].
+
+==== 5D psionic scalar equation ====
+
+:<math>\tilde{\Box}\psi - m^2\psi - \lambda\psi^3 = -\frac{\kappa}{4}\, e^{k\psi}\, \tilde{F}_{MN}\tilde{F}^{MN} + J_\psi</math>
+
+The <math>e^{k\psi}</math> factor makes the effective fine-structure constant ψ-dependent → psionics can locally modulate electromagnetic coupling.
+
+==== 5D Einstein equations ====
+
+:<math>\tilde{R}_{MN} - \tfrac{1}{2}\,\tilde{g}_{MN}\tilde{R} = T_{MN}^{\psi} + e^{k\psi}\,T_{MN}^{\text{EM}}</math>
+
+with
+
+:<math>T_{MN}^{\psi} = \partial_M\psi\,\partial_N\psi - \tilde{g}_{MN}\left[\, \tfrac{1}{2}\,\partial_P\psi\,\partial^P\psi + \tfrac{1}{2}\,m^2\psi^2 + \tfrac{\lambda}{4}\,\psi^4 \,\right]</math>
+
+==== Kaluza–Klein metric ansatz ====
+
+:<math>ds^2 = g_{\mu\nu}\, dx^\mu dx^\nu + \phi^2\,(dx^5 + A_\mu\, dx^\mu)^2</math>
+
+Original 1919–1926 construction by [[Theodor_Kaluza]] and [[Oskar_Klein]]: the fifth dimension is compactified to a tiny circle, yielding electromagnetism from pure geometry. In the psionic extension, ψ lives in the full 5D spacetime and modulates both the size of the circle (<math>\phi</math>) and the effective gauge coupling.
+
+=== Derived Static & Equilibrium Limits ===
+
+{| class="wikitable" style="width:100%;"
+! Regime !! Equation !! Notes
+|-
+| Massless static (harmonic) || <math>\nabla^2\psi = 0</math> || Long-range ψ fields behave like gravitational/electric potentials
+|-
+| Massive static (screened) || <math>\nabla^2\psi - m^2\psi = -4\pi G_\psi \rho_\psi</math> || Range ≈ 1/m; e.g. m ∼ 10<sup>−3</sup> eV/c<sup>2</sup> → km-scale effects
+|-
+| Continuity (energy flow) || <math>\partial_t\rho_\psi + \nabla\cdot(\rho_\psi\,\vec{v}) = J_\psi</math> || J<sub>ψ</sub> > 0 = generation; J<sub>ψ</sub> < 0 = dissipation
+|}
+
+=== Quick Reference Table ===
+
+{| class="wikitable" style="width:100%;"
+! Regime !! Key Equation !! Typical Phenomenon
+|-
+| Non-relativistic || <math>\vec{F}_\psi = -p\,\nabla\psi</math> || Telekinesis, psychokinetic push/pull
+|-
+| Relativistic 4D || <math>\Box\psi = J_\psi</math> (massless vacuum) || Telepathic wave transmission
+|-
+| 5D parent theory || <math>e^{k\psi}</math> coupling || Local modulation of physical constants by intent
+|-
+| Static massive || Yukawa screening || Personal energy shields with finite range
+|}
+
+== Legitimate Extensions ==
+
+These are direct, exact consequences or useful rewrites of the core equations — not new fundamental equations.
+
+=== Psi wave propagation ===
+
+:<math>\Box\psi - m^2\psi - \lambda\psi^3 = J_\psi + \alpha\, F_{\mu\nu}F^{\mu\nu}</math>
+
+In vacuum (J<sub>ψ</sub> = 0, F = 0, m = 0, λ ≈ 0): <math>\Box\psi = 0</math> → ψ disturbances travel exactly at c, the rigorous basis for relativistic telepathy and precognition models.
+
+=== Psi energy flux (scalar Poynting vector) ===
+
+:<math>\vec{S}_\psi = -\partial_t\psi\,\nabla\psi</math>    (non-relativistic)
+
+:<math>T^{0i}_\psi = -\partial_t\psi\,\partial^i\psi</math>    (relativistic energy-flow vector)
+
+Exact scalar analogue of the electromagnetic Poynting vector.
+
+=== Information & Entropy ===
+
+:<math>S = -\mathrm{Tr}(\hat{\rho}\,\ln\hat{\rho})</math>
+
+Coarse-grained field entropy connects ψ configurations to information content. See [[Quantization_of_the_Psi_Field]].
+
+=== Neural-Psi coupling (Wilson–Cowan + scalar drive) ===
+
+:<math>\tau\,\frac{\partial u}{\partial t} = -u + \int W(x - x')\,f\bigl(u(x', t)\bigr)\,dx' + \beta\,\psi(x, t)</math>
+
+where <math>\beta\,\psi(x,t)</math> is the back-reaction of the ψ scalar onto neural firing rate, and the brain sources ψ via
+
+:<math>J_\psi(x, t) \propto \int f\bigl(u(x', t)\bigr)\,dx'</math>
+
+→ a closed, bidirectional, mathematically clean loop between brain dynamics and the scalar field. Full treatment on [[Wilson-Cowan_Coupled_to_Psi]].
+
+=== Maxwell-like aesthetic (emergent) ===
+
+In the deep non-relativistic, static, massless limit:
+
+:<math>\nabla\cdot(-\nabla\psi) = \rho_\psi</math>
+
+with <math>\vec{E}_\text{eff} \equiv -\nabla\psi</math> and Poynting analogue <math>\vec{S}_\psi = \partial_t\psi\,\vec{E}_\text{eff}</math>. The historical "Psi-Maxwell" formulation thus becomes a legitimate low-energy effective description — a rewrite, not a new field.
+
+=== Consciousness as modulator ===
+
+Consciousness never appears as a new variable. It acts in two rigorously allowed ways:
+
+# '''Coherent neural firing patterns''' determine the spatial / temporal shape of J<sub>ψ</sub> and α F<sup>2</sup> terms.
+# '''Focused attention''' can sustain large-amplitude, long-coherence-time ψ solitons via the λψ<sup>3</sup> nonlinearity — the mathematical basis for "trained" vs "untrained" practitioners.
+
+== How Psionic Abilities Emerge ==
+
+Every classic psionic discipline is a direct, mathematically exact consequence of the core equations.
+
+{| class="wikitable" style="width:100%;"
+! Ability !! Governing Equation(s) !! Key Parameter(s) !! Training Direction
+|-
+| '''Telepathy''' || <math>\Box\psi = J_\psi</math> || Coherence time of J<sub>ψ</sub> || Increase signal-to-noise
+|-
+| '''Telekinesis / PK''' || <math>\vec{F}_\psi = -p\,\nabla\psi</math> || Magnitude of ∇ψ, value of p || Intensify local gradients
+|-
+| '''Shielding''' || Yukawa with tunable m || Effective mass m || Raise m (tighter shield)
+|-
+| '''Precognition''' || Advanced + retarded solutions || Boundary condition choice || Develop absorptive state
+|-
+| '''Energy Work''' || <math>\vec{S}_\psi = -\partial_t\psi\,\nabla\psi</math> || Rate of change of ψ || Sustain steep gradients
+|-
+| '''Group Rituals''' || −λψ<sup>3</sup> nonlinearity || Number N and phase alignment || Perfect synchronisation
+|}
+
+=== Telepathy & Remote Sensing ===
+
+:<math>\Box\psi = J_\psi \quad \text{(massless, vacuum limit)}</math>
+
+A focused mind (J<sub>ψ</sub>) launches a scalar disturbance that propagates at c and is felt by any receiver with non-zero psionic charge p. Range is effectively unlimited for m ≈ 0; signal strength falls as 1/r.
+
+=== Telekinesis & Psychokinesis ===
+
+:<math>\vec{F}_\psi = -p\,\nabla\psi</math>
+
+Objects with induced or inherent p experience a force proportional to the local ψ gradient. Macroscopic effects require either very large ∇ψ or collective coherence across many practitioners.
+
+=== Personal & Group Shielding ===
+
+:<math>\nabla^2\psi - m^2\psi = -4\pi G_\psi\,\rho_\psi \quad\Longrightarrow\quad \psi(r) \propto \frac{e^{-m r}}{r}</math>
+
+A sustained high-ψ region naturally excludes incoming ψ disturbances beyond distance ~1/m. Advanced practitioners exhibit larger effective m (tighter, stronger shields).
+
+=== Precognition & Retro-PK ===
+
+The homogeneous wave equation admits both retarded (normal future influence) and advanced (past-directed) solutions. [[Wheeler-Feynman_Absorber_Theory|Wheeler–Feynman]]-style boundary conditions permit mathematically consistent retrocausal influence. Requires macroscopic quantum-coherent ψ states.
+
+=== Energy Flow & "Charging" ===
+
+:<math>\vec{S}_\psi = -\partial_t\psi\,\nabla\psi</math>
+
+Shows the directional flow of psionic energy; practitioners experience this as "raising energy" or "drawing from the environment".
+
+=== Neural-Psionic feedback loop ===
+
+Brain → <math>J_\psi \propto \text{coherent firing}</math> → emits ψ
+
+ψ → <math>\tau\,\partial_t u = -u + W * f(u) + \beta\,\psi</math> → modulates firing
+
+This closed loop is the mathematical basis for all biofeedback, trance, and psi-training protocols. See [[Wilson-Cowan_Coupled_to_Psi]].
+
+=== Collective amplification & resonance ===
+
+When N aligned practitioners produce ψ<sub>total</sub> ≈ N ψ<sub>individual</sub> in the same region, the self-interaction energy density grows as N<sup>4</sup> (since T<sup>00</sup> contains the <math>\tfrac{\lambda}{4}\psi^4</math> term).
+
+This is the rigorously allowed mechanism for "group mind", "ritual circle", and large-gathering coherence effects.
+
+== Bridges to Established Science ==
+
+{| class="wikitable" style="width:100%;"
+! Discipline !! Relevant Object / Equation !! Role in Psionics
+|-
+| '''Neuroscience / EEG / MEG''' || Cortical F<sup>2</sup> → J<sub>ψ</sub> and α F<sup>2</sup> terms || Primary biological source
+|-
+| '''Orch-OR''' || Coherent microtubule GHz oscillations || Possible high-efficiency J<sub>ψ</sub> emitter
+|-
+| '''Quantum Field Theory''' || Klein–Gordon <math>(\Box + m^2)\psi = 0</math> || Exact propagation law
+|-
+| '''Information Theory''' || Phase-space volume of ψ configurations || Information capacity of psi signals
+|-
+| '''Nonlinear Dynamics''' || <math>\lambda\psi^3</math> self-interaction || Chaos, solitons, training amplification
+|-
+| '''Statistics''' || Standard hypothesis testing on a known wave equation || Path to experimental confirmation
+|}
+
+=== Fundamental wave equations ===
+
+'''Klein–Gordon (vacuum propagation):'''
+
+:<math>(\Box + m^2)\psi = 0</math>
+
+Exact propagation law for the psionic scalar in flat spacetime. The same equation governs the Higgs field and the inflaton. Massless case: ψ waves travel at c. Massive case: exponential screening.
+
+'''Non-relativistic Schrödinger-like limit:'''
+
+:<math>i\hbar\,\partial_t\psi = -\frac{\hbar^2}{2\,m_\text{eff}}\,\nabla^2\psi + \frac{\lambda}{4}\,\psi^4</math>
+
+Emerges when ψ varies slowly compared to c. The <math>\lambda\psi^4</math> term supports stable solitons (thought-forms) and travelling ψ pulses that keep their shape.
+
+=== Effective "Psi-Electromagnetism" ===
+
+:<math>\nabla\cdot\vec{E}_\text{eff} = \rho_\psi, \quad \vec{E}_\text{eff} \equiv -\nabla\psi</math>
+
+Poynting analogue: <math>\vec{S}_\psi = -\partial_t\psi\,\vec{E}_\text{eff}</math>.
+
+The scalar ψ rewritten in the familiar language of electrostatics — not a new field. Practitioners recognise |E<sub>eff</sub>| as felt "pressure" during psychokinesis.
+
+=== Neural-Psi closed loop ===
+
+:<math>\tau\,\partial_t u = -u + W * f(u) + \beta\,\psi, \qquad J_\psi = \kappa\int f(u)\,dV</math>
+
+The only mathematically legitimate brain–ψ interface. <math>\beta\psi</math> = direct "sixth-sense" input into cortical columns. Positive feedback regimes: trance, kundalini, shamanic ecstasy states.
+
+=== Information & entropy of psi signals ===
+
+Maximum information in a ψ pulse:
+
+:<math>I \lesssim \tfrac{1}{2}\,\ln\!\left(1 + \frac{\psi_0^2\, V}{\hbar\,\tau}\right)</math>
+
+A single clear telepathic image carries ≈ 100–1000 bits. Global meditation events can raise the integrated information Φ of the planetary ψ field above that of any individual brain.
+
+=== Chaos and self-sustained states ===
+
+Strong-field chaos:
+
+:<math>\partial_t\psi \propto -\lambda\,\psi^3</math>
+
+Van der Pol–like limit cycles describe trained practitioners' sustained fields. Group rituals are coupled oscillators → rapid synchronisation → order-of-magnitude ψ amplification.
+
+=== Statistical analysis of psi data ===
+
+Standard Bayesian inference on <math>H_0: \psi = 0</math> versus <math>H_1: \psi</math> obeys the equations above. No special "psi statistics" required. Effect size is quoted in natural <math>\psi_0</math> units.
+
+== Evidence Base ==
+
+The framework is supported by peer-reviewed science and declassified government research.
+
+=== Peer-reviewed science ===
+
+* '''Biophotonics:''' Living tissue emits ultra-weak photons (UPE) correlated with neural activity. Mould et al. 2024 (review); Dotta et al. 2012 (head-emission correlation r = 0.95 with EEG gamma during imagined light).
+* '''Microtubule quantum biology:''' Superradiant excitonic states demonstrated in neural cytoskeleton (Celardo et al. 2019); multi-band conductance resonances at kHz, MHz, GHz (Bandyopadhyay et al. 2014).
+* '''Neural optics:''' Myelinated axons function as biophoton waveguides (Zarkeshian et al. 2018).
+* '''Biomagnetism:''' Brain magnetic fields (~100 fT) routinely measured by clinical SQUID-MEG and wearable OPM systems (Roth 2023; Rea et al. 2021).
+* '''Anomalous cognition:''' [[Ganzfeld_Procedure|Ganzfeld]] meta-analyses (Bem & Honorton 1994; Storm 2010), [[PEAR_Program|PEAR]] 2.5-million-trial REG dataset, [[Presentiment]] (Mossbridge et al. 2012 meta-analysis).
+
+=== Declassified government programmes ===
+
+* '''[[Star_Gate_Program|CIA Star Gate]] (1972–1995):''' 23-year programme at SRI International and follow-ons. The 1995 AIR review (Utts) concluded statistical significance is well established (combined effect size d ≈ 0.20, p < 10<sup>−20</sup>).
+* '''CIA CREST Archive:''' Full Star Gate collection declassified January 2017.
+* '''[[Pais_Effect|NAWCAD Pais patent series]] (2015–2019):''' Salvatore Pais ([[Salvatore_Cezar_Pais]]) US patents covering room-temperature superconductors, plasma-compression fusion reactors, gravity-wave generators, and the "Craft using inertial mass reduction device" — all anchored on a high-frequency-vibrating EM emitter coupling to spacetime and matter inertia.
+
+=== Patented technology ===
+
+* US Patent 3,951,134 (1976) — Malech, "Apparatus and method for remotely monitoring and altering brain waves" via RF modulation.
+* US Patent 6,011,991 (2000) — Mardirossian, "Communication system and method including brain wave analysis."
+* US Patent 10,144,532 (2018) — Pais, "Craft using inertial mass reduction device."
+
+See [[Scientific_Foundations_of_Psionics]] for complete bibliography.
+
+== Sanity-Check Limits ==
+
+In appropriate limits the equations on this page reduce to:
+
+{| class="wikitable"
+! Limit !! Recovered theory
+|-
+| m = 0, λ = 0, J<sub>ψ</sub> = 0, F = 0 || Free massless Klein–Gordon equation <math>\Box\psi = 0</math>
+|-
+| λ = 0, F = 0, J<sub>ψ</sub> = 0 || Klein–Gordon with mass <math>(\Box + m^2)\psi = 0</math>
+|-
+| Non-relativistic + static + linear || [[Yukawa_Potential|Yukawa]] equation <math>\nabla^2\psi - m^2\psi = \text{source}</math>
+|-
+| Non-relativistic + static + massless || Poisson equation <math>\nabla^2\psi = \text{source}</math>
+|-
+| <math>T_{\mu\nu}^{\psi} \to 0</math> || Standard Einstein equations
+|-
+| α = 0, J<sub>ψ</sub> = 0 || Decoupled standard model + scalar field
+|}
+
+Full programme on [[Sanity_Check_Limits]].
+
+== See Also ==
+
+* [[Psionics_Primer]] — plain-language entry
+* [[Psi_Field]] — the field whose dynamics this page governs
+* [[5D_Action_Principle]] — derivation of every equation here
+* [[Modified_Einstein_Equations_with_Psi]] — gravity-side coupling
+* [[Soliton_Solutions_of_Psi_Field]] — stable non-perturbative solutions
+* [[Effective_Field_Theory_of_Consciousness]]
+* [[Quantization_of_the_Psi_Field]]
+* [[Renormalization_of_Psi_Theory]]
+* [[Symbol_Glossary]] · [[Glossary_of_Psionics]]
+* [[Psi_Tech]] · [[Psi-Ops]] · [[Psychotronics]]
+* [[Collective_Consciousness]]
+* [[Scientific_Foundations_of_Psionics]]
+
+== References ==
+
+* Bem, D. J., Honorton, C. (1994). "Does psi exist? Replicable evidence for an anomalous process of information transfer." ''Psychological Bulletin'' 115(1): 4–18.
+* Storm, L., Tressoldi, P. E., Di Risio, L. (2010). "Meta-analysis of free-response studies, 1992–2008: Assessing the noise reduction model in parapsychology." ''Psychological Bulletin'' 136(4): 471–485.
+* Utts, J. (1995). ''An Assessment of the Evidence for Psychic Functioning.'' SRI / AIR (declassified Star Gate review).
+* Mossbridge, J., Tressoldi, P., Utts, J. (2012). "Predictive physiological anticipation preceding seemingly unpredictable stimuli: a meta-analysis." ''Frontiers in Psychology'' 3: 390.
+* Dotta, B. T., Saroka, K. S., Persinger, M. A. (2012). "Increased photon emission from the head while imagining light in the dark is correlated with changes in electroencephalographic power." ''Neuroscience Letters'' 513(2): 151–154.
+* Tang, R., Dai, J. (2014). "Biophoton signal transmission and processing in the brain." ''Journal of Photochemistry and Photobiology B'' 139: 71–75.
+* Zarkeshian, P., Kumar, S., Tuszynski, J., Barclay, P., Simon, C. (2018). "Are there optical communication channels in the brain?" ''Frontiers in Bioscience (Landmark Ed.)'' 23: 1407–1421.
+* Celardo, G. L., Angeli, M., Craddock, T. J. A., Kurian, P. (2019). "On the existence of superradiant excitonic states in microtubules." ''New Journal of Physics'' 21: 023005.
+* Sahu, S., Ghosh, S., Hirata, K., Fujita, D., Bandyopadhyay, A. (2014). "Multi-level memory-switching properties of a single brain microtubule." ''Applied Physics Letters'' 102: 123701.
+* Mould, S., et al. (2024). "Ultra-weak photon emission — a brief review." ''Frontiers in Physiology'' 15: 1348915.
+* Roth, B. J. (2023). "Biomagnetism: The First Sixty Years." ''Sensors'' 23(9): 4218.
+* Rea, M., et al. (2021). "A 90-channel triaxial magnetoencephalography system using optically pumped magnetometers." ''NeuroImage'' 241: 118401.
+* Kaluza, T. (1921). "Zum Unitätsproblem der Physik." ''Sitzungsberichte der Königlich Preussischen Akademie'': 966–972.
+* Klein, O. (1926). "Quantentheorie und fünfdimensionale Relativitätstheorie." ''Zeitschrift für Physik'' 37: 895–906.
+
+[[Category:Psionics]]
+[[Category:Technology]]
+[[Category:Equations]]
+[[Category:Universal Language]]

@@ -1,0 +1,289 @@
+= HelmKit Architecture =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 8 minutes
+| prerequisites = Basic embedded-systems knowledge; some RF design vocabulary; safety-critical-systems awareness helpful.
+| if_too_advanced_see = [[HelmKit]]; [[Psionic_Device_Overview]]
+| if_you_want_the_math_see = [[Near_Field_Electromagnetics]]; [[SAR_Calculation_for_Psionic_Devices]]
+}}
+
+'''HelmKit Architecture''' specifies the hardware and firmware design of the [[HelmKit]] — a head-worn near-field psionic device. The architecture is built around a '''dual-MCU checker-doer pattern''' inherited from aerospace and industrial functional-safety standards (DO-178C DAL-A, IEC 61508 SIL-3), adapted for a consumer-grade wearable.
+
+The central design constraint: '''no single software fault may cause an overexposure event'''. This is achieved by hardware-enforced safety oversight running on an independent MCU.
+
+== Block diagram ==
+
+  ┌──────────────────────────────────────────────────┐
+  │                       Battery + PMIC             │
+  └──────────────────────────────────────────────────┘
+       │                          │
+       ▼                          ▼
+  ┌──────────────┐         ┌──────────────┐
+  │   MCU-A      │         │   MCU-B      │
+  │  ("doer")    │         │  ("checker") │
+  │              │         │              │
+  │  RF gen      │         │  Sensors     │
+  │  Modulation  │         │  Blacklist   │
+  │  UI / BLE    │         │  Auth/cutoff │
+  └──────────────┘         └──────────────┘
+       │                          │
+       │ RF drive                 │ Opto-isolated relay (cuts RF)
+       ▼                          ▼
+  ┌──────────────────────────────────────────────────┐
+  │                Power Amplifier                   │
+  └──────────────────────────────────────────────────┘
+       │
+       ▼
+  ┌──────────────────────────────────────────────────┐
+  │  Matching network + [[Caduceus_Coil]] / [[Bifilar_Coil]]  │
+  └──────────────────────────────────────────────────┘
+
+== MCU-A ("doer") ==
+
+The doer MCU is responsible for primary device functionality:
+
+* '''RF signal generation''' — synthesises the drive waveform (CW or modulated).
+* '''Modulation control''' — frequency, amplitude, phase, pulse-shape.
+* '''User interface''' — buttons, display, BLE / WiFi link for telemetry.
+* '''Mode selection''' — selects between operating presets stored in firmware.
+* '''Logging''' — records session parameters and sensor readings.
+
+Hardware: typical mid-range ARM Cortex-M (M4 / M7) or ESP32-class part. Standard development environment, standard firmware update mechanism.
+
+== MCU-B ("checker") ==
+
+The checker MCU runs independent of MCU-A:
+
+* '''Independent power supply''' (separate LDO from battery).
+* '''Independent clock''' (separate crystal oscillator).
+* '''Independent firmware''' (developed and audited separately).
+* '''Read-only authority over RF cutoff''' (opto-isolated relay).
+
+Responsibilities:
+
+* '''RF power monitoring''' — calibrated directional coupler reads forward/reflected power.
+* '''Coil temperature monitoring''' — thermistor or PT100 on coil former.
+* '''Body-proximity sensing''' — capacitive sensor confirms device-on-head condition.
+* '''Ambient field monitoring''' — independent E-probes verify the field amplitude vs. MCU-A's target.
+* '''Blacklist enforcement''' — hardware-fuse-stored frequency/modulation prohibitions (see below).
+* '''Watchdog''' — MCU-A must heartbeat MCU-B every N ms or RF is cut.
+
+Hardware: a smaller, dedicated MCU (e.g. ARM Cortex-M0, MSP430). Simple deterministic firmware, formally audited (target: < 5 kLOC).
+
+== Safety blacklist ==
+
+MCU-B holds a '''hardware-fuse-stored blacklist''' of forbidden frequency/modulation combinations. If MCU-A requests a configuration that violates the blacklist, MCU-B refuses to enable the RF power stage. The blacklist is set at factory time and is not modifiable in the field.
+
+See [[Psionic_Device_Safety]] for the full blacklist contents. Highlights:
+
+* '''Cardiac stimulation risk''' — DC pulses with rise time < 1 ms applied near thorax; 10-100 Hz pulse trains > 1 mA into chest area.
+* '''Brain stimulation / seizure risk''' — 3-8 Hz photic-frequency RF at > 100 V/m head-field; strong 1 Hz pulse trains; modulation envelopes matching cardiac or respiratory rates at > 5% depth.
+* '''[[Microwave_Auditory_Effect|Frey effect]]''' — pulsed RF 200-3000 MHz with peak power density > 40 mW/cm<sup>2</sup> and pulse widths < 1 ms.
+* '''ICNIRP violations''' — continuous-wave near-field > 50 V/m rms at the wearer's head; peak pulsed E-field > 300 V/m.
+
+== Fail-safe state ==
+
+On any MCU-B alert:
+
+# RF power is '''cut immediately''' via the opto-isolated relay.
+# The system enters a '''non-resetable lockout''' state.
+# Lockout requires '''physical key release''' (a manual reset switch inside the device).
+# The event is logged in tamper-evident memory.
+# User notification via display and BLE.
+
+This eliminates the possibility of a single-software-fault causing overexposure.
+
+== RF chain ==
+
+# '''Crystal oscillator''' — provides stable RF reference (e.g. 2.45 GHz).
+# '''VCO + PLL''' (optional) — for tuneable operation.
+# '''Modulator''' — applies AM / FM / pulse modulation as commanded by MCU-A.
+# '''Power amplifier''' — Class-E for efficiency; output ≲ 1 W.
+# '''Directional coupler''' — taps a small fraction for MCU-B monitoring.
+# '''Matching network''' — impedance transform to the [[Caduceus_Coil]] / [[Bifilar_Coil]] / [[Double-Helix_Antenna]].
+# '''Coil''' — the primary near-field emitter.
+
+== Body-aware operation ==
+
+Because tissue loading detunes the coil's impedance (5-20% downward), the matching network is dynamic:
+
+* '''Body-proximity sensor''' detects device-on-head.
+* '''Reflectometer''' (the same directional coupler used for safety) measures the antenna VSWR.
+* '''Tuneable matching network''' adjusts capacitor/inductor values to restore match.
+* '''MCU-A''' adapts the drive frequency or matching state to keep the operating point in the desired regime.
+
+If the body is removed mid-session, the coil's impedance jumps and the matching is lost. MCU-A detects this via reflectometry; MCU-B independently confirms via the proximity sensor.
+
+== Theoretical underpinning: near-field Primakoff structure ==
+
+The bifilar / [[Caduceus_Coil|caduceus]] emitter geometry produces, in
+its reactive near field, simultaneously large <math>E^2</math> and
+<math>B^2</math> components - the two pieces of the electromagnetic
+field-strength scalar
+<math>F^2 = \tfrac{1}{2}\bigl(B^2/\mu_0 - \varepsilon_0 E^2\bigr)</math>.
+Under the [[Psi_Field|ψ-field]] Lagrangian's
+<math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu}</math> vertex, any region
+with non-zero <math>F^2</math> functions as a [[Psion|psion]] source
+through Primakoff conversion (the diagrammatic structure is identical
+to the [[Axion-Photon_Coupling|axion-photon]] vertex used in haloscope
+experiments).
+
+The HelmKit emitter is therefore, from the indirect-channel
+theoretical perspective, a '''low-power biologically-coupled
+Primakoff converter'''. The bare-EM operator-facing behaviour
+(safety envelope, SAR, thermal limits) is unchanged by this
+framing.
+
+{{Mk-target|Mk2+|note=The Primakoff-conversion framing is theoretical. At the [[Falsification Criteria for Psionics|F10]] axion-class bound on alpha, the predicted psion-mediated signal in a Mk1 head-worn near-field device sits far below thermal noise. See [[Psion-Phonon_Coupling_in_Tissue#Sensitivity_gap|sensitivity gap]].}}
+
+Mk1 operator manuals do not claim psion-mediated function.
+
+== Both-channel sham requirement ==
+
+For blinded protocols intended to discriminate device function from
+placebo, the sham coil must suppress '''both''' components of
+<math>F^2</math>, not just <math>B^2</math>. A magnetic-shorted
+bifilar sham (the conventional approach) cancels the magnetic dipole
+moment at the scalp but leaves the displacement-current pattern - and
+thus <math>E^2</math> - intact. Under the indirect channel this is
+'''not''' a null source.
+
+Practical implementation:
+
+# Same physical shape, impedance, thermal signature, and acoustic
+   signature as the live coil.
+# '''Counter-wound second layer in close proximity''' to cancel the
+   magnetic dipole moment '''and''' the displacement-current pattern
+   to first order at the scalp plane.
+# Measured (not modelled) suppression of both <math>B^2</math> and
+   <math>E^2</math> at the head-surface plane, with documented
+   measurement geometry.
+# Sham/live drive identical at the [[#MCU-B ("checker")|MCU-B]]
+   safety-supervisor level; only the coil topology differs.
+
+The conventional magnetic-only cancellation is sufficient when the
+indirect channel is excluded by hypothesis; for any RCT that aims to
+constrain <math>\alpha</math> or the [[Psion-Phonon_Coupling_in_Tissue|psion-phonon
+polariton]], the both-channel sham is required. See
+[[Falsification_Criteria_for_Psionics]] for the methodological
+invariants and [[Psion-Phonon_Coupling_in_Tissue]] for the theoretical
+motivation.
+
+
+== Reference architectures ==
+
+The dual-MCU pattern is inherited from:
+
+* '''DO-178C''' — "Software Considerations in Airborne Systems and Equipment Certification" — Design Assurance Level A (DAL-A) requires independent verification of safety-critical functions.
+* '''IEC 61508''' — "Functional Safety of Electrical/Electronic/Programmable Electronic Safety-related Systems" — Safety Integrity Level 3 (SIL-3) is the target for medical-device-grade safety.
+* '''ISO 26262''' — automotive functional safety (ASIL-D) — similar dual-channel pattern.
+
+HelmKit does not target medical-device certification (which would require clinical trials beyond the framework's current scope). But the architectural pattern is the same: '''safety is enforced by an independent channel''', not by trust in the primary firmware.
+
+== Firmware development discipline ==
+
+For MCU-B specifically:
+
+* '''Formal verification''' of the safety logic (using e.g. Frama-C, SPARK, TLA+).
+* '''Code review''' by an independent reviewer not on the MCU-A team.
+* '''No dynamic memory allocation'''; static buffers only.
+* '''No external code dependencies''' beyond the MCU vendor's HAL.
+* '''Tamper-evident builds''' (signed firmware, hardware-fused public key).
+* '''No remote update path''' — MCU-B firmware updates require physical access.
+
+== See Also ==
+
+* [[HelmKit]]
+* [[Psionic_Device_Overview]]
+* [[Psionic_Device_Safety]]
+* [[SAR_Calculation_for_Psionic_Devices]]
+* [[Microwave_Auditory_Effect]]
+* [[Near_Field_Electromagnetics]]
+* [[Caduceus_Coil]]
+* [[Psionic Threat Model]]
+* [[Psionic User Interface]]
+* [[Psi Mesh]]
+* [[Bifilar_Coil]]
+
+== References ==
+
+* RTCA DO-178C (2011). "Software Considerations in Airborne Systems and Equipment Certification."
+* IEC 61508 (2010). "Functional Safety of Electrical/Electronic/Programmable Electronic Safety-related Systems."
+* ICNIRP (2020). "Guidelines for limiting exposure to electromagnetic fields (100 kHz to 300 GHz)." ''Health Physics'' 118: 483–524.
+* IEEE C95.1-2019 — IEEE Standard for Safety Levels.
+
+== Inter-module bus and connector spec ==
+The HelmKit defines a single mechanical + electrical interface for all
+attachable Psi-Tech modules ([[Psi Stabilizer]], [[Psi Harmonizer]],
+[[Psi Defender]], [[Psi Recorder]], [[Star Seer]] HUD, [[NavCom]] radio).
+
+=== Connector ===
+
+* '''USB-C PD''' (5 V, up to 3 A) carries power '''and''' data on the same cable.
+* '''Keyed module-bay shells''' guarantee orientation; a mechanical index pin
+  blocks insertion in the wrong slot.
+* '''GoPro / Picatinny rail''' segment carries the mechanical load; the
+  USB-C connector is strain-relieved and not load-bearing.
+
+=== Data lanes ===
+
+{| class="wikitable"
+! Lane !! Use !! Bandwidth
+|-
+| '''I²C''' (100 kHz, 7-bit addresses) || Sensor reads, config writes, low-rate telemetry || ~ 10 kB/s per module
+|-
+| '''USB 2.0 HS''' || HUD framebuffer, EEG / PPG streams, firmware updates || 480 Mbit/s
+|-
+| '''UART (115 200 8N1)''' || NavCom radio, debug console || 11 kB/s
+|-
+| '''GPIO safety line''' (open-drain, pull-up on MCU-B) || Module signals "ready to emit" to MCU-B; MCU-B pulls low to force-disable || 1-bit, < 1 ms latency
+|}
+
+=== Module enumeration ===
+
+Each module exposes an I²C identity register at address 0x00 containing a
+16-bit vendor-and-class code. On hot-plug:
+
+# Power-good signal asserts after the PMIC sees the new load.
+# MCU-A reads the identity register, looks up the module's safety profile.
+# MCU-A forwards the profile to MCU-B for blacklist cross-check.
+# Only after MCU-B acknowledges does MCU-A enable the module's data lane and
+  RF-enable GPIO.
+
+Hot-swap during a session is supported; a swap event is logged with
+timestamp, module ID, and the operator's then-current HRV / EEG baseline.
+
+== Per-module power budget ==
+Total HelmKit budget (Mk1 reference battery: 2 × 18650, ~7.4 V nominal,
+~3000 mAh series, ~22 Wh):
+
+{| class="wikitable"
+! Module !! Typical current @ 5 V !! Peak current @ 5 V !! Notes
+|-
+| MCU-A + MCU-B + housekeeping || 50 mA || 80 mA || Always-on
+|-
+| [[Psi Stabilizer]] || 200 mA || 1200 mA || Peak during RF burst
+|-
+| [[Psi Harmonizer]] || 100 mA || 200 mA || Modulation-light
+|-
+| [[Psi Defender]] || 300 mA (RX always on) || 500 mA || Bursts to 1 A during counter-emit
+|-
+| [[Psi Recorder]] || 80 mA || 120 mA || Continuous EEG/PPG/IMU logging
+|-
+| [[Star Seer]] HUD (single-eye micro-OLED) || 300 mA || 800 mA || Backlight-dominated
+|-
+| [[NavCom]] radio (LoRa fallback) || 150 mA || 300 mA || TX-burst peaks
+|}
+
+Worst-case full-load steady draw: ~1.2 A at 5 V (6 W). Battery runtime
+~3.5 h at continuous worst-case; ~8–12 h at typical mission mix (Recorder
++ HUD + occasional Stabilizer pulses).
+
+PMIC enforces a '''hard 3 A total current limit''' on the 5 V bus; MCU-B
+arbitrates if multiple modules request simultaneous bursts that would
+exceed it (priority: Defender > Stabilizer > Harmonizer > HUD).
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Functional Safety]]

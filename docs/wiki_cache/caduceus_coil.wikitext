@@ -1,0 +1,124 @@
+= Caduceus Coil =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 5 minutes
+| prerequisites = [[Near_Field_Electromagnetics]]; basic coil geometry; chirality.
+| if_too_advanced_see = [[Near_Field_Electromagnetics]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = SI throughout.
+| units     = R = coil radius (m); p = pitch (m per turn).
+}}
+
+{{Device_Vital_Stats
+| type           = Coil (counter-helical / chiral)
+| operating_freq = 10 kHz – 10 MHz (geometry-dependent)
+| input_power    = 1 – 50 W (research scale)
+| size           = typical 80 – 300 mm length
+| status         = Prototype / experimental
+| safety_class   = ICNIRP Class II (general public, with shielding)
+| key_reference  = Smith, W. (1964). ''Coils of Specialized Design.''
+}}
+
+A '''caduceus coil''' is a '''bifilar''' winding in which two wires spiral around a common axis with '''opposite chirality''' — one right-handed and one left-handed — crossing each other at regular intervals. The name derives from the herald's staff of Hermes, which carries two intertwined serpents in opposing helical chirality.
+
+Caduceus coils are studied in [[Psionic_Device_Overview|psionic device]] design because their geometry suppresses far-field radiation while maintaining strong, structured near-field — a desirable combination for [[HelmKit]]-class wearable devices.
+
+== Geometry ==
+
+Two helical wires parameterised in cylindrical coordinates as:
+
+:<math>\mathbf{r}_1(t) = \bigl(R\cos t,\ R\sin t,\ p\,t/2\pi\bigr)\quad\text{(right-handed)}</math>
+
+:<math>\mathbf{r}_2(t) = \bigl(R\cos(-t),\ R\sin(-t),\ p\,t/2\pi\bigr)\quad\text{(left-handed)}</math>
+
+— with R = coil radius and p = pitch (axial advance per full turn).
+
+The two wires '''cross each other''' at every half-turn. At each crossing, the local current direction reverses sign in one wire relative to the other.
+
+== Current direction and dipole structure ==
+
+If both wires are driven with the same current I in the same axial direction (or wired together at the ends so that current flows through one then the other), the result is:
+
+* '''Equal currents''' flowing in '''opposite chirality''' helices.
+* '''At every height z''', the two wires contribute opposite-sense magnetic dipole moments.
+* '''Net far-field magnetic dipole moment ≈ 0''' — opposite contributions cancel.
+
+This is the key geometrical feature: '''the caduceus coil has very weak far-field radiation''' despite carrying substantial current.
+
+== Local field structure ==
+
+While the far-field cancels, the local field is non-zero:
+
+* '''Strong axial / longitudinal field components''' at the crossing points, where currents in the two wires are antiparallel.
+* '''Field is localised to the coil interior''' (within R of the axis).
+* '''Spatial structure''' includes both transverse (toroidal) and axial (poloidal) components, with rapid spatial variation.
+
+The longitudinal component at the crossings is of particular interest in the framework's interpretation: it is the analogue of a "scalar field" component in the everyday EM sense — a component that does not propagate as a transverse plane wave but is real and large locally.
+
+== Far-field cancellation in detail ==
+
+For an N-turn caduceus coil, the magnetic dipole moment from each helix can be computed by integrating <math>I\,d\mathbf{l}</math> around each helical path:
+
+:<math>\mathbf{m}_1 = \tfrac{1}{2}\!\int\!\mathbf{r}_1 \times I\,d\mathbf{l}_1\quad\text{(right-handed)}</math>
+
+:<math>\mathbf{m}_2 = \tfrac{1}{2}\!\int\!\mathbf{r}_2 \times I\,d\mathbf{l}_2\quad\text{(left-handed)}</math>
+
+By construction, <math>\mathbf{m}_1 = -\mathbf{m}_2</math>, so the total magnetic dipole moment <math>\mathbf{m} = \mathbf{m}_1 + \mathbf{m}_2 = 0</math>.
+
+Higher-order multipole moments (quadrupole, octupole) do not all vanish, and the coil does have some far-field — but it is much weaker than an equivalent single-helix antenna at the same drive current.
+
+== Coupling to biological chirality ==
+
+A speculative but motivated framework prediction: the '''chiral symmetry''' of the caduceus coil may couple to the '''chiral structure of biological molecules'''. Both DNA and microtubules are '''right-handed helices'''. The simultaneous presence of right- and left-handed near-field structure in a caduceus coil could in principle couple differentially to right- and left-handed molecular substrates.
+
+This is testable: a caduceus coil and an equivalent-current single-helix coil should produce different ψ-response in chiral biological substrates (microtubules, DNA, protein α-helices). Such experiments have not been published in the mainstream literature.
+
+== Engineering use ==
+
+In [[HelmKit]] design, a caduceus coil is one option for the primary RF emitter because:
+
+* '''Low far-field radiation''' → reduced ICNIRP exposure compliance burden.
+* '''Strong, structured near-field''' → high ψ-coupling per watt of input.
+* '''Compact form factor''' compatible with head-worn device.
+
+Practical considerations:
+
+* Tight tolerance on the crossings (poor crossings degrade cancellation).
+* Capacitive coupling between the two wires at crossings introduces RF dielectric losses.
+* Impedance matching is non-trivial (the coil's effective inductance depends on the chirality combination).
+
+== Historical and pseudohistorical context ==
+
+Caduceus-style coils were prominently advocated in the early Tesla and related "free-energy" / "scalar-wave" literature. Tesla's bifilar coil (US Patent 512,340, 1894) is a related — but distinct — geometry where both wires have the same chirality but adjacent turns are wound in opposite electrical-current directions (see [[Bifilar_Coil]]).
+
+The caduceus coil per se was less prominent in Tesla's published work but is widely discussed in modern reactive-resonator engineering. Rigorous EM analysis (as opposed to claims of "scalar wave" emission) appears mainly in the 2000s-2020s alternative-physics and reactive-near-field literature.
+
+== Sanity checks ==
+
+* '''Right-handed wire alone''' → standard helical antenna; non-zero far-field. ✓
+* '''Both wires same chirality''' → constructive far-field; standard bifilar (cf. [[Bifilar_Coil]]). ✓
+* '''ψ → 0''' (in framework) → caduceus geometry is just a low-radiation EM source; no special status. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Bifilar_Coil]]
+* [[Double-Helix_Antenna]]
+* [[Near_Field_Electromagnetics]]
+* [[Reactive_Near_Field]]
+* [[Antenna_Theory_for_Psionic_Devices]]
+* [[HelmKit]]
+* [[Psionic_Device_Overview]]
+
+== References ==
+
+* Tesla, N. (1894). "Coil for electro-magnets." US Patent 512,340 (related bifilar geometry).
+* Kraus, J. D. (1988). ''Antennas.'' 2nd ed., McGraw-Hill.
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Antenna Theory]]

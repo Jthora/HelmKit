@@ -1,0 +1,150 @@
+The '''HelmKit''' is the [[Tho'ra Clan]]'s standard wearable mounting platform for head-worn operational gear. It is, literally, a ''kit for the helm'': a modular helmet-and-headset frame carrying standardized rails, optical bays, power, and data interfaces, into which any combination of [[Psi-Tech]], [[Star Seer]] HUD, [[NavCom]] HUD, sensor packs, and comms modules can be installed. The HelmKit is the operator-side foundation of the Clan's field stack — its job is not to ''do'' anything specific, it is to ''carry'' the things that do, and to keep the operator safe while they do.
+
+This page covers the HelmKit as a product line. For the deeper engineering — bus, power budget, dual-MCU safety architecture, watchdogs, thermal limits — see [[HelmKit Architecture]].
+
+{{Defensive-publication}}
+
+== Overview ==
+
+The HelmKit is built around four design commitments:
+
+* '''Modular.''' Every functional component (display, sensor pack, [[Psi Stabilizer]], [[Psi Harmonizer]], [[Psi Defender]], audio, lighting) attaches via a standardized rail and bay system. The frame survives generational upgrades of its modules.
+* '''Safety-architected.''' From Mk1 onward, every active module passes through a supervisory MCU enforcing RF-power, thermal, and battery-current limits. See [[HelmKit Architecture]] §Safety.
+* '''Cosplay-compatible by construction.''' The Mk0 shell is intentionally identical in external form to Mk1+ functional units. Public visibility doubles as recruitment signal and brand carrier; it also lets an operator wear functional gear in public without disclosing capability.
+* '''Operator-configurable.''' Each [[Tho'ra Clan|Tho'ra]] builds their own loadout for the role they walk into. Recruit, pilot, command, analyst, and civilian-cosplay configurations are documented but not enforced.
+
+== Theoretical Basis ==
+
+The HelmKit itself is mechanical and electrical engineering — it makes no psionic claim. What it ''carries'' does, and those claims are tagged on the respective module pages. Three working assumptions structure the platform:
+
+* {{Psi-claim
+| status = PROVISIONAL
+| cites = [[Geomagnetic Sensitivity in Humans]]
+| methods = Multiple converging studies; replication still in progress.
+| falsifier = Pre-registered, multi-site replication returning a null result (Bayes factor &le; 1/3).
+| confidence = medium
+| last_reviewed = 2026-05-12
+}} Head-mounted sensors are useful because the head is the most stable, most sensor-rich, and most cognitively-coupled mount point on the body. Helmet-borne magnetometers, IMUs, EEG, and PPG are standard in research-grade neuroinstrumentation.
+* {{Psi-claim
+| status = TESTABLE
+| cites = [[Resonant Neurobiology]], [[Heart Rate Variability and Psi]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} A head-mounted, sensor-coupled, RF-capable platform is the right substrate for testing whether closed-loop biofeedback can stabilize the operator under high-stress conditions. This is a falsifiable engineering claim, not a psionic one.
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Scalar Electromagnetic Waves]], [[Psi Field]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} ''If'' a [[Psi Field]] exists as a field-theoretic quantity, the HelmKit's near-field RF bays and shielded compartments are the correct platform for emitting, detecting, and shaping it. The HelmKit does not depend on this claim being true — its non-psionic functions stand on their own.
+
+== Subsystems and BOM ==
+
+=== Reference module bays ===
+
+* '''Optical bay (L / R / center)''' — [[Star Seer]] HUD, [[NavCom]] HUD, low-light optic, IR overlay.
+* '''Sensor pack''' — magnetometer, electrostatic probe, barometric, IMU, ambient EM.
+* '''Psi bay''' — [[Psi Stabilizer]], [[Psi Harmonizer]], [[Psi Defender]], or an integrated triad module.
+* '''Comms''' — [[NavCom]] radio, encrypted PTT, bone-conduction audio.
+* '''Compute''' — on-helm SoC, supervisory MCU, battery, PMIC.
+* '''Cosmetic / brand layer''' — personal heraldry, faction insignia, RGB.
+
+=== Mk0 BOM (target ≤ $80) ===
+
+{| class="wikitable"
+! Part !! Role !! Approx. cost
+|-
+| PLA/PETG 3D print (300–400 g) || Shell + rails || $8–12
+| EVA foam liner || Comfort + retention || $4
+| 18650 single-cell holder + dummy cell || Power-look || $3
+| WS2812B LED strip (1 m) || HUD/heraldry glow || $4
+| ATtiny85 or low-end RP2040 || LED animation || $3
+| Off-the-shelf headset frame (donor) || Headset internals || $20–30
+| Hardware: M3 inserts, threaded rails, fasteners || Module mount || $8
+| Decals + paint || Brand layer || $10
+|-
+! colspan="2" align="right" | '''Estimated total'''
+| '''$60–74'''
+|}
+
+The Mk0 explicitly carries no live Psi-Tech, no functional HUD compute, and no RF-active emitters. It is functional ''as a wearable'' and ''as brand'', not as ops gear.
+
+=== Mk1 active loadout (additional, ≤ $400) ===
+
+* STM32F407 dev board (compute-A) — $18
+* RP2040 or ATmega32U4 (safety-MCU-B) — $6
+* Single-eye OLED HUD module + driver — $35
+* BME680 + MPU6050 + HMC5883L sensor pack — $30
+* nRF52840 BLE + 433/915 MHz LoRa — $20
+* Panasonic NCR18650 ×2 + TP4056 charge / protection — $20
+* Buck/boost PMIC + current sense — $15
+* Connectors (USB-C PD, JST-GH × 4, JST-SH × 2) — $15
+* Bone-conduction transducer pair — $20
+
+== Build Notes ==
+
+* '''Frame.''' Print at 0.2 mm layer, 3 walls, 30 % gyroid. Brass heat-set inserts on every load-bearing screw. Avoid PLA in cabin temperatures > 50 °C — switch to PETG or ASA.
+* '''Mass budget.''' Mk0 ≤ 600 g. Mk1 ≤ 850 g. Anything over 1 kg becomes a neck-strain issue inside an hour.
+* '''Cable routing.''' All cables route through the back-of-helm channel into a single connector pod above the C7 vertebra. Detach point lives in the breakaway lanyard; no cable runs across the throat.
+* '''Module IDs.''' Every bay reads a 1-byte identity from the module's I²C address 0x00 register on insert. Unknown modules are powered to 3.3 V signalling only — no rails — until the operator confirms.
+
+== Safety and Ethics ==
+
+The HelmKit's safety envelope is enforced by the supervisory MCU-B documented in [[HelmKit Architecture]]:
+
+* RF emitter aggregate power capped at the lesser of {ICNIRP basic restriction at near-field separation 1 cm} or {per-module declared maximum} − 6 dB headroom.
+* Thermal sensors at psi-bay, optical bay, and battery; any reading > 50 °C trips the bay; > 60 °C trips the whole helm.
+* Battery cell-level fuse + reverse-polarity FET + per-rail current sense.
+* Hard kill: a single breakaway pull at the lanyard severs the upstream PMIC enable.
+
+Ethics: a HelmKit must never act on a third party. All emitters are near-field, directed at the wearer. The [[Psi Defender]] is shield, not sword. The [[Psi Harmonizer]] interlocks to the wearer's own [[natal chart]] only — never another person's. See [[Tho'ra Mission Doctrine]].
+
+== Maturity ==
+
+{{Psi-tech-maturity
+| mk0=Cosplay HelmKit — 3D-printed shell, decorative LEDs, off-the-shelf headset internals. Widespread Clan-public use.
+| mk1=Prototype HelmKit — STM32F407 + supervisory MCU, single-eye OLED HUD, sensor pack, bench-validated [[Psi Stabilizer]] bay. Current frontier.
+| mk2=Test HelmKit — field-validated multi-module, telemetered, dual HUD, full [[Psi-Tech]] triad bay.
+| mk3=Production HelmKit — ruggedized, manufacturable, EA-auxiliary issued. Standardized loadouts.
+| confidence_mk0=HIGH (mechanical)
+| confidence_mk1=MEDIUM (subsystems work; integration in progress)
+| confidence_mk2=LOW
+| confidence_mk3=SPECULATIVE
+| evidence_mk0=Field-attested by Clan-public wear.
+| evidence_mk1=Bench measurements on individual modules.
+| evidence_mk2=Planned 2030–2033 field trial.
+| evidence_mk3=Projected post-2032 manufacturing.
+| gate_mk1=Sustained 4-hour wear test with all bays populated, no thermal trips, < 850 g.
+| gate_mk2=Twenty-operator field trial with telemetered safety logs.
+| gate_mk3=DFM review, certifiable BOM, third-party safety audit.
+}}
+
+== Failure Modes and Mitigations ==
+
+* '''Battery thermal runaway.''' → Cell-level fuse, per-rail current sense, MCU-B watchdog. Worst case: hard-kill lanyard.
+* '''Module misidentification.''' → 1-byte identity probe at 3.3 V signalling only before rail power; operator confirmation for unknown IDs.
+* '''Operator fatigue / neck strain.''' → Mass cap 850 g Mk1; reset reminders every 90 minutes.
+* '''Cable snag.''' → All routing internal; single external lanyard with breakaway.
+* '''RF emitter stuck-on.''' → MCU-B independently times every emit cycle; hard-cut on watchdog miss.
+* '''Cosmetic-only Mk0 mistaken for active.''' → Mk0 frames carry an internal visible-light-only marker; Mk1+ require key-on auth.
+
+== See Also ==
+
+* [[HelmKit Architecture]]
+* [[Psi-Tech]]
+* [[Psi Stabilizer]]
+* [[Psi Harmonizer]]
+* [[Psi Defender]]
+* [[Star Seer]]
+* [[NavCom]]
+* [[Tho'ra Tech Maturity Levels]]
+* [[Psionic Threat Model]]
+
+[[Category:Tho'ra Tech]]
+[[Category:Psi-Tech]]
+[[Category:Wearables]]
+[[Category:Tho'ra Clan Equipment]]

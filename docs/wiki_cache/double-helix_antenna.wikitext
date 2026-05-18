@@ -1,0 +1,118 @@
+= Double-Helix Antenna =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 5 minutes
+| prerequisites = Basic antenna theory; circular polarisation; chirality.
+| if_too_advanced_see = [[Antenna_Theory_for_Psionic_Devices]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = SI throughout.
+| units     = R = helix radius (m); p = pitch (m); N = turns; λ = wavelength (m).
+}}
+
+A '''double-helix antenna''' is an antenna consisting of two parallel helical conductors wound in the '''same chirality''' on a common axis, with one wire offset by 180° from the other. The geometry intentionally mimics the structure of double-stranded DNA.
+
+When properly tuned, a double-helix antenna radiates a '''circularly-polarised''' wave whose chirality matches that of the helix. For a right-handed double helix, the radiation is right-circularly-polarised — preferentially coupling to right-handed biological substrates (DNA, microtubules, α-helical proteins, all of which are right-handed).
+
+The double helix differs from the [[Caduceus_Coil|caduceus coil]] in chirality: caduceus has opposite-chirality wires (cancelling), double helix has same-chirality wires (constructive).
+
+== Geometry ==
+
+Two helical wires parameterised in cylindrical coordinates as:
+
+:<math>\mathbf{r}_1(t) = \bigl(R\cos t,\; R\sin t,\; p t / 2\pi\bigr)</math>
+
+:<math>\mathbf{r}_2(t) = \bigl(R\cos(t + \pi),\; R\sin(t + \pi),\; p t / 2\pi\bigr)</math>
+
+— with R = helix radius and p = pitch. Both wires are right-handed (or both left-handed); they are simply offset by π in the angular phase.
+
+== Operating modes ==
+
+Kraus (1947) identified two principal modes of helical-antenna radiation, depending on the ratio of helix circumference to wavelength:
+
+=== Normal mode (C ≪ λ) ===
+
+When the helix circumference C = 2πR is much less than λ, the helix radiates like a vertical short dipole — '''linear polarisation''' perpendicular to the axis, weak directivity.
+
+=== Axial mode (C ≈ λ) ===
+
+When C ≈ λ — specifically 0.75 λ ≤ C ≤ 1.33 λ — the helix radiates in the '''axial mode''':
+
+* '''End-fire pattern''' along the helix axis.
+* '''Circularly polarised''' wave matching the helix chirality (right helix → right-circular polarisation).
+* '''High directivity''' (gain ≈ 11.8 + 10 log<sub>10</sub>(N C<sup>2</sup> p / λ<sup>3</sup>) dBi).
+* '''Broad bandwidth''' (~ 2:1 for typical designs).
+
+The axial mode requires the helix to be electrically resonant — C ≈ λ. For 2.45 GHz this means C ≈ 12 cm or R ≈ 2 cm.
+
+== Circular polarisation ==
+
+The circular polarisation in axial mode arises because:
+
+# Each turn of the helix carries a current with both longitudinal (axial) and transverse (azimuthal) components.
+# The transverse component rotates 360° per turn as the current advances along the helix.
+# In the far-field, the rotating transverse current produces a rotating E-field — circularly polarised.
+
+The chirality (right vs left circular) is determined entirely by the helix's chirality.
+
+== Why match DNA's chirality? ==
+
+The framework's motivation:
+
+* '''DNA is right-handed (B-form double helix)''' — universally so for natural DNA.
+* '''Microtubules are right-handed helices''' — all the major biopolymer scaffolding is right-handed.
+* '''α-helical proteins are right-handed''' — the dominant secondary structure of proteins.
+* A '''right-circularly-polarised wave''' has its E-vector rotating in the same chirality as these molecules.
+
+Optical-rotation experiments (Pasteur 1848 onward) show that biological molecules differentially absorb left- and right-circularly polarised light. The same principle extends to radio frequencies, though the wavelength mismatch (cm vs nm) makes direct molecular-level coupling weak.
+
+In the framework, the coupling to ψ is via F<sub>μν</sub>F<sup>μν</sup>, which is a Lorentz scalar — '''insensitive to chirality at the framework level'''. The chirality of the antenna matters insofar as it determines the spatial structure of E and B inside the wearer's tissue, which in turn determines the local F<sub>μν</sub>F<sup>μν</sup> distribution.
+
+== Engineering for psionic use ==
+
+Double-helix antennas for psionic-device applications can be tuned to:
+
+* '''Operate in axial mode''' at 2.45 GHz for circular-polarised radiation.
+* '''Operate in normal mode''' at lower frequencies (~ 300 MHz) for near-field-only deployment.
+* '''Match biological wavelengths''' — at MHz frequencies, the helix turns can be matched to nano-anatomical scales of microtubule lattices.
+
+For [[HelmKit]] application, the normal-mode double-helix is usually preferred (near-field, low radiation). The axial-mode design is relevant for longer-range device variants (room-scale field engineering).
+
+== Kraus's foundational reference ==
+
+Kraus, J. D. (1947). "Helical Beam Antennas." ''Electronics'' 20: 109. The founding paper of helical-antenna engineering. Kraus demonstrated experimentally:
+
+* The transition from normal to axial mode at C ≈ λ.
+* The circular polarisation in axial mode.
+* The high directivity of multi-turn helices.
+
+His later textbook (Kraus 1988, ''Antennas'' 2nd ed.) remains the canonical reference for helical antenna design.
+
+== Sanity checks ==
+
+* '''C → 0 (very small helix)''' → recovers normal mode and a short dipole. ✓
+* '''C ≈ λ''' → axial mode; circular polarisation; experimentally confirmed in countless installations. ✓
+* '''Two helices merging to one''' → recovers single-helix antenna. ✓
+* '''ψ → 0''' (in framework) → standard antenna physics; no chirality-specific ψ effect. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Caduceus_Coil]]
+* [[Bifilar_Coil]]
+* [[Antenna_Theory_for_Psionic_Devices]]
+* [[Near_Field_Electromagnetics]]
+* [[Psionic_Device_Overview]]
+* [[HelmKit]]
+
+== References ==
+
+* Kraus, J. D. (1947). "Helical Beam Antennas." ''Electronics'' 20: 109.
+* Kraus, J. D. (1988). ''Antennas.'' 2nd ed., McGraw-Hill.
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Antenna Theory]]

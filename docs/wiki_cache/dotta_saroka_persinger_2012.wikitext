@@ -1,0 +1,135 @@
+= Dotta Saroka Persinger 2012 =
+
+{{Experiment_Vital_Stats
+| name = Dotta-Saroka-Persinger 2012 UPE-EEG Correlation
+| year = 2012
+| lab = Laurentian University, Sudbury, Ontario (Persinger group)
+| substance_or_target = Ultraweak photon emission (UPE) from human head
+| key_result = r = 0.95 between right-hemisphere UPE and EEG spectral power during light-imagery (p < 0.001)
+| status = Reported and intra-lab replicated; not yet independently replicated outside the Persinger lab
+}}
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 6 minutes
+| prerequisites = Basic biophotonics; EEG fundamentals.
+| if_too_advanced_see = [[Biophotons]]
+}}
+
+The '''Dotta-Saroka-Persinger 2012 experiment''' is a single-photon-counting study correlating '''ultraweak photon emission (UPE) from the human head''' with '''EEG spectral power''' during visual-imagery tasks. The reported finding — Pearson r = 0.95 between right-temporal UPE and right-hemisphere EEG power — is among the strongest reported correlations between a cognitive task and a peripheral biophoton signal.
+
+If confirmed by independent labs, the finding establishes a direct empirical link between conscious mental imagery and externally-measurable biophoton emission — a foundational piece of empirical evidence for any field theory of consciousness.
+
+The full citation: '''Dotta BT, Saroka KS, Persinger MA (2012). "Increased photon emission from the head while imagining light in the dark is correlated with changes in electroencephalographic power." ''Neuroscience Letters'' 513(2): 151–154. PMID: 22343311.'''
+
+{{Psi-claim
+| status = TESTABLE
+| claim = Photon emission from one isolated cell culture correlates with chemical perturbation of a second cell culture in a separate room.
+| cites = [[Biophotons]], [[Anomalous Cognition]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Apparatus ==
+
+* '''Photomultiplier tube (PMT)''': Hamamatsu H7360-01 single-photon-counting head.
+  - Spectral sensitivity: 300–650 nm.
+  - Dark count: ~ 10 counts/s at 22 °C.
+* '''Faraday cage''': interior ~ 2.4 × 2.4 × 2.4 m, Mu-metal lined, light-sealed.
+* '''EEG''': 19-channel 10-20 montage, Mitsar-201 amplifier, 256 Hz sampling.
+
+== Subject protocol ==
+
+# '''Dark-adaptation''': 5 minutes seated in absolute darkness inside the Faraday cage.
+# PMT positioned 10 cm from the right temporal region of the head.
+# '''Task''': alternating 60-second blocks of:
+#* '''(a) Baseline''': rest with eyes closed, no specific imagery.
+#* '''(b) Imagery''': visual imagery of "light" or "sun", eyes closed.
+# 5 trials per condition per subject.
+
+== Analysis ==
+
+* '''UPE''': measured in photons/(s · cm<sup>2</sup>) at the PMT surface.
+* '''EEG spectral power''': computed by FFT, binned into δ (1–4 Hz), θ (4–8 Hz), α (8–13 Hz), β (13–30 Hz), γ (30–80 Hz) bands.
+* '''Correlation''': Pearson r between UPE rate and EEG spectral power across the 60-second blocks.
+
+== Reported result ==
+
+* '''r = 0.95''' between right-hemisphere UPE rate and right-hemisphere EEG power during the imagery condition (p < 0.001).
+* '''Effect size''': UPE rate during imagery exceeds baseline by approximately a factor of 2–3, statistically significant.
+* '''Lateralisation''': effect is right-hemisphere-dominant when the PMT is positioned over the right temporal region.
+* '''Energy density at PMT surface''': ~ 1.7 × 10<sup>−19</sup> J/m<sup>3</sup> (photonic component only).
+
+== Replication status ==
+
+* '''Intra-lab''': the Persinger group reported multiple replications of the UPE-imagery correlation between 2012 and 2018.
+* '''Independent replication''': not yet definitively reported in fully-independent labs.
+* '''Replication blockers''': single-photon-counting equipment (PMT, dark-count electronics, calibration), Faraday cage with light-sealing, EEG synchronisation, dark-adaptation discipline. Setup cost ~ $100k USD.
+
+The result remains '''empirically interesting but methodologically vulnerable''' until independent labs replicate at comparable precision.
+
+== Methodological controls ==
+
+The original paper addresses several alternative explanations:
+
+* '''Light leakage''' — Faraday cage with Mu-metal shielding; dark-count baseline subtracted.
+* '''Skin temperature variation''' producing infrared blackbody emission — UPE measured in 300–650 nm range, well above thermal-blackbody peak at body temperature.
+* '''Movement artifact''' — subject seated motionless; movement artifact filtered from EEG.
+* '''Mental-arithmetic / task-specificity control''' — additional studies (Dotta-Persinger 2011) with non-visual cognitive tasks show smaller UPE modulation.
+
+== Implications ==
+
+If the result is real, several implications follow:
+
+# '''Mental imagery has a peripherally-detectable biophysical signature''' beyond standard EEG/MEG.
+# '''The biophoton signal is cognition-modulated''' at a substantial effect size.
+# '''Standard photon-emission mechanisms''' (ROS, chromophore relaxation, lipid peroxidation) must be coupled to neural activity at a level not previously appreciated.
+# '''Framework-specific predictions''' — the αψ F<sub>μν</sub> F<sup>μν</sup> vertex links neural EM activity to ψ-field excitations and to biophoton emission; the observed UPE-cognition correlation is consistent with the framework's predictions.
+
+== Framework interpretation ==
+
+In the [[Psionics|psionic framework]]:
+
+* The UPE-EEG correlation is direct evidence that '''mental imagery modulates measurable peripheral electromagnetic-photon activity''' — predicted by the framework's coupling between coherent neural activity and EM/photon emission.
+* The right-hemisphere lateralisation matches standard imagery-research findings (visual imagery preferentially engages right-hemisphere visual-association cortex).
+* Independent replication is one of the highest-priority experimental tasks. Direct collaboration with the Persinger group's protocols would accelerate this.
+
+== Sanity checks ==
+
+* '''No subject''' → only baseline dark-count, no signal modulation. ✓ (Standard PMT calibration.)
+* '''Sleeping subject''' → EEG α suppressed, imagery-state absent; UPE should track. Predicted; tested in follow-up studies.
+* '''Lights leak into Faraday cage''' → would mask the effect; controlled by Mu-metal shielding. ✓
+* '''ψ → 0''' (in framework) → UPE-EEG correlation persists via standard biophoton emission; only ψ-coupling-specific signatures absent. ✓ ([[Sanity_Check_Limits]] §12.)
+
+== Replication priority ==
+
+The Dotta-Saroka-Persinger result is one of the highest-priority experiments for the framework to verify independently. Independent replication at the reported precision (r = 0.95, p < 0.001) would be substantial evidence for the framework's biophoton-substrate predictions.
+
+A successful replication should:
+
+* Use independent PMT calibration and dark-current measurement.
+* Use independent Faraday cage with documented light-sealing.
+* Use blinded analysis where the analyst does not know which 60-s block corresponds to which condition.
+* Pre-register the analysis pipeline.
+
+== See Also ==
+
+* [[Biophotons]]
+* [[Tang_Dai_2014]]
+* [[Bioelectromagnetism]]
+* [[Biological_Substrate_of_Psi]]
+* [[Famous_Experiments]]
+* [[Michael_Persinger]]
+
+== References ==
+
+* Dotta, B. T., Saroka, K. S., Persinger, M. A. (2012). "Increased photon emission from the head while imagining light in the dark is correlated with changes in electroencephalographic power." ''Neuroscience Letters'' 513: 151–154. PMID: 22343311.
+* Dotta, B. T., Persinger, M. A. (2011). "Increased photon emissions from the right but not the left hemisphere while imagining white light in the dark." ''Journal of Consciousness Exploration & Research'' 2: 1463–1473.
+* Cifra, M., Pospíšil, P. (2014). "Ultra-weak photon emission from biological samples: Definition, mechanisms, properties, detection and applications." ''Journal of Photochemistry and Photobiology B'' 139: 2–10.
+
+[[Category:Psionics]]
+[[Category:Experiments]]
+[[Category:Biology]]
+[[Category:Consciousness]]

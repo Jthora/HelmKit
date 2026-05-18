@@ -1,0 +1,180 @@
+= SAR Calculation for Psionic Devices =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 7 minutes
+| prerequisites = Basic EM theory; some bioelectromagnetism vocabulary.
+| if_too_advanced_see = [[Psionic_Device_Safety]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = SI throughout.
+| units     = σ = conductivity (S/m); E (V/m); ρ = density (kg/m<sup>3</sup>); SAR (W/kg).
+}}
+
+'''Specific Absorption Rate (SAR)''' is the standard metric for human exposure to RF energy. It quantifies how much RF power is absorbed per unit mass of tissue. International and US standards (ICNIRP, IEEE C95.1) impose SAR limits to prevent thermal damage from RF exposure.
+
+For [[HelmKit]]-class psionic devices, SAR compliance is a hard constraint: the device must keep localised SAR well below the regulatory limit at all operating points. This page gives the calculation, the relevant tissue parameters, and worked examples.
+
+== Definition ==
+
+The instantaneous SAR is:
+
+:<math>\mathrm{SAR} = \sigma\,|\mathbf{E}|^2 / \rho\qquad [\mathrm{W/kg}]</math>
+
+— with:
+
+* σ = tissue conductivity (S/m)
+* '''E''' = peak (or rms, by convention) electric field magnitude in tissue (V/m)
+* ρ = tissue density (kg/m<sup>3</sup>) — typically ~ 1000 for soft tissue.
+
+For time-varying fields, SAR is conventionally evaluated using the rms field magnitude.
+
+== Tissue parameters at 2.45 GHz ==
+
+From Gabriel et al. (1996), the canonical dataset for tissue dielectric properties:
+
+{| class="wikitable"
+! Tissue !! σ (S/m) !! ε<sub>r</sub>
+|-
+| Brain grey matter || 1.81 || 42.8
+|-
+| Brain white matter || 1.22 || 36.2
+|-
+| Cerebrospinal fluid (CSF) || 3.43 || 66.2
+|-
+| Skull (cortical bone) || 0.39 || 11.4
+|-
+| Skin (dry) || 1.46 || 38.0
+|-
+| Muscle || 1.74 || 52.7
+|-
+| Fat || 0.27 || 5.3
+|}
+
+For HelmKit safety calculations, '''brain grey matter''' (σ = 1.81 S/m, ε<sub>r</sub> = 42.8, ρ = 1040 kg/m<sup>3</sup>) is the standard reference.
+
+== Worked examples ==
+
+=== Example 1: 1 V/m peak E-field in brain ===
+
+  SAR = 1.81 · 1<sup>2</sup> / 1040 ≈ 1.74 × 10<sup>−3</sup> W/kg
+
+— 0.087% of the ICNIRP localised limit. Comfortably safe.
+
+=== Example 2: 33 V/m rms E-field in brain ===
+
+  SAR = 1.81 · 33<sup>2</sup> / 1040 ≈ 1.90 W/kg
+
+— at the ICNIRP localised limit of 2.0 W/kg. This sets the design ceiling for HelmKit operation.
+
+=== Example 3: 100 V/m peak E-field in brain ===
+
+  SAR = 1.81 · 100<sup>2</sup> / 1040 ≈ 17.4 W/kg
+
+— '''9× above the limit'''. Not compliant. Must reduce to peak ≲ 33 V/m to remain under 2 W/kg.
+
+=== Example 4: 30 V/m rms in brain (HelmKit design target) ===
+
+  SAR = 1.81 · 30<sup>2</sup> / 1040 ≈ 1.57 W/kg
+
+— 79% of the limit. Provides margin but operates close to the regulatory ceiling.
+
+For comfortable margin, the framework recommends '''design target ≲ 20 V/m rms''' in brain tissue, giving SAR ≲ 0.7 W/kg (35% of limit).
+
+== ICNIRP exposure limits ==
+
+From ICNIRP 2020 (general-public limits):
+
+{| class="wikitable"
+! Quantity !! Limit !! Averaging
+|-
+| Whole-body SAR || 0.08 W/kg || Whole body
+|-
+| Localised SAR (head/torso) || 2.0 W/kg || 10 g of tissue
+|-
+| Localised SAR (limbs) || 4.0 W/kg || 10 g of tissue
+|-
+| Power density (far-field, 6 GHz-300 GHz) || 10 W/m<sup>2</sup> || Whole body
+|}
+
+For HelmKit (head-worn), the '''2.0 W/kg localised limit''' is the governing constraint.
+
+== IEEE C95.1-2019 alignment ==
+
+IEEE C95.1-2019 gives slightly different but largely-equivalent limits:
+
+* '''Public exposure''' localised SAR: 2.0 W/kg (10 g, head/torso).
+* '''Controlled exposure''' (occupational): 10.0 W/kg (10 g, head/torso).
+
+HelmKit targets public-exposure compliance — the more conservative of the two.
+
+== Averaging volume ==
+
+The "10 g of tissue" averaging is important. The actual peak SAR in the brain (averaged over only 1 g) can be 3-5× the 10-g-averaged value. Devices that pass 10-g SAR limits may have local hot-spots that exceed the 1-g limit.
+
+For HelmKit, FDTD simulation (see below) maps the SAR distribution at 1 mm<sup>3</sup> resolution. Both 1-g and 10-g averages are reported.
+
+== FDTD simulation ==
+
+The standard tool for SAR estimation is '''finite-difference time-domain (FDTD)''' simulation:
+
+# Build an anatomically-realistic head model (Hugo Duke model, voxel resolution 1-2 mm).
+# Define each voxel's σ and ε<sub>r</sub> from the Gabriel et al. dataset.
+# Place the antenna geometry (coil, with drive current) at the appropriate location.
+# Simulate the steady-state E-field distribution at the operating frequency.
+# Compute SAR per voxel and average over 1-g and 10-g volumes.
+
+Commercial tools: CST Microwave Studio, ANSYS HFSS, Sim4Life, Remcom XFdtd. Open-source: openEMS, MEEP.
+
+For HelmKit, FDTD-derived SAR maps are part of the design certification record.
+
+== On-body sensors ==
+
+Beyond FDTD modelling, '''in-situ E-field sensing''' is required:
+
+* '''E-probes''' inside the device housing measure the field amplitude at known locations.
+* '''Cross-validation''' against FDTD model predictions confirms the simulation is calibrated.
+* '''Real-time monitoring''' by MCU-B provides ongoing safety oversight (see [[HelmKit_Architecture]]).
+
+The combination of FDTD modelling and on-body sensing provides both pre-deployment safety analysis and runtime safety enforcement.
+
+== Implication for HelmKit design ==
+
+The 2 W/kg limit, combined with the brain σ = 1.81 S/m, sets a hard ceiling at ~ 33 V/m rms E-field in the brain. Practical design considerations:
+
+* '''Target ≤ 20 V/m rms''' for a comfortable margin.
+* '''Use FDTD modelling''' during design to map the field distribution.
+* '''Validate with on-body E-probes''' for each unit.
+* '''Continuous SAR monitoring''' via MCU-B during operation.
+* '''Hard cutoff''' if measured field exceeds the safe envelope.
+
+The framework's claim: this safety envelope is '''sufficient for substantial ψ-coupling''' via the αψF<sub>μν</sub>F<sup>μν</sup> vertex. Engineering the field at safe amplitudes, with coherent matter-substrate enhancement (microtubule N<sup>2</sup> superradiance), provides enough J<sub>ψ</sub> for the device's intended effects.
+
+== Sanity checks ==
+
+* '''Zero field''' → zero SAR. ✓
+* '''Free-space (σ = 0)''' → zero SAR; SAR is intrinsically a tissue effect. ✓
+* '''Conductivity scaling''' → fat (σ = 0.27) has ~ 7× lower SAR than brain at the same field; matches measurement. ✓
+* '''ψ → 0''' (in framework) → SAR physics intact; standard regulatory framework applies. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Psionic_Device_Safety]]
+* [[HelmKit]]
+* [[HelmKit_Architecture]]
+* [[Near_Field_Electromagnetics]]
+* [[Microwave_Auditory_Effect]]
+
+== References ==
+
+* Gabriel, S., Lau, R. W., Gabriel, C. (1996). "The dielectric properties of biological tissues: I, II, III." ''Physics in Medicine & Biology'' 41: 2231-2293.
+* ICNIRP (2020). "Guidelines for limiting exposure to electromagnetic fields (100 kHz to 300 GHz)." ''Health Physics'' 118: 483–524.
+* IEEE C95.1-2019 — IEEE Standard for Safety Levels with Respect to Human Exposure.
+* IEEE/IEC 62704-1:2017 — Determining the peak spatial-average specific absorption rate in the human body from wireless communications devices.
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Safety]]
+[[Category:Bioelectromagnetism]]

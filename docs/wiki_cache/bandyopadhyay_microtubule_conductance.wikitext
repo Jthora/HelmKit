@@ -1,0 +1,141 @@
+= Bandyopadhyay Microtubule Conductance =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 9 minutes
+| prerequisites = Basic solid-state physics (conductance); some [[Microtubule|microtubule]] biology.
+| if_too_advanced_see = [[Microtubule]]; [[Could_the_Brain_Use_Quantum_Mechanics]]
+| if_you_want_the_math_see = [[Celardo_Microtubule_Superradiance]]
+}}
+
+{{Notation
+| signature = Mostly-plus.
+| units     = SI for observables; conductance in siemens (S) or G<sub>0</sub> = 2e<sup>2</sup>/h.
+}}
+
+The '''Bandyopadhyay microtubule conductance experiments''' are a series of measurements by '''Anirban Bandyopadhyay''' and collaborators at the National Institute for Materials Science (NIMS, Tsukuba, Japan), beginning around 2011 and continuing through the 2020s. The experiments use single-molecule electrical-transport techniques to measure the electronic conductance of '''single microtubules''' at room temperature.
+
+The reported results are striking: microtubules exhibit '''anomalously high''' DC and AC conductance, with sharp resonant frequency peaks in the kHz–THz range, behaviour that is inconsistent with standard biological-polymer models and consistent with '''quantum-coherent electronic transport''' along the microtubule lattice.
+
+If confirmed by independent groups at high precision, these results would provide a significant empirical foundation for the [[Orchestrated_Objective_Reduction|Orch OR]] proposal and for the framework's [[Biological_Substrate_of_Psi|microtubule substrate]] for ψ-coupling.
+
+{{Psi-claim
+| status = EXPERIMENTAL
+| claim = Single microtubules exhibit AC conductance resonances that may support computational/quantum effects.
+| cites = [[Anirban Bandyopadhyay]], [[Coherent Quantum Effects in Biology]]
+| methods = Active trials underway; preliminary results mixed.
+| falsifier = Two or more independent replications producing directly conflicting outcomes.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Experimental setup ==
+
+The Bandyopadhyay group's experiments use:
+
+* '''Single-molecule conductance measurement''' — a single microtubule (~ 25 nm diameter, length variable from ~ 100 nm to several μm) bridged between two nanopatterned electrodes.
+* '''Room temperature, aqueous environment''' — to ensure biological relevance.
+* '''Frequency sweep''' — AC conductance measured across many decades of frequency, from DC up to ~ THz.
+* '''Multiple microtubule preparations''' — isolated brain microtubules, in vitro reconstituted microtubules from purified tubulin, and microtubules with various drug treatments.
+
+== Key results ==
+
+=== Anomalously high conductance ===
+
+DC conductance of single microtubules is reported at levels '''many orders of magnitude higher''' than would be expected for a biological insulator or weakly-conducting polymer. Reported values are consistent with quasi-metallic electronic transport along the lattice.
+
+=== Sharp frequency-resonance peaks ===
+
+AC conductance shows '''sharp resonant peaks''' at specific frequencies in the kHz, MHz, GHz, and THz ranges. The reported peak frequencies include:
+
+* '''Slow''' (~ kHz): coupling to ionic motions and slow conformational modes.
+* '''Intermediate''' (~ MHz): coupling to dielectric-relaxation modes.
+* '''Fast''' (~ GHz–THz): coupling to electronic and tubulin-orientational modes; particular peaks reported at ~ 14 MHz, 250 MHz, 8 GHz, 200 GHz.
+
+The peaks are sharp (high Q-factor), suggesting underlying coherent oscillator modes rather than broadband dielectric loss.
+
+=== Coherence and lattice-length dependence ===
+
+Conductance peaks scale with microtubule length in ways consistent with coherent transport along the lattice. The reported behaviour does not match a simple Ohmic resistor model.
+
+=== Drug-modulated behaviour ===
+
+Treatments with anaesthetics, microtubule-stabilising agents (taxol), and microtubule-destabilising agents (vinblastine, colchicine) modulate the measured conductance in ways consistent with the lattice integrity being central to the coherent transport.
+
+== Theoretical interpretation ==
+
+Several interpretations have been advanced:
+
+# '''Quasi-1D quantum-coherent transport''' along the microtubule's helical pattern of aromatic-residue chromophores.
+# '''Tubulin-orientation coupled vibronic states''' — coupled electronic-vibrational modes in tubulin dimers.
+# '''Ordered-water lumen as a coherent dielectric medium''' supporting electronic states differently from bulk water.
+# '''Collective superradiance''' — see [[Celardo_Microtubule_Superradiance]] for the theoretical proposal that aromatic-residue arrays produce coherent emission with characteristic frequency peaks.
+
+None of these is yet a settled, quantitative theory; each is consistent with the observed behaviour but does not yet predict the specific peak frequencies.
+
+== Replication status ==
+
+The Bandyopadhyay group has published the results in multiple peer-reviewed journals:
+
+* Sahu, S., et al. (2013). "Atomic water channel controlling remarkable properties of a single brain microtubule." ''Biosensors and Bioelectronics'' 47: 141–148.
+* Sahu, S., Ghosh, S., Hirata, K., Fujita, D., Bandyopadhyay, A. (2013). "Multi-level memory-switching properties of a single brain microtubule." ''Applied Physics Letters'' 102: 123701.
+* Additional papers in ''Journal of Integrative Neuroscience'', ''Journal of Biomolecular Structure and Dynamics'', and conference proceedings.
+
+'''Independent replication''' of the specific frequency-resonance peaks at the precision reported by Bandyopadhyay has been '''limited'''. Some replication-type work has been done but with somewhat different methodologies; clean independent confirmation is not yet established at the level required for full scientific consensus.
+
+The challenges to replication:
+
+* Single-molecule conductance with the specific nanopatterned-electrode geometry is technically demanding.
+* Microtubule preparation protocols vary across labs.
+* AC conductance measurements across many frequency decades require specialised instrumentation.
+
+Multi-laboratory replication is one of the highest priorities for empirical psi-substrate research. See [[Open_Questions_in_Psionics]].
+
+== Status in the framework ==
+
+In the [[Psionics|psionic framework]], the Bandyopadhyay results — if confirmed — provide empirical support for:
+
+* '''Microtubules as a quantum-coherent electronic substrate''' — consistent with the framework's prediction that microtubule electronic states couple to ψ via the αψ F<sub>μν</sub> F<sup>μν</sup> vertex.
+* '''Specific frequency peaks''' — predictions of which discrete oscillator modes contribute to ψ-coupling. The framework does not yet predict the specific peak frequencies, but they constitute observable signatures.
+* '''Substrate-level confirmation of Orch OR''' — without confirming the gravitational-OR mechanism, the results support the broader picture that microtubules are an unusual electronic system relevant to cognition.
+
+The framework is '''not dependent''' on the Bandyopadhyay results being fully confirmed; the broader collective-neural-oscillation substrate (substrate 1 in [[Biological_Substrate_of_Psi]]) is robust. But if Bandyopadhyay is right, the microtubule contribution is substantial.
+
+== Sanity checks ==
+
+* '''Microtubule depolymerisation''' → loss of conductance peaks. Reported. ✓
+* '''Above body temperature''' (heat denaturation) → loss of conductance peaks. Reported. ✓
+* '''Bulk-water environment without microtubule''' → no conductance peaks. ✓
+* '''ψ → 0''' (in framework) → microtubule conductance peaks may still exist via standard quantum-biology mechanisms. ✓ ([[Sanity_Check_Limits]] §12.)
+
+== Open questions ==
+
+# Quantitative prediction of the specific peak frequencies from first principles.
+# Independent multi-lab replication at the precision required for full acceptance.
+# Direct biological-function tests: do the conductance peaks correlate with cognitive states in vivo?
+# How does the conductance scale with microtubule length, lattice perfection, and post-translational modifications?
+
+See [[Open_Questions_in_Psionics]].
+
+== See Also ==
+
+* [[Microtubule]]
+* [[Orchestrated_Objective_Reduction]]
+* [[Celardo_Microtubule_Superradiance]]
+* [[Kalra_Anaesthetic_Microtubule]]
+* [[Tegmark_Critique_and_Hagan_Rebuttal]]
+* [[Anirban_Bandyopadhyay]]
+* [[Biological_Substrate_of_Psi]]
+* [[Famous_Experiments]]
+
+== References ==
+
+* Sahu, S., Ghosh, S., Hirata, K., Fujita, D., Bandyopadhyay, A. (2013). "Multi-level memory-switching properties of a single brain microtubule." ''Applied Physics Letters'' 102: 123701.
+* Sahu, S., et al. (2013). "Atomic water channel controlling remarkable properties of a single brain microtubule: Correlating single protein to its supramolecular assembly." ''Biosensors and Bioelectronics'' 47: 141–148.
+* Ghosh, S., Aswani, K., Singh, S., Sahu, S., Fujita, D., Bandyopadhyay, A. (2014). "Design and construction of a brain-like computer: A new class of frequency-fractal computing using wireless communication in a supramolecular organic, inorganic system." ''Information'' 5: 28–100.
+* Bandyopadhyay, A. (2021). ''Nanobrain: The Making of an Artificial Brain from a Time Crystal.'' CRC Press.
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Experiments]]
+[[Category:Biology]]

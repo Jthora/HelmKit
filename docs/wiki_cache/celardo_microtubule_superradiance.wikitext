@@ -1,0 +1,139 @@
+= Celardo Microtubule Superradiance =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 10 minutes
+| prerequisites = QM (Dicke superradiance); some [[Microtubule|microtubule]] biology and aromatic-residue electronic structure.
+| if_too_advanced_see = [[Bandyopadhyay_Microtubule_Conductance]]; [[Microtubule]]
+| if_you_want_the_math_see = This page.
+}}
+
+{{Notation
+| signature = Mostly-plus.
+| units     = SI for biological observables; ℏ = c = 1 in field-theoretic expressions.
+}}
+
+'''Celardo superradiance''' refers to the 2019 theoretical proposal by Giuseppe Luca Celardo, Marco Angeli, Travis J. A. Craddock, and Philip Kurian that '''aromatic tryptophan residues''' in microtubule tubulin dimers form a '''Dicke superradiant''' collective electronic system. The proposal predicts coherent electronic states with lifetimes orders of magnitude longer than would be expected from independent-molecule estimates, providing a theoretical basis for the empirical [[Bandyopadhyay_Microtubule_Conductance|Bandyopadhyay results]] and addressing the [[Tegmark_Critique_and_Hagan_Rebuttal|Tegmark critique]].
+
+The original paper is:
+
+* Celardo, G. L., Angeli, M., Craddock, T. J. A., Kurian, P. (2019). "On the existence of superradiant excitonic states in microtubules." ''New Journal of Physics'' 21: 023005. (Open-access.)
+
+{{Psi-claim
+| status = EXPERIMENTAL
+| claim = Microtubules exhibit cooperative photon emission (superradiance) under specific excitation.
+| cites = [[Coherent Quantum Effects in Biology]], [[Biophotons]]
+| methods = Active trials underway; preliminary results mixed.
+| falsifier = Two or more independent replications producing directly conflicting outcomes.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Dicke superradiance: background ==
+
+Robert Dicke (1954) showed that N identical two-level emitters confined within a wavelength of each other emit collectively '''coherently'''. The emission rate scales as N<sup>2</sup> (rather than N for incoherent emission), and the collective lifetime is τ<sub>0</sub>/N (rather than τ<sub>0</sub>).
+
+For an array of N atoms with single-atom lifetime τ<sub>0</sub>:
+
+:<math>\Gamma_{\text{coll}} = N\,\Gamma_0,\qquad \tau_{\text{coll}} = \tau_0 / N</math>
+
+:<math>P_{\text{emit}} = N^2\,P_{\text{single}}</math>
+
+Superradiance has been observed in many experimental systems (atomic gases, NV centres in diamond, quantum dots, photosynthetic light-harvesting complexes).
+
+A '''subradiant''' counterpart also exists: certain collective states have ''lifetimes longer'' than the single-atom estimate by a factor of N. Subradiance is the more relevant case for protecting coherent states against decay.
+
+== The Celardo proposal ==
+
+Celardo et al. apply Dicke's framework to the array of '''tryptophan residues''' in microtubule tubulin. Each tubulin dimer contains 8 tryptophan residues. A typical microtubule lattice has ~ 10<sup>5</sup>–10<sup>7</sup> tubulin dimers, giving ~ 10<sup>6</sup>–10<sup>8</sup> tryptophans in a periodic arrangement.
+
+Key features:
+
+* '''Periodic geometry''' — the helical microtubule lattice positions tryptophan residues in a regular 3D array.
+* '''Tryptophan optical transitions''' — tryptophan has UV absorption near 280 nm with non-trivial transition dipole moment. The transitions can couple to electromagnetic modes (and in principle to other quantum fields).
+* '''Coherent dipole-dipole coupling''' between nearby tryptophans through near-field EM interaction.
+
+In this configuration, the tryptophan array supports '''collective Dicke states''' classified by:
+
+* Total angular momentum quantum number J (analogous to the Dicke cooperation number).
+* Phase-coherent superpositions across the lattice.
+
+The Celardo calculation shows that '''some''' of these collective states are '''subradiant''' — long-lived against radiative decay by a factor of order N.
+
+== Predicted enhancement of coherence times ==
+
+For N ~ 10<sup>6</sup> coherently-coupled tryptophans:
+
+:<math>\tau_{\text{coll}} \sim N\,\tau_0 \sim 10^6\,\tau_0</math>
+
+where τ<sub>0</sub> is the single-tryptophan radiative lifetime. Including environmental decoherence (the regime studied by Tegmark), Celardo et al. estimate that '''subradiant collective states''' in the microtubule lattice have effective coherence times '''~ 6 orders of magnitude longer''' than independent-molecule estimates.
+
+This is the key theoretical result: '''collective subradiance protects coherence in ways that Tegmark's 2000 estimate did not account for'''. The coherence-time enhancement comes from the symmetry of the collective state, which suppresses coupling to certain decoherence channels.
+
+== Comparison with empirical data ==
+
+The Celardo prediction is qualitatively consistent with:
+
+* '''Bandyopadhyay frequency-resonance peaks''' — discrete coherent modes are expected in a structured collective system.
+* '''Photosynthesis quantum coherence''' (Engel 2007 and subsequent work) — collective aromatic-residue systems support room-temperature coherence on functionally-relevant timescales.
+* '''Microtubule anaesthetic binding sites''' (Kalra 2023) — anaesthetics targeting aromatic-residue interactions are expected if those residues underlie the cognitive function.
+
+Quantitatively, the Celardo prediction does NOT yet match the full Orch OR requirement (10 ms timescales for biologically-relevant coherent computation). But it brings the picture much closer to biological relevance than Tegmark's 10<sup>−13</sup> s estimate.
+
+== Sanity-check limits ==
+
+* '''N = 1''' (single isolated tryptophan) → standard single-molecule lifetime; no superradiance/subradiance. ✓
+* '''Random (not lattice) tryptophan array''' → no coherent collective state; no subradiance enhancement. ✓
+* '''Microtubule depolymerisation''' → loss of lattice; loss of collective states; rapid decoherence. ✓
+* '''Above protein denaturation temperature''' → tryptophan-coupling geometry disrupted; no collective state. ✓
+* '''ψ → 0''' (in framework) → Celardo prediction still holds via standard quantum-optics; only the ψ-coupling channel is affected. ✓
+
+== Implications ==
+
+If the Celardo proposal is correct:
+
+# '''Tegmark-style strong critiques of Orch OR are too pessimistic''' by ~ 6 orders of magnitude. Hagan-Hameroff's 2002 rebuttal directionally vindicated; specific mechanism (subradiance vs ordered-water shielding) refined.
+# '''Microtubules are a genuinely unusual biological substrate''' for quantum-coherent dynamics, with structural basis in the tryptophan-array geometry.
+# '''Specific frequency-resonance predictions''' — the collective-state spectrum is in principle calculable from the lattice geometry; matching to Bandyopadhyay peaks is a key test.
+# '''Coupling to the [[Psi_Field|ψ field]]''' — in the framework, coherent collective electronic states couple to ψ via the αψ F<sub>μν</sub> F<sup>μν</sup> vertex; subradiance enhances the coherent component by a factor of N.
+
+== Open questions ==
+
+# First-principles calculation of the specific collective-state frequencies; matching to Bandyopadhyay peaks.
+# Quantitative estimate of the subradiance lifetime for realistic microtubule geometry and biological environment.
+# Direct experimental tests of subradiant emission from microtubules (proposal: measure UV emission from in-vitro microtubule preparations under controlled excitation).
+# Whether the subradiant states couple sufficiently strongly to other neuronal dynamics to influence cognition.
+
+== Related theoretical work ==
+
+The Celardo proposal is part of a broader effort to bring biological quantum coherence under rigorous theoretical treatment:
+
+* '''Kurian et al. (2017)''' — quantum-coherent energy transport in protein networks generally.
+* '''Craddock et al. (2017)''' — exciton coupling in microtubule lattices.
+* '''Engel et al. (2007)''' and subsequent photosynthesis work — direct empirical precedent for room-temperature quantum-coherent biological systems.
+
+See [[Coherent_Quantum_Effects_in_Biology]] for the broader picture.
+
+== See Also ==
+
+* [[Microtubule]]
+* [[Orchestrated_Objective_Reduction]]
+* [[Bandyopadhyay_Microtubule_Conductance]]
+* [[Kalra_Anaesthetic_Microtubule]]
+* [[Tegmark_Critique_and_Hagan_Rebuttal]]
+* [[Coherent_Quantum_Effects_in_Biology]]
+* [[Biophotons]]
+* [[Biological_Substrate_of_Psi]]
+
+== References ==
+
+* Celardo, G. L., Angeli, M., Craddock, T. J. A., Kurian, P. (2019). "On the existence of superradiant excitonic states in microtubules." ''New Journal of Physics'' 21: 023005.
+* Dicke, R. H. (1954). "Coherence in spontaneous radiation processes." ''Physical Review'' 93: 99–110.
+* Kurian, P., Capolupo, A., Craddock, T. J. A., Vitiello, G. (2017). "Water-mediated correlations in DNA-enzyme interactions." ''Physics Letters A'' 382: 33–43.
+* Craddock, T. J. A., Friesen, D., Mane, J., Hameroff, S., Tuszynski, J. A. (2014). "The feasibility of coherent energy transfer in microtubules." ''Journal of the Royal Society Interface'' 11: 20140677.
+* Engel, G. S., et al. (2007). "Evidence for wavelike energy transfer through quantum coherence in photosynthetic systems." ''Nature'' 446: 782–786.
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Quantum]]
+[[Category:Biology]]

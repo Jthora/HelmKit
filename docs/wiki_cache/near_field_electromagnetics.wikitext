@@ -1,0 +1,120 @@
+= Near-Field Electromagnetics =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 7 minutes
+| prerequisites = Maxwell's equations; basic antenna concepts; wavelength and frequency.
+| if_too_advanced_see = [[Psionic_Device_Overview]]
+| if_you_want_the_math_see = This page; [[Reactive_Near_Field]]; [[Antenna_Theory_for_Psionic_Devices]]
+}}
+
+{{Notation
+| signature = Non-relativistic; SI units throughout.
+| units     = E (V/m); H (A/m); B (T); λ (m); D = largest antenna dimension (m); k = 2π/λ.
+}}
+
+'''Near-field electromagnetics''' is the branch of electromagnetic theory concerned with the fields near an antenna or radiating element — distances comparable to or smaller than a wavelength. In contrast to '''far-field''' (radiation-zone) behaviour, near-field fields exhibit:
+
+* Strong stored (non-radiated) energy.
+* E and H mutually out of phase.
+* Faster than r<sup>−1</sup> spatial decay (r<sup>−2</sup>, r<sup>−3</sup> terms).
+* Direct inductive/capacitive coupling to nearby matter.
+
+These properties make the near field the operational regime for [[Psionic_Device_Overview|psionic devices]] such as [[HelmKit]] — devices that must couple strongly to nearby biological tissue (a few cm distant) while minimising far-field radiative exposure.
+
+== Field-zone boundaries ==
+
+For an antenna of largest dimension D operating at wavelength λ = c / f, the EM field is conventionally divided into three zones:
+
+{| class="wikitable"
+! Zone !! Range !! Field character !! Energy state
+|-
+| Reactive near-field || 0 < r < 0.62·√(D<sup>3</sup>/λ) || E and H ~90° out of phase; r<sup>−3</sup> behavior || Stored
+|-
+| Radiating near-field (Fresnel) || 0.62·√(D<sup>3</sup>/λ) ≤ r < 2D<sup>2</sup>/λ || E and H phase-aligning; r<sup>−2</sup> || Mix
+|-
+| Far-field (Fraunhofer) || r ≥ 2D<sup>2</sup>/λ || E ⊥ H ⊥ propagation; plane wave; r<sup>−1</sup> || Radiated
+|}
+
+The transition wavelength-distance r = 2D<sup>2</sup>/λ defines the boundary at which the antenna's emitted wave can be treated as a plane wave — the standard far-field idealisation.
+
+== Worked examples at 2.45 GHz ==
+
+The 2.45 GHz ISM band is the standard operating frequency for many [[HelmKit]]-class devices (chosen because of regulatory allowance and the availability of standard hardware).
+
+At f = 2.45 GHz: λ = c/f = 0.1224 m = 12.24 cm.
+
+=== D = 5 cm coil (HelmKit-typical) ===
+
+* Reactive boundary: 0.62 · √(0.05<sup>3</sup>/0.1224) ≈ 6.3 cm.
+* Fresnel boundary: 2 · 0.05<sup>2</sup>/0.1224 ≈ 4.1 cm.
+
+The Fresnel boundary is '''smaller''' than the reactive boundary — a sign that the antenna is '''electrically small''' (D ≪ λ) and the standard boundary formulas no longer cleanly separate the zones. Essentially the entire local field is reactive.
+
+=== D = 10 cm coil ===
+
+* Reactive: ~ 5.6 cm.
+* Fresnel: ~ 16.3 cm.
+* Far-field begins at r ≈ 16 cm.
+
+=== D = 50 cm dish ===
+
+* Reactive: ~ 63 cm.
+* Fresnel: ~ 4.1 m.
+* Far-field begins at r ≈ 4 m — a real beam emerges at this scale.
+
+== Why the reactive zone matters ==
+
+The reactive near-field is where:
+
+# '''Inductive/capacitive coupling''' to nearby matter is strongest. For a coil near a brain, the coil's stored magnetic energy couples directly into the brain tissue via mutual inductance.
+# '''EM energy is stored, not radiated'''. High field amplitudes can be achieved per unit input power. A 100 mW source can produce locally large E-fields without significant radiated power.
+# '''Field can be spatially shaped''' with higher precision than the diffraction-limited far-field. Sub-wavelength field structures are easily made in the reactive zone.
+
+For psionic-device design, '''operate in the reactive zone''' to maximise coupling to biological tissue while minimising radiative loss and far-field exposure (which would otherwise expand the regulatory compliance burden).
+
+== Electrically small antennas ==
+
+When D ≪ λ — the regime of compact wearable devices — the antenna is '''electrically small''' and obeys different scaling laws. See [[Antenna_Theory_for_Psionic_Devices]] for the Chu-Harrington bound, Wheeler radiation resistance, and related limits.
+
+For a 5 cm coil at 2.45 GHz (ka ≈ 1.28), the antenna sits at the boundary between electrically small and resonant. For deeper near-field operation, lower the operating frequency to ~ 300-500 MHz (or larger coils at 2.45 GHz).
+
+== Coupling to ψ in the near field ==
+
+In the [[Psionics|framework]]:
+
+* The ψ-source J<sub>ψ</sub> = α F<sub>μν</sub>F<sup>μν</sup> is proportional to E<sup>2</sup> − c<sup>2</sup>B<sup>2</sup> locally.
+* In the reactive near-field, both E and B are large; their product F<sub>μν</sub>F<sup>μν</sup> ≠ 0.
+* Per-volume ψ-source density can exceed far-field by '''factors of 10<sup>2</sup>-10<sup>4</sup>''' at typical near-field amplitudes.
+* This is the rationale for near-field operation of psionic devices: high-efficiency ψ-source per watt of input power.
+
+== Safety ==
+
+The reactive near-field is also the regime of highest [[Psionic_Device_Safety|biological exposure risk]]. See [[SAR_Calculation_for_Psionic_Devices]] for the ICNIRP/IEEE compliance framework: the localised SAR limit (2.0 W/kg over 10 g of head tissue) demands strict control of near-field E-amplitudes.
+
+== Sanity checks ==
+
+* '''r ≫ 2D<sup>2</sup>/λ''' → recovers standard far-field plane-wave radiation. ✓
+* '''Static limit (f → 0)''' → reactive near-field becomes pure inductive/electrostatic. ✓
+* '''ψ → 0''' (in framework) → standard near-field EM intact; no ψ-coupling. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Reactive_Near_Field]]
+* [[Antenna_Theory_for_Psionic_Devices]]
+* [[Caduceus_Coil]]
+* [[Bifilar_Coil]]
+* [[Double-Helix_Antenna]]
+* [[Psionic_Device_Overview]]
+* [[HelmKit]]
+* [[Psionic_Device_Safety]]
+
+== References ==
+
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+* Pozar, D. M. (2011). ''Microwave Engineering.'' 4th ed., Wiley.
+* Kraus, J. D. (1988). ''Antennas.'' 2nd ed., McGraw-Hill.
+
+[[Category:Psionics]]
+[[Category:Electromagnetism]]
+[[Category:Antenna Theory]]

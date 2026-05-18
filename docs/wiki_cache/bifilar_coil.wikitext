@@ -1,0 +1,130 @@
+= Bifilar Coil =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 5 minutes
+| prerequisites = Basic coil theory (inductance, capacitance); some Tesla-era circuit intuition.
+| if_too_advanced_see = [[Near_Field_Electromagnetics]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = SI throughout.
+| units     = L = inductance (H); V = voltage (V); I = current (A).
+}}
+
+{{Device_Vital_Stats
+| type           = Coil (counter-wound bifilar)
+| operating_freq = 1 kHz – 5 MHz (resonance design-dependent)
+| input_power    = 0.1 – 100 W (research scale)
+| size           = typical 50 – 200 mm diameter
+| status         = Prototype / experimental
+| safety_class   = ICNIRP Class II (general public, with shielding)
+| key_reference  = Tesla US 512,340 (1894)
+}}
+
+A '''bifilar coil''' is a coil with '''two parallel windings''' on the same core. Depending on how the two windings are connected, the coil can:
+
+* '''Add their inductances''' (series-aiding: currents flow in the same direction).
+* '''Cancel external magnetic field''' (series-opposing: currents anti-parallel) while storing large reactive energy as an inter-winding potential.
+
+The series-opposing configuration is the '''Tesla bifilar coil''' (US Patent 512,340, 1894) — a coil geometry that stores high reactive electrostatic energy in a compact volume, with much lower self-inductance than a conventional coil of the same turn count.
+
+In [[Psionic_Device_Overview|psionic device]] applications, bifilar coils are used where high reactive near-field energy density is needed but excessive inductance (and hence narrow bandwidth or low resonant frequency) is undesirable.
+
+== Geometry ==
+
+Two wires of equal length are wound onto a common former in parallel, adjacent turns. There are two principal connection schemes:
+
+=== Series-aiding (parallel-aiding) ===
+
+The two wires are connected in series such that current flows '''in the same direction''' through both adjacent turns. Effectively this doubles the turn count at the same winding density. Inductance ≈ 4L<sub>0</sub> (4× a single winding of N turns, because mutual coupling adds).
+
+This is the standard '''bifilar choke''' geometry used for common-mode rejection in power supplies and audio.
+
+=== Series-opposing (Tesla bifilar) ===
+
+The two wires are connected such that current flows '''in opposite directions''' in adjacent turns. The magnetic flux of one winding nearly cancels that of the next:
+
+* '''Net inductance''' drops to ~ L<sub>0</sub>/4 or less.
+* '''External magnetic field''' is suppressed.
+* '''Inter-winding capacitance''' is dramatically increased — adjacent turns carry voltages V and −V, so the potential difference at each turn is 2V, storing large electrostatic energy.
+
+Tesla's insight (US Patent 512,340) was that this configuration stores a large reactive energy '''as electrostatic tension between adjacent turns''' rather than as magnetic stored energy. The coil behaves more like a capacitor than an inductor at certain frequencies.
+
+== Energy storage analysis ==
+
+For a Tesla bifilar coil with inter-turn capacitance C<sub>turn</sub> and N turns, the stored electrostatic energy at peak voltage V<sub>turn</sub> between adjacent turns is:
+
+  W<sub>E</sub> = (1/2) C<sub>turn</sub> V<sub>turn</sub><sup>2</sup>
+
+— summed over N turns. For high N and high turn-by-turn voltage gradient, this can substantially exceed the magnetic stored energy.
+
+The coil is electrically equivalent (at certain frequencies) to a distributed LC network with a self-resonant frequency that can be much higher than a conventional coil's.
+
+== Tesla US Patent 512,340 (1894) ==
+
+Tesla's claim, in plain language:
+
+* By winding adjacent turns in opposite electrical-current directions, the voltage between adjacent turns becomes very large.
+* This stores large electrostatic energy in a small volume.
+* The result is a coil that can sustain large reactive currents and voltages while remaining electrically compact.
+
+This is the canonical reference for the engineering tradition of "Tesla bifilar coils" in alternative-physics and reactive-resonator design.
+
+== Relevance to psionic devices ==
+
+For [[HelmKit]]-style wearable psionic devices, the bifilar configuration provides:
+
+* '''High reactive energy density''' in a small (~ 5 cm) form factor.
+* '''Reduced far-field radiation''' (series-opposing connection suppresses the magnetic dipole moment).
+* '''High inter-winding voltage gradients''' — large local E-fields, which contribute to F<sub>μν</sub>F<sup>μν</sup> and hence to J<sub>ψ</sub>.
+* '''Tuning flexibility''' — series-aiding for high inductance, series-opposing for high capacitance.
+
+A 2.45 GHz Tesla bifilar coil can store substantial reactive energy with minimal far-field radiation — exactly the engineering target for compliant near-field psionic emitters.
+
+== Practical winding considerations ==
+
+* '''Wire spacing''' must be tight enough that adjacent turns capacitively couple strongly.
+* '''Insulation dielectric''' should be low-loss (PTFE, polyimide) to avoid heating from displacement currents.
+* '''Winding precision''' is critical — irregular spacing degrades the cancellation symmetry.
+* '''Connections''' at the coil ends must be made carefully to maintain the opposing-current geometry.
+
+== Comparison with related geometries ==
+
+{| class="wikitable"
+! Coil !! Currents !! Far-field !! Local field !! Stored energy
+|-
+| Standard solenoid || All same direction || Strong magnetic dipole || Strong magnetic || Magnetic L I<sup>2</sup>/2
+|-
+| Tesla bifilar || Adjacent turns opposite || Suppressed || Large E inter-turn || Electrostatic CV<sup>2</sup>/2
+|-
+| [[Caduceus_Coil]] || Opposite chirality helices || Cancelled (dipole) || Localised, with longitudinal || Mixed E and B
+|}
+
+== Sanity checks ==
+
+* '''Single-wire limit''' (one winding removed) → reduces to standard helical solenoid. ✓
+* '''Series-aiding limit''' → recovers conventional bifilar choke. ✓
+* '''Quasi-static (DC)''' → series-opposing connection is purely electrostatic, no current flows in steady state. ✓
+* '''ψ → 0''' (in framework) → bifilar coil is a passive EM component; no ψ-coupling enhancement beyond F<sub>μν</sub>F<sup>μν</sup>. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Caduceus_Coil]]
+* [[Double-Helix_Antenna]]
+* [[Near_Field_Electromagnetics]]
+* [[Reactive_Near_Field]]
+* [[Antenna_Theory_for_Psionic_Devices]]
+* [[HelmKit]]
+* [[Psionic_Device_Overview]]
+
+== References ==
+
+* Tesla, N. (1894). "Coil for electro-magnets." US Patent 512,340. Issued January 9, 1894.
+* Kraus, J. D. (1988). ''Antennas.'' 2nd ed., McGraw-Hill.
+* Terman, F. E. (1955). ''Electronic and Radio Engineering.'' 4th ed., McGraw-Hill.
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Antenna Theory]]

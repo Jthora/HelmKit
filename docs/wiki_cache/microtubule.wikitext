@@ -1,0 +1,118 @@
+= Microtubule =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 10 minutes
+| prerequisites = Basic cell biology (cytoskeleton); some quantum-mechanics intuition helpful.
+| if_too_advanced_see = [[Could_the_Brain_Use_Quantum_Mechanics]]
+| if_you_want_the_math_see = [[Celardo_Microtubule_Superradiance]]; [[Quantization_of_the_Psi_Field]]
+}}
+
+{{Notation
+| psi_convention = ψ = scalar field amplitude (NOT the tubulin wavefunction or microtubule order parameter).
+| signature      = Mostly-plus.
+| units          = SI for biological quantities.
+}}
+
+A '''microtubule''' is a cylindrical lattice of α-β tubulin protein dimers, ~ 25 nm in outer diameter and tens of micrometres long, that forms part of the cytoskeleton in every eukaryotic cell. Microtubules play standard biological roles in cell shape, intracellular transport (kinesin/dynein motors along microtubule tracks), and cell division (mitotic spindle).
+
+Their additional candidate role in '''consciousness''' — proposed in the 1990s by Stuart Hameroff and Roger Penrose as the basis for the [[Orchestrated_Objective_Reduction|Orch OR]] theory — is the focus of this page.
+
+== Standard biology ==
+
+Each microtubule is built from 13 protofilaments (typically) of αβ-tubulin heterodimers, arranged in a hollow cylinder. Key parameters:
+
+* '''Outer diameter''': 25 nm.
+* '''Inner diameter''': 14 nm.
+* '''Length''': 0.1 μm to > 100 μm (varies with cell type and function).
+* '''Tubulin dimer mass''': ~ 110 kDa (8 nm × 6.5 nm × 4 nm).
+* '''Lattice''': helical, ~ 13 protofilaments, 8 nm tubulin spacing along each protofilament.
+* '''In neurons''': dense throughout dendrites and axons; particularly concentrated in dendritic spines.
+
+== Proposed consciousness role: Penrose-Hameroff Orch OR ==
+
+In 1994 Penrose and Hameroff proposed that microtubule lattices in neurons support quantum-coherent superposition states involving the electronic configuration of tubulin dimers. The full theory is [[Orchestrated_Objective_Reduction|Orch OR]]; key elements:
+
+# Tubulin dimers exist in two configurations ("α" and "β" packing) that couple to electronic states.
+# Coherent superposition spans many tubulin dimers across a microtubule lattice.
+# Coherence is shielded from environmental decoherence by ordered water and Mg<sup>2+</sup> ions in the microtubule lumen.
+# Spontaneous "objective reduction" (gravity-induced collapse, in Penrose's interpretation) of the superposition produces a discrete conscious event ("moment of consciousness").
+
+The original proposal was widely criticised — most influentially by Tegmark (2000), who argued microtubule decoherence times are ~ 10<sup>−13</sup> s, far below biological relevance. See [[Tegmark_Critique_and_Hagan_Rebuttal]].
+
+== Experimental developments since 2010 ==
+
+The microtubule-consciousness debate was largely settled (against Orch OR) by Tegmark's 2000 critique — until experimental data started to accumulate that pointed in the opposite direction:
+
+=== Bandyopadhyay group (NIMS, Japan), 2011–present ===
+
+Sahu et al. (2013) and subsequent papers report '''anomalously high electronic conductance''' along single microtubules at room temperature, with sharp resonant peaks at specific frequencies in the GHz–THz range. The reported conductance and coherence properties are inconsistent with simple classical models. See [[Bandyopadhyay_Microtubule_Conductance]].
+
+=== Celardo et al. (2019) ===
+
+Celardo, Angeli, Craddock, Kurian (2019) provide theoretical analysis showing that '''collective superradiant coupling''' between aromatic-ring chromophores in microtubule tubulin can produce coherent electronic states with lifetimes orders of magnitude longer than naïve Tegmark-style estimates. See [[Celardo_Microtubule_Superradiance]].
+
+=== Kalra et al. (2023) ===
+
+Kalra et al. show that '''anaesthetics that switch off consciousness preferentially bind to microtubule sites''', and the binding pattern correlates with anaesthetic potency. This is consistent with — though not proof of — microtubules being involved in consciousness. See [[Kalra_Anaesthetic_Microtubule]].
+
+== Why microtubules might be different ==
+
+Three structural features make microtubules unusual candidates for quantum-coherent biology:
+
+# '''Lattice order''' — microtubules are crystalline at the molecular scale, unlike most cellular structures (which are disordered). Coherent quantum effects in periodic lattices (analogous to electronic bands in crystals) have a structural basis here.
+# '''Aromatic ring stacking''' — tubulin dimers contain tryptophan residues whose aromatic rings can support π-electron resonance. Multiple aromatic rings in a periodic array can support collective electronic states.
+# '''Lumen water structure''' — the hollow microtubule interior contains structured water (single-file confinement), which has different dielectric properties than bulk water and may partially shield electronic states from environmental decoherence.
+
+These structural features are real and uncontroversial. Whether they support quantum-coherent computation relevant to consciousness — that is the open question.
+
+== Framework interpretation ==
+
+In the [[Psionics|psionic framework]] microtubules are one candidate biological substrate of psi (see [[Biological_Substrate_of_Psi]]). The framework's specific prediction:
+
+* The αψ F<sub>μν</sub> F<sup>μν</sup> vertex couples ψ to EM. Microtubule electronic states produce small but non-zero electromagnetic fields. Coherence amplifies the coupling by N rather than √N (for N coherently-coupled tubulin units).
+* For a typical neuron with ~ 10<sup>5</sup>–10<sup>7</sup> tubulin dimers in coherent lattice domains, the integrated ψ-source from a single neuron is small but non-negligible.
+* Across ~ 10<sup>11</sup> neurons in a brain, the total ψ-source is substantial — providing a possible substrate for cognition-ψ coupling.
+
+This is a quantitative prediction that depends on the specific coherence times and coupling magnitudes. It is testable in principle.
+
+== Status ==
+
+* '''Mainstream biology''': accepts microtubules' classical roles; sceptical of consciousness role.
+* '''Mainstream neuroscience''': largely sceptical of any quantum-mechanical role for microtubules in cognition.
+* '''Penrose-Hameroff Orch-OR community''': continues to develop and defend the proposal.
+* '''Bandyopadhyay/Celardo/Kalra empirical evidence''': suggestive of unusual electronic properties, but not yet conclusive for consciousness role.
+
+The framework treats microtubules as '''one important candidate substrate''', not as the unique seat of consciousness. The integrated empirical evidence supports the substrate being '''structurally and electronically unusual''', without yet supporting the strong Orch OR claim.
+
+== Sanity checks ==
+
+* '''Microtubule depolymerisation''' (e.g., with colchicine, vinblastine) → loss of lattice structure; framework predicts loss of microtubule-mediated ψ-coupling channel. (Cells/neurons disrupted; consistent with consciousness disruption in cellular models.)
+* '''Tubulin coherence times short (Tegmark regime)''' → microtubule channel weak but not zero; other substrates (neural oscillation, biophoton) still contribute.
+* '''ψ → 0''' → microtubules play only their standard biological role. ✓ ([[Sanity_Check_Limits]] §12.)
+
+== See Also ==
+
+* [[Orchestrated_Objective_Reduction]]
+* [[Tegmark_Critique_and_Hagan_Rebuttal]]
+* [[Bandyopadhyay_Microtubule_Conductance]]
+* [[Celardo_Microtubule_Superradiance]]
+* [[Kalra_Anaesthetic_Microtubule]]
+* [[Could_the_Brain_Use_Quantum_Mechanics]]
+* [[Biological_Substrate_of_Psi]]
+* [[Stuart_Hameroff]]
+* [[Roger_Penrose]]
+* [[Anirban_Bandyopadhyay]]
+
+== References ==
+
+* Hameroff, S., Penrose, R. (1996). "Conscious events as orchestrated space-time selections." ''Journal of Consciousness Studies'' 3: 36–53.
+* Hameroff, S., Penrose, R. (2014). "Consciousness in the universe: A review of the 'Orch OR' theory." ''Physics of Life Reviews'' 11: 39–78.
+* Sahu, S., et al. (Bandyopadhyay group, 2013). "Atomic water channel controlling remarkable properties of a single brain microtubule." ''Biosensors and Bioelectronics'' 47: 141–148.
+* Celardo, G. L., Angeli, M., Craddock, T. J. A., Kurian, P. (2019). "On the existence of superradiant excitonic states in microtubules." ''New Journal of Physics'' 21: 023005.
+* Kalra, A. P., et al. (2023). "Anesthetic action of microtubule-binding small molecules." (Pre-publication; manuscript circulated by Hameroff group.)
+* Tegmark, M. (2000). "Importance of quantum decoherence in brain processes." ''Physical Review E'' 61: 4194–4206.
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Biology]]

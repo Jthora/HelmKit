@@ -1,0 +1,58 @@
+The '''Psionic Threat Model''' is the operational framework used by the [[Tho'ra Clan]] and the [[Psi Defender]] device line to enumerate, classify, and detect adversarial ψ-field and EM activity directed against operators.
+
+{{Psi-claim
+| status = TESTABLE
+| cites = Reactive Near Field, Psi Field, Falsification Criteria for Psionics
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Threat classes ==
+
+{| class="wikitable"
+! Class !! Mechanism (hypothesised) !! Detectable signature
+|-
+| '''Photic-band entrainment''' || 3–8 Hz pulsed RF or visible-light flicker at high amplitude, exploiting the known photic-driving response in EEG. || ELF modulation envelope detectable by an SDR or RF envelope detector; visible flicker by a fast photodiode.
+|-
+| '''Cardiac-rate modulation''' || Modulation of an RF carrier at 0.8–2 Hz, hypothesised to couple to vagal tone and HRV. || Slow modulation envelope; correlated dip in operator HRV.
+|-
+| '''Sustained demoralisation field''' || Low-amplitude wideband RF or ELF persisting for minutes-to-hours, hypothesised to suppress operator coherence. || Elevated wideband noise floor; persistent operator HRV / EEG-alpha depression.
+|-
+| '''Resonance hijacking''' || Targeted RF at the operator's calibrated ψ-baseline frequency (extracted via observation of the [[Psi Stabilizer]]'s own emission). || Narrow spectral peak at the operator's Stabilizer frequency from an external source.
+|-
+| '''ψ-direct threat''' || Hypothesised non-EM ψ-field perturbation (no known EM signature). || No direct EM signature. Detectable only as anomalous operator state (HRV / EEG) without environmental correlate.
+|}
+
+== Detection chain ==
+
+# '''Passive RF sniffer''' (HackRF-class SDR or simple envelope detector) monitors 0.1–100 Hz ELF and 100 MHz–6 GHz.
+# '''Operator state monitor''' ([[Psi Recorder]]) logs HRV and EEG continuously.
+# '''Correlator''' flags anomalies where an environmental signature co-occurs with operator-state perturbation.
+# '''Multi-antenna direction-finding''' (Mk2+) estimates threat vector via time-difference-of-arrival.
+
+== Falsification criteria ==
+
+The threat model is falsified, for a given threat class, if a multi-month operator-cohort study shows:
+
+* No observed RF anomaly meeting the class signature, '''and'''
+* No correlated operator-state perturbations attributable to ψ-direct vectors.
+
+For the '''ψ-direct''' class specifically: the model is falsifiable only via repeated double-blind detection trials at the [[Resonant Chamber]] under controlled-source conditions.
+
+== Mainstream-science overlap ==
+
+The photic-band, cardiac-modulation, and demoralisation classes have partial overlap with documented research on RF bioeffects and operant neurostimulation (U.S. Navy 1960s–80s programs, declassified portions of MK-class research, IEEE / Frey-effect literature). The wiki distinguishes these from speculative ψ-direct threats.
+
+== See also ==
+
+* [[Psi Defender]]
+* [[Reactive Near Field]]
+* [[Microwave Auditory Effect]]
+* [[HelmKit Architecture]] §Safety blacklist
+* [[Falsification Criteria for Psionics]]
+
+[[Category:Psionics]]
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Clan Operations]]

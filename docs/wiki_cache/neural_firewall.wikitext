@@ -1,0 +1,101 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Neural Firewall'''
+|-
+| '''Type''' || Mesh network psionic protection
+|-
+| '''Category''' || [[Psionic Defenses]]
+|-
+| '''Defends Against''' || [[Psi Jammer]], digital psi attacks, [[Neural Scrambler]]
+|-
+| '''Mechanism''' || Signal filtering, encryption, noise rejection
+|-
+| '''Real-World Parallel''' || TEMPEST / EMP hardening / network security
+|}
+
+The '''Neural Firewall''' is a software/hardware defense system that protects the [[Neural Network Hardware]] mesh and [[PsiLink]] communications against electronic and psionic attack. It operates at the data/signal layer rather than the field/energy layer — defending against threats that [[Defense Discs]] and [[Psi Defender]] cannot address.
+
+== Operating Principle ==
+
+The Neural Firewall implements multi-layered protection for the [[PsiSys]] digital infrastructure:
+
+=== Layer 1: Signal Authentication ===
+Every [[PsiLink]] transmission includes cryptographic authentication. The Neural Firewall rejects any signal that doesn't match known mesh member signatures — preventing spoofing, injection, and man-in-the-middle attacks on the psionic mesh.
+
+=== Layer 2: Noise Filtering ===
+Advanced adaptive filters extract valid signals from [[Psi Jammer]] noise. The Neural Firewall continuously characterizes ambient noise and applies real-time subtraction — maintaining communication even in degraded psionic environments.
+
+<math>\hat{S}(t) = R(t) - \hat{N}(t) \quad \text{where } \hat{N}(t) \approx N_{\text{jammer}}(t)</math>
+
+=== Layer 3: Isolation ===
+If a mesh node is compromised (e.g., by [[Neural Scrambler]]), the Neural Firewall isolates the affected node — preventing cascading failure through the [[Neural Network Hardware]] mesh. Analogous to network segmentation in cybersecurity.
+
+=== Layer 4: Hardening ===
+Physical and electromagnetic hardening of [[Neural Network Hardware]] nodes against directed energy attack — reducing vulnerability to [[Psi Disruptor]] and Area Denial effects.
+
+== Implementation ==
+
+The Neural Firewall is not a separate device — it is a firmware/software layer running on existing [[Neural Network Hardware]] with specific hardware hardening modifications:
+
+{| class="wikitable" style="width:100%;"
+! Component !! Function !! Protection Against
+|-
+| '''Signal authenticator''' || Cryptographic PsiLink validation || Spoofing, injection, impersonation
+|-
+| '''Adaptive filter bank''' || Real-time noise characterization and subtraction || [[Psi Jammer]] area denial
+|-
+| '''Node isolation module''' || Mesh segmentation on compromise detection || Cascading failure, mesh collapse
+|-
+| '''EMP hardening''' || Physical shielding of Neural Network Hardware || Electromagnetic pulse, directed energy
+|-
+| '''Intrusion detection''' || Pattern matching against known attack signatures || [[Corruption Matrix]], sophisticated hacking
+|}
+
+== Tactical Properties ==
+
+* '''Deployment:''' Pre-installed on all [[Fusion Engine Suit]] Neural Network Hardware (standard configuration)
+* '''Update mechanism:''' [[PsiNet]] pushes threat signature updates; local [[PsiSys]] applies immediately
+* '''Overhead:''' ~5–8% processing capacity consumed by continuous monitoring
+* '''Limitation:''' Cannot protect against field-layer attacks ([[Psi Disruptor]], [[Mind Spike]]) — those require [[Defense Discs]] and [[Psi Defender]]
+
+== Real-World Parallel: TEMPEST & Network Security ==
+
+The Neural Firewall combines concepts from multiple real-world defensive technologies:
+
+=== TEMPEST ===
+'''TEMPEST''' is the NSA codename for standards and countermeasures against compromising emanations — electromagnetic signals that leak from electronic equipment and could be intercepted by adversaries. TEMPEST shielding prevents RF eavesdropping on classified systems — analogous to hardening [[Neural Network Hardware]] against psionic interception.
+
+=== EMP Hardening ===
+Military electronics are hardened against '''electromagnetic pulse (EMP)''' through Faraday caging, surge protection, and component-level shielding. The Neural Firewall's physical hardening layer implements the psionic equivalent.
+
+=== Network Security ===
+Standard cybersecurity principles directly map:
+* '''Authentication''' → Signal authenticator (digital signatures / certificate pinning)
+* '''Encryption''' → PsiLink encryption (prevents eavesdropping)
+* '''Firewalling''' → Node isolation (prevents lateral movement)
+* '''IDS/IPS''' → Intrusion detection (pattern-based threat identification)
+* '''Segmentation''' → Mesh isolation on compromise
+
+These are mature, well-understood defensive principles adapted to the psionic domain.
+
+== Theoretical context (decoupling from psi-EM mixing) ==
+
+A Neural Firewall, in the [[Psi_Field|ψ-field]] Lagrangian picture, is
+an engineered region that decouples the operator's neural EM
+environment from external [[Psion|psion]]-EM mixing channels. Bare-EM
+shielding handles the direct ([[CEMI Field Theory|cemi]]) channel; the
+indirect channel additionally requires both-component
+<math>F^2</math> suppression (see
+[[HelmKit_Architecture#Both-channel_sham_requirement|both-channel
+sham]]). The Mk-level operational protocol above is unchanged.
+
+
+== See Also ==
+* [[Psionic Defenses]] — Defense classification
+* [[Neural Network Hardware]] — Protected system
+* [[PsiLink]] — Protected communication layer
+* [[Psi Jammer]] — Primary threat countered
+* [[Psi Devices]] — Master device catalog
+
+[[Category:Defenses]]
+[[Category:Psionics]]
+[[Category:Psi Devices]]

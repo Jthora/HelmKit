@@ -1,0 +1,49 @@
+'''Psi-Tech''' is the [[Tho'ra Clan]]'s family of psionic devices designed to support, attune, and defend a single operator's [[Psi Field]]. The core line consists of three modules — the [[Psi Stabilizer]], the [[Psi Harmonizer]], and the [[Psi Defender]] — carried in the [[HelmKit]] psi-bay and grounded in the field theory laid out in [[Scientific Foundations of Psionics]].
+
+Psi-Tech is one of the [[Tho'ra Clan|Clan's]] two technological mission pillars (the other being [[Magnetogravitics|magnetogravitic propulsion]] / the [[Magneto Speeder]] line).
+
+== The Triad ==
+
+{| class="wikitable"
+! Module !! Function !! Doctrinal Role
+|-
+| [[Psi Stabilizer]] || User-controlled cognitive & emotional stabilization || Keeps you steady
+|-
+| [[Psi Harmonizer]] || Astrological-attunement brain entrainment || Keeps you in tune
+|-
+| [[Psi Defender]] || Defensive shield against psionic weapons & psychic attack || Keeps you safe
+|}
+
+All three are required for sustained Resonant-grade field operation. None alone is sufficient.
+
+== Substrate ==
+
+All three modules share a common substrate:
+* [[HelmKit]] mount and power.
+* Near-field RF emitter architecture (see [[HelmKit Architecture]]).
+* Dual-MCU safety supervision.
+* Operator-controlled engagement (no involuntary activation).
+* Calibration against the operator's measured baseline.
+
+The shared substrate is why the triad lives in the [[HelmKit]] psi-bay: hardware is reused; the function differs in signal pattern, not in physics.
+
+== Public Doctrine ==
+
+* Psi-Tech is defensive and supportive only. There is no offensive psi-weapon in the Clan's line.
+* Psi-Tech engages only with the operator's consent and disengages on instability.
+* Psi-Tech does not radiate effects on bystanders — it is near-field, single-operator.
+* Psi-Tech specifications, safety envelopes, and failure modes are public on the wiki.
+
+== See Also ==
+* [[Psi Stabilizer]]
+* [[Psi Harmonizer]]
+* [[Psi Defender]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[Psionics]]
+* [[Scientific Foundations of Psionics]]
+* [[Tho'ra Tech Maturity Levels]]
+* [[Tho'ra Mission Doctrine]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]

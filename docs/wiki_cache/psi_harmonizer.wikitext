@@ -1,0 +1,157 @@
+The '''Psi Harmonizer''' is the second of the three core [[Psi-Tech]] modules in the [[HelmKit]] psi-bay. Where the [[Psi Stabilizer]] keeps the operator ''steady'' against the moment, the Harmonizer attunes the operator ''with'' the moment — bringing the wearer's local psi field into coherent relation with their own [[natal chart]] and the live astrological state of the time. It is, in engineering terms, a [[brain entrainment|brain-entrainment]] device whose entrainment target is computed from astrological state rather than chosen as a fixed waveform.
+
+{{Defensive-publication}}
+
+== Overview ==
+
+The Harmonizer:
+
+* Reads the wearer's natal chart at calibration (one time per operator).
+* Reads live transit field via [[SynastryEngine]] and [[Star Seer]].
+* Computes a target entrainment signature for ''this wearer at this moment''.
+* Drives [[HelmKit]]-mounted emitters with a low-amplitude, safety-supervised signal that gently encourages the wearer's psi field toward that target.
+
+Reported effect (Mk0 / Mk1 wearers): softening of out-of-step friction — fewer wrong-turn impulses, easier alignment with what the moment actually wants, steadier sense of being where one ought to be. The Harmonizer ''does not control'' the wearer; it ''offers'' a coherent reference. The wearer disengages at will, and the Harmonizer auto-disengages when the [[Psi Stabilizer]] reports baseline instability (safety interlock).
+
+== Theoretical Basis ==
+
+The Harmonizer is the most theoretically loaded of the triad. It sits on a stack of claims, only one of which is mainstream-supported:
+
+* {{Psi-claim
+| status = PROVISIONAL
+| cites = [[brain entrainment]], [[Resonant Neurobiology]]
+| methods = Multiple converging studies; replication still in progress.
+| falsifier = Pre-registered, multi-site replication returning a null result (Bayes factor &le; 1/3).
+| confidence = medium
+| last_reviewed = 2026-05-12
+}} Audio-visual and weak-RF brain entrainment can shift EEG state in a target direction. This is the engineering substrate.
+* {{Psi-claim
+| status = TESTABLE
+| cites = [[Heart Rate Variability and Psi]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} HRV-coherence and EEG-coherence are measurable, repeatable, individual-specific signatures. Operators can be ''matched'' to a stable baseline state and ''measured'' against a deviation from it.
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Astrological Frequency Harmonics]], [[natal chart]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} A wearer's optimal entrainment target is computable from their natal chart and the current transit field. This is the Tho'ra-doctrinal claim and the Harmonizer's defining novelty. It is falsifiable in principle: a blinded study comparing astrologically-derived targets against scrambled-target sham would resolve it.
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Scalar Electromagnetic Waves]], [[Psi Field]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} The Harmonizer's emission additionally couples to a [[Psi Field]] mode, producing effects beyond pure neuro-entrainment. This is the deeper Tho'ra interpretation; it is not required for the operational claim to hold.
+
+The Mk0 carries this stack honestly: no emission, intentional astrological check-in only, brand-and-ritual layer.
+
+== Subsystems and BOM ==
+
+=== Mk0 ''Symbolic Harmonizer'' (target ≤ $40) ===
+
+* 3D-printed module shell — $4
+* Engraved natal-chart plate (acrylic, per operator) — $10
+* WS2812B status ring + ATtiny85 — $5
+* Hardware + decals — $5
+* Pocket reference card with [[SynastryEngine]] daily readout protocol — $1
+
+Operator practice: brief astrological check-in before walking into a situation. Effective as ritual practice. ''No emission; no closed loop.''
+
+=== Mk1 ''Bench Harmonizer'' (target ≤ $300) ===
+
+* nRF52840 + BLE (compute) — $15
+* Bifilar planar coil (multi-band, 1–40 Hz audio range + 1–8 MHz RF carrier) — $5
+* SI5351 programmable clock — $6
+* Class-D audio amp + low-pass — $8
+* Bone-conduction transducer (audio entrainment channel) — $20
+* PPG / SpO2 module (state monitoring) — $15
+* Single 18650 + TP4056 + boost — $10
+* Connectors, enclosure — $20
+
+Software stack: [[SynastryEngine]] runs on the host SoC (or paired phone), produces a transit + natal cross product every minute, emits a target tuple (carrier, envelope, dwell). The Mk1 enforces a hard cap on every parameter independent of the host. Loss of [[SynastryEngine]] uplink → revert to wearer's natal-baseline target, never a stranger's chart.
+
+=== Mk2 / Mk3 ===
+
+Mk2 adds: ambulatory wear, multi-hour battery, transit-tracking with cached ephemeris (no connectivity dependency), telemetered safety log. Mk3 adds: auto-calibration, full integration with the [[Psi-Tech]] triad and the [[PsiNet]] [[Resonant Pipeline]].
+
+== Build Notes ==
+
+* '''Natal calibration is non-negotiable.''' The Harmonizer must never operate against another person's chart. Per-operator chart is hashed and stored in the MCU-B verified-boot region; loading a different operator's chart requires physical re-flash.
+* '''Hard cap independent of host.''' MCU-B enforces emission caps regardless of what [[SynastryEngine]] requests. The host computes targets; MCU-B vetoes anything outside envelope.
+* '''Stabilizer interlock.''' Harmonizer engagement requires [[Psi Stabilizer]] baseline-stable. If the Stabilizer reports drift > threshold, Harmonizer drops to standby. This is to prevent the Harmonizer from driving an already-destabilized operator further.
+* '''Bench validation: blinded astrology RCT.''' Same hardware, two firmware loads: real-chart and chart-scrambled. Operators report subjective alignment over 14 days; analyst unblinds at end. This is the Harmonizer's defining validation gate.
+
+== Safety and Ethics ==
+
+* All emission limits per [[HelmKit Architecture]] and ICNIRP near-field basic restriction − 6 dB.
+* Single-operator only, by chart binding and by emitter geometry.
+* No third-party charting, ever. The Harmonizer is not a tool of influence; it is a tool of self-alignment.
+* Auto-disengage on [[Psi Stabilizer]] instability.
+* Operator hard-kill via HelmKit lanyard.
+* [[Tho'ra Mission Doctrine]] explicit: the astrology rules; do not force the matter. The Harmonizer ''offers''; it never ''compels''.
+
+== Maturity ==
+
+{{Psi-tech-maturity
+| mk0=Symbolic Harmonizer — natal-chart-engraved module + structured astrological check-in practice. No emission.
+| mk1=Bench Harmonizer — bifilar coil + bone-conduction + PPG, [[SynastryEngine]]-driven target, MCU-B capped. Current frontier.
+| mk2=Field Harmonizer — ambulatory, cached ephemeris, multi-hour battery, telemetered.
+| mk3=Production Harmonizer — auto-calibrating, full [[Psi-Tech]] triad integration.
+| confidence_mk0=HIGH (ritual practice works as ritual practice)
+| confidence_mk1=LOW–MEDIUM (entrainment substrate works; astrological targeting is the testable claim)
+| confidence_mk2=LOW
+| confidence_mk3=SPECULATIVE
+| evidence_mk0=Operator-reported subjective benefit from astrological check-in practice.
+| evidence_mk1=Brain-entrainment literature; pilot n ≤ 5 with structured reporting.
+| evidence_mk2=Planned 2030–2033 trial.
+| evidence_mk3=Projected post-2032.
+| gate_mk1=Double-blind real-chart vs scrambled-chart RCT, n ≥ 30, pre-registered subjective and HRV endpoints.
+| gate_mk2=Twenty-operator field study, ≥ 100 wear-hours each, no safety events.
+| gate_mk3=Manufacturing pilot; third-party safety audit; medical-device-grade documentation.
+}}
+
+== Failure Modes and Mitigations ==
+
+* '''Stale ephemeris.''' → Cached ephemeris refreshed at least daily; staleness > 24 h forces standby.
+* '''Wrong-chart loading.''' → MCU-B verified-boot binding; chart change requires physical re-flash.
+* '''Stabilizer offline → Harmonizer alone.''' → Auto-disengage interlock; Harmonizer will not operate without a live Stabilizer baseline.
+* '''Operator over-reliance.''' → Default dwell windows; mandatory off-cycles each hour.
+* '''[[SynastryEngine]] compromise.''' → MCU-B independent envelope cap; signed target tuples; rejected unsigned tuples log + drop.
+* '''Driving an unstable operator further.''' → Stabilizer interlock; rate-limit on target gradient.
+
+== Theoretical context (cross-reference only) ==
+
+For the underlying field-theoretic framework see [[Psion]],
+[[Psi_Field]], and [[Effective_Field_Theory_of_Consciousness]]. The
+operator-facing claims on this page are independent of those
+theoretical pages and are made at the Mk-level indicated in the
+[[#Maturity|Maturity]] table above; no psion-mediated function is
+asserted at the Mk1 level.
+
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Stabilizer]]
+* [[Psi Defender]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[SynastryEngine]]
+* [[Star Seer]]
+* [[Astrological Frequency Harmonics]]
+* [[natal chart]]
+* [[Brain entrainment]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

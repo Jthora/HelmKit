@@ -1,0 +1,78 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Holo Projectors'''
+|-
+| '''Type''' || Holographic projection and decoy system
+|-
+| '''Developer''' || [[Clan Tho'ra]]
+|-
+| '''Gear Tier''' || Base Tier
+|-
+| '''Mounting''' || Anywhere — hips, [[HelmKit]], shoulders, wrists
+|-
+| '''Capabilities''' || Decoys, illusions, tactical overlays, visual disguise
+|-
+| '''Advanced Versions''' || [[Solid-Light Technology|Solid-light]] constructs, Solid-Light Clones
+|}
+
+'''Holo Projectors''' are base-tier holographic projection devices used in the [[Fusion Engine Suit]] for deception, reconnaissance, communication, and tactical display.
+
+== Mounting ==
+Holo Projectors can be mounted anywhere on the suit. Common positions:
+* '''Hips''' — [[Jono Tho'ra]]'s preferred mounting position
+* '''[[HelmKit]]''' — integrated into the headpiece for heads-up display and sensor overlay
+* '''Wrists''' — quick-access tactical displays
+* '''Shoulders''' — area-projection for team briefings
+
+== Capabilities ==
+
+=== Decoys & Illusions ===
+Standard Holo Projectors create visual-only holographic projections:
+* '''Decoy copies''' of the wearer — multiple simultaneous projections possible
+* '''Tactical illusions''' — false terrain, phantom enemies, environmental masking
+* '''Battlefield maps''' — projected 3D tactical overlays for team coordination
+
+=== Visual Disguise ===
+With sufficient upgrade, projectors can visually disguise the wearer as someone else. This is '''visual only''' — the disguise does not fool physical contact, psionic sensing, or non-visual sensors.
+
+=== Semi-Invisibility ===
+A specialized '''stealth variant''' (differently manufactured) can render the wearer semi-invisible by bending light around them. This is a distinct product from standard Holo Projectors.
+
+=== Solid-Light Projection ===
+{{Main|Solid-Light Technology}}
+Highly advanced projectors — like those wielded by [[Amber Tho'ra]] — can create '''[[Solid-Light Technology|solid-light]]''' constructs: holograms with physical substance. Later models in [[Final Fusion Girl]] achieve:
+* '''Solid-Light Clones''' — physical duplicates with independent action capability
+* '''Solid-Light constructs''' — walls, bridges, tools, weapons
+* '''Solid-Light environments''' — the technology that eventually enables the [[Holo Deck]]
+
+=== PsiSys Interface ===
+The Holo Projector serves as one of the ways [[PsiSys]] "shows" information to the wearer in-world — projecting data, waypoints, threat indicators, and communication feeds directly into the wearer's visual field.
+
+== Tech Lineage ==
+{| class="wikitable"
+! Generation !! Capability !! Era
+|-
+| Basic Projectors || Visual-only holograms, decoys || [[2035]]–[[2038]]
+|-
+| Enhanced Projectors || Multi-decoy, tactical overlay, limited disguise || [[2038]]–[[2040]]
+|-
+| Stealth Variant || Semi-invisibility (separate manufacturing) || [[2038]]+
+|-
+| Solid-Light Projectors || Physical holographic constructs || [[2040]]–[[2044]]
+|-
+| Solid-Light Clone System || Independent physical duplicates || [[Final Fusion Girl]] era
+|-
+| Holo Deck Integration || Full solid-light environments || Post-[[2044]]
+|}
+
+== See Also ==
+* [[Solid-Light Technology]] — advanced projection
+* [[HelmKit]] — integrated projection mount
+* [[PsiSys]] — information display interface
+* [[Holo Tech]] — higher tech-level family
+* [[Holo Deck]] — facility-scale application
+* [[Star Speeder Mk3]] — pocket-universe show-bay substrate
+* [[The Amber Tho'ra Show]] — staged on solid-light/holographic sets
+
+[[Category:Tho'ra Technology]]
+[[Category:Fusion Tech]]
+[[Category:Equipment]]

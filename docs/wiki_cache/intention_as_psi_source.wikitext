@@ -1,0 +1,60 @@
+'''Intention as Psi Source''' is the framework hypothesis that '''focused conscious attention''' is the primary mechanism by which the [[Psi Field]] is sourced and modulated by a human operator. In the quantum picture, an intentional source <math>J_\psi</math> is a coherent driver of [[Psion|psion]] production: it pumps psions into low-momentum modes whose coherent-state superposition is the classical ψ-field configuration the operator experiences as "charging up" or "pressure". This page is the conceptual bridge between subjective will and the framework's field-theoretic formalism.
+
+{{Psi-claim
+| status = TESTABLE
+| cites = Psi Field, Effective Field Theory of Consciousness, Wilson-Cowan Coupled to Psi
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== The claim ==
+
+In the [[Psi Field]] Lagrangian, the source term is <math>J_\psi</math>. The hypothesis states:
+
+<math>J_\psi(x, t) = \beta \cdot \Phi(x, t)</math>
+
+where Φ(x, t) is an '''intention density''' — a coarse-grained measure of how much coherent attention is currently directed at the point (x, t) by all observers — and β is a coupling constant (currently undetermined; framework estimates β ~ 10⁻⁴⁰ in natural units, well below current experimental sensitivity for laboratory-scale Φ).
+
+A higher intention density at (x, t) yields a stronger local ψ amplitude, which (through the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> vertex) is hypothesised to produce small but measurable EM signatures.
+
+== Operationalising intention ==
+
+Intention density is unobservable directly but has proposed proxies:
+
+* '''Number of attending observers''' (e.g. a meditation group focused on a single object).
+* '''Quality of attention''' indexed by [[Resonant Neurobiology]] markers (alpha coherence, HRV).
+* '''Duration sustained''' — exponentially weighted by recent history.
+
+A useful operational definition for the [[Psi Recorder]] and [[Psi Tether]]:
+
+<math>\Phi_{\text{eff}} = \sum_i w_i(t) \cdot C_i(t)</math>
+
+over operators i, where C_i is operator i's instantaneous coherence score (cardio-respiratory or alpha) and w_i is a participation weight.
+
+== Predictions ==
+
+# A larger coherent group (more operators above coherence threshold) should produce a larger measurable ψ-coupled EM signature than the same operators uncoordinated.
+# Pre-registered group-coherence tasks should show effect sizes scaling with group size and coherence — testable via PEAR-style random-event-generator deviation experiments.
+# The [[Resonant Hailer]] and [[Coherence Beacon]] should produce larger downstream effects in operator cohorts than equivalent random EM emission.
+
+All three predictions are unverified at production confidence; the second has historical PEAR-lineage support that has not been independently replicated to mainstream standard.
+
+== Distinction from "wishful thinking" ==
+
+The framework's claim is '''not''' that wishing makes things happen. The claim is that '''coherent attention generates a real (if small) field perturbation''', which has the same operational status as gravitational waves before LIGO: predicted by formalism, undetected at current sensitivity, falsifiable.
+
+Operators are explicitly cautioned: '''Mk0–Mk1 Psi-Tech does not amplify intention to macroscopic effect.''' Any subjective experience of efficacy in current devices is best explained by ritual, placebo, and group-coherence wellbeing effects — themselves real and valuable, but not "thoughts moving matter".
+
+== See also ==
+
+* [[Psi Field]]
+* [[Effective Field Theory of Consciousness]]
+* [[Wilson-Cowan Coupled to Psi]]
+* [[Heart Rate Variability and Psi]]
+* [[Resonant Neurobiology]]
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Testable Psi Claims]]

@@ -1,0 +1,41 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''PsiLink'''
+|-
+| '''Type''' || Psionic communication and data linkage protocol
+|-
+| '''Developer''' || [[Clan Tho'ra]]
+|-
+| '''Function''' || Connects suits, vehicles, PsiSys, and personnel via psionic mesh
+|-
+| '''Network''' || [[PsiNet]]
+|-
+| '''Hardware''' || [[Psi Emitter]]s + [[Neural Network Hardware]]
+|}
+
+'''PsiLink''' is the psionic communication and data linkage protocol used by [[Clan Tho'ra]] technology. It connects [[Fusion Engine Suit]]s, [[Magneto Speeder]]s, [[PsiSys]] entities, and personnel into a unified psionic mesh network.
+
+== Architecture ==
+PsiLink operates on a '''mesh network''' of [[Neural Network Hardware]] connected to [[Psi Emitter]]s. Each node in the mesh:
+* Transmits and receives psionic signals
+* Relays signals for other nodes (extending range)
+* Processes local psionic data
+* Connects to the broader [[PsiNet]]
+
+== Connections ==
+PsiLink enables:
+* '''Suit-to-suit''' communication between Tho'ra operatives
+* '''Suit-to-vehicle''' linking (e.g., [[Jane Tho'ra]]'s suit linking with her [[Magneto Speeder]])
+* '''Suit-to-PsiSys''' interface — [[PsiSys]] reads suit data and provides intelligence
+* '''Psionic Field Projection''' — communication via projected psionic fields
+* '''Dynamic defense coordination''' — [[Psionic Defenses]] reconfigure in response to network-shared threat data
+
+== See Also ==
+* [[PsiNet]] — the broader psionic network
+* [[PsiSys]] — intelligent system running on PsiLink
+* [[Psi Emitter]] — the hardware that enables PsiLink
+* [[Neural Network Hardware]] — the processing substrate
+* [[Psionic Field Projection]] — communication mechanism
+
+[[Category:Tho'ra Technology]]
+[[Category:Psionics]]
+[[Category:Communications]]

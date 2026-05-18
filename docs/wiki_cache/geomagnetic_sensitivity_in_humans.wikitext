@@ -1,0 +1,64 @@
+'''Geomagnetic sensitivity in humans''' is the body of evidence — partly mainstream, partly speculative — that the human nervous system is influenced by Earth's magnetic field and its short-term perturbations (geomagnetic storms, Kp-index swings, Schumann-cavity excitation).
+
+{{Psi-claim
+| status = PROVISIONAL
+| cites = Wang et al. 2019, Bingi et al. 2011, Cherry 2002, Schumann Resonance
+| methods = Multiple converging studies; replication still in progress.
+| falsifier = Pre-registered, multi-site replication returning a null result (Bayes factor &le; 1/3).
+| confidence = medium
+| last_reviewed = 2026-05-12
+}}
+
+== Mechanisms (mainstream) ==
+
+# '''Cryptochrome''' — flavoprotein in the retina, identical to the avian magnetic-compass molecule. Wang et al. (2019, ''eNeuro'') showed reproducible alpha-band EEG drops in humans during controlled rotations of an applied 35 µT field, consistent with a radical-pair magnetoreception mechanism.
+# '''Magnetite''' — biogenic Fe₃O₄ crystals have been identified in human brain tissue (Kirschvink et al., 1992). Mechanism of coupling to neural firing not yet established.
+# '''Direct ion-channel modulation''' — low-frequency magnetic fields can affect calcium-channel kinetics (Bingi & Savin, 2003), with effect sizes near noise at geomagnetic field strengths.
+
+== Correlations with behaviour ==
+
+Observational studies have repeatedly reported small but significant correlations of Kp index with:
+
+* Cardiovascular events (Cornélissen et al., 2002).
+* Psychiatric admissions (Friedman & Becker, 1963; Kay, 1994; revisited Kuleshova, 1998).
+* Sleep quality / EEG (Mulligan et al., 2010).
+* Subjective mood (Persinger lineage; effect sizes contested).
+
+Effect sizes are typically small (correlation coefficients 0.05–0.2). The mainstream consensus is "real but weak"; the [[Tho'ra Clan]] framework treats this as '''operationally significant for high-coherence individuals''' (see [[Resonant Neurobiology]]).
+
+== Schumann coupling ==
+
+The Earth-ionosphere cavity sustains [[Schumann Resonance]] modes at ~7.83, 14.3, 20.8, 27.3, 33.8 Hz. These frequencies overlap the brain's alpha and beta bands. Cherry (2002, ''Natural Hazards'') argues for a direct entrainment pathway; the mainstream view treats the alignment as suggestive but not established. The [[Psi Compass]] and [[Schumann Lattice]] both use this as their operating substrate.
+
+== The framework's testable extension ==
+
+{{Psi-claim
+| status = TESTABLE
+| cites = Resonant Neurobiology, Psi Compass
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+Operators classified as Resonant on the [[Resonant Neurobiology]] battery should show '''larger HRV / EEG response to Kp swings''' than non-Resonant controls. This is the [[Resonant Finder]]'s primary discriminator and is currently unverified.
+
+== Measurement ==
+
+Field instrumentation:
+
+* '''Local magnetometer''' — HMC5883L (~$8), RM3100 (~$30), or fluxgate (~$200).
+* '''Schumann monitor''' — air-core induction coil + low-noise preamp, 0.1–50 Hz; published designs from Cumiana Italy and Heartmath Global Coherence Initiative.
+* '''Network reference''' — INTERMAGNET, SuperMAG, NOAA Space Weather Prediction Center (Kp, Dst).
+
+== See also ==
+
+* [[Schumann Resonance]]
+* [[Earth-Ionosphere Cavity]]
+* [[Resonant Neurobiology]]
+* [[Psi Compass]]
+* [[Schumann Lattice]]
+
+[[Category:Psionics]]
+[[Category:Bioelectromagnetism]]
+[[Category:Provisional Psi Claims]]

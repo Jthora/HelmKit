@@ -1,0 +1,103 @@
+= Reactive Near-Field =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 5 minutes
+| prerequisites = [[Near_Field_Electromagnetics]]; Maxwell's equations.
+| if_too_advanced_see = [[Near_Field_Electromagnetics]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = Non-relativistic; SI.
+| units     = E (V/m); H (A/m); D = largest antenna dimension (m); λ = wavelength (m).
+}}
+
+The '''reactive near-field''' is the innermost EM zone surrounding an antenna or radiating element — the region where electromagnetic energy is '''stored''' rather than radiated. It is defined by:
+
+:<math>0 < r < 0.62\,\sqrt{D^3/\lambda}</math>
+
+— with D the largest antenna dimension and λ = c/f the operating wavelength. This is the dominant operating regime for [[HelmKit]] and other [[Psionic_Device_Overview|psionic devices]] designed to couple strongly to nearby biological tissue.
+
+== Field structure ==
+
+In the reactive near-field:
+
+* '''E and H are ~90° out of phase''' — energy oscillates between electric and magnetic stores, like the resonance of an LC circuit rather than propagating as a wave.
+* '''Spatial decay is r<sup>−3</sup> for dipoles''' (electrostatic-like and magnetostatic-like terms), faster than the r<sup>−1</sup> decay of the far-field.
+* '''The Poynting vector P = E × H is reactive (imaginary)''' — no net energy flux outward; energy circulates.
+* The fields are large in amplitude relative to the far-field for the same input power, because energy is not lost to radiation.
+
+== Dominant coupling mechanism ==
+
+The reactive zone is where '''inductive/capacitive coupling to matter is strongest'''. A coil in this zone behaves more like the primary of a transformer than like a radiator: nearby conductive or polarisable matter (the brain) absorbs energy via mutual-inductance and dielectric coupling.
+
+For an electrically-small coil with magnetic moment '''m''', the near-zone magnetic field at distance r is:
+
+:<math>\mathbf{B}(r) = \frac{\mu_0}{4\pi}\,\frac{3(\mathbf{m}\cdot\hat{\mathbf{r}})\,\hat{\mathbf{r}} - \mathbf{m}}{r^3}</math>
+
+— the same form as a static magnetic dipole. This is the quasi-static limit of the radiating dipole, valid in the reactive zone.
+
+== Energy storage ==
+
+The reactive zone stores energy in the field. For a single-turn loop with current I, magnetic moment m = NIA (N turns, area A), the stored energy density is u<sub>B</sub> = B<sup>2</sup>/(2μ<sub>0</sub>). Integrating over the near-field volume gives the inductive stored energy:
+
+  W = (1/2) L I<sup>2</sup>
+
+— where L is the coil's self-inductance. In the reactive zone, this stored energy '''does not radiate away''' — it cycles back and forth between the source and the field at every cycle.
+
+For a 5 cm coil at 2.45 GHz, the stored energy per cycle can be 100×–1000× larger than the radiated energy per cycle, depending on the antenna's radiation Q (see [[Antenna_Theory_for_Psionic_Devices]] §Chu-Harrington bound).
+
+== Penetration into biological tissue ==
+
+For a coil placed against a human head:
+
+* Magnetic field penetrates with little attenuation — H continues across tissue boundaries (the magnetic susceptibility of tissue is ~ 1, so μ ≈ μ<sub>0</sub>).
+* Electric field is reduced by the tissue's dielectric constant (ε<sub>r</sub> ~ 40 for brain at 2.45 GHz) and ohmically dissipated via σ|E|<sup>2</sup>/ρ — see [[SAR_Calculation_for_Psionic_Devices]].
+* The induced eddy currents create local heating (the SAR concern) and a complex internal E-field distribution.
+
+For ψ-coupling the relevant quantity is the local F<sub>μν</sub>F<sup>μν</sup> = (E<sup>2</sup> − c<sup>2</sup>B<sup>2</sup>)/2 inside the tissue, '''not the externally applied E or B'''.
+
+== Engineering implications ==
+
+For [[HelmKit]] design, the reactive-near-field regime is preferred because:
+
+# '''High local field per watt''' — stored energy gives large E and B amplitudes for a given input power.
+# '''Low far-field radiation''' — reduces RF interference and regulatory compliance burden.
+# '''Confined coupling region''' — the field is localised to within a few cm of the coil.
+# '''Direct inductive coupling''' — bypasses the radiation impedance mismatch of free-space EM.
+
+The cost: '''near-field exposure is also the regime of highest SAR'''. Compliance requires strict E-amplitude limits (≲ 30 V/m rms in brain tissue). See [[Psionic_Device_Safety]].
+
+== Coupling to ψ ==
+
+The reactive near-field is the framework's preferred ψ-source regime:
+
+* High local F<sup>2</sup> → high J<sub>ψ</sub> per unit volume.
+* The stored (rather than radiated) energy state means '''each oscillation cycle has another chance to couple to ψ''' rather than losing energy to outgoing radiation.
+* The volume of coupling is sub-wavelength — well-matched to mm-scale microtubule networks and nanometer-scale exciton arrays in tubulin.
+
+== Sanity checks ==
+
+* '''r → 0''' (very close to source) → standard near-field dipole formulas apply. ✓
+* '''r ≫ 2D<sup>2</sup>/λ''' → energy stored vanishes; only radiated energy remains. ✓
+* '''ψ → 0''' (in framework) → reactive near-field is standard EM; no extra coupling. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Near_Field_Electromagnetics]]
+* [[Antenna_Theory_for_Psionic_Devices]]
+* [[Caduceus_Coil]]
+* [[Bifilar_Coil]]
+* [[Psionic_Device_Safety]]
+* [[SAR_Calculation_for_Psionic_Devices]]
+
+== References ==
+
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+* Pozar, D. M. (2011). ''Microwave Engineering.'' 4th ed., Wiley.
+* Jackson, J. D. (1999). ''Classical Electrodynamics.'' 3rd ed., Wiley.
+
+[[Category:Psionics]]
+[[Category:Electromagnetism]]
+[[Category:Antenna Theory]]

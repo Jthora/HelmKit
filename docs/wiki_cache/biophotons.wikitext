@@ -1,0 +1,111 @@
+= Biophotons =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 8 minutes
+| prerequisites = Basic biology; basic optics (photon emission, photomultiplier detection).
+| if_too_advanced_see = [[Cell-to-Cell_Communication_via_Light]]
+| if_you_want_the_math_see = [[Coherent_Quantum_Effects_in_Biology]]
+}}
+
+'''Biophotons''' — also called '''ultraweak photon emission''' (UPE) — are the faint, spontaneous emission of single photons by living cells and tissues. Discovered by Alexander Gurwitsch in the 1920s and developed quantitatively by Fritz-Albert Popp from the 1970s onward, biophoton emission is now '''mainstream-accepted''' as a phenomenon. The functional significance — whether biophotons carry information, mediate cell-to-cell signalling, or play a role in consciousness — remains under active research.
+
+Biophotons are central to the framework's [[Biological_Substrate_of_Psi|biological substrate of psi]] story.
+
+== Basic phenomenology ==
+
+* '''Intensity''': ~ 10<sup>−2</sup>–10<sup>2</sup> photons / s / cm<sup>2</sup> at the cell-tissue surface. ~ 10 orders of magnitude below visible incandescent emission.
+* '''Spectrum''': spans 200 nm (UV) to 800 nm (visible-red), with broad peaks in the visible.
+* '''Tissue sources''': all living tissues; nervous tissue typically emits more than connective tissue; brain emits significantly.
+* '''Modulation''': emission rate depends on metabolic state, oxidative stress, electrical activity, light history.
+* '''Coherence''': several groups (especially Popp) report higher-order photon-counting statistics consistent with partial coherence — non-Poissonian distributions.
+
+== Detection ==
+
+Biophotons are detected with:
+
+* '''Photomultiplier tubes (PMTs)''' — most commonly Hamamatsu H7360 or equivalent single-photon-counting heads.
+* '''Single-photon-avalanche-diode (SPAD) detectors''' — for time-resolved measurements.
+* '''CCD imaging''' — for spatial imaging of biophoton emission (requires long integration times, ~ minutes-hours).
+* '''Faraday-cage / dark-room enclosure''' — required to exclude environmental light at the femtowatt level.
+
+The instrumentation is mature; many labs worldwide make these measurements routinely.
+
+== History ==
+
+* '''1923''' — Alexander Gurwitsch discovers UV-range emission from dividing onion-root cells; coins the term "mitogenetic radiation". His specific claim — that the radiation drives mitosis — is contested but the emission phenomenon is real.
+* '''1962–1970s''' — Quickenden and Que Hee (1974), Slawinski and others build single-photon-counting equipment that quantifies the emission.
+* '''1970s–2000s''' — Fritz-Albert Popp (Marburg / Neuss, Germany) develops the field as a discipline; characterises spectra, time-statistics, response to drugs, oxidative stress, and physiological state.
+* '''2000s–present''' — Multi-group acceptance of the phenomenon; debate shifts to functional significance.
+
+== Biological mechanisms ==
+
+Several biochemical sources contribute to biophoton emission:
+
+# '''Reactive oxygen species (ROS)''' — superoxide, peroxide, singlet oxygen produce chemiluminescent emission upon reaction with biomolecules. Major source in metabolically-active tissue.
+# '''Excited-state biomolecules''' — flavins, porphyrins, NADH fluorescence and phosphorescence following enzymatic excitation.
+# '''Lipid-peroxidation products''' — singlet-oxygen-mediated reactions in membrane lipids.
+# '''Protein-cofactor relaxation''' — Tryptophan, FAD, NAD relaxation in proteins.
+
+These chemical sources collectively account for the bulk of biophoton emission. The framework's prediction is that additional ψ-coupled contributions exist on top of this chemical baseline.
+
+== Cognitive correlates ==
+
+Several studies report correlations between biophoton emission and cognitive activity:
+
+* '''Dotta, Saroka, Persinger (2012)''' — UPE from the right temporal head region correlates with EEG spectral power during visual-imagery tasks (r ≈ 0.95). See [[Dotta_Saroka_Persinger_2012]].
+* '''Tang and Dai (2014)''' — UPE from hippocampal slices rises ~ 3–4× with K<sup>+</sup>-induced depolarisation and drops to baseline with TTX (Na<sup>+</sup>-channel blocker), establishing causal link to neural firing. See [[Tang_Dai_2014]].
+* '''Sun et al. (2010)''' — confirms UPE-neural-firing link in independent rat-brain preparations.
+* '''Cifra and Pospíšil (2014)''' — review of biophoton emission from brain tissue and methodological standards.
+
+== Cell-to-cell signalling ==
+
+A series of studies report that biophotons can mediate '''non-chemical cell-to-cell communication''' — one cell population influences another through a UV-transparent barrier that blocks chemical signals. See [[Cell-to-Cell_Communication_via_Light]] for the Kaznacheev 1980 protocol and Farhadi, Fels, Chaban replications.
+
+== Framework interpretation ==
+
+In the [[Psionics|psionic framework]]:
+
+* '''Biophotons are an empirically-measurable signature''' of cellular electromagnetic activity that is also a ψ-source via the αψ F<sub>μν</sub> F<sup>μν</sup> vertex.
+* '''Cognitively-driven biophoton modulation''' (as observed by Dotta-Saroka-Persinger, Tang-Dai) is a direct empirical demonstration that mental state modulates a physically-measurable EM-and-photon channel.
+* '''Coherent biophoton emission''' (Popp's higher-order statistics) connects naturally to the framework's prediction that coherent neural states have N-rather-than-√N coupling to ψ.
+
+Biophotons are therefore a primary '''measurable substrate''' for testing the framework's predictions in the lab. The instrumentation is mature; the protocol design is the active research task.
+
+== Sanity checks ==
+
+* '''Dead tissue''' (no metabolic activity) → biophoton emission decays to baseline within hours. ✓ Established.
+* '''Antioxidant treatment''' → reduced ROS-mediated emission. ✓ Established.
+* '''Hypoxia''' → altered emission spectrum. ✓ Established.
+* '''ψ → 0''' (in framework) → biophoton emission still occurs via standard biochemistry; framework predicts only ψ-coupled modulations vanish. ✓ ([[Sanity_Check_Limits]] §12.)
+
+== Open questions ==
+
+# Quantitative cognitive-modulation curves: how strong is the brain-state-to-biophoton coupling, and what is its frequency dependence?
+# Independent replication of the Dotta-Saroka-Persinger correlation across multiple labs.
+# Spectroscopic decomposition of cognitive vs metabolic vs ROS components.
+# Cell-to-cell signalling: which receptor mediates reception? (Mitochondrial UV photoreceptors, opsins, tryptophan absorption are candidates.)
+
+== See Also ==
+
+* [[Cell-to-Cell_Communication_via_Light]]
+* [[Coherent_Quantum_Effects_in_Biology]]
+* [[Orchestrated_Objective_Reduction]] (next page in the Neuro/Bio reading path)
+* [[Bioelectromagnetism]]
+* [[Dotta_Saroka_Persinger_2012]]
+* [[Tang_Dai_2014]]
+* [[Biological_Substrate_of_Psi]]
+* [[Fritz-Albert_Popp]]
+
+== References ==
+
+* Gurwitsch, A. G. (1923). "Die Natur des spezifischen Erregers der Zellteilung." ''Archiv für Mikroskopische Anatomie und Entwicklungsmechanik'' 100: 11–40.
+* Popp, F. A., Li, K. H., Gu, Q. (eds.) (1992). ''Recent Advances in Biophoton Research and Its Applications.'' World Scientific.
+* Quickenden, T. I., Que Hee, S. S. (1974). "Weak luminescence from the yeast ''Saccharomyces cerevisiae'' and the existence of mitogenetic radiation." ''Biochemical and Biophysical Research Communications'' 60: 764–770.
+* Cifra, M., Pospíšil, P. (2014). "Ultra-weak photon emission from biological samples: Definition, mechanisms, properties, detection and applications." ''Journal of Photochemistry and Photobiology B'' 139: 2–10.
+* Dotta, B. T., Saroka, K. S., Persinger, M. A. (2012). "Increased photon emission from the head while imagining light in the dark is correlated with changes in electroencephalographic power." ''Neuroscience Letters'' 513: 151–154.
+* Tang, R., Dai, J. (2014). "Biophoton signal transmission and processing in the brain." ''Journal of Photochemistry and Photobiology B'' 139: 71–75.
+
+[[Category:Psionics]]
+[[Category:Biology]]
+[[Category:Experiments]]

@@ -1,0 +1,141 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Psionic Defenses'''
+|-
+| '''Type''' || Defensive psionic systems
+|-
+| '''Purpose''' || Counter hostile [[Psi Weapons]] and psionic threats
+|-
+| '''Managed By''' || [[PsiSys]] (automated) + operator (manual override)
+|-
+| '''Parent''' || [[Psi Devices]] (master catalog)
+|}
+
+'''Psionic Defenses''' are all systems designed to protect operators, equipment, and installations against hostile [[Psi Weapons]] and psionic threats. They form the defensive pillar of the [[Psi Devices]] ecosystem, complementing [[Psi Weapons]] (offensive) and [[Psi Gear]] (utility).
+
+== Defense Architecture ==
+
+Psionic defense is organized in '''layered depth''' — multiple overlapping systems ensuring no single point of failure:
+
+{| class="wikitable" style="width:100%;"
+! Layer !! Device !! Function !! Protects Against
+|-
+| '''1. Early Warning''' || [[Psi Scanner]] || Detects threats at range || All (detection, not protection)
+|-
+| '''2. Area Exclusion''' || [[Psi Ward]] || Static boundary blocks all external psi effects || [[Psychotronic Generator]], [[Psi Jammer]], area attacks
+|-
+| '''3. Active Interception''' || [[Psi Defender]] || Detects + counter-fields specific attacks || [[Psi Disruptor]], [[Neural Scrambler]], [[Mind Spike]]
+|-
+| '''4. Passive Shield''' || [[Defense Discs]] || Directional hard psionic barrier || [[Psi Disruptor]] (primary), directed energy
+|-
+| '''5. Network Protection''' || [[Neural Firewall]] || Signal filtering, encryption, isolation || [[Psi Jammer]], digital attacks, mesh intrusion
+|-
+| '''6. Field Stabilization''' || [[Psi Stabilizers]] || Maintains [[PsiSys]] coherence during attack || Field corruption, dissonance
+|-
+| '''7. Operator Protection''' || [[HelmKit]] || Magnetogravitic bubble shields neural aura || [[Mind Spike]], consciousness-level threats
+|-
+| '''8. Recovery''' || [[Psi Harmonizer]] || Post-attack field normalization + healing || All damage types (restoration, not prevention)
+|-
+| '''9. Battle Tier''' || [[Ultra Shields]] || Multi-layered hybrid defense || All attack types (highest tier)
+|}
+
+== Defense Types ==
+
+=== Passive Defenses ===
+Systems that provide protection without active power expenditure or processing:
+
+* '''[[Defense Discs]]''' — Generate directional psionic barriers that block incoming attacks. The most mature and widely deployed psionic defense.
+* '''[[HelmKit]] magnetogravitic bubble''' — The HelmKit's passive aura shield provides baseline consciousness protection for the operator.
+* '''[[Psi Stabilizers]]''' — Maintain field coherence passively, counteracting disruption effects.
+
+=== Active Defenses ===
+Systems that detect threats and generate tailored counter-responses:
+
+* '''[[Psi Defender]]''' — The premier active defense: detects, classifies, and generates counter-fields against incoming attacks in <80ms.
+* '''[[Neural Firewall]]''' — Active signal filtering and mesh isolation that adapts to evolving threats.
+* '''[[PsiSys]] automated response''' — The intelligent system managing all defenses can redistribute defensive resources in real-time.
+
+=== Area Defenses ===
+Systems that protect defined zones rather than individual operators:
+
+* '''[[Psi Ward]]''' — Static boundary field that excludes all external psionic effects. Premier defense against [[Psychotronic Generator]] zones.
+* '''[[Ultra Shields]]''' — Battle-tier hybrid defense providing multi-layered protection at installation scale.
+
+=== Recovery Systems ===
+Systems that restore normal function after successful attack:
+
+* '''[[Psi Harmonizer]]''' — Emits stable reference field to normalize disrupted systems and heal biological neural damage.
+* '''[[Psi Stabilizers]]''' — Accelerate return to baseline field conditions post-attack.
+
+== Threat-Defense Matrix ==
+
+{| class="wikitable" style="width:100%;"
+! Threat !! Mechanism !! Primary Defense !! Secondary Defense !! Recovery
+|-
+| '''[[Psi Disruptor]]''' || Destructive field interference || [[Defense Discs]] || [[Psi Defender]] || [[Psi Stabilizers]]
+|-
+| '''[[Mind Spike]]''' || Concentrated consciousness assault || [[HelmKit]] aura || [[Psi Defender]] || [[Psi Harmonizer]]
+|-
+| '''[[Psi Jammer]]''' || Broad-spectrum noise flooding || [[Neural Firewall]] || [[Psi Ward]] || Clear jammer
+|-
+| '''[[Neural Scrambler]]''' || Targeted neural pathway attack || [[Psi Defender]] || [[Psi Ward]] || [[Psi Harmonizer]]
+|-
+| '''[[Psychotronic Generator]]''' || Ambient field corruption || [[Psi Ward]] || [[Psi Stabilizers]] || Destroy generator
+|-
+| '''[[Corruption Matrix]]''' || Consciousness override || [[Universal Language]] || [[Psi Harmonizer]] || Unclear
+|}
+
+== PsiSys Integration ==
+
+All defensive [[Psi Devices]] are coordinated by [[PsiSys]] — the intelligent system running on [[Neural Network Hardware]]:
+
+=== Automated Defense Protocol ===
+# [[Psi Scanner]] detects incoming threat
+# [[PsiSys]] classifies threat type and severity
+# Appropriate defense(s) activated automatically:
+#* [[Psi Defender]] for targeted attacks
+#* [[Defense Discs]] for directed energy
+#* [[Neural Firewall]] for mesh-level attacks
+# Operator receives [[HelmKit]] alert with threat visualization
+# If defense partially fails, [[Psi Harmonizer]] begins recovery
+# Post-engagement, [[PsiSys]] logs event and updates threat signatures via [[PsiNet]]
+
+=== Defense Resource Management ===
+[[PsiSys]] manages limited defensive power budget across all devices, dynamically prioritizing based on threat assessment:
+
+<math>P_{\text{defense}} = \sum_{i} w_i \cdot P_i \leq P_{\text{total}} \quad \text{where } w_i \propto \text{threat}_i</math>
+
+== Real-World Parallel: Defensive Countermeasures ==
+
+Psionic Defenses follow established military defense-in-depth principles adapted for the psionic domain:
+
+{| class="wikitable" style="width:100%;"
+! Real-World System !! Function !! FusionGirl Parallel
+|-
+| '''Radar Warning Receiver (RWR)''' || Detects hostile radar emissions || [[Psi Scanner]]
+|-
+| '''Active Protection System (Trophy, Arena)''' || Detects + destroys incoming projectiles || [[Psi Defender]]
+|-
+| '''Reactive armor''' || Directed countermeasure on impact || [[Defense Discs]]
+|-
+| '''Barrage jamming countermeasures''' || Frequency hopping, spread spectrum || [[Neural Firewall]]
+|-
+| '''NBC shelter''' || Environmental exclusion zone || [[Psi Ward]]
+|-
+| '''CBRN decontamination''' || Post-exposure treatment || [[Psi Harmonizer]]
+|-
+| '''Faraday cage / TEMPEST''' || Electromagnetic shielding || [[Neural Firewall]] hardening
+|-
+| '''Chaff / flares''' || Sensor deception || [[Sparkle Flairs]]
+|}
+
+== See Also ==
+* [[Psi Devices]] — Master device catalog
+* [[Psi Weapons]] — Offensive threats these systems counter
+* [[Psi Gear]] — Utility devices
+* [[Defense Discs]] — Primary passive shield
+* [[Psi Tech]] — Underlying technology domain
+* [[Fusion Engine Suit]] — Primary defensive platform
+
+[[Category:Defenses]]
+[[Category:Psionics]]
+[[Category:Psi Devices]]

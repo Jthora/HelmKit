@@ -1,0 +1,151 @@
+= Psionics FAQ =
+
+{{Audience_Sidebar
+| difficulty   = Plain
+| reading_time = 10 minutes
+| prerequisites = [[Psionics_Primer]]
+}}
+
+Frequently asked questions about psionics, the ψ field, and the framework on this wiki. Answers are short by design; each links to a fuller treatment.
+
+== Foundational ==
+
+=== Is psionics magic? ===
+
+No. Every effect on this wiki has equations and falsifiable predictions. See [[Psionics]] for the canonical equation set and [[Falsification_Criteria_for_Psionics]] for the explicit list of observations that would refute the theory.
+
+=== Is psionics a religion? ===
+
+No. The framework records what spiritual and esoteric traditions ''describe'' and translates those descriptions into physics where possible — see [[Map_of_Traditions]] and [[Practice_to_Theory_Translation_Table]]. It neither demands belief nor endorses any specific cosmology.
+
+=== Is psionics supernatural? ===
+
+No. The proposed [[Psi_Field|ψ field]] is a real-valued scalar field — the same mathematical category as the Higgs field, the inflaton, the QCD axion, or the dilaton of [[Kaluza-Klein_Unification|Kaluza–Klein theory]]. It obeys a Klein–Gordon-type wave equation and a stress-energy tensor. There is nothing about it that lies outside the framework of relativistic field theory.
+
+=== Does psionics conflict with standard physics? ===
+
+No — it extends standard physics. In appropriate limits (ψ → 0, large mass, classical regime, etc.) the equations recover Newtonian gravity, Maxwell's equations, the Klein–Gordon equation, the Yukawa potential, and the Schrödinger equation. See [[Sanity_Check_Limits]] for the explicit list.
+
+The ''claim'' that it extends standard physics in a measurable way is what makes the framework empirical rather than philosophical.
+
+=== Why aren't more physicists working on this? ===
+
+Several reasons, treated honestly:
+
+* '''Funding and sociology.''' Public research budgets at universities follow the conservative end of the literature; programmes that span [[Anomalous_Cognition|anomalous cognition]], [[Electrogravitics|electrogravitics]], and [[Zero-Point_Energy|zero-point energy]] have been systematically defunded or moved into classified channels. See [[Star_Gate_Program]], [[Salvatore_Cezar_Pais|Pais]] patents, and [[Hal_Puthoff|Puthoff]]'s SRI and EarthTech work.
+* '''Replication-crisis context.''' The 2011–present discussion in psychology and physical sciences has raised the bar for all soft-effect-size work; see [[Replication_Crisis_in_Parapsychology]].
+* '''Cultural marginalisation.''' Decades of dismissal as "pseudoscience" — much of it engineered through specific publishers and committees rather than through scientific argument — created professional risk for anyone publishing in the area.
+
+None of these are physics objections.
+
+== The framework ==
+
+=== What is ψ? ===
+
+A real-valued scalar field defined at every point of (5-dimensional) spacetime, obeying
+
+:<math>\Box\psi - m^2\,\psi - \lambda\,\psi^3 = \alpha\,F_{\mu\nu}F^{\mu\nu} + J_\psi</math>
+
+where □ is the d'Alembertian, m is the field mass, λ is its self-coupling, F is the electromagnetic field strength, J<sub>ψ</sub> is the source (coherent neural firing, focused attention, tuned hardware), and α is the ψ–EM coupling. See [[Psi_Field]] for the full discussion.
+
+=== Where does ψ come from? ===
+
+It emerges naturally from a [[5D_Action_Principle|5D scalar-tensor action]] when the fifth dimension is compactified. This is the [[Kaluza-Klein_Unification|Kaluza–Klein]] construction extended to include an explicit ψ field with mass, self-coupling, and dilaton-coupling to electromagnetism.
+
+=== What is Ψ (capital)? ===
+
+The energy density of the ψ field — the T<sup>00</sup> component of its stress-energy tensor. This is the quantity practitioners ''sense'' directly as "energy", "charge", "pressure", or "weight". The two notations were historically separate pages on this wiki ([[Psi_Field]] and [[Psi_Energy_Density_Scalar_Field]]) and have now been merged into [[Psi_Field]].
+
+=== Does ψ travel faster than light? ===
+
+In the massless case ψ propagates exactly at c (□ψ = 0 is the wave equation). The framework does not require superluminal propagation. Apparently faster-than-light correlations in anomalous-cognition experiments (e.g. [[Presentiment|presentiment]]) are handled either by advanced/retarded solutions of the wave equation (Wheeler–Feynman style, see [[Psionics]] §"Precognition") or by the [[Higher-Dimensional_Physics|extra-dimensional]] geometry — neither of which violates Lorentz invariance in 4D.
+
+== Experiment ==
+
+=== Has any of this been replicated? ===
+
+Yes — multiple core results have. Selected examples:
+
+* '''[[Ganzfeld_Procedure|Ganzfeld]]''' telepathy: Bem & Honorton 1994 ''Psychological Bulletin'' meta-analysis (32.2% vs. 25% chance, p < 10<sup>−9</sup>); Storm, Tressoldi & Di Risio 2010 confirmed with a fresh dataset.
+* '''[[PEAR_Program|PEAR]]''' random event generator experiments: 2.5 million trials over 28 years, combined z > 7.
+* '''[[Star_Gate_Program|Star Gate]] / SRI remote viewing''': declassified 1995, AIR review by Utts concluded statistical significance is "well established."
+* '''[[Presentiment]]''': Mossbridge, Tressoldi & Utts 2012 meta-analysed 26 studies, combined z ≈ 6.4.
+* '''[[Biophotons|Biophoton emission from the head]]''': Dotta et al. 2012 showed correlation r = 0.95 with [[EEG]] gamma power during imagined-light task; Tang & Dai 2014 demonstrated pharmacological causation.
+* '''[[Cooper_Pair_Mass_Anomaly|Tate Cooper-pair mass anomaly]]''': measured at Stanford 1989, 84 ppm excess; theoretical companion ([[Ning_Li_Effect|Li–Torr]] coherent-ion-rotation mechanism) 1991/1992.
+* '''Microtubule resonance''': [[Anirban_Bandyopadhyay|Bandyopadhyay]] et al. ''Applied Physics Letters'' 2014, conductance peaks at kHz, MHz, GHz.
+
+=== What would falsify the theory? ===
+
+See [[Falsification_Criteria_for_Psionics]] for the full list. In summary:
+
+# No coherent biophoton emission detectable at any wavelength, in any organism, under any condition.
+# No statistical anomaly above chance in tightly-controlled [[Ganzfeld_Procedure|ganzfeld]], [[Remote_Viewing|remote viewing]], or [[Presentiment|presentiment]] protocols over independent replications totalling > 10<sup>5</sup> trials.
+# No measurable physiological response to ICNIRP-compliant near-field EM stimulation outside the thermal channel, across the full 1 Hz – 100 GHz range.
+# No deviation from the standard [[Gravitomagnetic_London_Moment|gravitomagnetic London moment]] in any rotating superconductor at any temperature, in any geometry.
+# Microtubule AC conductance measurements not reproducing the multi-band resonance structure reported by Bandyopadhyay et al.
+
+=== Why no Nobel prize yet? ===
+
+The Nobel committee is not the test. The question is whether the equations are correct and the experiments reproducible. Several of the named experiments (especially [[Star_Gate_Program|Star Gate]] and the [[PEAR_Program|PEAR]] dataset) sit inside or adjacent to classified or institutionally-sensitive territory.
+
+== Practice ==
+
+=== Is the "energy" I feel during meditation real? ===
+
+Yes, in the technical sense that practitioner reports of "energy", "tingling", "warmth", "pressure", "flow", and "weight" map onto well-defined components of the ψ-field stress-energy tensor — see [[Psi_Field]] §"Practitioner Calibration Scale". Whether the felt intensity matches the local Ψ value in J/m³ depends on individual sensitivity, training, and instrumentation calibration.
+
+=== Is kundalini awakening dangerous? ===
+
+The framework treats kundalini awakening as a bifurcation in the coupled brain–ψ dynamical system (see [[Wilson-Cowan_Coupled_to_Psi]]). When the neural-ψ feedback coupling β crosses a critical value, the system transitions from a stable fixed point to a high-amplitude state. This is genuinely a non-trivial event in the equations — the colloquial caution against untrained kundalini practice has a mathematical analogue, not just a cultural one.
+
+=== Can groups amplify ψ effects? ===
+
+Yes. With N synchronised practitioners producing ψ<sub>total</sub> ≈ N · ψ<sub>individual</sub> in the same region, the self-interaction term (λψ⁴ in the Lagrangian, λψ³ in the equation of motion) grows as N⁴ in energy density. This is the rigorous mechanism behind "group mind" / "circle" effects. See [[Psionics]] §"Collective Amplification".
+
+== Engineering ==
+
+=== Can I build a working psionic device? ===
+
+Yes, with caveats. The [[HelmKit_Architecture]] page describes the canonical reference device. Build details are in [[Antenna_Theory_for_Psionic_Devices]], [[Bifilar_Coil]], [[Caduceus_Coil]], and [[Double-Helix_Antenna]]. Safety constraints are in [[Psionic_Device_Safety]] and [[SAR_Calculation_for_Psionic_Devices]]; observe them strictly.
+
+=== Is it dangerous? ===
+
+A poorly-designed near-field emitter can:
+
+* Heat tissue locally above [[SAR_Calculation_for_Psionic_Devices|SAR limits]].
+* Trigger the [[Microwave_Auditory_Effect]] (Frey 1962) at modulation frequencies in the kHz range — startling, not damaging, but unwanted.
+* Generate transient electric fields above the IEEE C95.1 contact-current limits if grounding is wrong.
+* Couple to nearby electronics via parasitic-resonance modes.
+
+None of these are unique to psionics; they are general near-field-EM hazards. Build to standard amateur-radio and medical-device-prototype hygiene and you will be fine.
+
+=== Is this regulated? ===
+
+In most jurisdictions, a low-power non-radiating near-field device built for personal experimentation falls outside FCC / OFCOM / ARIB intentional-radiator rules. As soon as you ''transmit'', the rules apply. See [[Psionic_Device_Safety]] §"Regulatory framing".
+
+== Meta ==
+
+=== Why does this wiki not include "skeptic" / "debunking" framing? ===
+
+Because the frame of this wiki is that psionics is real science. Academic-institutional dismissal of psionics has historically operated through ''institutional'' channels (defunding, ridicule, deplatforming) rather than through scientific argument; this wiki records the science and the experiments and lets the reader judge. Where mainstream replication failures exist, they are recorded factually inside the relevant experiment page — without editorial dismissal of the broader phenomenon.
+
+=== Who maintains this wiki? ===
+
+The [[Earth_Alliance|Earth Alliance]] team at [[FusionGirl]], working with the [[Jthora]] character-archetype lead. Content authorship is mixed human + tool-assisted under operator review.
+
+=== How do I contribute? ===
+
+File-level changes happen against the underlying repository (`vendor/fusiongirl-wiki/pages/*.wiki`) via the standard PR process; live-wiki edits are then synchronised by the operator. New equation pages must follow [[Template:Physics_Topic]]; new biographies follow [[Template:Bio_Page]] and [[Template:Person_Vital_Stats]].
+
+== See Also ==
+
+* [[Psionics_Primer]]
+* [[Psionics_Reading_Guide]]
+* [[Glossary_of_Psionics]]
+* [[Symbol_Glossary]]
+* [[Falsification_Criteria_for_Psionics]]
+* [[Open_Questions_in_Psionics]]
+* [[Conceptual Psionics]] — algebra-only semester layer
+
+[[Category:Psionics]]
+[[Category:Psionics primers]]

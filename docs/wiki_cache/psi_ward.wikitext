@@ -1,0 +1,119 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Psi Ward'''
+|-
+| '''Type''' || Static area-denial psionic barrier
+|-
+| '''Category''' || [[Psionic Defenses]]
+|-
+| '''Defends Against''' || Area psi attacks, [[Psychotronic Generator]], [[Neural Scrambler]]
+|-
+| '''Mechanism''' || Psionic boundary field (exclusion principle)
+|-
+| '''Real-World Parallel''' || Faraday cage / anechoic chamber / SCIF
+|}
+
+The '''Psi Ward''' is a static area-defense [[Psi Devices|psi device]] that creates a psionic boundary field — a defined perimeter within which all external psionic effects are excluded. It is the premier defense against area-effect [[Psi Weapons]] such as the [[Psychotronic Generator]] and area-mode [[Psi Jammer]].
+
+== Operating Principle ==
+
+The Psi Ward generates a spherical or shaped boundary field that enforces psionic null conditions at the perimeter. Any psionic signal, field distortion, or energy form crossing the boundary is cancelled:
+
+<math>\Psi_{\text{external}}(r_{\text{boundary}}) = 0 \quad \forall r \in \partial V</math>
+
+This creates a "clean room" for psionic operations — inside the ward, the [[Psi Field]] is determined entirely by internal sources, uncontaminated by external interference.
+
+=== Key Properties ===
+* '''Bidirectional:''' Blocks ''both'' incoming attacks ''and'' outgoing emissions (the warded area is psionically invisible from outside)
+* '''All-spectrum:''' Effective against all psionic frequencies and attack types
+* '''Static:''' Once established, requires only maintenance power (no active processing)
+* '''Shape-flexible:''' Can project spherical, cylindrical, or custom-contoured boundaries
+
+== Tactical Employment ==
+
+{| class="wikitable" style="width:100%;"
+! Use Case !! Configuration !! Notes
+|-
+| '''Field hospital''' || Dome ward over medical area || Protects [[Psi Harmonizer]] recovery operations
+|-
+| '''Command post''' || Cylindrical ward over HQ || Ensures [[PsiLink]] integrity for command mesh
+|-
+| '''Sensor outpost''' || Small sphere around [[Psi Scanner]] array || Clean environment for accurate sensing
+|-
+| '''Defensive position''' || Shaped ward matching terrain contour || Excludes [[Psychotronic Generator]] zone effects
+|-
+| '''Safe house / SCIF''' || Permanent installation ward || Continuous psionic security
+|}
+
+=== Specifications ===
+* '''Area:''' 10–200m radius depending on generator power
+* '''Setup time:''' 5–15 minutes for portable units; permanent installations are always-on
+* '''Power:''' Moderate continuous draw proportional to protected area
+* '''Duration:''' Indefinite with power supply
+
+=== Limitations ===
+* '''No target filtering:''' Blocks ALL psionic activity including friendly operations across the boundary
+* '''Physical vulnerability:''' Ward projectors can be physically targeted and destroyed
+* '''Power dependency:''' Ward collapses immediately if power is interrupted
+* '''Cost:''' Significant resource investment for large installations
+
+== Integration ==
+
+The Psi Ward is typically deployed alongside other defensive systems:
+
+* '''Inside the ward:''' [[Psi Harmonizer]] (recovery), [[Psi Scanner]] (detection via dedicated sensors outside ward), [[PsiLink]] mesh (internal comms)
+* '''At the ward boundary:''' [[Psi Defender]] units positioned to protect projectors from physical attack
+* '''Outside the ward:''' Forward-deployed [[Defense Discs]] and operators who need active psionic capability
+
+== Real-World Parallel: Shielded Environments ==
+
+The Psi Ward concept draws from several real-world shielded-environment technologies:
+
+=== Faraday Cage ===
+A conductive enclosure that blocks external electromagnetic fields — the closest physical analogue to the Psi Ward's exclusion boundary. Used in:
+* Sensitive electronic testing (anechoic chambers)
+* Medical imaging (MRI rooms)
+* Military intelligence (SCIF — Sensitive Compartmented Information Facility)
+
+=== Acoustic Isolation ===
+Anechoic chambers that create controlled acoustic environments by eliminating all external sound — analogous to the Psi Ward creating controlled psionic environments.
+
+=== Physical Analogues ===
+{| class="wikitable" style="width:100%;"
+! Real-World !! Blocks !! FusionGirl Parallel
+|-
+| '''Faraday cage''' || EM radiation || Psi Ward excludes psionic fields
+|-
+| '''SCIF''' || Electronic surveillance || Psi Ward prevents psionic reconnaissance
+|-
+| '''Anechoic chamber''' || Sound reflections || Clean psionic environment for sensitive operations
+|-
+| '''NBC shelter''' || Nuclear/biological/chemical agents || Exclusion of environmental psionic contamination
+|}
+
+== Theoretical context (psion-ontology framing) ==
+
+In the [[Psi_Field|ψ-field]] Lagrangian picture, a defensive
+configuration that decouples a region from psionic perturbation is one
+that '''suppresses the EM field-strength scalar
+<math>F^2</math>''' inside the region - the source term for
+[[Psion|psion]] production via the
+<math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu}</math> vertex. Conventional
+[[Faraday cage]] / shielding hardware partially achieves this for the
+direct ([[CEMI Field Theory|cemi]], <math>g_F\,C\,F^2</math>) channel;
+the indirect channel additionally requires suppression of the
+displacement-current pattern (see the
+[[HelmKit_Architecture#Both-channel_sham_requirement|both-channel
+sham]] requirement). The Mk-level engineering above is unchanged by
+this framing.
+
+
+== See Also ==
+* [[Psionic Defenses]] — Defense classification
+* [[Psychotronic Generator]] — Primary threat countered
+* [[Psi Defender]] — Active defense complement
+* [[Psi Scanner]] — Detection operations within ward
+* [[Psi Devices]] — Master device catalog
+
+[[Category:Defenses]]
+[[Category:Psionics]]
+[[Category:Psi Devices]]

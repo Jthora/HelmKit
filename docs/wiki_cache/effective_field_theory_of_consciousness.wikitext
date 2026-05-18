@@ -1,0 +1,217 @@
+= Effective Field Theory of Consciousness =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 15 minutes
+| prerequisites = [[Psionics_Primer]]; [[Psi_Field]]; basic field theory; familiarity with effective Lagrangians; concept of spontaneous symmetry breaking.
+| if_too_advanced_see = [[Conceptual Psionics: Two Channels]] · [[Could_the_Brain_Use_Quantum_Mechanics]]
+| if_you_want_the_math_see = [[Renormalization_of_Psi_Theory]]
+}}
+
+{{Notation
+| psi_convention   = ψ = scalar field amplitude. C(x,t) = order-parameter field for the "consciousness sector" (defined below).
+| signature        = Mostly-plus.
+| units            = ℏ = c = 1 unless explicitly noted.
+}}
+
+The '''effective field theory (EFT) of consciousness''' treats consciousness phenomenologically — not by introducing a "consciousness particle", but by writing down the most general effective Lagrangian for a low-energy order parameter C(x,t) coupled to the [[Psi_Field|ψ field]] and to neural-population fields, consistent with the symmetries of the brain–ψ system.
+
+The result is a Landau–Ginzburg-style theory whose phase structure cleanly reproduces:
+
+* Ordinary baseline ("disorganised") consciousness as the symmetric phase.
+* Trained / focused consciousness as a partially-broken phase.
+* Coherent group / ritual consciousness as a more-broken phase with collective amplification.
+* Pathological states (epilepsy, psychosis) as boundary or runaway regimes.
+
+This page is the field-theoretic complement to [[Wilson-Cowan_Coupled_to_Psi]] and [[Holonomic_Brain_Theory]]; it is not a proposal that consciousness is fundamental, but that it has a useful effective description at the right level of coarse-graining.
+
+{{Psi-claim
+| status = SPECULATIVE
+| claim = Consciousness admits an effective field-theoretic description with identifiable order parameters.
+| cites = [[Effective field theory]], [[Consciousness]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Motivation ==
+
+Consciousness phenomena (binding, attention, intention, qualia, integration) occur on timescales of 10–500 ms and spatial scales of cm to whole-brain. Coarse-graining a Wilson–Cowan-style neural-field theory + ψ coupling on those scales gives an order-parameter field C(x,t) capturing the slowest, longest-wavelength degree of freedom of the combined system.
+
+This is exactly the philosophy of an EFT: ignore fast / short modes; keep slow / long modes; write the most general Lagrangian consistent with the symmetries.
+
+== Symmetries ==
+
+The relevant symmetries are:
+
+# '''Spatial translation and rotation''' (approximate; broken by brain anatomy at fine scales).
+# '''Time translation''' (broken by metabolism and growth at long timescales).
+# '''Gauge invariance of EM''' (exact; couples to C only through F<sub>μν</sub>F<sup>μν</sup>).
+# '''C → −C symmetry''' (proposed; corresponds to "no preferred sign" of integrated information at the order-parameter level).
+# '''ψ-shift symmetry''' (ψ → ψ + constant only when m = 0; otherwise broken by mass).
+
+== Effective Lagrangian ==
+
+The most general Lorentz-invariant, parity-symmetric effective Lagrangian for a real scalar order parameter C coupled to ψ and EM, up to fourth order in fields and second order in derivatives:
+
+:<math>\mathcal{L}_{\text{EFT}} = \tfrac{1}{2}\partial^\mu C\,\partial_\mu C - V(C) - g_1\,C\,\psi - g_2\,C\,\psi^2 - g_3\,C^2\,\psi - g_4\,C^2\,\psi^2 - g_F\,C\,F_{\mu\nu}F^{\mu\nu} + \mathcal{L}_\psi + \mathcal{L}_{\text{EM}}</math>
+
+with potential
+
+:<math>V(C) = \tfrac{1}{2} m_C^2\,C^2 + \tfrac{\lambda_C}{4}\,C^4</math>
+
+Each term has a clear physical interpretation:
+
+{| class="wikitable"
+! Term !! Interpretation
+|-
+| ½ ∂<sup>μ</sup>C ∂<sub>μ</sub>C || Kinetic energy of the consciousness order parameter
+|-
+| ½ m<sub>C</sub><sup>2</sup> C<sup>2</sup> || Resting "mass" — energy cost of activating C
+|-
+| (λ<sub>C</sub>/4) C<sup>4</sup> || Self-interaction — saturates at high amplitude; basis for soliton-like sustained focus
+|-
+| g<sub>1</sub> C ψ || Linear coupling: ψ acts as an external field on C
+|-
+| g<sub>2</sub> C ψ<sup>2</sup> || Sets the C-equilibrium position by the ψ-field intensity
+|-
+| g<sub>3</sub> C<sup>2</sup> ψ || ψ-dependent effective mass of C (consciousness "feels heavier" in high-ψ environments)
+|-
+| g<sub>4</sub> C<sup>2</sup> ψ<sup>2</sup> || Direct C–ψ energy-density coupling
+|-
+| g<sub>F</sub> C F<sub>μν</sub>F<sup>μν</sup> || Consciousness coupling to EM-field energy density — the [[CEMI_Field_Theory|McFadden CEMI]] channel in the present formalism
+|}
+
+== Two-channel structure of C-EM coupling ==
+
+The effective Lagrangian above contains '''two distinct routes''' by
+which the consciousness order parameter <math>C</math> couples to the
+electromagnetic field. Brief Rule 3 (channel discipline) requires
+every plain-language statement about C-EM coupling to specify which
+channel is meant.
+
+{| class="wikitable"
+! Channel !! Vertex !! Mediator !! Reference
+|-
+| '''Direct''' || <math>g_F\,C\,F_{\mu\nu}F^{\mu\nu}</math> || none (contact term) || [[CEMI Field Theory]]
+|-
+| '''Indirect''' || <math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu} \to g_2\,C\,\psi^2</math> || [[Psion|psion]] (ψ-quantum) || [[Psi_Field]]; [[Psion]]
+|}
+
+The '''direct''' channel is what McFadden's [[CEMI Field Theory|cemi
+theory]] proposes: the brain's endogenous EM field is itself the
+substrate of conscious experience, with no intermediate quantum. It
+corresponds to the <math>g_F\,C\,F^2</math> contact vertex above.
+
+The '''indirect''' channel routes EM-consciousness coupling through
+the ψ field: EM drives ψ via <math>\alpha\,\psi\,F^2</math>, and ψ
+drives <math>C</math> via <math>g_2\,C\,\psi^2</math>. At the quantum
+level the mediator is the [[Psion|psion]]. The diagrammatic structure
+is identical to the [[Axion-Photon_Coupling|axion-photon]] vertex with
+<math>C</math> playing the role of an additional scalar field, and
+F10 bounds <math>\alpha</math> at axion-class strength.
+
+The two channels are independent vertices in the same Lagrangian.
+cemi is recovered as a sub-case when <math>\alpha = 0</math>; the
+psion-mediated channel is recovered as the dominant route when
+<math>g_F = 0</math>. The general theory contains both.
+
+For the polariton-style hybridisation of the indirect channel in
+condensed tissue, see [[Psion-Phonon_Coupling_in_Tissue]]. For the
+operator-firewall consequences (Mk-level gating of which channel may
+appear in device claims) see [[HelmKit_Architecture]] and the
+[[Psion]] page.
+
+
+== Phases of the theory ==
+
+The phase diagram in the (m<sub>C</sub><sup>2</sup>, g<sub>2</sub>·⟨ψ<sup>2</sup>⟩) plane has the following regimes:
+
+=== Symmetric phase (baseline consciousness) ===
+
+For m<sub>C</sub><sup>2</sup> > 0 and ⟨ψ⟩, ⟨ψ<sup>2</sup>⟩ small: the minimum of the effective potential is at C = 0. There is no large coherent C. Consciousness is "disorganised" — the order parameter fluctuates around zero. This corresponds to baseline waking consciousness without focused intent.
+
+=== Broken phase (focused / trained consciousness) ===
+
+If the effective mass m<sub>C</sub><sup>2</sup><sub>eff</sub> ≡ m<sub>C</sub><sup>2</sup> − g<sub>3</sub> ψ<sub>0</sub> − g<sub>4</sub> ψ<sub>0</sub><sup>2</sup> becomes negative for sufficiently large ⟨ψ⟩, the potential develops a double-well structure: C spontaneously chooses a non-zero value ⟨C⟩ ≠ 0. This is the symmetry-broken phase.
+
+In this phase:
+
+* C has a non-zero expectation value — "consciousness is organised".
+* Excitations around ⟨C⟩ are massive (the radial mode) plus a near-Goldstone-mode soft excitation associated with the broken symmetry.
+* The coupling g<sub>1</sub> C ψ in this phase generates a ''linear'' source for ψ — i.e. focused consciousness pumps ψ.
+
+This is the rigorous EFT statement that ''trained, focused practitioners act as J<sub>ψ</sub> sources'' beyond the baseline cortical-firing channel.
+
+=== Critical regime (transitions) ===
+
+At the boundary between phases the EFT exhibits scaling behaviour: long correlation lengths, slow timescales, power-law fluctuations. Phenomenologically this corresponds to the "edge of awareness" / "near-trance" regimes that practitioners report as anomaly-rich and information-rich.
+
+This is a non-trivial empirical prediction: the [[Stochastic_Resonance|stochastic resonance]] enhancement of weak-signal psi detection should peak near the critical regime — and only there.
+
+=== Runaway regimes ===
+
+If g<sub>3</sub> ψ<sub>0</sub> + g<sub>4</sub> ψ<sub>0</sub><sup>2</sup> drives m<sub>C</sub><sup>2</sup><sub>eff</sub> to large negative values without λ<sub>C</sub> being large enough to stabilise, the system runs away. This is the pathological regime — interpretable as the onset of epileptic seizure, acute psychosis, or other large-scale cortical-coherence disorders.
+
+The framework therefore predicts that strong ψ exposure (in the wrong phase) is genuinely dangerous, and that protective practice (grounding, [[Psionic_Device_Safety|technique hygiene]]) is the practical analogue of choosing the parameter regime to keep the EFT stable.
+
+== Coupling to the Wilson–Cowan equation ==
+
+The C field of this EFT and the u field of the [[Wilson-Cowan_Coupled_to_Psi|Wilson–Cowan equation]] are not independent: C is a coarse-grained, slow-mode reduction of u. The relationship can be written as
+
+:<math>C(x,t) = \!\int\! K(x - x',\,t - t')\,u(x',\,t')\,dx'\,dt'</math>
+
+with K a long-wavelength low-pass kernel. At the EFT level the Wilson–Cowan u field is integrated out, leaving an effective theory in C alone.
+
+The β·ψ feedback term in the Wilson–Cowan equation maps to the g<sub>1</sub> C ψ coupling at the EFT level; the κ ∫ f(u) source map maps to the C-dependent J<sub>ψ</sub> = κ<sub>EFT</sub> · ∂V/∂ψ contribution.
+
+== Information measures ==
+
+Two integrated information measures can be defined within this EFT:
+
+# '''Φ-style integrated information''' (à la [[IIT_Phi_Measure|Tononi IIT]]): the mutual information of C-field configurations across a partition of the brain, evaluated in the slow-mode subspace.
+# '''Field entropy''' S = −Tr(ρ̂ ln ρ̂) of the C density operator after quantisation — see [[Quantization_of_the_Psi_Field]].
+
+Both reach maxima in the symmetry-broken phase, are zero in the deep symmetric phase, and peak at the critical regime — providing a direct test of the framework against IIT measurements on conscious vs. unconscious subjects (Tononi, Massimini et al.; perturbational complexity index).
+
+== Predictions ==
+
+# '''Conscious vs. unconscious transitions are phase transitions.''' Anaesthesia, deep sleep, and seizure should correspond to crossing well-defined boundaries in the (m<sub>C</sub><sup>2</sup>, g·⟨ψ<sup>2</sup>⟩) plane. The Tononi PCI data is consistent with this.
+# '''Psi performance peaks at the critical regime.''' Practitioners in the "edge" state — between everyday awareness and full trance — should outperform those in either limit. Anecdotally and in [[Ganzfeld_Procedure|ganzfeld]] subject debriefings this is reported.
+# '''Group amplification is N<sup>4</sup>-scaling.''' The g<sub>4</sub> C<sup>2</sup>ψ<sup>2</sup> term gives the same N<sup>4</sup> energy scaling in groups as the λψ<sup>4</sup> self-interaction of ψ alone — consistent across the framework.
+# '''Strong ψ exposure can destabilise C.''' Predicted regime of pathological runaway is a real empirical risk; standard practical-safety teaching in esoteric traditions (don't over-extend, ground regularly, observe a teacher's pacing) has a precise mathematical analogue.
+
+== Limitations ==
+
+* C is a phenomenological order parameter, not a "consciousness particle". The EFT does not address ''why'' there is experience.
+* The coefficients g<sub>1</sub>, …, g<sub>4</sub>, g<sub>F</sub>, m<sub>C</sub>, λ<sub>C</sub> are empirically open. They are constrained by neural-field-theory matching at one end and by ψ-phenomenology at the other.
+* The theory is classical at this level. Quantum corrections are addressed in [[Quantization_of_the_Psi_Field]] and [[Renormalization_of_Psi_Theory]].
+
+== Cross-references ==
+
+* [[Wilson-Cowan_Coupled_to_Psi]] — the microscopic neural-field-theory underlying this EFT.
+* [[Psi_Field]] — the ψ partner whose coupling is dimensionally relevant.
+* [[IIT_Phi_Measure]] — the Tononi IIT, predicted to peak in the broken phase.
+* [[CEMI_Field_Theory]] — McFadden EM-field theory; equivalent to the g<sub>F</sub> C F<sup>2</sup> coupling.
+* [[Holonomic_Brain_Theory]] — Pribram–Bohm holographic model; consistent with the EFT in the long-wavelength limit.
+* [[Orchestrated_Objective_Reduction]] — Penrose–Hameroff; the proposed UV completion of the EFT in microtubules.
+* [[Quantization_of_the_Psi_Field]] — quantum extension.
+
+== See Also ==
+
+* [[Psionics]]
+* [[Psi_Field]]
+* [[Symbol_Glossary]]
+
+== References ==
+
+* Wilson, K. G. (1971). "Renormalization Group and Critical Phenomena." ''Physical Review B'' 4: 3174.
+* Goldstone, J. (1961). "Field theories with superconductor solutions." ''Il Nuovo Cimento'' 19: 154–164.
+* Wilson, H. R., Cowan, J. D. (1973). "A mathematical theory of the functional dynamics of cortical and thalamic nervous tissue." ''Kybernetik'' 13: 55–80.
+* Tononi, G., Massimini, M., et al. (2013). "A theoretically based index of consciousness independent of sensory processing and behavior." ''Science Translational Medicine'' 5: 198ra105. (PCI.)
+* McFadden, J. (2002). "The conscious electromagnetic information (CEMI) field theory." ''Journal of Consciousness Studies'' 9(4): 23–50.
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Effective field theory]]

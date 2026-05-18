@@ -1,0 +1,86 @@
+{{Audience_Sidebar
+| difficulty   = Introductory
+| reading_time = 5 minutes
+| prerequisites = [[Psionics_Primer]]; basic neuroscience.
+| if_too_advanced_see = [[Persinger_God_Helmet]]
+| if_you_want_the_math_see = [[Persinger_God_Helmet]]
+}}
+
+{{Person_Vital_Stats
+| name = Michael A. Persinger
+| birth = 26 June 1945 (Jacksonville, Florida)
+| death = 14 August 2018 (Sudbury, Ontario)
+| nationality = American-Canadian
+| field = Neuroscience; psychology; parapsychology
+| affiliation = Laurentian University (Sudbury, Ontario)
+| key_works = ''Neuropsychological Bases of God Beliefs'' (1987); over 500 primary papers
+| era = Late 20th to early 21st century
+}}
+
+== Summary ==
+
+'''Michael Persinger''' was an American-Canadian neuroscientist at Laurentian University in Sudbury, Ontario, whose research spanned mainstream neuroscience and the empirical investigation of anomalous psychological and parapsychological phenomena. He is best known for the '''"God Helmet"''' apparatus — a magnetic-field stimulator applied to the temporal lobes that he reported could elicit experiences of "felt presence", religious or spiritual states, and out-of-body experiences in subjects.
+
+== Life ==
+
+Persinger earned degrees in physiology and psychology in the US and his PhD at the University of Manitoba (1971). He spent his entire academic career at Laurentian University, where he was Professor of Behavioural Neuroscience. He was prolific — over 500 publications across a 40-year career — and remained active until his death in 2018.
+
+== Key Contributions ==
+
+=== Temporal-lobe magnetic stimulation ("God Helmet") ===
+
+Persinger's apparatus applies '''weak, complex-waveform magnetic fields''' (microtesla range — far below transcranial-magnetic-stimulation thresholds) to the subject's temporal lobes via solenoids in a modified motorcycle helmet. The waveform patterns are designed to mimic burst patterns observed in epileptic activity in the limbic-system temporal regions.
+
+Persinger reported that 80%+ of subjects in his Laurentian laboratory experienced "sensed presence" and altered states of consciousness during stimulation; a fraction reported religious experiences, out-of-body sensations, or other transformative phenomena.
+
+Independent replication has been mixed: a Swedish replication (Granqvist et al., 2005) reported negative results, attributing Persinger's findings to suggestion / expectation effects; subsequent debate over apparatus exact reproduction and waveform fidelity has not been definitively resolved.
+
+=== Geomagnetic correlations with anomalous experience ===
+
+Persinger published extensively on '''statistical correlations between geomagnetic activity and reports of paranormal experiences''' — apparitions, premonitions, etc. The basic correlations are robust in the data; the causal interpretation (geomagnetic disturbance affecting temporal-lobe activity, which in turn produces anomalous experience) is more contested.
+
+=== Parapsychological research ===
+
+Persinger conducted experimental investigations of telepathy, telekinesis, and other psi phenomena, generally with cautious methodological care. He maintained a working relationship with the wider parapsychology community while being academically rooted in mainstream neuroscience.
+
+=== Mainstream neuroscience ===
+
+Persinger's mainstream publication record on temporal-lobe physiology, epileptology, and neuropsychology is substantial and professionally respected.
+
+== Reception ==
+
+Persinger occupied a borderline position between mainstream neuroscience (where his core technical work was respected) and parapsychology (where his careful methodology was respected). His "God Helmet" claims are debated; his geomagnetic-correlation work is generally treated as solid but interpretively underdetermined.
+
+In the [[Psionics|psionic framework]], Persinger is significant for two reasons:
+
+* Demonstration that '''weak external electromagnetic fields can measurably affect subjective experience''' — supporting the framework's prediction of EM-mediated ψ-coupling to human nervous systems.
+* '''Geomagnetic-modulation evidence''' for anomalous-experience reporting — implicating an environmental-EM-field substrate for psionic phenomena.
+
+== Bibliography ==
+
+* Persinger, M. A. (1987). ''Neuropsychological Bases of God Beliefs.'' Praeger.
+* Persinger, M. A. (1983). "Religious and mystical experiences as artifacts of temporal lobe function: a general hypothesis." ''Perceptual and Motor Skills'' 57: 1255-1262.
+* Persinger, M. A. (2003). "The sensed presence within experimental settings: implications for the male and female concept of self." ''Journal of Psychology'' 137: 5-16.
+* Over 500 primary papers.
+
+== See Also ==
+
+* [[Persinger_God_Helmet]]
+* [[Schumann_Resonance]]
+* [[Bioelectromagnetism]]
+* [[Anomalous_Cognition]]
+
+== External Links ==
+
+* Wikipedia: Michael Persinger
+* Laurentian University faculty archive.
+
+== References ==
+
+* Granqvist, P., et al. (2005). "Sensed presence and mystical experiences are predicted by suggestibility, not by the application of transcranial weak complex magnetic fields." ''Neuroscience Letters'' 379: 1-6.
+* Persinger, M. A., et al. (2010). "Reply to Granqvist." ''Neuroscience Letters'' (various replies).
+
+[[Category:Psionics]]
+[[Category:Biographies]]
+[[Category:Neuroscience]]
+[[Category:Parapsychology]]

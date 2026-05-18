@@ -1,0 +1,66 @@
+'''Resonant Neurobiology''' is the working hypothesis that the abstract category of '''[[Resonant]]''' — individuals with elevated ψ-field coupling — has '''measurable neurophysiological signatures''' that can be detected with standard wearable instrumentation.
+
+This page defines those proposed signatures so that [[Resonant Finder]] models, [[Resonant Pipeline]] screening, and [[Psi Recorder]] telemetry have a concrete, testable phenotype to validate against.
+
+{{Psi-claim
+| status = TESTABLE
+| cites = HRV and Psi, Coherent Quantum Effects in Biology, Orchestrated Objective Reduction
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Proposed signatures ==
+
+A candidate is scored against five orthogonal axes. Threshold values are working hypotheses pending Mk2 cohort data.
+
+{| class="wikitable"
+! Axis !! Instrument !! Provisional threshold
+|-
+| Resting alpha-band coherence (8–13 Hz, eyes closed) || EEG (≥ 4 channels) || Inter-channel coherence ≥ 0.7 across F3–F4–O1–O2
+|-
+| HRV — RMSSD at rest || PPG or ECG, 5-minute supine recording || ≥ 50 ms (mainstream "high vagal tone" boundary)
+|-
+| Cardio-respiratory coherence || Simultaneous HRV + breath || HeartMath-style coherence score ≥ 4 within 1 minute of intent
+|-
+| Phase-locking value (PLV) across frontal-parietal sites under sustained attention || EEG || ≥ 0.6 at gamma band (30–60 Hz)
+|-
+| Geomagnetic correlation ratio || EEG/HRV vs. local magnetometer || Significant (p < 0.05) modulation by Kp index over ≥ 14 days
+|}
+
+A candidate scoring ≥ 3 of 5 above threshold is provisionally classified '''Resonant (awakened)'''; 1–2 above is '''Resonant (latent)'''; 0 is '''non-Resonant''' on current instrumentation.
+
+== Why these axes ==
+
+* Alpha coherence and gamma PLV are the two best-studied EEG correlates of meditative attainment (Lutz et al., 2004; Cahn & Polich, 2006).
+* HRV / RMSSD is the most-validated single biomarker of autonomic-system flexibility (Task Force, 1996; Shaffer & Ginsberg, 2017).
+* Cardio-respiratory coherence is HeartMath's central measure; effect size on subjective wellbeing is small but replicable.
+* Geomagnetic correlation is more speculative but follows the wiki's own [[Geomagnetic Sensitivity in Humans]] thesis.
+
+== Confounders ==
+
+Each signature has a non-ψ explanation:
+
+* Meditation training raises alpha coherence and gamma PLV.
+* Aerobic fitness raises RMSSD.
+* HeartMath training raises cardio-respiratory coherence.
+* Geomagnetic correlation may simply track sleep / season / mood.
+
+A genuine Resonant Neurobiology signal would therefore have to show '''elevation above what training history predicts''' — i.e. the candidate is high on these axes ''without'' the training that usually causes the elevation. This is the testable claim.
+
+== Falsification ==
+
+If a population of candidates self-identified or astrology-flagged as Resonant shows no statistically significant elevation on these axes above a training-history-matched control group, the Resonant Neurobiology hypothesis is falsified for this measurement battery, and the [[Resonant Finder]] must be retired or its scoring re-specified.
+
+== See also ==
+
+* [[Resonant]]
+* [[Resonant Finder]]
+* [[Resonant Pipeline]]
+* [[Heart Rate Variability and Psi]]
+* [[Psi Recorder]]
+
+[[Category:Psionics]]
+[[Category:Resonant]]
+[[Category:Testable Psi Claims]]

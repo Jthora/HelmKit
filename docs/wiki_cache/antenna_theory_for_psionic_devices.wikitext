@@ -1,0 +1,163 @@
+= Antenna Theory for Psionic Devices =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 7 minutes
+| prerequisites = [[Near_Field_Electromagnetics]]; basic antenna concepts; some impedance matching.
+| if_too_advanced_see = [[Near_Field_Electromagnetics]]
+| if_you_want_the_math_see = This page
+}}
+
+{{Notation
+| signature = Non-relativistic; SI.
+| units     = k = 2π/λ; a = bounding-sphere radius (m); Q = antenna quality factor; R<sub>rad</sub> = radiation resistance (Ω).
+}}
+
+{{Device_Vital_Stats
+| type           = Antenna (general — psionic-device coupling theory)
+| operating_freq = Application-dependent; ELF (Hz) through UHF (GHz)
+| input_power    = Application-dependent
+| size           = Wavelength-dependent (a ≪ λ regime emphasised)
+| status         = Theoretical framework page
+| safety_class   = Application-dependent; ICNIRP guidelines apply
+| key_reference  = Chu, L. J. (1948). ''J. Appl. Phys.'' 19: 1163 (Chu-Wheeler small-antenna limit).
+}}
+
+'''Antenna theory for psionic devices''' adapts classical antenna engineering — Chu-Harrington bounds, Wheeler radiation resistance, near-field coupling — to the specific demands of [[HelmKit]]-class wearable systems. These devices operate at the boundary of '''electrically small''' (D ≪ λ) and resonant, in the reactive near-field, with biological matter (the brain) only centimetres away.
+
+This page collects the engineering-relevant equations and bounds.
+
+{{Psi-claim
+| status = TESTABLE
+| claim = Antenna-theoretic design principles (gain, impedance match, polarisation) carry over to psionic devices and predict measurable performance differences.
+| cites = [[Antenna Theory]], [[Psi-Tech]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}}
+
+== Electrically-small regime ==
+
+An antenna is '''electrically small''' when its largest dimension D is much less than the wavelength λ. For 5 cm coils at 2.45 GHz (λ = 12.24 cm), the ratio D/λ ≈ 0.4 — at the boundary of electrically small.
+
+In this regime, antennas exhibit:
+
+* '''Reactive near-field dominance''' (see [[Reactive_Near_Field]]).
+* '''Low radiation resistance''' — most input power is reactive, not radiated.
+* '''High Q''' (narrow bandwidth) — fundamental Chu-Harrington bound.
+* '''Strong sensitivity to detuning''' by nearby matter (the wearer).
+
+== Chu-Harrington bound ==
+
+The fundamental limit on the radiation Q of an electrically small antenna (Chu 1948; Harrington 1960):
+
+  Q<sub>min</sub> = 1/(ka)<sup>3</sup> + 1/(ka)
+
+— with k = 2π/λ the wavenumber and a the radius of the smallest sphere enclosing the antenna. This is the minimum Q achievable; real antennas have Q ≥ Q<sub>min</sub>.
+
+The bandwidth is bandwidth ~ f / Q.
+
+=== Worked example: 5 cm coil at 2.45 GHz ===
+
+* a = 2.5 cm, k = 2π/0.1224 = 51.3 /m → ka = 51.3 × 0.025 = 1.28.
+* Q<sub>min</sub> = 1/1.28<sup>3</sup> + 1/1.28 = 0.477 + 0.781 ≈ 1.26.
+* Bandwidth Δf = f/Q ≈ 2.45 GHz / 1.26 ≈ 1.94 GHz — broad.
+
+For ka = 1.28, the antenna is '''just barely''' electrically small. Bandwidth is workable.
+
+=== Worked example: 1 cm coil at 2.45 GHz ===
+
+* a = 0.5 cm → ka = 0.26.
+* Q<sub>min</sub> = 1/0.26<sup>3</sup> + 1/0.26 ≈ 60.0 + 3.85 ≈ 63.8.
+* Bandwidth ≈ 38 MHz — moderate.
+
+=== Worked example: 5 cm coil at 300 MHz ===
+
+* λ = 1 m, ka = 2π · 0.025 / 1 ≈ 0.157.
+* Q<sub>min</sub> ≈ 1/0.157<sup>3</sup> + 1/0.157 ≈ 258 + 6.4 ≈ 264.
+* Bandwidth ≈ 1.1 MHz — narrow.
+
+At 300 MHz, a 5 cm coil is deeply sub-wavelength — high Q, large stored-energy ratio, narrow bandwidth. This is the preferred regime for high near-field efficiency.
+
+== Wheeler radiation resistance ==
+
+For an electrically small loop antenna of circumference <math>C</math>:
+
+:<math>R_{\text{rad}} = 20\pi^2\,(C/\lambda)^4\quad[\Omega]</math>
+
+The <math>(C/\lambda)^4</math> scaling is characteristic of magnetic dipole radiation. <math>R_{\text{rad}}</math> sets the antenna's radiative efficiency relative to its ohmic loss resistance <math>R_{\text{loss}}</math>:
+
+:<math>\eta = \frac{R_{\text{rad}}}{R_{\text{rad}} + R_{\text{loss}}}</math>
+
+For a 5 cm coil at 2.45 GHz (<math>C \approx 15</math> cm, <math>\lambda = 12.24</math> cm):
+
+:<math>R_{\text{rad}} = 20\pi^2 \cdot 1.22^4 \approx 437\ \Omega</math>
+
+— a substantial radiation resistance. For the same coil at 300 MHz (<math>C/\lambda = 0.15</math>):
+
+:<math>R_{\text{rad}} = 20\pi^2 \cdot 0.15^4 \approx 0.1\ \Omega</math>
+
+— small, and likely dominated by R<sub>loss</sub>. At lower frequencies, the coil becomes a near-perfect near-field source (almost all stored energy, almost no radiation).
+
+== Impedance matching ==
+
+For an electrically small antenna to absorb input power, its driving-point impedance must be matched to the source impedance (typically 50 Ω). Practical techniques:
+
+* '''Series tuning capacitor''' — cancels the inductive reactance.
+* '''L-network''' (series-L + shunt-C or shunt-L + series-C).
+* '''Transformer coupling''' — for impedance step-up.
+* '''Distributed matching''' (stubs, microstrip) — for narrow-band high-precision matching.
+
+Matched, an electrically small antenna can absorb essentially all the input power. Unmatched, most is reflected back to the source.
+
+== Detuning by the wearer ==
+
+A critical effect for wearable psionic devices: '''the wearer's body changes the antenna's impedance'''. The brain is a high-permittivity, conductive medium and acts as a strong dielectric load. Practical consequences:
+
+* '''Resonance frequency shifts''' downward by 5-20% when the device is placed on a head vs. in free space.
+* '''Q-factor drops''' due to ohmic loading by tissue.
+* '''Matching network must compensate''' for body presence.
+
+Solutions: adaptive matching networks, in-situ calibration, body-proximity sensing.
+
+== Helical-antenna design ==
+
+For higher-radiation applications (longer-range devices, not HelmKit), helical antennas provide circular polarisation and broad beam. See [[Double-Helix_Antenna]] for the helical mode with circular polarisation (Kraus 1947).
+
+== Caduceus and bifilar geometries ==
+
+For HelmKit's near-field-only requirement, '''[[Caduceus_Coil|caduceus coils]]''' and '''[[Bifilar_Coil|bifilar coils]]''' are preferred because they:
+
+* '''Suppress far-field radiation''' by having opposite-current crossings or opposing windings (net dipole moment ≈ 0).
+* '''Maintain strong near-field''' due to the local field of each winding being large.
+* '''Provide non-trivial field structure''' (e.g. axial scalar/longitudinal components at crossings).
+
+These geometries are non-standard in conventional antenna engineering but are described historically in Tesla and Bedini work (and modern reactive-resonator literature).
+
+== Sanity checks ==
+
+* '''ka → 0''' (deeply electrically small) → Q<sub>min</sub> → ∞; antenna becomes pure near-field source. ✓
+* '''ka → 1''' (resonant size) → Q<sub>min</sub> ~ 2; antenna is a good radiator. ✓
+* '''ψ → 0''' (in framework) → standard antenna theory; no ψ-coupling enhancement. ✓ ([[Sanity_Check_Limits]] §6.)
+
+== See Also ==
+
+* [[Near_Field_Electromagnetics]]
+* [[Reactive_Near_Field]]
+* [[Caduceus_Coil]]
+* [[Bifilar_Coil]]
+* [[Double-Helix_Antenna]]
+* [[Psionic_Device_Overview]]
+
+== References ==
+
+* Chu, L. J. (1948). "Physical limitations of omni-directional antennas." ''Journal of Applied Physics'' 19: 1163.
+* Harrington, R. F. (1960). "Effect of antenna size on gain, bandwidth, and efficiency." ''Journal of Research of the National Bureau of Standards'' 64D: 1–12.
+* Wheeler, H. A. (1947). "Fundamental limitations of small antennas." ''Proceedings of the IRE'' 35: 1479–1484.
+* Balanis, C. A. (2016). ''Antenna Theory: Analysis and Design.'' 4th ed., Wiley.
+* Kraus, J. D. (1988). ''Antennas.'' 2nd ed., McGraw-Hill.
+
+[[Category:Psionics]]
+[[Category:Antenna Theory]]
+[[Category:Hardware]]

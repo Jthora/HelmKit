@@ -1,0 +1,149 @@
+= Psionic Device Safety =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 7 minutes
+| prerequisites = Basic RF safety; awareness of medical-device hazards.
+| if_too_advanced_see = [[Psionic_Device_Overview]]
+| if_you_want_the_math_see = [[SAR_Calculation_for_Psionic_Devices]]
+}}
+
+'''Psionic Device Safety''' enumerates the hazards, blacklisted operating modes, and engineering controls for [[HelmKit]]-class wearable psionic devices. The framework's position: '''safety is a structural property of the design''', enforced by independent hardware oversight, not by post-hoc bureaucratic compliance.
+
+This page is normative for any device claiming compliance with the framework's safety specification.
+
+== Hazard categories ==
+
+=== 1. RF thermal hazards ===
+
+Tissue absorbs RF energy and heats. Excessive heating damages cells. The standard exposure metric is '''Specific Absorption Rate (SAR)''' — power absorbed per unit mass (W/kg). See [[SAR_Calculation_for_Psionic_Devices]] for the calculation and ICNIRP limits.
+
+For HelmKit at 2.45 GHz, the localised SAR limit (2.0 W/kg averaged over 10 g of head tissue) corresponds to peak E-field ≲ 33 V/m in brain tissue. Design target: '''< 30 V/m rms'''.
+
+=== 2. RF auditory effects ===
+
+Pulsed RF in the 200-3000 MHz band, with peak power density > 40 mW/cm<sup>2</sup> and pulse widths < 1 ms, produces audible clicks via the '''[[Microwave_Auditory_Effect|Frey effect]]''' — thermoelastic expansion of the cochlea. While not directly harmful at moderate levels, this is a clear sign of significant local tissue heating and is hardware-blacklisted.
+
+=== 3. Photic seizure risk ===
+
+Photic stimulation in the 3-8 Hz band is the canonical seizure-trigger frequency range (the IEC 61966-2-1 standard for video flash testing). RF pulse trains at these frequencies, at sufficient field amplitudes (> 100 V/m head-field), risk inducing seizures in susceptible individuals.
+
+Blacklist: pulse-train repetition rates in 3-8 Hz at amplitudes > 100 V/m.
+
+=== 4. Cardiac stimulation ===
+
+DC or low-frequency pulsed currents into the thorax can capture cardiac rhythm. While HelmKit is head-worn (not thoracic), strong near-fields can induce currents in chest tissue depending on geometry.
+
+Blacklist: DC pulses with rise time < 1 ms in any tissue path containing thorax; pulse-train rates 10-100 Hz at amplitudes capable of inducing > 1 mA into chest area.
+
+=== 5. Neural entrainment ===
+
+Strong 1 Hz pulse trains entrain cortical δ rhythm. While transient entrainment is not necessarily harmful, sustained pulse trains during awake operation may produce disorientation or, in extreme cases, neurological symptoms.
+
+Blacklist: 1 Hz pulse trains at sustained amplitudes > 50 V/m; modulation envelopes matching cardiac or respiratory rates at > 5% depth (which can produce confusing somatic sensations).
+
+=== 6. Hardware failure ===
+
+Catastrophic hardware failure (PA short, coil short, battery thermal event) is mitigated by:
+
+* '''Fused power rails''' — current limit < 2 A on the PA supply.
+* '''Coil temperature monitoring''' — thermal cutoff at 45°C.
+* '''Battery management''' — overcurrent / overtemperature / overvoltage protection in the PMIC.
+* '''Mechanical enclosure''' — heat-resistant, flame-retardant.
+
+== The safety blacklist (normative) ==
+
+This blacklist is enforced in hardware-fuse-stored memory on MCU-B (see [[HelmKit_Architecture]]). MCU-A cannot override.
+
+=== Cardiac stimulation risk ===
+
+* DC pulses with rise time < 1 ms applied to thorax — risk of capture or VF.
+* 10-100 Hz pulsed currents > 1 mA into chest area — pacemaker interference, capture risk.
+
+=== Brain stimulation / seizure risk ===
+
+* 3-8 Hz photic/RF pulse trains at > 100 V/m head-field — photic-induced-seizure trigger zone.
+* Strong 1 Hz pulse trains > 50 V/m sustained — entrainment of cortical δ rhythm during awake operation.
+* Modulation envelopes matching cardiac or respiratory rates at > 5% depth.
+
+=== Microwave auditory effect (Frey) ===
+
+* Pulsed RF 200-3000 MHz with peak power density > 40 mW/cm<sup>2</sup> AND pulse widths < 1 ms produces audible clicks/tones via thermoelastic expansion. Should be blocked unless explicitly tested under controlled conditions.
+* Reference: [[Microwave_Auditory_Effect]]; Frey 1962.
+
+=== ICNIRP-violating combinations ===
+
+* Continuous-wave near-field > 50 V/m rms at the wearer's head.
+* Peak pulsed E-field > 300 V/m (the 1% pulsed-to-average peak limit).
+* Localised SAR > 2.0 W/kg over 10 g of head tissue.
+
+=== Operating-duration limits ===
+
+* Continuous operation > 1 hour without break (firmware-enforced 5-minute cooldown).
+* Session duration > 4 hours per 24 hours (firmware-enforced lockout).
+
+== Hardware controls (normative) ==
+
+# '''Dual-MCU architecture''' (see [[HelmKit_Architecture]]) — MCU-A doer, MCU-B checker; MCU-B has hardware-relay authority over RF cutoff.
+# '''Hardware-fuse blacklist storage''' — the blacklist above is stored in OTP fuses at factory time. Cannot be modified by firmware.
+# '''Independent RF power monitor''' — MCU-B reads RF output power via a directional coupler independent of MCU-A's commanded power.
+# '''Body-proximity sensor''' — capacitive sensor confirms device-on-head. If removed, RF is cut.
+# '''Coil-temperature monitor''' — thermistor; cutoff at 45°C.
+# '''Ambient E-probe array''' — independent verification of field amplitudes.
+# '''Watchdog''' — MCU-A must heartbeat MCU-B every 100 ms.
+# '''Physical-reset-required lockout''' — on any safety event, RF cannot be re-enabled without physical key release.
+
+== Firmware controls (normative) ==
+
+# '''MCU-A''' — open-source, signed; standard secure-boot.
+# '''MCU-B''' — closed but audited; formally verified safety logic; reproducibly built.
+# '''No remote firmware update for MCU-B''' — physical access required.
+# '''Tamper-evident logging''' — every session logged in append-only memory; logs include sensor readings, commanded vs. actual RF parameters, and any safety events.
+# '''Telemetry''' — BLE-streamed real-time sensor data; user-visible session summary.
+
+== Operator responsibilities ==
+
+The framework specifies:
+
+* '''Operator training''' — before first use, the operator must complete a safety briefing covering the hazards above.
+* '''Health screening''' — operators with seizure history, pacemakers, cochlear implants, or other RF-sensitive implants should not use HelmKit.
+* '''Session protocol''' — each session is logged; the operator's self-report (sensation, side effects) is part of the record.
+* '''Adverse-event reporting''' — any unexpected sensation, headache, dizziness, or other symptom must be reported to the device maintainer and logged.
+
+== Regulatory alignment ==
+
+HelmKit's safety standards reference:
+
+* '''ICNIRP 1998, 2020''' — international RF exposure guidelines.
+* '''IEEE C95.1-2019''' — US RF safety standard.
+* '''FCC Part 15''' (US), '''ETSI EN 300 328''' (EU) — for the 2.45 GHz ISM band operation.
+* '''IEC 60601-1''' — for electrical safety of medical-class devices (used as reference, not as certification target).
+* '''ISO 14971''' — for medical-device risk management methodology.
+
+== Sanity checks ==
+
+* '''All blacklist items''' map to a known biological hazard mechanism. ✓
+* '''SAR calculation''' for nominal operating point gives < 0.2 W/kg — well below the 2.0 W/kg limit. ✓
+* '''Single fault tolerance''' — no single MCU-A software fault can produce overexposure. ✓
+* '''ψ → 0''' (in framework) → safety architecture is independent of ψ; same constraints apply for any RF emitter. ✓
+
+== See Also ==
+
+* [[HelmKit]]
+* [[HelmKit_Architecture]]
+* [[Psionic_Device_Overview]]
+* [[SAR_Calculation_for_Psionic_Devices]]
+* [[Microwave_Auditory_Effect]]
+* [[Near_Field_Electromagnetics]]
+
+== References ==
+
+* ICNIRP (2020). "Guidelines for limiting exposure to electromagnetic fields (100 kHz to 300 GHz)." ''Health Physics'' 118: 483–524.
+* IEEE C95.1-2019 — IEEE Standard for Safety Levels.
+* Frey, A. H. (1962). "Human auditory system response to modulated electromagnetic energy." ''Journal of Applied Physiology'' 17: 689–692.
+* Gabriel, S., Lau, R. W., Gabriel, C. (1996). "The dielectric properties of biological tissues." ''Physics in Medicine & Biology'' 41: 2271–2293.
+* IEC 61508 (2010). "Functional Safety of Electrical/Electronic/Programmable Electronic Safety-related Systems."
+
+[[Category:Psionics]]
+[[Category:Hardware]]
+[[Category:Safety]]

@@ -1,0 +1,197 @@
+= Falsification Criteria for Psionics =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 7 minutes
+| prerequisites = Philosophy of science (Popperian falsifiability); basic statistics; familiarity with the framework's central claims.
+| if_too_advanced_see = [[Conceptual Psionics: Falsifiability]] · [[Psionics]]
+| if_you_want_the_math_see = This page
+}}
+
+'''Falsification Criteria for Psionics''' enumerates the specific empirical predictions of the [[Psionics|psionic framework]] that, if disconfirmed, would falsify the framework or specific components of it. The list is normative: any rigorous scientific framework must specify what observations would refute it.
+
+This page makes the framework's accountability to empirical evidence explicit. It does not claim the framework is established; it claims the framework is '''falsifiable''' in the Popperian sense.
+
+== Why falsifiability matters ==
+
+The historical critique of parapsychology and psionics is that the field operates as an '''unfalsifiable''' hypothesis: any failed prediction is attributed to "experimenter effect", "sceptic interference", or "psi-missing", protecting the central claim from refutation.
+
+The framework rejects this stance. Specific, quantitative, ahead-of-time predictions are stated below. If these predictions fail at sufficient sample size and methodological rigour, the framework is falsified (in whole or in specified part). Conversely, if they survive rigorous testing, the framework's status increases.
+
+== Core framework predictions ==
+
+The [[Psionics|psionic framework]] is a quantum field theory of a real scalar field ψ with action:
+
+:<math>\mathcal{L} = \tfrac{1}{2}(\partial_\mu \psi)(\partial^\mu \psi) - \tfrac{1}{2} m^2 \psi^2 - \tfrac{\lambda}{4}\psi^4 - \alpha\,\psi\,F_{\mu\nu}F^{\mu\nu} + \ldots</math>
+
+with α (ψ-EM coupling), m (ψ mass), λ (ψ self-coupling) as fundamental parameters. The framework's predictions follow from this Lagrangian.
+
+== Quantitative falsification criteria ==
+
+=== F1. Anomalous cognition meta-analytic effect ===
+
+'''Prediction''': Across rigorous, preregistered, multi-lab replications of [[Ganzfeld_Procedure|ganzfeld]], the aggregate effect size will be d > 0 with p < 0.001 at total N > 10,000 sessions.
+
+'''Falsification''': If a preregistered multi-lab replication with N > 10,000 produces d ≤ 0 or fails to reject the null at conventional significance, the framework's claim of ψ-mediated [[Anomalous_Cognition]] is falsified.
+
+'''Current status''': Aggregate effect ~ d = 0.14-0.20 across modern studies (Storm et al. 2010; Cardeña 2018). Consistent with prediction.
+
+=== F2. Distance independence of remote viewing ===
+
+'''Prediction''': [[Remote_Viewing|RV]] effect size should not depend on viewer-target distance over Earth-scale distances (< 20,000 km). This is because the ψ field is approximately massless and has 1/r long-range coupling.
+
+'''Falsification''': If RV effect size falls with distance as predicted by a propagating EM signal, or with any non-1/r law, the framework's massless-ψ-field claim is falsified.
+
+'''Current status''': Star Gate corpus (Utts 1996) shows no significant distance dependence over hundreds of km. Consistent.
+
+=== F3. Frequency-resonant ψ-source enhancement ===
+
+'''Prediction''': Driving a coherent matter substrate (e.g. cultured microtubules, YIG magnonic crystal) at its resonant frequency should produce '''larger ψ-coupling effects on a nearby RNG''' than driving at off-resonant frequency, by the ratio Q (the substrate's quality factor).
+
+'''Falsification''': If on-resonance vs. off-resonance driving produces equal ψ-coupling, the framework's prediction of coherent-matter enhancement of ψ-coupling is falsified.
+
+'''Current status''': No published direct test of this prediction at sufficient sample size.
+
+=== F4. SAR-independence of ψ-coupling ===
+
+'''Prediction''': At fixed RF input power, increasing the coherence of the driven substrate (without increasing SAR) should '''increase''' ψ-output. This distinguishes ψ-coupling from any purely-thermal mechanism.
+
+'''Falsification''': If ψ-output scales only with deposited thermal power (SAR), independent of substrate coherence, the framework's coherence-dependent mechanism is falsified.
+
+'''Current status''': Pilot data only.
+
+=== F5. Microtubule disruption blocks anomalous cognition ===
+
+'''Prediction''': Subjects under pharmacological disruption of microtubule function (taxol, colchicine, vinblastine — within ethical limits) should show '''reduced''' [[Anomalous_Cognition]] effect size compared to baseline. The framework predicts microtubules are the primary biological ψ-coupling substrate.
+
+'''Falsification''': If microtubule disruption does not reduce AC effect size, the microtubule-substrate hypothesis is falsified.
+
+'''Current status''': No published direct test (ethical constraints make pharmacological challenges difficult). Anaesthesia studies are an indirect proxy.
+
+=== F6. Anaesthesia blocks anomalous cognition ===
+
+'''Prediction''': Subjects under general anaesthesia (which is known to act on microtubules — Hameroff anaesthesia mechanism) should show '''absent or strongly-reduced''' AC effect.
+
+'''Falsification''': If subjects under anaesthesia show normal AC effect size (e.g. presentiment under anaesthesia), the framework's microtubule-mediated-consciousness claim is falsified.
+
+'''Current status''': Indirect evidence (anaesthesia abolishes conscious AC) consistent with prediction, but no controlled study of autonomic-AC under anaesthesia.
+
+=== F7. Coupling-constant universality ===
+
+'''Prediction''': The same α (ψ-EM coupling constant) should describe both ψ generation (psionic devices) and ψ detection (AC effects). This is a single-parameter prediction.
+
+'''Falsification''': If independent measurements of α from device-output and from AC-effect-size give incompatible values (different by > 3σ), the framework is falsified.
+
+'''Current status''': No precision measurement of α yet exists.
+
+=== F8. Soliton stability ===
+
+'''Prediction''': The ψ field's λψ<sup>4</sup> self-interaction should support stable [[Soliton_Solutions_of_Psi_Field|soliton solutions]]. Soliton lifetimes should be finite but long compared to single-trial timescales.
+
+'''Falsification''': If careful field-theoretic analysis shows the ψ-field self-interaction parameters required by other framework predictions are incompatible with soliton stability, the "thought-form" interpretation is falsified.
+
+'''Current status''': Theoretical work in progress.
+
+=== F9. No violation of conservation laws ===
+
+'''Prediction''': ψ-field effects do '''not''' violate energy, momentum, or charge conservation. They redistribute conserved quantities but do not create them ex nihilo.
+
+'''Falsification''': If a credible experimental claim of energy non-conservation (e.g. an over-unity device) is sustained at high precision, the framework's structure is challenged. Conversely, the absence of any such credible claim despite extensive search is consistent with the framework.
+
+'''Current status''': No credible over-unity claims have survived rigorous testing. Consistent.
+
+=== F10. Compatibility with mainstream physics (axion-class bound) ===
+
+'''Note (Phase L3 annotation).''' The bound on <math>\alpha</math>
+that follows from F10 is structurally identical to the experimental
+upper bound on the [[Axion-Photon_Coupling|axion-photon coupling]]
+<math>g_{a\gamma\gamma}</math>: roughly <math>\alpha \lesssim
+10^{-10}</math> in natural units. At this coupling the indirect
+([[Psion|psion]]-mediated) channel of C-EM coupling has effects in
+head-worn near-field devices that sit far below thermal noise. This
+is why operator-facing Mk1 device pages cannot claim psion-mediated
+function; see [[Psion-Phonon_Coupling_in_Tissue]] for the
+sensitivity-gap estimate.
+
+'''Prediction''': Standard-Model physics is recovered in the limit α → 0 (or ψ → 0). No standard-physics experiment is invalidated by the framework.
+
+'''Falsification''': If the framework's predictions require modifications to well-tested Standard-Model results (e.g. anomalous-magnetic-moment of the electron, hydrogen fine structure), it must explain why these have not been observed.
+
+'''Current status''': The framework constrains α to be very small (≲ 10<sup>-10</sup> of EM coupling), consistent with no Standard-Model anomaly. Consistent.
+
+=== F11. Primakoff-conversion null search (candidate) ===
+
+'''Prediction.''' At axion-class coupling <math>\alpha \sim 10^{-10}</math>
+(saturating F10), a haloscope-style RF cavity tuned to a candidate
+psion-mass window should show a small but non-zero Primakoff conversion
+signal: <math>\gamma + B_{\text{ext}} \to \psi</math> followed by the
+inverse process producing detectable photons in a separate cavity
+("light shining through walls" geometry).
+
+'''Falsification.''' If a dedicated psion-haloscope programme (analogous
+to ADMX, ALPS, OSQAR, CAST, IAXO at axion sensitivity) returns null at
+axion-class coupling across the relevant mass window, the framework's
+indirect-channel ([[Psion]]-mediated) C-EM coupling claim is constrained
+to <math>\alpha</math> well below F10, undermining the polariton
+mechanism in [[Psion-Phonon_Coupling_in_Tissue]].
+
+{{Unfalsifiable-pending-instrumentation
+| reason = Requires dedicated haloscope-class RF-cavity instrumentation; not testable in a wearable Mk1 device.
+| would_falsify = Null Primakoff signal at axion-class sensitivity across the candidate psion-mass window.
+}}
+
+'''Current status.''' No dedicated psion-haloscope programme has been
+performed. The candidate falsifier is recorded here for future
+instrumentation; see [[Psion]] and [[Psion-Phonon_Coupling_in_Tissue]]
+for the theoretical motivation.
+== Methodological standards required ==
+
+For a falsification claim to be sustained, the test must meet:
+
+# '''Pre-registration''' of primary hypotheses, predictions, and analyses.
+# '''Adequate statistical power''' — sample size determined to detect the predicted effect at 80% power.
+# '''Multi-lab replication''' — single-lab nulls are not sufficient.
+# '''Independent verification''' — primary analyses reproducible from raw data by independent reviewers.
+# '''Methodological tightness''' — at least the standards of the [[Replication_Crisis_in_Parapsychology|replication-crisis-era]] reforms.
+
+A null result from a single underpowered study does '''not''' falsify the framework. A consistent null across multi-lab high-powered studies '''does'''.
+
+== Boundaries of falsification ==
+
+Some framework predictions are '''not currently testable''' with available technology:
+
+* '''Direct ψ-field measurement''' — no ψ-field sensor exists; coupling to ψ is via EM intermediaries.
+* '''Single-microtubule manipulation''' — current techniques cannot manipulate single microtubules in situ.
+* '''Cosmological ψ-field signatures''' — ψ-field effects on cosmological observables are sub-detectable with current data.
+
+These are '''boundaries of current testability''', not unfalsifiable claims. As technology improves, they should move into the testable category.
+
+== What is not the framework's responsibility ==
+
+The framework is '''not''' responsible for:
+
+* '''Defending all parapsychological claims''' — many specific parapsychological claims (e.g. astrological predictions, tarot, dowsing) are not framework predictions.
+* '''Explaining all anomalous experiences''' — many subjective experiences may have conventional explanations (hallucination, suggestion, coincidence).
+* '''Predicting non-empirical metaphysical entities''' — the framework is a physical theory; questions about souls, afterlife, theology are not within its scope.
+
+== See Also ==
+
+* [[Psionics]]
+* [[Anomalous_Cognition]]
+* [[Replication_Crisis_in_Parapsychology]]
+* [[Ganzfeld_Procedure]]
+* [[Remote_Viewing]]
+* [[PEAR_Program]]
+* [[Sanity_Check_Limits]]
+
+== References ==
+
+* Popper, K. R. (1959). ''The Logic of Scientific Discovery.'' Hutchinson.
+* Lakatos, I. (1970). "Falsification and the methodology of scientific research programmes." In ''Criticism and the Growth of Knowledge'', Cambridge University Press.
+* Utts, J. (1996). "An assessment of the evidence for psychic functioning." ''Journal of Scientific Exploration'' 10: 3–30.
+* Mossbridge, J., Tressoldi, P., Utts, J. (2012). "Predictive physiological anticipation preceding seemingly unpredictable stimuli." ''Frontiers in Psychology'' 3: 390.
+* Cardeña, E. (2018). "The experimental evidence for parapsychological phenomena: A review." ''American Psychologist'' 73: 663–677.
+
+[[Category:Psionics]]
+[[Category:Methodology]]
+[[Category:Philosophy of Science]]

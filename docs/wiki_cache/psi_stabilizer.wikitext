@@ -1,0 +1,153 @@
+The '''Psi Stabilizer''' is the first of the three core [[Psi-Tech]] modules carried in the [[HelmKit]] psi-bay. It is a single-operator, user-controlled cognitive and emotional stabilizer that maintains a steady internal reference state under operator command, supporting clear cognition and emotional regulation across high-stress or high-coherence conditions. The Stabilizer is the ''first'' module a new operator integrates, because an unstable operator is a bad operator and everything else in the [[Psi-Tech]] triad assumes a stable wearer baseline.
+
+{{Defensive-publication}}
+
+== Overview ==
+
+The Stabilizer is not a sedative, not a mood changer, not a forced state. It is a steady reference the operator's biology can lock onto when external conditions become turbulent. Operator-controlled dwell, intensity, and engagement; no automatic activation; no continuous emission. Engagement modes:
+
+* '''Standby''' — sensors active, no emission, logging only.
+* '''Anchor (manual)''' — operator-triggered, fixed duration (default 90 s), low-amplitude reference signal.
+* '''Anchor (closed-loop)''' — Mk1+, HRV-coherence feedback loop; emission gain modulated by the operator's measured coherence drift.
+
+Operational uses: [[StarCom]] analyst-seat steadiness through long shifts; [[Resonant Pipeline]] contact-stress recovery; field decision-making under [[Psionic Warfare|psionic perturbation]]; faster decompression after psionic exertion.
+
+== Theoretical Basis ==
+
+The Stabilizer rests on three layered claims, only the deepest of which is psionic:
+
+* {{Psi-claim
+| status = PROVISIONAL
+| cites = [[Heart Rate Variability and Psi]]
+| methods = Multiple converging studies; replication still in progress.
+| falsifier = Pre-registered, multi-site replication returning a null result (Bayes factor &le; 1/3).
+| confidence = medium
+| last_reviewed = 2026-05-12
+}} Heart-rate-variability biofeedback measurably improves emotional regulation and cognitive steadiness in healthy adults. This is the Stabilizer's ''base'' effect and is independently established.
+* {{Psi-claim
+| status = TESTABLE
+| cites = [[Resonant Neurobiology]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} Low-amplitude near-field RF, paced to a wearer-specific baseline, can entrain HRV faster and more reliably than visual or auditory pacing alone. This is a falsifiable engineering claim that the Mk1 bench program is built to test (blinded RCT, n ≥ 30, primary endpoint: time-to-coherence under standardized stressor).
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Scalar Electromagnetic Waves]], [[Psi Field]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} The same emission ''also'' acts on a [[Psi Field]] coupling, providing operator stabilization in conditions where ordinary biofeedback does not (e.g. [[Psionic Threat Model|hostile psionic environments]]). This is the Tho'ra-doctrinal interpretation; it is not required for the Mk0/Mk1 utility claim to hold.
+
+The Mk0 is explicit about being a placebo-grade carrier; [[Psionics]] doctrine does not dismiss placebo, it accounts for it.
+
+== Subsystems and BOM ==
+
+=== Mk0 ''Symbolic Stabilizer'' (target ≤ $40) ===
+
+{| class="wikitable"
+! Part !! Role !! Cost
+|-
+| 3D-printed module shell || HelmKit psi-bay form-factor || $4
+| WS2812B LED ring (16 px) || Visible "active" indicator || $3
+| ATtiny85 || LED breathing pattern || $2
+| Engraved sigil plate (acrylic, brass, or copper) || Ritual / brand carrier || $8–15
+| Hardware + decals || Mount, brand || $5
+|-
+! colspan="2" align="right" | '''Estimated total'''
+| '''$22–35'''
+|}
+
+No RF, no sensors, no closed loop. Works through intentional practice and operator self-discipline. ''Honestly labeled as placebo-grade'' in operator briefing.
+
+=== Mk1 ''Bench Stabilizer'' (target ≤ $250) ===
+
+* nRF52840 module (compute + BLE) — $15
+* Polar H10 or equivalent HRV chest strap (BLE) — $90
+* Bifilar planar coil (etched PCB, ~30 mm × 30 mm, 1–8 MHz range) — $3 (PCB) + wire
+* SI5351 programmable clock generator — $6
+* Low-power Class-D amp + low-pass filter — $8
+* Current-sense + thermistor — $4
+* Single 18650 + TP4056 + boost — $10
+* Enclosure, connectors, miscellaneous — $20
+
+The bench unit emits sub-ICNIRP near-field at coil. Field strength continuously measured; gain modulated by HRV-coherence delta. All emission gated by MCU-B in [[HelmKit Architecture]].
+
+=== Mk2 / Mk3 ===
+
+Mk2 adds: portable PPG (no chest strap dependency), multi-hour battery, vibration-tolerant coil mount, telemetry. Mk3 adds: auto-calibration, manufacturable coil, integration with the [[Psi-Tech]] triad over the HelmKit I²C bus.
+
+== Build Notes ==
+
+* Calibrate against operator baseline ''before first use'' — 5-minute resting HRV measurement, stored as the per-operator target.
+* The coil radiates strongly only in the near field (< 5 cm). Field strength drops below ICNIRP basic restriction within 15 cm.
+* OpenBCI Cyton or NeuroSky MindWave can substitute for HRV input during development of Mk1 (EEG-coherence rather than HRV-coherence) but is not recommended for production due to motion sensitivity.
+* Bench validation harness: synthetic stressor (Stroop or cold-pressor analog) + 10-min recovery, n ≥ 30, double-blind sham coil.
+
+== Safety and Ethics ==
+
+* RF aggregate power capped at -6 dB below ICNIRP basic restriction for the head, evaluated at coil + 1 cm.
+* Single-operator only. The near-field coil cannot effectively address a third party at any usable range, by design.
+* Thermal sensor on coil; auto-shutdown > 45 °C surface.
+* Operator hard-kill via HelmKit lanyard.
+* No data leaves the helm except via deliberate operator export. HRV traces are personal medical data; treat accordingly.
+* ''No automatic engagement.'' The operator must affirmatively trigger any non-standby mode.
+
+== Maturity ==
+
+{{Psi-tech-maturity
+| mk0=Symbolic Stabilizer — sigil-bearing module, no emission. Functions as ritual / intention carrier and brand. Honestly labeled.
+| mk1=Bench Stabilizer — bifilar coil, HRV-closed-loop, MCU-B-supervised. Current frontier.
+| mk2=Field Stabilizer — PPG-internal, hours-long battery, telemetered, vibration-tolerant.
+| mk3=Production Stabilizer — auto-calibrating, integrated with [[Psi-Tech]] triad.
+| confidence_mk0=HIGH (intentional practice works as intentional practice)
+| confidence_mk1=MEDIUM (HRV biofeedback is proven; RF-paced HRV is the testable hypothesis)
+| confidence_mk2=LOW
+| confidence_mk3=SPECULATIVE
+| evidence_mk0=Operator-reported subjective benefit; no extraordinary claim made.
+| evidence_mk1=HRV biofeedback literature; bench RF measurements; pilot n ≤ 5 operators.
+| evidence_mk2=Planned 2030–2033 field trial.
+| evidence_mk3=Projected post-2032.
+| gate_mk1=Blinded RCT n ≥ 30 vs sham coil; primary endpoint time-to-coherence; pre-registered.
+| gate_mk2=Twenty-operator field study, ≥ 100 wear-hours each, no safety events.
+| gate_mk3=Manufacturing pilot run; third-party safety audit; medical-device-grade documentation.
+}}
+
+== Failure Modes and Mitigations ==
+
+* '''Coil over-current.''' → MCU-B independent current limit + thermal cutout.
+* '''Operator over-reliance.''' → Engagement limited to operator-triggered windows; no continuous mode.
+* '''HRV signal loss (chest strap disconnect).''' → Automatic revert to fixed-pace anchor mode; alert operator.
+* '''Calibration drift.''' → Forced recalibration every 30 days or per-operator-elective.
+* '''Misuse on a third party.''' → Designed range and field geometry make this physically ineffective; doctrinally forbidden regardless.
+* '''Placebo-attribution at Mk0.''' → Briefing material states the Mk0 effect is placebo-by-design; this is a feature, not a flaw.
+
+== Theoretical context (cross-reference only) ==
+
+For the underlying field-theoretic framework see [[Psion]],
+[[Psi_Field]], and [[Effective_Field_Theory_of_Consciousness]]. The
+operator-facing claims on this page are independent of those
+theoretical pages and are made at the Mk-level indicated in the
+[[#Maturity|Maturity]] table above; no psion-mediated function is
+asserted at the Mk1 level.
+
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Harmonizer]]
+* [[Psi Defender]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[Psi Field]]
+* [[Heart Rate Variability and Psi]]
+* [[Resonant Neurobiology]]
+* [[Scientific Foundations of Psionics]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

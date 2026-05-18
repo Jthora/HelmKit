@@ -1,0 +1,153 @@
+The '''Psi Defender''' is the third of the three core [[Psi-Tech]] modules in the [[HelmKit]] psi-bay. Engineering-honestly, it is a near-field RF anomaly detector with adaptive nulling; doctrinally, it is a defensive shield against directed [[Psionic Warfare|psionic weapons]] and ambient [[Psionic Defenses|psychic attacks]]. It is shield, not sword: it does not radiate offensive countermeasures, and it does not deny psi-space to bystanders. It hardens the operator locally.
+
+{{Defensive-publication}}
+
+== Overview ==
+
+The Defender operates passively most of the time, escalating only on detection. Three engagement layers:
+
+* '''Detect.''' Continuous near-field RF + magnetometer + electrostatic monitoring. Signatures classified against the [[Psionic Threat Model]] library.
+* '''Log.''' Every detection (signature, vector estimate, time, location) is recorded for after-action review.
+* '''Counter.''' On confirmed-class signature, the Defender drives a counter-pattern through the same coil substrate used by the [[Psi Stabilizer]]. The counter-pattern is computed to ''locally'' cancel the intrusion at the wearer's body, not to broadcast a jamming signal.
+
+Operational uses: hostile-environment ops; [[StarCom]] operator protection during high-coherence sessions; long-duration field deployments where threat exposure is plausible.
+
+== Theoretical Basis ==
+
+The Defender sits on a deliberately layered stack so that ''the detector is useful even if the psionic interpretation is wrong'':
+
+* {{Psi-claim
+| status = PROVISIONAL
+| cites = [[Geomagnetic Sensitivity in Humans]]
+| methods = Multiple converging studies; replication still in progress.
+| falsifier = Pre-registered, multi-site replication returning a null result (Bayes factor &le; 1/3).
+| confidence = medium
+| last_reviewed = 2026-05-12
+}} Anomalous near-field RF, magnetic, and electrostatic environments are detectable with commodity sensors. This is the Defender's base utility — operators ''should'' know when they are walking through an unusual EM environment, psi-related or not.
+* {{Psi-claim
+| status = TESTABLE
+| cites = [[Resonant Neurobiology]]
+| methods = Concrete protocol defined; replication not yet attempted.
+| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} Operators perform measurably worse (HRV-coherence, reaction time, decision accuracy) in some classes of EM-anomalous environments. This is falsifiable: instrument operators, log environments, statistically test.
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Psi Field]], [[Scalar Electromagnetic Waves]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} A subset of those environments are ''directed psi'' — hostile, coherent, targeted. The Defender's pattern-matching classifier is trained on what the Clan's [[Psionic Threat Model]] catalogues. This is the doctrinal claim; the detector remains useful at the base layer regardless.
+* {{Psi-claim
+| status = SPECULATIVE
+| cites = [[Psi Field]]
+| methods = Theoretical; not yet operationalised into a testable protocol.
+| falsifier = Quantitative prediction shown to conflict with established physics or biology.
+| confidence = low
+| last_reviewed = 2026-05-12
+}} A counter-pattern at the wearer's body cancels the intrusion as a field-theoretic interference effect. This is the deeper interpretation of the counter mode; engineering-honest framing is "adaptive nulling against a measured local field".
+
+== Subsystems and BOM ==
+
+=== Mk0 ''Symbolic Defender'' (target ≤ $40) ===
+
+* 3D-printed module shell + sigil plate — $10
+* WS2812B status ring — $3
+* ATtiny85 — $2
+* Cold-cast brass-pigment sigil — $10
+* Hardware + decals — $5
+
+No detection, no emission. Works through operator vigilance and intentional practice. Brand-and-ritual carrier.
+
+=== Mk1 ''Bench Defender'' (target ≤ $350) ===
+
+* HackRF One (or LimeSDR Mini) as broadband front-end — $100
+* nRF52840 (compute + BLE) — $15
+* HMC5883L magnetometer ×2 (for vector estimate) — $16
+* Electrostatic probe (DIY op-amp + plate) — $5
+* Bifilar coil (shared substrate with [[Psi Stabilizer]]) — $5
+* SI5351 + Class-D amp + low-pass — $14
+* Single 18650 + TP4056 + boost — $10
+* Enclosure, connectors, USB-C — $25
+* Reference signature library (SD card / flash) — $5
+
+Software: real-time STFT + matched-filter against the [[Psionic Threat Model]] signature library; classifier output → MCU-B → counter-pattern dispatch (only if class above threshold).
+
+=== Mk2 / Mk3 ===
+
+Mk2 adds: multi-antenna direction-finding (vector estimate sharpened from monopole to coarse bearing), multi-operator coordinated shielding via [[NavCom]] mesh share (each operator broadcasts what they detect to the rest of the team), persistent threat database. Mk3 adds: integration with the [[Psi-Tech]] triad and the [[PsiNet]] threat-feed.
+
+== Build Notes ==
+
+* '''Detector first.''' Build and validate detection in real environments (urban EM, industrial, transit, rural baseline) before any counter mode. Most of the field-utility is in the detect-and-log function; the counter mode is the speculative layer.
+* '''No outbound jamming.''' The counter coil is the same near-field substrate as the [[Psi Stabilizer]] — short-range only. There is no broadcast antenna. This is enforced by physical antenna selection, not just firmware.
+* '''Signature library curation.''' Every signature added to the classifier requires (a) a documented capture, (b) at least one repeat observation, (c) a [[Psionic Threat Model]] entry. No "vibes-based" signatures.
+* '''Class thresholds.''' Default: classify-only below medium confidence; counter only at high confidence; log everything. Tunable per-operator.
+
+== Safety and Ethics ==
+
+* All emission limits per [[HelmKit Architecture]] and ICNIRP near-field basic restriction − 6 dB.
+* '''No retaliation, ever.''' The Defender is doctrinally and physically incapable of offensive emission. The counter coil is a near-field nulling coil; it cannot project a useful signal to a third party.
+* Multi-operator share is information-only (signature + vector estimate); no remote-command of one operator's Defender by another.
+* Logging is local-only by default; export requires operator action.
+* [[Tho'ra Mission Doctrine]]: shield, not sword.
+
+== Maturity ==
+
+{{Psi-tech-maturity
+| mk0=Symbolic Defender — sigil-bearing module + operator vigilance practice. No detection, no emission.
+| mk1=Bench Defender — HackRF + magnetometer + electrostatic probe, signature classifier, counter-coil. Bench-validated against synthetic intrusion. Current frontier.
+| mk2=Field Defender — multi-antenna DF, [[NavCom]] mesh share, persistent threat DB.
+| mk3=Production Defender — full [[Psi-Tech]] triad integration; [[PsiNet]] threat-feed.
+| confidence_mk0=HIGH (vigilance practice works as vigilance practice)
+| confidence_mk1=MEDIUM at detection layer; LOW at counter layer
+| confidence_mk2=LOW
+| confidence_mk3=SPECULATIVE
+| evidence_mk0=Operator-reported subjective benefit from structured vigilance.
+| evidence_mk1=Detection: SDR + magnetometer baselines work and find anomalies. Counter: bench tests vs synthetic intrusion only.
+| evidence_mk2=Planned 2030–2033 trial.
+| evidence_mk3=Projected post-2032.
+| gate_mk1=Detector ROC ≥ 0.85 vs labeled anomaly dataset; counter mode efficacy reserved for Mk2 evaluation.
+| gate_mk2=Twenty-operator field deployment; documented detections; no false-counter events.
+| gate_mk3=Manufacturing pilot; third-party safety audit.
+}}
+
+== Failure Modes and Mitigations ==
+
+* '''False-positive classification → unwanted counter mode.''' → Default threshold high; counter mode is opt-in per-operator; every counter event logs full feature vector for review.
+* '''Stuck-on counter emit.''' → MCU-B independent watchdog; auto-cut after fixed dwell; thermal cutout on coil.
+* '''Signature library poisoning.''' → Library is signed and curated; entries require [[Psionic Threat Model]] documentation; no remote auto-update.
+* '''Mistaking benign EM for hostile psi.''' → Multi-sensor cross-check (RF + magnetometer + electrostatic must agree above threshold); ambiguous cases log without action.
+* '''Operator over-reliance.''' → The Defender supplements vigilance; it does not replace it. Briefing material is explicit.
+* '''Retaliation pressure.''' → The hardware is incapable of meaningful offensive emission; the doctrine forbids it; logs make any policy violation visible.
+
+== Theoretical context (cross-reference only) ==
+
+For the underlying field-theoretic framework see [[Psion]],
+[[Psi_Field]], and [[Effective_Field_Theory_of_Consciousness]]. The
+operator-facing claims on this page are independent of those
+theoretical pages and are made at the Mk-level indicated in the
+[[#Maturity|Maturity]] table above; no psion-mediated function is
+asserted at the Mk1 level.
+
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Stabilizer]]
+* [[Psi Harmonizer]]
+* [[Psionic Defenses]]
+* [[Psionic Warfare]]
+* [[Psionic Threat Model]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Defense]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

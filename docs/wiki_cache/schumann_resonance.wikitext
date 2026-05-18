@@ -1,0 +1,75 @@
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 5 minutes
+| prerequisites = [[Psionics_Primer]]; electromagnetism; Earth's atmosphere.
+| if_too_advanced_see = [[Geomagnetic_Field]]
+| if_you_want_the_math_see = [[Earth-Ionosphere_Cavity]]
+}}
+
+== Summary ==
+
+The '''Schumann resonances''' are a set of '''extremely low frequency (ELF) electromagnetic resonance modes''' of the [[Earth-Ionosphere_Cavity|Earth-ionosphere cavity]] — the spherical cavity bounded below by the Earth's conducting surface and above by the lower ionosphere (~ 60-100 km altitude). The fundamental mode has frequency ~ 7.83 Hz; harmonics at approximately 14.3, 20.8, 27.3, 33.8 Hz and higher.
+
+The resonances were '''predicted by W. O. Schumann in 1952''' ("Über die strahlungslosen Eigenschwingungen einer leitenden Kugel, die von einer Luftschicht und einer Ionosphärenhülle umgeben ist", ''Zeitschrift für Naturforschung'' 7a: 149-154) and '''first experimentally confirmed by Balser and Wagner in 1960'''. The resonance is continuously driven by global lightning activity (~ 50 strikes per second worldwide).
+
+== Physics ==
+
+The fundamental Schumann frequency is given approximately by:
+
+f<sub>n</sub> = (c / 2π R) · √(n(n+1))
+
+where c is the speed of light, R is Earth's radius, and n = 1, 2, 3, ... The simple formula predicts f<sub>1</sub> ≈ 10.6 Hz; the observed ~ 7.83 Hz reflects finite cavity-wall conductivity and lower-ionosphere altitude effects.
+
+The cavity Q-factor is approximately 4-6 — the modes are broad rather than sharp, with bandwidths of order 1 Hz.
+
+== Drivers and Modulation ==
+
+* '''Global lightning activity''' is the primary energy source — the ~ 50 lightning strikes per second worldwide continuously excite the cavity.
+* '''Solar / ionospheric variability''' modulates the upper-cavity boundary, producing measurable diurnal, solar-cycle, and storm-time variations in the resonance amplitudes and centre frequencies.
+* '''Sprite and ELF/VLF emissions''' from intense lightning systems contribute to higher-mode excitation.
+
+== Significance ==
+
+In '''mainstream geophysics''', Schumann resonances are a useful global probe of lightning activity, ionospheric state, and tropospheric water content (humidity affects lightning).
+
+In '''bioelectromagnetism and consciousness research''', the resonance frequency band (~ 7-30 Hz) overlaps directly with the dominant '''EEG frequency bands''' (alpha ~ 8-13 Hz, beta ~ 13-30 Hz, theta ~ 4-7 Hz). The overlap has motivated speculation that the Schumann field provides a background EM signal to which human brain rhythms might entrain — though direct empirical evidence for such entrainment at natural Schumann amplitudes (~ pT range) is weak.
+
+== Psionic Relevance ==
+
+In the [[Psionics|psionic framework]], the Schumann-resonance field is a '''candidate environmental EM substrate''' whose modulation could plausibly affect ψ-field coupling to human nervous systems. Several research groups (notably [[Michael_Persinger|Persinger]] and collaborators) have published correlations between Schumann-band geomagnetic activity and reported anomalous-cognition events.
+
+== Theoretical context (psion-ontology annotation) ==
+
+Resonance-locked sources (the Schumann cavity resonances, geomagnetic
+pulsations, ULF natural radio) entail '''coherent-state [[Psion|psion]]
+emission''' if <math>\alpha \neq 0</math> in the
+<math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu}</math> vertex, via Primakoff
+conversion in the Earth's magnetosphere. The emission rate is bounded
+by the [[Falsification Criteria for Psionics|F10 axion-class limit]]
+on <math>\alpha</math>; at saturation, the integrated cosmological
+psion flux from Schumann-locked sources is a calculable but
+unmeasured-from-Earth signal. See [[Psion]] for the canonical particle
+and [[Psion-Phonon_Coupling_in_Tissue]] for the local-tissue coupling.
+
+
+== See Also ==
+
+* [[Earth-Ionosphere_Cavity]]
+* [[Geomagnetic_Field]]
+* [[Space_Weather]]
+* [[Michael_Persinger]]
+
+== External Links ==
+
+* Wikipedia: Schumann resonances
+* HeartMath Institute GCMS (Global Coherence Monitoring System).
+
+== References ==
+
+* Schumann, W. O. (1952). "Über die strahlungslosen Eigenschwingungen einer leitenden Kugel, die von einer Luftschicht und einer Ionosphärenhülle umgeben ist." ''Zeitschrift für Naturforschung'' 7a: 149-154.
+* Balser, M., Wagner, C. A. (1960). "Observations of Earth-ionosphere cavity resonances." ''Nature'' 188: 638-641.
+* Nickolaenko, A. P., Hayakawa, M. (2002). ''Resonances in the Earth-Ionosphere Cavity.'' Kluwer.
+
+[[Category:Psionics]]
+[[Category:Environmental EM]]
+[[Category:Geophysics]]

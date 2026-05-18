@@ -1,0 +1,136 @@
+= Orchestrated Objective Reduction =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 12 minutes
+| prerequisites = QM (superposition, decoherence); GR (Penrose's gravitational-OR proposal); some knowledge of microtubules.
+| if_too_advanced_see = [[Microtubule]]; [[Could_the_Brain_Use_Quantum_Mechanics]]
+| if_you_want_the_math_see = [[Celardo_Microtubule_Superradiance]]
+}}
+
+{{Notation
+| psi_convention = ψ = scalar field amplitude (NOT a quantum-mechanical wavefunction).
+| signature      = Mostly-plus.
+| units          = SI; ℏ = c = 1 where convenient.
+}}
+
+'''Orchestrated Objective Reduction''' (Orch OR) is the proposal — by Roger Penrose and Stuart Hameroff (1989–present) — that consciousness arises from quantum-mechanical superpositions in neuronal '''[[Microtubule|microtubules]]''' that are terminated by an '''objective reduction''' (OR) process induced by quantum gravity. Each OR event is identified with a discrete '''moment of consciousness'''.
+
+Orch OR is the most prominent quantum-consciousness theory. It has been heavily criticised (notably by [[Max_Tegmark|Tegmark]] 2000) and partly vindicated by recent experimental work ([[Bandyopadhyay_Microtubule_Conductance|Bandyopadhyay]], [[Celardo_Microtubule_Superradiance|Celardo]], [[Kalra_Anaesthetic_Microtubule|Kalra]]) over the past decade.
+
+== The two pillars ==
+
+The proposal combines two distinct ideas:
+
+# '''Objective Reduction (OR)''' — Penrose's proposal that quantum superpositions of mass distributions are objectively unstable due to gravitational self-energy considerations, with collapse time τ ≈ ℏ / E<sub>G</sub>, where E<sub>G</sub> is the gravitational self-energy difference between the superposition components. This is a modification of standard quantum mechanics that operates regardless of measurement.
+# '''Orchestrated by microtubules''' — Hameroff's proposal that neuronal microtubule lattices provide the substrate where biological-scale superpositions form, are protected from environmental decoherence long enough to grow gravitationally significant, and undergo OR at biologically-relevant timescales.
+
+When the OR collapse time matches the brain's ~ 25–40 Hz gamma-oscillation timescale (10–40 ms), a "moment of consciousness" occurs. The frequency-locking is the "orchestration".
+
+== The OR collapse time formula ==
+
+The Penrose gravitational-OR time is:
+
+:<math>\tau \approx \hbar / E_G</math>
+
+For a superposition of two mass distributions separated by displacement ξ, the gravitational self-energy difference scales as:
+
+:<math>E_G \sim G\,m^2 / \xi</math>
+
+for a compact mass m and displacement ξ. For a single tubulin dimer (m ≈ 1.8 × 10<sup>−22</sup> kg, ξ ≈ 8 nm protofilament spacing), τ ≈ 10<sup>14</sup> s — absurdly long.
+
+For the OR time to land in the biologically-relevant 10–40 ms range, '''N coherent tubulins''' must contribute collectively, where N is determined by setting τ to the desired timescale. Penrose-Hameroff estimate N ~ 10<sup>10</sup>–10<sup>11</sup> tubulin dimers participating coherently — corresponding to ~ 10<sup>4</sup>–10<sup>5</sup> neurons each contributing ~ 10<sup>6</sup> tubulin dimers in coherent state.
+
+This is the most quantitatively demanding aspect of Orch OR.
+
+== Mechanism of orchestration ==
+
+Hameroff proposes that '''microtubule-associated proteins''' (MAPs) regulate which tubulin dimers participate in the coherent superposition by:
+
+* Selectively binding to specific tubulin sites.
+* Modulating the lattice connectivity ("A-lattice" vs "B-lattice" configurations).
+* Triggering the OR event at the appropriate moment.
+
+In this picture each neuron contributes a small "computation" mediated by tubulin superposition, and the orchestrated OR across the network constitutes a single conscious moment.
+
+== Connection to gamma synchrony ==
+
+If OR events occur every ~ 25–40 ms, the resulting sequence of conscious moments has a temporal structure matching the brain's '''gamma synchrony''' (25–80 Hz oscillations). This is one of the more striking quantitative predictions of Orch OR: the timescale of consciousness should match a specific neurophysiological observable.
+
+Gamma synchrony is empirically well-established as correlated with conscious awareness (Crick-Koch; many subsequent groups). Whether the correlation reflects Orch OR specifically or some other neural-coherence mechanism is the deeper question.
+
+== The Tegmark critique ==
+
+In 2000 Tegmark published a calculation arguing that environmental decoherence in microtubules at body temperature occurs on timescales of order 10<sup>−13</sup> s — '''ten orders of magnitude shorter''' than the ~ 10 ms timescales Orch OR requires.
+
+This was widely taken as definitive refutation of Orch OR.
+
+Hagan, Hameroff, and Tuszyński (2002) rebut Tegmark on specific points: the choice of mass for the tubulin superposition, the specific decoherence channels, and the shielding effect of the microtubule's ordered-water lumen. They argue Tegmark's estimate is too pessimistic by ~ 7 orders of magnitude — bringing the decoherence time closer to (though not yet matching) the Orch OR requirement.
+
+See [[Tegmark_Critique_and_Hagan_Rebuttal]] for the detailed back-and-forth.
+
+== Empirical support since 2010 ==
+
+The Tegmark argument made Orch OR look definitively dead in 2000–2010. The 2010s–2020s reshuffled the picture:
+
+* '''Bandyopadhyay group (2011–present)''' — measured anomalously high microtubule conductance and resonant frequency peaks consistent with quantum-coherent transport. See [[Bandyopadhyay_Microtubule_Conductance]].
+* '''Celardo et al. (2019)''' — theoretical demonstration that aromatic tryptophan residues in microtubule tubulin can support '''superradiant''' collective electronic states with coherence times orders of magnitude longer than Tegmark estimated. See [[Celardo_Microtubule_Superradiance]].
+* '''Kalra et al. (2023)''' — anaesthetics that switch off consciousness preferentially bind to microtubule sites; binding pattern correlates with anaesthetic potency. See [[Kalra_Anaesthetic_Microtubule]].
+
+These do not yet prove Orch OR. But they undermine the strongest version of the Tegmark critique and provide empirical scaffolding for at least the "microtubules host unusual electronic states" component of Orch OR.
+
+== Status in the [[Psionics|psionic framework]] ==
+
+The present framework treats Orch OR as '''one candidate substrate''' for biological ψ-coupling, not as the unique theory of consciousness:
+
+* The framework agrees that microtubules are likely '''one important substrate''' of biological ψ-coupling (see [[Biological_Substrate_of_Psi]]).
+* The framework does NOT require Penrose's specific gravitational-OR mechanism; the αψ F<sub>μν</sub> F<sup>μν</sup> vertex provides an alternative coupling channel that does not need gravitational collapse.
+* The framework predicts the same kinds of empirical signatures Orch OR predicts (anaesthetic specificity, frequency-locked oscillations) for somewhat different theoretical reasons.
+
+In effect, the framework is '''compatible with Orch OR''' but does not commit to all of its specific theoretical claims (especially the gravitational-OR mechanism).
+
+== Strengths and weaknesses ==
+
+=== Strengths ===
+* Makes specific, falsifiable predictions about microtubule biology.
+* Predicts the right timescale for "moments of consciousness" (gamma synchrony).
+* Predicts anaesthetic action at microtubule sites — empirically confirmed (Kalra 2023).
+* Forces explicit consideration of quantum mechanics in biology.
+
+=== Weaknesses ===
+* The OR mechanism (Penrose's gravitational collapse) is highly speculative and untested.
+* The required N ~ 10<sup>10</sup>–10<sup>11</sup> coherent tubulins demands very long coherence times — Tegmark's critique is not fully neutralised.
+* The "orchestration" mechanism is not specified in computational detail; the theory is descriptive rather than predictive at the algorithmic level.
+* Independent experimental confirmation of specific Orch OR predictions remains limited.
+
+== Sanity checks ==
+
+* '''Microtubule depolymerisation''' → no lattice; no Orch OR; no consciousness (in the strict Orch OR view). This is consistent with cellular models showing consciousness disruption when microtubules are disrupted.
+* '''Brain death''' → no metabolic energy to maintain coherent states; no OR events; no consciousness. ✓
+* '''ψ → 0''' (in our framework) → Orch OR could still operate via its gravitational mechanism without ψ-coupling. ✓
+
+== See Also ==
+
+* [[Microtubule]]
+* [[Tegmark_Critique_and_Hagan_Rebuttal]]
+* [[Bandyopadhyay_Microtubule_Conductance]]
+* [[Celardo_Microtubule_Superradiance]]
+* [[Kalra_Anaesthetic_Microtubule]]
+* [[Could_the_Brain_Use_Quantum_Mechanics]]
+* [[Biological_Substrate_of_Psi]]
+* [[Stuart_Hameroff]]
+* [[Roger_Penrose]]
+* [[Effective_Field_Theory_of_Consciousness]]
+
+== References ==
+
+* Penrose, R. (1989). ''The Emperor's New Mind.'' Oxford University Press.
+* Penrose, R. (1994). ''Shadows of the Mind.'' Oxford University Press.
+* Hameroff, S., Penrose, R. (1996). "Conscious events as orchestrated space-time selections." ''Journal of Consciousness Studies'' 3: 36–53.
+* Hameroff, S., Penrose, R. (2014). "Consciousness in the universe: A review of the 'Orch OR' theory." ''Physics of Life Reviews'' 11: 39–78.
+* Tegmark, M. (2000). "Importance of quantum decoherence in brain processes." ''Physical Review E'' 61: 4194–4206.
+* Hagan, S., Hameroff, S. R., Tuszyński, J. A. (2002). "Quantum computation in brain microtubules: Decoherence and biological feasibility." ''Physical Review E'' 65: 061901.
+
+[[Category:Psionics]]
+[[Category:Consciousness]]
+[[Category:Quantum]]

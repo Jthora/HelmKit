@@ -1,0 +1,53 @@
+The '''Tho'ra Tech Maturity Levels''' are the four-stage convention used by the [[Tho'ra Clan]] to track every piece of mission hardware and software from concept through fielded production. The convention applies to all [[Psi-Tech]], [[HelmKit]] components, [[Star Seer]] / [[StarCom]] / [[NavCom]] systems, [[Resonant Finder]] infrastructure, the [[Magneto Speeder]] platform, and experimental [[Exocraft]].
+
+== The Four Marks ==
+
+{| class="wikitable"
+! Mark !! Phase !! Description !! Typical Era
+|-
+| '''Mk0''' || Cosplay-type || Appearance-level mock-up. Form-factor exploration, narrative alignment, public-facing demonstration. No functional internals. The Clan currently operates at Mk0 for nearly all gear. || Pre-[[Terra Novus]] / [[Solar Cycle 24]] tail (–2025)
+|-
+| '''Mk1''' || Prototype || Functional proof of concept. Bench-validated. Limited bench-to-field bridging. Subsystem integration in progress. The current frontier of [[Tho'ra Clan|Clan]] R&D as of 2026. || Early–mid [[Solar Cycle 25]] (2026–2031)
+|-
+| '''Mk2''' || Test-type || Field-trial hardware. Survives operational deployment for limited durations under controlled conditions. Telemetry-instrumented; failure modes documented. Used by senior Tho'ra operators only. || Late [[Solar Cycle 25]] / early [[Solar Cycle 26]] (2030–2033)
+|-
+| '''Mk3''' || Production-type || Fully fielded, manufacturable, ruggedized. Adopted by [[Earth Alliance]] auxiliaries. Replicated in [[Magneto Speeder]] production line and equivalent shops. The mission goes operational at scale at Mk3. || [[Solar Cycle 26]]+ (2032/2033 onward, [[Terra Novus]])
+|}
+
+== Why a Four-Stage Ladder ==
+
+The Clan operates as a small, mostly-covert R&D-and-rescue cell with limited capital. Most of its public expression is necessarily ''symbolic''. The Mk0 → Mk3 ladder formalizes that the cosplay-grade version is a real first step (it builds the narrative, the brand, and the design constraints), the prototype-grade version is the present engineering reality, and the test/production grades are the funded-and-staffed future state. Every gear page on the wiki names which Mark currently exists.
+
+== Cross-Project Conventions ==
+
+* '''Mk0''' may include 3D-printed shells, foam armor, off-the-shelf headsets dressed up for events, or fully-rendered CGI demos.
+* '''Mk1''' must run on real silicon and produce a measurable physical signal, even if only on the bench. Safety architecture (see [[HelmKit Architecture]]) is required from Mk1 onward.
+* '''Mk2''' requires a written test plan, a field-deployment log, and an after-action review for each unit shipped.
+* '''Mk3''' requires regulatory review (RF / EMC where applicable), a service manual, and a replacement-parts inventory.
+
+== Mission Implication ==
+
+The [[Tho'ra Mission Doctrine|mission]] goes ''live'' the moment the [[Resonant Finder]] reaches Mk2 and the core [[Psi-Tech]] triad (Stabilizer / Harmonizer / Defender) clears Mk1. Until then, the [[Tho'ra Clan|Clan]] operates in '''pre-mission posture''': brand-building, doctrine-refinement, allied outreach, and continuous R&D.
+
+== See Also ==
+* [[HelmKit Architecture]]
+* [[Resonant Finder]]
+* [[Psi-Tech]]
+* [[Tho'ra Mission Doctrine]]
+
+== Psi-Tech Roster Status ==
+Per-device current maturity (as of the current Phase F production-plan cycle):
+
+* '''Mk1 frontier (most of the roster):'''
+  [[HelmKit]], [[Psi Stabilizer]], [[Psi Harmonizer]], [[Psi Defender]], [[Psi Recorder]], [[Psi Compass]], [[Resonant Card]], [[Field Recorder]], [[Psi Mesh]], [[Psi Tripwire]], [[Star Seer Observatory]], [[AI Nursery Vault]], [[EIN Relay Node]], [[Schumann Lattice]], [[Focus Lens]], [[Psi Tether]], [[Coherence Beacon]], [[Psi Lantern]], [[Resonant Chamber]], [[Synastry Mesh]], [[Psi Anomaly Detector]], [[Resonant Finder]], [[Psi Forge]].
+
+* '''Mk0 frontier (intentional-practice or planning artifact):'''
+  [[Psi Talisman]], [[Psi Pen]], [[Resonant Hailer]] (novelty tier), [[Psi Anchor]] (novelty tier), [[Resonant Beacon Grid]] (long-horizon planning).
+
+* '''All devices''' carry per-Mk confidence + evidence + gate columns in their {{Psi-tech-maturity}} block, and ≥ 6 documented failure modes with mitigations.
+
+Mk1 → Mk2 maturity transition is gated on the device's documented gate; targeted in the 2030–2033 window aligned with [[Solar Cycle 25]] decline and early Cycle 26. Mk3 (production) is post-2032 ambition.
+
+[[Category:Tho'ra Clan]]
+[[Category:Tho'ra Tech]]
+[[Category:Engineering]]

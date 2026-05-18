@@ -1,0 +1,112 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Psi Scanner'''
+|-
+| '''Type''' || Psionic detection and classification device
+|-
+| '''Category''' || [[Psi Gear]]
+|-
+| '''Function''' || Detects, maps, and classifies [[Psi Field]] activity
+|-
+| '''Integration''' || [[HelmKit]], standalone array, [[PsiSys]] sensor fusion
+|-
+| '''Real-World Parallel''' || SQUID magnetometers, OPM-MEG, EEG arrays
+|}
+
+The '''Psi Scanner''' is a detection and classification [[Psi Devices|psi device]] that senses [[Psi Field]] activity in the surrounding environment. It is the primary intelligence-gathering tool for psionic operations — identifying threats, mapping field conditions, and classifying psionic signatures.
+
+== Operating Principle ==
+
+The Psi Scanner employs an array of ultra-sensitive [[Psi Field]] detectors that measure field strength, frequency composition, phase relationships, and modulation patterns across the psionic spectrum. [[PsiSys]] processes the raw data to produce:
+
+# '''Field map''' — 3D visualization of local psi field topology
+# '''Signature identification''' — Matches detected patterns against known device/entity signatures
+# '''Threat classification''' — Identifies [[Psi Weapons]] and hostile psionic activity
+# '''Environmental assessment''' — Baseline field conditions for operational planning
+
+== Detection Capabilities ==
+
+{| class="wikitable" style="width:100%;"
+! Target !! Detection Range !! Classification Accuracy !! Notes
+|-
+| '''Active [[Psi Weapons]]''' || 200–500m || >95% || Weapons emit strong, distinctive signatures
+|-
+| '''[[Psi Jammer]] emissions''' || 1–3km || >99% || Broad-spectrum noise is easy to detect
+|-
+| '''[[Psychotronic Generator]]''' || 500m–2km || >90% || Large area effect signature
+|-
+| '''Passive [[Psi Emitter]]s''' || 50–200m || 80–90% || Quieter, requires closer approach
+|-
+| '''Biological psionic activity''' || 10–50m || 60–75% || Weak, variable signatures
+|-
+| '''[[Psionic Ink]] traces''' || 1–5m || >85% || Requires close-range focused scan
+|-
+| '''[[Corruption Matrix]] presence''' || 100–300m || >95% || Distinctive entropy signature
+|}
+
+== Operational Modes ==
+
+=== Passive Scan ===
+Continuous background monitoring. Low power, no emissions. Standard operating mode for patrol and movement. Feeds data to [[HelmKit]] heads-up display.
+
+=== Active Scan ===
+Focused high-resolution scan of specific area or target. Emits psionic pulses and analyzes returns (like active sonar). Provides much higher resolution but reveals scanner position.
+
+=== Forensic Scan ===
+Ultra-detailed analysis of a specific object or area. Used to read [[Psionic Ink]], analyze residual psionic traces, or reverse-engineer enemy device configurations.
+
+== Integration ==
+
+=== HelmKit Integration ===
+Most operators access Psi Scanner capability through their [[HelmKit]], which includes a compact scanning module. HelmKit scanners sacrifice range and resolution for convenience — suitable for tactical awareness but not detailed intelligence work.
+
+=== Standalone Array ===
+Dedicated Psi Scanner arrays provide military-grade detection for fixed installations, vehicles, and intelligence operations. These use multiple phased-array detector heads and dedicated processing.
+
+=== PsiSys Sensor Fusion ===
+Multiple Psi Scanners across a unit's [[PsiLink]] mesh share data through [[PsiSys]], creating a fused picture with greater range and accuracy than any single scanner.
+
+== Real-World Parallel: Biomagnetic Sensing ==
+
+The Psi Scanner is grounded in real-world technologies for detecting biological electromagnetic activity:
+
+=== SQUID Magnetometers ===
+'''Superconducting Quantum Interference Devices (SQUIDs)''' can detect the incredibly faint magnetic fields produced by neural electrical activity — fields as weak as femtotesla (10⁻¹⁵ T). Used in magnetoencephalography (MEG) to map brain activity non-invasively.
+
+=== OPM-MEG ===
+'''Optically Pumped Magnetometer MEG''' — A newer, more portable alternative to SQUID-based MEG. Wearable sensors that can detect neural magnetic fields during natural movement. The closest real-world analogue to a portable [[HelmKit]]-integrated scanner.<ref name="opm">Boto E, et al. (2018). "Moving magnetoencephalography towards real-world applications with a wearable system." ''Nature'', 555(7698), 657–661.</ref>
+
+=== Related Technologies ===
+* '''EEG (Electroencephalography)''' — Scalp electrodes detecting brain electrical activity
+* '''fMRI (Functional MRI)''' — Blood-flow-based brain activity imaging
+* '''US Patent 3,951,134''' (1976) — Remote brain wave monitoring via RF modulation<ref name="patent1976">Malech RG (1976). US Patent 3,951,134.</ref>
+* '''Nanocoil neural sensors''' (2024) — Single-neuron-scale wireless magnetogenetic sensing<ref name="bok2024">Bok I, et al. (2024). ''Nano Letters''. PMID: 39319575</ref>
+
+== Theoretical underpinning (inverse Primakoff) ==
+
+A '''Psi Scanner''', in the [[Psi_Field|ψ-field]] Lagrangian picture,
+detects the photon channel of [[Psion|psion]] decay (via inverse
+Primakoff conversion in a static field configuration) and the EM
+imprint of the classical ψ-field gradient. The diagrammatic structure
+is the time-reversal of the [[Psi_Emitter#Theoretical_underpinning_(Primakoff_framing)|emitter
+Primakoff vertex]].
+
+{{Mk-target|Mk2+|note=Direct psion detection requires haloscope-class instrumentation (see F11 candidate in [[Falsification Criteria for Psionics]]). Mk1 scanners operate as conventional EM-field instruments and do not claim psion-channel sensitivity; the sensitivity gap between a wearable Mk1 array and the axion-class bound is many orders of magnitude.}}
+
+The Mk1 operating principle described above is unchanged: the device
+measures conventional EM-field observables. The Primakoff framing is
+recorded here for theoretical completeness and to motivate the
+Mk2/Mk3 sensitivity-upgrade roadmap.
+
+
+== See Also ==
+* [[Psi Gear]] — Equipment category
+* [[HelmKit]] — Primary operator interface
+* [[PsiSys]] — Sensor fusion system
+* [[Psi Devices]] — Master device catalog
+
+== References ==
+<references />
+
+[[Category:Equipment]]
+[[Category:Psionics]]
+[[Category:Psi Devices]]

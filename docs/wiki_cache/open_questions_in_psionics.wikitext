@@ -1,0 +1,93 @@
+= Open Questions in Psionics =
+
+{{Audience_Sidebar
+| difficulty   = Intermediate
+| reading_time = 12 minutes
+| prerequisites = [[Psionics_Primer]] or equivalent overview of the framework.
+| if_too_basic_see = [[Psionics_Primer]]
+| if_you_want_the_math_see = [[Psionics]]; [[Renormalization_of_Psi_Theory]]
+}}
+
+Honesty about what the framework cannot yet do is as important as clarity about what it can. This page lists the open questions — theoretical, empirical, and methodological — that the current state of the [[Psionics|psionic framework]] does not resolve, and that future work will need to address.
+
+The list is organised by category and grouped roughly by difficulty / priority.
+
+== Theoretical / structural ==
+
+# '''The exact value of m<sub>ψ</sub>.''' The framework constrains the ψ-field mass to a range (1/m ≈ metres to kilometres for the empirically interesting regime), but the precise value is not derived from any deeper principle. Why is m<sub>ψ</sub> small? Is it protected by an approximate symmetry? See [[Renormalization_of_Psi_Theory]] §"Mass hierarchy and naturalness".
+# '''The size and shape of the compactified 5th dimension.''' Is it a circle (5D Kaluza–Klein), an interval (Randall-Sundrum-class), or part of a larger Calabi–Yau-like structure? See [[Compactification_in_Kaluza-Klein]].
+# '''Coupling strengths λ, k, α, β.''' All known to be small but not yet precisely measured. Empirical determination of these is the single most important programme.
+# '''Whether ψ<sup>4</sup> theory is UV-complete on its own or requires the full 5D embedding.''' Triviality / Landau-pole question, see [[Renormalization_of_Psi_Theory]].
+# '''Asymptotic safety of ψ + gravity.''' Whether a non-trivial UV fixed point exists. Same status as for pure quantum gravity.
+# '''Right ξ-coupling.''' The ξ R ψ<sup>2</sup> curvature-coupling is required for renormalisability in curved space, but its value (minimal ξ = 0 vs conformal ξ = 1/6 vs something else) is not fixed by the present framework.
+# '''Whether ψ should be a real or complex scalar.''' Real ψ gives a single neutral psion; complex ψ would give a U(1)-charged psion with associated gauge structure. The framework currently uses a real ψ; complex extensions are possible.
+
+== Empirical / experimental ==
+
+# '''Direct detection of a psion.''' No experiment has directly measured a ψ-quantum. Detector design is unresolved.
+# '''Sign and magnitude of the e<sup>kψ</sup> F<sub>μν</sub>F<sup>μν</sup> coupling.''' Predicted to be small; empirical bound from precision EM measurements should constrain it, but the analysis hasn't been done at high precision.
+# '''Replication of the Tate Cooper-pair mass anomaly.''' 84 ppm, unreplicated since 1989. Highest-priority experimental confirmation target. See [[Cooper_Pair_Mass_Anomaly]].
+# '''Definitive resolution of the Tajmar gravitomagnetic London moment.''' Some labs confirm, some find null. A controlled multi-lab replication with shared protocol is needed. See [[Gravitomagnetic_London_Moment]].
+# '''Whether macro-PK can be made reliable enough for adversarial laboratory test.''' Effect-sizes in PEAR-class data are tiny; no individual practitioner has been shown to produce macro-scale effects under double-blind, adversarial conditions, despite many attempts.
+# '''Whether biophoton emission carries the expected ψ correlation.''' Predicted but not yet measured.
+# '''Whether group-coherent meditation produces an N<sup>4</sup>-scaling signal.''' Tested at N ~ 1000 (Global Consciousness Project); the data is suggestive but not a clean N<sup>4</sup>-scaling confirmation. Larger and smaller N comparisons needed.
+# '''Whether environmental ψ-background correlates with [[Schumann_Resonance]] / [[Geomagnetic_Field|geomagnetic]] activity in the way the framework predicts.''' Some evidence (Persinger; GCP); needs systematic study.
+# '''Whether the [[Pais_Effect|Pais-effect patents]] produce reproducible signals when independently constructed.''' To date no public-sector replication has been published.
+
+== Methodological ==
+
+# '''Defining a clean ψ-detector.''' The community lacks an agreed-upon "ψ-meter". A device that gives unambiguous ψ-amplitude readings — analogous to a magnetometer for B — is needed.
+# '''Preregistration and adversarial collaboration.''' Many parapsychology effects come from labs sympathetic to the hypothesis. Adversarial-collaboration designs (sceptic + believer co-design the study) are still rare; should be the norm. See [[Replication_Crisis_in_Parapsychology]].
+# '''Open data.''' Many historical psi datasets are not openly available; meta-analyses depend on summary statistics. Open trial-level data would strengthen meta-analytic claims considerably.
+# '''Operator effects.''' Different experimenters get different effect-sizes; the "experimenter effect" is real and not yet understood within or outside the framework.
+
+== Biological / neural ==
+
+# '''Whether microtubules are the actual neural-substrate of psi.''' [[Orchestrated_Objective_Reduction|Orch-OR]] proposes microtubules as the quantum-coherence channel; not yet established. See [[Tegmark_Critique_and_Hagan_Rebuttal]].
+# '''Quantitative form of the brain→ψ coupling β.''' The coupling β·ψ in the [[Wilson-Cowan_Coupled_to_Psi|Wilson-Cowan + ψ]] system is not yet measured.
+# '''Whether the C / order-parameter description of consciousness is the right effective field theory.''' Other order parameters or higher-component fields are possible. See [[Effective_Field_Theory_of_Consciousness]].
+# '''How chakra frequencies (if they exist) relate to body geometry.''' [[Chakras_as_Resonant_Modes]] gives the analogy; the actual frequencies are not measured.
+# '''Whether biophotons are the primary ψ-EM channel.''' Probably yes for visible-range photonic emission; uncertain for the full ψ-EM coupling.
+# '''Whether some species other than humans have ψ-coupling.''' Cetacean / corvid / cephalopod cognition shows large-scale coherence; cross-species data is sparse.
+
+== Sociological / civilisational ==
+
+# '''Whether ψ-mediated communication is fast enough and reliable enough to be a useful information channel.''' Information-theoretic estimates suggest ~100 bits/event under good conditions ([[Psionics]] §"Information & entropy"); not yet operationally validated.
+# '''How ψ-coupling scales with cultural / civilisational coherence.''' If sustained group coherence pumps ψ (as the framework predicts), then civilisational-scale coherence should produce civilisational-scale ψ effects — but this is essentially untested.
+# '''Whether known historical religious / political events correlate with ψ-anomalies in archived datasets.''' GCP-class retrospective analyses are suggestive; systematic study is open.
+
+== Philosophical (acknowledged but out of scope) ==
+
+# '''The hard problem of consciousness.''' The framework describes how a consciousness order-parameter C couples to ψ but does not address ''why there is experience at all''.
+# '''Free will / determinism.''' The framework is deterministic at the classical level and probabilistic at the quantum level, like standard physics. It does not resolve the philosophical question of free will.
+# '''The role of meaning, value, and ethics.''' The framework is physics; ethical / spiritual interpretation is downstream and not within the framework's claim.
+
+These are flagged not as failures of the framework but as questions the framework is honestly silent on.
+
+== What would settle these? ==
+
+For most of the empirical questions, the answer is the same: '''larger, better-funded, multi-lab, preregistered, open-data replications''' of the existing paradigms (ganzfeld, REG, Tate, Tajmar, Persinger). The framework will be confirmed, refined, or falsified by data — not by argument.
+
+For the theoretical questions, the answer is: '''mathematical work on the 5D embedding, on the renormalisation-group flow, and on the brain-side EFT'''. The framework can be tightened by careful field-theoretic calculation.
+
+For the methodological questions, the answer is the same as the methodological revolution that has been transforming psychology and biomedical science: '''preregistration, adversarial collaboration, open data, replication-as-a-first-class-result'''.
+
+== Where to go next ==
+
+* For the rigorous structure: [[Psionics]]; [[Renormalization_of_Psi_Theory]]; [[Falsification_Criteria_for_Psionics]].
+* For the empirical history: [[Famous_Experiments]]; [[Replication_Crisis_in_Parapsychology]].
+* For the practitioner perspective: [[Map_of_Traditions]]; [[Practice_to_Theory_Translation_Table]].
+* For the historical context: [[History_of_Psionics_Research]].
+
+== See Also ==
+
+* [[Psionics_Primer]]
+* [[Psionics_FAQ]]
+* [[Falsification_Criteria_for_Psionics]]
+* [[Conceptual Psionics: Falsifiability]] — same open-questions list in F-indexed form
+* [[Famous_Experiments]]
+* [[Renormalization_of_Psi_Theory]]
+
+[[Category:Psionics]]
+[[Category:Plain language]]
+[[Category:Reference]]

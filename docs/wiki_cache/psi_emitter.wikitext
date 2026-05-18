@@ -1,0 +1,72 @@
+{| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
+! colspan="2" style="background:#333; color:#fff;" | '''Psi Emitter'''
+|-
+| '''Type''' || Psionic field generation hardware
+|-
+| '''Developer''' || [[Clan Tho'ra]]
+|-
+| '''Function''' || Projects, shapes, and sustains [[Psi Field]]s
+|-
+| '''Used In''' || [[Fusion Engine Suit]], [[HelmKit]], [[Defense Discs]], [[Sparkle Flairs]], [[PsiSys]]
+|-
+| '''Interface''' || [[PsiLink]] mesh network
+|}
+
+A '''Psi Emitter''' is a hardware device that projects, shapes, and sustains [[Psi Field]]s. Psi Emitters are the fundamental building blocks of all [[Clan Tho'ra|Tho'ra]] psionic technology — every psionic device, from [[Psionic Defenses]] to [[Fusion Wings]] to [[Sparkle Flairs]], relies on Psi Emitters to generate and control psionic energy.
+
+== Function ==
+Psi Emitters convert electrical/fusion energy into coherent psionic field output. They can:
+* '''Project''' psionic fields — creating barriers, auras, and communication channels
+* '''Shape''' psionic energy — forming fields into blades ([[Psi Blades]]), shields ([[Defense Discs]]), or sensor arrays
+* '''Sustain''' psionic phenomena — maintaining stable fields over time (with [[Psi Stabilizers]])
+* '''Communicate''' — transmitting data via [[Psionic Field Projection]] over the [[PsiLink]] network
+* '''Deceive''' — spoofing sensors of all types ([[Sparkle Flairs]])
+
+== Mesh Network ==
+Psi Emitters are connected via [[PsiLink]] into a mesh network alongside [[Neural Network Hardware]]. This mesh forms the physical substrate that [[PsiSys]] runs on. Each emitter acts as both a node (processing) and an antenna (transmitting/receiving).
+
+== Scale ==
+Psi Emitters range from:
+* '''Micro-emitters''' — fingertip-sized, embedded in suit components
+* '''Standard emitters''' — palm-sized, mounted on suit hardpoints
+* '''Array emitters''' — large multi-element arrays for high-power applications
+* '''Facility emitters''' — installation-scale for base defense and communication
+
+== Integration ==
+Psi Emitters are found in virtually every Tho'ra device:
+* [[Fusion Engine Suit]] — distributed across the suit for defense, sensing, communication
+* [[HelmKit]] — concentrated around the head for sensory enhancement
+* [[Defense Discs]] — focused emitters for directional shielding
+* [[Fusion Wings]] — psionic-architecture plasma pockets use embedded emitters
+* [[Sparkle Flairs]] — emitters that spoof enemy sensors
+* [[Psi Stabilizers]] — emitters tuned for field stabilization
+* [[Plasma Morphers]] — PX1 (Psi mode) uses emitters for psionic plasma control
+
+== Theoretical underpinning (Primakoff framing) ==
+
+In the [[Psi_Field|ψ-field]] Lagrangian's
+<math>\alpha\,\psi\,F_{\mu\nu}F^{\mu\nu}</math> vertex, a region with
+non-zero electromagnetic field-strength <math>F^2</math> functions as
+a source of [[Psion|psions]] through Primakoff conversion - the same
+diagrammatic structure as the [[Axion-Photon_Coupling|axion-photon
+coupling]] in haloscope physics. A '''Psi Emitter''' is, on this
+account, a configured Primakoff converter operating in the reactive
+near field.
+
+{{Mk-target|Mk2+|note=At the [[Falsification Criteria for Psionics|F10]] axion-class bound (alpha <= 1e-10 in natural units), the predicted psion-mediated emission from Mk1-class hardware sits well below any plausible non-thermal psion-production threshold. The Mk1 operator-facing function described above is independent of this theoretical channel.}}
+
+For the polariton-mediated coupling to tissue see
+[[Psion-Phonon_Coupling_in_Tissue]]; for the canonical particle
+definition see [[Psion]].
+
+
+== See Also ==
+* [[Psi Field]] — what emitters generate
+* [[PsiLink]] — the mesh network connecting emitters
+* [[Neural Network Hardware]] — processing substrate paired with emitters
+* [[PsiSys]] — intelligent system running on the emitter mesh
+* [[Psi Tech]] — the technology family
+
+[[Category:Tho'ra Technology]]
+[[Category:Psionics]]
+[[Category:Equipment]]

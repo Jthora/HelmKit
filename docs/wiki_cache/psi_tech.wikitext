@@ -1,0 +1,31 @@
+{{TechNav}}
+= Psi Tech =
+
+A Sub-Tech of [[Cyber Tech]]
+
+[[Psi]] - [[Psionics]] - [[Psychotronics]]
+
+[[Archangel Agency]] - [[PsiOps]]
+
+== Real-World Technology Parallels ==
+
+{| class="wikitable"
+! Game Tech !! Real-World Parallel !! Status !! Source
+|-
+| HelmKit || OPM-MEG (wearable brain magnetometer) || Research prototype || Rea et al. 2021<ref name="rea2021">Rea M, et al. (2021). "A 90-channel triaxial magnetoencephalography system using optically pumped magnetometers." ''NeuroImage'', 241, 118401. PMID: 34273527</ref>
+|-
+| [[Psionic Resonance Uplink]] || EEG-based brain-computer interface || Commercial (Neuralink, OpenBCI) || Standard neuroscience
+|-
+| [[Psi Stabilizers]] || Transcranial direct current stimulation (tDCS) || Clinical || Standard neurostimulation
+|-
+| Remote monitoring || RF brain wave radar (US Patent 3,951,134) || Patented 1976 || Malech 1976<ref name="patent1976">Malech RG (1976). "Apparatus and method for remotely monitoring and altering brain waves." US Patent 3,951,134.</ref>
+|-
+| Wireless neural interface || Wireless nanocoils for single-neuron sensing || Frontier || Bok et al. 2024<ref name="bok2024">Bok I, et al. (2024). "Wireless micro-coils for single-neuron magnetogenetics." ''Nano Letters''. PMID: 39319575</ref>
+|}
+
+See '''[[Scientific Foundations of Psionics]]''' for complete evidence review.
+
+== References ==
+<references />
+
+[[Tho'ra Tech]] - [[HelmKit]]

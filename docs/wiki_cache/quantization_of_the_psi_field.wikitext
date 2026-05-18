@@ -1,0 +1,174 @@
+= Quantization of the ψ Field =
+
+{{Audience_Sidebar
+| difficulty   = Advanced
+| reading_time = 15 minutes
+| prerequisites = [[Psionics_Primer]]; [[Psi_Field]]; canonical quantisation of a free scalar field; second quantisation; basic QFT (creation/annihilation operators, Fock space, propagators).
+| if_too_advanced_see = [[Could_the_Brain_Use_Quantum_Mechanics]]
+| if_you_want_the_math_see = [[Renormalization_of_Psi_Theory]]
+}}
+
+{{Notation
+| psi_convention   = ψ̂(x) = field operator; ψ(x) = classical field amplitude. Hats denote operators.
+| signature        = Mostly-plus (−,+,+,+).
+| units            = ℏ = c = 1.
+}}
+
+This page sets up the canonical quantisation of the [[Psi_Field|ψ field]] — treating ψ̂(x) as a quantum operator-valued distribution on Minkowski spacetime — and works out the propagator, the Feynman rules, and the elementary scattering processes. The quantum ψ field is the natural language for treating low-amplitude phenomena (single-photon-coupling biophoton emission, sparse-quanta remote-viewing channels, ψ–EM scattering) and for understanding the quantum corrections to classical [[Soliton_Solutions_of_Psi_Field|soliton]] solutions.
+
+The page is the QFT companion to [[Psi_Field]]; for the UV completion (loop divergences, renormalisation) see [[Renormalization_of_Psi_Theory]].
+
+== Canonical quantisation ==
+
+Start from the free-field Lagrangian:
+
+:<math>\mathcal{L}_{\text{free}} = \tfrac{1}{2}\,\partial^\mu\psi\,\partial_\mu\psi - \tfrac{1}{2} m^2\psi^2</math>
+
+The conjugate momentum is <math>\pi(\mathbf{x}) \equiv \partial\mathcal{L}/\partial(\partial_t\psi) = \partial_t\psi</math>. Imposing equal-time commutation relations:
+
+:<math>[\hat{\psi}(\mathbf{x}, t),\, \hat{\pi}(\mathbf{y}, t)] = i\,\delta^3(\mathbf{x} - \mathbf{y})</math>
+
+:<math>[\hat{\psi}(\mathbf{x}, t),\, \hat{\psi}(\mathbf{y}, t)] = 0,\qquad [\hat{\pi}(\mathbf{x}, t),\, \hat{\pi}(\mathbf{y}, t)] = 0</math>
+
+The mode expansion in plane waves:
+
+:<math>\hat{\psi}(x) = \int\!\frac{d^3 k}{(2\pi)^3\,\sqrt{2\omega_{\mathbf{k}}}}\;\Bigl[\,\hat{a}_{\mathbf{k}}\,e^{-i k\cdot x} + \hat{a}^{\dagger}_{\mathbf{k}}\,e^{+i k\cdot x}\,\Bigr]</math>
+
+with <math>\omega_{\mathbf{k}} = \sqrt{\mathbf{k}^2 + m^2}</math> (the relativistic ψ-particle energy), and the canonical commutation relations equivalent to
+
+:<math>[\hat{a}_{\mathbf{k}},\, \hat{a}^{\dagger}_{\mathbf{k}'}] = (2\pi)^3\,\delta^3(\mathbf{k} - \mathbf{k}'),\qquad [\hat{a}_{\mathbf{k}},\, \hat{a}_{\mathbf{k}'}] = 0.</math>
+
+== Fock space and ψ-quanta ==
+
+The vacuum <math>|0\rangle</math> is defined by <math>\hat{a}_{\mathbf{k}}|0\rangle = 0</math> for all <math>\mathbf{k}</math>. Single-particle states <math>|\mathbf{k}\rangle \equiv \hat{a}^{\dagger}_{\mathbf{k}}|0\rangle</math> are '''[[Psion|psions]]''' - the quanta of the ψ field. Multi-particle states are obtained by repeated action of creation operators.
+
+A psion has:
+
+* '''Mass''' <math>m</math> (the ψ-field mass parameter).
+* '''Spin''' 0 (the ψ field is a real scalar).
+* '''Statistics''' Bose–Einstein (allows arbitrarily many psions in the same mode — crucial for coherent macroscopic ψ states).
+
+The Bose statistics is what permits a coherent ψ ''construct'': many psions in the same low-momentum mode add coherently to give a classical-amplitude field — exactly analogous to how many photons in the same mode give a classical EM field.
+
+== Propagator ==
+
+The Feynman propagator of the ψ field:
+
+:<math>D_F(x - y) \equiv \langle 0|\,T\,\hat{\psi}(x)\,\hat{\psi}(y)\,|0\rangle = \int\!\frac{d^4 k}{(2\pi)^4}\,\frac{i}{k^2 - m^2 + i\varepsilon}\,e^{-i k\cdot(x-y)}</math>
+
+This is the standard Klein–Gordon propagator. In position space, in the spacelike region <math>(x - y)^2 > 0</math>:
+
+:<math>D_F(x - y) \sim \frac{m}{4\pi^2\,|x - y|}\,K_1\bigl(m\,|x - y|\bigr)</math>
+
+with <math>K_1</math> the modified Bessel function. At large spacelike separation <math>r \gg 1/m</math> this falls as <math>e^{-m r}/r^{3/2}</math> — the same exponential screening that appears in the classical Yukawa potential.
+
+== Interaction terms ==
+
+Adding the classical interactions promotes the Lagrangian to:
+
+:<math>\mathcal{L} = \mathcal{L}_{\text{free}} - \tfrac{\lambda}{4}\psi^4 - \tfrac{1}{4}\,e^{k\psi}\,F_{\mu\nu}F^{\mu\nu} + J_\psi\,\psi</math>
+
+This gives the following Feynman rules:
+
+{| class="wikitable"
+! Vertex !! From term !! Order in coupling
+|-
+| 4-ψ self-interaction || <math>\tfrac{\lambda}{4}\psi^4</math> || <math>\lambda</math>
+|-
+| ψ–photon–photon || <math>k\,F_{\mu\nu}F^{\mu\nu}\,\psi</math> from <math>e^{k\psi}</math> expansion || <math>k</math>
+|-
+| 2-ψ–photon–photon || <math>\tfrac{1}{2} k^2\,F_{\mu\nu}F^{\mu\nu}\,\psi^2</math> || <math>k^2</math>
+|-
+| ψ source || <math>J_\psi\,\psi</math> || <math>J_\psi</math>
+|}
+
+The ψ–γ–γ vertex (one psion, two photons) is the QFT realisation of the brain ↔ ψ coupling: a brain emits coherent photons via biophoton emission; pairs of these photons can scatter into a psion via the k F<sub>μν</sub>F<sup>μν</sup> ψ vertex.
+
+== Brain as a ψ emitter (QFT picture) ==
+
+The biological source <math>J_\psi</math> in the classical theory becomes, at the QFT level, a particular operator-valued source built out of EM-field operators and (via the [[Wilson-Cowan_Coupled_to_Psi|Wilson–Cowan coupling]]) neural-field operators. The probability amplitude for emitting a psion in mode <math>\mathbf{k}</math> from a brain in state <math>|B\rangle</math> is:
+
+:<math>\mathcal{M} \sim \langle \mathbf{k}; B'|\,\!\int\! d^4 x\,J_\psi(x)\,\hat{\psi}(x)\,|0; B\rangle</math>
+
+For a coherent neural firing pattern (e.g. gamma-band synchrony across a cortical region), <math>J_\psi</math> takes on a coherent classical expectation value, and the emitted psion state is a ''coherent state'' <math>|\alpha\rangle</math> (in the sense of Glauber coherent states for the harmonic oscillator). This is the ψ-construct.
+
+== ψ–EM scattering ==
+
+The lowest-order ψ–γ–γ vertex gives:
+
+* '''ψ → γ γ''' (psion decays into two photons) — kinematically allowed only if m > 0 and m ≥ 2m<sub>γ</sub> ≈ 0; rate proportional to k<sup>2</sup>.
+* '''γ γ → ψ''' (two photons produce a psion) — the time-reverse; this is the QFT version of the EM → ψ pumping channel.
+* '''γ ψ → γ ψ''' (Compton-like scattering) — leading at order k<sup>2</sup>.
+
+These reactions are tiny for ordinary EM but become significant at strong-EM-field or coherent-EM regimes (lasers, microwave cavities, biophoton bursts).
+
+== Density matrix and entropy ==
+
+A general ψ state <math>\hat{\rho}</math> is described by a density operator on Fock space. Its von Neumann entropy:
+
+:<math>S_\psi = -\operatorname{Tr}\bigl(\hat{\rho}\,\ln\hat{\rho}\bigr)</math>
+
+A pure coherent state has <math>S_\psi = 0</math>; a thermal ψ background at temperature <math>T_\psi</math> has <math>S_\psi</math> proportional to the volume.
+
+The information capacity of a ψ pulse — the maximum number of bits encodable in its quanta — is given by the Holevo bound on the modal decomposition. For a coherent state of mean number <math>\bar{n}</math>:
+
+:<math>I_{\max} \approx \log_2\!\bigl(1 + \bar{n}\bigr)\quad \text{bits per mode}</math>
+
+For multi-mode coherent ψ pulses (the realistic case), this gives the 100–1000 bit per pulse estimate used on [[Psionics]] §"Information & entropy of psi signals".
+
+== ψ – matter scattering ==
+
+For matter of psionic charge <math>p</math> coupled to ψ through <math>-p\,\psi\,\bar{M} M</math> (where <math>M</math> is a matter field), the leading-order scattering of a ψ off matter is
+
+:<math>\sigma(\psi M \to \psi M) \propto p^2 \cdot (\text{s-channel propagator factor})</math>
+
+For ordinary matter <math>p \approx 0</math> the cross-section vanishes — psions pass through matter unhindered. For "tuned" matter (high <math>p</math>), psions scatter strongly. This is the QFT explanation for selective ψ-charge interaction: a single ψ pulse interacts strongly with some objects and not others.
+
+== Coherent states and macroscopic ψ ==
+
+A Glauber coherent state <math>|\alpha\rangle \equiv \exp\!\bigl(\alpha\,\hat{a}^{\dagger} - \alpha^*\,\hat{a}\bigr)\,|0\rangle</math> has the property
+
+:<math>\langle\alpha|\,\hat{\psi}(x)\,|\alpha\rangle = \text{classical \(\psi\)-amplitude}</math>
+
+A classical macroscopic ψ field is, at the quantum level, a coherent state with large <math>|\alpha|</math>. Bose statistics permits <math>|\alpha|</math> arbitrarily large with all psions in the same mode — this is why a classical ψ-construct can in principle have macroscopic energy density (the [[Psi_Field|Practitioner Calibration Scale]]) with finite resources, just as a laser can have macroscopic EM energy density with many photons in the same mode.
+
+== Decoherence ==
+
+A ψ-coherent state interacting with its environment loses coherence on a timescale <math>\tau_{\text{dec}}</math> set by:
+
+:<math>\frac{1}{\tau_{\text{dec}}} \sim \Gamma_{\psi \to \text{env}} + \text{scattering rates with ambient EM and matter.}</math>
+
+For a coherent ψ state to survive long enough to be a usable carrier of psionic information, <math>\tau_{\text{dec}}</math> must be larger than the relevant operational timescale (~100 ms for cortical processes). This is one of the hardest theoretical constraints in the framework — and it is the same constraint that [[Stuart_Hameroff|Hameroff]] and [[Roger_Penrose|Penrose]] face in [[Orchestrated_Objective_Reduction|Orch-OR]] for the microtubule channel. The [[Tegmark_Critique_and_Hagan_Rebuttal|Hagan rebuttal]] addresses the analogous question for microtubule states.
+
+== Sanity checks ==
+
+* <math>\lambda \to 0,\ k \to 0,\ J_\psi \to 0</math> → free quantised Klein–Gordon theory. ✓ ([[Sanity_Check_Limits]] §3.)
+* <math>\hbar \to 0</math> (classical limit) → classical ψ field theory of [[Psi_Field]] and [[Soliton_Solutions_of_Psi_Field]]. ✓
+* <math>m \to 0</math> → massless ψ; propagator becomes <math>1/k^2</math>; long-range force.
+* High occupation number → coherent-state limit → classical ψ amplitude. ✓ (Justifies the practitioner-felt classical <math>\Psi</math>.)
+
+== Cross-references ==
+
+* [[Psi_Field]] — classical field theory of which this is the quantisation.
+* [[Renormalization_of_Psi_Theory]] — loop diagrams, divergences, running couplings.
+* [[Soliton_Solutions_of_Psi_Field]] — quantum corrections to classical solitons (semiclassical / 1-loop).
+* [[Effective_Field_Theory_of_Consciousness]] — EFT-level treatment for slow modes.
+* [[Orchestrated_Objective_Reduction]] — quantum-coherence proposal for microtubule channel.
+
+== See Also ==
+
+* [[Psionics]]
+* [[5D_Action_Principle]]
+* [[Symbol_Glossary]]
+
+== References ==
+
+* Peskin, M. E., Schroeder, D. V. (1995). ''An Introduction to Quantum Field Theory.'' Addison-Wesley.
+* Weinberg, S. (1995). ''The Quantum Theory of Fields, Vol. 1.'' Cambridge University Press.
+* Itzykson, C., Zuber, J.-B. (1980). ''Quantum Field Theory.'' McGraw-Hill.
+* Glauber, R. J. (1963). "Coherent and incoherent states of the radiation field." ''Physical Review'' 131: 2766–2788.
+* Zurek, W. H. (2003). "Decoherence, einselection, and the quantum origins of the classical." ''Reviews of Modern Physics'' 75: 715–775.
+
+[[Category:Psionics]]
+[[Category:Quantum field theory]]
+[[Category:Equations]]
