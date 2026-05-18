@@ -78,6 +78,23 @@ If you are using a different breakout (e.g. a generic clone), check
 for SMD resistors near the SDA/SCL traces. If absent, add 4.7 kΩ from
 each line to 3V3 on the breadboard, as drawn above.
 
+### 3.1 Diitao 4-pack (the in-inventory units, 2026-05-18)
+
+The inventory MAX30102 units are Diitao clones, not SparkFun. Pull-up
+state is not guaranteed and varies by batch. Verify on one unit
+before wiring the rest:
+
+1. Look at the breakout PCB near the SDA and SCL pads. Two small
+   SMT resistors marked `103` (= 10 kΩ) or `472` (= 4.7 kΩ) means
+   pull-ups are present; do **not** add external ones.
+2. If no SMT resistors are visible on the I²C lines, add 4.7 kΩ
+   external pull-ups from SDA→3V3 and SCL→3V3 on the breadboard
+   (from the inventory resistor stock).
+3. Diitao listings commonly say "VIN 1.8–5.5 V auto level-shift".
+   Some clones cannot tolerate 5 V on VIN. Wire VIN to the Heltec V3
+   **3V3** rail only — it is safe for any MAX30102 clone in any state.
+   Do **not** experiment with 5 V on a brand-new unit.
+
 ---
 
 ## 4. First-power-on sanity sequence

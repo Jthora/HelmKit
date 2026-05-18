@@ -1,6 +1,6 @@
 # G2 — Oracle Device (reference HRV truth source)
 
-- **Status**: `v0` (Track I commit 6 of 6)
+- **Status**: `v0.1` (Track I commit 6 of 6; addendum 2026-05-18 supersedes §TL;DR / §3 with on-board AD8232)
 - **Used by**: [`g2_hrv_validation.md`](g2_hrv_validation.md)
 - **Question this doc answers**: which device do we use as the
   reference RR stream against which the Mk0.5 `ppg-rr` channel is
@@ -8,15 +8,26 @@
 
 ---
 
-## TL;DR
+## TL;DR (2026-05-18 update)
 
-**Use a Polar H10 chest strap** (BLE HR sensor, ~$80) + the
-**Polar Sensor Logger Android app** (free, exports a per-beat
-RR-interval CSV). One physical device, one app, one CSV file per
-session. Total cost-to-decision: lowest of the alternatives.
+**Use the on-board AD8232 ECG front-end** (in inventory per
+[`docs/inventory.md §3.7`](../inventory.md), arriving ~June 1 2026)
+with 3M Red Dot wet-gel electrodes via TENS lead wires (both in
+inventory). The same Mk0.5 firmware emits `ppg-rr` and `ecg-rr` to
+the same NDJSON file with the same timebase — the comparison is
+in-board, zero clock-skew, no Bluetooth, no phone app, no CSV column
+drift.
 
-If Android is not available to the operator, fall back to **Wahoo
-TICKR** + **HRV Logger for iOS** (~$5, paid app, CSV export).
+**Polar H10 + Polar Sensor Logger** remains the documented fallback
+for (a) sessions where the AD8232 path is unavailable (broken unit,
+firmware regression on the ECG driver) or (b) off-bench / mobile-wearer
+scenarios where a chest strap is the only practical sensor. See
+[§3](#3-fallback-polar-h10--polar-sensor-logger) below.
+
+The rest of this doc (selection criteria §1, options matrix §2) is
+preserved for posterity — it documents *why* the original H10 choice
+was correct given the procurement state at the time, and *why* the
+AD8232 supersedes it now that it is on hand.
 
 ---
 
@@ -47,11 +58,11 @@ The oracle must:
 | **Garmin HRM-Dual** | Yes, BLE+ANT+. RR via Garmin Connect IQ apps. | $70 | Wide compatibility. | **REJECTED.** Per-beat RR export path requires either a Garmin watch as intermediary or a Connect IQ side-app; too many moving parts. |
 | **Phone-camera PPG** (e.g. HRV4Training app) | Yes, but… | $0 | Already in the operator's pocket. | **REJECTED.** Same physics class as the DUT — using it as oracle creates a tautology. We need a *different* sensor modality to validate against. |
 | **Consumer wrist HR** (Apple Watch, Fitbit) | Mostly no — most expose only HR-per-second, not per-beat RR; raw access requires Apple Health export that is heavily smoothed | $200+ | Already present in many operators' lives. | **REJECTED.** Per-beat data is gated behind device-specific SDKs that smooth or interpolate before export. Not honest oracle data. |
-| **Single-lead ECG patch** (e.g. BITalino, AD8232 dev board) | Yes, raw waveform | $50–150 | Closest to "ground truth". | **REJECTED FOR NOW.** Right physics, but requires custom R-peak detection on the oracle side, which means we'd be debugging two detectors simultaneously. Park for Mk1.x revalidation. |
+| **Single-lead ECG patch** (e.g. BITalino, AD8232 dev board) | Yes, raw waveform | $50–150 | Closest to "ground truth". | **REJECTED FOR NOW.** Right physics, but requires custom R-peak detection on the oracle side, which means we'd be debugging two detectors simultaneously. Park for Mk1.x revalidation. **→ 2026-05-18 reversal:** procured (1× AD8232 in inventory, arriving ~June 1). The "two detectors" objection dissolves because the same firmware Pan-Tompkins detector already shipped in Wave J for `ppg-rr` is reused on the ECG channel for `ecg-rr` — it is **one** detector applied to two inputs, not two. Selected as canonical oracle per the 2026-05-18 TL;DR. |
 
 ---
 
-## 3. Selected: Polar H10 + Polar Sensor Logger
+## 3. Fallback: Polar H10 + Polar Sensor Logger
 
 ### 3.1 What you buy
 
