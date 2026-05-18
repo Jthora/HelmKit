@@ -246,6 +246,25 @@ Highlights only (full list in original inventory):
 | 5 sets | **MELIFE 38 kHz IR receiver + transmitter module** (EK8477) | discrete IR |
 | 5 sets | **M14178 38 kHz IR modules** | discrete IR |
 
+### 3.7 Biometric sensors (Mk0.5 bench surface) — procured 2026-05-14
+
+This block is the on-bench sensor surface for the Mk0.5 DUT and downstream
+Mk1.x physiological-state pipeline. All silicon here is also already pinned
+in [`firmware/mk0.5/src/board/pins.h`](../firmware/mk0.5/src/board/pins.h)
+and documented (reserved) in [`firmware/mk0.5/docs/PINOUT.md`](../firmware/mk0.5/docs/PINOUT.md) §2.
+
+| Qty | Item | Channel role | Status (2026-05-18) | Notes |
+|-----|------|--------------|---------------------|-------|
+| 4 | **Diitao MAX30102** (4-pack, heart-rate + SpO2 reflectance breakout) | `ppg-rr` (Pan-Tompkins-on-PPG, already shipped in firmware Wave J) | **delivered 2026-05-14** | Diitao clones — **not** SparkFun SEN-16474. On-board pull-up presence and supply-rail voltage range require bench inspection of one unit before first power-on. 4 units = room for 1 in service + 3 spares / parallel-mount experiments. |
+| 2 | **EC Buying GY-906 MLX90614** (non-contact IR temperature, I²C) | `ir-temp` (skin/forehead radiative temp, head-radiation safety floor) | **delivered 2026-05-16** | Address `0x5A` (default). Pinned at `kMlx90614Alarm=39` for FIFO alarm interrupt; data is read over the external I²C bus. 2 units = paired-temple symmetry or DUT+reference. |
+| 1 | **GSR Skin Sensor Module** (analog, with SPI breakout marking) | `gsr` (electrodermal activity, sympathetic-arousal proxy) | **delivered 2026-05-16** | Connector type unconfirmed (operator inspection pending: 3.5mm TRS vs Dupont vs JST). Pinned at `kGsrAdc=4`. Pairs with the Red Dot electrodes below for two-electrode palmar/finger placement. |
+| 50 | **3M Red Dot 2560 wet-gel electrodes** (bag) | electrode interface for GSR / ECG / future TENS | **delivered 2026-05-16** | Standard clinical wet-gel snap electrodes. Compatible with both the GSR module's leads and the TENS lead wires below; ample stock for the full Mk0.5 → Mk1.x validation runway. |
+| 2 packs | **VOVOU TENS lead wires, 3.5mm to snap** | electrode lead-out for GSR / ECG / TENS | **delivered 2026-05-16** | Standard 3.5mm TRS → snap leads. Decouples electrode placement from connector politics on the sensor breakouts. |
+| 2 | **MCU-30205 MAX30205MTA** (±0.1°C clinical contact temperature, I²C) | `contact-temp` (skin contact temp; oracle for MLX90614 IR cross-check; future Peltier safety floor) | **arriving ~2026-05-27** | Addresses `0x48`/`0x49` (strappable). Pinned in PINOUT.md §2. 2 units = paired DUT + reference for L/R symmetry. |
+| 1 | **AD8232 single-lead ECG analog front-end** (with electrode leads + bias drive) | `ecg` (raw waveform) + `ecg-rr` (Pan-Tompkins-on-ECG, reuses Wave J detector) | **arriving ~2026-06-01 – 06-15** | Pinned at `kAd8232Out=5`, `kAd8232LoPlus=6`, `kAd8232LoMinus=7`. **Supersedes Polar H10 as the canonical G2 oracle** — on-board ECG R-peak detection is the gold-standard RR source, in the same NDJSON file as `ppg-rr` with the same firmware timebase, zero clock-skew or Bluetooth-app friction. See [`docs/protocols/g2_oracle_device.md`](protocols/g2_oracle_device.md). |
+
+**Verdict**: The Mk0.5 bench sensor surface is **fully on hand or in transit** as of 2026-05-18. No further procurement gates G2. The only remaining open verifications are bench-side (Heltec board revision, Diitao breakout pull-up state, GSR connector geometry) and do not require purchases.
+
 ---
 
 ## 4. Power
@@ -504,7 +523,7 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 | Wiki Mk1 module | Coverage from this inventory |
 |---|---|
 | **HelmKit core (frame + MCU + sensors + OLED + bus)** | ✅ complete (Pi 4 + Nano + Heltec LoRa 32 OLED + 9-axis IMU + dual sensor kits) |
-| **Stabilizer Mk1** | ✅ ~95% (bifilar coil fab path via CNC; ESP32 PWM at 1–8 MHz; HV/medium-HV drive modules; Polar H10 is only gap, can substitute Pi-sensor-kit PPG if MAX30102 present) |
+| **Stabilizer Mk1** | ✅ **complete** (bifilar coil fab path via CNC; ESP32 PWM at 1–8 MHz; HV/medium-HV drive modules; full Mk0.5 bench sensor surface in inventory per §3.7 — MAX30102 ×4 + AD8232 + MLX90614 ×2 + GSR + MAX30205 ×2; on-board AD8232 supersedes Polar H10 as G2 oracle) |
 | **Harmonizer Mk1** | ✅ ~90% (same as Stabilizer + Schumann envelope via XR2206; bone-conduction substitutable by 40 mm full-range against bone) |
 | **Defender Mk1** | ✅ complete (HackRF One + 3× NESDR + Ham It Up + 9-axis IMU dual for gradiometer + MLX90640 thermal + SGP40 VOC + DSO for emission verification) |
 | **Platform safety floor** | ✅ complete (Faraday fabric + EMI spray + DS18B20 thermistor + relays + supercaps for surge + Peltier for HV-module cooling) |
@@ -516,6 +535,9 @@ Parsed from order history with order-count multipliers (Amazon's per-line count 
 ## 11. Open items (continue inventory pass)
 
 - [x] ~~**9-axis IMU module(s)** — count, exact part number(s), confirm I²C address(es)~~ — resolved §3.1: 3× MPU9250 (CHENBO×2 + HiLetgo×1) + 1× MPU6050 (Diymore)
+- [ ] **Heltec LoRa 32 revision** — silkscreen on the 2 in-inventory boards (§1): is it V3 (`HTIT-WB32LAF`, ESP32-S3, what `firmware/mk0.5` targets) or V2 (ESP32)? 30-second visual check, gates the firmware path.
+- [ ] **Diitao MAX30102 breakout characterisation** (§3.7) — (a) on-board pull-ups present? (look for ~10k SMT near SDA/SCL); (b) VIN voltage range (3.3 V strict vs 1.8–5.5 V auto-level-shift). Both gate the wiring detail in [`docs/firmware/mk0.5_wiring.md`](firmware/mk0.5_wiring.md).
+- [ ] **GSR module connector geometry** (§3.7) — 3.5mm TRS vs Dupont vs JST? Determines how the Red Dot electrodes wire in.
 - [ ] **USB-C power bank(s)** — count, capacity (mAh), output current rating
 - [ ] **Shielded cable / coax / twisted pair** stock
 - [ ] **PCB CNC bit set** — V-bit angles, end-mill diameters, drill sizes available
