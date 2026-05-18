@@ -21,6 +21,7 @@ This repo is the platform: frame geometry, hardpoint spec, power/data bus, fit-a
 
 | | |
 |---|---|
+| **Active plan (May 2026 → August 2026)** | [docs/plan/README.md](docs/plan/README.md) |
 | Roadmap (Mk0 → Mk3) | [docs/roadmap.md](docs/roadmap.md) |
 | System architecture & hardpoint spec | [docs/architecture.md](docs/architecture.md) |
 | Mk1 build plan (concrete, near-term) | [docs/mk1_buildplan.md](docs/mk1_buildplan.md) |
