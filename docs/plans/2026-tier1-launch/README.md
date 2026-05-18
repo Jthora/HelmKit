@@ -29,6 +29,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `v0-complete` (§§0-10 all drafted) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
 | **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `landed` (tools + CI gate + allowlist) | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |
+| **I** | Pre-Hardware Sprint (Mk0.5 BOM + wiring + G2 protocol + capture tool) | `scoped` | no | [track-I-pre-hardware-sprint.md](track-I-pre-hardware-sprint.md) |
 
 ---
 

@@ -57,11 +57,24 @@ Stack-ranked by **expected value × independence-from-blockers**. Updated as tra
 
 ---
 
+## Week of June 22 (post-Vol. I bridge)
+
+| Day | Track | Action | Hrs | Output |
+|-----|-------|--------|-----|--------|
+| Mon | **I** | Mk0.5 BOM + wiring doc; place parts order EOD. | 3 | `docs/firmware/mk0.5_bom.md`, `docs/firmware/mk0.5_wiring.md`. |
+| Tue | **I** | G2 validation protocol + oracle-device decision doc. | 3 | `docs/protocols/g2_hrv_validation.md`, `docs/protocols/g2_oracle_device.md`. |
+| Wed | **I** | `tools/capture_ndjson.py` + PPG mounting notes. | 2 | Serial capture path tested against fixture; mechanical primer for bench. |
+
+Parts in hand by end of week; first physical Mk0.5 session opens early July.
+
+---
+
 ## After Vol. I ships (late June → August)
 
 - Resume **Track A** as soon as wiki drop lands (run Track B sync, triage).
-- Begin Mk0.5 physical prototype build (photography needed for Tier 1 DIY Build Kit guide).
-- Tier 1 DIY Build Kit content production: BOM, schematic export, build guide PDF, 3MF/STL pack, firmware binary release.
+- **Track I** (pre-hardware sprint) lands week of June 22 — see above.
+- Begin Mk0.5 physical bench bring-up (early July) — unblocks the deferred G2 HRV validation gate from Track E.
+- Tier 1 DIY Build Kit content production: BOM (already done in Track I), schematic export, build guide PDF, 3MF/STL pack, firmware binary release.
 - Target: **Tier 1 DIY ships August 2026.**
 
 ---
@@ -76,8 +89,9 @@ B (wiki-sync) ──────────────┐
 F (field notes PDF) ◄── C (bifilar derivation, optional but boosts Vol. I)
                     ◄── D (notebook figures, optional)
 
-Tier 1 DIY (August) ◄── E (Wave M1 firmware, for honest demo)
-                    ◄── Mk0.5 physical build (for build-guide photos)
+Tier 1 DIY (August) ◄── E (Wave J firmware, for honest demo) — dsp-landed
+                    ◄── I (pre-hardware sprint: BOM, wiring, G2, capture)
+                    ◄── Mk0.5 physical build (for build-guide photos + G2 data)
 
 Tier 2 Hand-Built (Sept–Oct) ◄── Tier 1 DIY shipped
                               ◄── Illinois LLC formed
