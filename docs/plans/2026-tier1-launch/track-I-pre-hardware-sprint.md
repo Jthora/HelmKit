@@ -1,6 +1,6 @@
 # Track I — Pre-Hardware Sprint (Mk0.5 bench bring-up scaffolding)
 
-- **Status**: `scoped`
+- **Status**: `landed`
 - **Effort**: ~6–9 hours across 6 commits
 - **Depends on**: Track E Wave J `dsp-landed` (`11f9fb9`). No further code prerequisites.
 - **Unblocks**:
@@ -123,4 +123,21 @@ Vol. I has shipped and before the Tier 1 DIY content window opens.
 
 ## What shipped
 
-(Populated as commits land. Empty at scoping time.)
+6 commits, all green through `check_links` + `check_wiki_urls`.
+`capture_ndjson.py` round-tripped against a 3-line fixture before its
+commit. No firmware changes; no PDF rebuild required (docs live
+outside `docs/field-notes/volume-1/`).
+
+| # | SHA | Artifact |
+|---|-----|----------|
+| 1 | `1a41a75` | [docs/firmware/mk0.5_bom.md](../../firmware/mk0.5_bom.md) — DUT BOM, subtotal $59.20 |
+| 2 | `a26a13e` | [docs/firmware/mk0.5_wiring.md](../../firmware/mk0.5_wiring.md) — minimum bench wiring + pin table |
+| 3 | `a84702d` | [docs/protocols/g2_hrv_validation.md](../../protocols/g2_hrv_validation.md) — 5/5/5 paced-breathing protocol, 20% RMSSD pass band |
+| 4 | `8680d4f` | [tools/capture_ndjson.py](../../../tools/capture_ndjson.py) — serial → NDJSON + meta.yaml host tool |
+| 5 | `8b6ee4c` | [docs/mechanical/ppg_mounting_notes.md](../../mechanical/ppg_mounting_notes.md) — bench-coupling primer |
+| 6 | `(this commit)` | [docs/protocols/g2_oracle_device.md](../../protocols/g2_oracle_device.md) — Polar H10 selection, plus status flip and README tick |
+
+Gate to first physical Mk0.5 bench session is now: **procure the
+parts in commit 1, follow the wiring in commit 2, run the protocol
+in commit 3 with the oracle from commit 6 and the capture tool from
+commit 4, mounted per commit 5.**
