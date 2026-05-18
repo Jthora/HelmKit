@@ -26,7 +26,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **C** | Original math derivations (`docs/derivations/`) | `v0` (bifilar landed) | no | [track-C-derivations.md](track-C-derivations.md) |
 | **D** | Executable notebooks (figures for Field Notes) | `v0` (script-only; `.ipynb` deferred) | no | [track-D-notebooks.md](track-D-notebooks.md) |
 | **E** | Firmware Wave M1 (MAX30102 + R-peak + RR NDJSON) | `ready` | no | [track-E-firmware-wave-m1.md](track-E-firmware-wave-m1.md) |
-| **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `content-batch-1` (§§1-3 drafted; §5 has bifilar v0) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
+| **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `content-batch-2` (§§1-7 drafted; §§0, 8-10 pending) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
 | **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `ready` | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |
 
