@@ -76,11 +76,11 @@ Out of scope (defer):
 Approximate, in order. Each is its own commit; ordering reflects
 dependency, not difficulty.
 
-| # | Commit | Half | Depends on |
-|---|--------|------|------------|
-| 1 | `tools(mk0.5): analyze_capture.py — channel-agnostic NDJSON inspector` | bench | — |
-| 2 | `tests(mk0.5): NDJSON capture fixtures + analyze_capture.py unit tests` | bench | K-1 |
-| 3 | `docs(firmware): mk0.5_bench_quickstart.md — Bridge A+B operator runbook` | bench | K-1 (referenced from quickstart) |
+| # | Commit | Half | Status / Depends on |
+|---|--------|------|---------------------|
+| 1 | `tools(mk0.5): analyze_capture.py — channel-agnostic NDJSON inspector` | bench | ✅ landed `d466824` (combined with K-2) |
+| 2 | `tests(mk0.5): NDJSON capture fixtures + analyze_capture.py unit tests` | bench | ✅ landed `d466824` (combined with K-1) |
+| 3 | `docs(firmware): mk0.5_bench_quickstart.md — Bridge A+B operator runbook` | bench | ✅ landed `c0605ad` |
 | 4 | `firmware(mk0.5): MAX30205 driver scaffold (header + .cpp stub matching MLX pattern)` | latency | — |
 | 5 | `firmware(mk0.5): AD8232 driver scaffold + lead-off-watch header (compile-only stub)` | latency | — |
 | 6 | `dsp(mk0.5): r_peak — RPeakBand config struct (PPG default + ECG band ready)` | latency | — |
