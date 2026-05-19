@@ -83,7 +83,7 @@ dependency, not difficulty.
 | 3 | `docs(firmware): mk0.5_bench_quickstart.md — Bridge A+B operator runbook` | bench | ✅ landed `c0605ad` |
 | 4 | `firmware(mk0.5): MAX30205 driver scaffold (header + .cpp stub matching MLX pattern)` | latency | — |
 | 5 | `firmware(mk0.5): AD8232 driver scaffold + lead-off-watch header (compile-only stub)` | latency | — |
-| 6 | `dsp(mk0.5): r_peak — RPeakBand config struct (PPG default + ECG band ready)` | latency | — |
+| 6 | `dsp(mk0.5): r_peak — RPeakBand config struct (PPG default + ECG band ready)` | latency | ✅ landed |
 
 K-1 → K-3 should land in order; K-4 → K-6 are independent of each
 other and of K-1..K-3 and can land in any order or in parallel.

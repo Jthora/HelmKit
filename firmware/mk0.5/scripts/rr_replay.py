@@ -37,18 +37,63 @@ from collections import deque
 from dataclasses import dataclass
 from typing import Iterable, Iterator, Optional
 
-# ---- Constants — MUST match src/dsp/r_peak.h ------------------------------
+# ---- Bands — MUST mirror src/dsp/r_peak.h rpeak_bands::* ------------------
 
-SAMPLE_RATE_HZ        = 100
-HPF_WINDOW            = 50      # samples; ~0.5 Hz cutoff @ 100 Hz
-MWI_WINDOW            = 15      # samples = 150 ms
-REFRACTORY_MS         = 250
-RR_MIN_MS             = 250
-RR_MAX_MS             = 2000
-SPKI_LEARN_RATE       = 0.125
-NPKI_LEARN_RATE       = 0.01
-THRESH_FRACTION       = 0.25
-PEAK_RELEASE_FRACTION = 0.5
+@dataclass(frozen=True)
+class RPeakBand:
+    sample_rate_hz: int
+    hpf_window: int
+    mwi_window: int
+    refractory_ms: int
+    rr_min_ms: int
+    rr_max_ms: int
+    spki_learn_rate: float
+    npki_learn_rate: float
+    thresh_fraction: float
+    peak_release_fraction: float
+    name: str
+
+
+PPG_DEFAULT = RPeakBand(
+    sample_rate_hz=100,
+    hpf_window=50,
+    mwi_window=15,
+    refractory_ms=250,
+    rr_min_ms=250,
+    rr_max_ms=2000,
+    spki_learn_rate=0.125,
+    npki_learn_rate=0.01,
+    thresh_fraction=0.25,
+    peak_release_fraction=0.5,
+    name="ppg",
+)
+
+ECG_PAN_TOMPKINS = RPeakBand(
+    sample_rate_hz=250,
+    hpf_window=16,
+    mwi_window=38,
+    refractory_ms=200,
+    rr_min_ms=300,
+    rr_max_ms=2000,
+    spki_learn_rate=0.125,
+    npki_learn_rate=0.01,
+    thresh_fraction=0.25,
+    peak_release_fraction=0.5,
+    name="ecg",
+)
+
+# Legacy module-level aliases — preserved so older callers/tests that import
+# these names from rr_replay continue to work. Pinned to PPG_DEFAULT.
+SAMPLE_RATE_HZ        = PPG_DEFAULT.sample_rate_hz
+HPF_WINDOW            = PPG_DEFAULT.hpf_window
+MWI_WINDOW            = PPG_DEFAULT.mwi_window
+REFRACTORY_MS         = PPG_DEFAULT.refractory_ms
+RR_MIN_MS             = PPG_DEFAULT.rr_min_ms
+RR_MAX_MS             = PPG_DEFAULT.rr_max_ms
+SPKI_LEARN_RATE       = PPG_DEFAULT.spki_learn_rate
+NPKI_LEARN_RATE       = PPG_DEFAULT.npki_learn_rate
+THRESH_FRACTION       = PPG_DEFAULT.thresh_fraction
+PEAK_RELEASE_FRACTION = PPG_DEFAULT.peak_release_fraction
 FIFO_CAPACITY         = 8
 
 
@@ -61,13 +106,18 @@ class Peak:
 
 
 class RPeakDetector:
-    """Direct port of helmkit::dsp::RPeakDetector. Streaming; no lookahead."""
+    """Direct port of helmkit::dsp::RPeakDetector. Streaming; no lookahead.
 
-    def __init__(self) -> None:
+    Construct with no args for PPG (Wave J default, byte-identical to the
+    pre-K-6 module-level constants) or pass `band=ECG_PAN_TOMPKINS` for ECG.
+    """
+
+    def __init__(self, band: RPeakBand = PPG_DEFAULT) -> None:
+        self.band = band
         self.reset()
 
     def reset(self) -> None:
-        self._hpf_buf = [0.0] * HPF_WINDOW
+        self._hpf_buf = [0.0] * self.band.hpf_window
         self._hpf_idx = 0
         self._hpf_sum = 0.0
         self._hpf_warmed = False
@@ -76,7 +126,7 @@ class RPeakDetector:
         self._hist = [0.0, 0.0, 0.0]
         self._hist_idx = 0
 
-        self._mwi_buf = [0.0] * MWI_WINDOW
+        self._mwi_buf = [0.0] * self.band.mwi_window
         self._mwi_idx = 0
         self._mwi_sum = 0.0
 
@@ -95,21 +145,22 @@ class RPeakDetector:
         self.peaks_emitted = 0
         self.peaks_rejected_refractory = 0
 
-    def process(self, t_ms: int, ir_raw: int) -> None:
+    def process(self, t_ms: int, sample_raw: int) -> None:
         self.samples_in += 1
-        x = float(ir_raw)
+        x = float(sample_raw)
+        b = self.band
 
-        # (1) HPF: x - SMA(50)
+        # (1) HPF: x - SMA(N)
         self._hpf_sum -= self._hpf_buf[self._hpf_idx]
         self._hpf_buf[self._hpf_idx] = x
         self._hpf_sum += x
-        self._hpf_idx = (self._hpf_idx + 1) % HPF_WINDOW
+        self._hpf_idx = (self._hpf_idx + 1) % b.hpf_window
         if not self._hpf_warmed:
             self._hpf_count += 1
-            if self._hpf_count >= HPF_WINDOW:
+            if self._hpf_count >= b.hpf_window:
                 self._hpf_warmed = True
             return
-        hp = x - (self._hpf_sum / HPF_WINDOW)
+        hp = x - (self._hpf_sum / b.hpf_window)
 
         # (2) 3-tap derivative — match firmware convention: hist_idx_ is
         # NEXT write slot; the slot two-back is (hist_idx + 1) % 3.
@@ -125,12 +176,12 @@ class RPeakDetector:
         self._mwi_sum -= self._mwi_buf[self._mwi_idx]
         self._mwi_buf[self._mwi_idx] = sq
         self._mwi_sum += sq
-        self._mwi_idx = (self._mwi_idx + 1) % MWI_WINDOW
-        mwi = self._mwi_sum / MWI_WINDOW
+        self._mwi_idx = (self._mwi_idx + 1) % b.mwi_window
+        mwi = self._mwi_sum / b.mwi_window
 
         # (5) NPKI always learning, threshold update
-        self._npki = NPKI_LEARN_RATE * mwi + (1.0 - NPKI_LEARN_RATE) * self._npki
-        self._threshold = self._npki + THRESH_FRACTION * (self._spki - self._npki)
+        self._npki = b.npki_learn_rate * mwi + (1.0 - b.npki_learn_rate) * self._npki
+        self._threshold = self._npki + b.thresh_fraction * (self._spki - self._npki)
 
         # (6) Peak-finder state machine
         if not self._in_peak:
@@ -148,20 +199,20 @@ class RPeakDetector:
             if mwi > self._peak_amp:
                 self._peak_amp = mwi
                 self._peak_t_ms = t_ms
-            if mwi < self._threshold * PEAK_RELEASE_FRACTION:
+            if mwi < self._threshold * b.peak_release_fraction:
                 self._in_peak = False
-                self._spki = (SPKI_LEARN_RATE * self._peak_amp
-                              + (1.0 - SPKI_LEARN_RATE) * self._spki)
+                self._spki = (b.spki_learn_rate * self._peak_amp
+                              + (1.0 - b.spki_learn_rate) * self._spki)
 
                 rr_ms = 0
                 in_range = True
                 if self._last_accepted_t_ms != 0:
                     delta = self._peak_t_ms - self._last_accepted_t_ms
-                    if delta < REFRACTORY_MS:
+                    if delta < b.refractory_ms:
                         self.peaks_rejected_refractory += 1
                         return
                     rr_ms = min(delta, 65535)
-                    in_range = (RR_MIN_MS <= delta <= RR_MAX_MS)
+                    in_range = (b.rr_min_ms <= delta <= b.rr_max_ms)
 
                 conf = (self._peak_amp / self._threshold
                         if self._threshold > 1e-6 else 1.0)
