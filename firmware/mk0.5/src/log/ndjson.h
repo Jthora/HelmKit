@@ -75,4 +75,12 @@ void emit_temp_forehead(uint32_t t_ms,
                         float ambient_c,
                         bool in_range);
 
+// Wave J Bridge B. Emit a single GSR sample as SCHEMA §2.2 channel `gsr`
+// (raw uint16 0..4095, 50 Hz). q field flips on out-of-range per SCHEMA
+// §4 (100 < raw < 4000 -> ok, else out-of-range — rail-pinned readings
+// almost always indicate electrode disconnect or short).
+void emit_gsr(uint32_t t_ms,
+              uint16_t raw,
+              bool in_range);
+
 }  // namespace helmkit::log

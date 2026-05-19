@@ -12,6 +12,7 @@
 #include "board/pins.h"
 #include "drivers/max30102.h"
 #include "drivers/mlx90614.h"
+#include "drivers/gsr.h"
 #include "drivers/smoke_fail.h"
 #include "dsp/r_peak.h"
 #include "layers/pacer.h"
@@ -43,6 +44,16 @@ void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
     helmkit::log::emit_temp_forehead(s.t_ms, s.object_c, s.ambient_c, s.in_range);
 }
 
+// Wave J Bridge B: GSR analog streaming. Smoke runs at boot after MLX;
+// streaming is opt-in via 'e' (electrodermal). 50 Hz cadence keeps log
+// volume bounded.
+helmkit::drivers::Gsr         g_gsr;
+bool                          g_gsr_streaming = false;
+
+void on_gsr_sample(const helmkit::drivers::GsrSample& s) {
+    helmkit::log::emit_gsr(s.t_ms, s.raw, s.in_range);
+}
+
 void on_ppg_sample(const helmkit::drivers::Max30102Sample& s) {
     // Driver emits gap-quality samples when finger is removed; feed the
     // detector regardless — its high-pass + adaptive threshold absorb the
@@ -71,6 +82,14 @@ void run_smoke() {
     helmkit::log::emit_smoke_result("temp-forehead", mlx_result);
     Serial.print(F("[main] L0 MLX90614 gate: "));
     Serial.println(mlx_result.ok ? F("PASS") : F("FAIL"));
+
+    // Wave J Bridge B: GSR smoke. Pure ADC1, no I²C — independent of Wire1
+    // state. ADC1 mutex was already initialised at the top of setup().
+    Serial.println(F("[main] starting GSR smoke..."));
+    const auto gsr_result = helmkit::drivers::gsr_smoke_test();
+    helmkit::log::emit_smoke_result("gsr", gsr_result);
+    Serial.print(F("[main] L0 GSR gate: "));
+    Serial.println(gsr_result.ok ? F("PASS") : F("FAIL"));
 
     helmkit::ui::status_led_set(g_last_result.ok
         ? helmkit::ui::Pattern::kPass
@@ -206,12 +225,47 @@ void poll_serial_commands() {
                 g_mlx_streaming = false;
                 Serial.println(F("[main] MLX stream stopped."));
                 break;
+            case 'e': {
+                // Wave J Bridge B: start GSR electrodermal stream.
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 'e' refused after safety halt; "
+                                     "use 'R' first."));
+                    break;
+                }
+                if (g_gsr_streaming) {
+                    Serial.println(F("[main] GSR stream already running."));
+                    break;
+                }
+                helmkit::drivers::GsrConfig cfg;
+                cfg.period_ms      = 20;   // SCHEMA §2.2 = 50 Hz
+                cfg.adc_timeout_ms = 5;
+                if (!g_gsr.begin(cfg)) {
+                    Serial.println(F("[main] GSR stream begin FAILED."));
+                    helmkit::log::emit_error(
+                        "mk0.5",
+                        helmkit::drivers::SmokeFail::kBeginFailed,
+                        "gsr-stream-begin-failed", 0, 0,
+                        helmkit::drivers::Health::kError);
+                    break;
+                }
+                g_gsr_streaming = true;
+                Serial.println(F("[main] GSR stream started; emitting gsr."));
+                break;
+            }
+            case 'E':
+                if (!g_gsr_streaming) {
+                    Serial.println(F("[main] GSR stream not running."));
+                    break;
+                }
+                g_gsr_streaming = false;
+                Serial.println(F("[main] GSR stream stopped."));
+                break;
             case '\n':
             case '\r':
             case ' ':
                 break;
             default:
-                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x t T)\n",
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x t T e E)\n",
                               (char)c);
                 break;
         }
@@ -229,7 +283,8 @@ void prose_banner() {
     Serial.println(F(" commands: r=retry  R=force-retry-after-safety-halt  "
                      "?=last-result  h=hello  p=pacer-start  s=pacer-stop  "
                      "g=ppg-stream-start  x=ppg-stream-stop  "
-                     "t=temp-stream-start  T=temp-stream-stop"));
+                     "t=temp-stream-start  T=temp-stream-stop  "
+                     "e=gsr-stream-start  E=gsr-stream-stop"));
     Serial.println(F("===================================================="));
 }
 
@@ -290,6 +345,10 @@ void loop() {
     if (g_mlx_streaming) {
         // 4 Hz — driver self-throttles; pumping every tick is cheap.
         g_mlx.pump(on_mlx_sample);
+    }
+    if (g_gsr_streaming) {
+        // 50 Hz — driver self-throttles + holds ADC1 mutex briefly.
+        g_gsr.pump(on_gsr_sample);
     }
     helmkit::ui::status_led_pump();
     poll_serial_commands();

@@ -173,4 +173,20 @@ void emit_temp_forehead(uint32_t t_ms,
     emit_line(buf);
 }
 
+void emit_gsr(uint32_t t_ms,
+              uint16_t raw,
+              bool in_range) {
+    if (!g_attached) return;
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    const char* q = in_range ? "ok" : "out-of-range";
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"gsr\",\"v\":%u,\"q\":\"%s\","
+             "\"boot\":\"%s\"}",
+             t, (unsigned)raw, q, hex);
+    emit_line(buf);
+}
+
 }  // namespace helmkit::log
