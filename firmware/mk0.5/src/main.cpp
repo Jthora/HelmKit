@@ -11,6 +11,7 @@
 #include "board/adc_mutex.h"
 #include "board/pins.h"
 #include "drivers/max30102.h"
+#include "drivers/mlx90614.h"
 #include "drivers/smoke_fail.h"
 #include "dsp/r_peak.h"
 #include "layers/pacer.h"
@@ -33,6 +34,15 @@ helmkit::drivers::Max30102    g_ppg;
 helmkit::dsp::RPeakDetector   g_rpeak;
 bool                          g_streaming = false;
 
+// Wave J Bridge B: MLX90614 forehead-temp streaming. Smoke runs at boot
+// after PPG; streaming is opt-in via 't' so log volume stays bounded.
+helmkit::drivers::Mlx90614    g_mlx;
+bool                          g_mlx_streaming = false;
+
+void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
+    helmkit::log::emit_temp_forehead(s.t_ms, s.object_c, s.ambient_c, s.in_range);
+}
+
 void on_ppg_sample(const helmkit::drivers::Max30102Sample& s) {
     // Driver emits gap-quality samples when finger is removed; feed the
     // detector regardless — its high-pass + adaptive threshold absorb the
@@ -54,6 +64,13 @@ void run_smoke() {
 
     Serial.print(F("[main] L0 MAX30102 gate: "));
     Serial.println(g_last_result.ok ? F("PASS") : F("FAIL"));
+
+    // Wave J Bridge B: MLX90614 smoke runs after PPG so Wire1 is already up.
+    Serial.println(F("[main] starting MLX90614 smoke..."));
+    const auto mlx_result = helmkit::drivers::mlx90614_smoke_test();
+    helmkit::log::emit_smoke_result("temp-forehead", mlx_result);
+    Serial.print(F("[main] L0 MLX90614 gate: "));
+    Serial.println(mlx_result.ok ? F("PASS") : F("FAIL"));
 
     helmkit::ui::status_led_set(g_last_result.ok
         ? helmkit::ui::Pattern::kPass
@@ -155,12 +172,46 @@ void poll_serial_commands() {
                 g_ppg.shutdown();
                 Serial.println(F("[main] PPG stream stopped."));
                 break;
+            case 't': {
+                // Wave J Bridge B: start MLX90614 forehead-temp stream.
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 't' refused after safety halt; "
+                                     "use 'R' first."));
+                    break;
+                }
+                if (g_mlx_streaming) {
+                    Serial.println(F("[main] MLX stream already running."));
+                    break;
+                }
+                helmkit::drivers::Mlx90614Config cfg;
+                cfg.period_ms = 250;   // SCHEMA §2.2 = 4 Hz
+                if (!g_mlx.begin(Wire1, cfg)) {
+                    Serial.println(F("[main] MLX stream begin FAILED."));
+                    helmkit::log::emit_error(
+                        "mk0.5",
+                        helmkit::drivers::SmokeFail::kNoAck,
+                        "mlx-stream-begin-failed", 0, 0,
+                        helmkit::drivers::Health::kError);
+                    break;
+                }
+                g_mlx_streaming = true;
+                Serial.println(F("[main] MLX stream started; emitting temp-forehead."));
+                break;
+            }
+            case 'T':
+                if (!g_mlx_streaming) {
+                    Serial.println(F("[main] MLX stream not running."));
+                    break;
+                }
+                g_mlx_streaming = false;
+                Serial.println(F("[main] MLX stream stopped."));
+                break;
             case '\n':
             case '\r':
             case ' ':
                 break;
             default:
-                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x)\n",
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x t T)\n",
                               (char)c);
                 break;
         }
@@ -177,7 +228,8 @@ void prose_banner() {
     Serial.println(F(__TIME__));
     Serial.println(F(" commands: r=retry  R=force-retry-after-safety-halt  "
                      "?=last-result  h=hello  p=pacer-start  s=pacer-stop  "
-                     "g=ppg-stream-start  x=ppg-stream-stop"));
+                     "g=ppg-stream-start  x=ppg-stream-stop  "
+                     "t=temp-stream-start  T=temp-stream-stop"));
     Serial.println(F("===================================================="));
 }
 
@@ -234,6 +286,10 @@ void loop() {
             helmkit::log::emit_ppg_rr(p.t_ms, p.rr_ms,
                                       p.in_range, p.confidence);
         }
+    }
+    if (g_mlx_streaming) {
+        // 4 Hz — driver self-throttles; pumping every tick is cheap.
+        g_mlx.pump(on_mlx_sample);
     }
     helmkit::ui::status_led_pump();
     poll_serial_commands();

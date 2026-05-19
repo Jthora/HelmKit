@@ -61,4 +61,18 @@ void emit_ppg_rr(uint32_t t_ms,
                  bool in_range,
                  float confidence);
 
+// Wave J Bridge B. Emit one MLX90614 sample as the canonical pair of
+// SCHEMA §2.2 channels: `temp-forehead` (object/IR °C) and
+// `temp-forehead.amb` (ambient °C). Both lines share the same `t_ms`
+// timestamp so downstream analysis can pair them by timestamp without
+// guessing.
+//   t_ms: millis()-since-boot at sample.
+//   object_c, ambient_c: float °C, NOT NaN (driver gates upstream).
+//   in_range: true if 15 < object_c < 45 per SCHEMA §4; flips q field on
+//             the temp-forehead line. ambient line is always q="ok".
+void emit_temp_forehead(uint32_t t_ms,
+                        float object_c,
+                        float ambient_c,
+                        bool in_range);
+
 }  // namespace helmkit::log

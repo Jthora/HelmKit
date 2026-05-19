@@ -149,4 +149,28 @@ void emit_ppg_rr(uint32_t t_ms,
     emit_line(buf);
 }
 
+void emit_temp_forehead(uint32_t t_ms,
+                        float object_c,
+                        float ambient_c,
+                        bool in_range) {
+    if (!g_attached) return;
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    const char* q_obj = in_range ? "ok" : "out-of-range";
+    // Object/IR line.
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"temp-forehead\",\"v\":%.2f,"
+             "\"q\":\"%s\",\"boot\":\"%s\"}",
+             t, (double)object_c, q_obj, hex);
+    emit_line(buf);
+    // Ambient line; always q="ok" — ambient has no SCHEMA range gate.
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"temp-forehead.amb\",\"v\":%.2f,"
+             "\"q\":\"ok\",\"boot\":\"%s\"}",
+             t, (double)ambient_c, hex);
+    emit_line(buf);
+}
+
 }  // namespace helmkit::log
