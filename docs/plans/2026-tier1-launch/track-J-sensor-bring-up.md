@@ -151,11 +151,11 @@ unblocks every downstream Mk0.5 → Mk1.x physiological-state work.
 Approximate, in order. Each is its own commit; small enough to
 land independently.
 
-| # | Commit | Bridge | Gated on |
-|---|--------|--------|----------|
-| 1 | `schema(mk0.5): add ecg-rr; align Track J to canonical channel names` | A pre-flight | — (this commit) |
-| 2 | `firmware(mk0.5): MLX90614 driver + temp-forehead/temp-forehead.amb NDJSON` | B | MLX in hand; §3 #1 |
-| 3 | `firmware(mk0.5): GSR driver + gsr NDJSON channel` | B | GSR connector confirmed (§3 #3) |
+| # | Commit | Bridge | Status / Gated on |
+|---|--------|--------|-------------------|
+| 1 | `schema(mk0.5): add ecg-rr; align Track J to canonical channel names` | A pre-flight | ✅ landed |
+| 2 | `firmware(mk0.5): MLX90614 driver + temp-forehead/temp-forehead.amb NDJSON` | B | ✅ landed `25e7a9a` (2026-05-18) |
+| 3 | `firmware(mk0.5): GSR driver + gsr NDJSON channel` | B | ✅ landed `1aaf4f0` (2026-05-18) |
 | 4 | `firmware(mk0.5): MAX30205 driver + temp-skin.L/R NDJSON + MLX cross-check` | B | MAX30205 arrival (~May 27) |
 | 5 | `firmware(mk0.5): AD8232 driver + ecg NDJSON channel + lead-off watch` | C | AD8232 arrival (~June 1) |
 | 6 | `dsp(mk0.5): Pan-Tompkins reuse on ECG band + ecg-rr emit` | C | commit 5 |
