@@ -330,15 +330,19 @@ All dimensions in mm. Datum convention: each Temple Plate has its own local fram
 
 ### IFACE_TEMPLE_DEFENDER (Temple Plate L/R ↔ Defender cradle)
 
+*Revised 2026-05-20 per Phase-3 envelope check.* Original spec placed pitch pin at plate-local (0, 0, +6), which put the 25 × 25 × 20 mm cradle envelope directly on top of the Yoke 3-bolt cluster, Pylon foot, and both Visor-Band hinge bosses. Remediation: stand the cradle off the plate on a short PETG arm and relocate the pitch axis fore-and-up, into the free zone above the FwdBand hinge and forward of the Pylon foot.
+
 | Param | Value |
 |---|---|
-| Gimbal | 2-axis, pitch outer + yaw inner |
-| Pitch pin | Steel music wire 2 mm × 12 mm, axis horizontal fore-aft, at temple plate local (0, 0, +6) — 6 mm proud of plate face |
+| Standoff arm | PETG, integral to Temple Plate; root at plate-local (+5, 0, +8), tip at (+15, +10, +10); cross-section 8 × 6 mm; cantilever length ~12 mm |
+| Gimbal | 2-axis, pitch outer + yaw inner; mounted on standoff arm tip |
+| Pitch pin | Steel music wire 2 mm × 12 mm, axis horizontal fore-aft, at temple plate local (+15, +10, +10) — pin centerline 10 mm proud of plate face |
 | Yaw pin | Steel music wire 2 mm × 12 mm, axis vertical, internal to pitch yoke |
 | Aim lock | M2 × 4 mm set-screw + M2 heat-set insert in pitch yoke, bears on yaw shaft |
 | Aim range | ±15° pitch, ±15° yaw |
-| Dish exit window | 14 mm Ø hole in cradle, centered on dish |
-| Cradle envelope | 25 × 25 × 20 mm (per §4.2) |
+| Coil exit window | 14 mm Ø hole in cradle, centered on caduceus coil axis (faces head's T-T line at neutral aim) |
+| Cradle envelope | 25 × 25 × 20 mm (per §4.2), centered on pin (+15, +10, +10) — sweeps X∈[+2.5, +27.5], Z∈[0, +20], Y∈[+10, +30] across full aim range |
+| Clearance check | Cradle does NOT overlap Yoke cluster (Z<+10), Pylon foot (X<−1), Cheek hook (Z<−18), Sidehelm dovetail (X<−11), or either Visor-Band hinge boss (Z<−2). Verified by `envelope_temple_stackup.py` r2. |
 
 ### IFACE_TEMPLE_CHEEK (Temple Plate L/R ↔ Chin-yoke webbing)
 

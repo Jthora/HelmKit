@@ -72,13 +72,21 @@ PYLON_FOOT_W_MM = 8.0   # along X
 PYLON_FOOT_L_MM = 12.0  # along Z
 PYLON_FOOT_T_MM = 3.0   # TPU foot thickness proud of plate
 
-# IFACE_TEMPLE_DEFENDER: gimbal pin at local (0, 0, +6) — pitch pin
-# horizontal fore-aft. Cradle envelope 25 × 25 × 20 mm.
-DEFENDER_PIN_X_MM = 0.0
-DEFENDER_PIN_Z_MM = +6.0
+# IFACE_TEMPLE_DEFENDER (revised 2026-05-20, Option A standoff):
+# pitch pin relocated to local (+15, +10, +10), on the tip of a short
+# PETG standoff arm cantilevered fore-and-up from the plate. Cradle
+# 25 × 25 × 20 mm centered on the pin. Standoff arm 8 × 6 mm × ~12 mm
+# long.
+DEFENDER_PIN_X_MM = +15.0
+DEFENDER_PIN_Y_MM = +10.0   # pin Y above plate outboard face
+DEFENDER_PIN_Z_MM = +10.0
 DEFENDER_CRADLE_W_MM = 25.0
 DEFENDER_CRADLE_H_MM = 25.0
-DEFENDER_CRADLE_PROUD_MM = 20.0  # outboard from plate
+DEFENDER_CRADLE_PROUD_MM = 20.0  # outboard extent from pin (cradle Y-depth)
+DEFENDER_STANDOFF_ROOT_X_MM = +5.0
+DEFENDER_STANDOFF_ROOT_Z_MM = +8.0
+DEFENDER_STANDOFF_W_MM = 8.0    # X cross-section
+DEFENDER_STANDOFF_H_MM = 6.0    # Z cross-section
 
 # IFACE_TEMPLE_CHEEK: hook at local (-15, -20, 0)
 CHEEK_HOOK_X_MM = -15.0
@@ -202,22 +210,40 @@ def main() -> int:
                  PYLON_FOOT_Z_MM),
     )
 
-    # ---- IFACE_TEMPLE_DEFENDER: cradle envelope box + pitch pin ----
+    # ---- IFACE_TEMPLE_DEFENDER (Option A standoff): standoff arm + cradle ----
+    # Standoff arm root → tip
+    arm_root_y = PLATE_T_MM / 2
+    arm_tip_y = DEFENDER_PIN_Y_MM
+    arm_cx = (DEFENDER_STANDOFF_ROOT_X_MM + DEFENDER_PIN_X_MM) / 2
+    arm_cz = (DEFENDER_STANDOFF_ROOT_Z_MM + DEFENDER_PIN_Z_MM) / 2
+    arm_cy = (arm_root_y + arm_tip_y) / 2
+    arm_len_y = arm_tip_y - arm_root_y
+    arm_len_x = abs(DEFENDER_PIN_X_MM - DEFENDER_STANDOFF_ROOT_X_MM)
+    arm_len_z = abs(DEFENDER_PIN_Z_MM - DEFENDER_STANDOFF_ROOT_Z_MM)
+    arm_diag = math.sqrt(arm_len_x ** 2 + arm_len_y ** 2 + arm_len_z ** 2)
+    make_box(
+        "defender_standoff_arm",
+        size_xyz=(max(DEFENDER_STANDOFF_W_MM, arm_len_x),
+                  max(arm_len_y, 4.0),
+                  max(DEFENDER_STANDOFF_H_MM, arm_len_z)),
+        loc_xyz=(arm_cx, arm_cy, arm_cz),
+    )
+    # Cradle envelope centered on pitch pin (clear of plate via standoff)
     make_box(
         "defender_cradle_envelope",
         size_xyz=(DEFENDER_CRADLE_W_MM, DEFENDER_CRADLE_PROUD_MM,
                   DEFENDER_CRADLE_H_MM),
         loc_xyz=(DEFENDER_PIN_X_MM,
-                 PLATE_T_MM / 2 + DEFENDER_CRADLE_PROUD_MM / 2,
+                 DEFENDER_PIN_Y_MM + DEFENDER_CRADLE_PROUD_MM / 2,
                  DEFENDER_PIN_Z_MM),
     )
-    # Pitch pin (2 mm, along X axis, through cradle)
+    # Pitch pin (2 mm, along X axis, through cradle, centered on pin pt)
     make_cylinder(
         "defender_pitch_pin",
         radius=1.0,
         depth=DEFENDER_CRADLE_W_MM + 4.0,
         loc_xyz=(DEFENDER_PIN_X_MM,
-                 PLATE_T_MM / 2 + DEFENDER_CRADLE_PROUD_MM / 2,
+                 DEFENDER_PIN_Y_MM + DEFENDER_CRADLE_PROUD_MM / 2,
                  DEFENDER_PIN_Z_MM),
         axis="X",
     )
@@ -251,7 +277,7 @@ def main() -> int:
     print(f"  FwdBand axis:  ({FWDBAND_AXIS_X_MM:+.1f}, {FWDBAND_AXIS_Z_MM:+.1f})")
     print(f"  RearBand axis: ({REARBAND_AXIS_X_MM:+.1f}, {REARBAND_AXIS_Z_MM:+.1f})")
     print(f"  Pylon foot:    ({PYLON_FOOT_X_MM:+.1f}, {PYLON_FOOT_Z_MM:+.1f})")
-    print(f"  Defender pin:  ({DEFENDER_PIN_X_MM:+.1f}, {DEFENDER_PIN_Z_MM:+.1f})")
+    print(f"  Defender pin:  ({DEFENDER_PIN_X_MM:+.1f}, {DEFENDER_PIN_Y_MM:+.1f}, {DEFENDER_PIN_Z_MM:+.1f}) [Option A standoff]")
     print(f"  Cheek hook:    ({CHEEK_HOOK_X_MM:+.1f}, {CHEEK_HOOK_Z_MM:+.1f})")
     print(f"  Dovetail ctr:  ({SIDEHELM_DOVETAIL_X_MM:+.1f}, {SIDEHELM_DOVETAIL_Z_MM:+.1f})")
     return 0
