@@ -64,13 +64,17 @@ R1_WALL_MM = 3.0
 R1_ARC_DEG = 220.0
 R1_HEIGHT_MM = 45.0
 
-# Picatinny tooth (MIL-STD-1913)
-TOOTH_PITCH_MM = 5.0
-TOOTH_TOP_W_MM = 10.2
-TOOTH_BOT_W_MM = 19.0  # NOT used in 2D profile; for full-rail body if drawn
-SLOT_W_MM = 5.55
-TOOTH_DEPTH_MM = 3.4
+# Picatinny tooth (MIL-STD-1913 as interpreted by canon doc)
+# canon: "5.0 mm tooth pitch" = the TOOTH width between adjacent slots.
+#        "5.55 mm slot width" = the radial groove cut between teeth.
+# So the full slot-to-slot repeat (the actual periodic pitch) is:
+SLOT_PITCH_MM = 5.0 + 5.55    # = 10.55 mm (real MIL-STD-1913 = 10.01 mm; canon)
+TOOTH_TOP_W_MM = 10.2         # rail body top width (perpendicular to rail axis)
+TOOTH_BOT_W_MM = 19.0         # rail body bottom width
+SLOT_W_MM = 5.55              # width of each slot (along rail axis)
+TOOTH_DEPTH_MM = 3.4          # rail height above R1 outer skin
 SHOULDER_ANGLE_DEG = 45.0
+SLOT_DEPTH_MM = TOOTH_DEPTH_MM + 0.4  # cut all the way through the rail + bite
 
 # Rail mounting on R1
 RAIL_Z_OFFSET_MM = 0.0     # mid-band
@@ -204,10 +208,11 @@ def make_picatinny_tooth_profile() -> list[tuple[float, float]]:
 def make_curved_rail() -> bpy.types.Object:
     """Sweep the Picatinny cross-section along R1's outer-skin arc.
 
-    The TOOTH slots (perpendicular cuts every TOOTH_PITCH_MM along the
-    arc) are subtracted in a second pass.
+    Returns the rail BODY only (no slot cuts). Slot subtraction is
+    performed on the combined shell+rail mesh in `cut_rail_slots()`
+    after the union, which avoids EXACT-solver instabilities caused
+    by booleaning sliver geometry on the rail-only mesh.
     """
-    # Step 1: build the rail BODY as a swept arc
     arc_rad = math.radians(RAIL_ARC_DEG)
     r_skin = R1_INNER_RADIUS_MM + R1_WALL_MM
     n_seg = 240  # arc segments
@@ -216,7 +221,6 @@ def make_curved_rail() -> bpy.types.Object:
     rings = []
     for i in range(n_seg + 1):
         t = i / n_seg
-        # Center the rail on +Y (HP-F = 0° = +Y in our convention here)
         a = math.pi / 2 + (t - 0.5) * arc_rad
         cos_a, sin_a = math.cos(a), math.sin(a)
         ring = []
@@ -227,13 +231,11 @@ def make_curved_rail() -> bpy.types.Object:
             z = RAIL_Z_OFFSET_MM + z_off
             ring.append(bm.verts.new((x, y, z)))
         rings.append(ring)
-    # Stitch rings into faces
     P = len(profile)
     for i in range(n_seg):
         for j in range(P):
             j2 = (j + 1) % P
             bm.faces.new((rings[i][j], rings[i + 1][j], rings[i + 1][j2], rings[i][j2]))
-    # End caps
     bm.faces.new(rings[0][::-1])
     bm.faces.new(rings[-1])
     mesh = bpy.data.meshes.new("rail_body_mesh")
@@ -241,13 +243,68 @@ def make_curved_rail() -> bpy.types.Object:
     bm.free()
     rail = bpy.data.objects.new("curved_rail_body", mesh)
     bpy.context.collection.objects.link(rail)
-
-    # Step 2: TODO — subtract tooth slots (boolean a series of thin
-    # rectangular cutters every TOOTH_PITCH_MM along the arc).
-    # Marked as a known gap; see G-Print acceptance gate in
-    # docs/mechanical/mk0.5_base_crown_architecture.md.
-
     return rail
+
+
+def cut_rail_slots(combined: bpy.types.Object) -> None:
+    """Cut periodic Picatinny tooth slots into the combined shell+rail.
+
+    Performed AFTER shell+rail union so the boolean acts on a single
+    closed manifold body. Cutters are oriented perpendicular to the
+    arc tangent at each slot center.
+    """
+    r_skin = R1_INNER_RADIUS_MM + R1_WALL_MM
+    rail_arc_len_mm = math.radians(RAIL_ARC_DEG) * r_skin
+    n_slots = int(rail_arc_len_mm // SLOT_PITCH_MM)
+    half_arc = math.radians(RAIL_ARC_DEG) / 2
+    slot_offsets_rad = []
+    for k in range(-(n_slots // 2), n_slots // 2 + 1):
+        ang = ((k + 0.5) * SLOT_PITCH_MM) / r_skin
+        if abs(ang) <= half_arc:
+            slot_offsets_rad.append(ang)
+
+    bm_cut = bmesh.new()
+    half_w = SLOT_W_MM / 2
+    half_h = TOOTH_BOT_W_MM / 2 + 1.0
+    # IMPORTANT: cutters must NOT reach the inner skin (would punch a
+    # hole through the crown band). Start the inner cut at the OUTER
+    # skin (r_skin) and extend outward past the rail crest.
+    r_inner_cut = r_skin + 0.1     # just above the outer skin
+    r_outer_cut = r_skin + SLOT_DEPTH_MM
+    for ang_off in slot_offsets_rad:
+        a = math.pi / 2 + ang_off
+        cos_a, sin_a = math.cos(a), math.sin(a)
+        tx, ty = -sin_a, cos_a
+        rx, ry = cos_a, sin_a
+        corners = []
+        for r_off in (r_inner_cut, r_outer_cut):
+            for t_off in (-half_w, +half_w):
+                for z_off in (-half_h, +half_h):
+                    x = rx * r_off + tx * t_off
+                    y = ry * r_off + ty * t_off
+                    z = RAIL_Z_OFFSET_MM + z_off
+                    corners.append(bm_cut.verts.new((x, y, z)))
+        c = corners
+        bm_cut.faces.new((c[0], c[1], c[3], c[2]))
+        bm_cut.faces.new((c[4], c[6], c[7], c[5]))
+        bm_cut.faces.new((c[0], c[2], c[6], c[4]))
+        bm_cut.faces.new((c[1], c[5], c[7], c[3]))
+        bm_cut.faces.new((c[0], c[4], c[5], c[1]))
+        bm_cut.faces.new((c[2], c[3], c[7], c[6]))
+
+    cut_mesh = bpy.data.meshes.new("rail_slots_mesh")
+    bm_cut.to_mesh(cut_mesh)
+    bm_cut.free()
+    cutters = bpy.data.objects.new("rail_slots", cut_mesh)
+    bpy.context.collection.objects.link(cutters)
+
+    mod = combined.modifiers.new(name="slot_cuts", type="BOOLEAN")
+    mod.operation = "DIFFERENCE"
+    mod.object = cutters
+    bpy.context.view_layer.objects.active = combined
+    bpy.ops.object.modifier_apply(modifier=mod.name)
+    bpy.data.objects.remove(cutters, do_unlink=True)
+    print(f"  Cut {len(slot_offsets_rad)} Picatinny slots into combined R1+rail")
 
 
 def union(a: bpy.types.Object, b: bpy.types.Object) -> bpy.types.Object:
@@ -292,6 +349,7 @@ def main() -> int:
     shell = make_band_R1()
     rail = make_curved_rail()
     combined = union(shell, rail)
+    cut_rail_slots(combined)
     export_stl(combined, args.out)
     return 0
 
