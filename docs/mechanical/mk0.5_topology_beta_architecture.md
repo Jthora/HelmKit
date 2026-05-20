@@ -74,7 +74,7 @@ the rib spec that handles the resulting stress concentration.
 
 ## 4. Psi-actuator mounts (bespoke, frozen at print time)
 
-### 4.1 Psi-Pylons (×2)
+### 4.1 Psi-Pylons (×2, fed as differential dipole)
 
 | Parameter | Value |
 |---|---|
@@ -85,38 +85,44 @@ the rib spec that handles the resulting stress concentration.
 | Detent positions | 3: straight-up / 45°-back / fold-flat |
 | Fail mode under lateral load | Folds flat against side of helm at ~30 N; re-deploys after impact |
 | Mass per Pylon | Target ≤ 25 g loaded (housing + element + RF feed) |
+| **Feed topology (decided 2026-05-20)** | **Differential true dipole** — RF source feeds a balun in the Top Yoke; one balanced leg runs down the inside of each Top-Yoke arm via the internal raceway, exits at the Temple Plate, crosses the Pylon hinge as RG-178 coax with 40 mm service loop, and drives the Pylon root. Both Pylons together form a single λ/2 dipole spanning the head crown. |
+| Balun spec | 1:1 current balun, 2.45 GHz, ≤ 25 × 15 × 10 mm — mounts inside Top Yoke cavity at the arch apex (between the two arm raceways) |
+| Transmission line | Coax inside Top Yoke from feed source up to balun, then balanced parallel pair (3 mm centre-to-centre, controlled-impedance printed channel) from balun down each arm |
 
-### 4.2 Psi-Defenders (×2)
+### 4.2 Psi-Defenders (×2, paired caduceus shield)
+
+> **Concept (decided 2026-05-20):** the two Defenders are **not** independent directional emitters — they operate as a **bound pair** generating a scalar standing-wave field shell around the head. Mechanism per wiki canon (`/memories/repo/helmkit_anchors.md` §"Coil topology choices"): paired caduceus coils with opposite chirality (m₁ = −m₂) cancel the far-field radiation while leaving a longitudinal/scalar local component that closes into a head-encompassing standing wave geometry. Operating role is **psionic shield**: the standing-wave shell is intended to mitigate, absorb, or dissolve incoming spin-wave / magnon / psion-coupled fluctuations per the ψ-field framework in `helmkit_anchors.md` §"ψ field Lagrangian". Engineering discipline (SAR, F-criteria, dual-MCU safety) stays fully ON per the project epistemic stance.
 
 | Parameter | Value |
 |---|---|
-| Dish diameter | 12.24 mm (the dish itself; cradle housing larger) |
-| Aim direction | **Inward** at the temple bone (toward the brain along T1–T2 axis) |
-| Aim adjustment | ±15° pitch, ±15° yaw via 2-axis pin pivot on Temple Plate |
-| Lock | Friction-fit knurl + small set-screw for repeatable session-to-session aim |
-| Cradle envelope | ~25 × 25 × 20 mm housing around the 12.24 mm dish + electronics |
+| Element type | **Bifilar caduceus coil** (opposite-chirality helices, L coil and R coil are mirror enantiomers of each other) |
+| Coil diameter | 12.24 mm (matches λ/10 at 2.45 GHz; deeply reactive near-field — r ≪ 0.62·√(D³/λ)) |
+| Operating frequency | 2.45 GHz ISM (primary); reactive near-field mode only |
+| Drive | **Paired phase-locked drive** — L and R coils driven coherently (phase relationship TBD by RF integration: anti-phase for far-field cancellation per caduceus topology is the canonical baseline) |
+| Function | Scalar-field standing-wave shell around the head; psionic shield generator |
+| Far-field radiation | **Suppressed by caduceus m₁=−m₂ cancellation + paired-coherent drive** — this is the designed property, not a side-effect |
+| Housing aim direction | Coil axis on the ear-to-ear T-T line (both coils share the same physical axis through the head, which is the shell's coherence axis) |
+| Aim adjustment | ±15° pitch, ±15° yaw via 2-axis pin pivot — fine-tunes the coil-axis alignment to individual skull shape so the L and R coils are actually colinear through the head's T-T line |
+| Aim lock | M2 × 4 mm set-screw + M2 heat-set insert (see §12 `IFACE_TEMPLE_DEFENDER`) |
+| Cradle envelope | ~25 × 25 × 20 mm housing around the 12.24 mm coil + drive electronics |
+| SAR metric | Near-field SAR (not far-field EIRP) is the relevant safety measure; FDTD must model the **paired** drive geometry, not a single coil. Design target ≤ 0.7 W/kg per `helmkit_anchors.md`. See §11 G-SAR. |
 
-> **Engineering caveat (added 2026-05-20):** at 12.24 mm the
-> "dish" is **λ/10** at 2.45 GHz — it is *not* a directional
-> aperture in the antenna-physics sense (a parabolic dish needs
-> ≥ λ for any directional gain). Aim language above describes a
-> **housing orientation** convention, not a beam direction. The
-> actual radiator topology (electrically-small loop / dielectric
-> resonator / near-field E-probe / rename + reduce frequency) is
-> a Phase-2 design decision pending RF integration pass. SAR for
-> the chosen topology at this geometry must be FDTD-verified
-> before Defender printing — see §11 G-SAR.
+*Replaces and supersedes the 2026-05-20 "engineering caveat" about the 12.24 mm dish — the spec was right (12.24 mm at 2.45 GHz), the word "dish" was wrong. It's a caduceus coil, not an aperture.*
 
-### 4.3 Psi-Stabilizers (×2 panel assemblies, 4 bifilar spirals total)
+### 4.3 Psi-Stabilizers (×2 standalone Stabilizers, 4 bifilar spirals total)
+
+**Architecture (decided 2026-05-20):** two **standalone Psi-Stabilizer-Mk1** units, one per side. Each side runs its own nRF52840 + SI5351 + Class-D driver per `/memories/repo/helmkit_anchors.md` (Psi Stabilizer Mk1 BOM, ≤$250 each), driving the Front + Rear spiral pair on its own side. This matches the canonical standalone Stabilizer BOM verbatim, supports L/R asymmetric HRV biofeedback experiments, and either side is a drop-in test article (one Stabilizer can be bench-validated without the rest of the helm). MCU lives in the same sidehelm pod as compute (HP-SR) or separately at HP-SL — TBD by power+signal budget pass.
 
 | Parameter | Value |
 |---|---|
 | Panel dimensions | ~70 × 40 × 6 mm (houses 2 bifilar spirals side-by-side, ~30 × 30 mm PCBs each) |
 | Mount | Integral to Forward and Rear Visor-Bands |
+| Per side architecture | 1× nRF52840 + 1× SI5351 + Class-D drives that side's Front + Rear spiral pair (2 spirals per MCU) |
 | Aim direction | Inward toward the crown apex (front panel pitched down-and-back, rear panel pitched down-and-forward) |
-| Aim adjustment | Discrete: 5 detent positions on the visor-band hinge — 0° / 30° / 45° / 60° / 90° from horizontal |
+| Aim adjustment | Discrete: 5 detent positions on the visor-band hinge — 0° (wear-low) / 30° / 45° / 60° wear variants / 90° stow (per §12 `IFACE_TEMPLE_FWDBAND`) |
 | Per panel: bifilar spirals | 2 × ~30 × 30 mm bifilar PCB coils, left + right of head midline |
 | Total spirals on helm | 4 (front-L, front-R, back-L, back-R) |
+| Total MCUs for Stabilizer function | **2** (one per side) |
 
 ---
 
@@ -367,6 +373,23 @@ All dimensions in mm. Datum convention: each Temple Plate has its own local fram
 | Two-step lock | Carried forward from ring-frame doc §4.1, unchanged |
 | Cable raceway | Continuous channel along inboard edge of rail, USB-C exits inboard toward band cable channel → hinge service loop → temple plate cable hub |
 
+### IFACE_TEMPLE_SIDEHELM_POD (Temple Plate L/R lower-aft face ↔ sidehelm pod)
+
+*Added 2026-05-20 to support compute + battery placement decision.* HP-SL on Temple Plate L hosts the battery pod (2× 18650 + PMIC, ~95 g + ~15 g shell). HP-SR on Temple Plate R hosts the compute pod (ESP32-S3 Heltec V3 + comms + balun-feed-source for Pylons, ~30 g + ~15 g shell). L/R split keeps temple-low CoG balance to within ~50 g.
+
+| Param | Value |
+|---|---|
+| Mount location | Lower-aft face of Temple Plate, below the Cheek Hook |
+| Mount geometry | **Sliding dovetail** (NOT MIL-STD-1913; simpler dovetail chosen for vertical-slide adjust, same family as the ring-frame R2 vertical interface in `mk0.5_base_crown_architecture.md` §2.2) |
+| Dovetail dims | Top width 12 mm, bottom width 18 mm, depth 3.4 mm, length 35 mm vertical (no teeth — single sliding dovetail, not a Picatinny rail) |
+| Adjust travel | 20 mm vertical |
+| Lock | M3 thumbscrew + M3 heat-set insert in Temple Plate, bears on dovetail flat |
+| Pod envelope | ≤ 70 mm long × 50 mm tall × 40 mm deep (same as `HP-S*` envelope in ring-frame doc §4.2) |
+| Cable exit | Top of pod → routes up Temple Plate inboard face into cable hub → Top Yoke internal raceway |
+| HP-SL load | Battery pod ~110 g loaded |
+| HP-SR load | Compute pod ~45 g loaded |
+| L↔R imbalance | ≤ 65 g (well within retention spec) |
+
 ---
 
 ## 13. Open questions / G-gates pending
@@ -377,10 +400,17 @@ All dimensions in mm. Datum convention: each Temple Plate has its own local fram
   good for >5000 cycles in flexure; **G-Pylon** (§11) now formalizes the test.
 - **Defender aim repeatability** — **G-Defender-Aim** (§11) now formalizes the ±2° target.
 - **Temple Plate-to-Yoke joint** — **Decided 2026-05-20**: 3× M3 bolts with heat-set inserts (per §12 `IFACE_YOKE_TEMPLE`).
-- **Defender radiator topology** — unresolved; Phase 2 RF integration. See §4.2 engineering caveat.
-- **Pylon dipole feed topology** — unresolved; Phase 2 RF integration.
-- **Stabilizer channelization** — 1 MCU × 4 channels vs 2 standalone Stabilizers; Phase 2 system architecture.
-- **Compute + battery placement** — unresolved; HP-SL/SR sidehelm bespoke mount vs Top Yoke interior cavity; Phase 2.
+- **Defender radiator topology** — **Decided 2026-05-20**: paired caduceus coil shield generating a scalar standing-wave shell around the head (see §4.2). Far-field cancellation is the *designed* property.
+- **Pylon dipole feed topology** — **Decided 2026-05-20**: differential true dipole, 1:1 balun in Top Yoke (see §4.1).
+- **Stabilizer channelization** — **Decided 2026-05-20**: 2 standalone Psi-Stabilizer-Mk1 units, one per side (see §4.3).
+- **Compute + battery placement** — **Decided 2026-05-20**: split sidehelm pods on a new vertical sliding dovetail interface; battery at HP-SL, compute+balun-source at HP-SR (see §12 `IFACE_TEMPLE_SIDEHELM_POD`).
+
+Remaining truly-open items (need bench / FDTD / empirical work, not design decisions):
+
+- **Defender paired-drive phase relationship** — anti-phase is the canonical caduceus baseline; in-phase / quadrature variants may improve shell coherence for specific skull geometries; needs RF integration pass.
+- **Defender SAR with paired drive** — FDTD model of the joint near-field with both coils active and skull tissue; gate is G-SAR (§11).
+- **Pylon balun selection** — commercial 1:1 current balun at 2.45 GHz in a 25×15×10 mm envelope; survey + select.
+- **Top Yoke arch parametric fit** — elliptical sweep validated on developer head before canon commit.
 
 ---
 
