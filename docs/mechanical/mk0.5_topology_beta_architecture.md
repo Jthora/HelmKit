@@ -37,7 +37,7 @@ bands *are* the Stabilizer mounting wedges — one part doing two jobs.
 | **Top Yoke** | PETG | 4 mm | Headphone arch over parietal; primary weight path | Cable raceway; no payload |
 | **Forward Visor-Band** | PETG | 3 mm | Folds over forehead, locks at 5 detent positions | Front Psi-Stabilizer (integral); slim Picatinny sub-rail along outer edge for tunable sensors |
 | **Rear Visor-Band** | PETG | 3 mm | Folds over occiput, locks at 5 detent positions; replaces R2 | Rear Psi-Stabilizer (integral) |
-| **Temple Plate L/R** | PETG | 3 mm | Anatomical anchor at temple; visual hero feature | Pylon live-hinge mount + Defender dish cradle + side-band joint (3 *independent* pivots, co-located) |
+| **Temple Plate L/R** | PETG | 4 mm (3 mm shell + 1 mm ribs at pivots/bolts) | Anatomical anchor at temple; visual hero feature; structural confluence | **4 independent co-located pivots**: Pylon live-hinge, Defender 2-axis gimbal, Forward Visor-Band hinge, Rear Visor-Band hinge — plus Cheek Hook integral to lower edge and 3× M3 bolt cluster to Top Yoke at upper edge |
 | **Chin Yoke** | 25 mm nylon webbing + cam buckle + printed cheek hooks | — | Anti-lift retention | Hooks integral to Temple Plates |
 | **Sensor Sub-Rail** | PETG, integral to Forward Visor-Band lower edge | — | Continuous Picatinny for Wave-1 sensor pods (PPG, EEG, IMU) | Generic dovetail pods (per ring-frame doc §4) |
 
@@ -63,10 +63,12 @@ bands *are* the Stabilizer mounting wedges — one part doing two jobs.
                        └─ chin yoke ──┘
 ```
 
-The temple plates are the **structural confluence** — yoke ends,
-visor-band joints, Pylon hinges, Defender cradles, and chin-strap
-cheek hooks all anchor to the same plate. Three separate small
-pivots (not one shared pin) keep the failure modes uncoupled.
+The temple plates are the **structural confluence** — yoke bolt
+cluster, both visor-band hinges, Pylon hinge, Defender gimbal, and
+chin-strap cheek hook all anchor to the same plate. **Four**
+separate small pivots (not one shared pin) keep the failure modes
+uncoupled; see §12 for the full joint contracts and §2 table for
+the rib spec that handles the resulting stress concentration.
 
 ---
 
@@ -93,6 +95,17 @@ pivots (not one shared pin) keep the failure modes uncoupled.
 | Aim adjustment | ±15° pitch, ±15° yaw via 2-axis pin pivot on Temple Plate |
 | Lock | Friction-fit knurl + small set-screw for repeatable session-to-session aim |
 | Cradle envelope | ~25 × 25 × 20 mm housing around the 12.24 mm dish + electronics |
+
+> **Engineering caveat (added 2026-05-20):** at 12.24 mm the
+> "dish" is **λ/10** at 2.45 GHz — it is *not* a directional
+> aperture in the antenna-physics sense (a parabolic dish needs
+> ≥ λ for any directional gain). Aim language above describes a
+> **housing orientation** convention, not a beam direction. The
+> actual radiator topology (electrically-small loop / dielectric
+> resonator / near-field E-probe / rename + reduce frequency) is
+> a Phase-2 design decision pending RF integration pass. SAR for
+> the chosen topology at this geometry must be FDTD-verified
+> before Defender printing — see §11 G-SAR.
 
 ### 4.3 Psi-Stabilizers (×2 panel assemblies, 4 bifilar spirals total)
 
@@ -126,6 +139,24 @@ The following stay valid and are **not** restated here — see
 - `HP-EL`, `HP-ER` → Temple Plate L/R, behind-Defender → Pylon hinges
 - `HP-SL`, `HP-SR` → Temple Plate L/R, lower → battery/comms pods
 - `HP-R` → Rear Visor-Band, back-center → rear Stabilizer
+
+### 5.1 Carry-forward gaps under β (added 2026-05-20)
+
+Three items from the ring-frame BOM/spec that the original §5
+"carries forward unchanged" claim glossed:
+
+- **EVA foam padding** (ring-frame doc §6, "5 mm EVA pad, epoxy-glued
+to inner R1/R2") **does** carry forward, but the surfaces change:
+now under the Top Yoke (parietal contact), Forward Visor-Band
+(brow contact), Rear Visor-Band (occipital contact), and Temple
+Plate inner face (squamous temporal contact). Per-surface area
+estimates are in §10 BOM delta.
+- **M3 heat-set inserts × 6** are **required** at the Top Yoke arch
+ends (3 per side) for the Temple-Plate bolt joint. PETG threads
+directly will strip under the 150 N anti-lift load path (see §12
+`IFACE_YOKE_TEMPLE`). Not optional.
+- **R2 M4 thumbscrew + nylock** are **removed** — no R2 under β.
+BOM delta in §10 reflects this.
 
 ---
 
@@ -196,21 +227,164 @@ psi-actuators + per-sensor pods. Two overnight jobs.
 
 ---
 
-## 10. Open questions / G-gates pending
+## 10. BOM delta under β (added 2026-05-20)
 
-- **Anatomical fit of Top Yoke** — circular vs elliptical sweep over
-  the parietal. Same ovoid-skull issue as ring-frame R1; G-Fit
-  gate must measure on real heads before committing the canon arc.
-- **Live-hinge fatigue cycles** for Pylon spring — TPU 95A typically
-  good for >5000 cycles in flexure; needs accelerated test.
-- **Defender aim repeatability** — set-screw + knurl sufficient, or
-  do we need a printed alignment jig?
-- **Temple Plate-to-Yoke joint** — bonded (epoxy), bolted (M3 ×3),
-  or printed integral (single-shot, more print failure risk)?
+Delta against ring-frame `mk0.5_base_crown_architecture.md` §6. Add unless flagged "removes".
+
+| Item | Qty | Spec | Why | Approx. cost |
+|---|---|---|---|---|
+| M3 × 8 mm bolt, stainless | 6 | DIN 912 | Temple Plate → Top Yoke joint (3 per side) | $2 |
+| M3 heat-set insert, brass, 5 mm OD | 6 | Standard | In Top Yoke arch ends; PETG threads strip under 150 N | $3 |
+| M2 × 4 mm set-screw, stainless | 2 | Cup-point | Defender aim-lock (1 per Defender) | $1 |
+| M2 heat-set insert, brass, 3 mm OD | 2 | Standard | In Defender cradle for set-screw thread retention | $1 |
+| M2 × 6 mm bolt, stainless | 4 | Pan-head | Pylon live-hinge foot retention (2 per Pylon) | $1 |
+| Steel music-wire pin, 3 mm × 25 mm | 2 | Cut from 3 mm rod | Visor-band hinges (1 per band, spans L↔R via temple plates) | $1 |
+| Steel music-wire pin, 2 mm × 12 mm | 4 | Cut from 2 mm rod | Defender gimbal (2 per Defender: pitch + yaw) | $1 |
+| TPU 95A detent-leaf, printed | 4 | `visor_detent_leaf.stl`, replaceable | 2 per visor-band hinge; engages 5 detent notches in temple plate | print only |
+| EVA foam pad, 5 mm, ~250 cm² | 1 | Closed-cell, adhesive-back | Top Yoke parietal (~80 cm²) + Fwd band brow (~60 cm²) + Rear band occipital (~50 cm²) + 2× Temple Plate inner (~30 cm² each) | $5 |
+| Shielded micro-coax, RG-178 or IPEX | ~1 m | 50 Ω | Pylon RF feed across live-hinge with service loop | $4 |
+| ~~M4 × 16 mm thumbscrew~~ | ~~1~~ | **REMOVED** — no R2 under β | | −$2 |
+| ~~M4 nylock~~ | ~~1~~ | **REMOVED** — no R2 under β | | −$0.50 |
+
+**BOM delta under β: ~+$17** on top of ring-frame ~$25 base → **~$42 total non-printed BOM per Mk0.5 β helm.**
 
 ---
 
-## 11. Cross-references
+## 11. Acceptance gates (delta under β)
+
+Carries forward unchanged from ring-frame doc §10: **G-Print**, **G-Fit**, **G-Pod**, **G-Pull**, **G-Motion**, **G-Cable**. β adds:
+
+| Gate | Test | Threshold |
+|---|---|---|
+| **G-Fold** | Both visor-band hinges fold-cycle test | 1000 cycles, detent aim drift ≤ ±2° from initial calibration |
+| **G-Pylon** | Pylon live-hinge fold-cycle + force test | 5000 fold cycles in TPU 95A; fold threshold 25–35 N lateral; redeploys from fold-flat ≤ 1 s under spring return |
+| **G-Yoke** | Top Yoke + temple-plate bolt joint static load | 600 N applied at Cheek Hooks (4× safety factor on 150 N strap), no permanent deformation, no thread pull-out from heat-set inserts |
+| **G-Defender-Aim** | Defender aim repeatability over 50 lock/unlock cycles | ±2° in both pitch and yaw |
+| **G-SAR** | Bench head-phantom measurement, all 3 emitter classes simultaneously active | ≤ 2.0 W/kg over 10 g head tissue (ICNIRP/IEEE ceiling); design target ≤ 0.7 W/kg per `helmkit_anchors.md` |
+
+All 11 gates pass → Mk0.5 β is the new operating frame.
+
+---
+
+## 12. Interface contracts (the eight joints) — FROZEN
+
+This section is the **single source of truth** for joint dimensions. Generators in `tools/blender/build_*.py` must import these constants from `tools/blender/interfaces.py` (Phase 6 deliverable). Any change here requires regenerating every affected part.
+
+All dimensions in mm. Datum convention: each Temple Plate has its own local frame with origin at the plate centroid on the outer face; **+X = forward** (toward brow), **+Y = up** (toward crown), **+Z = outward** (away from head).
+
+### IFACE_YOKE_TEMPLE (Top Yoke arch end ↔ Temple Plate upper edge)
+
+| Param | Value |
+|---|---|
+| Bolt count | 3× M3 |
+| Pattern | Equilateral triangle, 12 mm side |
+| Triangle centroid on plate | (0, +18, 0) — 18 mm above plate datum |
+| Bolt-hole Ø in temple plate | 3.4 mm (clearance) |
+| Heat-set insert in yoke arch end | M3 × 5 mm OD brass |
+| Mate face normal | +Y on temple plate ↔ −Y on yoke end |
+| Boss thickness at insert | 6 mm minimum (PETG) around the insert OD |
+| Load case | 150 N tension (anti-lift), 4× SF → design to 600 N → ~200 N per bolt = OK at M3 |
+
+### IFACE_TEMPLE_FWDBAND (Temple Plate L/R ↔ Forward Visor-Band)
+
+| Param | Value |
+|---|---|
+| Hinge pin | Steel music wire 3 mm × 25 mm; spans L↔R through the Forward Visor-Band tabs, passing through both Temple Plates |
+| Hinge axis | Horizontal, ear-to-ear; on temple plate at local (+8, −6, 0) — 8 mm forward, 6 mm below datum |
+| Detent count | **5 positions** |
+| Detent angles (band rotation from horizontal-down) | **0° = wear-low (band hanging fully down, stabilizer aimed +0° from horizontal)** / 30° / 45° / 60° / **90° = stow (band swung up, off forehead, parked against yoke)** |
+| Detent mechanism | TPU 95A click-leaf (`visor_detent_leaf.stl`) screwed to inboard face of band tab via 1× M3, engages 5 notches in temple plate — same two-step-lock pattern as sensor-pod detent leaf |
+| Aim use | Wear positions = 0°/30°/45°/60° (Stabilizer aim variants); 90° = stow only |
+| Service loop for sub-rail cable across hinge | 25 mm slack at hinge axis (worst-case 90° fold) |
+
+### IFACE_TEMPLE_REARBAND (Temple Plate L/R ↔ Rear Visor-Band)
+
+| Param | Value |
+|---|---|
+| Hinge pin | Steel music wire 3 mm × 25 mm; spans L↔R through Rear Visor-Band tabs |
+| Hinge axis | Horizontal, ear-to-ear; on temple plate at local (−8, −6, 0) — 8 mm aft, 6 mm below datum |
+| Detent count | 5 positions (mirror of FwdBand) |
+| Detent angles | 0° wear-low / 30° / 45° / 60° / 90° stow |
+| Detent mechanism | Same TPU click-leaf as FwdBand |
+| Service loop | 25 mm at hinge axis |
+
+### IFACE_TEMPLE_PYLON (Temple Plate L/R ↔ Pylon)
+
+| Param | Value |
+|---|---|
+| Hinge type | TPU 95A live-hinge foot, bolted to temple plate |
+| Foot footprint | 8 × 12 mm |
+| Foot retention | 2× M2 × 6 mm bolts into M2 heat-set inserts in temple plate |
+| Hinge axis | Horizontal fore-aft, at temple plate local (−5, +10, +4) — 5 mm aft, 10 mm up, 4 mm proud of plate face |
+| Fold direction | **Backward** (pylon rotates aft, lays alongside head past ear) |
+| Detent count | 3: straight-up / 45°-back / fold-flat (≈90°-back) |
+| Detent mechanism | Notches in TPU live-hinge geometry itself (no separate leaf) |
+| Fold-flat envelope | ≤ 75 mm aft of axis, ≤ 15 mm proud of plate — verified clear of ear, Defender, Rear Visor-Band hinge in all 3 detents |
+| RF feed routing | RG-178 coax across hinge with 40 mm service loop |
+
+### IFACE_TEMPLE_DEFENDER (Temple Plate L/R ↔ Defender cradle)
+
+| Param | Value |
+|---|---|
+| Gimbal | 2-axis, pitch outer + yaw inner |
+| Pitch pin | Steel music wire 2 mm × 12 mm, axis horizontal fore-aft, at temple plate local (0, 0, +6) — 6 mm proud of plate face |
+| Yaw pin | Steel music wire 2 mm × 12 mm, axis vertical, internal to pitch yoke |
+| Aim lock | M2 × 4 mm set-screw + M2 heat-set insert in pitch yoke, bears on yaw shaft |
+| Aim range | ±15° pitch, ±15° yaw |
+| Dish exit window | 14 mm Ø hole in cradle, centered on dish |
+| Cradle envelope | 25 × 25 × 20 mm (per §4.2) |
+
+### IFACE_TEMPLE_CHEEK (Temple Plate L/R ↔ Chin-yoke webbing)
+
+| Param | Value |
+|---|---|
+| Hook count | **1 per side** (Y-yoke topology: each side gets 1 hook; cam buckle under chin) |
+| Hook position | Lower-aft corner of temple plate, at local (−15, −20, 0) |
+| Webbing slot | 26 mm wide × 4 mm tall (fits 25 mm webbing) |
+| Anti-pullout rib | 3 mm rib on inboard face above slot, prevents webbing from wearing through plate edge |
+| Load case | 150 N pull at +30° below horizontal, into +X (forward) and −Y (down) |
+| Load path | Hook → plate edge → plate body → yoke bolt cluster (§2 ribs handle stress concentration) |
+
+### IFACE_BAND_STABILIZER (Visor-Band ↔ Stabilizer panel pocket)
+
+| Param | Value |
+|---|---|
+| Pocket internal dims | 64 × 34 × 4 mm |
+| Holds | 2× bifilar PCB 30 × 30 mm side-by-side (2 mm gap), max PCB thickness 3.2 mm |
+| Retention | 2× M3 × 6 mm bolts into M3 heat-set inserts in band, bolt-through PCB corners |
+| Cable exit | Inboard edge of panel (toward midline), 4 mm Ø grommet to band cable channel |
+| Cover plate | Snap-fit PETG, accent-color (white) per §7 two-tone aesthetic |
+| Pocket placement on band | Centered on band midline (front-center for Fwd Visor-Band, back-center for Rear Visor-Band) |
+
+### IFACE_BAND_SUBRAIL (Forward Visor-Band lower edge ↔ sensor pods)
+
+| Param | Value |
+|---|---|
+| Rail standard | MIL-STD-1913 Picatinny (carried forward from ring-frame doc §3, unchanged) |
+| Rail axial position | Lower edge of Forward Visor-Band, outer face, running the full forward arc the band covers (~180° across the brow) |
+| Station angles preserved | HP-FL (−30°), HP-FR (+30°) plus arbitrary user-positioned stations between |
+| Pod chassis | Carried forward from ring-frame doc §4, unchanged |
+| Two-step lock | Carried forward from ring-frame doc §4.1, unchanged |
+| Cable raceway | Continuous channel along inboard edge of rail, USB-C exits inboard toward band cable channel → hinge service loop → temple plate cable hub |
+
+---
+
+## 13. Open questions / G-gates pending
+
+- **Anatomical fit of Top Yoke** — circular vs elliptical sweep over
+  the parietal. **Decided 2026-05-20**: elliptical arch, 96 mm fore-aft × 78 mm ear-to-ear semi-axes (per anthropometric data). G-Fit gate still measures on real head before final commit.
+- **Live-hinge fatigue cycles** for Pylon spring — TPU 95A typically
+  good for >5000 cycles in flexure; **G-Pylon** (§11) now formalizes the test.
+- **Defender aim repeatability** — **G-Defender-Aim** (§11) now formalizes the ±2° target.
+- **Temple Plate-to-Yoke joint** — **Decided 2026-05-20**: 3× M3 bolts with heat-set inserts (per §12 `IFACE_YOKE_TEMPLE`).
+- **Defender radiator topology** — unresolved; Phase 2 RF integration. See §4.2 engineering caveat.
+- **Pylon dipole feed topology** — unresolved; Phase 2 RF integration.
+- **Stabilizer channelization** — 1 MCU × 4 channels vs 2 standalone Stabilizers; Phase 2 system architecture.
+- **Compute + battery placement** — unresolved; HP-SL/SR sidehelm bespoke mount vs Top Yoke interior cavity; Phase 2.
+
+---
+
+## 14. Cross-references
 
 - [`mk0.5_base_crown_architecture.md`](mk0.5_base_crown_architecture.md) — fallback ring-frame variant; canonical for rail / pod / retention spec carry-forward.
 - [`mk0.5_prior_art_index.md`](mk0.5_prior_art_index.md) — third-party 3D model references (Halo Mark VI, ODST, N7 — relevant to β aesthetics).
