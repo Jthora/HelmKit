@@ -35,34 +35,53 @@ bus to do.
 
 ## The hardpoint specification
 
-Every module mounts at a **hardpoint** — a printed feature on the frame
-with a fixed mechanical and electrical contract. Mk1 freezes ten
-hardpoint locations:
+Every module mounts at a **hardpoint** — a *named angular station*
+on the crown's Picatinny rail, with a fixed mechanical and electrical
+contract. Mk1 freezes ten hardpoint IDs:
 
-| ID | Location | Typical occupant |
-|----|----------|------------------|
-| `HP-F` | Forehelm, centerline | HUD optic mount, indicator LEDs, forward sensor |
-| `HP-FL`, `HP-FR` | Forehelm, left/right of centerline | Camera, ambient EM antenna, photic LED bar |
-| `HP-TL`, `HP-TR` | Temple boom, left/right | EEG electrode, magnetometer boom, coil driver, PPG |
-| `HP-EL`, `HP-ER` | Ear-shield, left/right | Bone-conduction transducer, in-ear audio, ear-canal sensor |
-| `HP-SL`, `HP-SR` | Sidehelm, left/right | Battery bay (one side), comms radio bay (other side) |
-| `HP-R` | Rearhelm | Compute node, primary battery, µSD/IO door |
+| ID | Nominal station | Typical occupant |
+|----|-----------------|------------------|
+| `HP-F` | Crown rail, 0° (front-center) | HUD optic mount, indicator LEDs, forward sensor |
+| `HP-FL`, `HP-FR` | Crown rail, ∓30° L/R | Camera, ambient EM antenna, photic LED bar |
+| `HP-TL`, `HP-TR` | Crown rail, ∓90° L/R (temple) | EEG electrode, magnetometer, PPG, coil driver |
+| `HP-EL`, `HP-ER` | Crown rail, ∓105° L/R (ear-shield) | Bone-conduction transducer, in-ear audio, ear-canal sensor |
+| `HP-SL`, `HP-SR` | Crown rail, ∓115° L/R (sidehelm) | Battery bay (one side), comms radio bay (other side) |
+| `HP-R` | Occipital cradle (R2), rear-center | Compute node, primary battery, µSD/IO door |
 
-The locations are not arbitrary. Temple hardpoints (`HP-T*`) sit closest
-to the skin-contact line and carry the most signal-relevant mounts —
-EEG, magnetometer, PPG. Forehelm hardpoints (`HP-F*`) sit closest to the
-gaze axis and are reserved for HUD optics and forward-facing sensors.
-Sidehelm hardpoints (`HP-S*`) host the larger volumes — battery,
-comms — that cannot fit on the temple boom. The rearhelm hardpoint
-(`HP-R`) hosts the compute node and primary battery, where the largest
+The station angles are not arbitrary. Temple hardpoints (`HP-T*`)
+sit closest to the skin-contact line and carry the most signal-
+relevant mounts — EEG, magnetometer, PPG. Forehelm hardpoints
+(`HP-F*`) sit closest to the gaze axis and are reserved for HUD
+optics and forward-facing sensors. Sidehelm hardpoints (`HP-S*`)
+host the larger volumes — battery, comms — that cannot fit on the
+temple. The rearhelm hardpoint (`HP-R`) on the occipital cradle
+hosts the compute node and primary battery, where the largest
 volume and the longest cable-run can be tolerated.
 
-The **mechanical contract** is short: a 2-bolt M3 pattern at 20 mm
-centers, a captive-nut pocket on the frame side, ±0.2 mm tolerance at
-print scale, a polarity rib that prevents 180° rotation on installation,
-and a documented footprint envelope per hardpoint that a module is not
-permitted to exceed. Every hardpoint has a 4 mm × 8 mm slot to the L2
-raceway for cable pass-through.
+Station angles are **nominal, not enforced**. A module dovetail can
+sit anywhere along the rail; the canonical IDs are the angles that
+BOM, schema, and protocols default to, and that wearer-specific
+fit work tunes within ±10°.
+
+The **mechanical contract** is the **rail-forever** spec (locked
+2026-05-20; see
+[`docs/mechanical/mk0.5_base_crown_architecture.md`](../../mechanical/mk0.5_base_crown_architecture.md)):
+a MIL-STD-1913 Picatinny dovetail on the pod underside (5.0 mm
+tooth pitch, 10.2 mm top width, 19.0 mm bottom width), a TPU 95A
+secondary-detent leaf for the two-step lock that defeats single-
+impulse release, ±0.05 mm tolerance on tooth pitch and ±0.2 mm on
+top width, and a documented footprint envelope per station type
+that a module is not permitted to exceed. The rail's continuous
+cable raceway behind the teeth handles L2 bus pass-through; pods
+exit their USB-C connector laterally into the raceway, not into
+open air.
+
+> **Historical note.** Mk0.0 through 2026-05-20 used a 2-bolt M3
+> pattern at 20 mm centers with a captive-nut pocket as the
+> mechanical contract. The rail-forever decision replaces that
+> with the Picatinny + TPU-detent contract above. Mk1 inherits the
+> rail. The ten named hardpoint IDs are preserved across both
+> contracts.
 
 The **electrical contract** — the L2 bus — was the placeholder in early
 project iterations and is now wiki-canonical (re-read 2026-05-12; see

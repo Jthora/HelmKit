@@ -114,8 +114,8 @@ The legacy Mk1.5 entry has been repositioned to Mk2.5 because matched-F² stim c
 | Step | Status |
 |---|---|
 | Mk0.0 | ✅ Frozen (iter9). |
-| Mk0.5 | 🚧 **In flight.** Sensor Wave 1 arriving 2026-05-16 (MLX90614 + GSR + 3M Red Dot + leads). Wave 2 arriving 2026-05-27 → 2026-06-15 (AD8232 + MAX30205 ×2). MAX30102 already in hand. See [sensor_roster.md §2](sensor_roster.md). |
-| Mk1.0 | ⏸ Pending Mk0.5 G2 completion + bifilar-coil hardware build. |
+| Mk0.5 | 🚧 **In flight.** Sensor Wave 1 arriving 2026-05-16 (MLX90614 + GSR + 3M Red Dot + leads). Wave 2 arriving 2026-05-27 → 2026-06-15 (AD8232 + MAX30205 ×2). MAX30102 already in hand. See [sensor_roster.md §2](sensor_roster.md). Physical architecture: rail-forever three-ring crown ([mechanical/mk0.5_base_crown_architecture.md](mechanical/mk0.5_base_crown_architecture.md), locked 2026-05-20). |
+| Mk1.0 | ⏸ Pending Mk0.5 G2 completion + bifilar-coil hardware build. **Inherits** the Mk0.5 Picatinny-rail mechanical contract unchanged; ten named hardpoint IDs persist. |
 | Mk1.5 | ⏸ Pending Mk1.0. |
 | Mk2.0 | ⏸ Pending Mk1.x + EEG-class purchase ($250+ Mk2 capex). |
 | Mk2.5 | ⏸ Pending Mk2.0. |
