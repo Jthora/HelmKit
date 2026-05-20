@@ -380,6 +380,9 @@ as the active form artefact.
 
 ## References
 
+- [`mk0.5_prior_art_index.md`](mk0.5_prior_art_index.md) — third-party
+  open-source 3D models on the external library that may inform
+  Mk0.5 / Mk1+ work, license-tiered for incorporation safety.
 - [`docs/field-notes/volume-1/02_platform.md`](../field-notes/volume-1/02_platform.md)
   §"The hardpoint specification" — canonical hardpoint IDs and L2 bus.
 - [`docs/mk_ladder.md`](../mk_ladder.md) §3 — Mk0.0 → Mk0.5 gating.
