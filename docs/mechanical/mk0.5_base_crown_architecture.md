@@ -1,4 +1,12 @@
-# Mk0.5 Base-Crown Architecture
+# Mk0.5 Base-Crown Architecture (Ring-Frame Variant)
+
+> ⚠️ **Status: SUPERSEDED — retained as fallback variant** (2026-05-20).
+> Topology β (Top-Yoke + Folding Visor-Bands + Temple Plates) is now the
+> primary architecture. See [`mk0.5_topology_beta_architecture.md`](mk0.5_topology_beta_architecture.md).
+> This document is preserved for: (a) the rail / Picatinny / pod /
+> retention canon, which carries forward unchanged; (b) the option to
+> fall back to the three-ring R1/R2/R3 frame if topology β fails the
+> empirical fit + retention gates on the X-MAX3.
 
 - **Status**: `v0` (2026-05-20)
 - **Scope**: Physical / 3D-printed architecture of the Mk0.5 frame —
