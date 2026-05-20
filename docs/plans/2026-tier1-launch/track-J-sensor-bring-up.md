@@ -159,7 +159,7 @@ land independently.
 | 4 | `firmware(mk0.5): MAX30205 driver + temp-skin.L/R NDJSON + MLX cross-check` | B | MAX30205 arrival (~May 27) |
 | 5 | `firmware(mk0.5): AD8232 driver + ecg NDJSON channel + lead-off watch` | C | AD8232 arrival (~June 1) |
 | 6 | `dsp(mk0.5): Pan-Tompkins reuse on ECG band + ecg-rr emit` | C | commit 5 |
-| 7 | `tools(g2): analyze_g2.py — RMSSD pass/fail per g2_hrv_validation.md §5` | C | commit 6 |
+| 7 | `tools(g2): analyze_g2.py — RMSSD pass/fail per g2_hrv_validation.md §5` | C | ✅ substrate landed (synthetic-fixture tested); awaits real DUT+oracle captures from commit 6 |
 | 8 | `Track J (closure): G2 passes 3/3 sessions; Track J lands` | C | commits 1–7 + three passing sessions |
 
 Final commit count may shift ±1 once Bridge B sensors are on the
