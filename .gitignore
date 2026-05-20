@@ -1,5 +1,28 @@
-# Ignore all 3D-Models (including subfolders)
-3D-Models/
+# Ignore everything in 3D-Models/ (large binaries, working blends,
+# sibling project models) EXCEPT for the third-party CC-BY provenance
+# metadata under 3D-Models/HelmKit/_derived/.
+#
+# Git requires walking the path: each parent dir must be un-ignored
+# before its children can be re-included.
+3D-Models/*
+!3D-Models/HelmKit/
+3D-Models/HelmKit/*
+!3D-Models/HelmKit/_derived/
+3D-Models/HelmKit/_derived/**/*
+!3D-Models/HelmKit/_derived/**/
+!3D-Models/HelmKit/_derived/ATTRIBUTIONS.md
+!3D-Models/HelmKit/_derived/**/ATTRIBUTIONS.md
+!3D-Models/HelmKit/_derived/**/LICENSE.txt
+!3D-Models/HelmKit/_derived/**/README.txt
+!3D-Models/HelmKit/_derived/**/*.md
+!3D-Models/HelmKit/_derived/**/*.svg
+# Binary geometry (STL, .skp, .blend, etc.) inside _derived/ remains
+# off-repo — operators re-fetch from Thingiverse if needed; LICENSE.txt
+# + ATTRIBUTIONS.md preserve provenance.
+
+# Python caches
+__pycache__/
+*.pyc
 
 # Local caches (link checker, wiki probe, etc.)
 .cache/
