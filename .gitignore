@@ -5,6 +5,7 @@
 # Git requires walking the path: each parent dir must be un-ignored
 # before its children can be re-included.
 3D-Models/*
+!3D-Models/HelmKit_vp0/
 !3D-Models/HelmKit/
 3D-Models/HelmKit/*
 !3D-Models/HelmKit/_derived/
