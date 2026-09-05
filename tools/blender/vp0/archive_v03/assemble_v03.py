@@ -18,13 +18,13 @@ import bpy  # type: ignore
 from mathutils import Matrix, Vector  # type: ignore
 import vp0lib as L
 import canon as C
-import build_pod_shell, build_crown_arch_half, build_apex_block
-import build_brow_panel, build_brow_lid, build_rear_band_half, build_nape_plate
+import build_pod_cup, build_reflector_insert, build_crown_arch_half, build_apex_block
+import build_brow_panel, build_brow_lid, build_rear_band_half, build_nape_ratchet
 import build_port_parts, build_fit_coupon
 
 COLORS = {"graphite": (0.10, 0.10, 0.11, 1.0), "accent": (0.80, 0.16, 0.12, 1.0), "bone": (0.86, 0.84, 0.78, 1.0),
           "steel": (0.55, 0.57, 0.60, 1.0), "skin": (0.72, 0.58, 0.48, 1.0), "bed": (0.30, 0.32, 0.36, 1.0),
-          "foam": (0.25, 0.25, 0.27, 1.0), "rope": (0.62, 0.55, 0.40, 1.0)}
+          "foam": (0.25, 0.25, 0.27, 1.0), "cell": (0.20, 0.35, 0.65, 1.0)}
 DEFAULT_BLEND = "3D-Models/HelmKit_vp0/vp0_assembly.blend"
 
 
@@ -92,11 +92,12 @@ def coupler_at(name, length, Mmouth):
 # ---------------------------------------------------------------------------
 
 def build_assembly(with_head=True):
-    P, R = {}, {}      # P = printed parts, R = reference (foam, rope, head)
+    P, R = {}, {}      # P = printed parts, R = reference (foam, cells, head)
     brow_len = build_brow_panel.BROW_COUPLER_LEN
     for side, tag in ((+1, "L"), (-1, "R")):
         pods = collection(f"Pods.{tag}")
-        P[f"pod_{tag}"] = style(build_pod_shell.make(side), f"pod_shell.{tag}", "graphite", pods)
+        P[f"cup_{tag}"] = style(build_pod_cup.make(side), f"pod_cup.{tag}", "graphite", pods)
+        P[f"refl_{tag}"] = style(build_reflector_insert.make(side), f"reflector.{tag}", "accent", pods)
         links = collection("Couplers")
         P[f"cpl_crown_{tag}"] = style(coupler_at("c", C.COUPLER_CROWN_LEN, L.pod_port_frame(90.0, side)), f"coupler_crown.{tag}", "steel", links)
         P[f"cpl_brow_{tag}"] = style(coupler_at("c", brow_len, L.pod_port_frame(C.FRONT_PORT_ANGLE, side)), f"coupler_brow.{tag}", "steel", links)
@@ -114,15 +115,21 @@ def build_assembly(with_head=True):
     rear = collection("Rear")
     P["rear_L"] = style(build_rear_band_half.make(), "rear_band.L", "graphite", rear)
     P["rear_R"] = style(L.transformed_copy(P["rear_L"], build_rear_band_half.right_half_matrix(), "rear_band.R"), "rear_band.R", "graphite", rear)
-    P["nape"] = style(build_nape_plate.make(), "nape_plate", "steel", rear)
+    P["nape_body"] = style(build_nape_ratchet.make_body(), "nape_body", "steel", rear)
+    P["nape_lid"] = style(build_nape_ratchet.make_lid(), "nape_lid", "steel", rear)
+    P["nape_knob"] = style(build_nape_ratchet.make_knob(), "nape_knob", "bone", rear)
+    P["nape_pawl"] = style(build_nape_ratchet.make_pawl(), "nape_pawl", "bone", rear)
 
     ref = collection("Reference")
     if with_head:
         R["head"] = style(L.head_phantom(), "head_phantom", "skin", ref)
     for side, tag in ((+1, "L"), (-1, "R")):
         axis = "-Y" if side > 0 else "Y"
-        R[f"cushion_{tag}"] = style(L.foam_ring("cushion", (C.CX, side * C.RIM_Y, C.CZ), C.DISH_R, C.CUSHION_ID / 2, C.CUSHION_T, axis=axis), f"ear_cushion.{tag}", "foam", ref)
-        px, py = -86.0, side * 82.0
+        R[f"cushion_{tag}"] = style(L.foam_ring("cushion", (C.CX, side * C.RIM_Y, C.CZ), C.DISH_R, 44.0, C.CUSHION_T, axis=axis), f"ear_cushion.{tag}", "foam", ref)
+        cw, ch_, ct = C.POUCH_CELL
+        R[f"cell_{tag}"] = style(L.add_box("cell", (C.CX, side * (C.CUP_FACE_Y - C.N_FLOOR_IN - ct / 2), C.CZ), (cw, ct, ch_)), f"pouch_cell.{tag}", "cell", ref)
+        # foam strips on the rear band's inner face beside the occiput
+        px, py = -84.0, side * 86.0
         z = build_rear_band_half.z_of(px)
         Mp = L.frame((px, py, z), (0.0, side, 0.0), (1.0, 0.0, 0.0))
         pw, ph_, pt = C.REAR_SIDE_PAD
@@ -133,30 +140,28 @@ def build_assembly(with_head=True):
     R["crownpad"] = style(L.add_box("crownpad", (C.CX, 0.0, apex_bottom - pt / 2), (pw, pl, pt)), "crown_pad", "foam", ref)
     bw, bh, bt = C.BROW_PAD
     R["browpad"] = style(L.add_box_local("browpad", build_brow_panel.MP, (0.2 - bt / 2, 0.0, C.BROW_H / 2), (bt, bw, bh)), "brow_pad", "foam", ref)
-    Mn = build_nape_plate.M
+    Mn = build_nape_ratchet.M
     nw, nh, nt = C.NAPE_PAD
-    R["napepad"] = style(L.add_box_local("napepad", Mn, (0.0, 0.0, -C.NAPE_PLATE[2] / 2 - nt / 2), (nw, nh, nt)), "nape_pad", "foam", ref)
-    # nape rope: right eye -> plate channel -> left eye -> back over the plate into the cleat
-    ey = C.REAR_EYE_Y
-    R["rope_nape"] = style(L.add_cyl_local("rope", Mn, (0.0, 0.0, 0.0), C.ROPE_DIA / 2, 2 * ey + 14.0, axis="X", verts=16), "rope_nape", "rope", ref)
-    R["rope_tail"] = style(L.add_cyl_local("rope", Mn, (-8.0, 0.0, C.NAPE_PLATE[2] / 2 + 6.5), C.ROPE_DIA / 2, 2 * ey - 20.0, axis="X", verts=16), "rope_tail", "rope", ref)
+    R["napepad"] = style(L.add_box_local("napepad", Mn, (0.0, 0.0, -build_nape_ratchet.CH - build_nape_ratchet.WALL - nt / 2), (nw, nh, nt)), "nape_pad", "foam", ref)
     return P, R
 
 
 PRINT_ITEMS = [
     ("fit_coupon", build_fit_coupon.make, lambda: build_fit_coupon.PRINT_ROT, "bone"),
-    ("pod_shell", lambda: build_pod_shell.make(+1), lambda: build_pod_shell.PRINT_ROT, "graphite"),
+    ("pod_cup", lambda: build_pod_cup.make(+1), lambda: build_pod_cup.PRINT_ROT, "graphite"),
+    ("reflector_insert", lambda: build_reflector_insert.make(+1), lambda: build_reflector_insert.PRINT_ROT, "accent"),
     ("crown_arch_half", build_crown_arch_half.make, lambda: build_crown_arch_half.PRINT_ROT, "graphite"),
     ("apex_block", build_apex_block.make, lambda: build_apex_block.PRINT_ROT, "steel"),
     ("brow_panel", build_brow_panel.make, lambda: build_brow_panel.PRINT_ROT, "bone"),
     ("brow_lid", build_brow_lid.make, lambda: build_brow_lid.PRINT_ROT, "bone"),
     ("rear_band_half", build_rear_band_half.make, lambda: build_rear_band_half.PRINT_ROT, "graphite"),
-    ("nape_plate", build_nape_plate.make, lambda: build_nape_plate.PRINT_ROT, "steel"),
+    ("nape_body", build_nape_ratchet.make_body, lambda: build_nape_ratchet.PARTS["nape_body"][1], "steel"),
+    ("nape_lid", build_nape_ratchet.make_lid, lambda: build_nape_ratchet.PARTS["nape_lid"][1], "steel"),
+    ("nape_knob", build_nape_ratchet.make_knob, lambda: build_nape_ratchet.PARTS["nape_knob"][1], "bone"),
+    ("nape_pawl", build_nape_ratchet.make_pawl, lambda: build_nape_ratchet.PARTS["nape_pawl"][1], "bone"),
     ("port_coupler_crown", build_port_parts.PARTS["port_coupler_crown"][0], lambda: L.ROT_NONE, "steel"),
     ("port_coupler_rear", build_port_parts.PARTS["port_coupler_rear"][0], lambda: L.ROT_NONE, "steel"),
     ("port_coupler_brow", build_port_parts.PARTS["port_coupler_brow"][0], lambda: L.ROT_NONE, "steel"),
-    ("coupler_drill_guide", build_port_parts.drill_guide, lambda: L.ROT_NONE, "steel"),
-    ("socket_form", build_port_parts.socket_form, lambda: L.ROT_NONE, "steel"),
     ("port_plug_blank", build_port_parts.blank, lambda: L.ROT_X_TO_Z, "steel"),
     ("port_cover", build_port_parts.cover, lambda: L.ROT_NONE, "steel"),
     ("strap_anchor", build_port_parts.strap_anchor, lambda: L.ROT_X_TO_Z, "steel"),
@@ -182,25 +187,23 @@ def add_print_layout():
     coll.hide_render = True
 
 
-README = """HelmKit vp0.4 -- hand-editable assembly
+README = """HelmKit vp0.3 -- hand-editable assembly
 =======================================
 Units: 1 Blender unit = 1 mm. Frame: origin between the ear canals, +X forward,
 +Y wearer's LEFT, +Z up. Pods are centred on BRAIN_CORE (10, 0, 35).
 
 Collections
-  Pods.L / Pods.R  pod_shell: paraboloid shell, dome outside, five flush pinned sockets in the rim ring
-  Couplers         six 10 mm posts (print, or aluminium tube drilled with the guide)
-  Crown            crown_arch.L/.R (same part, rope spine groove), apex_block
-  Brow             brow_panel (centre + wings, pinned wing sockets), brow_lid
-  Rear             rear_band.L/.R (same part, spine groove, rope eye), nape_plate with clam cleat
-  AddOns           strap anchors (front-lower), covers (rear-upper)
-  Reference        NOT printed: head, ear cushions, crown / brow / nape / rear pads, nape rope
+  Pods.L / Pods.R  pod_cup (flush sockets), reflector
+  Couplers         the six 10 mm square posts joining pods to arch feet, brow wings, rear band blocks
+  Crown            crown_arch.L/.R (same part), apex_block
+  Brow             brow_panel (centre + wings), brow_lid
+  Rear             rear_band.L/.R (same part), nape_body/lid/knob/pawl
+  AddOns           strap anchors (front-lower ports), covers (rear-upper ports)
+  Reference        NOT printed: head phantom, ear cushions, pouch cells, crown / brow / nape / rear pads
   PrintLayout      hidden; every printed part in print orientation on a 325x325 bed
 
-Every socket is locked by a nail through both walls and the coupler (double shear),
-head counterbored and epoxied. Bands get epoxy-soaked rope in their spine grooves;
-socket blocks get a thread-and-epoxy wrap in their collar grooves. Nape tension is a
-rope through the eyes and the clam cleat: pull to tighten, lift out to release.
+There are no pivots in vp0.3: to collapse, unscrew the lock screws and pull the
+couplers. Every coupler can be aluminium 10 x 10 x 1 square tube.
 
 Editing: numbers -> tools/blender/vp0/canon.py, re-run assemble_vp0.py (overwrites
 this file). Shapes -> edit here, rotate to print orientation, Export STL, Selection Only.
@@ -254,16 +257,16 @@ def mass_report(P):
     rows, tot_m, tot_c = [], 0.0, Vector((0.0, 0.0, 0.0))
     for name, ob in P.items():
         V, c = L.mass_props(ob)
-        m = abs(V) / 1000.0 * C.DENSITY_G_CM3
+        m = abs(V) / 1000.0 * C.PETG_DENSITY_G_CM3
         rows.append((ob.name, m, c))
         tot_m += m
         tot_c += c * m
     cg = tot_c / tot_m if tot_m else Vector((0, 0, 0))
     g = 9.81e-3
-    lines = [f"solid {C.MATERIAL.split()[0]} mass per printed part (as-printed with 20% infill ~ 0.75x for thick parts)"]
+    lines = ["solid-PETG mass per printed part (as-printed with 20% infill ~ 0.75x for thick parts)"]
     for n, m, c in sorted(rows, key=lambda r: -r[1]):
         lines.append(f"  {n:20s} {m:6.0f} g   centroid ({c.x:6.1f}, {c.y:6.1f}, {c.z:6.1f})")
-    lines.append(f"  TOTAL printed {tot_m:.0f} g solid; ~{tot_m*0.75:.0f} g as printed (+ ~45 g foam, ~20 g nails/rope/epoxy)")
+    lines.append(f"  TOTAL printed {tot_m:.0f} g solid; ~{tot_m*0.75:.0f} g as printed (+ ~70 g cells, ~40 g foam, ~25 g screws)")
     lines.append(f"  CG ({cg.x:.1f}, {cg.y:.1f}, {cg.z:.1f})  [brain core at {C.BRAIN_CORE}]")
     lines.append(f"  pitch moment about the ear axis: {tot_m*g*cg.x/1000:+.3f} N*m (+ = nose-down)")
     nx, ny, nz = C.NECK_PIVOT
@@ -275,8 +278,9 @@ def collision_report(P, label):
     bpy.context.view_layer.update()
     names = list(P)
     bvh = {n: L.bvh_of(P[n]) for n in names}
-    expected = {("pod", "cpl"), ("cpl", "arch"), ("cpl", "panel"), ("cpl", "rear"), ("pod", "strap"),
-                ("pod", "cover"), ("arch", "arch"), ("arch", "apex"), ("panel", "lid"), ("rear", "nape"), ("pod", "arch")}
+    expected = {("cup", "refl"), ("cup", "cpl"), ("cpl", "arch"), ("cpl", "panel"), ("cpl", "rear"), ("cup", "strap"),
+                ("cup", "cover"), ("arch", "arch"), ("arch", "apex"), ("panel", "lid"), ("rear", "nape"), ("nape", "nape"),
+                ("cup", "arch")}
     lines = [f"collisions [{label}] (BVH face-overlap pairs; 'expected' = designed contact)"]
     hits = 0
     for i, a in enumerate(names):

@@ -49,7 +49,7 @@ def coupler_len(side=+1):
 
 BROW_COUPLER_LEN = coupler_len(+1)
 NOTES = ["print standing on the bottom face; brim; no supports",
-         f"struts: 2x coupler {BROW_COUPLER_LEN:.1f} mm ({C.COUPLER_TUBE}); nail pins through the wing blocks, thread-wrap collars",
+         f"struts: 2x coupler {BROW_COUPLER_LEN:.1f} mm ({C.COUPLER_TUBE}); lock screws M3 from the outboard faces",
          "hardware: 4x M3x8 thread-forming (lid); 96x44x12 foam pad on the lid"]
 
 
@@ -73,8 +73,7 @@ def make():
     for side in (+1, -1):
         Ms = wing_socket_frame(side)
         L.cut(panel, L.port_socket_cut(Ms, tag=f"w{side}"))
-        L.cut(panel, *L.port_pin_cutters(Ms, -(C.PORT_BLOCK / 2 + 1.0), C.PORT_BLOCK / 2 + 1.0, tag=f"w{side}"))
-        L.cut(panel, L.collar_cutter(Ms, -C.PORT_BLOCK_LEN / 2.0, C.PORT_BLOCK, tag=f"w{side}"))
+        L.cut(panel, *L.port_screw_cutters(Ms, -1.0, C.PORT_BLOCK / 2 + 1.0, tag=f"w{side}"))
     return panel
 
 

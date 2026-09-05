@@ -1,19 +1,21 @@
 """
-canon.py -- single source of truth for the HelmKit vp0.3 part set.
+canon.py -- single source of truth for the HelmKit vp0.4 part set.
 
-vp0.3 (2026-09-04): snag/robustness pass on vp0.2.
-  * No pivot stack. Bands and struts plug into FLUSH port sockets sunk into the
-    pod skirt; collapsing = unplugging. Side width drops from 283 to 232 mm.
-  * Every high-load joint is a socket-coupler-socket pair; couplers can be
-    printed or cut from 10 mm aluminium square tube.
-  * Brow panel: flat centre + 20 deg swept wings, connected by two straight
-    struts from the pods' front ports. Crown arch feet sit on the pod rim.
-  * Rear band starts at the pod's rear port, hugs the occiput, same nape ratchet
-    with a bumper around the dial.
-  * Foam pads are modelled (ear rings, crown, brow, nape, rear sides) so the
-    open loops a branch could enter are closed.
-  * Pouch cells live inside the pods. Cheek hooks dropped; strap anchors default.
-  * Fillet pass on every printed part.
+vp0.4 (2026-09-04): reinforcement pass on vp0.3 for a PLA prototype that
+gets hit.
+  * Pods are pure paraboloid SHELLS, concave toward the head, dome outside,
+    no cavity (the pods carry no electronics). Five flush sockets live in a
+    16 mm rim ring under the foam.
+  * Every socket is locked by a NAIL in double shear (through both walls and
+    the coupler), head counterbored and epoxied. Screws fit the same hole.
+  * Couplers: aluminium 10 mm square tube, or printed with an axial channel
+    for a nail-and-epoxy core. A drill guide and a socket casting form ship
+    with the set.
+  * Bands carry a rope-and-epoxy spine in a groove on the head-side face.
+    Socket blocks carry a shallow collar groove for a thread-and-epoxy wrap.
+  * Nape: the ratchet is gone. Two shorter rear bands end in rope eyes; a
+    rope runs through a nape plate with a printed clam cleat (no moving
+    parts). A second rope loop through every block ties the helm together.
 
 Assembly frame: origin between the ear canals, +X forward, +Y wearer's LEFT,
 +Z up. Left parts built at +Y; right = mirror across XZ. Units mm / deg / g.
@@ -24,10 +26,6 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-
-# ---------------------------------------------------------------------------
-# Wearer (measured 2026-09-04)
-# ---------------------------------------------------------------------------
 
 @dataclass(frozen=True)
 class Head:
@@ -69,115 +67,84 @@ BRAIN_CORE = (10.0, 0.0, 35.0)
 CX, CZ = BRAIN_CORE[0], BRAIN_CORE[2]
 
 # ---------------------------------------------------------------------------
-# Fasteners / print constants
+# Materials, fasteners, reinforcement stock
 # ---------------------------------------------------------------------------
 
+MATERIAL = "PLA (prototype); PA12-CF or PC for the hit-rated build"
+DENSITY_G_CM3 = 1.24          # PLA
 M4_CLEAR_DIA = 4.4
 M4_HEAD_DIA = 7.0
 M4_NUT_AF = 7.0
 M4_NUT_T = 3.2
 M3_CLEAR_DIA = 3.4
-M3_TAP_DIA = 2.5            # thread-forming M3 straight into PETG
-M3_CSK_DIA = 6.5            # 90 deg countersink for flat-head M3
-M3_NUT_AF = 5.5
-M3_NUT_T = 2.4
-M2_TAP_DIA = 1.7
+M3_TAP_DIA = 2.5
 FIT_CLEAR = 0.15
-PETG_DENSITY_G_CM3 = 1.27
-FILLET_MM = 1.0             # bevel pass on printed parts
+FILLET_MM = 1.0
 FILLET_SEGMENTS = 2
 
+PIN_DIA = 3.2                 # nail shank ~3.0 mm slip fit (measure yours; epoxy fills the rest)
+PIN_HEAD_DIA = 6.5            # counterbore for the nail head
+PIN_HEAD_DEPTH = 2.0
+ROPE_DIA = 3.5                # 2-4 mm rope / twine
+SPINE_GROOVE = (ROPE_DIA + 0.4, 2.8)     # width x depth of the rope-and-epoxy spine groove on bands
+COLLAR_GROOVE = (6.0, 0.6)    # width x depth of the thread-wrap collar around socket blocks
+CAST_SOCKETS = False          # True: sockets 1 mm oversize with ribs, to be cast in metal epoxy around the form
+CAST_OVERSIZE = 1.0
+COUPLER_TUBE = "10 x 10 x 1 mm aluminium square tube (preferred) or printed PLA with a nail-and-epoxy core"
+
 # ---------------------------------------------------------------------------
-# Pod: face-down cup + glued reflector, flush sockets in the skirt
+# Pod: paraboloid shell, dome outside, rim ring with flush sockets
 # ---------------------------------------------------------------------------
 
-DISH_OD = 122.1
+DISH_OD = 122.1               # physics: wavelength-linked, do not change
 DISH_R = DISH_OD / 2.0
-SKIRT_WALL = 2.5
-CUP_FLOOR_T = 2.5
-REFL_SAG = 8.0
-REFL_T = 2.0
-REFL_LIP_H = 0.5
-LEDGE_STEP = 1.0
+RING_H = 16.0                 # rim ring height (sockets live here, under the foam)
+RING_WALL = 4.0
+RING_IN_R = DISH_R - RING_WALL          # 57.05
+SHELL_T = 3.0
+DOME_SAG = 10.0               # dome rise above the ring's outer edge
 CUSHION_T = 15.0
-CAVITY_MIN = 10.5                       # floor inner face -> reflector underside at the vertex (pouch cell + socket tunnels)
-SKIRT_IN_R = DISH_R - SKIRT_WALL        # 58.55
-REFL_R = SKIRT_IN_R + LEDGE_STEP - FIT_CLEAR    # 59.40
-VENT_DIA = 4.0
-REFL_PERF = True
-REFL_PERF_N = 30
-REFL_PERF_R = 40.0
-REFL_PERF_D = 3.0
-
-N_FLOOR_IN = CUP_FLOOR_T                                # 2.5
-N_REFL_UNDER = N_FLOOR_IN + CAVITY_MIN                  # 13.0
-N_REFL_VERTEX = N_REFL_UNDER + REFL_T                   # 15.0
-N_REFL_RIM = N_REFL_VERTEX + REFL_SAG                   # 23.0
-N_LEDGE = N_REFL_RIM - REFL_T                           # 21.0
-N_SKIRT_TOP = N_REFL_RIM + REFL_LIP_H                   # 23.5
-REFL_FOCAL = SKIRT_IN_R ** 2 / (4.0 * REFL_SAG)
-
-RIM_Y = HEAD.width_mm / 2.0 + CUSHION_T                 # 92.5
-CUP_FACE_Y = RIM_Y + N_SKIRT_TOP                        # 116.0
-
-CAP_GROOVE_W = 3.0
-CAP_GROOVE_D = 0.8
-CAP_GROOVE_R0 = 26.0
-CAP_GROOVE_R1 = 50.0
-CAP_GROOVE_ANGLES = (45.0, 135.0, 225.0, 315.0)
-CAP_RING_GROOVE = (53.0, 54.5)
-
-FAN_PITCH = 20.0
-FAN_STANDOFF_H = 5.0
-FAN_STANDOFF_D = 5.0
-FAN_CENTER_R = 28.0
-FAN_CENTER_ANGLE = 240.0
-VENT_SLOTS = 8
-VENT_SLOT_W = 3.0
-VENT_SLOT_L = 10.0
-VENT_ANGLE_0, VENT_ANGLE_1 = 150.0, 190.0
-JACK_ANGLE, USB_ANGLE = 262.0, 277.0
-NAPE_JACK_DIA = 8.0
-POUCH_CELL = (60.0, 40.0, 8.0)          # reference LiPo pouch inside each pod (not printed)
+CUSHION_ID = 88.0
+RIM_Y = HEAD.width_mm / 2.0 + CUSHION_T                 # 92.5  cushion face
+POD_THICK = RING_H + DOME_SAG                           # 26
+POD_OUT_Y = RIM_Y + POD_THICK                           # 118.5 dome vertex
+DOME_FOCAL = RING_IN_R ** 2 / (4.0 * DOME_SAG)
+EAR_ROOM_CENTER = CUSHION_T + RING_H + DOME_SAG - SHELL_T  # 38
 
 # ---------------------------------------------------------------------------
-# Port standard (flush sockets)
+# Port standard (flush sockets, pinned)
 # ---------------------------------------------------------------------------
 
 PORT_SQ = 10.0
 PORT_CLEAR = 0.3
 PORT_DEPTH = 12.0
-PORT_PLUG_LEN = PORT_DEPTH - 0.5        # 11.5
-PORT_SCREW_DEPTH = 7.0                  # locking screw, measured from the socket mouth
-PORT_TUNNEL_WALL = 2.0                  # wall around a socket sunk into a body
-PORT_BLOCK = PORT_SQ + PORT_CLEAR + 2 * 2.65    # 15.6 -> block section around a socket on a band
-PORT_BLOCK_LEN = PORT_DEPTH + 3.0       # 15.0
-# In the pod: the socket sits in the skirt band between the floor and the reflector.
-SOCKET_N0 = N_FLOOR_IN + 1.5                    # 4.0  socket bottom (toward the cup face)
-SOCKET_N1 = SOCKET_N0 + PORT_SQ + PORT_CLEAR    # 14.3
-POD_PORT_Y = CUP_FACE_Y - (SOCKET_N0 + SOCKET_N1) / 2.0    # 106.85  every band/strut centreline
-POD_PORT_SCREW_R = DISH_R - PORT_SCREW_DEPTH    # 54.05 screw from the outer face into the plug
-
-BROW_TILT = 13.0                        # panel leans back; the front port aims along the panel normal
+PORT_PLUG_LEN = PORT_DEPTH - 0.5
+PORT_PIN_DEPTH = 7.0          # pin axis, measured from the socket mouth
+PORT_TUNNEL_WALL = 2.0
+PORT_BLOCK = PORT_SQ + PORT_CLEAR + 2 * 2.65    # 15.6
+PORT_BLOCK_LEN = PORT_DEPTH + 3.0               # 15
+SOCKET_N0 = (RING_H - (PORT_SQ + PORT_CLEAR)) / 2.0     # 2.85 (socket centred in the ring height)
+SOCKET_N1 = SOCKET_N0 + PORT_SQ + PORT_CLEAR            # 13.15
+POD_PORT_Y = RIM_Y + RING_H / 2.0                       # 100.5  every band/strut centreline
+BROW_TILT = 13.0
 POD_PORT_ANGLES = (BROW_TILT, 90.0, 135.0, 206.0, 300.0)
-POD_PORT_NAMES = {BROW_TILT: "front (brow strut)", 90.0: "top (crown arch)", 135.0: "rear-upper (spare, pylons)",
+POD_PORT_NAMES = {BROW_TILT: "front (brow strut)", 90.0: "top (crown arch)", 135.0: "rear-upper (spare)",
                   206.0: "rear (rear band)", 300.0: "front-lower (strap anchor)"}
 FRONT_PORT_ANGLE = BROW_TILT
 REAR_PORT_ANGLE = 206.0
-COUPLER_TUBE = "10 x 10 x 1 mm aluminium square tube, or printed PETG"
 
 # ---------------------------------------------------------------------------
-# Crown arch: feet on the pod rims (top ports), apex sleeve with width adjust
+# Crown arch
 # ---------------------------------------------------------------------------
 
 CROWN_W = 30.0
-CROWN_T = 5.0
+CROWN_T = 6.0                 # +1 mm over v0.3: room for the spine groove
 CROWN_PAD_T = 12.0
-CROWN_FOOT = (CROWN_W, 16.0, PORT_BLOCK_LEN)    # X x Y x Z, concave seat on the rim
+CROWN_FOOT = (CROWN_W, 16.0, PORT_BLOCK_LEN)
 CROWN_LEG_Z0 = CZ + DISH_R + CROWN_FOOT[2]      # 111.05
 APEX_FLOOR_T = 2.0
-APEX_SLEEVE = (40.0, 64.0, 10.4)
-CROWN_APEX_Z = HEAD.vertex_z_mm + CROWN_PAD_T + APEX_FLOOR_T + 0.2 + CROWN_T / 2.0   # 151.7
+APEX_SLEEVE = (40.0, 64.0, 11.4)
+CROWN_APEX_Z = HEAD.vertex_z_mm + CROWN_PAD_T + APEX_FLOOR_T + 0.2 + CROWN_T / 2.0   # 152.2
 CROWN_SUPER_N = 2.6
 CROWN_OVERLAP = 40.0
 CROWN_BAR_W = CROWN_W / 2.0
@@ -186,24 +153,24 @@ CROWN_SLOT_W = M4_CLEAR_DIA
 CROWN_SERR_PITCH = 2.0
 CROWN_SERR_H = 0.6
 POD_TOP_PORT_Y = POD_PORT_Y
-CROWN_PAD = (40.0, 60.0, CROWN_PAD_T)   # foam under the apex sleeve
+CROWN_PAD = (40.0, 60.0, CROWN_PAD_T)
 
 # ---------------------------------------------------------------------------
-# Brow panel: flat centre + swept wings, struts from the front ports
+# Brow panel
 # ---------------------------------------------------------------------------
 
 BROW_CENTER_W = 100.0
-BROW_WING_ANGLE = 20.0                  # wings sweep back
+BROW_WING_ANGLE = 20.0
 BROW_H = 50.0
 BROW_T = 12.0
 BROW_WALL = 2.0
-BROW_Z0 = HEAD.brow_z_mm + 2.0          # 42
-BROW_Z1 = BROW_Z0 + BROW_H              # 92
+BROW_Z0 = HEAD.brow_z_mm + 2.0
+BROW_Z1 = BROW_Z0 + BROW_H
 BROW_CLEAR = 10.0
 BROW_LID_T = 2.0
 BROW_LED_WINDOW = (80.0, 6.0)
 BROW_CAV_W = 92.0
-BROW_PAD = (96.0, 44.0, 12.0)           # foam on the lid, closes the forehead gap
+BROW_PAD = (96.0, 44.0, 12.0)
 
 
 def _forehead_x(z: float) -> float:
@@ -212,82 +179,67 @@ def _forehead_x(z: float) -> float:
     return a * math.sqrt(max(0.0, s))
 
 
-BROW_X_IN = max(_forehead_x(z) for z in (BROW_Z0, BROW_Z0 + 10, BROW_Z0 + 25, BROW_Z1)) + BROW_CLEAR   # 110
+BROW_X_IN = max(_forehead_x(z) for z in (BROW_Z0, BROW_Z0 + 10, BROW_Z0 + 25, BROW_Z1)) + BROW_CLEAR
 BROW_X_OUT = BROW_X_IN + BROW_T
-# Panel local frame: origin at the inner-bottom edge centre, ex = outward normal, ez = up (both tilted)
 _t = math.radians(BROW_TILT)
 BROW_EX = (math.cos(_t), 0.0, math.sin(_t))
 BROW_EZ = (-math.sin(_t), 0.0, math.cos(_t))
 BROW_ORIGIN = (BROW_X_IN, 0.0, BROW_Z0)
-# Struts run along BROW_EX from the pod front port; in panel coordinates they sit at this local z:
-BROW_STRUT_LOCAL_Z = (CX - BROW_ORIGIN[0]) * BROW_EZ[0] + (CZ - BROW_ORIGIN[2]) * BROW_EZ[2]   # ~15.7
-BROW_WING_LEN = (POD_PORT_Y - BROW_CENTER_W / 2.0) / math.cos(math.radians(BROW_WING_ANGLE))   # 60.5: wing end meets the strut line
-BROW_LID_SCREWS = ((-42.0, BROW_Z0 - BROW_Z0 + 10.0), (42.0, 10.0), (-42.0, BROW_H - 10.0), (42.0, BROW_H - 10.0))  # (local y, local z)
+BROW_STRUT_LOCAL_Z = (CX - BROW_ORIGIN[0]) * BROW_EZ[0] + (CZ - BROW_ORIGIN[2]) * BROW_EZ[2]
+BROW_WING_LEN = (POD_PORT_Y - BROW_CENTER_W / 2.0) / math.cos(math.radians(BROW_WING_ANGLE))
+BROW_LID_SCREWS = ((-48.0, 10.0), (48.0, 10.0), (-48.0, BROW_H - 10.0), (48.0, BROW_H - 10.0))
 
 # ---------------------------------------------------------------------------
-# Rear band: from the rear port, hugging the occiput, nape ratchet
+# Rear bands + nape plate with clam cleat
 # ---------------------------------------------------------------------------
 
-REAR_H = 36.0
-REAR_T = 5.0
-REAR_BLOCK_GAP = 5.0                    # socket block mouth stands this far off the pod rim
+REAR_H = 30.0
+REAR_T = 6.0
+REAR_BLOCK_GAP = 5.0
 _a = math.radians(REAR_PORT_ANGLE)
-REAR_D = (math.cos(_a), 0.0, math.sin(_a))                    # port radial direction (back, 26 deg down)
-REAR_TILT = REAR_PORT_ANGLE - 180.0                            # 26: band plane slope, contains the port axis
+REAR_D = (math.cos(_a), 0.0, math.sin(_a))
+REAR_TILT = REAR_PORT_ANGLE - 180.0
 REAR_W = (-math.sin(math.radians(REAR_TILT)), 0.0, math.cos(math.radians(REAR_TILT)))
-REAR_MOUTH = (CX + DISH_R * REAR_D[0], POD_PORT_Y, CZ + DISH_R * REAR_D[2])                   # (-44.8, 106.85, 8.3)
-_r0 = DISH_R + REAR_BLOCK_GAP + PORT_BLOCK_LEN                                                 # 81.05 band starts here
-REAR_START = (CX + _r0 * REAR_D[0], POD_PORT_Y, CZ + _r0 * REAR_D[2])                          # (-62.8, 106.85, -0.5)
+REAR_MOUTH = (CX + DISH_R * REAR_D[0], POD_PORT_Y, CZ + DISH_R * REAR_D[2])
+_r0 = DISH_R + REAR_BLOCK_GAP + PORT_BLOCK_LEN
+REAR_START = (CX + _r0 * REAR_D[0], POD_PORT_Y, CZ + _r0 * REAR_D[2])
 REAR_BACK_X = -108.0
-REAR_BACK_Z = HEAD.nape_z_mm + 12.5     # -22.5 (consistent with the 26 deg plane through the mouth)
-REAR_WAYPOINTS = (                      # plan (x, y) LEFT half, start -> rack
+REAR_BACK_Z = HEAD.nape_z_mm + 12.5
+REAR_EYE_Y = 46.0             # band ends (rope eye block centre) at +/- this
+REAR_WAYPOINTS = (
     (REAR_START[0], REAR_START[1]),
-    (-75.0, 96.0),
-    (-90.0, 78.0),
-    (-101.0, 62.0),
-    (-107.0, 54.0),
+    (-78.0, 90.0),
+    (-93.0, 72.0),
+    (-103.0, 58.0),
 )
-RACK_LEN = 66.0
-GEAR_MODULE = 1.25
-GEAR_PA = 20.0
-PINION_N = 10
-PINION_PITCH_R = GEAR_MODULE * PINION_N / 2.0
-PINION_W = REAR_T
-RACK_PITCH_W = PINION_PITCH_R
-NAPE_HOUSING = (74.0, REAR_H + 6.0, 9.6)
-NAPE_CHANNEL_N = REAR_T + 0.6
-NAPE_WALL = 2.0
-NAPE_SHAFT_D = 8.0
-NAPE_KNOB_D = 34.0
-NAPE_KNOB_H = 8.0
-NAPE_RATCHET_TEETH = 24
-NAPE_RATCHET_DIR = -1
-NAPE_LID_SCREWS = ((-34.0, -17.0), (34.0, 17.0), (-22.0, 0.0), (22.0, 0.0))
-NAPE_BUMPER = (19.5, 22.5, 200.0)       # r_in, r_out, arc degrees of the C bumper around the dial (open at the top)
-NAPE_PAD = (74.0, 42.0, 10.0)
-REAR_SIDE_PAD = (50.0, 30.0, 12.0)      # foam strips on the band's inner face beside the occiput
+EYE_BLOCK = (14.0, REAR_H, 14.0)        # tangential x W x along-band; rope hole through it along the band
+NAPE_PLATE = (74.0, 36.0, 6.0)          # Y x W x N, sits between the two eyes
+NAPE_PAD = (74.0, 36.0, 10.0)
+CLEAT = dict(length=32.0, width=16.0, height=11.0, top_w=6.0, bot_w=2.2, teeth=10, tooth_h=0.6)
+REAR_SIDE_PAD = (50.0, 30.0, 12.0)
 
 # ---------------------------------------------------------------------------
-# Add-ons
+# Add-ons, retention loop
 # ---------------------------------------------------------------------------
 
 STRAP_SLOT = (28.0, 4.0)
-COUPLER_CROWN_LEN = 2 * PORT_PLUG_LEN                       # 23
-COUPLER_REAR_LEN = REAR_BLOCK_GAP + 2 * PORT_PLUG_LEN       # 28
+LOOP_HOLE_DIA = ROPE_DIA + 0.6          # rope loop passes through every socket block
+COUPLER_CROWN_LEN = 2 * PORT_PLUG_LEN
+COUPLER_REAR_LEN = REAR_BLOCK_GAP + 2 * PORT_PLUG_LEN
 NECK_PIVOT = (-15.0, 0.0, -45.0)
 
 
 def report() -> str:
     L = [
-        "vp0.3 canon",
+        "vp0.4 canon",
         f"  head: width {HEAD.width_mm} | length {HEAD.length_mm} | phantom perimeter {HEAD.plan_perimeter():.0f}",
-        f"  pod: OD {DISH_OD} | skirt h {N_SKIRT_TOP} | socket n {SOCKET_N0}..{SOCKET_N1} | band centreline y {POD_PORT_Y:.2f}",
-        f"  overall width (pod faces): {2*CUP_FACE_Y:.0f} mm",
-        f"  ports: {POD_PORT_ANGLES}",
-        f"  crown: feet on rim, ribbon from z {CROWN_LEG_Z0:.1f} to apex {CROWN_APEX_Z:.1f}",
-        f"  brow: centre {BROW_CENTER_W} + wings {BROW_WING_LEN:.1f} @ {BROW_WING_ANGLE} deg, tilt {BROW_TILT}; strut at local z {BROW_STRUT_LOCAL_Z:.1f}",
-        f"  rear: port {REAR_PORT_ANGLE} -> start {tuple(round(v,1) for v in REAR_START)}; tilt {REAR_TILT}; nape ({REAR_BACK_X}, 0, {REAR_BACK_Z})",
-        f"  couplers: crown {COUPLER_CROWN_LEN}, rear {COUPLER_REAR_LEN}, brow computed in build_brow_panel",
+        f"  pod: shell OD {DISH_OD}, ring {RING_H} + dome {DOME_SAG} = {POD_THICK} thick; ear room at centre {EAR_ROOM_CENTER}; dome f/D {DOME_FOCAL/DISH_OD:.2f}",
+        f"  overall width at the dome vertices: {2*POD_OUT_Y:.0f} mm; band centreline y {POD_PORT_Y}",
+        f"  ports {POD_PORT_ANGLES}; pin {PIN_DIA} mm nail in double shear; cast sockets {CAST_SOCKETS}",
+        f"  crown: ribbon {CROWN_W}x{CROWN_T} from z {CROWN_LEG_Z0:.1f} to apex {CROWN_APEX_Z:.1f}; spine groove {SPINE_GROOVE}",
+        f"  brow: centre {BROW_CENTER_W} + wings {BROW_WING_LEN:.1f} @ {BROW_WING_ANGLE}, tilt {BROW_TILT}",
+        f"  rear: port {REAR_PORT_ANGLE}, bands {REAR_H}x{REAR_T} to eyes at y +/-{REAR_EYE_Y}; nape plate {NAPE_PLATE} + clam cleat, rope {ROPE_DIA}",
+        f"  couplers: crown {COUPLER_CROWN_LEN}, rear {COUPLER_REAR_LEN}, brow computed; {COUPLER_TUBE}",
     ]
     return "\n".join(L)
 

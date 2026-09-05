@@ -1,12 +1,13 @@
 #!/usr/bin/env -S blender --background --python
 """
-build_rear_band_half.py -- vp0.3 rear band half: socket block at the pod, rack at the nape.
+build_rear_band_half.py -- vp0.4 rear band half: pinned socket block, rope spine, rope eye.
 
-36 x 5 ribbon in a plane tilted 26 deg, starting from a full-height socket
-block that a 28 mm coupler joins to the pod's rear port, hugging the occiput
-to a 66 mm rack strip for the nape ratchet. Filleted before the rack goes on.
-Print: top edge down (rack teeth up). Qty: 2 (same STL; right = rotated 180 deg
-about the outward normal at the nape).
+30 x 6 chamfered ribbon in a plane tilted 26 deg from a full-height socket
+block at the pod (coupler + nail pin + collar) around the occiput to a rope
+eye block beside the nape. A 3.9 x 2.8 spine groove on the head-side face
+takes epoxy-soaked rope. No rack: the nape rope and clam cleat do the tension.
+Print: top edge down. Qty: 2 (same STL; right = rotated 180 deg about the
+outward normal at the nape).
 """
 from __future__ import annotations
 import math, sys
@@ -21,8 +22,9 @@ from mathutils import Matrix, Vector  # type: ignore
 W = Vector(C.REAR_W)
 D = Vector(C.REAR_D)
 PRINT_ROT = L.rot_dir_to(W, (0.0, 0.0, -1.0))
-NOTES = ["print with the planar top edge on the bed (rack teeth up); no supports",
-         f"socket block takes a {C.COUPLER_REAR_LEN} mm coupler into the pod rear port; lock screw M3 from the outboard face"]
+NOTES = ["print with the planar top edge on the bed; no supports",
+         f"socket block: {C.COUPLER_REAR_LEN} mm coupler into the pod rear port, nail pin, thread-wrap collar",
+         f"spine groove {C.SPINE_GROOVE[0]} x {C.SPINE_GROOVE[1]} on the head-side face; rope eye Ø{C.LOOP_HOLE_DIA} at the nape end"]
 BACK = Vector((C.REAR_BACK_X, 0.0, C.REAR_BACK_Z))
 N_OUT = Vector((-math.cos(math.radians(C.REAR_TILT)), 0.0, -math.sin(math.radians(C.REAR_TILT))))
 POD_C = Vector((C.CX, C.POD_PORT_Y, C.CZ))
@@ -33,14 +35,20 @@ def z_of(x):
 
 
 def block_mouth_frame():
-    mouth = POD_C + D * (C.DISH_R + C.REAR_BLOCK_GAP)
-    return L.frame(mouth, -D, (0.0, 1.0, 0.0))
+    return L.frame(POD_C + D * (C.DISH_R + C.REAR_BLOCK_GAP), -D, (0.0, 1.0, 0.0))
+
+
+def eye_centre():
+    ex, ey, eb = C.EYE_BLOCK
+    return Vector((C.REAR_BACK_X, C.REAR_EYE_Y, z_of(C.REAR_BACK_X)))
 
 
 def make():
     r_start = C.DISH_R + C.REAR_BLOCK_GAP + C.PORT_BLOCK_LEN - 1.0
     start = POD_C + D * r_start
-    wps = [(start.x, start.y)] + list(C.REAR_WAYPOINTS[1:]) + [(C.REAR_BACK_X, 50.0)]
+    ex, ey, eb = C.EYE_BLOCK
+    y_end = C.REAR_EYE_Y + eb / 2 - 1.0     # ribbon penetrates the eye block by 1 mm
+    wps = [(start.x, start.y)] + list(C.REAR_WAYPOINTS[1:]) + [(C.REAR_BACK_X, y_end)]
     samp = L.catmull_rom(wps, samples_per_seg=12)
     pts = [Vector((x, y, z_of(x))) for (x, y) in samp]
     half = C.REAR_H / 2
@@ -48,17 +56,23 @@ def make():
     # socket block at the pod end
     bc = POD_C + D * (C.DISH_R + C.REAR_BLOCK_GAP + C.PORT_BLOCK_LEN / 2)
     Mb = L.frame(bc, D, (0.0, 1.0, 0.0))
-    L.union(band, L.add_box_local("block", Mb, (0.0, 0.0, 0.0), (C.PORT_BLOCK, C.REAR_H, C.PORT_BLOCK_LEN)))
+    L.union(band, L.add_box_local("block", Mb, (0.0, 0.0, 0.0), (C.PORT_BLOCK, C.REAR_H + 0.2, C.PORT_BLOCK_LEN)))
+    # rope eye block at the nape end (band tangent there is -Y)
+    ec = eye_centre()
+    Me = L.frame(ec, (0.0, -1.0, 0.0), N_OUT)          # local z along the band (-Y), x outward
+    L.union(band, L.add_box_local("eye", Me, (0.0, 0.0, 0.0), (ex, ey + 0.2, eb)))
+    # spine groove on the head-side face (-N) between the blocks
+    gw, gd = C.SPINE_GROOVE
+    gi = [i for i, p in enumerate(pts) if 10 < i < len(pts) - 8]
+    gpts = [pts[i] for i in gi]
+    gext = [(gw / 2, gw / 2, -(C.REAR_T / 2 - gd), C.REAR_T / 2 + 1.0)] * len(gpts)
+    L.cut(band, L.ribbon("spine", gpts, W, gext))
     Mm = block_mouth_frame()
     L.cut(band, L.port_socket_cut(Mm, tag="rb"))
-    L.cut(band, *L.port_screw_cutters(Mm, -1.0, C.PORT_BLOCK / 2 + 1.0, tag="rb"))
-    L.fillet(band, width=0.8)   # block edges; the ribbon is chamfered by construction
-    # rack strip
-    Mr = L.frame((C.REAR_BACK_X, 50.0, z_of(C.REAR_BACK_X)), N_OUT, (0.0, -1.0, 0.0))
-    body_h = half - C.RACK_PITCH_W
-    poly = L.rack_poly(C.RACK_LEN + 2.0, C.GEAR_MODULE, C.GEAR_PA, body_h)
-    poly = [(u - 2.0, C.RACK_PITCH_W - v) for (u, v) in poly]
-    L.union(band, L.extrude_polygon("rack", poly, C.REAR_T - 0.1, Mr, z0=-(C.REAR_T - 0.1) / 2))
+    L.cut(band, *L.port_pin_cutters(Mm, -(C.PORT_BLOCK / 2 + 1.0), C.PORT_BLOCK / 2 + 1.0, tag="rb"))
+    L.cut(band, L.collar_cutter(Mm, -C.PORT_BLOCK_LEN / 2.0, C.PORT_BLOCK, tag="rb"))
+    L.cut(band, L.add_cyl_local("eyehole", Me, (0.0, 0.0, 0.0), C.LOOP_HOLE_DIA / 2, eb + 4.0, axis="Z", verts=24))
+    L.fillet(band, width=0.8)    # last: cuts on a filleted mesh leave slivers
     return band
 
 

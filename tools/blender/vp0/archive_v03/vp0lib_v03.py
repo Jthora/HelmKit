@@ -294,19 +294,18 @@ def sawtooth_poly(teeth, r_in, r_out, rise_frac=0.15, direction=+1):
     return pts
 
 
-def ridge_plate_poly(u0, u1, pitch, height, base, phase, valley=-0.1):
-    """Triangle-wave ridges along u (peaks at u = phase + k*pitch) on a base plate from v=-base up.
-    Valleys sit slightly below the host face (valley < 0) so no ridge vertex lies on it."""
-    pts = [(u0, -base), (u0, valley)]
+def ridge_plate_poly(u0, u1, pitch, height, base, phase):
+    """Triangle-wave ridges along u (peaks at u = phase + k*pitch), on a base plate from v=-base to 0."""
+    pts = [(u0, -base), (u0, 0.0)]
     k0 = math.floor((u0 - phase) / pitch) - 1
     k1 = math.ceil((u1 - phase) / pitch) + 1
     for k in range(k0, k1 + 1):
         peak = phase + k * pitch
-        valley_u = peak + pitch / 2.0
-        for u, v in ((peak, height), (valley_u, valley)):
+        valley = peak + pitch / 2.0
+        for u, v in ((peak, height), (valley, 0.0)):
             if u0 < u < u1:
                 pts.append((u, v))
-    pts += [(u1, valley), (u1, -base)]
+    pts += [(u1, 0.0), (u1, -base)]
     return pts
 
 
@@ -515,61 +514,16 @@ def port_tunnel(name, M: Matrix, sink=0.5):
 
 
 def port_socket_cut(M: Matrix, tag=""):
-    sq = C.PORT_SQ + C.PORT_CLEAR + (2 * C.CAST_OVERSIZE if C.CAST_SOCKETS else 0.0)
+    sq = C.PORT_SQ + C.PORT_CLEAR
     return add_box_local("psock" + tag, M, (0.0, 0.0, -C.PORT_DEPTH / 2.0 + 1.0), (sq, sq, C.PORT_DEPTH + 2.0))
-
-
-def port_pin_cutters(M: Matrix, x_far, x_near, tag=""):
-    """Nail pin in double shear along local X at the pin depth: through hole from x_far (beyond the far
-    wall) to x_near (beyond the near, accessible face) plus a head counterbore at the near face."""
-    tools = [add_cyl_local("ppin" + tag, M, ((x_far + x_near) / 2.0, 0.0, -C.PORT_PIN_DEPTH),
-                           C.PIN_DIA / 2.0, abs(x_near - x_far), axis="X", verts=24),
-             add_cyl_local("phead" + tag, M, (x_near - 1.0 - C.PIN_HEAD_DEPTH / 2.0 + 1.0, 0.0, -C.PORT_PIN_DEPTH),
-                           C.PIN_HEAD_DIA / 2.0, C.PIN_HEAD_DEPTH + 2.0, axis="X", verts=24)]
-    return tools
-
-
-def collar_cutter(M: Matrix, center_z, size, tag=""):
-    """Shallow groove ring around a square block (thread-and-epoxy wrap seat): a frame of COLLAR_GROOVE depth."""
-    w, d = C.COLLAR_GROOVE
-    outer = add_box_local("collar_o" + tag, M, (0.0, 0.0, center_z), (size + 2.0, size + 2.0, w))
-    inner = add_box_local("collar_i" + tag, M, (0.0, 0.0, center_z), (size - 2 * d, size - 2 * d, w + 2.0))
-    return cut(outer, inner)
-
-
-def clam_cleat(name, M: Matrix, base_z=0.0):
-    """
-    No-moving-parts rope cleat: a block with a V-slot along local X that narrows downward; transverse
-    grooves on both jaws. Rope enters from -X under load, the tail leaves +X; pull the tail to
-    tighten, lift the rope out of the V to release. Dimensions from canon CLEAT.
-    """
-    K = C.CLEAT
-    Lc, Wc, Hc = K["length"], K["width"], K["height"]
-    blk = add_box_local(name, M, (0.0, 0.0, base_z + Hc / 2.0), (Lc, Wc, Hc))
-    tw, bw = K["top_w"], K["bot_w"]
-    slot_bottom = base_z + Hc - 8.0
-    poly = [(-tw / 2, base_z + Hc + 1.0), (tw / 2, base_z + Hc + 1.0), (bw / 2, slot_bottom), (-bw / 2, slot_bottom)]
-    Mv = M @ frame((0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (0.0, 1.0, 0.0))   # extrude along local X; poly in (y, z)
-    cut(blk, extrude_polygon("vslot", poly, Lc + 2.0, Mv, z0=-Lc / 2.0 - 1.0))
-    half = math.atan2((tw - bw) / 2.0, 8.0)
-    for k in range(K["teeth"]):
-        x = -Lc / 2.0 + Lc * (k + 0.5) / K["teeth"]
-        for sy in (+1, -1):
-            # cylinder lying along the jaw face (direction tilted by the V half-angle), axis on the face
-            ymid = sy * (bw / 2 + (tw - bw) / 4.0)
-            zmid = slot_bottom + 4.0
-            d = Vector((0.0, sy * math.sin(half), math.cos(half)))
-            Mt = M @ frame((x, ymid, zmid), d, (1.0, 0.0, 0.0))
-            cut(blk, add_cyl_local("tooth", Mt, (0.0, 0.0, 0.0), K["tooth_h"] + 0.3, 10.0, axis="Z", verts=16))
-    return blk
 
 
 def port_screw_cutters(M: Matrix, wall_from, wall_to, tag=""):
     """Locking screw along local +X: clearance hole from local x=wall_from (inside the socket) to wall_to
     (outer face), counterbore 2 mm at the outer face."""
-    tools = [add_cyl_local("pscrew" + tag, M, ((wall_from + wall_to) / 2.0, 0.0, -C.PORT_PIN_DEPTH),
+    tools = [add_cyl_local("pscrew" + tag, M, ((wall_from + wall_to) / 2.0, 0.0, -C.PORT_SCREW_DEPTH),
                            C.M3_CLEAR_DIA / 2.0, wall_to - wall_from, axis="X", verts=24),
-             add_cyl_local("pcbore" + tag, M, (wall_to - 0.5, 0.0, -C.PORT_PIN_DEPTH), 3.1, 3.0, axis="X", verts=24)]
+             add_cyl_local("pcbore" + tag, M, (wall_to - 0.5, 0.0, -C.PORT_SCREW_DEPTH), 3.1, 3.0, axis="X", verts=24)]
     return tools
 
 
@@ -584,14 +538,14 @@ def port_plug(name, M: Matrix, lip=None):
 
 def port_plug_thread_hole(M: Matrix, tag=""):
     """Thread-forming M3 hole through the post along local X at the screw depth."""
-    return add_cyl_local("pthr" + tag, M, (0.0, 0.0, -C.PORT_PIN_DEPTH), C.M3_TAP_DIA / 2.0, C.PORT_SQ + 4.0, axis="X", verts=16)
+    return add_cyl_local("pthr" + tag, M, (0.0, 0.0, -C.PORT_SCREW_DEPTH), C.M3_TAP_DIA / 2.0, C.PORT_SQ + 4.0, axis="X", verts=16)
 
 
 def coupler(name, length):
     """Double-male post along local Z, centred, thread holes 7 mm from each end (along X)."""
     c = add_box(name, (0.0, 0.0, 0.0), (C.PORT_SQ, C.PORT_SQ, length))
-    for z in (length / 2.0 - C.PORT_PIN_DEPTH, -(length / 2.0 - C.PORT_PIN_DEPTH)):
-        cut(c, add_cyl("pin", (0.0, 0.0, z), C.PIN_DIA / 2.0, C.PORT_SQ + 6.0, axis="X", verts=24))
+    for z in (length / 2.0 - C.PORT_SCREW_DEPTH, -(length / 2.0 - C.PORT_SCREW_DEPTH)):
+        cut(c, add_cyl("thr", (0.0, 0.0, z), C.M3_TAP_DIA / 2.0, C.PORT_SQ + 4.0, axis="X", verts=16))
     return c
 
 
@@ -644,7 +598,7 @@ def mesh_stats(ob) -> dict:
     xs = [v.co.x for v in ob.data.vertices]
     ys = [v.co.y for v in ob.data.vertices]
     zs = [v.co.z for v in ob.data.vertices]
-    return {"nonmanifold_edges": nonman, "volume_mm3": vol, "mass_g_petg": vol / 1000.0 * C.DENSITY_G_CM3,
+    return {"nonmanifold_edges": nonman, "volume_mm3": vol, "mass_g_petg": vol / 1000.0 * C.PETG_DENSITY_G_CM3,
             "bbox": (max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs)),
             "min": (min(xs), min(ys), min(zs)), "verts": len(ob.data.vertices), "faces": len(ob.data.polygons)}
 
@@ -716,7 +670,7 @@ def write_sidecar(ob, out_path: Path, notes) -> str:
     bx, by, bz = s["bbox"]
     lines = [f"{Path(out_path).name}",
              f"  print bbox (mm): {bx:.1f} x {by:.1f} x {bz:.1f}   (Z is print height)",
-             f"  solid volume: {s['volume_mm3']/1000.0:.1f} cm3   solid mass: {s['mass_g_petg']:.0f} g (as-printed with infill is less)",
+             f"  solid volume: {s['volume_mm3']/1000.0:.1f} cm3   solid PETG mass: {s['mass_g_petg']:.0f} g (as-printed with infill is less)",
              f"  mesh: {s['verts']} verts / {s['faces']} faces / non-manifold edges: {s['nonmanifold_edges']}"] + [f"  {n}" for n in notes]
     txt = "\n".join(lines) + "\n"
     Path(out_path).with_suffix(".txt").write_text(txt)
