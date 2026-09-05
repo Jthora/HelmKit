@@ -1,5 +1,10 @@
 # `tools/blender/` — parametric mesh generators
 
+> **2026-09-04:** the current printable set is the clean-slate **vp0.3** in [`vp0/`](vp0/README.md)
+> (brain-core-centred pods with flush port sockets, coupler joints, winged brow panel,
+> nape ratchet). It shares nothing with the Mk0.5-β generators below, which remain
+> unprinted placeholders. Start there.
+
 This directory holds the **authoritative shape definition** for every
 printable part of the HelmKit Mk0.5-β topology. Each `build_*.py`
 script generates one STL deterministically from canon parameters
