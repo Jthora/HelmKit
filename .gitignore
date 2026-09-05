@@ -6,6 +6,7 @@
 # before its children can be re-included.
 3D-Models/*
 !3D-Models/HelmKit_vp0/
+3D-Models/HelmKit_vp0/*.blend1
 !3D-Models/HelmKit/
 3D-Models/HelmKit/*
 !3D-Models/HelmKit/_derived/

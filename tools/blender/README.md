@@ -1,9 +1,10 @@
 # `tools/blender/` — parametric mesh generators
 
-> **2026-09-04:** the current printable set is the clean-slate **vp0.3** in [`vp0/`](vp0/README.md)
-> (brain-core-centred pods with flush port sockets, coupler joints, winged brow panel,
-> nape ratchet). It shares nothing with the Mk0.5-β generators below, which remain
-> unprinted placeholders. Start there.
+> **2026-09-05:** the current printable set is the clean-slate **vp0.9** in [`vp0/`](vp0/README.md)
+> (hard-hat style PETG cradle with a nape pin-lock, enclosed brain-core-centred disks bayoneted
+> and screw-locked onto a per-side NEXUS hub that also carries the visor pivot with a captive
+> index pin, bolted-tab rail visor, socketed crown arch, knob-locked antenna pylons). It shares
+> nothing with the Mk0.5-β generators below, which remain unprinted placeholders. Start there.
 
 This directory holds the **authoritative shape definition** for every
 printable part of the HelmKit Mk0.5-β topology. Each `build_*.py`
@@ -120,6 +121,46 @@ re-verify swing/fold envelopes.
 Detailed pass criteria live in
 [`docs/mechanical/mk0.5_topology_beta_architecture.md`](../../docs/mechanical/mk0.5_topology_beta_architecture.md)
 §11.
+
+## Physical validation status (added 2026-08-05, STLs regenerated 2026-08-06)
+
+**As of 2026-08-06, none of the 11 generators above have been printed
+or physically tested.** All 11 were freshly regenerated headless
+(Blender 5.0.0, zero errors) on 2026-08-06 and are sitting in
+`3D-Models/HelmKit/_generated/`, ready to slice — but every acceptance
+gate in the table above is still an **untested target**, not a passed
+check. `docs/roadmap.md`'s "Mk0.0 done" status refers to an earlier,
+pre-topology-B print (iter9), not this part set.
+
+A print-order execution plan (which part first, why, TPU-specific
+calibration advice, starting-point slicer settings) lives in
+[`docs/mechanical/mk0.5_topology_beta_print_plan.md`](../../docs/mechanical/mk0.5_topology_beta_print_plan.md).
+This checklist is the tracked, explicit next step — replacing the
+previously-implied-but-undone validation pass. Record results here
+(or in a linked field-notes entry) as each part is printed and gated.
+
+| # | Part | Printed? | Gate(s) | Result |
+|---|---|---|---|---|
+| 1 | `top_yoke_r1.stl` | ☐ | G-Print, G-Fit, G-Pull, G-Yoke | — |
+| 2 | `temple_plate_r1.stl` (×2, L/R) | ☐ | G-Print, G-Fit, G-Pull | — |
+| 3 | `forward_visor_band_r1.stl` | ☐ | G-Print, G-Cable, G-Motion | — |
+| 4 | `rear_visor_band_r1.stl` | ☐ | G-Print, G-Cable, G-Motion | — |
+| 5 | `psi_pylon_r1.stl` (×2) | ☐ | G-Fold | — |
+| 6 | `pylon_live_hinge_r1.stl` (×2) | ☐ | G-Pylon | — |
+| 7 | `psi_defender_cradle_r1.stl` (×2) | ☐ | G-Defender-Aim, G-SAR | — |
+| 8 | `psi_stabilizer_panel_r1.stl` (×2) | ☐ | G-Fit | — |
+| 9 | `visor_detent_leaf_r1.stl` (×4) | ☐ | G-Motion | — |
+| 10 | `sidehelm_pod_battery_r1.stl` | ☐ | G-Pod | — |
+| 11 | `sidehelm_pod_compute_r1.stl` | ☐ | G-Pod | — |
+
+**Procedure per part**: generate via the commands in "How to run a
+single generator" above → print on the QIDI X-MAX (per
+`mk0.5_topology_beta_architecture.md` §0, "Print target") → run the
+listed gate(s) against the real printed part per the pass criteria in
+`mk0.5_topology_beta_architecture.md` §11 → record pass/fail and any
+deviation here. G-SAR (part 7) is an electrical/RF gate, not purely
+mechanical — it additionally requires the Defender's coil-drive
+electronics to exist, so it will lag the others.
 
 ## License hygiene
 
