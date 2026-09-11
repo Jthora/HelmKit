@@ -98,6 +98,8 @@ Key results for the pod coil (ID 40, OD 104, 16.8 turn-pairs, 24 AWG):
 | opposing (Tesla) | 6.7 µH | 155 pF | 4.9 MHz | 2.7 Ω |
 | aiding | 83 µH | 155 pF | 1.4 MHz | 2.7 Ω |
 
+**As built (vp0.15 `coil_former`, 2026-09-11).** The printed former in the disk cavity winds the pair from r 22 to r 50 at 1.9 mm pitch (ID 44, OD 100, 14.7 turn-pairs): the outer turns would clip the six dome-boss holes at r 51.7, and 0.8 mm ribs between furrows are the thinnest a 0.4 mm nozzle prints reliably. Re-running the model with `--id 44 --od 100 --pitch 1.9`: opposing 5.5 µH / 136 pF / 5.8 MHz, aiding 68 µH / 136 pF / 1.66 MHz, 0.55 Ω, 3.3 m of wire per spiral. At 1 A aiding, 10 Hz: 127 µT at the scalp, 74 µT and 6.4×10⁻⁵ V/m in cortex, 0.6 % of the CNS in-situ limit; 155 A would be needed to reach that limit and 4700 A for a tACS-class 0.3 V/m. The conclusion in §3 is unchanged; only the lumped values move by about 18 %.
+
 | Drive | B scalp | B cortex | E_ind cortex | E_ind / CNS limit |
 |---|---|---|---|---|
 | aiding, 3 A, 10 Hz | 430 µT | 250 µT | 2.2×10⁻⁴ V/m | 0.02 |

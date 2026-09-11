@@ -149,7 +149,9 @@ STALK_BORE = 8.2              # axial bore for the knob shaft (Ø7.6), 2 mm into
 STALK_LUG_N = (4.0, 7.0)      # lug band measured from the disk back face (n)
 BAYONET_BOSS = (34.0, 14.5)   # dia x height on the cavity side of the back plate: groove to 7.7, lock notch 9.0..12.6, 1.9 mm top
 BAYONET_GROOVE = (13.6, 4.0, 7.8)   # groove outer radius, nominal floor n0, ceiling n1 (measured from the plate's head face); v0.14: +0.1 for the printed ceiling's sag over the 3.3 mm annular overhang (1.2 mm wall to the lock notch floor)
-BAYONET_CAM = (4.5, 3.8)      # groove floor at the entry notch / at the stop: the quarter turn cams the plate 0.2 mm onto the flange face (printed lugs at n 4..7)
+BAYONET_CAM = (4.5, 3.8)      # groove floor at the entry notch / at the stop: the turn cams the plate 0.2 mm onto the flange face (printed lugs at n 4..7)
+BAYONET_STOP = dict(bump_deg=129.0, bump_w=3.0, flat_end=135.0)   # v0.16: stop bump centre (plate deg past the entry notch) and the end of the flat n_stop floor; the 6 mm lug spans 30 deg at r 11.5 and the bump 14 deg, so the lug centre stops at 108 deg = 107 deg of travel (was a notional 98 that the lug could not reach)
+DISK_CABLE_SLOT_W = 5.0       # v0.16: the plate's cable exit is an arc SLOT at the bore radius spanning the lock travel, so the lead stays in the flange bore while the plate turns
 BAYONET_LOCK = dict(pin_world_deg=90.0, pin_dia=3.2, pin_len=7.8, n=10.8, notch=(3.6, 2.5), notch_n=(9.0, 12.6))   # centre-knob disk lock: a 7.2 mm piece of 3.2 nail in a radial hole in the hollow stalk (top) is pushed 2 mm out into a notch in the boss bore by the knob shaft's eccentric; the notch sits 98 deg past the pin in the plate frame (locked pose)
 DISK_KNOB = dict(d=28.0, t=5.0, dish=(32.0, 5.0), shaft_d=7.6, ecc=1.0, ecc_d=6.0, ecc_len=6.0, clip_n=16.0, clip=(14.0, 8.0, 2.0), apex_boss=(36.0, 7.0), hole=9.0)
 #   v0.14: the eccentric is a Ø6 cylinder offset 1.0 (envelope 8.0 in the 8.2 bore): cam low r 2.0 / high r 4.0 against a 7.8 mm pin whose
@@ -255,11 +257,11 @@ PAD_HUB = dict(x=(-9.0, 29.0), z=(44.0, 69.0), foam_t=4.0, screws=((-5.0, 48.0),
 PAD_REAR = dict(x=(-57.0, -33.0), z=(42.0, 68.0), foam_t=4.0, screws=((-53.0, 63.5), (-37.0, 63.5)), wall=1.3,   # plate down to z 42 (the node face runs to 23); screws above the tenon slot (z 25..51), countersinks inside the plate
                 temp=(13.0, 10.0, 2.5, REAR_NODE_X, 50.0),                         # MAX30205 pocket w x h x depth at (x, z), occipital skin
                 cross=(7.5, REAR_NODE_X, CRADLE_Z + REAR_NODE_W[1] - CYL_PIN_Z))   # clearance over the rear socket's cross-bolt (nut across corners 6.35)
-SENSOR_BAR = dict(half_arc=50.0, n=24.0, w=20.0, z=58.0, standoff=0.3, wall=2.0, floor=4.0, chamfer=1.0, cavity_arc=34.0,
+SENSOR_BAR = dict(half_arc=50.0, n=24.0, w=20.0, z=58.0, standoff=0.8, wall=2.0, floor=4.0, chamfer=1.0, cavity_arc=34.0,
                   window=(18.0, 7.3, 17.3), recess=(25.4, 6.1, 18.5, 1.5), carrier=(25.0, 6.3, 18.3, 1.5),   # (half arc, normal from the band centreline .., depth)
-                  camera=(0.0, 8.6), thermopile=(-11.0, 9.6), ir_leds=((8.5, 5.2), (15.0, 5.2)), carrier_screws_s=(-21.5, 21.5),
-                  exit=(30.0, 3.5, 4.8, 10.0), led_groove=(46.0, 20.0, 25.3, 2.2),            # cable exit: vertical Ø3.5 slot at arc +/-30 down the back wall (normal 4.8, from z0 + 10 to the bottom), out of the bar's bottom under the band edge
-                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.0), pin_fit=(0.1, 0.3), screw_z=58.5)   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
+                  camera=(0.0, 8.6), thermopile=(-11.0, 9.6), thermopile_tilt=15.0, ir_leds=((8.5, 5.2), (15.0, 5.2)), carrier_screws_s=(-21.5, 21.5),
+                  exit=(30.0, 3.5, 5.3, 10.0), led_groove=(46.0, 20.0, 25.3, 2.2),            # cable exit: vertical Ø3.5 slot at arc +/-30 down the back wall, centred IN the wall (normal = CRADLE_T/2 + standoff + wall/2 = 5.3), out of the bar's bottom under the band edge
+                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.5), pin_fit=(0.1, 0.3), screw_z=58.5)   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
 #   curved hollow bar hugging the band's outer front face in combat trim: 24 x 20 section (z 48..68), 1 mm chamfers, 2 mm walls, 4 mm floor with a
 #   window + flush recess for the sensor CARRIER (camera head, MLX90614 thermopile, two IR LEDs) screwed from below; LED pacer lane on the
 #   underside along the front edge; two printed Ø4 pins (the shear fuse) + one M3 x 8 into the band's outer face; cable holes in the floor
@@ -450,8 +452,8 @@ BELT_PACK = dict(inner=(100.0, 65.0, 35.0), wall=2.5, lid_t=2.5, rebate=1.0, lip
                  umbilical=(8.0, 3.0), usb=(10.0, 7.0, 14.0))
 COIL_FORMER = dict(od=109.4, id=40.0, t=3.5, r0=22.0, r1=50.0, pitch=1.9, groove=(1.1, 0.8), back_groove=(1.4, 1.0),   # 0.8 mm ribs between turns, an 0.8 deep furrow (the pair stands proud, glued)
                    boss_hole=7.6, pin_hole=1.2)                                               # pancake former in the disk cavity: bifilar pair (2 x 24 AWG) in one spiral groove; 6 boss holes; the back grooves drop all four ends into the plate's cable hole
-REAR_CABLE = dict(w=3.0, d=2.5, v=9.5, s0=10.0, y_end=RACK_Y0 + 8.0, cover_t=1.0)           # harness channel on the rear halves' INNER face at v +9.5, from 10 mm behind the node to 8 mm short of the rack. The RIGHT half is the left print flipped over (its rack takes the lower tunnel), so on the right the channel sits at v -9.5 and the +W x-shift of a tilted band would carry a nearer start into the node: hence s0 10
-NODE_CABLE_GROOVE = dict(w=3.0, d=2.5, z_L=CRADLE_Z + REAR_TENON_W0 + 9.5, z_R=CRADLE_Z + REAR_TENON_W0 - 8.0, y=(NODE_IN_Y, CRADLE_SIDE_Y - 2.4))   # groove across each rear node's rear face (y 84 -> 87.6): left at z 47.5 (above the tenon nail's counterbore), right at z 30 (the flipped half's channel is low); the foam-layer harness steps out to the rear half's inner face
+REAR_CABLE = dict(w=3.0, d=2.5, v=-13.0, s0=12.0, y_end=RACK_Y0 + 8.0, cover_t=1.0)   # v0.16: BELOW the strap slots (v -2.5..11.5) and the rack; the flipped right half carries it at +13           # harness channel on the rear halves' INNER face at v +9.5, from 10 mm behind the node to 8 mm short of the rack. The RIGHT half is the left print flipped over (its rack takes the lower tunnel), so on the right the channel sits at v -9.5 and the +W x-shift of a tilted band would carry a nearer start into the node: hence s0 10
+NODE_CABLE_GROOVE = dict(w=3.0, d=2.5, z_L=CRADLE_Z + REAR_TENON_W0 - 9.0, z_R=CRADLE_Z + REAR_TENON_W0 + 10.0, y=(NODE_IN_Y, CRADLE_SIDE_Y - 2.4))   # groove across each rear node's rear face (y 84 -> 87.6): left at z 47.5 (above the tenon nail's counterbore), right at z 30 (the flipped half's channel is low); the foam-layer harness steps out to the rear half's inner face
 ELECTRONICS_G = dict(heltec=12.0, lipo_1000=20.0, imu=3.0, gsr=6.0, amp=4.0, junction=5.0, wiring=15.0, transducer=8.0)   # reference masses for the balance report
 
 REAR_SIDE_PAD = (50.0, 30.0, 12.0)

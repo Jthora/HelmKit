@@ -32,7 +32,8 @@ def exit_polar(M):
     # M's origin is (CX, side*DISK_IN_Y, CZ); take the local x/y of the world point (ignoring the axis component)
     Minv = M.inverted()
     q = Minv @ Vector((p_world.x, M.translation.y, p_world.z))
-    return math.hypot(q.x, q.y), math.atan2(q.y, q.x)
+    # the former turns with the plate: its exit must sit over the bore in the LOCKED pose, one lock travel further round
+    return math.hypot(q.x, q.y), math.atan2(q.y, q.x) + math.radians(BD.lock_travel_deg())
 
 
 def former(side=+1):

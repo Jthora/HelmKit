@@ -20,7 +20,7 @@ from mathutils import Matrix, Vector  # type: ignore
 
 PRINT_ROT = L.ROT_NONE
 NOTES = ["print flat; the 3.2 nail must press into the 3.2 hole with light taps and slip through the 3.4 hole; a 2 mm nail slips through the 2.2 hole; an M3 self-taps into the 2.5 hole",
-         "the 8 mm peg must slide into the 8.3 socket and take an M3 cross-bolt; the bayonet stub must drop into the boss and turn a quarter to the stop without force",
+         "the 8 mm peg must slide into the 8.3 socket and take an M3 cross-bolt; the bayonet stub must drop into the boss and turn about 107 deg to the stop without force, tightening over the last third",
          "the loose ratchet disc must click over the plate ring one way and lock the other; adjust PIN_DIA / NAPE_RATCHET_DIR / BAYONET_* in canon.py"]
 
 

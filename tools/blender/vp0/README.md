@@ -99,3 +99,6 @@ workflow. Re-running `assemble_vp0.py` overwrites the file.
 - Give a cone cutter's narrow end 0.1 mm more than the hole it meets so the solver never sees two coincident cylinders.
 - Expected-contact pairs in the collision report can hide real interference (the pawl tip against the un-notched hub): when a pair is expected, read the face count and the location, not just the flag.
 - Fastener tips: count the stack (counterbore floor to nut face) against the bolt length and relieve whatever the last 0.5 mm lands on.
+- A rotation you write as a number is a claim; derive it from the geometry that limits it. The bayonet's "98° past the pin" ignored that a 6 mm lug spans 30° of an 11.5 mm radius and the stop bump 14°: the real travel was 76° and the lock could never engage. `lock_travel_deg()` now computes it and every dependent feature (notch, cam flat, lead slot, former exit, unlock mark) reads it.
+- Anything that turns while something else stays fixed needs a slot, not a hole: the coil lead through the flange bore and the plate's exit hole.
+- A part that is reused by flipping it (the right rear half) carries every feature at the mirrored edge; add features on the left, then check the flipped copy against the neighbours it meets.

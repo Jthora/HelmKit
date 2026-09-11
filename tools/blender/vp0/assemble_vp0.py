@@ -281,6 +281,12 @@ def build_assembly(with_head=True, trim="full", core="nape"):
             Mc = Matrix.Translation((C.CX, side * (C.DISK_IN_Y + kb["clip_n"] - kb["clip"][2] / 2), C.CZ)) @ Matrix.Rotation(-side * math.pi / 2, 4, "X")
             P[f"clip_{tag}"] = style(placed(build_nexus.knob_clip(), Mc), f"knob_clip.{tag}", "bone", disks)
             P[f"former_{tag}"] = style(build_coil_former.former(side), f"coil_former.{tag}", "rope", disks)      # v0.15: the bifilar pancake's winding body
+            # v0.16: the disk parts are modelled in the ENTRY pose (lugs in the notches); show them turned to the stop, as worn
+            Ma = build_disk.axis_frame(side)
+            Rl = Ma @ Matrix.Rotation(-math.radians(build_disk.lock_travel_deg()), 4, "Z") @ Ma.inverted()
+            for k in (f"dome_{tag}", f"back_{tag}", f"former_{tag}"):
+                P[k].matrix_world = Rl @ P[k].matrix_world
+                L.apply_transform(P[k])
         # pylons: the right side is the LEFT print turned 180 deg about the vertical axis through its socket (what you actually do)
         if core != "slab":
           P["pylon_L"] = style(build_pylon.base(+1), "pylon_base.L", "steel", add)
@@ -523,8 +529,9 @@ Collections
                    nape nails, pads; combat trim adds headgear_phantom (head + 25 mm, open face to z 70) for the fit report
   PrintLayout      hidden; every printed part in print orientation on a 325x325 bed
 
-Disks: lugs into the notches, quarter turn to the stop (the cam groove pulls the plate tight), turn the centre knob half a turn:
-its eccentric pushes the stalk pin into the plate's notch. Half a turn back releases.
+Disks: lugs into the notches, turn to the stop (about 107 deg; the cam groove pulls the plate tight), turn the centre knob half a turn:
+its eccentric pushes the stalk pin into the plate's notch. Half a turn back releases. The disks are shown in the worn (locked) pose;
+the plate's cable exit is an arc slot so the coil lead stays in the flange bore while the disk turns.
 Visor: thumb on the tab at the rail root, pull 2 mm, swing, let go: the pawl drops into the next hub notch (15 deg). Two steps up = parked.
 Brow: the links bend inboard behind the panel; nothing shows from the front. Reach = link length.
 Spine: 2 mm rope in the outer-face channels, potted in steel epoxy, cover strips pressed in flush. Cables: stripped ethernet pairs,

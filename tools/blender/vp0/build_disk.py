@@ -65,8 +65,30 @@ def dome(side=+1):
     # invisible), and a small notch in the dish rim at the bottom marks the knob's unlocked position.
     L.cut(shell, L.add_box("printflat", (C.CX, yc, C.CZ - C.DISK_R - 7.0 + C.DISK_PRINT_FLAT), (200.0, 80.0, 14.0)))
     mw, md = C.DISK_UNLOCK_MARK
-    L.cut(shell, L.add_box("unlockmark", (C.CX, side * (C.DISK_OUT_Y - md / 2 + 0.5), C.CZ - dd / 2 - 0.5), (mw, md + 1.0, 2.0)))
+    # at the bottom in the WORN pose: the dome turns with the plate, so in the modelled (entry) pose it sits `travel` further round
+    a_mark = (90.0 if side > 0 else 270.0) + lock_travel_deg()
+    Mm = M @ Matrix.Rotation(math.radians(a_mark), 4, "Z")
+    L.cut(shell, L.add_box_local("unlockmark", Mm, (dd / 2 + 0.5, 0.0, n_top - md / 2 + 0.5), (2.0, mw, md + 1.0)))
     return shell
+
+
+def lock_travel_deg():
+    """Plate rotation from the entry notch to the stop, from the lug width, the bump width and the bump angle (all in plate degrees)."""
+    lw, lr, _ = C.STALK_LUG
+    r_lug = C.STALK_D / 2 + lr / 2
+    g_r = C.BAYONET_GROOVE[0]
+    rb_in = C.STALK_D / 2 + 0.5
+    rc = (rb_in + g_r + 0.5) / 2
+    half_lug = math.degrees(lw / 2 / r_lug)
+    half_bump = math.degrees(C.BAYONET_STOP["bump_w"] / 2 / rc)
+    return C.BAYONET_STOP["bump_deg"] - half_bump - half_lug
+
+
+def bore_local_angle(M):
+    """Plate-frame angle (deg) and radius of the flange's cable bore in the modelled (entry) pose."""
+    cb = C.CABLE_BORE
+    q = M.inverted() @ Vector((C.CX - cb["dx"], M.translation.y, cb["z"]))
+    return math.degrees(math.atan2(q.y, q.x)), math.hypot(q.x, q.y)
 
 
 def bayonet_boss(M, z0):
@@ -103,7 +125,7 @@ def bayonet_cuts(plate, M, mouth=True, z_below=1.0, side=+1):
         t = theta % 180.0
         if t <= 90.0:
             return n_notch + (n_stop - n_notch) * (t / 90.0)
-        return n_stop if t <= 104.0 else n_notch
+        return n_stop if t <= C.BAYONET_STOP["flat_end"] else n_notch      # flat long enough for the whole 30-deg lug to sit on it
 
     NST = 100
     stations = []
@@ -115,16 +137,16 @@ def bayonet_cuts(plate, M, mouth=True, z_below=1.0, side=+1):
     groove.matrix_world = rot(2.37) @ groove.matrix_world
     L.apply_transform(groove)
     for sx in (+1, -1):
-        Mb = rot(0.9 + 98.0 + (0.0 if sx > 0 else 180.0))
+        Mb = rot(0.9 + C.BAYONET_STOP["bump_deg"] + (0.0 if sx > 0 else 180.0))
         rb_in = C.STALK_D / 2 + 0.5
         rc = (rb_in + g_r + 0.5) / 2
-        L.cut(groove, L.add_box_local("bump", Mb, (rc, 0.0, (n_stop - 0.6 + g1 + 0.4) / 2), (g_r + 0.5 - rb_in, 3.0, g1 - n_stop + 1.0)))
+        L.cut(groove, L.add_box_local("bump", Mb, (rc, 0.0, (n_stop - 0.6 + g1 + 0.4) / 2), (g_r + 0.5 - rb_in, C.BAYONET_STOP["bump_w"], g1 - n_stop + 1.0)))
     L.cut(plate, groove)
     # lock notch in the boss bore: the stalk's radial pin (world top) drops into it after the 98 deg turn
     lk = C.BAYONET_LOCK
     nw, nd = lk["notch"]
     na, nb = lk["notch_n"]
-    phi = (-side * lk["pin_world_deg"]) % 360.0 + 98.0        # rot() turns clockwise for the left plate, anticlockwise for the right
+    phi = (-side * lk["pin_world_deg"]) % 360.0 + lock_travel_deg()   # the pin's plate-frame angle after the turn (rot() is mirrored between the sides)
     L.cut(plate, L.add_box_local("locknotch", rot(phi), (C.STALK_D / 2 + 0.3 + nd / 2 - 0.5, 0.0, (na + nb) / 2), (nd + 1.0, nw, nb - na)))
 
 
@@ -146,8 +168,22 @@ def back(side=+1):
     for k in range(C.DISK_SCREWS):
         a = math.radians(30.0 + 360.0 * k / C.DISK_SCREWS)
         L.cut(plate, L.add_cyl_local("screw", rot(1.1), (C.DISK_SCREW_R * math.cos(a), C.DISK_SCREW_R * math.sin(a), C.DISK_PLATE_T / 2), C.M3_CLEAR_DIA / 2, C.DISK_PLATE_T + 2.0, axis="Z", verts=16))
-    cb = C.CABLE_BORE
-    L.cut(plate, L.add_cyl("cable", (C.CX - cb["dx"], side * (C.DISK_IN_Y + C.DISK_PLATE_T / 2), cb["z"]), cb["dia"] / 2, C.DISK_PLATE_T + 2.0, axis="Y", verts=24))
+    # v0.16: the cable exit is an ARC SLOT from the bore's plate-frame angle at entry to its angle when locked, so the lead
+    # threaded through the flange bore is never dragged: the plate turns around it.
+    a_b, r_b = bore_local_angle(M)
+    trav = lock_travel_deg()
+    sw = C.DISK_CABLE_SLOT_W
+    n_mid = C.DISK_PLATE_T / 2
+    pts = []
+    n = max(4, int(math.radians(trav) * r_b / 1.5))
+    for i in range(n + 1):
+        a = math.radians(a_b + trav * i / n)
+        pts.append(M @ Vector((r_b * math.cos(a), r_b * math.sin(a), n_mid)))
+    wide = M.to_3x3() @ Vector((0.0, 0.0, 1.0))
+    slot = L.ribbon("slot", pts, wide, [(n_mid + 1.0, n_mid + 1.0, sw / 2, sw / 2)] * len(pts))
+    for a in (a_b, a_b + trav):
+        L.union(slot, L.add_cyl_local("slotend", M, (r_b * math.cos(math.radians(a)), r_b * math.sin(math.radians(a)), n_mid), sw / 2, C.DISK_PLATE_T + 2.0, axis="Z", verts=24))
+    L.cut(plate, slot)
     return plate
 
 

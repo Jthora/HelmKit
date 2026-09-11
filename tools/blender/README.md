@@ -1,6 +1,6 @@
 # `tools/blender/` — parametric mesh generators
 
-> **2026-09-11:** the current printable set is the clean-slate **vp0.15** in [`vp0/`](vp0/README.md)
+> **2026-09-11:** the current printable set is the clean-slate **vp0.16** in [`vp0/`](vp0/README.md)
 > (hard-hat style PETG cradle with a nape pin-lock, enclosed brain-core-centred disks bayoneted
 > and centre-knob-locked onto a per-side NEXUS hub that carries the visor pivot, one-hand pawl
 > visor with hidden brow links, rope-and-epoxy spine channels, socketed crown arch, knob-locked pylons). It shares

@@ -82,7 +82,10 @@ def carrier():
     c = arc_ribbon("bar_carrier", ca, z0, z0 + ct, cn0, cn1)
     n_mid = (cn0 + cn1) / 2
     s_t, d_t = SB["thermopile"]
-    L.cut(c, z_cyl_at("thermopile", s_t, n_mid, d_t / 2, z0 - 1.0, z0 + ct + 1.0, verts=32))
+    # the thermopile can sits in an oblique hole tilted `thermopile_tilt` toward the face, so it looks down and back at the nose tip
+    Mt, _ = arc_frame(s_t, z0 + ct / 2)
+    Mt = Mt @ Matrix.Translation((0.0, 0.0, -n_mid)) @ Matrix.Rotation(-math.radians(SB["thermopile_tilt"]), 4, "X")
+    L.cut(c, L.add_cyl_local("thermopile", Mt, (0.0, 0.0, 0.0), d_t / 2, ct + 6.0, axis="Y", verts=32))
     s_c, d_c = SB["camera"]
     M, N = arc_frame(s_c, z0 + ct / 2)
     L.cut(c, L.add_box_local("camera", M, (0.0, 0.0, -n_mid), (d_c, ct + 2.0, d_c)))
