@@ -44,6 +44,7 @@ struct LinkStats {
     uint32_t dropped_raw   = 0;   // buffer full or link down, raw class
     uint32_t dropped_event = 0;   // buffer full or link down, event class
     uint32_t link_down     = 0;   // subset of the drops: the host was not attached
+    uint32_t buffered      = 0;   // event lines parked in the link buffer instead of being dropped (N-L2)
     bool     link          = false;
 
     void note(LineClass cls, bool written_ok, bool link_up) {
@@ -52,6 +53,7 @@ struct LinkStats {
         if (!link_up) ++link_down;
         if (cls == LineClass::kRaw) ++dropped_raw; else ++dropped_event;
     }
+    void note_buffered() { ++buffered; }
     uint32_t dropped() const { return dropped_raw + dropped_event; }
 };
 

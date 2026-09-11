@@ -3,13 +3,13 @@
 **Target:** Heltec WiFi LoRa 32 V3 (HTIT-WB32LAF, ESP32-S3) — the single-MCU
 sensor host for the vp0 helm (Track M combat trim, Track N robustness).
 
-**Status (2026-09-11):** builds (7 % RAM, 11 % flash); 21 native tests and
+**Status (2026-09-11):** builds (8 % RAM, 12 % flash); 24 native tests and
 the target build run in CI. Real drivers: MAX30102 PPG, MLX90614 thermopile,
-GSR, battery, IMU (register-level, MPU-6050 or LSM6DS3 class, part not yet
-bought). Header-only stubs: AD8232 ECG, MAX30205 contact temperature, OLED.
-Operator interface is serial keys plus the nape pod's three buttons and slide
-switch (firmware done, not yet wired); the OLED is phase 2. No stim, no radio,
-no WiFi at Mk0.5.
+GSR, battery, MAX30205 contact temperature, IMU (register-level, MPU-6050 or
+LSM6DS3 class, part not yet bought), SSD1306 OLED. Header-only stub: AD8232
+ECG. Operator interface is serial keys plus the nape pod's three buttons and
+slide switch (firmware done, not yet wired). No stim, no radio, no WiFi at
+Mk0.5.
 
 Plans: [`docs/plans/2026-tier1-launch/track-M-combat-trim.md`](../../docs/plans/2026-tier1-launch/track-M-combat-trim.md)
 (what the helm senses and cues) and
@@ -38,11 +38,19 @@ sanctuary slide on 40: round = short press, prime = short, session start / end =
 tally = the large cap. `vbat` goes out every 5 s; a pack under 3.5 V for 10 s ends the session and
 stops the streams. A session survives a brownout, panic or watchdog reset (resumed in Tranquil with
 its tally); a power-on reset discards it.
+Phase 2 adds `c`/`C` for the MAX30205 contact-temperature stream (`temp-skin.L` / `.R`), `hr` /
+`scr` / `sweat` lines (the host fusion and sweat rules on the helm), a flash link buffer that parks
+event lines while the link is down and replays them tagged `replay:1` when it returns, the `~` host
+acknowledgement byte that `tools/capture_service.py` sends after every heartbeat, and an OLED status
+page (mode, HR, breaths, per-channel quality, battery, link, drops) with a fault page for low battery
+and safety halts.
 Build with `-D HELMKIT_DEBUG` for the fault-injection keys: `W` spins for the watchdog, `K` ends the
 I²C bus (the supervisor must recover the streams), `F` floods the TX ring (drops, then raw shedding),
 `V` fakes a 3.3 V pack.
-Score a session afterwards with `tools/analyze_combat_session.py capture.ndjson`
-(`--strict` fails on any malformed line, for CI).
+Capture with `tools/capture_service.py` (one file per boot, `t_wallclock` added, acks, reconnects),
+score a session with `tools/analyze_combat_session.py capture.ndjson` (`--strict` fails on any malformed
+line, for CI), and check the helm's derived channels against the host references with
+`tools/replay_equivalence.py capture.ndjson` (gate N-G6).
 
 ## What the log carries (Track N phase 0)
 
@@ -81,12 +89,12 @@ firmware/mk0.5/
 ├── src/
 │   ├── main.cpp           # dispatcher: smoke tests, serial keys, streams, modes, supervisor, heartbeat
 │   ├── board/             # pins, ADC1 mutex, task watchdog + reset reason, I²C bus recovery
-│   ├── drivers/           # max30102, mlx90614, gsr, battery, imu (real); ad8232, max30205 (stubs); health model
-│   ├── dsp/               # r_peak (RR intervals), resp_thermal (breathing), motion (still / impact / activity), fog (thermopile)
+│   ├── drivers/           # max30102, mlx90614, gsr, battery, imu, max30205 (real); ad8232 (stub); health model
+│   ├── dsp/               # r_peak (RR intervals), resp_thermal (breathing), motion (still / impact / activity), fog, eda (SCR, sweat slope)
 │   ├── layers/            # pacer, modes (combat state machine), backoff (retry), power_policy (low battery), degrade (shedding), session_store
-│   ├── log/               # NDJSON writer (sequence numbers, drop accounting), line helpers, boot id
+│   ├── log/               # NDJSON writer (sequence numbers, drop accounting, store hook), link buffer (LittleFS), line helpers, boot id
 │   ├── safety/            # no_stim_below_mk1.h (compile-time guard)
-│   └── ui/                # status LED; buttons (debounce, short / long press); OLED (stub)
+│   └── ui/                # status LED; buttons (debounce, short / long press); OLED (SSD1306 over Wire, built-in 3x5 font)
 └── test/test_native/      # Unity tests for the Arduino-free modules (`pio test -e native`)
 ```
 
@@ -99,7 +107,8 @@ firmware/mk0.5/
 | Track M | thermal respiration, combat modes, pacer retune | done (firmware + host reference) |
 | Track N phase 0 | sequence numbers, boot line, heartbeat, health lines, retry with backoff, bus recovery, task watchdog, CI | done |
 | Track N phase 1 | IMU driver (MPU-6050 / LSM6DS3 auto-detect) with `still`, `impact`, `activity`; nape pod buttons; low-battery policy; session persistence; PPG window quality; thermopile fog + donning check; EDA open-circuit gap; raw shedding; fault-injection keys | done in firmware, awaiting the IMU and the switches on the bench |
-| Track N phase 2 | derived-channel buffer on flash while the link is down, OLED status, MAX30205, capture service | next |
+| Track N phase 2 | flash link buffer with replay + host ack, OLED status / fault pages (no library), MAX30205 driver, `hr` / `scr` / `sweat` on the helm, capture service, replay-equivalence tool | done in firmware and tools; bench pending |
+| Track N phase 3 | golden real captures, gate N-G6 on a real session | after the first bench capture |
 
 ## Discipline rules
 

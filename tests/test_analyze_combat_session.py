@@ -450,3 +450,14 @@ class Hardening(unittest.TestCase):
             self.assertTrue(any("low-battery" in n for n in rep.notes))
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
                 self.assertEqual(M.main([p, "--strict"]), 0)
+
+    def test_replayed_lines_fill_sequence_gaps(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "replay.ndjson")
+            with open(p, "w", encoding="utf-8") as fh:
+                for n in (1, 2, 3, 7, 8):
+                    fh.write(json.dumps({"t": n * 1.0, "ch": "gsr", "v": 1500, "q": "ok", "boot": "r", "n": n}) + "\n")
+                for n in (4, 5):                              # replayed after the reconnect: out of order
+                    fh.write(json.dumps({"t": n * 1.0, "ch": "cue", "v": "tally", "boot": "r", "n": n, "replay": 1}) + "\n")
+            cap = M.load_capture(p)
+            self.assertEqual(cap.seq_lost, 1)                 # only n = 6 never arrived

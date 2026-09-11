@@ -218,7 +218,7 @@ def load_capture(path: str | Path) -> Capture:
     cap = Capture()
     raw_rows: list[tuple[str, float, str, object, str]] = []   # (boot, t, ch, v, q)
     seen: set[tuple] = set()
-    last_seq: dict[str, int] = {}
+    seqs: dict[str, set[int]] = {}
     hb_drops: dict[str, int] = {}
     n_wall = 0
     with open(path, "r", encoding="utf-8", errors="replace") as fh:
@@ -241,11 +241,7 @@ def load_capture(path: str | Path) -> Capture:
                 cap.boots.append(boot)
             n = rec.get("n")
             if isinstance(n, int) and not isinstance(n, bool):
-                prev = last_seq.get(boot)
-                if prev is not None and n > prev + 1:
-                    cap.seq_lost += n - prev - 1
-                if prev is None or n > prev:
-                    last_seq[boot] = n
+                seqs.setdefault(boot, set()).add(n)      # replayed lines may arrive out of order: count by set
             if "ch" not in rec:
                 cap.n_meta += 1 if "kind" in rec else 0
                 if "kind" not in rec:
@@ -284,6 +280,7 @@ def load_capture(path: str | Path) -> Capture:
             seen.add(key)
             raw_rows.append(key)
     cap.fw_drops = sum(hb_drops.values())
+    cap.seq_lost = sum((max(v) - min(v) + 1) - len(v) for v in seqs.values() if v)
 
     # time base: wall-clock on every sample line, or per-boot re-basing when the file spans boots
     if raw_rows and n_wall == len(raw_rows):

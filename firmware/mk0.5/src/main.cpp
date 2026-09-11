@@ -16,9 +16,11 @@
 #include "drivers/battery.h"
 #include "drivers/imu.h"
 #include "drivers/max30102.h"
+#include "drivers/max30205.h"
 #include "drivers/mlx90614.h"
 #include "drivers/gsr.h"
 #include "drivers/smoke_fail.h"
+#include "dsp/eda.h"
 #include "dsp/fog.h"
 #include "dsp/motion.h"
 #include "dsp/r_peak.h"
@@ -30,8 +32,10 @@
 #include "layers/power_policy.h"
 #include "layers/session_store.h"
 #include "ui/buttons.h"
+#include "log/buffer.h"
 #include "log/ndjson.h"
 #include "log/session.h"
+#include "ui/oled.h"
 #include "ui/status_led.h"
 
 namespace {
@@ -77,6 +81,8 @@ void modes_cue_sink(const char* cue, void*) {
 helmkit::dsp::FogDetector     g_fog;          // N-S2: lens fogged -> q="gap"
 helmkit::dsp::DonningCheck    g_donning;      // N-S2: three breaths within 30 s of session start
 bool                          g_shed_raw = false;   // N-F7: raw streams shed under link pressure
+float                         g_breaths_bpm = 0.0f;         // latest breathing rate for the OLED (phase 2)
+uint32_t                      g_breaths_at_ms = 0;
 
 void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
     const bool fogged = g_fog.feed(s.t_ms, s.object_c, s.ambient_c);
@@ -91,6 +97,8 @@ void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
         float bpm = 0.0f;
         if (g_resp.rate_bpm(s.t_ms, &bpm)) {
             helmkit::log::emit_resp_thermal(g_resp.last_breath_ms(), bpm);
+            g_breaths_bpm = bpm;
+            g_breaths_at_ms = s.t_ms;
         }
     }
 }
@@ -149,9 +157,17 @@ void mode_cue(const char* wire_value, helmkit::layers::ModeCue cue) {
 helmkit::drivers::Gsr         g_gsr;
 bool                          g_gsr_streaming = false;
 
+helmkit::dsp::ScrDetector* g_scr_ptr = nullptr;   // set once the phase 2 block below is initialised (static init order)
+
 void on_gsr_sample(const helmkit::drivers::GsrSample& s) {
-    if (g_shed_raw) return;
-    helmkit::log::emit_gsr_q(s.t_ms, s.raw, s.open ? "gap" : (s.in_range ? "ok" : "out-of-range"));
+    if (!g_shed_raw) {
+        helmkit::log::emit_gsr_q(s.t_ms, s.raw, s.open ? "gap" : (s.in_range ? "ok" : "out-of-range"));
+    }
+    // N-S6: the SCR detector sees only q="ok" samples, like the host reference
+    if (g_scr_ptr != nullptr && s.in_range && !s.open) {
+        uint32_t tp = 0; float amp = 0.0f;
+        if (g_scr_ptr->feed(s.t_ms, (float)s.raw, &tp, &amp)) helmkit::log::emit_num("scr", tp, amp, "ok");
+    }
 }
 
 // ---- Track N phase 1: IMU, battery, buttons, session persistence ---------------
@@ -175,6 +191,30 @@ struct RrQ { uint32_t t; bool ok; };
 RrQ                           g_rrq[32];                    // last RR intervals for the 10 s `ppg-q` window
 uint8_t                       g_rrq_n = 0, g_rrq_head = 0;
 uint32_t                      g_last_ppgq_ms = 0;
+float                         g_ppgq_frac = 0.0f;
+
+// ---- Track N phase 2: link buffer, OLED, MAX30205, EDA port ----------------------
+helmkit::log::LinkBuffer      g_linkbuf;                    // N-L2: event lines parked on flash while the link is down
+helmkit::drivers::Max30205    g_skin;                       // N-S5: temple / occipital contact temperature
+bool                          g_skin_streaming = false;
+helmkit::dsp::ScrDetector     g_scr;                        // N-S6: skin-conductance responses
+helmkit::dsp::SlopeWindow     g_skin_slope(60000);          // N-S6: sweat rule input
+bool                          g_have_skin = false;
+uint32_t                      g_last_sweat_ms = 0;
+bool                          g_oled = false;
+uint32_t                      g_last_oled_ms = 0;
+
+bool store_line(const char* line) { return g_linkbuf.store(line); }
+
+void on_skin_sample(const helmkit::drivers::Max30205Sample& s) {
+    g_have_skin = true;
+    if (!g_shed_raw) {
+        helmkit::log::emit_num(s.addr == helmkit::drivers::Max30205::kAddrL ? "temp-skin.L" : "temp-skin.R",
+                               s.t_ms, s.temp_c, s.in_range ? "ok" : "out-of-range", helmkit::log::LineClass::kRaw);
+    }
+    // the sweat rule follows the left sensor, or the right one when only it answered
+    if (s.in_range && (s.addr == helmkit::drivers::Max30205::kAddrL || !g_skin.present(0))) g_skin_slope.feed(s.t_ms, s.temp_c);
+}
 
 void on_imu_sample(const helmkit::drivers::ImuSample& s) {
     g_motion.feed(s.t_ms, s.ax, s.ay, s.az);
@@ -232,6 +272,7 @@ StreamSupervisor g_sv_ppg{"ppg-hrv"};
 StreamSupervisor g_sv_mlx{"temp"};
 StreamSupervisor g_sv_gsr{"gsr"};
 StreamSupervisor g_sv_imu{"imu"};
+StreamSupervisor g_sv_skin{"temp-skin"};
 uint32_t         g_last_sv_ms = 0;
 uint32_t         g_last_hb_ms = 0;
 bool             g_wdt_ok     = false;
@@ -286,6 +327,12 @@ void ensure_ext_bus() {
     Wire1.begin(helmkit::pins::kExtI2cSda, helmkit::pins::kExtI2cScl, helmkit::pins::kExtI2cHz);
 }
 
+bool retry_skin() {
+    ensure_ext_bus();
+    recover_ext_bus_if_stuck();
+    return g_skin.begin(Wire1);
+}
+
 bool retry_imu() {
     ensure_ext_bus();
     recover_ext_bus_if_stuck();
@@ -325,6 +372,7 @@ void supervise_all(uint32_t now) {
     supervise(g_sv_mlx, g_mlx_streaming, g_mlx.health(), now, retry_mlx);
     supervise(g_sv_gsr, g_gsr_streaming, g_gsr.health(), now, retry_gsr);
     supervise(g_sv_imu, g_imu_streaming, g_imu.health(), now, retry_imu);
+    supervise(g_sv_skin, g_skin_streaming, g_skin.health(), now, retry_skin);
 }
 
 // ---- Track N phase 1: session start / end paths shared by keys and buttons ----
@@ -333,6 +381,43 @@ void stop_all_streams() {
     g_mlx_streaming = false;
     g_gsr_streaming = false;
     g_imu_streaming = false;
+    g_skin_streaming = false;
+}
+
+// ---- Track N phase 2: OLED pages (N-U2) --------------------------------------------
+char quality_glyph(bool streaming, helmkit::drivers::Health h, bool fogged = false) {
+    using helmkit::drivers::Health;
+    if (!streaming) return '-';
+    if (fogged || h == Health::kGap) return 'G';
+    if (h == Health::kOk || h == Health::kOutOfRange) return 'O';
+    return 'B';
+}
+
+void refresh_oled(uint32_t now) {
+    if (!g_oled) return;
+    if (g_low_batt) {
+        char v[20];
+        snprintf(v, sizeof v, "%.2fV", (double)helmkit::drivers::battery_last().volts);
+        helmkit::ui::oled_fault("LOW BATTERY", v, "SESSION ENDED");
+        return;
+    }
+    if (g_last_was_safety_halt) { helmkit::ui::oled_fault("SAFETY HALT", "PRESS R", ""); return; }
+    helmkit::ui::OledStatus st;
+    st.mode       = g_modes.in_session() ? helmkit::layers::mode_str(g_modes.mode()) : "IDLE";
+    st.tally      = g_modes.tally();
+    st.in_session = g_modes.in_session();
+    st.hr_bpm     = (g_hr_at_ms != 0 && (now - g_hr_at_ms) < 15000) ? g_hr_bpm : 0.0f;
+    st.breaths    = (g_breaths_at_ms != 0 && (now - g_breaths_at_ms) < 30000) ? g_breaths_bpm : 0.0f;
+    st.q_ppg      = quality_glyph(g_streaming, g_ppg.health());
+    st.q_thermo   = quality_glyph(g_mlx_streaming, g_mlx.health(), g_fog.fogged());
+    st.q_eda      = quality_glyph(g_gsr_streaming, g_gsr.health());
+    st.q_imu      = quality_glyph(g_imu_streaming, g_imu.health());
+    const auto& b = helmkit::drivers::battery_last();
+    st.batt_known = b.volts > 2.5f;
+    st.batt_pct   = b.percent;
+    st.link       = !helmkit::log::serial_attached() ? "DOWN" : (g_linkbuf.has_pending() ? "BUF" : "UP");
+    st.drops      = helmkit::log::link_stats().dropped();
+    helmkit::ui::oled_status(st);
 }
 
 void start_session(const char* how) {
@@ -436,7 +521,13 @@ void emit_ppg_quality(uint32_t now) {
         if ((now - g_rrq[i].t) <= 10000) { ++n; if (g_rrq[i].ok) ++ok; }
     }
     const float frac = n ? (float)ok / (float)n : 0.0f;
+    g_ppgq_frac = frac;
     helmkit::log::emit_num("ppg-q", now, frac, n == 0 ? "gap" : (frac >= 0.8f ? "ok" : "low"));
+    // N-S6: the single-source half of the host fusion rule: HR is reported only from a
+    // high-quality window (>= 80 % in-range beats) and a fresh estimate; withheld otherwise.
+    const bool fresh = (g_hr_at_ms != 0 && (now - g_hr_at_ms) < 15000);
+    if (fresh && frac >= 0.8f) helmkit::log::emit_num("hr", now, g_hr_bpm, "ok");
+    else                       helmkit::log::emit_num("hr", now, 0.0f, "gap");
 }
 
 // N-F5: resume a persisted session after an involuntary reset.
@@ -691,6 +782,30 @@ void poll_serial_commands() {
                 g_imu_streaming = true;
                 break;
             }
+            case 'c': {
+                // Track N (N-S5): MAX30205 contact temperature stream (temp-skin.L / .R).
+                if (g_last_was_safety_halt) { Serial.println(F("[main] 'c' refused after safety halt; use 'R' first.")); break; }
+                if (g_skin_streaming) { Serial.println(F("[main] skin-temp stream already running.")); break; }
+                ensure_ext_bus();
+                if (!g_skin.begin(Wire1)) {
+                    Serial.println(F("[main] MAX30205 begin FAILED (no ACK on 0x48 / 0x49)."));
+                    helmkit::log::emit_error("mk0.5", helmkit::drivers::SmokeFail::kNoAck, "max30205-begin-failed", 0, 0,
+                                             helmkit::drivers::Health::kNoAck);
+                    break;
+                }
+                g_skin_slope.reset();
+                g_skin_streaming = true;
+                Serial.printf("[main] skin-temp stream started (%u device(s)).\n", (unsigned)g_skin.devices());
+                break;
+            }
+            case 'C':
+                if (!g_skin_streaming) { Serial.println(F("[main] skin-temp stream not running.")); break; }
+                g_skin_streaming = false;
+                Serial.println(F("[main] skin-temp stream stopped."));
+                break;
+            case '~':
+                helmkit::log::note_ack(millis());       // N-L3: the capture service acknowledges a heartbeat
+                break;
             case 'A':
                 if (!g_imu_streaming) { Serial.println(F("[main] IMU stream not running.")); break; }
                 g_imu_streaming = false;
@@ -762,6 +877,8 @@ void prose_banner() {
                      "faulted streams re-begin at 5/10/20/60 s (Track N)"));
     Serial.println(F(" Track N phase 1: a/A=imu stream (still, impact, activity)  M twice within 3 s ends a session  "
                      "buttons on GPIO 26/33/34, slide 40  vbat every 5 s, low battery ends the session"));
+    Serial.println(F(" Track N phase 2: c/C=skin-temp stream (MAX30205)  '~'=host ack (buffers events to flash after 10 s "
+                     "without one, replays on return)  hr / scr / sweat lines  OLED status page"));
     Serial.println(F("===================================================="));
 }
 
@@ -814,6 +931,18 @@ void setup() {
     pinMode(helmkit::pins::kSlideSanct, INPUT_PULLUP);
     g_batt.begin();
     g_prefs.begin("helmkit", false);
+    // Track N phase 2: the link buffer (N-L2) and the OLED (N-U2); both optional at runtime.
+    if (g_linkbuf.begin()) {
+        helmkit::log::set_store(store_line);
+        char note[48];
+        snprintf(note, sizeof note, "link buffer ready, %lu B pending", (unsigned long)g_linkbuf.bytes());
+        helmkit::log::emit_health("linkbuf", "off", "ready", 0, note);
+    } else {
+        helmkit::log::emit_health("linkbuf", "off", "unavailable", 0, "LittleFS mount failed: events will drop while the link is down");
+    }
+    g_oled = helmkit::ui::oled_begin();
+    helmkit::log::emit_health("oled", "off", g_oled ? "ready" : "absent", 0, g_oled ? "SSD1306 on bus 0" : "no ACK on 0x3C");
+    g_scr_ptr = &g_scr;
     run_smoke();
     restore_session_if_any(millis());
 }
@@ -841,6 +970,21 @@ void loop() {
     if (g_imu_streaming) {
         g_imu.pump(on_imu_sample);                  // ~100 Hz; events drained inside
     }
+    if (g_skin_streaming) {
+        g_skin.pump(on_skin_sample);                // 5 Hz per device
+    }
+    if (g_linkbuf.has_pending() && helmkit::log::link_healthy(now)) {
+        g_linkbuf.replay(20, helmkit::log::emit_stored);   // N-L2: bounded per loop so nothing stalls
+    }
+    if (g_have_skin && (now - g_last_sweat_ms) >= 10000) {     // N-S6: sweat rule every 10 s
+        g_last_sweat_ms = now;
+        float sl = 0.0f;
+        if (g_skin_slope.slope(&sl)) helmkit::log::emit_num("sweat", now, helmkit::dsp::sweat_rule(sl) ? 1.0f : 0.0f, "ok");
+    }
+    if ((now - g_last_oled_ms) >= 1000) {           // N-U2
+        g_last_oled_ms = now;
+        refresh_oled(now);
+    }
     if (g_mlx_streaming) {
         // 4 Hz — driver self-throttles; pumping every tick is cheap.
         g_mlx.pump(on_mlx_sample);
@@ -867,7 +1011,7 @@ void loop() {
     poll_buttons(now);                              // N-U1
     if ((now - g_last_hb_ms) >= 5000) {                 // Track N (N-L1)
         g_last_hb_ms = now;
-        helmkit::log::emit_hb(now, ESP.getFreeHeap());
+        helmkit::log::emit_hb(now, ESP.getFreeHeap(), (uint32_t)g_linkbuf.bytes());
         const auto& b = helmkit::drivers::battery_last();
         helmkit::log::emit_vbat(now, helmkit::drivers::battery_last_raw(), b.volts, b.percent);
         const bool shed = g_degrade.feed(now, helmkit::log::link_stats().dropped());   // N-F7

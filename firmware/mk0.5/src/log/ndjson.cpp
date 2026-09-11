@@ -26,6 +26,9 @@ namespace {
 bool      g_attached = false;
 LinkStats g_stats;
 uint32_t  g_seq = 0;
+bool      (*g_store)(const char*) = nullptr;
+bool      g_ack_seen = false;
+uint32_t  g_last_ack_ms = 0;
 
 constexpr size_t kBufSz = 320;   // longest line (smoke result) ~210 B + ,"n":4294967295
 
@@ -50,28 +53,69 @@ void sanitize(const char* in, char* out, size_t cap) {
 // Central writer (Track N, N-F1). Appends the sequence number, checks the
 // link and the TX ring, never blocks: a line that does not fit is counted,
 // not waited for, so a yanked cable cannot stall the loop.
+bool link_healthy_impl(uint32_t now_ms) {
+    if (!(bool)Serial) return false;
+    if (g_ack_seen && (now_ms - g_last_ack_ms) > 10000) return false;
+    return true;
+}
+
 void emit_line(char* buf, LineClass cls = LineClass::kEvent) {
     ++g_seq;
-    const bool link = (bool)Serial;
-    g_attached = link;
+    const bool link = link_healthy_impl(millis());
+    g_attached = (bool)Serial;
     if (!append_seq(buf, kBufSz, g_seq)) {
         g_stats.note(cls, false, link);
         return;
     }
-    if (!link) {
-        g_stats.note(cls, false, false);
+    if (link) {
+        const size_t len = strlen(buf);
+        if ((size_t)Serial.availableForWrite() >= len + 2) {   // + CR LF
+            Serial.println(buf);
+            g_stats.note(cls, true, true);
+            return;
+        }
+    }
+    // not written: park event lines in the link buffer (N-L2), count the rest as drops
+    if (cls == LineClass::kEvent && g_store != nullptr && g_store(buf)) {
+        g_stats.note_buffered();
         return;
     }
-    const size_t len = strlen(buf);
-    if ((size_t)Serial.availableForWrite() < len + 2) {   // + CR LF
-        g_stats.note(cls, false, true);
-        return;
-    }
-    Serial.println(buf);
-    g_stats.note(cls, true, true);
+    g_stats.note(cls, false, link);
 }
 
 }  // namespace
+
+void set_store(bool (*store)(const char* line)) {
+    g_store = store;
+}
+
+void note_ack(uint32_t now_ms) {
+    g_ack_seen = true;
+    g_last_ack_ms = now_ms;
+}
+
+bool link_healthy(uint32_t now_ms) {
+    return link_healthy_impl(now_ms);
+}
+
+bool ack_seen() {
+    return g_ack_seen;
+}
+
+bool emit_stored(const char* line) {
+    if (!link_healthy_impl(millis())) return false;
+    char buf[kBufSz];
+    strlcpy(buf, line, kBufSz);
+    const size_t len = strlen(buf);
+    if (len < 2 || buf[len - 1] != '}') return true;          // not a stored object: skip it
+    static const char kTail[] = ",\"replay\":1}";
+    if (len - 1 + sizeof kTail > kBufSz) return true;          // cannot tag: skip rather than stall the replay
+    memcpy(buf + len - 1, kTail, sizeof kTail);
+    if ((size_t)Serial.availableForWrite() < strlen(buf) + 2) return false;
+    Serial.println(buf);
+    g_stats.note(LineClass::kEvent, true, true);
+    return true;
+}
 
 void init() {
     g_attached = (bool)Serial;
@@ -107,17 +151,19 @@ void emit_boot(const char* reason, int reason_num, bool wdt_ok) {
     emit_line(buf);
 }
 
-void emit_hb(uint32_t t_ms, uint32_t free_heap) {
+void emit_hb(uint32_t t_ms, uint32_t free_heap, uint32_t buffered_bytes) {
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
     const float t = (float)t_ms / 1000.0f;
     snprintf(buf, kBufSz,
              "{\"t\":%.3f,\"ch\":\"hb\",\"v\":%.1f,\"q\":\"ok\","
-             "\"drops\":%lu,\"drops_ev\":%lu,\"link_down\":%lu,\"heap\":%lu,\"boot\":\"%s\"}",
+             "\"drops\":%lu,\"drops_ev\":%lu,\"link_down\":%lu,\"buffered\":%lu,\"buf\":%lu,"
+             "\"heap\":%lu,\"boot\":\"%s\"}",
              t, (double)t,
              (unsigned long)g_stats.dropped(), (unsigned long)g_stats.dropped_event,
-             (unsigned long)g_stats.link_down, (unsigned long)free_heap, hex);
+             (unsigned long)g_stats.link_down, (unsigned long)g_stats.buffered, (unsigned long)buffered_bytes,
+             (unsigned long)free_heap, hex);
     emit_line(buf);
 }
 

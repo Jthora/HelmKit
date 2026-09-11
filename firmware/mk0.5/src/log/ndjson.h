@@ -30,14 +30,26 @@ bool serial_attached();
 const LinkStats& link_stats();
 uint32_t         seq();
 
+// Track N (N-L2 / N-L3). The link is healthy when a host is attached and,
+// once a host has ever acknowledged a heartbeat this boot (byte '~'), the
+// last acknowledgement is under 10 s old. Event-class lines that cannot be
+// written while the link is unhealthy (or the TX ring is full) go to the
+// store hook instead of being dropped; emit_stored() replays one such line,
+// tagged "replay":1, and returns false when it could not be sent.
+void set_store(bool (*store)(const char* line));
+void note_ack(uint32_t now_ms);
+bool link_healthy(uint32_t now_ms);
+bool ack_seen();
+bool emit_stored(const char* line);
+
 // Track N (N-F2). Wire shape: {"t":<s>,"kind":"boot","reason":"<str>",
 //   "reason_num":<n>,"wdt":<0|1>,"mk":50,"git":"<sha>","schema":"...","boot":"<hex>"}
 void emit_boot(const char* reason, int reason_num, bool wdt_ok);
 
 // Track N (N-L1). Heartbeat every 5 s so the host can tell a link gap from a
 // sensor gap. Wire shape: {"t":<s>,"ch":"hb","v":<uptime_s>,"q":"ok",
-//   "drops":<u32>,"drops_ev":<u32>,"link_down":<u32>,"heap":<u32>,"boot":"<hex>"}
-void emit_hb(uint32_t t_ms, uint32_t free_heap);
+//   "drops":<u32>,"drops_ev":<u32>,"link_down":<u32>,"buffered":<u32>,"buf":<bytes>,"heap":<u32>,"boot":"<hex>"}
+void emit_hb(uint32_t t_ms, uint32_t free_heap, uint32_t buffered_bytes);
 
 // Track N phase 1: generic sample emitters for the new channels (still,
 // impact, activity, vbat, ppg-q: numeric; btn: string). `cls` picks the

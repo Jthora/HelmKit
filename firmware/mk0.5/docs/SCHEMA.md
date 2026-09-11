@@ -107,6 +107,19 @@ Phase 1 channels (emitted since 2026-09-11; the `still` / `impact` rows of §2.3
 | `temp-*` q `gap` | | thermopile fogged: object within 0.3 °C of ambient for 20 s. The breathing extractor ignores fogged samples. |
 | `gsr` q `gap` | | electrode lifted: below the open-circuit floor (100) for 1 s. |
 
+Phase 2 (emitted since 2026-09-11):
+
+| Line / field | Shape | Notes |
+|---|---|---|
+| `hr` | `{t, ch:"hr", v: <bpm>, q:"ok"/"gap"}` per 10 s | the single-source half of the host fusion rule (M-F4): the median of the last five in-range RR intervals, reported only when the trailing 10 s window has ≥ 80 % in-range beats and the estimate is under 15 s old; `v` 0 with `q:"gap"` otherwise. A second RR source (ECG) makes it the two-source rule on the host. |
+| `scr` | `{t, ch:"scr", v: <rise, raw units>, q:"ok"}` per event | skin-conductance response from `dsp/eda.h`, the streaming port of the host `scr_times`: tonic = EMA 5 s, a phasic rise of ≥ 0.5 % of the tonic level lasting 0.5..3 s, stamped at the peak. Fed only `q:"ok"` samples. |
+| `sweat` | `{t, ch:"sweat", v: 0/1, q:"ok"}` per 10 s | the host sweat rule on the helm: skin temperature (`temp-skin.L`, else `.R`) rising faster than 0.05 °C/min over the trailing 60 s. Only while a MAX30205 streams (`c`). |
+| `temp-skin.L` / `.R` | as §2.2, 5 Hz | now emitted (MAX30205 at 0x48 / 0x49 on bus 1); raw class. |
+| `hb` fields `buffered`, `buf` | | lines parked in the flash link buffer this boot, and bytes still waiting to replay. |
+| `replay` (field) | `"replay":1` on a replayed line | the line was written to flash while the link was down and sent later; `t` and `n` are the originals. The analyser counts it in its place. |
+| host ack | the host sends the byte `~` after each `hb` | once one ack has been seen in a boot, 10 s without one marks the link unhealthy: event lines go to the buffer, raw lines drop. A plain serial monitor never acks, so only a physically absent host triggers buffering there. |
+| `kind:health` sources `linkbuf`, `oled` | | boot-time availability lines: `off -> ready` / `unavailable` / `absent`. |
+
 ### 2.5 Reserved channel namespaces (do NOT use without coordination)
 
 - `eeg-*` — reserved for OpenBCI / Mk2.0 (psiStabilizer A02).

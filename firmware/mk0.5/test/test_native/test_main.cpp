@@ -457,6 +457,86 @@ void test_modes_restore_reenters_tranquil_with_tally() {
     TEST_ASSERT_EQUAL_UINT32(4, m.tally());
 }
 
+// ---- Track N phase 2: EDA port (SCR detector, sweat slope) --------------------
+
+#include "dsp/eda.h"
+
+// the host tests' eda_stream shape: each SCR = 1.5 s ramp of 3 % then a 6 s decay, 20 Hz
+static float eda_synth(float t, const float* scr_at, int n_scr, float level) {
+    float v = level;
+    for (int k = 0; k < n_scr; ++k) {
+        const float d = t - scr_at[k];
+        if (d >= 0.0f && d < 1.5f) v += 0.03f * level * d / 1.5f;
+        else if (d >= 1.5f && d < 7.5f) v += 0.03f * level * expf(-(d - 1.5f) / 2.0f);
+    }
+    return v;
+}
+
+// deterministic ADC-like noise (SD ~0.5 raw units), as the host tests add: without it a
+// noiseless decay merges into the next response's ramp as one long rise (host and firmware alike)
+static float noise05(uint32_t& st) {
+    float s = 0.0f;
+    for (int k = 0; k < 3; ++k) { st = st * 1664525u + 1013904223u; s += (float)(st >> 8) / 16777216.0f - 0.5f; }
+    return s;                                             // sum of three uniforms: SD 0.5
+}
+
+void test_scr_detector_counts_injected_responses() {
+    helmkit::dsp::ScrDetector det;
+    const float scr_at[] = {20.0f, 45.0f, 80.0f};
+    int fired = 0; uint32_t last_peak = 0; float amp = 0.0f; uint32_t st = 12345;
+    for (int i = 0; i < 120 * 20; ++i) {                 // 120 s at 20 Hz
+        const float t = i / 20.0f;
+        uint32_t tp = 0; float a = 0.0f;
+        if (det.feed((uint32_t)(t * 1000.0f), eda_synth(t, scr_at, 3, 2000.0f) + noise05(st), &tp, &a)) { ++fired; last_peak = tp; amp = a; }
+    }
+    TEST_ASSERT_TRUE(fired >= 3 && fired <= 4);          // one per response; noise may split one ramp in two
+    TEST_ASSERT_UINT32_WITHIN(600, 81500, last_peak);    // peak ~1.5 s after the onset at 80 s
+    TEST_ASSERT_TRUE(amp > 10.0f);                       // >= 0.5 % of a 2000 tonic
+    // a 0.2 % bump (below threshold) and a 5 s slow drift (too long) do not count
+    helmkit::dsp::ScrDetector det2;
+    fired = 0;
+    for (int i = 0; i < 60 * 20; ++i) {
+        const float t = i / 20.0f;
+        float v = 2000.0f;
+        const float d = t - 10.0f;
+        if (d >= 0.0f && d < 1.5f) v += 0.002f * 2000.0f * d / 1.5f;      // 0.2 %
+        const float e = t - 30.0f;
+        if (e >= 0.0f && e < 5.0f) v += 0.03f * 2000.0f * e / 5.0f;       // 3 % but over 5 s
+        uint32_t tp; float a;
+        if (det2.feed((uint32_t)(t * 1000.0f), v, &tp, &a)) ++fired;
+    }
+    TEST_ASSERT_EQUAL_INT(0, fired);
+}
+
+void test_slope_window_and_sweat_rule() {
+    helmkit::dsp::SlopeWindow w(60000);
+    float sl = 0.0f;
+    TEST_ASSERT_FALSE(w.slope(&sl));                     // < 3 points
+    for (int i = 0; i < 5 * 90; ++i) {                   // 90 s at 5 Hz, +0.1 C per minute
+        const uint32_t t = (uint32_t)(i * 200);
+        w.feed(t, 33.0f + 0.1f * (float)t / 60000.0f);
+    }
+    TEST_ASSERT_TRUE(w.count() <= 301 && w.count() >= 295);   // only the last 60 s kept
+    TEST_ASSERT_TRUE(w.slope(&sl));
+    TEST_ASSERT_FLOAT_WITHIN(0.0002f, 0.1f / 60.0f, sl);
+    TEST_ASSERT_TRUE(helmkit::dsp::sweat_rule(sl));
+    helmkit::dsp::SlopeWindow flat(60000);
+    for (int i = 0; i < 5 * 60; ++i) flat.feed((uint32_t)(i * 200), 33.0f);
+    TEST_ASSERT_TRUE(flat.slope(&sl));
+    TEST_ASSERT_FALSE(helmkit::dsp::sweat_rule(sl));
+    helmkit::dsp::SlopeWindow same_t(60000);
+    same_t.feed(1000, 1.0f); same_t.feed(1000, 2.0f); same_t.feed(1000, 3.0f);
+    TEST_ASSERT_FALSE(same_t.slope(&sl));                // no time spread
+}
+
+void test_link_stats_buffered_is_not_a_drop() {
+    helmkit::log::LinkStats st;
+    st.note_buffered();
+    st.note(helmkit::log::LineClass::kRaw, false, false);
+    TEST_ASSERT_EQUAL_UINT32(1, st.buffered);
+    TEST_ASSERT_EQUAL_UINT32(1, st.dropped());
+}
+
 void setUp() {}
 void tearDown() {}
 
@@ -483,5 +563,8 @@ int main(int, char**) {
     RUN_TEST(test_fog_and_donning);
     RUN_TEST(test_session_store_roundtrip_and_resume_rule);
     RUN_TEST(test_modes_restore_reenters_tranquil_with_tally);
+    RUN_TEST(test_scr_detector_counts_injected_responses);
+    RUN_TEST(test_slope_window_and_sweat_rule);
+    RUN_TEST(test_link_stats_buffered_is_not_a_drop);
     return UNITY_END();
 }
