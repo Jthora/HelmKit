@@ -85,6 +85,19 @@ def make():
         Ms = L.frame(pts[i] + Tv * 0.45, W, Tv)          # off the 2 mm station grid: no cutter face on a ribbon ring
         L.cut(band, L.add_box_local("strap", Ms, (0.0, 0.0, 4.5), (sw + 0.3, C.REAR_T + 2.0, sh)))
     # trim to the node's rear face, then add the tapered tenon (4.8 thick: 0.1 inside the band faces)
+    # v0.15 harness channel on the INNER face at v +7: from the tenon shoulder to 8 mm short of the rack (the cables then cross
+    # the gap to the nape core's web holes under the nape pad)
+    rc = C.REAR_CABLE
+    run_c = [p for p in pts if p.x < START.x - rc["s0"] and p.y > rc["y_end"]]
+    sgn = outward_sign(run_c)
+    pts_c = []
+    for i, p in enumerate(run_c):
+        a = run_c[max(i - 1, 0)]; b = run_c[min(i + 1, len(run_c) - 1)]
+        Tv = (b - a).normalized()
+        N = Tv.cross(W).normalized() * sgn                       # outward
+        pts_c.append(p + W * rc["v"] - N * (C.REAR_T / 2 - rc["d"] / 2 + 0.5))
+    n_in, n_out = rc["d"] / 2 + 0.5, rc["d"] / 2 + 0.5
+    L.cut(band, L.ribbon("cablech", pts_c, W, [(rc["w"] / 2, rc["w"] / 2, n_in, n_out)] * len(pts_c)))
     r0, r1 = C.REAR_NODE_W
     L.cut(band, L.add_box("nodebox", (C.REAR_NODE_X, CF.NODE_Y, C.CRADLE_Z + (r0 + r1) / 2), (C.NODE_LEN, CF.NODE_T + 4.0, r1 - r0 + 4.0)))
     L.union(band, L.extrude_polygon("tenon", CF.tenon_poly(0.0, +1), C.CRADLE_TENON[0] - 0.2, CF.tenon_frame(+1), z0=-(C.CRADLE_TENON[0] - 0.2) / 2))

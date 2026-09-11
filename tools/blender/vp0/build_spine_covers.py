@@ -51,10 +51,27 @@ def cover_rear():
     return L.ribbon("cover_rear", pts, RB.W, [(hw, hw, C.SPINE["rear_cover_t"] / 2, C.SPINE["rear_cover_t"] / 2)] * len(pts))
 
 
+def cover_rear_in():
+    """1 mm cover strip for the rear half's inner harness channel (v0.15)."""
+    rc = C.REAR_CABLE
+    pts = RB.centre_pts()
+    run = [p for p in pts if p.x < RB.START.x - rc["s0"] - 1.0 and p.y > rc["y_end"] + 1.0]
+    sgn = RB.outward_sign(run)
+    out = []
+    for i, p in enumerate(run):
+        a = run[max(i - 1, 0)]; b = run[min(i + 1, len(run) - 1)]
+        Tv = (b - a).normalized()
+        N = Tv.cross(RB.W).normalized() * sgn
+        out.append(p + RB.W * rc["v"] - N * (C.REAR_T / 2 - rc["cover_t"] / 2))
+    hw = (rc["w"] - C.SPINE["cover_clear"]) / 2
+    return L.ribbon("cover_rear_in", out, RB.W, [(hw, hw, rc["cover_t"] / 2, rc["cover_t"] / 2)] * len(out))
+
+
 PARTS = {
     "cover_front": (cover_front, L.ROT_NONE, ["print standing on its long edge, brim; PETG or PLA", "lay the 2 mm rope in the channel, fill with steel epoxy, press the strip in flush, wipe"]),
     "cover_side": (cover_side, L.ROT_NONE, ["print standing on its long edge; short span between the rear and hub nodes"]),
     "cover_rear": (cover_rear, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["print standing on its long edge, brim; one mirrored for the right half"]),
+    "cover_rear_in": (cover_rear_in, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["v0.15: 1 mm strip over the rear half's inner harness channel, glued in over the cables; one mirrored for the right half"]),
 }
 
 

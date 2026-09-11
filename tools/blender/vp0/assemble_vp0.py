@@ -21,7 +21,7 @@ import vp0lib as L
 import canon as C
 import build_disk, build_nexus, build_crown_arch_half, build_apex_block, build_cradle_front
 import build_brow_center, build_brow_rail, build_brow_link, build_visor_slider, build_brow_lid, build_rear_band_half, build_nape_dial, build_spine_covers
-import build_pylon, build_port_parts, build_fit_coupon, build_pad_frames, build_sensor_bar
+import build_pylon, build_port_parts, build_fit_coupon, build_pad_frames, build_sensor_bar, build_nape_core, build_belt_pack, build_coil_former
 
 COLORS = {"graphite": (0.10, 0.10, 0.11, 1.0), "accent": (0.80, 0.16, 0.12, 1.0), "bone": (0.86, 0.84, 0.78, 1.0), "spring": (0.75, 0.75, 0.78, 1.0),
           "steel": (0.55, 0.57, 0.60, 1.0), "skin": (0.72, 0.58, 0.48, 1.0), "bed": (0.30, 0.32, 0.36, 1.0),
@@ -141,9 +141,13 @@ def cable_runs(side):
     cb = C.CABLE_BORE
     xc, xl, zb = C.CX - cb["dx"], C.CX + cb["dx"], cb["z"]
     y_in = C.NODE_IN_Y - C.PAD_FRAME["gap"] - C.PAD_FRAME["plate_t"] - 2.5      # in the foam layer, head side of the hub / rear pad plates
-    coil = [(xc, s * (C.DISK_IN_Y + 8.0), zb), (xc, s * (C.NODE_IN_Y + 2.0), zb), (xc, s * (y_in + 1.0), zb), (xc - 3.0, s * y_in, zb - 6.0), (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 46.0),
-            (-45.0, s * y_in, 36.0), (-62.0, s * 84.0, 30.0),      # under the rear pad plate (z 42..68) and its MAX30205 pillar (z 43.7..56.3) (-80.0, s * 73.0, 8.0), (-98.0, s * 54.0, -12.0), (-106.0, s * 38.0, -22.0), (-109.0, s * 20.0, -27.0),
-            (-110.0, 0.0, -42.0), (-110.0, 0.0, -80.0)]
+    coil = [(xc, s * (C.DISK_IN_Y + 1.0), zb), (xc, s * (C.DISK_IN_Y - 4.0), zb), (xc, s * (C.NODE_IN_Y + 2.0), zb), (xc, s * (y_in + 1.0), zb), (xc - 3.0, s * y_in, zb - 6.0),
+            (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 46.0), (-45.0, s * y_in, 36.0),      # under the rear pad plate (z 42..68) and its MAX30205 pillar (z 43.7..56.3)
+            (-62.0, s * 84.0, 30.0), (-80.0, s * 73.0, 8.0), (-98.0, s * 54.0, -12.0), (-106.0, s * 38.0, -22.0), (-109.0, s * 26.0, -27.0)]
+    Mn = build_nape_dial.M                                   # v0.15: into the nape core base through its web hole (u = -Y, so the left cable uses u -22)
+    for w in (-9.0, -4.0, 4.0, 9.0):
+        v = Mn @ Vector((-s * C.NAPE_CORE["web_u"], 0.0, w))
+        coil.append((v.x, v.y, v.z))
     a = math.radians(C.RAIL_ANGLE)
     y_ch = s * (C.RAIL_Y0 + C.RAIL_T - 0.6 - C.RAIL_CHANNEL[1] / 2.0)
     t_ch = -C.RAIL_H / 2.0 - 1.0 + (C.RAIL_CHANNEL[0] + 1.0) / 2.0
@@ -258,8 +262,9 @@ def bar_cable_runs(side):
     return cable(f"cable_bar.{'L' if s > 0 else 'R'}", wp, dia=cc["cable_d"])
 
 
-def build_assembly(with_head=True, trim="full"):
-    """trim 'full' = disks, nexus, crown, brow, pylons; trim 'combat' = cradle + pads + sensor bar only (sparring, under headgear)."""
+def build_assembly(with_head=True, trim="full", core="nape"):
+    """trim 'full' = disks, nexus, crown, brow, pylons; trim 'combat' = cradle + pads + sensor bar only (sparring, under headgear).
+    core: 'nape' = the core pod on the nape base; 'slab' = two slab pods on the rear-node sockets (replaces the pylons); 'none' = belt-only (base + cap)."""
     full = trim == "full"
     P, R, Q = {}, {}, {}      # P = printed parts, R = reference (foam, head, springs, nails, coil), Q = check-only poses / routes
     add = collection("AddOns")
@@ -275,19 +280,37 @@ def build_assembly(with_head=True, trim="full"):
             P[f"dknob_{tag}"] = style(placed(build_nexus.disk_knob(), Mk), f"disk_knob.{tag}", "bone", disks)
             Mc = Matrix.Translation((C.CX, side * (C.DISK_IN_Y + kb["clip_n"] - kb["clip"][2] / 2), C.CZ)) @ Matrix.Rotation(-side * math.pi / 2, 4, "X")
             P[f"clip_{tag}"] = style(placed(build_nexus.knob_clip(), Mc), f"knob_clip.{tag}", "bone", disks)
+            P[f"former_{tag}"] = style(build_coil_former.former(side), f"coil_former.{tag}", "rope", disks)      # v0.15: the bifilar pancake's winding body
         # pylons: the right side is the LEFT print turned 180 deg about the vertical axis through its socket (what you actually do)
-        P["pylon_L"] = style(build_pylon.base(+1), "pylon_base.L", "steel", add)
-        P["pylonb_L"] = style(build_pylon.blade(+1), "pylon_blade.L", "graphite", add)
-        P["pylonk_L"] = style(build_pylon.knob(+1), "pylon_knob.L", "bone", add)
-        Mz = rot_about_z(C.REAR_SOCKET[0])
-        for k, nm in (("pylon", "pylon_base"), ("pylonb", "pylon_blade"), ("pylonk", "pylon_knob")):
-            P[f"{k}_R"] = style(L.transformed_copy(P[f"{k}_L"], Mz, f"{nm}.R"), f"{nm}.R", "steel" if k == "pylon" else ("graphite" if k == "pylonb" else "bone"), add)
+        if core != "slab":
+          P["pylon_L"] = style(build_pylon.base(+1), "pylon_base.L", "steel", add)
+          P["pylonb_L"] = style(build_pylon.blade(+1), "pylon_blade.L", "graphite", add)
+          P["pylonk_L"] = style(build_pylon.knob(+1), "pylon_knob.L", "bone", add)
+          Mz = rot_about_z(C.REAR_SOCKET[0])
+          for k, nm in (("pylon", "pylon_base"), ("pylonb", "pylon_blade"), ("pylonk", "pylon_knob")):
+              P[f"{k}_R"] = style(L.transformed_copy(P[f"{k}_L"], Mz, f"{nm}.R"), f"{nm}.R", "steel" if k == "pylon" else ("graphite" if k == "pylonb" else "bone"), add)
     cradle = collection("Cradle")
     P["cradle"] = style(build_cradle_front.make(), "cradle_front", "accent", cradle)
     P["rear_L"] = style(build_rear_band_half.make(), "rear_band.L", "accent", cradle)
     P["rear_R"] = style(L.transformed_copy(P["rear_L"], build_rear_band_half.right_half_matrix(), "rear_band.R"), "rear_band.R", "accent", cradle)
     nape = collection("Nape", cradle)
-    if C.NAPE_MODULE == "pinlock":
+    if C.NAPE_MODULE == "core":
+        P["nape_core"] = style(build_nape_core.make_base(), "nape_core_base", "steel", nape)
+        corec = collection("Core", nape)
+        Mp = build_nape_core.nape_pod_matrix()
+        if core == "nape":
+            P["pod"] = style(placed(build_nape_core.make_pod_nape(), Mp), "core_pod_nape", "graphite", corec)
+            P["podlid"] = style(placed(build_nape_core.make_pod_nape_lid(), Mp), "core_pod_lid_nape", "graphite", corec)
+        elif core == "slab":
+            P["cap"] = style(build_nape_core.make_cap(), "nape_core_cap", "steel", nape)
+            for side, tag in ((+1, "L"), (-1, "R")):
+                P[f"foot_{tag}"] = style(placed(build_nape_core.make_socket_foot(), build_nape_core.foot_matrix(side)), f"core_socket_foot.{tag}", "steel", corec)
+                Ms = build_nape_core.slab_matrix(side)
+                P[f"pod_{tag}"] = style(placed(build_nape_core.make_pod_slab(), Ms), f"core_pod_slab.{tag}", "graphite", corec)
+                P[f"podlid_{tag}"] = style(placed(build_nape_core.make_pod_slab_lid(), Ms), f"core_pod_lid_slab.{tag}", "graphite", corec)
+        else:
+            P["cap"] = style(build_nape_core.make_cap(), "nape_core_cap", "steel", nape)
+    elif C.NAPE_MODULE == "pinlock":
         P["nape_pinlock"] = style(build_nape_dial.make_pinlock(), "nape_pinlock", "steel", nape)
     else:
         for nm, mk in (("body", build_nape_dial.make_body), ("cover", build_nape_dial.make_cover), ("lid", build_nape_dial.make_lid), ("dial", build_nape_dial.make_dial),
@@ -315,11 +338,13 @@ def build_assembly(with_head=True, trim="full"):
     P["cover_f_L"] = style(build_spine_covers.cover_front(front_left), "cover_front.L", "accent", cradle)
     P["cover_s_L"] = style(build_spine_covers.cover_side(left), "cover_side.L", "accent", cradle)
     P["cover_r_L"] = style(build_spine_covers.cover_rear(), "cover_rear.L", "accent", cradle)
+    P["coverin_L"] = style(build_spine_covers.cover_rear_in(), "cover_rear_in.L", "accent", cradle)
     Mmir = Matrix.Diagonal((1.0, -1.0, 1.0, 1.0))
     for k, nm in (("cover_f", "cover_front"), ("cover_s", "cover_side")):
         ob = L.transformed_copy(P[f"{k}_L"], Mmir, f"{nm}.R"); L.recalc_normals(ob)
         P[f"{k}_R"] = style(ob, f"{nm}.R", "accent", cradle)
     P["cover_r_R"] = style(L.transformed_copy(P["cover_r_L"], build_rear_band_half.right_half_matrix(), "cover_rear.R"), "cover_rear.R", "accent", cradle)
+    P["coverin_R"] = style(L.transformed_copy(P["coverin_L"], build_rear_band_half.right_half_matrix(), "cover_rear_in.R"), "cover_rear_in.R", "accent", cradle)
 
     pads = collection("Pads", cradle)             # v0.12 printed sensor frames under the foam (both trims)
     P["pad_front"] = style(build_pad_frames.front_plate(), "pad_front", "bone", pads)
@@ -340,7 +365,7 @@ def build_assembly(with_head=True, trim="full"):
         for ob, tag in zip(build_sensor_bar.pins_in_place(), ("L", "R")):
             P[f"barpin_{tag}"] = style(ob, f"bar_pin.{tag}", "bone", combat)
         for side, tag in ((+1, "L"), (-1, "R")):     # the empty node sockets take port plugs
-            for nm, (sx, sy), zt in (("hub", C.HUB_SOCKET, C.CRADLE_Z + C.HUB_NODE_W[1]), ("rear", C.REAR_SOCKET, C.CRADLE_Z + C.REAR_NODE_W[1])):
+            for nm, (sx, sy), zt in (("hub", C.HUB_SOCKET, C.CRADLE_Z + C.HUB_NODE_W[1]),) + ((("rear", C.REAR_SOCKET, C.CRADLE_Z + C.REAR_NODE_W[1]),) if core != "slab" else ()):
                 Mp = Matrix.Translation((sx, side * sy, zt + 1.3)) @ Matrix.Rotation(math.pi, 4, "X")
                 P[f"plug_{nm}_{tag}"] = style(placed(build_port_parts.plug_flush(), Mp), f"port_plug.{nm}.{tag}", "steel", combat)
     if full:
@@ -365,10 +390,7 @@ def build_assembly(with_head=True, trim="full"):
     for side, tag in ((+1, "L"), (-1, "R")):
         w, h, t = fb["side"]
         R[f"foam_side_{tag}"] = style(L.add_box("foam", (40.0, side * (C.CRADLE_SIDE_Y - C.CRADLE_T / 2 - t / 2), C.CRADLE_Z), (w, t, h)), f"foam_side.{tag}", "foam", ref)
-        if full:
-            cd, ct = C.DISK_CAVITY
-            n0 = C.DISK_PLATE_T + 1.0
-            R[f"coil_{tag}"] = style(L.foam_ring("coil", (C.CX, side * (C.DISK_IN_Y + n0), C.CZ), cd / 2, 18.0, ct - 2.0, axis="Y" if side > 0 else "-Y"), f"coil_apparatus.{tag}", "rope", ref)
+        # (the coil apparatus is now the printed coil_former in the disk, see the Disks collection)
     if full:
         for side, tag in ((+1, "L"), (-1, "R")):    # lock pins (7.8 mm of 3.2 nail in the stalk top), pawl springs -- reference
             lk = C.BAYONET_LOCK
@@ -388,7 +410,7 @@ def build_assembly(with_head=True, trim="full"):
         R["crownpad"] = style(L.add_box("crownpad", (C.CX, 0.0, apex_bottom - pt / 2), (pw, pl, pt)), "crown_pad", "foam", ref)
     Mn = build_nape_dial.M
     nw, nh, nt = C.NAPE_PAD
-    if C.NAPE_MODULE == "pinlock":
+    if C.NAPE_MODULE in ("pinlock", "core"):
         R["napepad"] = style(L.add_box_local("napepad", Mn, (0.0, 0.0, -C.NAPE_PINLOCK_T / 2 - nt / 2), (nw, nh, nt)), "nape_pad", "foam", ref)
         for i, u in enumerate(C.NAPE_PINLOCK_HOLES[:3:2]):
             R[f"napenail{i}"] = style(L.add_cyl_local("napenail", Mn, (u, 0.0, 0.0), C.NAPE_PINLOCK_PIN["dia"] / 2, C.NAPE_HV - 1.0, axis="Y", verts=12), f"nape_nail.{i}", "spring", ref)
@@ -400,7 +422,7 @@ def build_assembly(with_head=True, trim="full"):
     return P, R, Q
 
 
-NAPE_ITEMS = ([("nape_pinlock", build_nape_dial.make_pinlock, lambda: build_nape_dial.PARTS["nape_pinlock"][1], "steel")] if C.NAPE_MODULE == "pinlock" else
+NAPE_ITEMS = ([("nape_pinlock", build_nape_dial.make_pinlock, lambda: build_nape_dial.PARTS["nape_pinlock"][1], "steel")] if C.NAPE_MODULE in ("pinlock", "core") else
               [(f"nape_{n}", getattr(build_nape_dial, f"make_{n}"), (lambda n=n: build_nape_dial.PARTS[f"nape_{n}"][1]), "steel" if n in ("body", "cover", "lid") else "bone")
                for n in ("body", "cover", "lid", "dial", "key", "pinion", "retainer")])
 PRINT_ITEMS = [
@@ -433,6 +455,10 @@ PRINT_ITEMS = [
     *[(n, build_sensor_bar.PARTS[n][0], (lambda n=n: build_sensor_bar.PARTS[n][1]), "graphite" if n == "sensor_bar" else "accent") for n in build_sensor_bar.PARTS],
     ("port_plug", build_port_parts.plug, lambda: L.ROT_NONE, "steel"),
     ("port_plug_flush", build_port_parts.plug_flush, lambda: L.ROT_NONE, "steel"),
+    *[(n, build_nape_core.PARTS[n][0], (lambda n=n: build_nape_core.PARTS[n][1]), "graphite" if "pod" in n else "steel") for n in build_nape_core.PARTS],
+    *[(n, build_belt_pack.PARTS[n][0], (lambda n=n: build_belt_pack.PARTS[n][1]), "graphite") for n in build_belt_pack.PARTS],
+    ("coil_former", build_coil_former.PARTS["coil_former"][0], lambda: build_coil_former.PARTS["coil_former"][1], "rope"),
+    ("cover_rear_in", build_spine_covers.cover_rear_in, lambda: build_spine_covers.PARTS["cover_rear_in"][1], "accent"),
     *NAPE_ITEMS,
     ("pylon_base", lambda: build_pylon.base(+1), lambda: build_pylon.PARTS["pylon_base"][1], "steel"),
     ("pylon_blade", lambda: build_pylon.blade(+1, 0.0), lambda: build_pylon.PARTS["pylon_blade"][1], "graphite"),
@@ -459,7 +485,7 @@ def add_print_layout():
     coll.hide_render = True
 
 
-README = """HelmKit vp0.12 -- hand-editable assembly
+README = """HelmKit vp0.15 -- hand-editable assembly
 ========================================
 Units: 1 Blender unit = 1 mm. Frame: origin between the ear canals, +X forward,
 +Y wearer's LEFT, +Z up. Disks are centred on BRAIN_CORE (10, 0, 35) and hang
@@ -485,6 +511,11 @@ Collections
   Combat           (combat trim) sensor_bar (24 x 20 hollow brow bar 0.3 mm off the band, z 48..68: carrier window + flush recess in the
                    floor, LED lane along the front edge, two Ø4 pin sockets + centre M3 into the band), bar_carrier (MLX90614 hole,
                    camera square, two IR LED holes, two M3 x 8 from below), bar_pin.L/.R (the shear fuse), port_plug x4 in the empty sockets
+  Core             (v0.15) nape_core_base = the pin-lock block + a junction bay behind it (every helm cable ends on a junction board
+                   there; umbilical out of the bottom window to the belt pack). --core nape: core_pod_nape + lid on the base's outer face
+                   (Heltec, 1000 mAh LiPo, IMU, GSR, amp; three tact buttons on top, OLED in the lid, USB-C in the end). --core slab: two
+                   core_pod_slab on the rear-node sockets via core_socket_foot (replaces the pylons). --core none: nape_core_cap, belt only.
+                   coil_former.L/.R: the bifilar pancake's winding body inside each disk (full trim). cover_rear_in.L/.R: inner harness covers.
   Checks           NOT printed. Full trim: the rails in the PARKED pose (43 deg) and the cable runs (coil feed through the bores, through
                    the hub pad's hole and along the foam layer; LED feed out of the band ahead of the node, under the rail root).
                    Combat trim: the bar cables (exit holes -> band bottom channel -> x 36 groove -> LED bore -> foam layer -> nape)
@@ -561,7 +592,27 @@ def clearance_report(P):
     return "\n".join(lines)
 
 
-def mass_report(P):
+def payload_masses(P, core):
+    """Reference electronics masses (g) at their mounting points, for the balance line."""
+    E = C.ELECTRONICS_G
+    out = []
+    def centre(key):
+        ob = P[key]
+        return sum((ob.matrix_world @ v.co for v in ob.data.vertices), Vector()) / len(ob.data.vertices)
+    if "pod" in P:
+        out.append(("core pod contents", E["heltec"] + E["lipo_1000"] + E["imu"] + E["gsr"] + E["amp"], centre("pod")))
+    if "pod_L" in P:
+        out.append(("slab L (compute)", E["heltec"] + E["imu"] + E["amp"], centre("pod_L")))
+        out.append(("slab R (power)", E["lipo_1000"] + E["gsr"], centre("pod_R")))
+    if "nape_core" in P:
+        out.append(("junction + wiring", E["junction"] + E["wiring"], centre("nape_core")))
+    for tag, side in (("L", 1), ("R", -1)):
+        if f"pad_hub_{tag}" in P:
+            out.append((f"transducer {tag}", E["transducer"], Vector((C.PAD_HUB["bct"][3], side * (C.NODE_IN_Y - 4.0), C.PAD_HUB["bct"][4]))))
+    return out
+
+
+def mass_report(P, core="nape"):
     bpy.context.view_layer.update()
     rows, tot_m, tot_c = [], 0.0, Vector((0.0, 0.0, 0.0))
     for name, ob in P.items():
@@ -580,6 +631,14 @@ def mass_report(P):
     lines.append(f"  pitch moment about the ear axis: {tot_m*g*cg.x/1000:+.3f} N*m (+ = nose-down)")
     nx, ny, nz = C.NECK_PIVOT
     lines.append(f"  pitch moment about the neck pivot {C.NECK_PIVOT}: {tot_m*g*(cg.x-nx)/1000:+.3f} N*m")
+    pl = payload_masses(P, core)
+    if pl:
+        pm = sum(m for _, m, _ in pl)
+        pc = sum((c * m for _, m, c in pl), Vector()) / pm
+        tm = tot_m + pm
+        tc = (cg * tot_m + pc * pm) / tm
+        lines.append(f"  electronics (reference, core={core}): " + ", ".join(f"{n} {m:.0f} g" for n, m, _ in pl))
+        lines.append(f"  with electronics: {tm:.0f} g solid, CG ({tc.x:.1f}, {tc.y:.1f}, {tc.z:.1f}), pitch about the ear axis {tm*g*tc.x/1000:+.3f} N*m")
     return "\n".join(lines)
 
 
@@ -598,7 +657,8 @@ def collision_report(P, label, Q=None):
                 ("railp", "rail"), ("railp", "spool"), ("railp", "link"), ("railp", "cablel"),
                 ("cablel", "rail"), ("cablel", "link"), ("cablel", "panel"), ("cablel", "cradle"), ("cablel", "nexus"), ("cablel", "spool"),
                 ("cablec", "back"), ("cablec", "nexus"), ("cablec", "cradle"), ("cablec", "rear"), ("cablec", "nape"), ("cablec", "cablec"),
-                ("cradle", "pad"), ("pad", "carrier"), ("cradle", "carrier"), ("cradle", "plug"), ("bar", "barpin"), ("cradle", "barpin"), ("bar", "barcarrier")}
+                ("cradle", "pad"), ("pad", "carrier"), ("cradle", "carrier"), ("cradle", "plug"), ("bar", "barpin"), ("cradle", "barpin"), ("bar", "barcarrier"),
+                ("nape", "pod"), ("pod", "podlid"), ("nape", "cap"), ("back", "former"), ("dome", "former"), ("cradle", "foot"), ("foot", "pod"), ("coverin", "rear"), ("coverin", "nape"), ("cablec", "former"), ("cablec", "coverin"), ("cableb", "coverin")}
     lines = [f"collisions [{label}] (BVH face-overlap pairs; 'expected' = designed contact)"]
     hits = 0
     for i, a in enumerate(names):
@@ -702,6 +762,7 @@ def main():
     ap.add_argument("--no-render", action="store_true")
     ap.add_argument("--no-layout", action="store_true")
     ap.add_argument("--trim", choices=("full", "combat"), default="full", help="full = disks + crown + brow + pylons; combat = cradle + pads + sensor bar (sparring, under headgear)")
+    ap.add_argument("--core", choices=("nape", "slab", "none"), default="nape", help="electronics core: nape pod on the base (default), two slab pods on the rear sockets, or none (belt-only: base + cap)")
     args = ap.parse_args(L.argv_after_dashdash())
     if args.trim == "combat" and args.blend == DEFAULT_BLEND:
         args.blend = DEFAULT_BLEND.replace("vp0_assembly.blend", "vp0_assembly_combat.blend")
@@ -710,9 +771,9 @@ def main():
 
     L.reset_scene()
     scene = bpy.context.scene
-    P, R, Q = build_assembly(with_head=not args.no_head, trim=args.trim)
+    P, R, Q = build_assembly(with_head=not args.no_head, trim=args.trim, core=args.core)
     cam = setup_render(scene)
-    for fname, fn in (("clearance.txt", lambda: clearance_report(P)), ("mass.txt", lambda: mass_report(P)),
+    for fname, fn in (("clearance.txt", lambda: clearance_report(P)), ("mass.txt", lambda: mass_report(P, args.core)),
                       ("collisions.txt", lambda: collision_report(P, "worn + parked visor + cables" if args.trim == "full" else "combat trim, worn + bar cables", Q)), ("snag.txt", lambda: snag_report(P, R)),
                       *([("fit.txt", lambda: fit_report(P, R))] if args.trim == "combat" else [])):
         rep = fn()

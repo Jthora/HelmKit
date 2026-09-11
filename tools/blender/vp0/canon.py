@@ -388,7 +388,7 @@ _p = math.pi * GEAR_MODULE
 _n = int(RACK_LEN // _p)
 RACK_SHIFT = (1.0 + (RACK_LEN - _n * _p) / 2.0 + _p - RACK_Y0) % _p   # 2.78: rack outline shifted so a tooth SPACE is centred on y = 0 at the nominal fit (pinion tooth / pinlock nail there)
 # Enclosed dial (nape local frame: u = -Y, v = W up, w = outward; band mid-plane at w = 0)
-NAPE_MODULE = "pinlock"                                 # print one: 'pinlock' (10 mm body, one nail through both racks); 'dial' = the compact pull dial
+NAPE_MODULE = "core"                                    # print one: 'core' (v0.15: the pin-lock block with the electronics junction bay behind it), 'pinlock' (block only), 'dial' = the compact pull dial
 NAPE_PINLOCK_HOLES = (0.0, 0.5 * _p, _p, 1.5 * _p)      # u of the four vertical pin holes: whole-pitch settings use 0 and p, half-pitch ones p/2 and 3p/2 -> two nails, two teeth per rack
 NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, hole_bottom=2.1, cbore=(5.0, 1.0), nail="2 x 50 nail or 2 mm rod")   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
 NAPE_HU, NAPE_HV = 60.0, 44.0                           # width = rack tip at the tightest (23) + end wall + margin; height = racks 36 + walls
@@ -424,6 +424,36 @@ NAPE_AXLE = "M5 x 25 bolt: head epoxied to the lid; printed retainer threaded on
 NAPE_LID_SCREWS = ((-20.0, 0.0), (20.0, 0.0), (0.0, 18.0), (0.0, -18.0))
 NAPE_COVER_SCREWS = ((-22.0, -18.0), (22.0, -18.0), (-22.0, 18.0), (22.0, 18.0))
 NAPE_PAD = (48.0, 40.0, 10.0)
+
+# ---------------------------------------------------------------------------
+# v0.15 electronics integration: nape core base, core pods (nape / slab), belt pack, coil former, harness channels
+# ---------------------------------------------------------------------------
+# One helm, three ways to power it: belt pack only (base + cap, umbilical into the base), helm only (base + nape pod, or two slab
+# pods on the rear sockets), or both (pod + umbilical). The base is the pin-lock block with a junction bay behind it: every helm
+# cable ends on a small junction board there; a jumper goes to the pod, the umbilical goes down to the belt.
+NAPE_CORE = dict(bay_d=12.0, wall=2.0, web_hole=4.0, web_u=22.0,                 # bay depth behind the pin-lock block; Ø4 harness holes through the block's web at u +/-22
+                 pod_screws=((-20.0, 12.0), (20.0, 12.0)), boss=(6.0, 4.0),       # M3 taps in bosses on the bay's outer wall for the pod / cap
+                 window=(16.0, 8.0, -14.0),                                     # jumper window through the outer wall: w x h at v
+                 conn=(16.0, 10.0), umbilical=(8.0, 3.0),                       # umbilical connector window in the bottom (v-) wall; strain-relief hole dia and zip-tie slot
+                 junction=(30.0, 20.0, 4.0), cap_t=2.0)                        # junction perfboard w x h on 3 mm standoffs; cap thickness (belt-only)
+POD_NAPE = dict(inner=(58.0, 50.0, 20.0), wall=2.0, lid_t=2.0, rebate=1.0, lip=1.4, fillet=0.6, boss=6.0,       # u x v x w cavity: 1000 mAh LiPo (50 x 34 x 6) on the floor, Heltec on it (foam between), IMU / GSR / amp in the 16 mm +v strip
+                rails=None, oled=("lid", 26.0, 14.0, -11.0), usb=(10.0, 7.0, 12.0),           # OLED window (face, w, h, u); USB window w x h at depth
+                buttons=(12.4, 7.6, (-18.0, 0.0, 18.0), 11.0), slide=(9.5, 4.5),                # 12 mm tact switches: pocket, plunger hole, u positions on the +v wall at depth; slide-switch slot
+                cable_window=("back", 16.0, 8.0, -14.0), mount=((-20.0, 12.0), (20.0, 12.0)))
+POD_SLAB = dict(inner=(58.0, 18.0, 36.0), wall=2.0, lid_t=2.0, rebate=1.0, lip=1.4, fillet=0.6, boss=6.0,       # thin slab standing on a rear-node socket: Heltec on edge, or the LiPo + small boards
+               rails=None, oled=("-v", 26.0, 14.0, -11.0, 0.7), usb=(10.0, 7.0, 15.0),
+               buttons=(12.4, 7.6, (-18.0, 0.0, 18.0), 10.0), slide=(9.5, 4.5),
+               cable_window=("-u", 12.0, 6.0, 6.0), mount=((-20.0, 0.0), (20.0, 0.0)))
+SOCKET_FOOT = dict(plate=(50.0, 20.0, 4.0), taps=((-20.0, 0.0), (20.0, 0.0)))               # the pod's mounting holes onto an 8 mm peg (port standard) for a rear-node socket
+BUTTON_CAP = dict(d=(10.0, 14.0), h=4.0, bore=(3.6, 2.0))                                   # small / large (tally) caps pressed onto the 3.5 mm tact plunger
+BELT_PACK = dict(inner=(100.0, 65.0, 35.0), wall=2.5, lid_t=2.5, rebate=1.0, lip=1.8, fillet=0.8, boss=7.0, belt=(45.0, 4.5, 26.0),   # Heltec + 2x18650 + coil driver; belt slots w x h at +/-y
+                 umbilical=(8.0, 3.0), usb=(10.0, 7.0, 14.0))
+COIL_FORMER = dict(od=109.4, id=40.0, t=3.5, r0=22.0, r1=50.0, pitch=1.9, groove=(1.1, 0.8), back_groove=(1.4, 1.0),   # 0.8 mm ribs between turns, an 0.8 deep furrow (the pair stands proud, glued)
+                   boss_hole=7.6, pin_hole=1.2)                                               # pancake former in the disk cavity: bifilar pair (2 x 24 AWG) in one spiral groove; 6 boss holes; the back grooves drop all four ends into the plate's cable hole
+REAR_CABLE = dict(w=3.0, d=2.5, v=9.5, s0=10.0, y_end=RACK_Y0 + 8.0, cover_t=1.0)           # harness channel on the rear halves' INNER face at v +9.5, from 10 mm behind the node to 8 mm short of the rack. The RIGHT half is the left print flipped over (its rack takes the lower tunnel), so on the right the channel sits at v -9.5 and the +W x-shift of a tilted band would carry a nearer start into the node: hence s0 10
+NODE_CABLE_GROOVE = dict(w=3.0, d=2.5, z_L=CRADLE_Z + REAR_TENON_W0 + 9.5, z_R=CRADLE_Z + REAR_TENON_W0 - 8.0, y=(NODE_IN_Y, CRADLE_SIDE_Y - 2.4))   # groove across each rear node's rear face (y 84 -> 87.6): left at z 47.5 (above the tenon nail's counterbore), right at z 30 (the flipped half's channel is low); the foam-layer harness steps out to the rear half's inner face
+ELECTRONICS_G = dict(heltec=12.0, lipo_1000=20.0, imu=3.0, gsr=6.0, amp=4.0, junction=5.0, wiring=15.0, transducer=8.0)   # reference masses for the balance report
+
 REAR_SIDE_PAD = (50.0, 30.0, 12.0)
 
 APEX_FILLET = 3.0

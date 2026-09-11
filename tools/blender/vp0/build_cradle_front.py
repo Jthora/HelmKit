@@ -265,6 +265,11 @@ def make():
         L.cut(band, zcyl("rsock", sx, sy, side, C.CYL_SOCKET_D / 2, Z + C.REAR_NODE_W[1] - C.CYL_DEPTH, Z + C.REAR_NODE_W[1] + 1.0))
         L.cut(band, zcyl("rmouth", sx, sy, side, md / 2, Z + C.REAR_NODE_W[1] - mdep, Z + C.REAR_NODE_W[1] + 1.0, verts=40))
         L.cut(band, ycyl("rcross", sx, Z + C.REAR_NODE_W[1] - C.CYL_PIN_Z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.NODE_OUT_Y + 2.0))
+        # v0.15: harness groove across the node's rear face (y NODE_IN_Y -> the rear half's inner face) at z 45
+        ng = C.NODE_CABLE_GROOVE
+        gy0, gy1 = ng["y"]
+        gz = ng["z_L"] if side > 0 else ng["z_R"]
+        L.cut(band, sbox("hgroove", rx - rl / 2 - 1.0, rx - rl / 2 + ng["d"], gy0 - 1.0, gy1, gz - ng["w"] / 2, gz + ng["w"] / 2, side))
         # rear-half tenon slot + nail
         t = C.CRADLE_TENON[0] + 0.4
         L.cut(band, L.extrude_polygon("tslot", tenon_poly(0.2, side), t, tenon_frame(side), z0=-t / 2))

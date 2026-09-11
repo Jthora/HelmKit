@@ -16,16 +16,19 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | `build_crown_arch_half.py` | 20 × 7 arch half with a socketed foot over the hub node (coupler) (×2, same STL) |
 | `build_apex_block.py` | Apex sleeve with M4 clamp |
 | `build_brow_center.py`, `build_brow_rail.py`, `build_brow_link.py`, `build_visor_slider.py`, `build_brow_lid.py` | 160 mm centre panel with back-face link pockets and a front faceplate recess; rails with their Ø44 rings, gusseted bar, pawl tunnel, half-lap and underside cable groove (`--mirror`); links (lap + 55° bar; `--mirror`); pawl slider; faceplate |
-| `build_rear_band_half.py` | Rear half: tapered tenon into the rear node, strap slots, spine channel, phased rack (×2, same STL, PETG) |
-| `build_spine_covers.py` | Flush cover strips for the spine channels: front arc half, side span, rear half (`--out-dir`) |
+| `build_rear_band_half.py` | Rear half: one-sided tapered tenon into the rear node, strap slots, spine channel, inner harness channel (v0.15), phased rack (×2, same STL, PETG; the right half is the left print flipped over, which is why the pin-lock has an upper and a lower tunnel) |
+| `build_spine_covers.py` | Flush cover strips for the spine channels: front arc half, side span, rear half; the rear half's inner harness cover (`--out-dir`) |
 | `build_nape_dial.py` | Nape modules: `nape_pinlock` (print one; four-lobe nail slot, prints standing) and the enclosed PULL dial set: body (ratchet ring), cover (window), lid, dial, key cap, pinion, retainer with M5 nut pocket (`--out-dir`) |
 | `build_pylon.py` | Antenna pylon: pegged base with a serrated clevis, faceted blade, lock knob (`--out-dir`) |
 | `build_port_parts.py` | Cylinder port spares: plug, flush plug (combat trim), coupler, drill guide (`--out-dir`) |
 | `build_pad_frames.py` | v0.12 pad frames under the foam (both trims): curved forehead plate with three carrier windows + the PPG and EDA carriers, hub plates (bone-conduction seat, coil-cable hole, cross-bolt clearance), rear plates (MAX30205 pillar); `foam_refs()` and `carrier_in_place()` for the assembly (`--out-dir`) |
+| `build_nape_core.py` | v0.15 electronics core: the nape core base (pin-lock block + junction bay: web harness holes, junction posts, umbilical window with zip-tie slots, jumper window, pod bosses), its cap, the nape pod and the slab pod with lids (tact-switch pockets, OLED and USB windows, slide-switch slot), the socket foot (port-standard peg), button caps; placement matrices for the assembly (`--out-dir`) |
+| `build_belt_pack.py` | v0.15 belt pack box + lid: corner bosses, belt slots, umbilical hole with zip-tie slots, USB window (`--out-dir`) |
+| `build_coil_former.py` | v0.15 pancake coil former for the disk cavity: spiral furrow for the bifilar pair, six boss holes, pin holes and back-face grooves that deliver all four wire ends over the plate's cable hole, index arrow (`--out-dir`) |
 | `build_sensor_bar.py` | v0.12 combat-trim sensor bar: hollow curved brow bar on the band's front face with the floor window + flush recess, the sensor carrier (thermopile, camera, IR LEDs), LED lane, pin sockets; the Ø4 shear pins (`--out-dir`) |
 | `build_fit_coupon.py` | Print-first tolerance coupon: hole gauges, port, bayonet boss + stub, ratchet pair |
 | `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang, thinnest wall (inward ray cast from every face); flags wrong-way-up parts and walls under 1.2 mm |
-| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print; pad frames with the foam on them) + reference coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend`. `--trim combat` builds the cradle + pads + sensor bar + flush plugs only, adds the headgear phantom, the bar cable routes as check-only objects, and writes `fit.txt` (the 20 mm sparring rule, bar excepted; overlaps with the headgear shell), saves `vp0_assembly_combat.blend` |
+| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print; pad frames with the foam on them) + reference coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend`. `--trim combat` builds the cradle + pads + sensor bar + flush plugs only, adds the headgear phantom, the bar cable routes as check-only objects, and writes `fit.txt` (the 20 mm sparring rule, bar excepted; overlaps with the headgear shell), saves `vp0_assembly_combat.blend`. `--core nape|slab|none` picks the electronics core (nape pod on the base, two slab pods on the rear sockets, or belt-only with the cap) and the mass report adds the electronics as reference masses |
 
 ## Regenerate everything
 
@@ -39,12 +42,13 @@ for p in brow_rail brow_link; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_L.stl
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_R.stl --mirror
 done
-for p in disk nexus nape_dial pylon port_parts spine_covers pad_frames sensor_bar; do
+for p in disk nexus nape_dial pylon port_parts spine_covers pad_frames sensor_bar nape_core belt_pack coil_former; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out-dir $OUT
 done
 $B --background --python tools/blender/vp0/print_check.py -- $OUT
 $B --background --python tools/blender/vp0/assemble_vp0.py -- --out $OUT/renders   # ~10 min with renders
 $B --background --python tools/blender/vp0/assemble_vp0.py -- --out $OUT/renders_combat --trim combat   # combat trim + fit report
+$B --background --python tools/blender/vp0/assemble_vp0.py -- --out $OUT/val --trim combat --core slab --no-render   # or --core none: the other two electronics options
 ```
 
 Each STL is exported in its print orientation with a `.txt` sidecar (bbox, mass,
