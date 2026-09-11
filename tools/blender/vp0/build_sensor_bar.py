@@ -69,10 +69,10 @@ def bar():
     for s_ in SB["pins_s"]:
         M, N = arc_frame(s_, SB["screw_z"])
         p = Vector((M[0][3], M[1][3], M[2][3]))
-        L.cut(b, CF.normal_cyl("pinsock", p, N, (pd + SB["pin_fit"][1]) / 2, -(n0 - 1.0), -(n0 + (pl_total - pl_band) + 0.5), verts=20))
+        L.cut(b, CF.normal_cyl("pinsock", p, N, (pd + SB["pin_fit"][1]) / 2, -(n0 - 1.0), -(n0 + (pl_total - pl_band) + 0.5), verts=20, td=(0.0, 0.0, 1.0)))
     M, N = arc_frame(0.0, SB["screw_z"])
     p = Vector((M[0][3], M[1][3], M[2][3]))
-    L.cut(b, CF.normal_cyl("screw", p, N, C.M3_CLEAR_DIA / 2, -(n0 - 1.0), -(n0 + SB["wall"] + 1.0)))
+    L.cut(b, CF.normal_cyl("screw", p, N, C.M3_CLEAR_DIA / 2, -(n0 - 1.0), -(n0 + SB["wall"] + 1.0), td=(0.0, 0.0, 1.0)))
     return b
 
 

@@ -52,7 +52,7 @@ def make_base():
     L.cut(base, ND.box("cav", (0.0, 0.0, (T / 2 + T / 2 + bd) / 2), (HU - 2 * wall, HV - 2 * wall, bd)))
     # harness holes through the block's web between the rack tunnels (v 0), inner face -> bay
     for u in (-NC["web_u"], NC["web_u"]):
-        L.cut(base, ND.cyl("web", (u, 0.0, 0.0), NC["web_hole"] / 2, T + 1.0, verts=20))
+        L.cut(base, L.add_teardrop_local("web", ND.M, (u, 0.0, 0.0), NC["web_hole"] / 2, T + 1.0, "Z", (0.0, 1.0, 0.0), verts=20))   # prints standing on v-: roof toward +v
     # junction board standoffs on the bay floor (the block's outer face): two Ø5 x 3 with M3 taps, 24 apart along u at v -6
     jw, jh, jst = NC["junction"]
     for u in (-12.0, 12.0):
@@ -61,7 +61,8 @@ def make_base():
         L.cut(base, ND.cyl("ptap", (u, -6.0, T / 2 + jst - 1.5), C.M3_TAP_DIA / 2, 3.0 + 1.0, verts=12))   # 3.5 deep from the post top, clear of the rack tunnel below
     # umbilical connector window + strain relief in the bottom (v-) wall
     cw, ch = NC["conn"]
-    L.cut(base, ND.box("connwin", (0.0, -HV / 2, T / 2 + bd / 2), (cw, wall + 2.0, ch)))
+    # v0.17: the umbilical window is in the +u END wall (sweat runs down the outer face, not sideways); zip slots stay in the bottom wall
+    L.cut(base, ND.box("connwin", (HU / 2 - 0.5, -6.0, T / 2 + bd / 2), (wall + 3.0, cw, ch)))   # starts 0.5 inside the cavity: no face coplanar with the cavity wall
     ud, uz = NC["umbilical"]
     for u in (-12.0, 12.0):                                             # zip-tie slots through the bottom wall beside the window: the strain relief
         L.cut(base, ND.box("zip", (u, -HV / 2, T / 2 + bd / 2), (uz, wall + 2.0, 2.2)))
@@ -82,7 +83,6 @@ def make_cap():
     for (u, v) in NC["pod_screws"]:
         L.cut(cap, ND.cyl("screw", (u, v, W_OUT + t / 2), C.M3_CLEAR_DIA / 2, t + 2.0, verts=16))
         L.cut(cap, ND.cyl("csk", (u, v, W_OUT + t + 0.5 - 0.6), 2.9, 1.2, verts=16))
-    L.cut(cap, ND.box("capwin", (0.0, NC["window"][2], W_OUT + t / 2), (NC["window"][0], NC["window"][1], t + 2.0)))   # the umbilical can also leave straight out
     return cap
 
 
@@ -134,7 +134,7 @@ def _pod(spec, name):
     sy = -1.0 if face == "-v" else +1.0
     for u in us:
         L.cut(pod, L.add_box("bpocket", (u, sy * (iv / 2 - 0.6), wall + bd), (pk, 2.8, pk)))          # locating pocket 0.8 into the wall (1.2 mm left), the switch body sits in it
-        L.cut(pod, L.add_cyl("bhole", (u, sy * (iv / 2 + wall / 2), wall + bd), ph / 2, wall + 2.0, axis="Y", verts=16))
+        L.cut(pod, L.add_teardrop("bhole", (u, sy * (iv / 2 + wall / 2), wall + bd), ph / 2, wall + 2.0, (0.0, 1.0, 0.0), (0.0, 0.0, 1.0), verts=16))   # horizontal in the print
     # slide switch slot in the -u end wall
     sw, sh = spec["slide"]
     L.cut(pod, L.add_box("slide", (-iu / 2 - wall / 2, iv / 2 - 6.0 if face != "-v" else 0.0, wall + iw * 0.5), (wall + 2.0, sw, sh)))
@@ -186,7 +186,7 @@ def make_socket_foot():
         L.cut(foot, L.add_cyl("tap", (u, v, pt / 2), C.M3_TAP_DIA / 2, pt + 2.0, axis="Z", verts=12))
     peg = L.add_cyl("peg", (0.0, 0.0, -C.CYL_PEG_LEN / 2 + 0.05), C.CYL_PEG_D / 2, C.CYL_PEG_LEN + 0.1, axis="Z", verts=48)
     L.union(foot, peg)
-    L.cut(foot, L.add_cyl("cross", (0.0, 0.0, -C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    L.cut(foot, L.add_teardrop("cross", (0.0, 0.0, -C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (1.0, 0.0, 0.0), (0.0, 0.0, -1.0), verts=24))   # prints inverted
     return foot
 
 

@@ -102,7 +102,7 @@ def make():
     L.cut(band, L.add_box("nodebox", (C.REAR_NODE_X, CF.NODE_Y, C.CRADLE_Z + (r0 + r1) / 2), (C.NODE_LEN, CF.NODE_T + 4.0, r1 - r0 + 4.0)))
     L.union(band, L.extrude_polygon("tenon", CF.tenon_poly(0.0, +1), C.CRADLE_TENON[0] - 0.2, CF.tenon_frame(+1), z0=-(C.CRADLE_TENON[0] - 0.2) / 2))
     pz = START.z + 6.0 * T_IN.z
-    L.cut(band, L.add_cyl("tpin", (C.TENON_PIN_X, START.y, pz), C.PIN_DIA / 2 + 0.1, 12.0, axis="Y", verts=24))
+    L.cut(band, L.add_teardrop("tpin", (C.TENON_PIN_X, START.y, pz), C.PIN_DIA / 2 + 0.1, 12.0, (0.0, 1.0, 0.0), -W, verts=24))   # prints horizontal (top edge down): roof toward -W
     # rack strip: u along -Y from y = 50, v along W, w outward
     Mr = L.frame((C.REAR_BACK_X, C.RACK_Y0, z_of(C.REAR_BACK_X)), N_OUT, (0.0, -1.0, 0.0))
     body_h = half - C.RACK_PITCH_W - 0.2

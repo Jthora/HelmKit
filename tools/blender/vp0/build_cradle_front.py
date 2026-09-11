@@ -63,8 +63,14 @@ def sbox(name, x0, x1, y0, y1, z0, z1, side, fillet=None):
     return b
 
 
-def ycyl(name, x, z, side, r, y0, y1, verts=24, rot=0.0):
-    """Cylinder along Y; `rot` turns its vertex ring so no vertex sits exactly on a cut plane's tangent line."""
+PRINT_UP = (0.0, 0.0, -1.0)          # the cradle prints inverted: every Y-axis hole is horizontal, its roof points world -Z
+
+
+def ycyl(name, x, z, side, r, y0, y1, verts=24, rot=0.0, td=False):
+    """Cylinder along Y; `rot` turns its vertex ring so no vertex sits exactly on a cut plane's tangent line.
+    td=True: a teardrop toward the print's up (v0.17) for holes that print horizontal."""
+    if td:
+        return L.add_teardrop(name, (x, side * (y0 + y1) / 2, z), r, y1 - y0, (0.0, 1.0, 0.0), PRINT_UP, verts=verts)
     M = Matrix.Translation((x, side * (y0 + y1) / 2, z)) @ Matrix.Rotation(math.radians(rot), 4, "Y")
     return L.add_cyl_local(name, M, (0.0, 0.0, 0.0), r, y1 - y0, axis="Y", verts=verts)
 
@@ -192,8 +198,11 @@ def arc_point(pts, s, x_min=60.0):
     return p, Tv, N
 
 
-def normal_cyl(name, p, N, r, d0, d1, verts=16):
-    """Cylinder along the inboard normal N through p, from inboard offset d0 to d1 (negative = outboard)."""
+def normal_cyl(name, p, N, r, d0, d1, verts=16, td=None):
+    """Cylinder along the inboard normal N through p, from inboard offset d0 to d1 (negative = outboard).
+    td = a world up vector: a teardrop toward it (v0.17) for holes that print horizontal."""
+    if td is not None:
+        return L.add_teardrop(name, Vector(p) + Vector(N) * ((d0 + d1) / 2), r, abs(d1 - d0), N, td, verts=verts)
     M = L.frame(p, N, (0.0, 0.0, 1.0))
     return L.add_cyl_local(name, M, (0.0, 0.0, (d0 + d1) / 2), r, abs(d1 - d0), axis="Z", verts=verts)
 
@@ -220,8 +229,8 @@ def make():
     # cable bores along y through the hub nodes: coil feed at CX - 15 (in line with the flange bore), LED feed at CX + 15
     cb = C.CABLE_BORE
     for side in (+1, -1):
-        L.cut(band, ycyl("cbore", C.CX - cb["dx"], cb["z"], side, cb["dia"] / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, verts=20))
-        L.cut(band, ycyl("lbore", cb["led_x"], cb["led_z"], side, cb["dia"] / 2, C.CRADLE_SIDE_Y - C.CRADLE_T / 2 - 2.0, C.CRADLE_SIDE_Y + C.CRADLE_T / 2 + 2.0, verts=20))
+        L.cut(band, ycyl("cbore", C.CX - cb["dx"], cb["z"], side, cb["dia"] / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, verts=20, td=True))
+        L.cut(band, ycyl("lbore", cb["led_x"], cb["led_z"], side, cb["dia"] / 2, C.CRADLE_SIDE_Y - C.CRADLE_T / 2 - 2.0,  C.CRADLE_SIDE_Y + C.CRADLE_T / 2 + 2.0, verts=20, td=True))
     # v0.13 combat cable channels (bottom face + outer-face grooves at x 36), before the node unions like the strap slots
     for cutter in cable_channel_cuts(pts):
         L.cut(band, cutter)
@@ -235,7 +244,7 @@ def make():
     for s_ in sb["pins_s"]:
         p, Tv, N = arc_point(run, s_)
         p = Vector((p.x, p.y, sb["screw_z"]))
-        L.cut(band, normal_cyl("bpin", p, N, (sb["pin"][0] + sb["pin_fit"][0]) / 2, -T2 - 1.0, -T2 + sb["pin"][1] + 0.5, verts=20))
+        L.cut(band, normal_cyl("bpin", p, N, (sb["pin"][0] + sb["pin_fit"][0]) / 2, -T2 - 1.0, -T2 + sb["pin"][1] + 0.5, verts=20, td=PRINT_UP))
     p, Tv, N = arc_point(run, 0.0)
     L.cut(band, normal_cyl("btap", Vector((p.x, p.y, sb["screw_z"])), N, C.M3_TAP_DIA / 2, -T2 - 1.0, -T2 + 5.0))
     for side in (+1, -1):
@@ -247,7 +256,7 @@ def make():
     for side in (+1, -1):
         tool = None
         for (x, z) in C.NEXUS_BOLTS:
-            c = ycyl("nbolt", x, z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0)
+            c = ycyl("nbolt", x, z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, td=True)
             nut = L.add_hex_prism("nut", (x, side * C.NODE_IN_Y, z), af, 2 * pdep, axis="Y")
             nut.matrix_world = Matrix.Translation((x, 0.0, z)) @ Matrix.Rotation(math.radians(7.0), 4, "Y") @ Matrix.Translation((-x, 0.0, -z)) @ nut.matrix_world
             L.apply_transform(nut)
@@ -260,11 +269,11 @@ def make():
         sx, sy = C.HUB_SOCKET
         L.cut(band, zcyl("hsock", sx, sy, side, C.CYL_SOCKET_D / 2, Z + C.HUB_NODE_W[1] - C.CYL_DEPTH, Z + C.HUB_NODE_W[1] + 1.0))
         L.cut(band, zcyl("hmouth", sx, sy, side, md / 2, Z + C.HUB_NODE_W[1] - mdep, Z + C.HUB_NODE_W[1] + 1.0, verts=40))
-        L.cut(band, ycyl("hcross", sx, C.HUB_CROSS_Z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0))
+        L.cut(band, ycyl("hcross", sx, C.HUB_CROSS_Z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, td=True))
         sx, sy = C.REAR_SOCKET
         L.cut(band, zcyl("rsock", sx, sy, side, C.CYL_SOCKET_D / 2, Z + C.REAR_NODE_W[1] - C.CYL_DEPTH, Z + C.REAR_NODE_W[1] + 1.0))
         L.cut(band, zcyl("rmouth", sx, sy, side, md / 2, Z + C.REAR_NODE_W[1] - mdep, Z + C.REAR_NODE_W[1] + 1.0, verts=40))
-        L.cut(band, ycyl("rcross", sx, Z + C.REAR_NODE_W[1] - C.CYL_PIN_Z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.NODE_OUT_Y + 2.0))
+        L.cut(band, ycyl("rcross", sx, Z + C.REAR_NODE_W[1] - C.CYL_PIN_Z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.NODE_OUT_Y + 2.0, td=True))
         # v0.15: harness groove across the node's rear face (y NODE_IN_Y -> the rear half's inner face) at z 45
         ng = C.NODE_CABLE_GROOVE
         gy0, gy1 = ng["y"]
@@ -274,8 +283,13 @@ def make():
         t = C.CRADLE_TENON[0] + 0.4
         L.cut(band, L.extrude_polygon("tslot", tenon_poly(0.2, side), t, tenon_frame(side), z0=-t / 2))
         pz = C.REAR_START[2] + 6.0 * C.REAR_T_IN[2]
-        L.cut(band, ycyl("tpin", C.TENON_PIN_X, pz, side, C.PIN_DIA / 2 + 0.1, C.NODE_IN_Y - 2.0, C.NODE_OUT_Y + 2.0, rot=7.5))
-        L.cut(band, ycyl("tpinhead", C.TENON_PIN_X, pz, side, C.PIN_HEAD_DIA / 2, C.NODE_IN_Y - 1.0, C.NODE_IN_Y + C.PIN_HEAD_DEPTH, rot=7.5))
+        L.cut(band, ycyl("tpin", C.TENON_PIN_X, pz, side, C.PIN_DIA / 2 + 0.1, C.NODE_IN_Y - 2.0, C.NODE_OUT_Y + 2.0, td=True))
+        L.cut(band, ycyl("tpinhead", C.TENON_PIN_X, pz, side, C.PIN_HEAD_DIA / 2, C.NODE_IN_Y - 1.0, C.NODE_IN_Y + C.PIN_HEAD_DEPTH, td=True))
+        # v0.17: chamfer the hub node's lower inner edge over the ear
+        ch = C.HUB_NODE_EAR_CHAMFER
+        hx_, hl_ = C.HUB_NODE
+        Mc = Matrix.Translation((hx_, side * C.NODE_IN_Y, Z + C.HUB_NODE_W[0])) @ Matrix.Rotation(math.radians(45.0), 4, "X")
+        L.cut(band, L.add_box_local("earchamfer", Mc, (0.0, 0.0, 0.0), (hl_ + 4.0, ch * math.sqrt(2.0), ch * math.sqrt(2.0))))
     return band
 
 

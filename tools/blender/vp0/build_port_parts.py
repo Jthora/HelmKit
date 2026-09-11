@@ -27,7 +27,7 @@ def plug():
     cap = L.add_box("cap", (0.0, 0.0, 1.5), (12.0, 12.0, 3.0))
     L.fillet(cap, width=1.0)
     L.union(p, cap)
-    L.cut(p, L.add_cyl("cross", (0.0, 0.0, 3.0 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    L.cut(p, L.add_teardrop("cross", (0.0, 0.0, 3.0 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), verts=24))
     return p
 
 
@@ -37,7 +37,7 @@ def plug_flush():
     cap = L.add_box("cap", (0.0, 0.0, 0.65), (12.0, 12.0, 1.3))
     L.fillet(cap, width=0.4)
     L.union(p, cap)
-    L.cut(p, L.add_cyl("cross", (0.0, 0.0, 1.3 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    L.cut(p, L.add_teardrop("cross", (0.0, 0.0, 1.3 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), verts=24))
     return p
 
 
@@ -45,7 +45,7 @@ def coupler():
     length = 2 * C.CYL_PEG_LEN + 1.0
     p = peg("port_coupler", 0.0, length)
     for z in (length / 2 + C.CYL_PIN_Z, length / 2 - C.CYL_PIN_Z):     # 7 mm each side of the joint plane
-        L.cut(p, L.add_cyl("cross", (0.0, 0.0, z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+        L.cut(p, L.add_teardrop("cross", (0.0, 0.0, z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), verts=24))
     return p
 
 

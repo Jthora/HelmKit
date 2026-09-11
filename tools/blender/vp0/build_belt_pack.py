@@ -40,7 +40,7 @@ def make_box():
         L.cut(box, L.add_box("belt", (0.0, sy * by, wall / 2), (bw, bh, wall + 2.0)))
     # umbilical hole in the +x end wall with a zip-tie slot pair either side inside
     ud, uz = BP["umbilical"]
-    L.cut(box, L.add_cyl("umb", (iu / 2 + wall / 2, 0.0, wall + 12.0), ud / 2, wall + 2.0, axis="X", verts=24))
+    L.cut(box, L.add_teardrop("umb", (iu / 2 + wall / 2, 0.0, wall + 12.0), ud / 2, wall + 2.0, (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), verts=24))
     for sy in (+1, -1):
         L.cut(box, L.add_box("zip", (iu / 2 - 6.0, sy * (ud / 2 + 3.0), wall / 2), (uz, 2.0, wall + 2.0)))
     uw, uh, ud_ = BP["usb"]

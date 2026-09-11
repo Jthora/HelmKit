@@ -127,9 +127,9 @@ CYL_PEG_LEN = CYL_DEPTH - 0.5
 
 DISK_OD = 122.1               # physics: free-space wavelength at 2.455 GHz (the deferred 2.45 GHz Defender band, confirmed 2026-09-11), do not change
 DISK_R = DISK_OD / 2.0
-DISK_SHELL_T = 2.5
+DISK_SHELL_T = 2.0            # v0.17: 2.0 (five perimeters) -- the sag costs a gram, the shell thickness costs seven
 DISK_SAG = 10.0               # dome rise above the rim
-DISK_PLATE_T = 2.0            # back plate (head side): clamped at six bosses and the bayonet boss
+DISK_PLATE_T = 1.6            # back plate (head side): clamped at six bosses and the bayonet boss (v0.17: 1.6, eight layers)
 DISK_CAVITY = (110.0, 12.0)   # dia x depth for the coil apparatus (assumed; measure yours)
 DISK_RIM_WALL = 3.0
 DISK_N_RIM = DISK_PLATE_T + DISK_CAVITY[1] + DISK_SHELL_T     # 17.5: dome outer surface at the rim (n from the back face)
@@ -153,7 +153,7 @@ BAYONET_CAM = (4.5, 3.8)      # groove floor at the entry notch / at the stop: t
 BAYONET_STOP = dict(bump_deg=129.0, bump_w=3.0, flat_end=135.0)   # v0.16: stop bump centre (plate deg past the entry notch) and the end of the flat n_stop floor; the 6 mm lug spans 30 deg at r 11.5 and the bump 14 deg, so the lug centre stops at 108 deg = 107 deg of travel (was a notional 98 that the lug could not reach)
 DISK_CABLE_SLOT_W = 5.0       # v0.16: the plate's cable exit is an arc SLOT at the bore radius spanning the lock travel, so the lead stays in the flange bore while the plate turns
 BAYONET_LOCK = dict(pin_world_deg=90.0, pin_dia=3.2, pin_len=7.8, n=10.8, notch=(3.6, 2.5), notch_n=(9.0, 12.6))   # centre-knob disk lock: a 7.2 mm piece of 3.2 nail in a radial hole in the hollow stalk (top) is pushed 2 mm out into a notch in the boss bore by the knob shaft's eccentric; the notch sits 98 deg past the pin in the plate frame (locked pose)
-DISK_KNOB = dict(d=28.0, t=5.0, dish=(32.0, 5.0), shaft_d=7.6, ecc=1.0, ecc_d=6.0, ecc_len=6.0, clip_n=16.0, clip=(14.0, 8.0, 2.0), apex_boss=(36.0, 7.0), hole=9.0)
+DISK_KNOB = dict(d=28.0, t=5.0, dish=(32.0, 5.0), shaft_d=7.6, ecc=1.0, ecc_d=6.0, ecc_len=6.0, clip_n=16.0, clip=(14.0, 8.0, 2.0), apex_boss=(36.0, 5.0), hole=9.0, slot=(2.5, 1.5))   # v0.17: apex boss 5 (the thinner dome brought it onto the clip), a tactile slot across the knob face
 #   v0.14: the eccentric is a Ø6 cylinder offset 1.0 (envelope 8.0 in the 8.2 bore): cam low r 2.0 / high r 4.0 against a 7.8 mm pin whose
 #   retracted inner end sits at r 2.2 -> 1.8 mm into the 2.5 notch; file the pin's outer end round so the notch wall can push it back in
 DISK_PRINT_FLAT = 0.15        # v0.14: the dome prints ON EDGE; a 0.15 mm flat on the rim (6 mm chord) is its first layer
@@ -200,7 +200,8 @@ NEXUS_Y = (HUB_NODE_OUT_Y + 9.0, HUB_NODE_OUT_Y + 9.0 + NEXUS_T)   # flange y 10
 assert abs(DISK_IN_Y - NEXUS_Y[1]) < 1e-9
 NEXUS_BOLTS = ((CX, CZ + 14.5), (CX - 7.0, CZ + 26.0), (CX + 7.0, CZ + 26.0))   # (x, z): M3 x 30 from OUTSIDE (head in a flange counterbore under the disk) through flange, spool hub / tower and node to a nut in the node's inner-face hex pocket; the top pair clears the arch socket by 1.1
 NEXUS_HEAD_CBORE = (6.0, 3.5)            # head counterbore dia x depth on the flange's outer face
-NEXUS_NUT_POCKET = (5.7, 2.4)            # hex pocket across-flats (M3 nut 5.5) x depth into the node's inner face: nothing proud under the foam
+NEXUS_NUT_POCKET = (5.7, 2.7)            # hex pocket across-flats (M3 nut 5.5) x depth into the node's inner face; v0.17: 2.7 because the sideways bridge sags ~0.3
+HUB_NODE_EAR_CHAMFER = 3.0                # v0.17: 45-deg chamfer on the hub node's lower inner edge (the edge that sits 4 mm over the pinna on the phantom)
 NEXUS_SPOOL = (44.0, 1.0, 36.0, 8.0)     # thrust plate dia x thickness (y 100..101) + hub dia x height (y 101..109, bearing on the flange face): the visor ring's bearing and the bolt-0 spacer. v0.14: no flange pocket (a 0.5 mm bed-side recess does not print)
 NEXUS_RING = (44.0, 36.3, 7.0)           # visor ring OD, ID, thickness (y 101.05..108.05) on the spool hub; wave washer in the remaining 0.95; 7 mm bearing for the 118 mm lever
 NEXUS_RING_Y0 = HUB_NODE_OUT_Y + 1.05
@@ -238,7 +239,7 @@ def cradle_rise(x: float) -> float:
     return CRADLE_FRONT_RISE * t * t * (3.0 - 2.0 * t)
 
 
-SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0, cover_clear=0.3)   # cover strips 0.3 narrower than the channel (curved strip in a curved channel)
+SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0, cover_clear=0.3, bottom_cover_t=1.0)   # cover strips 0.3 narrower than the channel (curved strip in a curved channel)
 #   rope-and-steel-epoxy spine: 4 x 4 channel in the band's outer face (z 63..67) between the nodes and around the front, 3 deep on the rear halves;
 #   2 mm rope potted in metal-filled epoxy, flush printed cover strips glued in wet. The nodes themselves are solid blocks; each free span is bonded over its length.
 # --- v0.12: pad frames (printed sensor carriers under the foam), the combat-trim sensor bar, headgear fit rule ---
@@ -246,7 +247,7 @@ PAD_FRAME = dict(plate_t=2.0, gap=0.1, screw="M3 x 8 countersunk (DIN 965) threa
 PAD_FRONT = dict(half_arc=45.0, h=17.6, z=61.0, foam_t=8.0, screws_s=(-36.0, 36.0), screw_z=58.0,
                  windows=((0.0, "ppg"), (-25.0, "eda"), (25.0, "eda")),           # arc offsets of the carrier windows (s > 0 = right); flat carriers on an R~73 arc converge inboard, keep 4 mm at the plate
                  carrier_ppg=(26.0, 17.6, 21.6, 15.0, 4.0), carrier_eda=(16.0, 17.6, 12.0, 13.0, 0.8),   # (flange w, flange h, pocket w, pocket h, pocket depth)
-                 flange_t=1.4, plug_inset=2.0, wall=1.3, chamfer=0.3)
+                 flange_t=1.4, plug_inset=2.0, wall=1.3, chamfer=0.3, tower_under=2.0)   # v0.17: towers stop 2 mm under the foam surface (2 mm foam caps over them)
 #   carriers: a plug fills the plate window (epoxied), the flange sits on the head-side face, a tower rises to 1 mm under the foam
 #   surface with the sensor pocket opening toward the skin; MAX30102 module in the centre, conductive-fabric EDA patches at +/-25
 PAD_HUB = dict(x=(-9.0, 29.0), z=(44.0, 69.0), foam_t=4.0, screws=((-5.0, 48.0), (25.0, 65.0)), wall=1.2,   # screws 4 mm in from the edges so the countersinks stay inside the plate
@@ -261,14 +262,17 @@ SENSOR_BAR = dict(half_arc=50.0, n=24.0, w=20.0, z=58.0, standoff=0.8, wall=2.0,
                   window=(18.0, 7.3, 17.3), recess=(25.4, 6.1, 18.5, 1.5), carrier=(25.0, 6.3, 18.3, 1.5),   # (half arc, normal from the band centreline .., depth)
                   camera=(0.0, 8.6), thermopile=(-11.0, 9.6), thermopile_tilt=15.0, ir_leds=((8.5, 5.2), (15.0, 5.2)), carrier_screws_s=(-21.5, 21.5),
                   exit=(30.0, 3.5, 5.3, 10.0), led_groove=(46.0, 20.0, 25.3, 2.2),            # cable exit: vertical Ø3.5 slot at arc +/-30 down the back wall, centred IN the wall (normal = CRADLE_T/2 + standoff + wall/2 = 5.3), out of the bar's bottom under the band edge
-                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.5), pin_fit=(0.1, 0.3), screw_z=58.5)   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
+                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.5), pin_fit=(0.1, 0.3), screw_z=59.5)   # v0.17: 59.5 so the teardrop roofs clear the bottom cable channel   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
 #   curved hollow bar hugging the band's outer front face in combat trim: 24 x 20 section (z 48..68), 1 mm chamfers, 2 mm walls, 4 mm floor with a
 #   window + flush recess for the sensor CARRIER (camera head, MLX90614 thermopile, two IR LEDs) screwed from below; LED pacer lane on the
 #   underside along the front edge; two printed Ø4 pins (the shear fuse) + one M3 x 8 into the band's outer face; cable holes in the floor
-CABLE_CHANNEL = dict(w=3.0, d=3.4, s_start=27.0, x_end=36.0, overrun=3.0, groove_w=4.0, mouth=(8.0, 8.0), groove_z=CZ + 20.0, cable_d=2.5)
+CABLE_CHANNEL = dict(w=3.0, d=3.8, s_start=27.0, x_end=36.0, overrun=3.0, groove_w=4.0, mouth=(8.0, 8.0), groove_z=CZ + 20.0, cable_d=2.5)   # v0.17: 3.8 deep, a 1 mm cover strip closes the bottom
 #   v0.13 combat cable path: 3 x 3.4 channel in the band's BOTTOM face from arc +/-27 (3 mm short of the bar's exit holes at +/-30) around the corner
 #   to x 33, then a 4 x 3.4 groove (8 x 8 mouth at its foot for the bend) up the outer face at x 36 into the LED bore (36, 55) and inside. Invisible from outside, prints as
 #   an open groove on the inverted cradle. Present in both trims (same cradle print).
+BAY_COIL = dict(w=100.0, h=25.0, flange_t=1.2, core=(70.0, 8.0, 3.0), pad=(6.0, 6.0, 3.0), lead_hole=3.0)   # v0.17: front-axis coil spool in the visor bay (with the disk pair: a two-axis rotating field)
+DISK_LEAD = dict(conductors=8, hub_connector="JST-XH 8-pin in the foam layer behind the hub plate", umbilical="12-way: 8 coil, 2 power, 2 data")
+LR_NOTCH = (1.5, 3.0)         # v0.17: one notch = LEFT part, two = RIGHT, cut into a visible edge of every mirrored part
 HEADGEAR = dict(thickness=25.0, z_min=-10.0, face=(70.0, 55.0))   # padded shell over the head phantom (face opening: up to z 70, +/- 55 wide); combat-trim parts must stay inside it
 COMBAT_MAX_STANDOFF = 20.0        # sparring rule: nothing beyond this off the skull in combat trim except the sensor bar
 FOAM_BLOCKS = dict(forehead=(90.0, 16.0, 10.0), side=(40.0, 26.0, 10.0), temple=(24.0, 26.0, 6.0), rear=(24.0, 40.0, 6.0))
@@ -392,7 +396,7 @@ RACK_SHIFT = (1.0 + (RACK_LEN - _n * _p) / 2.0 + _p - RACK_Y0) % _p   # 2.78: ra
 # Enclosed dial (nape local frame: u = -Y, v = W up, w = outward; band mid-plane at w = 0)
 NAPE_MODULE = "core"                                    # print one: 'core' (v0.15: the pin-lock block with the electronics junction bay behind it), 'pinlock' (block only), 'dial' = the compact pull dial
 NAPE_PINLOCK_HOLES = (0.0, 0.5 * _p, _p, 1.5 * _p)      # u of the four vertical pin holes: whole-pitch settings use 0 and p, half-pitch ones p/2 and 3p/2 -> two nails, two teeth per rack
-NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, hole_bottom=2.1, cbore=(5.0, 1.0), nail="2 x 50 nail or 2 mm rod")   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
+NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, hole_bottom=2.1, cbore=(5.0, 1.0), relief=(3.0, 0.6), nail="2 x 45 nail (2 x 50 cut flush) or 2 mm rod")   # v0.17: entry relief on the bed-side face against elephant foot   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
 NAPE_HU, NAPE_HV = 60.0, 44.0                           # width = rack tip at the tightest (23) + end wall + margin; height = racks 36 + walls
 NAPE_WALL = 2.5
 NAPE_CH = 2.8                                           # channel half-thickness (racks are +/-2.5)
@@ -433,7 +437,7 @@ NAPE_PAD = (48.0, 40.0, 10.0)
 # One helm, three ways to power it: belt pack only (base + cap, umbilical into the base), helm only (base + nape pod, or two slab
 # pods on the rear sockets), or both (pod + umbilical). The base is the pin-lock block with a junction bay behind it: every helm
 # cable ends on a small junction board there; a jumper goes to the pod, the umbilical goes down to the belt.
-NAPE_CORE = dict(bay_d=12.0, wall=2.0, web_hole=4.0, web_u=22.0,                 # bay depth behind the pin-lock block; Ø4 harness holes through the block's web at u +/-22
+NAPE_CORE = dict(bay_d=12.0, wall=2.0, web_hole=4.0, web_u=22.0, conn_face="+u",   # bay depth behind the pin-lock block; Ø4 harness holes through the block's web at u +/-22; v0.17: the umbilical window is in the +u END wall, out of the sweat path down the outer face
                  pod_screws=((-20.0, 12.0), (20.0, 12.0)), boss=(6.0, 4.0),       # M3 taps in bosses on the bay's outer wall for the pod / cap
                  window=(16.0, 8.0, -14.0),                                     # jumper window through the outer wall: w x h at v
                  conn=(16.0, 10.0), umbilical=(8.0, 3.0),                       # umbilical connector window in the bottom (v-) wall; strain-relief hole dia and zip-tie slot
@@ -450,7 +454,8 @@ SOCKET_FOOT = dict(plate=(50.0, 20.0, 4.0), taps=((-20.0, 0.0), (20.0, 0.0)))   
 BUTTON_CAP = dict(d=(10.0, 14.0), h=4.0, bore=(3.6, 2.0))                                   # small / large (tally) caps pressed onto the 3.5 mm tact plunger
 BELT_PACK = dict(inner=(100.0, 65.0, 35.0), wall=2.5, lid_t=2.5, rebate=1.0, lip=1.8, fillet=0.8, boss=7.0, belt=(45.0, 4.5, 26.0),   # Heltec + 2x18650 + coil driver; belt slots w x h at +/-y
                  umbilical=(8.0, 3.0), usb=(10.0, 7.0, 14.0))
-COIL_FORMER = dict(od=109.4, id=40.0, t=3.5, r0=22.0, r1=50.0, pitch=1.9, groove=(1.1, 0.8), back_groove=(1.4, 1.0),   # 0.8 mm ribs between turns, an 0.8 deep furrow (the pair stands proud, glued)
+COIL_FORMER = dict(style="spool", flange_t=1.8, hub=(40.0, 44.0, 3.0), pad=(3.5, 8.0, 3.0), spool_groove=(1.4, 0.55), pass_hole=3.0, stack=2, foam_ring=5.0,   # pad (radial, tangential, height) inside the Ø110 cavity wall; 0.55 groove (24 AWG enamelled 0.56) leaves a 1.25 floor   # v0.17 spool: one flange + a hub ring, the pair scramble-wound and glued; two stack for the both-channel sham; a 5 mm foam ring above
+                   od=109.4, id=40.0, t=3.5, r0=22.0, r1=50.0, pitch=1.9, groove=(1.1, 0.8), back_groove=(1.4, 1.0),   # 0.8 mm ribs between turns, an 0.8 deep furrow (the pair stands proud, glued)
                    boss_hole=7.6, pin_hole=1.2)                                               # pancake former in the disk cavity: bifilar pair (2 x 24 AWG) in one spiral groove; 6 boss holes; the back grooves drop all four ends into the plate's cable hole
 REAR_CABLE = dict(w=3.0, d=2.5, v=-13.0, s0=12.0, y_end=RACK_Y0 + 8.0, cover_t=1.0)   # v0.16: BELOW the strap slots (v -2.5..11.5) and the rack; the flipped right half carries it at +13           # harness channel on the rear halves' INNER face at v +9.5, from 10 mm behind the node to 8 mm short of the rack. The RIGHT half is the left print flipped over (its rack takes the lower tunnel), so on the right the channel sits at v -9.5 and the +W x-shift of a tilted band would carry a nearer start into the node: hence s0 10
 NODE_CABLE_GROOVE = dict(w=3.0, d=2.5, z_L=CRADLE_Z + REAR_TENON_W0 - 9.0, z_R=CRADLE_Z + REAR_TENON_W0 + 10.0, y=(NODE_IN_Y, CRADLE_SIDE_Y - 2.4))   # groove across each rear node's rear face (y 84 -> 87.6): left at z 47.5 (above the tenon nail's counterbore), right at z 30 (the flipped half's channel is low); the foam-layer harness steps out to the rear half's inner face

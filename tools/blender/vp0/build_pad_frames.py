@@ -71,7 +71,7 @@ def _carrier(name, spec):
     pf = C.PAD_FRONT
     ft, wall = pf["flange_t"], pf["wall"]
     plug_w, plug_h = plug_dims(spec)
-    tower_h = pf["foam_t"] - 1.0 - ft
+    tower_h = pf["foam_t"] - pf.get("tower_under", 1.0) - ft
     body = L.add_box(name, (0.0, 0.0, ft / 2), (fw, fh, ft))
     L.union(body, L.add_box("plug", (0.0, 0.0, -PT / 2 + 0.05), (plug_w, plug_h, PT + 0.1)))
     L.union(body, L.add_box("tower", (0.0, 0.0, ft + tower_h / 2 - 0.05), (pw + 2 * wall, ph + 2 * wall, tower_h + 0.1)))
@@ -132,6 +132,7 @@ def hub(side=+1):
     L.cut(pl, L.add_cyl("bseat", (bx, y_in - ft + br / 2 - 0.5, bz), bt / 2, br + 1.0, axis="Y", verts=48))
     L.cut(pl, L.add_box("bnotch", (bx, y_in - ft + br / 2 - 0.5, bz - bt / 2 - 0.5), (4.0, br + 1.0, 2.0)))
     _holes(pl, y_c, ph)
+    L.lr_notches(pl, side, ((ph["x"][0] + ph["x"][1]) / 2, y_c, ph["z"][1]), (1.0, 0.0, 0.0), size=1.0, thru=(1, PT + 2.0))   # v0.17: one nick L, two R, through the top edge (cut before mirroring)
     return mirror_if(pl, side)
 
 
@@ -140,6 +141,7 @@ def rear(side=+1):
     pl, y_c, y_in = _plate("pad_rear", pr, side)
     _pillar_pocket(pl, y_in, pr["foam_t"], pr["wall"], pr["temp"])
     _holes(pl, y_c, pr)
+    L.lr_notches(pl, side, (pr["x"][0], y_c, (pr["z"][0] + pr["z"][1]) / 2), (0.0, 0.0, 1.0), size=1.0, thru=(1, PT + 2.0))   # on the rear (-x) edge: the top edge sits over the cross-bolt clearance hole
     return mirror_if(pl, side)
 
 

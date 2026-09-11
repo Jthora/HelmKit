@@ -184,6 +184,7 @@ def back(side=+1):
     for a in (a_b, a_b + trav):
         L.union(slot, L.add_cyl_local("slotend", M, (r_b * math.cos(math.radians(a)), r_b * math.sin(math.radians(a)), n_mid), sw / 2, C.DISK_PLATE_T + 2.0, axis="Z", verts=24))
     L.cut(plate, slot)
+    L.lr_notches(plate, side, (C.CX, side * (C.DISK_IN_Y + C.DISK_PLATE_T / 2), C.CZ + C.DISK_R), (1.0, 0.0, 0.0), size=1.0, thru=(1, C.DISK_PLATE_T + 2.0))   # v0.17: one nick L, two R, through the plate's top edge (0.5 deep)
     return plate
 
 

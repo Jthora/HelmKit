@@ -205,6 +205,8 @@ def make_pinlock():
     L.cut(pl, L.extrude_polygon("pins", lobed_poly(us, pin["hole"] / 2), HV / 2 + 1.0 - (v_bot_in + 0.5), Mv, z0=v_bot_in + 0.5))
     L.cut(pl, L.extrude_polygon("pinsb", lobed_poly(us, pin["hole_bottom"] / 2), v_bot_in + 0.3 + HV / 2 + 1.0, Mv, z0=-HV / 2 - 1.0))
     L.cut(pl, L.extrude_polygon("cbores", lobed_poly(us, cb_d / 2), cb_h + 1.0, Mv, z0=HV / 2 - cb_h))
+    rd, rh = pin["relief"]                                       # v0.17: elephant-foot relief where the snug holes meet the bed face
+    L.cut(pl, L.extrude_polygon("relief", lobed_poly(us, rd / 2), rh + 1.0, Mv, z0=-HV / 2 - 1.0))
     L.cut(pl, cyl("lanyard", (-HU / 2 + 4.0, 0.0, 0.0), 1.1, T + 2.0, verts=12))
     return pl
 

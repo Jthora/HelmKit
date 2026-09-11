@@ -49,7 +49,7 @@ def make():
             L.cut(panel, L.add_cyl_local("pscrew", Mk, (d, 0.0, (zb + zt) / 2), C.M3_CLEAR_DIA / 2, zt - zb, axis="Z", verts=16))
             cbd, cbh = C.BROW_LINK["screw_cbore"]
             L.cut(panel, L.add_cyl_local("pcbore", Mk, (d, 0.0, zb + cbh / 2 - 0.5), cbd / 2, cbh + 1.0, axis="Z", verts=20))   # head flush under the panel
-        L.cut(panel, L.add_cyl_local("pcable", MP, (6.5, side * (C.BROW_CAV_W / 2 + 2.5), C.BROW_POCKET_Z - 4.0), 2.0, 9.0, axis="Y", verts=16))   # from the pocket's end straight into the cavity
+        L.cut(panel, L.add_teardrop_local("pcable", MP, (6.5, side * (C.BROW_CAV_W / 2 + 2.5), C.BROW_POCKET_Z - 4.0), 2.0, 9.0, "Y", (0.0, 0.0, 1.0), verts=16))   # horizontal in the standing print: roof up (local z)   # from the pocket's end straight into the cavity
     L.fillet(panel, width=1.0)    # last
     return panel
 

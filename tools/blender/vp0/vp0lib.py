@@ -185,6 +185,45 @@ def add_cone_local(name, M: Matrix, center, r_base, r_top, depth, axis="Z", vert
     return ob
 
 
+_AXES = {"Z": (0.0, 0.0, 1.0), "-Z": (0.0, 0.0, -1.0), "Y": (0.0, 1.0, 0.0), "-Y": (0.0, -1.0, 0.0), "X": (1.0, 0.0, 0.0), "-X": (-1.0, 0.0, 0.0)}
+
+
+def add_teardrop_local(name, M, center, radius, depth, axis="Z", up=(0.0, 1.0, 0.0), verts=24):
+    """v0.17: a hole for printing HORIZONTAL: a cylinder with a 45-deg roof toward `up` (the print's up, perpendicular to the
+    axis), so no bridge sags into the bore. `axis` is a name or a vector, `up` a vector, both in M's frame (M None = world)."""
+    ax = Vector(_AXES[axis]) if isinstance(axis, str) else Vector(axis).normalized()
+    upv = Vector(up); upv = (upv - ax * upv.dot(ax)).normalized()
+    ex = upv.cross(ax).normalized()
+    ey = ax.cross(ex)
+    R = Matrix(((ex.x, ey.x, ax.x), (ex.y, ey.y, ax.y), (ex.z, ey.z, ax.z))).to_4x4()
+    F = (M if M is not None else Matrix.Identity(4)) @ Matrix.Translation(Vector(center)) @ R
+    poly = []
+    for i in range(verts + 1):
+        t = math.radians(135.0 + 270.0 * i / verts)
+        poly.append((radius * math.cos(t), radius * math.sin(t)))
+    poly.append((0.0, radius * math.sqrt(2.0)))
+    return extrude_polygon(name, poly, depth, F, z0=-depth / 2.0)
+
+
+def add_teardrop(name, center, radius, depth, axis, up, verts=24):
+    return add_teardrop_local(name, None, center, radius, depth, axis, up, verts)
+
+
+def lr_notches(ob, side, center, along, size=1.5, pitch=3.0, thru=None):
+    """v0.17: cut one small notch on a LEFT part, two on a RIGHT part, along a visible edge (centre and direction in world).
+    thru=(axis_index, length): a nick THROUGH a thin plate (the box is `length` long on that world axis) so no wall thins."""
+    n = 1 if side > 0 else 2
+    a = Vector(along).normalized()
+    c = Vector(center)
+    dims = [size, size, size]
+    if thru is not None:
+        dims[thru[0]] = thru[1]
+    for i in range(n):
+        p = c + a * ((i - (n - 1) / 2.0) * pitch)
+        cut(ob, add_box("lrnotch", (p.x, p.y, p.z), tuple(dims)))
+    return ob
+
+
 def add_cyl_local(name, M: Matrix, center, radius, depth, axis="Z", verts=48):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts)
     ob = bpy.context.active_object

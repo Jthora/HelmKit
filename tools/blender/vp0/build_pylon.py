@@ -38,8 +38,8 @@ def base(side=+1):
         L.fillet(ear, width=1.0)
         L.union(part, ear)
     L.union(part, L.add_cyl("peg", (SX, side * SY, Z_TOP - C.CYL_PEG_LEN / 2 + 0.5), C.CYL_PEG_D / 2, C.CYL_PEG_LEN + 1.0, axis="Z", verts=48))
-    L.cut(part, L.add_cyl("cross", (SX, side * SY, Z_TOP - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="Y", verts=24))
-    L.cut(part, L.add_cyl("bolt", (SX, side * SY, HZ), C.M3_CLEAR_DIA / 2, 2 * (g + et) + 4.0, axis="Y", verts=24))
+    L.cut(part, L.add_teardrop("cross", (SX, side * SY, Z_TOP - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (0.0, 1.0, 0.0), (0.0, 0.0, -1.0), verts=24))   # prints inverted
+    L.cut(part, L.add_teardrop("bolt", (SX, side * SY, HZ), C.M3_CLEAR_DIA / 2, 2 * (g + et) + 4.0, (0.0, 1.0, 0.0), (0.0, 0.0, -1.0), verts=24))
     L.cut(part, L.add_hex_prism("nutp", (SX, side * (SY - g - et + 1.5 - 1.0), HZ), 5.7, 5.0, axis="Y"))   # nut pocket on the inner ear's outer face
     sr = C.HINGE_SERR
     L.union(part, L.serration_solid("serr", (SX, side * (SY + g), HZ), (0.0, -side, 0.0),

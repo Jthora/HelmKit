@@ -64,6 +64,8 @@ def make(side=+1):
     # LED cable groove along the underside (bottom tangential edge) of the bar, centred in the thickness; ends before the lap
     cd, cw, cs0, cs1 = C.RAIL_CHANNEL
     L.cut(ring, L.add_box_local("cablech", Mr, ((cs0 + cs1) / 2.0, yc, -hh - 1.0 + (cd + 1.0) / 2.0), (cs1 - cs0, cw, cd + 1.0)))
+    pn = Mr @ Vector((60.0, side * (C.RAIL_Y0 + C.RAIL_T), hh))                  # v0.17 L/R notches on the bar's top outer edge
+    L.lr_notches(ring, side, pn, Mr.to_3x3() @ Vector((1.0, 0.0, 0.0)))
     return ring
 
 

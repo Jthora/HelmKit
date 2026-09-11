@@ -9,7 +9,7 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | File | Role |
 |---|---|
 | `canon.py` | Every number: wearer measurements, disk + bayonet + lock boss, cylinder port standard, cradle nodes / lug / sockets, nexus, captive pin, crown, brow rails and tabs, pylons, rear halves, nape modules, foam, pad frames, sensor bar, cable channel, headgear fit rule. `python3 canon.py` prints a summary. |
-| `vp0lib.py` | Mesh helpers: revolve, cones (countersinks), chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
+| `vp0lib.py` | Mesh helpers: revolve, cones (countersinks), teardrop holes and L/R notches (v0.17), chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
 | `build_disk.py` | Enclosed disk: dome shell with screw bosses, apex knob dish + boss, rim print flat and unlock mark (prints on edge); L and R back plates with the cam bayonet groove (lofted ring), the lock notch and the cable hole (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
 | `build_nexus.py` | The NEXUS (PETG): L and R Ø68 flanges (hollow filleted stalk with the lock-pin hole, coil-cable bore, lanyard hole, head counterbores); spool with the notched hub and the spacer block; disk knob (shaft + eccentric); knob clip (`--out-dir`) |
 | `build_cradle_front.py` | Cradle U: 7 mm forehead + side band (lower edge rises at the forehead) with spine channels between the nodes, hub nodes (nexus bolt holes + inner-face nut pockets, arch socket, coil bore), LED bores, rear nodes (tenon socket, pylon socket), strap slots, pad-frame taps, sensor-bar pin sockets, and the v0.13 bottom-face cable channel with its groove up to the LED bore (×1, PETG). Exact-arc helpers `front_run` / `arc_span` / `arc_point` / `s_at_x` are shared with the pad and bar builders |
@@ -24,9 +24,10 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | `build_pad_frames.py` | v0.12 pad frames under the foam (both trims): curved forehead plate with three carrier windows + the PPG and EDA carriers, hub plates (bone-conduction seat, coil-cable hole, cross-bolt clearance), rear plates (MAX30205 pillar); `foam_refs()` and `carrier_in_place()` for the assembly (`--out-dir`) |
 | `build_nape_core.py` | v0.15 electronics core: the nape core base (pin-lock block + junction bay: web harness holes, junction posts, umbilical window with zip-tie slots, jumper window, pod bosses), its cap, the nape pod and the slab pod with lids (tact-switch pockets, OLED and USB windows, slide-switch slot), the socket foot (port-standard peg), button caps; placement matrices for the assembly (`--out-dir`) |
 | `build_belt_pack.py` | v0.15 belt pack box + lid: corner bosses, belt slots, umbilical hole with zip-tie slots, USB window (`--out-dir`) |
-| `build_coil_former.py` | v0.15 pancake coil former for the disk cavity: spiral furrow for the bifilar pair, six boss holes, pin holes and back-face grooves that deliver all four wire ends over the plate's cable hole, index arrow (`--out-dir`) |
+| `build_coil_former.py` | v0.17 spool formers: the disk spool (Ø109.4 × 1.8 flange, Ø44 × 3 hub, six boss holes, solder-pad boss, back-face lead groove, lead hole over the plate's arc slot, two stacked per disk) and the visor-bay spool; the v0.15 spiral former stays selectable (`COIL_FORMER["style"]`). |
 | `build_sensor_bar.py` | v0.12 combat-trim sensor bar: hollow curved brow bar on the band's front face with the floor window + flush recess, the sensor carrier (thermopile, camera, IR LEDs), LED lane, pin sockets; the Ø4 shear pins (`--out-dir`) |
-| `build_fit_coupon.py` | Print-first tolerance coupon: hole gauges, port, bayonet boss + stub, ratchet pair |
+| `build_fit_coupon.py` | Print-first tolerance coupon A: hole gauges, port, bayonet boss + stub, ratchet pair |
+| `build_fit_coupon_b.py` | v0.17 coupon B: horizontal hole row (round vs teardrop), sideways nut pocket, hub + ring, stalk with the lock-pin hole, bar pin sockets |
 | `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang, thinnest wall (inward ray cast from every face); flags wrong-way-up parts and walls under 1.2 mm |
 | `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print; pad frames with the foam on them) + reference coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend`. `--trim combat` builds the cradle + pads + sensor bar + flush plugs only, adds the headgear phantom, the bar cable routes as check-only objects, and writes `fit.txt` (the 20 mm sparring rule, bar excepted; overlaps with the headgear shell), saves `vp0_assembly_combat.blend`. `--core nape|slab|none` picks the electronics core (nape pod on the base, two slab pods on the rear sockets, or belt-only with the cap) and the mass report adds the electronics as reference masses |
 
@@ -35,7 +36,7 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 ```sh
 B=/Applications/Blender.app/Contents/MacOS/Blender   # linux: B=blender
 OUT=3D-Models/HelmKit/_generated/vp0
-for p in fit_coupon cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid visor_slider; do
+for p in fit_coupon fit_coupon_b cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid visor_slider; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/$p.stl
 done
 for p in brow_rail brow_link; do
@@ -102,3 +103,9 @@ workflow. Re-running `assemble_vp0.py` overwrites the file.
 - A rotation you write as a number is a claim; derive it from the geometry that limits it. The bayonet's "98° past the pin" ignored that a 6 mm lug spans 30° of an 11.5 mm radius and the stop bump 14°: the real travel was 76° and the lock could never engage. `lock_travel_deg()` now computes it and every dependent feature (notch, cam flat, lead slot, former exit, unlock mark) reads it.
 - Anything that turns while something else stays fixed needs a slot, not a hole: the coil lead through the flange bore and the plate's exit hole.
 - A part that is reused by flipping it (the right rear half) carries every feature at the mirrored edge; add features on the left, then check the flipped copy against the neighbours it meets.
+- Holes that print horizontal get teardrop profiles (`add_teardrop`, roof toward the print's up) and a note to drill clearance holes anyway; sideways hex pockets get 0.3 mm of extra depth; snug holes that exit the bed face get an entry relief.
+- A teardrop's apex reaches r(√2 − 1) past the round hole: leave ~1.7 r of material above it or keep the hole round (the stalk's lock-pin hole, the bar's pin sockets under the bottom channel).
+- A cutter face coplanar with a cavity wall leaves non-manifold edges after the boolean (the nape base's end-wall window): start the cutter 0.5 mm inside the cavity.
+- L / R marks on a plate under 2 mm thick are nicks THROUGH the edge (`lr_notches(..., thru=)`), not corner notches: a 1.5 mm corner notch on a 1.5 mm plate is a 0.7 mm wall.
+- A spline cable route (Catmull-Rom) overshoots at a sharp rise: ramp the entry into a channel over two waypoints or the reference tube pokes through the channel's ceiling.
+- Audit residuals by design after v0.17: the 1 mm cover strips, the bay spool's 1.2 flange, the 1 mm floor of the dome bosses' blind taps, the nape family's lobe cusps (0.17..0.36), the pad plates' 1.2 pillar walls and the countersink rims 1.15 from the plate edge.

@@ -67,11 +67,39 @@ def cover_rear_in():
     return L.ribbon("cover_rear_in", out, RB.W, [(hw, hw, rc["cover_t"] / 2, rc["cover_t"] / 2)] * len(out))
 
 
+def cover_bottom(side=+1):
+    """v0.17: 1 mm strip closing the band's bottom-face cable channel (the cable rides above it)."""
+    cc = C.CABLE_CHANNEL
+    pts = CF.centreline()
+    s_end = CF.s_at_x(pts, cc["x_end"] - cc["overrun"] + 1.0, side)
+    s_a, s_b = (s_end, -cc["s_start"] + 1.0) if side > 0 else (cc["s_start"] - 1.0, s_end)
+    run = CF.arc_span(pts, s_a, s_b, x_min=30.0)
+    t = C.SPINE["bottom_cover_t"]
+    # printed FLAT (constant z) and bent into the channel: a 1 mm PETG strip follows the 12 mm rise easily; the assembly places it on the true path
+    pts_c = [Vector((p.x, p.y, C.CRADLE_Z)) for p in run]
+    hw = (cc["w"] - C.SPINE["cover_clear"]) / 2
+    return L.ribbon("cover_bottom", pts_c, CF.UP, [(t / 2, t / 2, hw, hw)] * len(pts_c))
+
+
+def cover_bottom_placed(side=+1):
+    """The strip on its real path (for the assembly only)."""
+    cc = C.CABLE_CHANNEL
+    pts = CF.centreline()
+    s_end = CF.s_at_x(pts, cc["x_end"] - cc["overrun"] + 1.0, side)
+    s_a, s_b = (s_end, -cc["s_start"] + 1.0) if side > 0 else (cc["s_start"] - 1.0, s_end)
+    run = CF.arc_span(pts, s_a, s_b, x_min=30.0)
+    t = C.SPINE["bottom_cover_t"]
+    pts_c = [Vector((p.x, p.y, CF.band_bottom(p.x) + t / 2)) for p in run]
+    hw = (cc["w"] - C.SPINE["cover_clear"]) / 2
+    return L.ribbon("cover_bottom", pts_c, CF.UP, [(t / 2, t / 2, hw, hw)] * len(pts_c))
+
+
 PARTS = {
     "cover_front": (cover_front, L.ROT_NONE, ["print standing on its long edge, brim; PETG or PLA", "lay the 2 mm rope in the channel, fill with steel epoxy, press the strip in flush, wipe"]),
     "cover_side": (cover_side, L.ROT_NONE, ["print standing on its long edge; short span between the rear and hub nodes"]),
-    "cover_rear": (cover_rear, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["print standing on its long edge, brim; one mirrored for the right half"]),
-    "cover_rear_in": (cover_rear_in, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["v0.15: 1 mm strip over the rear half's inner harness channel, glued in over the cables; one mirrored for the right half"]),
+    "cover_rear": (cover_rear, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["print standing on its long edge, brim; two identical (the right half is the left print turned over, so its cover is too)"]),
+    "cover_bottom": (lambda: cover_bottom(+1), L.ROT_NONE, ["v0.17: 1 mm strip glued into the band's bottom-face cable channel over the cables; x2 (one flipped for the right side)"]),
+    "cover_rear_in": (cover_rear_in, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["v0.15: 1 mm strip over the rear half's inner harness channel, glued in over the cables; two identical"]),
 }
 
 

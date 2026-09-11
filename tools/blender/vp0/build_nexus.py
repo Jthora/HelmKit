@@ -80,7 +80,11 @@ def flange(side=+1):
     L.cut(fl, ycyl("bore", C.CX, C.CZ, side, C.STALK_BORE / 2.0, y1 - 2.0, y1 + C.STALK_LEN + 1.0, verts=48, rot=2.9))
     lk = C.BAYONET_LOCK
     Mp = radial_frame(lk["pin_world_deg"], side, y=y1 + lk["n"])
-    L.cut(fl, L.add_cyl_local("pinhole", Mp, ((C.STALK_BORE / 2.0 - 1.0 + sd / 2.0 + 1.0) / 2.0, 0.0, 0.0), (lk["pin_dia"] + 0.2) / 2.0, sd / 2.0 - C.STALK_BORE / 2.0 + 2.0, axis="X", verts=16))
+    r_a, r_b = C.STALK_BORE / 2.0 - 1.0, sd / 2.0 + 1.0                # radial pin hole at the top: horizontal in the print (inner face down), roof toward +axis
+    L.cut(fl, L.add_cyl("pinhole", (C.CX, side * (y1 + lk["n"]), C.CZ + (r_a + r_b) / 2.0), (lk["pin_dia"] + 0.2) / 2.0, r_b - r_a, axis="Z", verts=16))   # round: a teardrop apex leaves only 1.05 mm of stalk tip above it; Ø3.4 sags little, and the 3.5 drill pass follows
+    ly_ = C.NEXUS_LANYARD
+    a_n = math.radians(ly_["angle"] + 25.0)
+    L.lr_notches(fl, side, (C.CX + r * math.cos(a_n), side * y1, C.CZ + r * math.sin(a_n)), (-math.sin(a_n), 0.0, math.cos(a_n)))
     # bolt holes with head counterbores on the outer face (under the disk plate). v0.14: no spool pocket on the inner face --
     # that face is the print bed and a 0.5 mm recess there fills in; the hub now bears on the flat face and the bolts locate it.
     cd, cdep = C.NEXUS_HEAD_CBORE
@@ -144,6 +148,8 @@ def disk_knob():
     L.cut(k, L.add_cyl("groove_out", (0.0, 0.0, gn), sd / 2.0 + 1.0, kb["clip"][2] + 0.2, axis="Z", verts=48))
     L.union(k, L.add_cyl("groove_core", (0.0, 0.0, gn), sd / 2.0 - 1.0, kb["clip"][2] + 0.4, axis="Z", verts=40))
     L.cut(k, L.add_box("mark", (kd / 2.0 - 2.0, 0.0, 0.0), (3.0, 1.2, 1.6)))   # index mark on the knob face toward the eccentric side
+    sw, sdp = kb["slot"]
+    L.cut(k, L.add_box("slot", (0.0, 0.0, sdp / 2.0 - 0.5), (kd - 6.0, sw, sdp + 1.0)))   # v0.17: a tactile slot across the face along the mark: feel which way it points
     return k
 
 
