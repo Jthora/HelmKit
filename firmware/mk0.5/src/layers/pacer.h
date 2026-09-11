@@ -68,6 +68,19 @@ class Pacer {
     // ms into the current phase. 0 when not running.
     uint32_t phase_elapsed_ms(uint32_t now_ms) const;
 
+    // Track M (2026-09-11). The combat-mode state machine (layers/modes.h)
+    // owns the session and re-shapes the cadence per mode, so these three
+    // change the pacer WITHOUT session-start / session-end cues:
+    //   retune()  : new inhale / exhale durations; if running, re-enters
+    //               inhale at now_ms (one "inhale" cue) so the new pattern
+    //               starts on a clean edge.
+    //   suspend() : stop ticking and cueing (Combat-sustain: no pacer in the
+    //               round). Idempotent.
+    //   resume()  : start ticking again from inhale (one "inhale" cue).
+    void retune(uint32_t inhale_ms, uint32_t exhale_ms, uint32_t now_ms);
+    void suspend();
+    void resume(uint32_t now_ms);
+
  private:
     bool     running_         = false;
     Phase    phase_           = Phase::kIdle;

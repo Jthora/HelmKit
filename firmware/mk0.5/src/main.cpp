@@ -15,6 +15,8 @@
 #include "drivers/gsr.h"
 #include "drivers/smoke_fail.h"
 #include "dsp/r_peak.h"
+#include "dsp/resp_thermal.h"
+#include "layers/modes.h"
 #include "layers/pacer.h"
 #include "log/ndjson.h"
 #include "log/session.h"
@@ -40,8 +42,79 @@ bool                          g_streaming = false;
 helmkit::drivers::Mlx90614    g_mlx;
 bool                          g_mlx_streaming = false;
 
+// Track M (2026-09-11): thermal respiration on the MLX stream and the
+// combat-mode state machine. No IMU at Mk0.5: stillness is unknown (-1), so
+// Recover ends on its 90 s timeout and no resting HR is learned yet.
+helmkit::dsp::RespThermal     g_resp;
+helmkit::layers::CombatModes  g_modes;
+bool                          g_thermal_on_nose = false;   // 'N': temp-forehead (Mk0.5 wiring) <-> temp-nose (sensor bar)
+float                         g_hr_bpm = NAN;              // 60000 / median of the last 5 in-range RR
+uint32_t                      g_hr_at_ms = 0;
+uint16_t                      g_rr_hist[5] = {0, 0, 0, 0, 0};
+uint8_t                       g_rr_n = 0;
+uint8_t                       g_rr_head = 0;
+uint32_t                      g_last_mode_tick_ms = 0;
+
+void modes_cue_sink(const char* cue, void*) { helmkit::log::emit_cue(cue); }
+
 void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
-    helmkit::log::emit_temp_forehead(s.t_ms, s.object_c, s.ambient_c, s.in_range);
+    helmkit::log::emit_temp_object(s.t_ms, s.object_c, s.ambient_c, s.in_range,
+                                   g_thermal_on_nose ? "temp-nose" : "temp-forehead");
+    // Only in-range samples feed the extractor (the analyser uses q="ok" only).
+    if (s.in_range && g_resp.process(s.t_ms, s.object_c)) {
+        float bpm = 0.0f;
+        if (g_resp.rate_bpm(s.t_ms, &bpm)) {
+            helmkit::log::emit_resp_thermal(g_resp.last_breath_ms(), bpm);
+        }
+    }
+}
+
+void note_rr(const helmkit::dsp::Peak& p) {
+    if (!p.in_range || p.rr_ms == 0) return;
+    g_rr_hist[g_rr_head] = p.rr_ms;
+    g_rr_head = (uint8_t)((g_rr_head + 1) % 5);
+    if (g_rr_n < 5) ++g_rr_n;
+    if (g_rr_n < 3) return;
+    uint16_t v[5];
+    for (uint8_t i = 0; i < g_rr_n; ++i) v[i] = g_rr_hist[i];
+    for (uint8_t i = 1; i < g_rr_n; ++i) {            // insertion sort, n <= 5
+        const uint16_t x = v[i];
+        int8_t j = (int8_t)i - 1;
+        while (j >= 0 && v[j] > x) { v[j + 1] = v[j]; --j; }
+        v[j + 1] = x;
+    }
+    g_hr_bpm = 60000.0f / (float)v[g_rr_n / 2];
+    g_hr_at_ms = p.t_ms;
+}
+
+// Apply the current mode's pacer shape to the L0 pacer without session cues
+// (the modes session owns session-start / session-end).
+void apply_mode_pacer(uint32_t now) {
+    if (!g_modes.in_session()) return;
+    const auto cfg = g_modes.pacer();
+    if (!cfg.enabled) {
+        if (g_pacer.running()) {
+            g_pacer.suspend();
+            helmkit::ui::status_led_set_intensity(0);
+            helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+        }
+        return;
+    }
+    if (!g_pacer.running()) {
+        g_pacer.retune(cfg.inhale_ms, cfg.exhale_ms, now);
+        g_pacer.resume(now);
+    } else if (g_pacer.inhale_ms() != cfg.inhale_ms || g_pacer.exhale_ms() != cfg.exhale_ms) {
+        g_pacer.retune(cfg.inhale_ms, cfg.exhale_ms, now);
+    }
+}
+
+// Operator cue -> wire + state machine + pacer, in that order so the log
+// shows the cause before the mode change it produced.
+void mode_cue(const char* wire_value, helmkit::layers::ModeCue cue) {
+    const uint32_t now = millis();
+    helmkit::log::emit_cue(wire_value);
+    g_modes.event(now, cue);
+    apply_mode_pacer(now);
 }
 
 // Wave J Bridge B: GSR analog streaming. Smoke runs at boot after MLX;
@@ -260,12 +333,55 @@ void poll_serial_commands() {
                 g_gsr_streaming = false;
                 Serial.println(F("[main] GSR stream stopped."));
                 break;
+            // ---- Track M combat modes (layers/modes.h). 'm' opens a session that
+            // owns the pacer; 'p'/'s' are the plain L0 pacer and should not be
+            // mixed with it.
+            case 'm':
+                if (g_last_was_safety_halt) {
+                    Serial.println(F("[main] 'm' refused after safety halt; use 'R' first."));
+                    break;
+                }
+                if (g_modes.in_session()) {
+                    Serial.println(F("[main] modes session already running."));
+                    break;
+                }
+                if (g_pacer.running()) {
+                    g_pacer.suspend();          // the plain pacer hands over silently
+                }
+                Serial.println(F("[main] modes session start (Tranquil, 6 bpm)."));
+                mode_cue("session-start", helmkit::layers::ModeCue::kSessionStart);
+                break;
+            case 'M':
+                if (!g_modes.in_session()) {
+                    Serial.println(F("[main] no modes session."));
+                    break;
+                }
+                g_modes.event(millis(), helmkit::layers::ModeCue::kSessionEnd);   // emits summary:tally=N
+                helmkit::log::emit_cue("session-end");
+                if (g_pacer.running()) {
+                    g_pacer.suspend();
+                    helmkit::ui::status_led_set_intensity(0);
+                    helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+                }
+                Serial.println(F("[main] modes session end."));
+                break;
+            case 'b': mode_cue("round-start", helmkit::layers::ModeCue::kRoundStart); break;
+            case 'B': mode_cue("round-end",   helmkit::layers::ModeCue::kRoundEnd);   break;
+            case 'i': mode_cue("prime",       helmkit::layers::ModeCue::kPrime);      break;
+            case 'n': mode_cue("sanctuary",   helmkit::layers::ModeCue::kSanctuary);  break;
+            case 'y': mode_cue("tally",       helmkit::layers::ModeCue::kTally);      break;
+            case 'N':
+                g_thermal_on_nose = !g_thermal_on_nose;
+                g_resp.reset();
+                Serial.print(F("[main] thermopile channel: "));
+                Serial.println(g_thermal_on_nose ? F("temp-nose (sensor bar)") : F("temp-forehead (Mk0.5 wiring)"));
+                break;
             case '\n':
             case '\r':
             case ' ':
                 break;
             default:
-                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x t T e E)\n",
+                Serial.printf("[main] unknown cmd '%c' (try: r R ? h p s g x t T e E m M b B i n y N)\n",
                               (char)c);
                 break;
         }
@@ -285,6 +401,8 @@ void prose_banner() {
                      "g=ppg-stream-start  x=ppg-stream-stop  "
                      "t=temp-stream-start  T=temp-stream-stop  "
                      "e=gsr-stream-start  E=gsr-stream-stop"));
+    Serial.println(F(" combat modes (Track M): m=session-start  M=session-end  b=round-start  "
+                     "B=round-end  i=prime  n=sanctuary  y=tally  N=thermopile forehead<->nose"));
     Serial.println(F("===================================================="));
 }
 
@@ -322,6 +440,7 @@ void setup() {
 
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
     g_pacer.begin();
+    g_modes.set_emitter(modes_cue_sink, nullptr);
     run_smoke();
 }
 
@@ -340,6 +459,7 @@ void loop() {
             const auto p = g_rpeak.consume_peak();
             helmkit::log::emit_ppg_rr(p.t_ms, p.rr_ms,
                                       p.in_range, p.confidence);
+            note_rr(p);
         }
     }
     if (g_mlx_streaming) {
@@ -349,6 +469,14 @@ void loop() {
     if (g_gsr_streaming) {
         // 50 Hz — driver self-throttles + holds ADC1 mutex briefly.
         g_gsr.pump(on_gsr_sample);
+    }
+    if (g_modes.in_session() && (now - g_last_mode_tick_ms) >= 1000) {
+        // Track M: 1 Hz mode tick. HR older than 15 s (PPG stream off or
+        // finger-off) counts as unknown; no IMU at Mk0.5 -> still = -1.
+        g_last_mode_tick_ms = now;
+        const float hr = (g_hr_at_ms != 0 && (now - g_hr_at_ms) < 15000) ? g_hr_bpm : NAN;
+        g_modes.tick(now, hr, -1, NAN);
+        apply_mode_pacer(now);
     }
     helmkit::ui::status_led_pump();
     poll_serial_commands();

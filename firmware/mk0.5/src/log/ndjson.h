@@ -83,4 +83,27 @@ void emit_gsr(uint32_t t_ms,
               uint16_t raw,
               bool in_range);
 
+// Track M (2026-09-11). One `cue` event line, the same shape the L0 pacer has
+// always emitted: {"t":<s>,"ch":"cue","v":"<value>","boot":"<hex>"}. Values per
+// SCHEMA §2.2 (inhale / exhale / session-start / session-end) and §2.3
+// (round-start / round-end / prime / sanctuary / tally, plus the mode machine's
+// "mode:<name>", "tally-ack", "impact:<N>g", "summary:tally=<N>").
+void emit_cue(const char* value);                   // t = millis() now
+void emit_cue_at(uint32_t t_ms, const char* value);
+
+// Track M. MLX90614 object / ambient pair on a caller-chosen channel:
+// "temp-forehead" is the Mk0.5 wiring (emit_temp_forehead delegates here,
+// byte-identical output); "temp-nose" when the thermopile rides the combat
+// trim's sensor bar aimed at the nose tip (SCHEMA §2.3). The ambient line is
+// "<channel>.amb".
+void emit_temp_object(uint32_t t_ms,
+                      float object_c,
+                      float ambient_c,
+                      bool in_range,
+                      const char* channel);
+
+// Track M. Breath event on `resp-thermal` (SCHEMA §2.3): v = breaths per
+// minute over the trailing 30 s at the time of the breath, q = "ok".
+void emit_resp_thermal(uint32_t t_ms, float breaths_per_min);
+
 }  // namespace helmkit::log

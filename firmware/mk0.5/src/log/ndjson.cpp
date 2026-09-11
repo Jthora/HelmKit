@@ -149,10 +149,11 @@ void emit_ppg_rr(uint32_t t_ms,
     emit_line(buf);
 }
 
-void emit_temp_forehead(uint32_t t_ms,
-                        float object_c,
-                        float ambient_c,
-                        bool in_range) {
+void emit_temp_object(uint32_t t_ms,
+                      float object_c,
+                      float ambient_c,
+                      bool in_range,
+                      const char* channel) {
     if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
@@ -161,15 +162,51 @@ void emit_temp_forehead(uint32_t t_ms,
     const char* q_obj = in_range ? "ok" : "out-of-range";
     // Object/IR line.
     snprintf(buf, kBufSz,
-             "{\"t\":%.3f,\"ch\":\"temp-forehead\",\"v\":%.2f,"
+             "{\"t\":%.3f,\"ch\":\"%s\",\"v\":%.2f,"
              "\"q\":\"%s\",\"boot\":\"%s\"}",
-             t, (double)object_c, q_obj, hex);
+             t, channel, (double)object_c, q_obj, hex);
     emit_line(buf);
     // Ambient line; always q="ok" — ambient has no SCHEMA range gate.
     snprintf(buf, kBufSz,
-             "{\"t\":%.3f,\"ch\":\"temp-forehead.amb\",\"v\":%.2f,"
+             "{\"t\":%.3f,\"ch\":\"%s.amb\",\"v\":%.2f,"
              "\"q\":\"ok\",\"boot\":\"%s\"}",
-             t, (double)ambient_c, hex);
+             t, channel, (double)ambient_c, hex);
+    emit_line(buf);
+}
+
+void emit_temp_forehead(uint32_t t_ms,
+                        float object_c,
+                        float ambient_c,
+                        bool in_range) {
+    emit_temp_object(t_ms, object_c, ambient_c, in_range, "temp-forehead");
+}
+
+void emit_cue_at(uint32_t t_ms, const char* value) {
+    if (!g_attached) return;
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"cue\",\"v\":\"%s\",\"boot\":\"%s\"}",
+             t, value, hex);
+    emit_line(buf);
+}
+
+void emit_cue(const char* value) {
+    emit_cue_at(millis(), value);
+}
+
+void emit_resp_thermal(uint32_t t_ms, float breaths_per_min) {
+    if (!g_attached) return;
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"resp-thermal\",\"v\":%.1f,"
+             "\"q\":\"ok\",\"boot\":\"%s\"}",
+             t, (double)breaths_per_min, hex);
     emit_line(buf);
 }
 

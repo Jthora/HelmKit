@@ -16,7 +16,14 @@ cd firmware/mk0.5
 pio run                    # build
 pio run --target upload    # flash via CP2102
 pio device monitor         # serial @ 115200
+pio test -e native         # host unit tests for the Arduino-free Track M modules (no ESP toolchain needed)
 ```
+
+Serial keys (115200): `r`/`R` smoke retry, `?` last result, `h` hello, `p`/`s` plain L0 pacer,
+`g`/`x` PPG stream (`ppg-rr`), `t`/`T` thermopile stream, `e`/`E` GSR stream, and the Track M
+combat modes: `m`/`M` session start/end (owns the pacer), `b`/`B` round start/end, `i` prime,
+`n` sanctuary, `y` intrusion tally, `N` thermopile channel `temp-forehead` <-> `temp-nose`.
+Score a session afterwards with `tools/analyze_combat_session.py capture.ndjson`.
 
 See [docs/BUILD.md](docs/BUILD.md) for full toolchain notes,
 [docs/PINOUT.md](docs/PINOUT.md) for pin allocations and the ADC conflict
@@ -41,10 +48,11 @@ firmware/mk0.5/
     │   ├── ad8232.{h,cpp}      # ECG, Day 4 / Wave 2 (stub)
     │   ├── max30205.{h,cpp}    # high-precision contact temp, Day 4 (stub)
     │   └── battery.{h,cpp}     # VBAT monitor, Day 1 (stub)
-    ├── dsp/               # signal processing (Day 3)
-    ├── layers/            # L0/L1/L2 state machines (Day 3)
-    ├── log/               # NDJSON serial logger (Day 3)
-    └── ui/                # OLED status display (Day 2)
+    ├── dsp/               # r_peak (RR intervals), resp_thermal (Track M breathing from the thermopile)
+    ├── layers/            # pacer (L0 resonance breathing), modes (Track M combat-mode state machine)
+    ├── log/               # NDJSON serial logger
+    └── ui/                # status LED; OLED (Day 2)
+└── test/test_native/      # Unity tests for the Arduino-free modules (`pio test -e native`)
 ```
 
 ## Bringup order (intentional)

@@ -13,25 +13,9 @@ namespace helmkit::layers {
 
 namespace {
 
-// Emit a v0.1 channel-sample line for the "cue" channel.
-// Wire shape: {"t":<s>,"ch":"cue","v":"<phase-or-event>","boot":"<hex>"}
-//
-// The `boot` field is non-standard for the v0.1 sample format but the
-// validator accepts it (additionalProperties on SAMPLE_SCHEMA is
-// permissive for forward-compat). It exists here because firmware-emit
-// time is millis()-since-boot, so the boot id is needed to disambiguate
-// cue lines from concatenated sessions.
-void emit_cue(const char* value) {
-    if (!helmkit::log::serial_attached()) return;
-    char hex[17];
-    helmkit::log::boot_id_hex(hex);
-    char buf[160];
-    const float t = (float)millis() / 1000.0f;
-    snprintf(buf, sizeof buf,
-             "{\"t\":%.3f,\"ch\":\"cue\",\"v\":\"%s\",\"boot\":\"%s\"}",
-             t, value, hex);
-    Serial.println(buf);
-}
+// Cue lines go through the shared NDJSON emitter (Track M): same wire shape
+// as before, one Serial.println per line.
+void emit_cue(const char* value) { helmkit::log::emit_cue(value); }
 
 }  // namespace
 
@@ -92,6 +76,23 @@ void Pacer::tick(uint32_t now_ms) {
 uint32_t Pacer::phase_elapsed_ms(uint32_t now_ms) const {
     if (!running_) return 0;
     return now_ms - phase_started_ms_;
+}
+
+void Pacer::retune(uint32_t inhale_ms, uint32_t exhale_ms, uint32_t now_ms) {
+    inhale_ms_ = inhale_ms;
+    exhale_ms_ = exhale_ms;
+    if (running_) enter_(Phase::kInhale, now_ms);
+}
+
+void Pacer::suspend() {
+    running_ = false;
+    phase_ = Phase::kIdle;
+}
+
+void Pacer::resume(uint32_t now_ms) {
+    if (running_) return;
+    running_ = true;
+    enter_(Phase::kInhale, now_ms);
 }
 
 uint8_t Pacer::intensity_u8(uint32_t now_ms) const {

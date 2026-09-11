@@ -57,12 +57,22 @@ src/
 │   ├── ad8232.h           🚧 Day 4 — Wave 2
 │   └── max30205.h         🚧 Day 4 — Wave 2 (dual-temple, PRIOR_ART M5)
 ├── dsp/dsp.h              🚧 Day 3 — empty
+├── dsp/r_peak.{h,cpp}     ✅ Wave J — streaming R-peak (PPG / ECG bands)
+├── dsp/resp_thermal.{h,cpp} ✅ Track M — thermal respiration from the nose-tip thermopile (Arduino-free)
 ├── layers/layers.h        🚧 Day 3 — L0/L1/L2 state machines
-├── log/ndjson.h           🚧 Day 3 — NDJSON emitter; schema = docs/SCHEMA.md
+├── layers/pacer.{h,cpp}   ✅ L0 resonance pacer (cues on the wire); retune/suspend/resume for the modes
+├── layers/modes.{h,cpp}   ✅ Track M — combat-mode state machine (Sanctuary/Tranquil/Prime/Sustain/Recover), Arduino-free
+├── log/ndjson.h           ✅ NDJSON emitter; schema = docs/SCHEMA.md (+ emit_cue, emit_temp_object, emit_resp_thermal)
 └── ui/oled.h              🚧 Day 5 — SSD1306 status display
+test/
+└── test_native/test_main.cpp  Unity tests for the Arduino-free modules: `pio test -e native` (host build, no toolchain download)
 ```
 
 ✅ = compiles + has body. 🚧 = header only, `TODO(Day N)` marker.
+
+Track M modules keep a Python behavioural spec in `tools/analyze_combat_session.py`
+(the r_peak / rr_replay pattern): change the Python and the C++ together, and run
+both `python3 -m unittest tests.test_analyze_combat_session` and `pio test -e native`.
 
 ---
 

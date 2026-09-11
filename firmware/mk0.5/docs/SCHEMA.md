@@ -69,10 +69,11 @@ so captures made by hand-wired sensors can be scored before the firmware exists.
 |-------------------|-------------------------------------|--------|-----------------|-------|
 | `temp-nose`       | MLX90614 obj aimed at the nose tip  | 4 Hz   | float32 °C      | Sensor bar. Breathing rate (`resp-thermal`) and the arousal slope are derived on the host. `temp-forehead` is accepted as a fallback by the analyser. |
 | `eda-forehead`    | GSR module via the forehead fabric patches | 20–50 Hz | uint16 ADC | Replaces the finger straps. `q=noise` when the skin-temperature slope says thermal sweating (host rule, > 0.05 °C/min). |
+| `resp-thermal`    | Mk0.5 `dsp/resp_thermal` on the MLX stream | event | float32 breaths/min | One line per detected breath; `v` = rate over the trailing 30 s. Emitted whenever the thermopile stream runs ('t'); the channel is the same whether the thermopile reads the forehead or the nose ('N' toggles `temp-forehead` / `temp-nose`), so only trust it with the nose-tip aim. |
 | `still`           | IMU motion energy, thresholded      | 1 Hz   | 0 / 1           | 1 = still. HRV is only computed inside runs of 1 lasting ≥ 60 s. |
 | `impact`          | IMU                                 | event  | float32 g (peak)| One line per event ≥ 10 g; direction and the 200 ms window go to `meta.yaml` / a sidecar until v0.3 is ratified. |
 | `imu`             | 6-axis IMU                          | 50–100 Hz | packed or per-axis | Layout to be fixed with the IMU purchase (Track M phase 1). |
-| `cue` values      | Mk0.5 L0 / host                     | event  | string          | Adds `round-start`, `round-end`, `prime`, `sanctuary`, `tally` to the v0.2 set (`inhale`, `exhale`, `hold`, `session-start`, `session-end`). |
+| `cue` values      | Mk0.5 L0 / host                     | event  | string          | Adds `round-start`, `round-end`, `prime`, `sanctuary`, `tally` (operator keys m M b B i n y) to the v0.2 set (`inhale`, `exhale`, `hold`, `session-start`, `session-end`), and the mode machine's outputs `mode:<name>`, `tally-ack`, `impact:<N>g`, `summary:tally=<N>` (`layers/modes`). |
 
 ### 2.4 Reserved channel namespaces (do NOT use without coordination)
 

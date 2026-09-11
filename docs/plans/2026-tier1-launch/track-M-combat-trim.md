@@ -91,10 +91,10 @@ Plus the **intrusion tally**: one button, one timestamp per intrusive-thought ep
 Host-side reference first, firmware second (the r_peak.cpp / rr_replay.py pattern): `tools/analyze_combat_session.py` + `tests/test_analyze_combat_session.py` (2026-09-11) implement M-F2, M-F3, the M-F4 rules and the M-F5 state machine on NDJSON captures, so hand-wired sensors can be scored before any firmware exists. Channel names proposed in `firmware/mk0.5/docs/SCHEMA.md` §2.3.
 
 - M-F1: IMU driver, `still` detector, impact detector, activity index; NDJSON channels per SCHEMA conventions. (Host side consumes `still` and `impact` already.)
-- M-F2 host reference done: thermal respiration on `temp-nose` (band-pass 0.1–1 Hz, adaptive peak picking, 1 s refractory) and the nose-tip slope per rest/round; firmware port open.
+- M-F2 **done**: host reference + firmware port `firmware/mk0.5/src/dsp/resp_thermal.{h,cpp}` (same pipeline, native Unity tests; emits `resp-thermal` on the MLX stream; 'N' switches the thermopile channel to `temp-nose`).
 - M-F3 host reference done: SCR rate on `eda-forehead`/`gsr` (phasic rises 0.5–3 s above 0.5 % of tonic) withheld when the skin-temperature slope exceeds 0.05 °C/min; firmware port open.
 - M-F4 host reference done: two-source HR agreement within 5 bpm or one high-quality source (≥ 80 % in-range beats per 10 s window), RMSSD only in still rests ≥ 60 s (assumed still without an IMU, flagged), HR recovery slope over the first minute of rest.
-- M-F5 host reference done (`CombatModes`): Tranquil / Sanctuary (resonance pacer), Combat-prime (2 s / 1 s for 60 s), Combat-sustain (pacer off, impact cues), Recover (cyclic sigh until HR is within 20 bpm of resting or 90 s), tally and round cues, session summary; firmware port + cue hardware open.
+- M-F5 **done (firmware cues via the pacer LED / serial)**: host reference + firmware port `firmware/mk0.5/src/layers/modes.{h,cpp}` driving the L0 pacer (retune / suspend / resume without session cues), operator keys m M b B i n y, 1 Hz tick with the PPG-derived HR (no IMU yet: stillness unknown, Recover ends on the 90 s timeout). Open: bone-conduction / LED-strip cue hardware, IMU stillness, round timing from the gym bell.
 - M-F6 (with the camera): pupil, blink and rPPG on a companion host (phone or laptop) since the ESP32-S3 lacks the headroom; the helm streams frames or the host holds the camera.
 
 ## 8. Mechanical work items (vp0 generators)
