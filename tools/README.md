@@ -13,3 +13,4 @@ pip install -r tools/requirements.txt
 ## Tools
 
 - `wiki_sync.py` — pull tracked FusionGirl wiki pages into `docs/wiki_cache/`. See [`../docs/plans/2026-tier1-launch/track-B-wiki-sync-tool.md`](../docs/plans/2026-tier1-launch/track-B-wiki-sync-tool.md).
+- `analyze_combat_session.py` — Track M host-side reference for the combat trim's adhesive-free sensing: per-round coarse HR with the two-source agreement rule, RMSSD only in still rest windows, thermal breathing rate and nose-tip arousal slope, forehead EDA response rate with the sweat rule, impacts, intrusion tallies, and the `CombatModes` state machine (Sanctuary / Tranquil / Combat-prime / Combat-sustain / Recover) the firmware will mirror. See [`../docs/plans/2026-tier1-launch/track-M-combat-trim.md`](../docs/plans/2026-tier1-launch/track-M-combat-trim.md).

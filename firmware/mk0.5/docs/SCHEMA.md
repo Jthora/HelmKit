@@ -60,7 +60,21 @@ One JSON object per line, NDJSON. Conforms to psiStabilizer §3.
 When psiStabilizer ratifies v0.2 these names migrate from this file's §2.2
 into `data_schemas.md` §1 unchanged. Firmware does not change.
 
-### 2.3 Reserved channel namespaces (do NOT use without coordination)
+### 2.3 v0.3-proposed (Track M combat trim; host-side reference in `tools/analyze_combat_session.py`)
+
+Names from `docs/plans/2026-tier1-launch/track-M-combat-trim.md` §3.1. Not emitted by any firmware yet; the analyser accepts them
+so captures made by hand-wired sensors can be scored before the firmware exists. Same `{t, ch, v, q}` shape.
+
+| Channel           | Source                              | Rate   | Raw unit        | Notes |
+|-------------------|-------------------------------------|--------|-----------------|-------|
+| `temp-nose`       | MLX90614 obj aimed at the nose tip  | 4 Hz   | float32 °C      | Sensor bar. Breathing rate (`resp-thermal`) and the arousal slope are derived on the host. `temp-forehead` is accepted as a fallback by the analyser. |
+| `eda-forehead`    | GSR module via the forehead fabric patches | 20–50 Hz | uint16 ADC | Replaces the finger straps. `q=noise` when the skin-temperature slope says thermal sweating (host rule, > 0.05 °C/min). |
+| `still`           | IMU motion energy, thresholded      | 1 Hz   | 0 / 1           | 1 = still. HRV is only computed inside runs of 1 lasting ≥ 60 s. |
+| `impact`          | IMU                                 | event  | float32 g (peak)| One line per event ≥ 10 g; direction and the 200 ms window go to `meta.yaml` / a sidecar until v0.3 is ratified. |
+| `imu`             | 6-axis IMU                          | 50–100 Hz | packed or per-axis | Layout to be fixed with the IMU purchase (Track M phase 1). |
+| `cue` values      | Mk0.5 L0 / host                     | event  | string          | Adds `round-start`, `round-end`, `prime`, `sanctuary`, `tally` to the v0.2 set (`inhale`, `exhale`, `hold`, `session-start`, `session-end`). |
+
+### 2.4 Reserved channel namespaces (do NOT use without coordination)
 
 - `eeg-*` — reserved for OpenBCI / Mk2.0 (psiStabilizer A02).
 - `ambient-*` — reserved for environmental sensors (psiStabilizer A01).

@@ -99,6 +99,103 @@ def offset_outboard(run, d):
     return out
 
 
+def _front_poly(pts, x_min=60.0):
+    """Front arc of a left -> right polyline (x > x_min), its cumulative arc length and the exact arc length of the y = 0 crossing."""
+    front = [p for p in pts if p.x > x_min]
+    acc = [0.0]
+    for i in range(1, len(front)):
+        acc.append(acc[-1] + (front[i] - front[i - 1]).length)
+    s0 = None
+    for i in range(len(front) - 1):
+        ya, yb = front[i].y, front[i + 1].y
+        if (ya >= 0.0 > yb) or (ya > 0.0 >= yb):
+            t = ya / (ya - yb)
+            s0 = acc[i] + t * (acc[i + 1] - acc[i])
+            break
+    if s0 is None:
+        s0 = acc[min(range(len(front)), key=lambda i: abs(front[i].y))]
+    return front, acc, s0
+
+
+def _interp(front, acc, s):
+    s = min(max(s, acc[0]), acc[-1])
+    for i in range(len(acc) - 1):
+        if acc[i] <= s <= acc[i + 1]:
+            t = (s - acc[i]) / (acc[i + 1] - acc[i]) if acc[i + 1] > acc[i] else 0.0
+            return front[i].lerp(front[i + 1], t)
+    return front[-1].copy()
+
+
+def front_run(pts, half_arc, step=2.0):
+    """The front arc of the centreline within +/- half_arc of arc length from the y = 0 crossing, exact ends, ordered left -> right."""
+    front, acc, s0 = _front_poly(pts)
+    n = max(2, int(math.ceil(2.0 * half_arc / step)))
+    return [_interp(front, acc, s0 - half_arc + 2.0 * half_arc * k / n) for k in range(n + 1)]
+
+
+def arc_span(pts, s_a, s_b, step=2.0, x_min=60.0):
+    """Exact points between arc positions s_a < s_b (relative to the y = 0 crossing, s > 0 toward -y), left -> right."""
+    front, acc, s0 = _front_poly(pts, x_min)
+    n = max(2, int(math.ceil((s_b - s_a) / step)))
+    return [_interp(front, acc, s0 + s_a + (s_b - s_a) * k / n) for k in range(n + 1)]
+
+
+def s_at_x(pts, x, side, x_min=30.0):
+    """Arc position (relative to the y = 0 crossing) where the band centreline crosses world x on the given side (+1 left / -1 right)."""
+    front, acc, s0 = _front_poly(pts, x_min)
+    best = None
+    for i in range(len(front) - 1):
+        a, b = front[i], front[i + 1]
+        if (a.y * side > 0 or b.y * side > 0) and ((a.x - x) * (b.x - x) <= 0.0) and a.x != b.x:
+            t = (x - a.x) / (b.x - a.x)
+            s = acc[i] + t * (acc[i + 1] - acc[i]) - s0
+            if best is None or abs(s) > abs(best):      # the crossing farthest from the front (the side span, not a front wiggle)
+                best = s
+    return best
+
+
+def band_bottom(x):
+    return C.CRADLE_Z - C.CRADLE_H / 2 + C.cradle_rise(x)
+
+
+def cable_channel_cuts(pts):
+    """v0.13: the two combat cable channels in the band's bottom face (arc +/-s_start .. x_end) and the grooves up the outer face at x_end."""
+    cc = C.CABLE_CHANNEL
+    cuts = []
+    for side in (+1, -1):
+        s_end = s_at_x(pts, cc["x_end"] - cc["overrun"], side)          # the channel runs a little past the groove for the bend
+        s_a, s_b = (s_end, -cc["s_start"]) if side > 0 else (cc["s_start"], s_end)
+        run = arc_span(pts, s_a, s_b, x_min=30.0)
+        pts_c = [Vector((p.x, p.y, band_bottom(p.x) + cc["d"] / 2 - 0.5)) for p in run]
+        cuts.append(L.ribbon("cchan", pts_c, UP, [(cc["d"] / 2 + 0.5, cc["d"] / 2 + 0.5, cc["w"] / 2, cc["w"] / 2)] * len(pts_c)))
+        # groove up the outer face at x_end, with a wider mouth at its foot so the cable can bend out of the channel
+        p, Tv, N = arc_point(pts, s_at_x(pts, cc["x_end"], side), x_min=30.0)
+        M = L.frame(Vector((p.x, p.y, 0.0)), N, Tv)
+        z0, z1 = band_bottom(p.x) - 1.0, cc["groove_z"] + 1.0
+        n_c = -(T2 - cc["d"] / 2 + 0.5)
+        cuts.append(L.add_box_local("cgroove", M, (0.0, (z0 + z1) / 2, n_c), (cc["groove_w"], z1 - z0, cc["d"] + 1.0)))
+        mw, mh = cc["mouth"]
+        x_bias = -side * 1.5                                             # toward the channel side (the forehead is at larger x = left -> right ... local x runs left -> right)
+        cuts.append(L.add_box_local("cmouth", M, (x_bias if side < 0 else -x_bias, (z0 + z0 + mh) / 2, n_c + 0.5), (mw, mh, cc["d"] + 2.0)))   # 1 mm further inboard than the groove: room for the bend
+    return cuts
+
+
+def arc_point(pts, s, x_min=60.0):
+    """Exact point, tangent (left -> right) and inboard normal at arc distance s from the y = 0 crossing (s > 0 toward -y).
+    x_min widens the polyline (30 reaches the side spans up to the hub nodes; the default 60 is the forehead arc)."""
+    front, acc, s0 = _front_poly(pts, x_min)
+    p = _interp(front, acc, s0 + s)
+    Tv = (_interp(front, acc, s0 + s + 0.5) - _interp(front, acc, s0 + s - 0.5)).normalized()
+    N = Tv.cross(UP).normalized()
+    return p, Tv, N
+
+
+def normal_cyl(name, p, N, r, d0, d1, verts=16):
+    """Cylinder along the inboard normal N through p, from inboard offset d0 to d1 (negative = outboard)."""
+    M = L.frame(p, N, (0.0, 0.0, 1.0))
+    return L.add_cyl_local(name, M, (0.0, 0.0, (d0 + d1) / 2), r, abs(d1 - d0), axis="Z", verts=verts)
+
+
 def make():
     pts = centreline()
     band = L.ribbon("cradle_front", pts, UP, [(H2 - 0.1, H2 - C.cradle_rise(p.x), T2, T2) for p in pts], chamfer=1.0)   # lower edge rises at the forehead, top edge stays planar (inverted print)
@@ -123,6 +220,25 @@ def make():
     for side in (+1, -1):
         L.cut(band, ycyl("cbore", C.CX - cb["dx"], cb["z"], side, cb["dia"] / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, verts=20))
         L.cut(band, ycyl("lbore", cb["led_x"], cb["led_z"], side, cb["dia"] / 2, C.CRADLE_SIDE_Y - C.CRADLE_T / 2 - 2.0, C.CRADLE_SIDE_Y + C.CRADLE_T / 2 + 2.0, verts=20))
+    # v0.13 combat cable channels (bottom face + outer-face grooves at x 36), before the node unions like the strap slots
+    for cutter in cable_channel_cuts(pts):
+        L.cut(band, cutter)
+    # v0.12 mounting features: pad-frame taps on the inner faces, sensor-bar pin sockets + tap on the outer front face
+    run = front_run(pts, C.PAD_FRONT["half_arc"] + 10.0)
+    for s_ in C.PAD_FRONT["screws_s"]:
+        p, Tv, N = arc_point(run, s_)
+        p = Vector((p.x, p.y, C.PAD_FRONT["screw_z"]))
+        L.cut(band, normal_cyl("ftap", p, N, C.M3_TAP_DIA / 2, T2 - 5.5, T2 + 1.0))
+    sb = C.SENSOR_BAR
+    for s_ in sb["pins_s"]:
+        p, Tv, N = arc_point(run, s_)
+        p = Vector((p.x, p.y, sb["screw_z"]))
+        L.cut(band, normal_cyl("bpin", p, N, (sb["pin"][0] + 0.3) / 2, -T2 - 1.0, -T2 + sb["pin"][1] + 0.5, verts=20))
+    p, Tv, N = arc_point(run, 0.0)
+    L.cut(band, normal_cyl("btap", Vector((p.x, p.y, sb["screw_z"])), N, C.M3_TAP_DIA / 2, -T2 - 1.0, -T2 + 5.0))
+    for side in (+1, -1):
+        for (x, z) in C.PAD_HUB["screws"] + C.PAD_REAR["screws"]:
+            L.cut(band, ycyl("ptap", x, z, side, C.M3_TAP_DIA / 2, C.NODE_IN_Y - 1.0, C.NODE_IN_Y + 5.0, verts=12))
     # nexus bolt holes for both sides first, one combined cutter per side (the solver is order-sensitive here):
     # M3 clearance through the node + hex nut pocket on the INNER face (the nut sits flush under the foam)
     af, pdep = C.NEXUS_NUT_POCKET

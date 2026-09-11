@@ -8,11 +8,11 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 
 | File | Role |
 |---|---|
-| `canon.py` | Every number: wearer measurements, disk + bayonet + lock boss, cylinder port standard, cradle nodes / lug / sockets, nexus, captive pin, crown, brow rails and tabs, pylons, rear halves, nape modules, foam. `python3 canon.py` prints a summary. |
+| `canon.py` | Every number: wearer measurements, disk + bayonet + lock boss, cylinder port standard, cradle nodes / lug / sockets, nexus, captive pin, crown, brow rails and tabs, pylons, rear halves, nape modules, foam, pad frames, sensor bar, cable channel, headgear fit rule. `python3 canon.py` prints a summary. |
 | `vp0lib.py` | Mesh helpers: revolve, chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
 | `build_disk.py` | Enclosed disk: dome shell with screw bosses, apex knob dish + boss; L and R back plates with the cam bayonet groove (lofted ring), the lock notch and the cable hole (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
 | `build_nexus.py` | The NEXUS (PETG): L and R Ø68 flanges (hollow filleted stalk with the lock-pin hole, coil-cable bore, lanyard hole, head counterbores); spool with the notched hub and the spacer block; disk knob (shaft + eccentric); knob clip (`--out-dir`) |
-| `build_cradle_front.py` | Cradle U: 7 mm forehead + side band (lower edge rises at the forehead) with spine channels between the nodes, hub nodes (nexus bolt holes + inner-face nut pockets, arch socket, coil bore), LED bores, rear nodes (tenon socket, pylon socket), strap slots (×1, PETG) |
+| `build_cradle_front.py` | Cradle U: 7 mm forehead + side band (lower edge rises at the forehead) with spine channels between the nodes, hub nodes (nexus bolt holes + inner-face nut pockets, arch socket, coil bore), LED bores, rear nodes (tenon socket, pylon socket), strap slots, pad-frame taps, sensor-bar pin sockets, and the v0.13 bottom-face cable channel with its groove up to the LED bore (×1, PETG). Exact-arc helpers `front_run` / `arc_span` / `arc_point` / `s_at_x` are shared with the pad and bar builders |
 | `build_crown_arch_half.py` | 20 × 7 arch half with a socketed foot over the hub node (coupler) (×2, same STL) |
 | `build_apex_block.py` | Apex sleeve with M4 clamp |
 | `build_brow_center.py`, `build_brow_rail.py`, `build_brow_link.py`, `build_visor_slider.py`, `build_brow_lid.py` | 160 mm centre panel with back-face link pockets and a front faceplate recess; rails with their Ø44 rings, gusseted bar, pawl tunnel, half-lap and underside cable groove (`--mirror`); links (lap + 55° bar; `--mirror`); pawl slider; faceplate |
@@ -20,10 +20,12 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | `build_spine_covers.py` | Flush cover strips for the spine channels: front arc half, side span, rear half (`--out-dir`) |
 | `build_nape_dial.py` | Nape modules: `nape_pinlock` (print one; four-lobe nail slot, prints standing) and the enclosed PULL dial set: body (ratchet ring), cover (window), lid, dial, key cap, pinion, retainer with M5 nut pocket (`--out-dir`) |
 | `build_pylon.py` | Antenna pylon: pegged base with a serrated clevis, faceted blade, lock knob (`--out-dir`) |
-| `build_port_parts.py` | Cylinder port spares: plug, coupler, drill guide (`--out-dir`) |
+| `build_port_parts.py` | Cylinder port spares: plug, flush plug (combat trim), coupler, drill guide (`--out-dir`) |
+| `build_pad_frames.py` | v0.12 pad frames under the foam (both trims): curved forehead plate with three carrier windows + the PPG and EDA carriers, hub plates (bone-conduction seat, coil-cable hole, cross-bolt clearance), rear plates (MAX30205 pillar); `foam_refs()` and `carrier_in_place()` for the assembly (`--out-dir`) |
+| `build_sensor_bar.py` | v0.12 combat-trim sensor bar: hollow curved brow bar on the band's front face with the floor window + flush recess, the sensor carrier (thermopile, camera, IR LEDs), LED lane, pin sockets; the Ø4 shear pins (`--out-dir`) |
 | `build_fit_coupon.py` | Print-first tolerance coupon: hole gauges, port, bayonet boss + stub, ratchet pair |
 | `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang, thinnest wall (inward ray cast from every face); flags wrong-way-up parts and walls under 1.2 mm |
-| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print) + reference foam / coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend` |
+| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print; pad frames with the foam on them) + reference coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend`. `--trim combat` builds the cradle + pads + sensor bar + flush plugs only, adds the headgear phantom, the bar cable routes as check-only objects, and writes `fit.txt` (the 20 mm sparring rule, bar excepted; overlaps with the headgear shell), saves `vp0_assembly_combat.blend` |
 
 ## Regenerate everything
 
@@ -37,11 +39,12 @@ for p in brow_rail brow_link; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_L.stl
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_R.stl --mirror
 done
-for p in disk nexus nape_dial pylon port_parts spine_covers; do
+for p in disk nexus nape_dial pylon port_parts spine_covers pad_frames sensor_bar; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out-dir $OUT
 done
 $B --background --python tools/blender/vp0/print_check.py -- $OUT
 $B --background --python tools/blender/vp0/assemble_vp0.py -- --out $OUT/renders   # ~10 min with renders
+$B --background --python tools/blender/vp0/assemble_vp0.py -- --out $OUT/renders_combat --trim combat   # combat trim + fit report
 ```
 
 Each STL is exported in its print orientation with a `.txt` sidecar (bbox, mass,

@@ -32,6 +32,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **I** | Pre-Hardware Sprint (Mk0.5 BOM + wiring + G2 protocol + capture tool) | `landed` | no | [track-I-pre-hardware-sprint.md](track-I-pre-hardware-sprint.md) |
 | **J** | Mk0.5 Sensor Bring-up Sprint (MAX30102/MLX90614/MAX30205/GSR/AD8232 drivers + G2 analyser + G2 closure) | `in-progress` (commits 1–3 landed) | no | [track-J-sensor-bring-up.md](track-J-sensor-bring-up.md) |
 | **K** | Bench Readiness & Hardware-Latency Reduction (capture analyser + bench quickstart + J-4/5/6 scaffolds) | `scoped` | no | [track-K-bench-readiness.md](track-K-bench-readiness.md) |
+| **M** | Combat Trim (pad-free sensing under motion and sweat, sensor bar, pad frames, five modes with cues, Sanctuary + Combat gates) | `scoped` (2026-09-11); v0.12/v0.13 mechanical + host-side sensing reference landed | no | [track-M-combat-trim.md](track-M-combat-trim.md) |
 
 ---
 

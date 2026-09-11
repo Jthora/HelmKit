@@ -125,7 +125,7 @@ CYL_PEG_LEN = CYL_DEPTH - 0.5
 # Disk: enclosed lens on a central bayonet stalk
 # ---------------------------------------------------------------------------
 
-DISK_OD = 122.1               # physics: wavelength-linked, do not change
+DISK_OD = 122.1               # physics: free-space wavelength at 2.455 GHz (the deferred 2.45 GHz Defender band, confirmed 2026-09-11), do not change
 DISK_R = DISK_OD / 2.0
 DISK_SHELL_T = 2.5
 DISK_SAG = 10.0               # dome rise above the rim
@@ -235,6 +235,35 @@ def cradle_rise(x: float) -> float:
 SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0)
 #   rope-and-steel-epoxy spine: 4 x 4 channel in the band's outer face (z 63..67) between the nodes and around the front, 3 deep on the rear halves;
 #   2 mm rope potted in metal-filled epoxy, flush printed cover strips glued in wet. The nodes themselves are solid blocks; each free span is bonded over its length.
+# --- v0.12: pad frames (printed sensor carriers under the foam), the combat-trim sensor bar, headgear fit rule ---
+PAD_FRAME = dict(plate_t=2.0, gap=0.1, screw="M3 x 8 thread-forming from the head side, heads under the foam")
+PAD_FRONT = dict(half_arc=45.0, h=17.6, z=61.0, foam_t=8.0, screws_s=(-36.0, 36.0), screw_z=58.0,
+                 windows=((0.0, "ppg"), (-25.0, "eda"), (25.0, "eda")),           # arc offsets of the carrier windows (s > 0 = right); flat carriers on an R~73 arc converge inboard, keep 4 mm at the plate
+                 carrier_ppg=(26.0, 17.6, 21.6, 15.0, 4.0), carrier_eda=(16.0, 17.6, 12.0, 13.0, 0.8),   # (flange w, flange h, pocket w, pocket h, pocket depth)
+                 flange_t=1.4, plug_inset=2.0, wall=1.3, chamfer=0.3)
+#   carriers: a plug fills the plate window (epoxied), the flange sits on the head-side face, a tower rises to 1 mm under the foam
+#   surface with the sensor pocket opening toward the skin; MAX30102 module in the centre, conductive-fabric EDA patches at +/-25
+PAD_HUB = dict(x=(-9.0, 29.0), z=(44.0, 69.0), foam_t=4.0, screws=((-6.0, 47.0), (26.0, 66.0)), wall=1.2,
+               bct=(17.6, 15.0, 2.0, 19.0, 54.5),        # bone-conduction seat: pillar dia, transducer dia, recess, at (x, z)
+               cable=(5.4, CX - 15.0, CZ + 24.5),        # coil-feed hole in line with the node bore
+               cross=(6.5, HUB_SOCKET[0], HUB_CROSS_Z))  # clearance over the hub socket's cross-bolt / nail
+PAD_REAR = dict(x=(-57.0, -33.0), z=(44.0, 68.0), foam_t=4.0, screws=((-54.0, 62.0), (-36.0, 62.0)), wall=1.3,
+                temp=(13.0, 10.0, 2.5, REAR_NODE_X, 52.0),                         # MAX30205 pocket w x h x depth at (x, z), occipital skin
+                cross=(6.5, REAR_NODE_X, CRADLE_Z + REAR_NODE_W[1] - CYL_PIN_Z))   # clearance over the rear socket's cross-bolt
+SENSOR_BAR = dict(half_arc=50.0, n=24.0, w=20.0, z=58.0, standoff=0.3, wall=2.0, floor=4.0, chamfer=1.0, cavity_arc=34.0,
+                  window=(18.0, 7.3, 17.3), recess=(25.4, 6.1, 18.5, 1.5), carrier=(25.0, 6.3, 18.3, 1.5),   # (half arc, normal from the band centreline .., depth)
+                  camera=(0.0, 8.6), thermopile=(-11.0, 9.6), ir_leds=((8.5, 5.2), (15.0, 5.2)), carrier_screws_s=(-21.5, 21.5),
+                  exit=(30.0, 3.5, 4.8, 10.0), led_groove=(46.0, 20.0, 25.3, 2.2),            # cable exit: vertical Ø3.5 slot at arc +/-30 down the back wall (normal 4.8, from z0 + 10 to the bottom), out of the bar's bottom under the band edge
+                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.0), screw_z=58.5)      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
+#   curved hollow bar hugging the band's outer front face in combat trim: 24 x 20 section (z 48..68), 1 mm chamfers, 2 mm walls, 4 mm floor with a
+#   window + flush recess for the sensor CARRIER (camera head, MLX90614 thermopile, two IR LEDs) screwed from below; LED pacer lane on the
+#   underside along the front edge; two printed Ø4 pins (the shear fuse) + one M3 x 8 into the band's outer face; cable holes in the floor
+CABLE_CHANNEL = dict(w=3.0, d=3.4, s_start=27.0, x_end=36.0, overrun=3.0, groove_w=4.0, mouth=(8.0, 8.0), groove_z=CZ + 20.0, cable_d=2.5)
+#   v0.13 combat cable path: 3 x 3.4 channel in the band's BOTTOM face from arc +/-27 (3 mm short of the bar's exit holes at +/-30) around the corner
+#   to x 33, then a 4 x 3.4 groove (8 x 8 mouth at its foot for the bend) up the outer face at x 36 into the LED bore (36, 55) and inside. Invisible from outside, prints as
+#   an open groove on the inverted cradle. Present in both trims (same cradle print).
+HEADGEAR = dict(thickness=25.0, z_min=-10.0, face=(70.0, 55.0))   # padded shell over the head phantom (face opening: up to z 70, +/- 55 wide); combat-trim parts must stay inside it
+COMBAT_MAX_STANDOFF = 20.0        # sparring rule: nothing beyond this off the skull in combat trim except the sensor bar
 FOAM_BLOCKS = dict(forehead=(90.0, 16.0, 10.0), side=(40.0, 26.0, 10.0), temple=(24.0, 26.0, 6.0), rear=(24.0, 40.0, 6.0))
 
 # ---------------------------------------------------------------------------

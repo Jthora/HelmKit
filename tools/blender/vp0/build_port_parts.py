@@ -31,6 +31,16 @@ def plug():
     return p
 
 
+def plug_flush():
+    """Combat-trim socket plug: same peg, 1 mm cap (nail through the cross hole retains it; lever it out with the nail)."""
+    p = peg("port_plug_flush", 1.3 - 0.5, C.CYL_PEG_LEN + 0.5)
+    cap = L.add_box("cap", (0.0, 0.0, 0.65), (12.0, 12.0, 1.3))
+    L.fillet(cap, width=0.4)
+    L.union(p, cap)
+    L.cut(p, L.add_cyl("cross", (0.0, 0.0, 1.3 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    return p
+
+
 def coupler():
     length = 2 * C.CYL_PEG_LEN + 1.0
     p = peg("port_coupler", 0.0, length)
@@ -49,6 +59,7 @@ def drill_guide():
 
 PARTS = {
     "port_plug": (plug, L.ROT_NONE, ["print cap down; closes an unused cradle socket"]),
+    "port_plug_flush": (plug_flush, L.ROT_NONE, ["print cap down, x4 for the combat trim: 1 mm cap, nail through the cross hole"]),
     "port_coupler": (coupler, L.ROT_NONE, ["print standing; stacks an add-on peg on a cradle socket"]),
     "port_drill_guide": (drill_guide, L.ROT_NONE, ["drill 8 mm aluminium rod or printed pegs for the cross-bolt"]),
 }
