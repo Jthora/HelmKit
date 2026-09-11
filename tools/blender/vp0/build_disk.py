@@ -47,11 +47,20 @@ def dome(side=+1):
         cx, cy = C.DISK_SCREW_R * math.cos(a), C.DISK_SCREW_R * math.sin(a)
         h = C.DISK_PLATE_T + C.DISK_CAVITY[1]
         L.union(shell, L.add_cyl_local("boss", M, (cx, cy, (C.DISK_PLATE_T + 0.1 + h) / 2), 3.5, h - C.DISK_PLATE_T - 0.1, axis="Z", verts=24))
+    # apex boss inside the shell for the knob dish, the shaft hole and the C-clip seat
+    kb = C.DISK_KNOB
+    bd, bh = kb["apex_boss"]
+    n_in = n_out(0.0) - C.DISK_SHELL_T                      # inner surface at the apex
     L.fillet(shell, width=0.8, angle_deg=60.0)
+    L.union(shell, L.add_cyl_local("apexboss", M, (0.0, 0.0, n_in + 0.1 - bh / 2), bd / 2, bh, axis="Z", verts=64))   # after the fillet: its rim sits inside the shell
     for k in range(C.DISK_SCREWS):
         a = math.radians(30.0 + 360.0 * k / C.DISK_SCREWS)
         cx, cy = C.DISK_SCREW_R * math.cos(a), C.DISK_SCREW_R * math.sin(a)
         L.cut(shell, L.add_cyl_local("tap", M, (cx, cy, C.DISK_PLATE_T + 5.0), C.M3_TAP_DIA / 2, 12.0, axis="Z", verts=16))
+    dd, ddep = kb["dish"]
+    n_top = n_out(0.0)
+    L.cut(shell, L.add_cyl_local("dish", M, (0.0, 0.0, n_top - ddep / 2 + 1.0), dd / 2, ddep + 2.0, axis="Z", verts=64))
+    L.cut(shell, L.add_cyl_local("shafthole", M, (0.0, 0.0, n_top - 8.0), kb["hole"] / 2, 20.0, axis="Z", verts=32))
     return shell
 
 
@@ -64,7 +73,7 @@ def bayonet_boss(M, z0):
     return boss
 
 
-def bayonet_cuts(plate, M, mouth=True, z_below=1.0):
+def bayonet_cuts(plate, M, mouth=True, z_below=1.0, side=+1):
     """Bore, lug notches, groove with stop walls (and the head-side elephant-foot mouth) about M's Z axis; local z = 0 is the head face.
     Every coaxial cutter is rotated by an odd angle so no vertex lands on a radial line of the revolves."""
     bd, bh = C.BAYONET_BOSS
@@ -78,19 +87,40 @@ def bayonet_cuts(plate, M, mouth=True, z_below=1.0):
     lw, lr, lh = C.STALK_LUG
     g_r, g0, g1 = C.BAYONET_GROOVE
     for sx in (+1, -1):
-        L.cut(plate, L.add_box_local("notch", rot(0.9), (sx * (C.STALK_D / 2 + lr / 2), 0.0, (g0 + 0.3 - 1.0) / 2), (lr + 0.6, lw + 1.0, g0 + 0.3 + 1.0)))
-    groove = L.revolve("groove", [(C.STALK_D / 2 + 0.1, g0), (g_r, g0), (g_r, g1), (C.STALK_D / 2 + 0.1, g1)], axis="Z", center=(0.0, 0.0, 0.0), segments=100)
-    groove.matrix_world = rot(2.37) @ groove.matrix_world   # 2.37: never lands on a bore (1.3 + 5k), plate (3m) or boss (3.6i) vertex line
+        L.cut(plate, L.add_box_local("notch", rot(0.9), (sx * (C.STALK_D / 2 + lr / 2), 0.0, (C.BAYONET_CAM[0] + 0.3 - 1.0) / 2), (lr + 0.6, lw + 1.0, C.BAYONET_CAM[0] + 0.3 + 1.0)))
+    # groove tool: a lofted ring whose FLOOR cams from n_notch at the entry notch down to n_stop over the quarter turn, so the
+    # lugs (n 4..7 off the flange face) pull the plate onto the flange as it is turned; rotated 2.37 deg (never lands on a bore,
+    # plate or boss vertex line). The stop walls are carved out of the tool, so the plate keeps that material after one cut.
+    n_notch, n_stop = C.BAYONET_CAM
+    r_in = C.STALK_D / 2 + 0.1
+
+    def n_floor(theta):                       # theta: degrees past the notch (period 180)
+        t = theta % 180.0
+        if t <= 90.0:
+            return n_notch + (n_stop - n_notch) * (t / 90.0)
+        return n_stop if t <= 104.0 else n_notch
+
+    NST = 100
+    stations = []
+    for i in range(NST):
+        a = 360.0 * i / NST                   # tool frame; the tool is then rotated by 2.37, the notch sits at 0.9
+        n0 = n_floor(a + 2.37 - 0.9)
+        stations.append((a, [(r_in, n0), (g_r, n0), (g_r, g1), (r_in, g1)]))
+    groove = L.loft_ring("groove", stations, axis="Z", center=(0.0, 0.0, 0.0))
+    groove.matrix_world = rot(2.37) @ groove.matrix_world
     L.apply_transform(groove)
-    # stop wall (98 deg) past each notch: carved out of the groove TOOL, so the plate keeps that material after a single
-    # clean cut (unioning bumps into the finished groove leaves slivers). No detent bump: the lock screw holds the position.
     for sx in (+1, -1):
         Mb = rot(0.9 + 98.0 + (0.0 if sx > 0 else 180.0))
-        r_in = C.STALK_D / 2 + 0.5
-        rc = (r_in + g_r + 0.5) / 2
-        h = g1 - g0 + 0.2
-        L.cut(groove, L.add_box_local("bump", Mb, (rc, 0.0, g0 + h / 2 - 0.6), (g_r + 0.5 - r_in, 3.0, h + 1.0)))
+        rb_in = C.STALK_D / 2 + 0.5
+        rc = (rb_in + g_r + 0.5) / 2
+        L.cut(groove, L.add_box_local("bump", Mb, (rc, 0.0, (n_stop - 0.6 + g1 + 0.4) / 2), (g_r + 0.5 - rb_in, 3.0, g1 - n_stop + 1.0)))
     L.cut(plate, groove)
+    # lock notch in the boss bore: the stalk's radial pin (world top) drops into it after the 98 deg turn
+    lk = C.BAYONET_LOCK
+    nw, nd = lk["notch"]
+    na, nb = lk["notch_n"]
+    phi = (-side * lk["pin_world_deg"]) % 360.0 + 98.0        # rot() turns clockwise for the left plate, anticlockwise for the right
+    L.cut(plate, L.add_box_local("locknotch", rot(phi), (C.STALK_D / 2 + 0.3 + nd / 2 - 0.5, 0.0, (na + nb) / 2), (nd + 1.0, nw, nb - na)))
 
 
 def back(side=+1):
@@ -103,7 +133,7 @@ def back(side=+1):
     L.apply_transform(plate)
     L.union(plate, bayonet_boss(M, C.DISK_PLATE_T - 0.1))
     # no fillet: the bevel pass leaves edges the bore cut cannot resolve (flat plate, cosmetic only)
-    bayonet_cuts(plate, M)
+    bayonet_cuts(plate, M, side=side)
 
     def rot(deg):
         return M @ Matrix.Rotation(math.radians(deg), 4, "Z")
@@ -111,25 +141,17 @@ def back(side=+1):
     for k in range(C.DISK_SCREWS):
         a = math.radians(30.0 + 360.0 * k / C.DISK_SCREWS)
         L.cut(plate, L.add_cyl_local("screw", rot(1.1), (C.DISK_SCREW_R * math.cos(a), C.DISK_SCREW_R * math.sin(a), C.DISK_PLATE_T / 2), C.M3_CLEAR_DIA / 2, C.DISK_PLATE_T + 2.0, axis="Z", verts=16))
-    # lock boss on the CAVITY side at r 50.5..57.5 (between the dome's screw bosses), tapped through boss and plate for the M3 x 20
-    # lock screw that comes from the head side through the nexus ear. Nothing protrudes from the head face: the plate prints flat.
-    lk = C.DISK_LOCK
-    tr, tw, tt = lk["tab"]
-    a = math.radians(lk["angle"])
-    Mt = Matrix.Translation((C.CX, side * (C.DISK_IN_Y + C.DISK_PLATE_T + tt / 2.0 - 0.1), C.CZ)) @ Matrix.Rotation(-a, 4, "Y")
-    tab = L.add_box_local("lockboss", Mt, (lk["r"], 0.0, 0.0), (tr, tt + 0.2, tw))
-    L.fillet(tab, width=0.8)
-    L.union(plate, tab)
-    L.cut(plate, L.add_cyl_local("locktap", Mt, (lk["r"], -side * (C.DISK_PLATE_T / 2.0), 0.0), lk["tap"] / 2.0, tt + C.DISK_PLATE_T + 4.0, axis="Y", verts=16))
-    cr, cd = C.DISK_CABLE_HOLE
-    L.cut(plate, L.add_cyl_local("cable", rot(1.1), (cr * math.cos(math.radians(45.0)), cr * math.sin(math.radians(45.0)), C.DISK_PLATE_T / 2), cd / 2, C.DISK_PLATE_T + 2.0, axis="Z", verts=24))
+    cb = C.CABLE_BORE
+    L.cut(plate, L.add_cyl("cable", (C.CX - cb["dx"], side * (C.DISK_IN_Y + C.DISK_PLATE_T / 2), cb["z"]), cb["dia"] / 2, C.DISK_PLATE_T + 2.0, axis="Y", verts=24))
     return plate
 
 
 PARTS = {
-    "disk_dome": (lambda: dome(+1), L.ROT_Y_TO_Z, ["print dome up with tree supports under the shell (or on edge with a brim); 0.12 mm layers for the dome",
+    "disk_dome": (lambda: dome(+1), L.ROT_Y_TO_Z, ["print dome up with tree supports under the shell (or on edge with a brim); 0.12 mm layers for the dome; the knob dish and Ø9 shaft hole sit at the apex",
                                                     f"six M3 x 8 into the bosses hold the back plate; cavity {C.DISK_CAVITY} for the coil; no metal on the axis"]),
-    "disk_back": (lambda: back(+1), L.ROT_Y_TO_Z, ["print flat, bayonet boss up; no supports (3.3 mm groove ceiling bridges)",
+    "disk_back_L": (lambda: back(+1), L.ROT_Y_TO_Z, ["LEFT plate (lock boss down-front). print flat, bayonet boss up; no supports (3.5 mm groove ceiling bridges)",
+                                                      "seat on the nexus flange with the lugs in the notches, quarter turn to the stop (it tightens), then turn the centre knob 180 deg: its eccentric drives the stalk pin into the boss notch"]),
+    "disk_back_R": (lambda: back(-1), L.ROT_NEGY_TO_Z, ["RIGHT plate (mirrored). print flat, bayonet boss up; no supports (3.5 mm groove ceiling bridges)",
                                                     "seat on the nexus flange with the lugs in the notches, quarter turn to the stop, then the M3 x 20 lock screw from the head side through the ear into the tapped boss"]),
 }
 

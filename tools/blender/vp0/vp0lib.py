@@ -201,6 +201,27 @@ def revolve(name, profile, axis="Y", center=(0.0, 0.0, 0.0), segments=128):
     return obj_from_bm(name, bm)
 
 
+def loft_ring(name, stations, axis="Z", center=(0.0, 0.0, 0.0)):
+    """
+    Closed ring lofted through per-angle (r, n) profiles: stations = [(angle_deg, [(r, n), ...]), ...]
+    in increasing angle over one turn, all profiles the same length. Quads join consecutive
+    stations and the loop closes, so a profile that varies with angle (a cam groove) stays manifold.
+    """
+    bm = bmesh.new()
+    rings = []
+    for ang, prof in stations:
+        a = math.radians(ang)
+        rings.append([bm.verts.new((r * math.cos(a), r * math.sin(a), n)) for (r, n) in prof])
+    m, k = len(rings), len(rings[0])
+    for i in range(m):
+        A, B = rings[i], rings[(i + 1) % m]
+        for j in range(k):
+            bm.faces.new((A[j], A[(j + 1) % k], B[(j + 1) % k], B[j]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    bmesh.ops.transform(bm, matrix=Matrix.Translation(Vector(center)) @ _axis_rot(axis), verts=bm.verts)
+    return obj_from_bm(name, bm)
+
+
 def extrude_polygon(name, poly, thickness, M: Matrix | None = None, z0=0.0):
     """
     Prism from a simple 2D polygon [(u, v), ...] in local XY, extruded along local Z

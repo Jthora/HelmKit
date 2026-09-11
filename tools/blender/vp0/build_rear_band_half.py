@@ -37,13 +37,46 @@ def z_of(x):
     return START.z + (x - START.x) * math.tan(math.radians(C.REAR_TILT))
 
 
-def make():
+def centre_pts():
     s0 = START + T_IN * INSIDE
     wps = [(s0.x, s0.y), (START.x - 8.0, START.y - 0.5)] + list(C.REAR_WAYPOINTS[1:]) + [(C.REAR_BACK_X, C.RACK_Y0)]
     samp = L.catmull_rom(wps, samples_per_seg=16)
-    pts = L.resample_polyline([Vector((x, y, z_of(x))) for (x, y) in samp], 2.0)
+    return L.resample_polyline([Vector((x, y, z_of(x))) for (x, y) in samp], 2.0)
+
+
+def spine_run(pts):
+    """Exposed span of the rear half: from 2 mm behind the node's rear face to 8 mm short of the rack."""
+    return [p for p in pts if p.x < START.x - 2.0 and p.y > C.RACK_Y0 + 8.0]
+
+
+def outward_sign(run):
+    Tv = (run[1] - run[0]).normalized()
+    return 1.0 if Tv.cross(W).dot(N_OUT) > 0 else -1.0
+
+
+def spine_pts(run, offset_out):
+    """Run shifted down the band by 6 (channel centre at v -6) and outward by `offset_out`."""
+    sgn = outward_sign(run)
+    out = []
+    for i, p in enumerate(run):
+        a = run[max(i - 1, 0)]; b = run[min(i + 1, len(run) - 1)]
+        Tv = (b - a).normalized()
+        N = Tv.cross(W).normalized() * sgn
+        out.append(p + W * ((C.SPINE["rear_v"][0] + C.SPINE["rear_v"][1]) / 2) + N * offset_out)
+    return out
+
+
+def make():
+    pts = centre_pts()
     half = C.REAR_H / 2
     band = L.ribbon("rear_band_half", pts, W, [(half, half, C.REAR_T / 2, C.REAR_T / 2)] * len(pts), chamfer=1.0)
+    # spine channel in the outer face (3 deep, 4 tall at v -8..-4) over the exposed span; the cover strip is a separate print
+    run = spine_run(pts)
+    sgn = outward_sign(run)
+    d = C.SPINE["rear_d"]
+    n_out, n_in = C.REAR_T / 2 + 1.0, d - C.REAR_T / 2
+    ext = (n_out, n_in) if sgn > 0 else (n_in, n_out)
+    L.cut(band, L.ribbon("spinech", spine_pts(run, 0.0), W, [(C.SPINE["w"] / 2, C.SPINE["w"] / 2, ext[0], ext[1])] * len(run)))
     # strap slots through the band behind the node (first: the solver likes them on the plain ribbon)
     sh, sw = C.STRAP_SLOT
     for s in C.REAR_STRAP_S:

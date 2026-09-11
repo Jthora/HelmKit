@@ -134,28 +134,33 @@ DISK_CAVITY = (110.0, 12.0)   # dia x depth for the coil apparatus (assumed; mea
 DISK_RIM_WALL = 3.0
 DISK_N_RIM = DISK_PLATE_T + DISK_CAVITY[1] + DISK_SHELL_T     # 17.5: dome outer surface at the rim (n from the back face)
 DISK_THICK = DISK_N_RIM + DISK_SAG                            # 27.5 at the vertex
-DISK_IN_Y = 114.5             # back plate's head-side face SEATS on the nexus flange: 37 mm off the skull
+DISK_IN_Y = 117.0             # back plate's head-side face SEATS on the nexus flange (= NEXUS_Y[1], asserted below): 40 mm off the skull
 DISK_OUT_Y = DISK_IN_Y + DISK_THICK                           # 134.5 vertex
 DISK_SCREWS = 6               # M3 x 8 into bosses at r 55.5, through the back plate
 DISK_SCREW_R = 55.5
-DISK_CABLE_HOLE = (25.0, 6.0) # radius, dia: coil feed through the back plate
+CABLE_BORE = dict(dia=5.0, dx=15.0, z=CZ + 24.5, led_x=36.0, led_z=CZ + 20.0)   # coil feed: one straight Ø5 bore along y at (CX - 15, z 59.5) through plate, flange and node into the band's inside;
+#   LED feed: a Ø5 bore through the band just ahead of the hub node at (36, z 55); the cable then runs up under the rail root into the rail's underside groove (behind the disk from the side)
 DISK_FOCAL = (DISK_R - DISK_RIM_WALL) ** 2 / (4.0 * DISK_SAG)
 # bayonet: stalk from the yoke enters the back plate; lugs turn 90 deg into a groove inside a boss on the cavity side
 STALK_D = 20.0
 STALK_LUG = (6.0, 3.0, 3.0)   # tangential width, radial reach, height
-STALK_LEN = 9.0               # beyond the nexus flange's outer face: 2 plate + 7 into the boss
+STALK_LEN = 14.0              # beyond the nexus flange's outer face: 2 plate + 12 into the boss (the lock pin sits at n 10.8, 1.5 mm of tip above its hole)
+STALK_BORE = 10.0             # axial bore for the knob shaft, 2 mm into the flange
 STALK_LUG_N = (4.0, 7.0)      # lug band measured from the disk back face (n)
-BAYONET_BOSS = (34.0, 9.0)    # dia x height on the cavity side of the back plate
-BAYONET_GROOVE = (13.6, 4.0, 7.2)   # groove outer radius, n0, n1 inside the boss: 0.2 shorter than the lug + bump so the detent actually clicks
-DISK_LOCK = dict(angle=240.0, r=54.0, hole=3.4, tap=2.5, tab=(7.0, 10.0, 6.0))   # anti-rotation: M3 x 20 (+ knob) from the head side through the 8 mm nexus ear, the 2 mm plate and into a tapped boss on the plate's CAVITY side (r 50.5..57.5, between dome screw bosses at 210/270; the plate still prints flat)
-LOCK_KNOB = (14.0, 5.0)       # printed knob glued on the M3 x 20 lock screw's head, on the head side of the ear
+BAYONET_BOSS = (34.0, 14.5)   # dia x height on the cavity side of the back plate: groove to 7.7, lock notch 9.0..12.6, 1.9 mm top
+BAYONET_GROOVE = (13.6, 4.0, 7.7)   # groove outer radius, nominal floor n0, ceiling n1 (measured from the plate's head face)
+BAYONET_CAM = (4.5, 3.8)      # groove floor at the entry notch / at the stop: the quarter turn cams the plate 0.2 mm onto the flange face (printed lugs at n 4..7)
+BAYONET_LOCK = dict(pin_world_deg=90.0, pin_dia=3.2, pin_len=7.2, n=10.8, notch=(3.6, 2.5), notch_n=(9.0, 12.6))   # centre-knob disk lock: a 7.2 mm piece of 3.2 nail in a radial hole in the hollow stalk (top) is pushed 2 mm out into a notch in the boss bore by the knob shaft's eccentric; the notch sits 98 deg past the pin in the plate frame (locked pose)
+DISK_KNOB = dict(d=28.0, t=5.0, dish=(32.0, 5.0), shaft_d=7.6, ecc=1.0, ecc_len=6.0, clip_n=16.0, clip=(14.0, 8.0, 2.0), apex_boss=(36.0, 7.0), hole=9.0)
+#   knob flush in a dish at the dome apex; its Ø7.6 shaft runs down the axis through the coil's free centre into the stalk's Ø10 bore; the eccentric end
+#   works the lock pin; a C-clip on the shaft inside the apex boss keeps it in the dome. Turn 180 deg = lock / unlock. No metal on the axis.
 
 # ---------------------------------------------------------------------------
 # Cradle: front U (forehead + sides, temple / hub / rear nodes) + rear halves + nape dial
 # ---------------------------------------------------------------------------
 
 CRADLE_H = 30.0
-CRADLE_T = 5.0
+CRADLE_T = 7.0                           # 7: room for the 4 x 4 spine channel on the outer face (rope + steel epoxy, flush cover)
 CRADLE_FOAM = 10.0
 CRADLE_SIDE_Y = HEAD.width_mm / 2.0 + CRADLE_FOAM + CRADLE_T / 2.0      # 90.0 band centreline at the sides
 CRADLE_FRONT_X = HEAD.phantom_semi[0] + CRADLE_FOAM + CRADLE_T / 2.0     # 113.75 band centreline at the forehead
@@ -170,9 +175,9 @@ def cradle_z(x: float) -> float:
 
 NODE_IN_Y = 84.0                         # node inner face (3.5 inside the band's inner face; 6 mm foam there)
 NODE_OUT_Y = 97.0                        # hub / rear node outer face
-HUB_NODE = (10.0, 26.0)                  # centre x, length: x -3..23, above the ear, on the disk axis
+HUB_NODE = (10.0, 40.0)                  # centre x, length: x -10..30: bolt pair at CX +/- 7, cable bores at CX +/- 15, 2.5 mm end walls
 HUB_NODE_OUT_Y = 100.0                   # hub node 16 thick: the nexus stack (spool, ring) then passes ~8 mm outside the upper pinna
-HUB_NODE_W = (-10.0, 15.0)               # bottom at z 45, 8 mm above the top of the ear
+HUB_NODE_W = (-12.0, 15.0)               # bottom at z 43, ~6 mm above the top of the ear (ear phantom in the assembly)
 REAR_NODE = (-45.0, 26.0)                # x -58..-32
 REAR_NODE_W = (-33.0, 15.0)              # hangs 18 below the band to take the rear half's tenon
 NODE_LEN = 26.0
@@ -183,40 +188,54 @@ HUB_SOCKET = (HUB_NODE[0], (NODE_IN_Y + HUB_NODE_OUT_Y) / 2.0)      # (10, 92) f
 REAR_SOCKET = (REAR_NODE[0], (NODE_IN_Y + NODE_OUT_Y) / 2.0)        # (-45, 90.5) from the top face down: pylon peg
 HUB_CROSS_Z = CRADLE_Z + HUB_NODE_W[1] - CYL_PIN_Z   # 63: spare-port cross-bolt
 # ---- NEXUS: hub on the disk axis (CX, y, CZ) between the hub node and the disk ----
-NEXUS_D = 60.0                           # flange diameter
+NEXUS_D = 68.0                           # flange diameter: 2.6 mm of rim outside the top bolt heads' counterbores
 NEXUS_T = 8.0                            # flange thickness
-NEXUS_Y = (HUB_NODE_OUT_Y + 6.5, HUB_NODE_OUT_Y + 6.5 + NEXUS_T)   # flange y 106.5..114.5; the disk back plate seats on its outer face
-NEXUS_BOLTS = ((CX, CZ + 13.5), (CX - 9.0, CZ + 24.7), (CX + 9.0, CZ + 24.7))   # (x, z) M3 x 30 through node + spool/flange, heads under the foam; top pair 1.3 mm clear of the pin lug
-NEXUS_SPOOL = (44.0, 1.0, 32.0, 5.5)     # thrust flange dia x thickness (y 100..101) + hub dia x height (y 101..106.5): the visor ring's bearing, clamped between node and flange
-NEXUS_RING = (44.0, 32.3, 4.5)           # visor ring OD, ID, thickness (y 101.05..105.55) on the spool hub; wave washer in the remaining 0.95
+NEXUS_Y = (HUB_NODE_OUT_Y + 9.0, HUB_NODE_OUT_Y + 9.0 + NEXUS_T)   # flange y 109..117 (spool plate 1 + ring 7 + washer 1); the disk back plate seats on its outer face
+assert abs(DISK_IN_Y - NEXUS_Y[1]) < 1e-9
+NEXUS_BOLTS = ((CX, CZ + 14.5), (CX - 7.0, CZ + 26.0), (CX + 7.0, CZ + 26.0))   # (x, z): M3 x 30 from OUTSIDE (head in a flange counterbore under the disk) through flange, spool hub / tower and node to a nut in the node's inner-face hex pocket; the top pair clears the arch socket by 1.1
+NEXUS_HEAD_CBORE = (6.0, 3.5)            # head counterbore dia x depth on the flange's outer face
+NEXUS_NUT_POCKET = (5.7, 2.4)            # hex pocket across-flats (M3 nut 5.5) x depth into the node's inner face: nothing proud under the foam
+NEXUS_SPOOL = (44.0, 1.0, 36.0, 8.5)     # thrust plate dia x thickness (y 100..101) + hub dia x height (y 101..109.5, into the flange's 0.5 pocket): the visor ring's bearing and the bolt-0 spacer
+NEXUS_RING = (44.0, 36.3, 7.0)           # visor ring OD, ID, thickness (y 101.05..108.05) on the spool hub; wave washer in the remaining 0.95; 7 mm bearing for the 118 mm lever
 NEXUS_RING_Y0 = HUB_NODE_OUT_Y + 1.05
-NEXUS_RING_HOLES = 24                    # radial Ø3.4 index holes in the ring's rim, 15 deg apart
-NEXUS_PIN_LUG = ((CX - 8.0, CX + 8.0), (HUB_NODE_OUT_Y, HUB_NODE_OUT_Y + 5.5), (CZ + 27.0, CRADLE_Z + HUB_NODE_W[1]))   # x, y, z box on the node's outer face above the ring; the keeper saddles it
-NEXUS_PIN = (CX, HUB_NODE_OUT_Y + 2.75)  # x, y of the vertical Ø3.4 pin hole (3.2 nail + C-collar + spring under the keeper)
-NEXUS_EAR = dict(angle=240.0, r_out=58.0, width=14.0)   # lock ear down-back at 240 deg, full 8 mm thick to r 58; the plate seats on it, the lock screw passes through it at r 54
-NEXUS_LANYARD = dict(r=42.0, hole=4.0, offset=4.5)      # Ø4 hole beside the lock, for a cord loop to a strap slot
+SPOOL_SPACER = dict(x_half=10.0, z0=CZ + 23.0, z1=CZ + 33.5, y1=HUB_NODE_OUT_Y + 8.9)   # block on the spool plate above the ring: the top bolts pass through it, it bears on the flange back
+HUB_NOTCHES = dict(angles=(-17.0, -2.0, 13.0, 28.0, 43.0, 58.0), w=2.8, d=2.0, y=(HUB_NODE_OUT_Y + 4.0, HUB_NODE_OUT_Y + 8.0))   # pawl notches in the hub's OD at the visor positions only (the pawl rides on the rail); none near bolt 0 at 90 deg
+VISOR_PAWL = dict(slot=(3.0, 3.6), y0=HUB_NODE_OUT_Y + 3.25, r_in=16.0, r_spring=36.0, r_out=41.5, stem=(2.0, 1.4), tab_s=(38.0, 41.0), tab_h=15.0,
+                  slider=(2.6, 3.0), tip_w=2.4, tip_r=(16.2, 18.5), body_r=26.0, spring="Ø3 x 10 compression, 9 mm working (or the printed-flexure slider)")
+#   spring-loaded pawl slider in a tunnel along the rail axis inside the ring/gusset: tip into a hub notch, thumb tab out of the rail's top edge at r 36.5..39.5
+STALK_FILLET = 1.2                                       # concave fillet ring at the stalk root (the stalk is the disk fuse; no sharp corner there)
+NEXUS_LANYARD = dict(r=30.0, hole=4.0, angle=150.0)     # Ø4 hole through the flange up-back, for a cord loop to a strap slot
 NEXUS_MATERIAL = "PETG"
 # captive index pin: nail through a keeper gallows on the hub node, spring between the keeper and a glued C-collar
-PIN_KEEPER = dict(plate_t=2.0, top_z=84.0, bar_t=3.0, bolt_z=66.0)   # U-saddle over the lug: end plates, top bar with the pin hole, one M3 x 25 through the lug along x
-PIN_COLLAR = (7.0, 3.0, 3.0)                            # C-collar OD, thickness, slot width (snaps onto the 3.2 nail, epoxy)
-PIN_SPRING = dict(id=4.5, free=12.0, installed=8.0)     # small compression spring, keeper underside to collar
-PIN_NAIL = "3.2 x 40 nail"
 # visor: rails pivot about the disk axis on the nexus ring
 RAIL_ANGLE = 13.0                        # nominal rail direction from the axis, deg above +x (= BROW_TILT, so the slider sleeve is axis-aligned)
-RAIL_ROOT_R = 32.0                       # rail thin (ring thickness) inside this radius, 7 mm beyond it
+RAIL_ROOT_R = 32.0                       # (legacy) the rail is now ring + gusset + bar, all 7 thick
 RAIL_T = 7.0                             # rail thickness beyond the root; the root is the ring's 4.5
 RAIL_Y0 = NEXUS_RING_Y0 + 0.05           # rail inner face: flush with the ring's inner face (prints flat on it)
 RAIL_H = 20.0
 # RAIL_S1 / RAIL_BOLTS_S (rail tip, tab bolts) are derived from the panel position below
-BROW_TAB = dict(flange_t=4.0)            # L-tab on each panel end: flange (2 screws) + arm out to the rail's inner face, two tap holes
-VISOR_PARK_DEG = 60.0                    # index-pin position for the parked (flipped up) visor
+VISOR_PARK_DEG = 43.0                    # parked visor = two 15-deg steps up (the third step sweeps the rail bar through the spool spacer); the assembly checks this pose
+RAIL_GUSSET = (13.0, 40.0)               # rail root gusset: half-height at the ring's rim, radius where it has narrowed to the bar's 10
 REAR_TENON_W0 = -17.0                    # rear half centreline leaves the rear node here (z 38)
 CRADLE_TENON = (5.0, 26.0, 14.0, 8.0)    # y thickness, mouth height, depth, tip half-height (symmetric taper)
 TENON_PIN_X = REAR_NODE_X - NODE_LEN / 2.0 + 6.0          # -52: nail through node + tenon along Y
 STRAP_SLOT = (14.0, 4.0)                 # W height x along-band width, through the band, centred at W +4.5; pairs 8 mm apart
-CRADLE_STRAP_X = (49.0, 57.0)            # slot centres in front of the hub node, on the straight band ahead of the doubler (world x)
+CRADLE_STRAP_X = (49.0, 57.0)            # slot centres in front of the hub node (world x); slots sit below the spine channel (z 47.5..61.5)
 REAR_STRAP_S = (24.0, 32.0)              # slot centres along the rear half from the node (arc mm)
-FOAM_BLOCKS = dict(forehead=(70.0, 26.0, 10.0), side=(40.0, 26.0, 10.0), temple=(24.0, 26.0, 6.0), rear=(24.0, 40.0, 6.0))
+CRADLE_FRONT_RISE = 12.0                 # the band's LOWER edge rises this much at the forehead (top edge stays at z 70): band bottom 12 mm above the eyebrow line
+
+
+def cradle_rise(x: float) -> float:
+    """Lower-edge rise of the cradle band at station x: 0 behind x 60, smooth to CRADLE_FRONT_RISE at the forehead."""
+    t = (x - 60.0) / (CRADLE_FRONT_X - 60.0)
+    t = min(1.0, max(0.0, t))
+    return CRADLE_FRONT_RISE * t * t * (3.0 - 2.0 * t)
+
+
+SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0)
+#   rope-and-steel-epoxy spine: 4 x 4 channel in the band's outer face (z 63..67) between the nodes and around the front, 3 deep on the rear halves;
+#   2 mm rope potted in metal-filled epoxy, flush printed cover strips glued in wet. The nodes themselves are solid blocks; each free span is bonded over its length.
+FOAM_BLOCKS = dict(forehead=(90.0, 16.0, 10.0), side=(40.0, 26.0, 10.0), temple=(24.0, 26.0, 6.0), rear=(24.0, 40.0, 6.0))
 
 # ---------------------------------------------------------------------------
 # Crown arch (pegged into the hub nodes)
@@ -255,20 +274,28 @@ BROW_WALL = 2.0
 BROW_Z0 = HEAD.brow_z_mm - 1.0   # 39: panel bottom at the eyebrow line
 BROW_Z1 = BROW_Z0 + BROW_H
 BROW_LID_T = 2.0
-BROW_LED_WINDOW = (116.0, 6.0)
-BROW_CAV_W = 128.0             # 16 mm solid ends: enough for the 10 mm slider tap holes plus 2 mm
+BROW_LED_WINDOW = (110.0, 6.0)
+BROW_CAV_W = 116.0             # 22 mm solid ends carry the link pockets (12 deep at 55 deg) with 3.5 mm to the cavity
 BROW_X_IN = CRADLE_FRONT_X + CRADLE_T / 2.0 + 2.0 + (CRADLE_Z + CRADLE_H / 2.0 - BROW_Z0) * math.tan(math.radians(BROW_TILT))   # 125.4
 BROW_X_OUT = BROW_X_IN + BROW_T
 _t = math.radians(BROW_TILT)
 BROW_EX = (math.cos(_t), 0.0, math.sin(_t))
 BROW_EZ = (-math.sin(_t), 0.0, math.cos(_t))
 BROW_ORIGIN = (BROW_X_IN, 0.0, BROW_Z0)
-BROW_LID_SCREWS = ((-61.0, 10.0), (61.0, 10.0), (-61.0, BROW_H - 10.0), (61.0, BROW_H - 10.0))
+BROW_LID_SCREWS = ((-40.0, 6.0), (40.0, 6.0), (-40.0, BROW_H - 6.0), (40.0, BROW_H - 6.0))   # faceplate screws into the top and bottom walls (cavity z 9..41)
+BROW_CAV_H = BROW_H - 18.0     # 32: 9 mm top and bottom walls carry the faceplate screws
+BROW_FACEPLATE_H = BROW_H - 6.0  # 44: the faceplate leaves 3 mm lips top and bottom
 BROW_TOP_BEAD_R = 4.0
-BROW_END_SCREWS = (6.0, 44.0)           # z (panel local) of the two M3 tap holes in each end face for the tab flange (clear of the arm)
-_RAIL_S_PANEL_IN = -((CX - BROW_X_IN) * math.cos(_t) + (CZ - BROW_Z0) * math.sin(_t))   # 113.3: arc distance where the rail crosses the panel's inner face
-RAIL_S1 = _RAIL_S_PANEL_IN + BROW_T                                # 128.3 rail tip flush with the panel front
-RAIL_BOLTS_S = (_RAIL_S_PANEL_IN + 4.0, _RAIL_S_PANEL_IN + 11.0)  # two M3 x 12 through the rail into the tab arm, 4 and 11 mm behind the panel's inner face
+RAIL_S1 = 90.0                           # the rail ends here (x ~98); the LINK takes over: half-lap on the rail's inner half, then a bend inboard behind the panel
+RAIL_LAP = (74.0, 90.0)                  # half-lap: the rail's inner half (y 101.1..104.6) is removed here, the link's lap fills it
+RAIL_BOLTS_S = (77.0, 85.0)              # two M3 x 10 through the lap (heads counterbored on the rail's outer face) into the link
+BROW_LINK = dict(angle=53.0, lap_t=3.5, pocket_depth=10.0, screws_d=(6.0,))   # one M3 x 16 from the panel's underside; the pocket walls carry the bending   # bend angle inboard (plan), lap thickness, depth into the panel's back-face pocket, screw depths along the pocket
+_bx = CX + RAIL_S1 * math.cos(_t); _bz = CZ + RAIL_S1 * math.sin(_t)
+_xl = (_bx - BROW_X_IN) * math.cos(_t) + (_bz - BROW_Z0) * math.sin(_t)           # bend point in panel coordinates (negative: behind the back face)
+BROW_LINK_LEN = -_xl / math.cos(math.radians(BROW_LINK["angle"]))                # bend point to the panel's back face along the link
+BROW_POCKET_Y = RAIL_Y0 + RAIL_T / 2.0 - BROW_LINK_LEN * math.sin(math.radians(BROW_LINK["angle"]))   # |y| where the link enters the panel's back face
+BROW_POCKET_Z = (CX - BROW_X_IN) * (-math.sin(_t)) + (CZ - BROW_Z0) * math.cos(_t)                    # panel-local z of the rail axis (the pocket centre)
+RAIL_CHANNEL = (2.5, 2.5, 40.0, 72.0)    # LED cable groove in the rail's underside: tangential depth, y width, s range (bar only, ends before the lap); the link's bar carries it on
 
 # serrated detent hinge (pylons): 24 teeth, 0.8 mm, wave washer + nyloc
 HINGE_SERR = dict(r_in=5.0, r_out=8.3, teeth=24, height=0.8, phase_ear=7.9, phase_tongue=0.4)
@@ -289,7 +316,7 @@ PYLON_SECTION = (28.0, 14.0)            # blade section after the flare
 PYLON_TIP = (12.0, 6.0)
 PYLON_FLARE = 22.0                      # distance from the hinge where the blade thickens
 PYLON_ANGLE = 30.0                      # deg back from vertical, deployed
-PYLON_WIRE_D = 4.0
+PYLON_WIRE_D = 3.0
 PYLON_WALL = 2.4                        # hollow blade: 2.4 mm walls from the flare to where the section is 8 mm thick
 PYLON_KNOB = (24.0, 8.0)                # dia, thickness of the printed lock knob (M3 nut pocket)
 # ---------------------------------------------------------------------------
@@ -313,7 +340,7 @@ REAR_WAYPOINTS = (
     (-109.0, 52.5),
     (-112.0, 44.0),
 )                                       # the band then runs straight along the nape to the rack start at |y| = RACK_Y0
-RACK_LEN = 50.0                                         # v0.7 compact nape: bands end 35 mm from the centre, racks reach 15 past the pinion
+RACK_LEN = 54.0                                         # racks reach ~16 past the centre so two pin-lock nails always find teeth (was 50)
 RACK_Y0 = 35.0                                          # rack strip starts here (|y|); nominal fit
 NAPE_TRAVEL = 7.0                                       # +/- mm at the nape (14 mm of circumference)
 GEAR_MODULE = 1.25
@@ -327,9 +354,9 @@ _n = int(RACK_LEN // _p)
 RACK_SHIFT = (1.0 + (RACK_LEN - _n * _p) / 2.0 + _p - RACK_Y0) % _p   # 2.78: rack outline shifted so a tooth SPACE is centred on y = 0 at the nominal fit (pinion tooth / pinlock nail there)
 # Enclosed dial (nape local frame: u = -Y, v = W up, w = outward; band mid-plane at w = 0)
 NAPE_MODULE = "pinlock"                                 # print one: 'pinlock' (10 mm body, one nail through both racks); 'dial' = the compact pull dial
-NAPE_PINLOCK_HOLES = (0.0, 1.96)                        # u of the two vertical pin holes: whole-pitch and half-pitch settings (the racks' tooth spaces line up on both)
-NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, nail="2 x 50 nail or 2 mm rod")   # the module-1.25 tooth space is 2.1 wide at the pitch line; the two holes overlap into a figure-8 whose 1.0 waist the nail cannot cross
-NAPE_HU, NAPE_HV = 52.0, 44.0                           # was 80 x 54: width = rack tip at tightest (22) + 4; height = racks 36 + walls
+NAPE_PINLOCK_HOLES = (0.0, 0.5 * _p, _p, 1.5 * _p)      # u of the four vertical pin holes: whole-pitch settings use 0 and p, half-pitch ones p/2 and 3p/2 -> two nails, two teeth per rack
+NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, hole_bottom=2.1, cbore=(5.0, 1.0), nail="2 x 50 nail or 2 mm rod")   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
+NAPE_HU, NAPE_HV = 60.0, 44.0                           # width = rack tip at the tightest (23) + end wall + margin; height = racks 36 + walls
 NAPE_WALL = 2.5
 NAPE_CH = 2.8                                           # channel half-thickness (racks are +/-2.5)
 NAPE_LID_T = 2.2                                        # head-side lid: w -5.0 .. -2.8
@@ -375,7 +402,7 @@ def report() -> str:
         f"  disk: OD {DISK_OD}, {DISK_THICK} thick at the vertex, cavity {DISK_CAVITY}, back face {DISK_IN_Y - HEAD.width_mm/2:.1f} mm off the skull; dome f/D {DISK_FOCAL/DISK_OD:.2f}",
         f"  overall width at the vertices: {2*DISK_OUT_Y:.0f} mm; stalk {STALK_D} bayonet at the brain core",
         f"  cradle: band {CRADLE_H}x{CRADLE_T} at z {CRADLE_Z}, doubler {CRADLE_DOUBLER[0]}; hub node x {HUB_NODE} (y {NODE_IN_Y}..{HUB_NODE_OUT_Y}), rear node x {REAR_NODE}",
-        f"  nexus ({NEXUS_MATERIAL}): flange Ø{NEXUS_D} x {NEXUS_T} at y {NEXUS_Y}, spool {NEXUS_SPOOL}, visor ring {NEXUS_RING}, {NEXUS_RING_HOLES} index holes, captive pin; no ports",
+        f"  nexus ({NEXUS_MATERIAL}): flange Ø{NEXUS_D} x {NEXUS_T} at y {NEXUS_Y}, spool {NEXUS_SPOOL}, visor ring {NEXUS_RING}, {len(HUB_NOTCHES['angles'])} hub notches + rail pawl slider; centre-knob disk lock",
         f"  ports: {CYL_PEG_D} mm pegs in {CYL_SOCKET_D} sockets {CYL_DEPTH} deep at the hub top (crown arch coupler) and rear top (pylon)",
         f"  brow: panel {BROW_CENTER_W} at x {BROW_X_IN:.1f}, rails pivot on the disk axis at {RAIL_ANGLE} deg, fixed reach, tilt in 15 deg pin notches, park {VISOR_PARK_DEG} deg",
         f"  crown: couplers into the hub sockets, ribbon {CROWN_W}x{CROWN_T} from z {CROWN_LEG_Z0} to apex {CROWN_APEX_Z:.1f}",

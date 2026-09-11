@@ -1,10 +1,10 @@
-# HelmKit vp0.9 — visual prototype part set
+# HelmKit vp0.11 — visual prototype part set
 
-- **Status**: `v0.9` generated 2026-09-05, **not yet printed**. Clean-slate set; consumes nothing from Mk0.5-β.
-- **Lineage**: v0.1 headphone pivots → v0.2 brain-core pods, port standard, ratchet → v0.3 flush sockets, no pivots, fillets → v0.4 reinforcement pass → v0.5 protected knob, integral brow spars → v0.6 cradle architecture, floating pods on brackets, pull dial → v0.7 centre-mounted enclosed disks, everything on the cradle, cylinder ports, rail visor, pylons → v0.8 the Nexus (one hub per side on the disk axis: disk, visor pivot, add-on ports) → **v0.9 robustness + lean pass: no loose pins (captive index nails, screw-and-knob disk lock), no spare ports, fixed visor reach on bolted tabs, crown arch back on the hub-node sockets, print-one nape pin-lock instead of the dial, PETG nexus.**
+- **Status**: `v0.11` generated 2026-09-05, **not yet printed**. Clean-slate set; consumes nothing from Mk0.5-β.
+- **Lineage**: v0.1 headphone pivots → v0.2 brain-core pods, port standard, ratchet → v0.3 flush sockets, no pivots, fillets → v0.4 reinforcement pass → v0.5 protected knob, integral brow spars → v0.6 cradle architecture, floating pods on brackets, pull dial → v0.7 centre-mounted enclosed disks, everything on the cradle, cylinder ports, rail visor, pylons → v0.8 the Nexus (one hub per side on the disk axis: disk, visor pivot, add-on ports) → v0.9 robustness + lean pass (captive index nails, screw-and-knob disk lock, no spare ports, fixed visor reach, arch on the hub sockets, nape pin-lock) → v0.10 critique pass (outside-in bolts, spool spacer, Ø68 filleted flange, cam bayonet, 7 mm ring, gusseted rail, forehead rise, two-nail pin-lock, ear phantoms, thin-wall audit, mirrored exports) → **v0.11 integration pass: rope-and-steel-epoxy SPINE channels with flush covers in the 7 mm band and the rear halves, coil feed through one straight bore (plate, flange, node), LED feed through the band into grooves under the rail and link, centre-knob disk lock on a hollow stalk (no ear, no lock screw), one-hand visor pawl slider in the rail with hub notches, brow LINKS bending 53° behind the panel into hidden pockets, front faceplate.**
 - **Generators**: [`tools/blender/vp0/`](../../tools/blender/vp0/README.md). Canon: [`canon.py`](../../tools/blender/vp0/canon.py).
 - **Hand-editable assembly**: [`3D-Models/HelmKit_vp0/vp0_assembly.blend`](../../3D-Models/HelmKit_vp0/vp0_assembly.blend).
-- **Reports** (from `assemble_vp0.py`): `3D-Models/HelmKit/_generated/vp0/renders/{clearance,mass,collisions,snag}.txt`; print-orientation audit: `print_check.py`.
+- **Reports** (from `assemble_vp0.py`): `3D-Models/HelmKit/_generated/vp0/renders/{clearance,mass,collisions,snag}.txt` (clearance includes ear phantoms; collisions include the parked visor and the cable runs); print audit with thin-wall scan: `print_check.py`.
 - **Print target**: QIDI X-MAX3. Cradle and nexus in PETG, everything else PLA for the fit prototype; PA12-CF or PC for the hit-rated build.
 
 ## 1. Wearer inputs and fixed physics
@@ -16,81 +16,84 @@
 | Circumference | 58 cm | phantom plan exponent 2.45 |
 | Brain core | 10 mm forward, 35 mm above the ear canals | disk axis passes through it |
 | Disk diameter | **122.1 mm, physics, do not change** | wavelength-linked |
-| Coil apparatus cavity | Ø110 × 12 mm, **assumed** | change `DISK_CAVITY` once the coil exists; the lock boss intrudes 4 mm at one spot (r 50.5..55, 240°) |
+| Coil apparatus cavity | Ø110 × 12 mm, **assumed** | change `DISK_CAVITY` once the coil exists; the lock boss intrudes 4 mm at one spot (r 50.5..55, 300°) |
+| Pinna (ear phantom) | 33 × 65 mm ellipsoid, 19 mm proud, top at z 37.5 | the band's lower edge passes 4 mm above it: measure yours |
 
 The phantom is a superellipsoid with no cheekbones, brow ridge or ears. Foam thickness absorbs the difference.
 
-## 2. Architecture (v0.9)
+## 2. Architecture (v0.11)
 
 The **cradle** holds the head. On each side a **Nexus** sits on the disk axis between the cradle's hub node and the disk: it mounts the disk and carries the visor pivot. The **disks** are sealed lenses hung at their centre. Nothing else touches the disks. Every adjustable joint is held by a captive pin or a screw, never by friction, and nothing that comes out of the helm is a loose part.
 
-**Cradle.** A 30 × 5 mm PETG band on the hat line (z 40..70, above the ears): one U print for the forehead and sides with two solid nodes per side and a 3 mm doubler on the outer face for 30 mm either side of the hub node (a disk hit puts about 6 N·m into that node; the doubler takes the band from 48 to 24 MPa), plus two tilted rear halves that meet in the nape module. 10 mm foam blocks velcro to the inside (forehead, sides; 6 mm under the nodes); the crown pad sits under the arch apex. Cables run on the inside of the band under the foam. Strap slot pairs behind the hub nodes and on the rear halves take a Y chin strap if the shake test asks for one.
+**Cradle.** A 30 × 7 mm PETG band on the hat line (z 40..70 at the sides, above the ears; its lower edge rises 12 mm over the forehead so the pad sits above the eyebrows, the top edge stays planar for the inverted print). Its outer face carries the **spine**: a 4 × 4 channel at z 63..67 on every free span between the nodes and around the front, for a 2 mm rope potted in metal-filled epoxy under a flush 1.5 mm cover strip glued in wet. The epoxy alone is weaker than the plastic; the rope carries tension across a cracked band and the epoxy bonds the three into one. The rear halves carry the same channel, 3 deep. Nodes are solid blocks; each span is bonded over its length, no anchors needed. one U print for the forehead and sides with two solid nodes per side and a 3 mm doubler on the outer face for 30 mm either side of the hub node (a disk hit puts about 6 N·m into that node; the doubler takes the band from 48 to 24 MPa), plus two tilted rear halves that meet in the nape module. 10 mm foam blocks velcro to the inside (forehead, sides; 6 mm under the nodes); the crown pad sits under the arch apex. Cables run on the inside of the band under the foam. Strap slot pairs behind the hub nodes and on the rear halves take a Y chin strap if the shake test asks for one.
 
 | Node | x | Carries |
 |---|---|---|
-| hub | −3..23, on the disk axis | three M3 × 30 through-holes for the Nexus (heads under the foam); a 16 mm pin lug on its outer face above the visor ring, bolted through along x by the pin keeper; 8.3 socket from the top (crown arch coupler) |
+| hub | −10..30, on the disk axis, z 43..70 | three M3 × 30 through-holes for the Nexus with hex nut pockets on the inner face; 8.3 socket from the top (crown arch coupler); Ø5 coil-cable bore at x −5, z 59.5 in line with the flange's |
 | rear | −58..−32, hangs 18 below the band | tapered tenon socket for the rear half (nail); 8.3 socket from the top (antenna pylon) |
 
 **Cylinder port standard.** 8 mm peg, 8.3 mm socket, 15 mm deep, M3 cross-bolt (or a nail) at 7 mm from the mouth. Used at four places: two arch couplers, two pylon pegs. Printed pegs take a nail down their core with epoxy; 8 mm aluminium rod drilled with the guide is the hit-rated option. Spares: double-male coupler, drill guide. No unused sockets, so no plugs.
 
-**Nexus (PETG).** Inboard to outboard on the disk axis: the hub node's outer face (y 100); a Ø44 × 1 **spool** flange with a Ø32 × 5.5 hub, the visor ring's bearing; the **visor ring** (Ø44, 4.5 thick, the root of each brow rail) with 24 radial Ø3.4 index holes; a wave washer; the **flange**, Ø60 × 8, bolted through the node with three M3 × 30 that also clamp the spool, carrying the Ø20 bayonet stalk, a full-thickness **lock ear** down-back at 240° to r 58 with the lock-screw hole at r 54, and a Ø4 lanyard hole (cord to a strap slot: a disk that comes off in a fall stays with the helm). No flat ports any more: the arch went back to the hub-node socket and the mic is gone. One STL serves both sides.
+**Nexus (PETG).** Inboard to outboard on the disk axis: the hub node's outer face (y 100); the **spool**: a Ø44 × 1 thrust plate with a Ø36 × 8.5 hub (the visor ring's bearing and the axis bolt's spacer, with pawl notches at the six visor positions in its outer 4 mm) and a web rising to a **spacer block** (x ±10, z 58..68.5) that the two upper bolts pass through; the **visor ring** (Ø44/36.3 × 7, the root of each brow rail); a wave washer; the **flange**, Ø68 × 8 at y 109..117, carrying the **hollow** Ø20 bayonet stalk (Ø10 bore, 1.2 mm root fillet, lugs, a radial Ø3.4 lock-pin hole at the top), the Ø5 coil-cable bore, a lanyard hole up-back. Three M3 × 30 go in from OUTSIDE with heads in counterbores under the disk plate, through flange, hub or spacer and node, to nuts in the node's inner-face pockets. No ear, no lock screw. L and R flanges are mirrored STLs.
 
-**Captive index pin.** A 3.2 × 40 nail drops through a **pin keeper** (a U-saddle over the hub node's lug, one M3 × 25 through the lug along x) into the lug and one of the ring's 24 holes. A small spring between the keeper bar and a printed C-collar glued on the nail pushes it home; pull the head 6 mm to tilt the visor. Nothing to drop in the forest.
+**Visor lock: the pawl slider.** A 2.6 × 3 PETG bar in a tunnel along each rail's axis, inserted from the ring's bore. Its 2.4 mm tip drops into one of the hub's notches (−17, −2, 13, 28, 43, 58°); a Ø3 × 10 spring on its stem seats against a step at r 36; its thumb tab pokes out of the rail's top edge at r 38..41, just ahead of the flange rim. Thumb on the tab, pull 2 mm, swing, let go: 15° steps, one hand. The tip is the visor's fuse and the slider is a two-minute print. The flat-flexure variant replaces the spring if none is small enough.
 
-**Disks.** A 2.5 mm paraboloid dome shell (outside) on a 3 mm rim wall with six screw bosses, closed by a 2 mm back plate on six M3. The back plate **seats on the nexus flange and ear faces**, so a rim hit reacts over a 22 mm lever instead of the bore. The plate's cavity side carries the **bayonet** (Ø20.6 bore with two entry notches, a 3.2 mm groove the 3 mm lugs turn 90° into, a stop wall; no detent bump) and a 7 × 10 × 6 **lock boss** at 240°, tapped through boss and plate: an M3 × 20 with a printed knob on its head comes from the head side through the 8 mm ear into it. Quarter turn to the stop, screw in: the disk cannot rotate or lift. Nothing protrudes from the plate's head face, so it prints flat. No metal on the disk axis; the coil feed exits through a Ø6 hole beside the stalk and runs under the foam. The stalk is the fuse: a 100 N rim hit puts about 6 N·m on it, under 10 MPa.
+**Disks.** A 2.5 mm paraboloid dome shell (outside) on a 3 mm rim wall with six screw bosses, closed by a 2 mm back plate on six M3. The back plate **seats on the nexus flange face**, so a rim hit reacts over a 34 mm lever instead of the bore. The plate's cavity side carries the **bayonet** (Ø20.6 bore with two entry notches, a groove the 3 mm lugs turn 90° into whose floor **cams** from 4.5 to 3.8 mm over the turn, so the plate is pulled 0.2 mm onto the flange face and cannot rattle, and a stop wall) and a **lock notch** in the boss bore 98° past the stalk pin. The **centre knob** (Ø28, flush in a 5 mm dish at the dome apex, PETG) carries a Ø7.6 shaft down the axis through the coil's free centre into the stalk's bore; its eccentric end pushes a 7.2 mm piece of 3.2 nail out of the stalk into that notch. Quarter turn the disk to the stop, half a turn on the knob: the disk cannot rotate or lift. Half a turn back releases. A C-clip on the shaft inside the dome's apex boss keeps the knob in the disk. The coil feed leaves through a Ø5 hole at x −5, z 59.5, straight into the flange's bore. Nothing protrudes from the plate's head face, so it prints flat. No metal on the disk axis (the knob shaft is PETG; the lock pin is 8 mm off it). The stalk is the fuse: a 100 N rim hit puts about 6 N·m on it, under 10 MPa.
 
 - **Crown arch**: two identical chamfered 20 × 7 halves ending in a foot block with an 8.3 socket over the hub node's socket; a 30 mm double-male coupler (M3 cross-bolt each end) joins them. Straight up 20 mm then the superellipse to the overlap bar in the apex sleeve (ridges, M4 clamp, ±13 mm of span). Two cross-bolts out and it lifts off. No spine groove (the rope spine goes back on if a PLA arch cracks).
-- **Brow**: 160 × 50 × 15 centre panel (LED bay 128 wide, rounded top bead) on two **rails** (7 × 20, tip at 128 mm from the axis, flush with the panel front) whose roots are the visor rings on the nexus spools: the visor pivots about the disk centre. Tilt in 15° steps with the captive pin; one step down puts the panel at eye level, 60° up parks it over the crown in front of the arch. Reach is **fixed**: an L-shaped **tab** on each panel end (two M3 × 10 into the end face) reaches out to the rail's inner face and takes two M3 × 12 through the rail. To change the reach, print tabs with a different arm (one number in `build_brow_tab.py`).
+- **Brow**: 160 × 50 × 15 centre panel with a 116 × 32 LED bay opening to the FRONT under a **faceplate** (four M3 × 8 into the top and bottom walls), a rounded top bead and a Ø4 cable hole from each link pocket into the bay. Two **rails** (7 × 20, 26 mm-tall root gusset, ending at s 90) whose roots are the visor rings on the nexus spools: the visor pivots about the disk centre. Each rail ends in a half-lap where a **link** takes over: a 3.5 mm lap on the rail's inner half (two M3 × 10 from the rail's outer face), then a 7 × 20 bar bending 53° inboard behind the panel into a 10 mm pocket in the panel's back face (one M3 × 16 from the underside, plus a 1.5 mm mouth relief). From the front only the panel shows. Reach = link length; swap the front module for anything with two pockets 160 mm apart. The LED cable runs in a 2.5 mm groove along the rail's and link's undersides. Links print standing with the bend in-plane.
 - **Antenna pylons**: 8 mm peg base in each rear node socket with a clevis; a faceted 140 mm blade (6 mm serrated root tongue, flares to 28 × 14, tapers to 12 × 6; hollow with 2.4 mm walls, Ø4 wire bore) on an M3 hinge with a wave washer and a Ø24 printed knob: 15° notches, hand-locked, folds back along the rear half. Deployed 30° back from vertical.
-- **Nape, print one: the pin-lock.** A 52 × 44 × 10.6 block with two rack tunnels (each open at its own end) and two vertical Ø2.2 holes on the mid-plane. Both rear-half racks slide through; a 2 mm nail dropped through the top wall passes both racks' tooth spaces and the web between them and the racks cannot move. The racks are phased so their spaces line up over the u = 0 hole at whole-pitch settings and over the u = p/2 hole at half-pitch ones: 3.9 mm steps of circumference, ±14 mm of range. Thread lanyard keeps the nail. The enclosed **pull dial** (52 × 44 × 26.5: body with ratchet ring, cover, lid, dial, key cap, pinion, retainer with an M5 nut pocket) stays in the generator as the second module (`NAPE_MODULE = "dial"`) for when one-handed adjustment matters.
+- **Nape, print one: the pin-lock.** A 60 × 44 × 10.6 block with two rack tunnels (each open at its own end) and a four-lobe slot of Ø2.2 holes at u = 0, p/2, p, 3p/2 on the mid-plane. Both rear-half racks (54 mm) slide through; two 2 mm nails dropped through the top wall pass both racks' tooth spaces and the web between them, two teeth per rack. Whole-pitch settings use the 0 and p holes, half-pitch ones p/2 and 3p/2: 3.9 mm steps of circumference, ±14 mm of range. Heads sit flush in counterbores, the bottom wall is a snug 2.1, a lanyard hole takes the thread. Prints standing so the holes are round. The enclosed **pull dial** (52 × 44 × 26.5: body with ratchet ring, cover, lid, dial, key cap, pinion, retainer with an M5 nut pocket) stays in the generator as the second module (`NAPE_MODULE = "dial"`) for when one-handed adjustment matters.
 
-Overall width at the domes: 282 mm. Disk back face 37 mm off the skull.
+Overall width at the knobs: 287 mm. Disk back face 40 mm off the skull.
 
 ## 3. Load path notes (hand calculations)
 
 | Load | Path | Margin |
 |---|---|---|
-| 100 N hit on a disk rim | back plate → flange + ear faces → three M3 × 30 → hub node + doubler | band 24 MPa; stalk under 10 MPa |
-| 40 N sideways on the visor | rail → ring → spool hub → node; index nail in double shear | rail root is the fuse (~40 N); nail good for over 20 N·m |
+| 100 N hit on a disk rim | back plate → flange + ear faces → three M3 × 30 on hub + tower columns → hub node + doubler | band 24 MPa; stalk under 10 MPa, root filleted |
+| 40 N sideways on the visor | rail → 7 mm ring → spool hub → node; pawl tip in shear in a hub notch | the 2.4 × 2.6 PETG pawl tip (~250 N) is the fuse; the slider is a two-minute reprint |
 | pylon side hit | blade → serrated hinge → peg → rear node | 8 mm PLA peg fuses at ~2 N·m: nail its core or use aluminium rod |
-| band tension at the nape | rack teeth → 2 mm nail in double shear → other rack | ~600 N nail; tooth flank ~4 MPa at 100 N |
-| disk lock | M3 × 20 through 8 mm ear into a 6 mm tapped boss | screw in single shear; prevents rotation and lift |
+| band tension at the nape | two rack teeth → two 2 mm nails → other rack | ~1200 N of nail; tooth root ~14 MPa at 100 N, interlayer direction |
+| disk lock | 3.2 mm nail piece in the stalk wall into the boss notch | steel pin in shear at r 10..12.8; the cam groove holds axial preload |
+| band spans | 2 mm rope potted in the spine channel under the cover | rope carries tension across a crack; epoxy bond ~4 kN per 100 mm of channel |
 
-## 4. Printed parts (print-one set: 37 pieces + coupon + drill guide)
+## 4. Printed parts (print-one set: 44 pieces + coupon + drill guide; 838 g solid, ~630 g printed)
 
 | # | Part | Qty | Orientation | Supports |
 |---|---|---|---|---|
 | 0 | `fit_coupon.stl` | 1 | flat | no. **Print first**: hole gauges, 8.3 socket + 8 peg + cross-bolt, bayonet boss + stub, ratchet click pair |
-| 1 | `cradle_front.stl` (PETG) | 1 | upside down, node and lug tops on the bed | no |
-| 2 | `rear_band_half.stl` (PETG) | 2 | top edge down | no |
+| 1 | `cradle_front.stl` (PETG), `cover_front.stl` ×2 (one flipped), `cover_side.stl` ×2 | 1 + 4 | cradle upside down, node tops on the bed; covers standing on the long edge, brim | no |
+| 2 | `rear_band_half.stl` (PETG), `cover_rear.stl` | 2 + 2 | top edge down; cover standing on its edge | no |
 | 3 | `disk_dome.stl` | 2 | dome up | yes, under the shell, or on edge with a brim for none |
-| 4 | `disk_back.stl` | 2 | flat, boss up | no |
-| 5 | `nexus.stl` (PETG), `nexus_spool.stl`, `pin_keeper.stl`, `lock_knob.stl`, `pin_collar.stl` | 2 each | flange inner face down, stalk up; spool flange down; keeper bar down; knob and collar flat | no |
+| 4 | `disk_back_L/R.stl` | 1 each | flat, boss up | no |
+| 5 | `nexus_L/R.stl` (PETG), `nexus_spool.stl` (PETG), `disk_knob.stl` (PETG), `knob_clip.stl` | 1 L + 1 R, then 2 each | flange inner face down, stalk up; spool plate down; knob face down, shaft up (brim); clip flat | no |
 | 6 | `crown_arch_half.stl`, `port_coupler.stl` | 2 each | arch on edge, ridged face up; coupler standing | no, brim on the arch |
 | 7 | `apex_block.stl` | 1 | on end | no |
 | 8 | `brow_center.stl` | 1 | standing on the bottom face | no, brim |
-| 9 | `brow_rail_L/R.stl` (with the nexus ring), `brow_tab_L/R.stl` | 1 each | rail on its ring face; tab flange down | no |
-| 10 | `brow_lid.stl` | 1 | flat | no |
-| 11 | `nape_pinlock.stl` | 1 | either face down | no (6.6 × 15 mm tunnel bridges) |
-| 12 | `pylon_base.stl`, `pylon_blade.stl`, `pylon_knob.stl` | 2 each | base inverted; blade on its flat face; knob flat | no |
+| 9 | `brow_rail_L/R.stl` (with the nexus ring), `brow_link_L/R.stl`, `visor_slider.stl` (PETG) | 1 each, slider ×2 | rail on its ring face; link standing on its bottom edge (brim); slider flat | no |
+| 10 | `brow_lid.stl` (faceplate) | 1 | flat, outer face down | no |
+| 11 | `nape_pinlock.stl` | 1 | standing on its bottom end, brim | no (6.6 mm tunnel bridges) |
+| 12 | `pylon_base.stl`, `pylon_blade.stl`, `pylon_knob.stl` | 2 each (the right set is the left print turned about its socket) | base inverted; blade on its flat face; knob flat | no |
 | 13 | `port_drill_guide.stl` | 1 | see sidecar | no |
 | — | `nape_body / cover / lid / dial / key / pinion / retainer.stl` | module 2 only | see sidecars | no |
 
-Slicer: 0.2 mm layers (0.12 for the dome), 3 walls, 20 % gyroid; PLA 210/60 °C, PETG 240/80 °C for the cradle and nexus. Mass: 780 g solid, about 585 g as printed, plus ~80 g foam and hardware. CG (10, 0, 57).
+Slicer: 0.2 mm layers (0.12 for the dome), 3 walls, 20 % gyroid; PLA 210/60 °C, PETG 240/80 °C for the cradle, nexus, spool, knob and sliders. Print the cradle near solid and the domes at low infill. CG (12, 0, 57); roll inertia about +45 % of a head's, yaw about +30 %.
 
 ## 5. Non-printed BOM (print-one set)
 
 | Item | Qty |
 |---|---|
-| nails: 3.2 × 40 (index pins) 2; 3.2 × 40..50 (rear tenons) 2; 2 × 50 or 2 mm rod (nape pin-lock) 1; spares for peg cores | 5 + |
-| small compression springs, ~4.5 mm ID × 12 mm free (index pins) | 2 |
-| M3 × 30 + nyloc (nexus through the hub node) | 6 |
+| nails: 3.2 × 40..50 (rear tenons) 2; 3.2 cut to 7.2 mm (disk lock pins) 2; 2 × 50 or 2 mm rod (nape pin-lock) 2; spares for peg cores | 6 + |
+| compression springs Ø3 × 10 (visor pawl sliders); or print the flexure slider | 2 |
+| 2 mm rope, about 1.2 m, and metal-filled epoxy for the spine channels; ethernet cable stripped into pairs for the harness | |
+| M3 × 30 + plain nut (nexus, from outside into the node's nut pockets; thread-lock) | 6 |
 | M3 × 30 + wave washer + nyloc (pylon hinges) | 2 |
-| M3 × 25 + nut (pin keepers through the lugs) | 2 |
+| M3 × 8 thread-forming (faceplate) | 4 |
 | M3 × 20 + nut (cross-bolts: pylon pegs 2, arch couplers 4) | 6 |
-| M3 × 20 (disk lock screws, printed knob glued on the head) | 2 |
-| M3 × 12 + nut (rails to tabs) | 4 |
-| M3 × 10 thread-forming (tabs to panel 4, disk back plates 12, brow lid 4) | 20 |
+| M3 × 10 (rails into the links' laps, thread-forming) 4; M3 × 16 (panel underside into the links) 2 | 6 |
+| M3 × 10 thread-forming (disk back plates) | 12 |
+| titanium or 316 stainless for the six nexus bolts if the coil physics minds steel 13 to 28 mm off the axis | |
 | wave washers M32 or a 0.9 mm PTFE ring (visor ring to nexus) | 2 |
 | M4 × 50 + nut (apex) | 1 |
 | thread or thin cord: nexus lanyards 2, nape nail lanyard 1 | |
@@ -101,22 +104,30 @@ Slicer: 0.2 mm layers (0.12 for the dome), 3 walls, 20 % gyroid; PLA 210/60 °C,
 ## 6. Print and validation order
 
 1. Fit coupon. A 3.2 nail must press into the 3.2 hole and slip through the 3.4; a 2 mm nail through the 2.2; an M3 must self-tap into the 2.5. The 8 mm peg must slide into the socket and take the cross-bolt. The bayonet stub must drop into the boss and turn a quarter to the stop without force. The ratchet disc must click one way and lock the other.
-2. Cradle U (PETG), both rear halves, pin-lock. Tenons in and nailed, racks through the block, nail in the hole whose spaces line up. Foam on, wear the cradle alone: it must sit above the ears and stay put when you shake your head. This is the chin-strap decision.
-3. Both nexus sets (flange, spool, keeper, collar, knob, rail rings on the rails) and one disk (dome + back). Bolt the nexus through the node with the spool and ring in the stack, fit the keeper and the sprung nail, bayonet the disk on, lock screw in, check the ear clearance. Measure the coil apparatus against the cavity before printing the second disk.
-4. Brow centre, tabs, lid. Tabs on the panel ends, rails bolted to the tabs. Pull the index nails, tilt, let them drop.
+2. Cradle U (PETG), both rear halves, pin-lock. Tenons in and nailed, racks through the block, two nails in the hole pair whose spaces line up. Foam on, wear the cradle alone: it must sit above the ears (the phantom says 4 mm), stay put when you shake your head, and go on and off cap-style without opening the pin-lock. This is the chin-strap decision and the dial-versus-pin-lock decision.
+3. Both nexus sets (flange, spool, rails with sliders and springs inside, knobs with clips in the domes) and one disk. Nuts into the node's inner pockets, spool with the ring on its hub against the node, washer, flange, three bolts from outside; bayonet the disk on (feel the cam tighten), half a turn on the knob; work the visor tab; check the ear clearance and shim the ring stack if it binds. Measure the coil apparatus against the cavity before printing the second disk.
+4. Brow centre, links, faceplate. Links into the panel's back pockets (one screw each from below), rails lapped onto the links (two screws each). Thumb the tabs, swing, let go.
 5. Crown halves, couplers, apex. Couplers into the hub sockets, feet on, four cross-bolts, set the span.
-6. Pylons. Second disk. Wear it, run, then decide which pegs get aluminium cores and whether the dial module is worth its 16 mm.
+6. Pylons. Second disk. Then the spine: rope in the channels, epoxy, covers in wet, and pot the pegs while the epoxy is out. Wear it, run.
 
 ## 7. Known limitations and open questions
 
+- **Architecture decision for v0.11 (Jordan):** the band must sit above the ears (z 40) and the disk axis is fixed at ear-top height (z 35), so the nexus is a cantilever whose bolt group can only occupy the 20 mm where flange and node overlap. v0.10 mitigates (three solid clamp columns, Ø68 flange, 2.6 mm rim walls) but does not remove it. The fix is a bracket from the node down to axis height around the front of the ear, where the skull is 25 mm inboard of y 100; it would also let the whole band rise to a proper hat line. The forehead rise in v0.10 is the partial fix.
+- The band's lower edge passes 4 mm above the ear phantom's top. Ears vary by ±10 mm between people: measure before printing the cradle.
 - The coil cavity size is a guess, and the lock boss intrudes into its edge at one spot. So is the pylon position (rear nodes, sweeping back).
 - "Extension" of the visor was built as reach (distance from the face), now fixed by the tabs. If it meant width, the tabs become side plates on the same rails.
-- The visor is a 118 mm lever from the disk-axis pivot; it is held by the index nail, never by friction. Folding flat means taking the disks off (quarter turn + one screw) and unbolting the nexus (three M3) so the rails slide off, or simply parking at 60°.
-- Phantom head has no cheekbones, brow ridge or ears; the nexus spool flange (Ø44 at y 100) passes ~8 mm above a typical pinna. Measure yours.
-- 8.3 mm sockets print closer to 8.0 in PLA: ream with the drill guide or open `CYL_SOCKET_D` to 8.5. The back plate has no fillet.
-- Print-orientation audit (2026-09-05, `print_check.py`): every STL has its bed face down; the only flagged items are the two intentionally small-footprint parts (collar, standing coupler).
-- The bayonet, the pin-lock nail in module-1.25 tooth spaces and the serrated detents are untested in PLA. If the pin-lock nail rattles, go to a 2.2 nail and `hole` 2.4.
-- An 8 mm PLA peg alone is the weak link for the pylons under a side hit (about 2 N·m). Put a nail down its core, or use aluminium rod.
-- Remaining single points: the three M3 × 30 per nexus (a hub-node crack takes the disk and visor with it; the lanyard keeps the disk on the helm), the printed rail root (~40 N sideways), the PETG stalk.
-- Next architecture steps if the fit is right: BOA-style cord tensioner at the nape, pocketed nodes and 2.2 mm dome shell for mass, heat-set inserts for the disk back and tab screws, PA12-CF for the cradle and nexus.
+- Parked is two steps up (43°). Folding flat means taking the disks off (quarter turn + one screw) and unbolting the nexus (three M3) so the rails slide off.
+- The pin-lock assumes cap-style donning without opening the nape (14 mm of circumference travel). If the cradle must open to pass the occiput, the dial (module 2) or a BOA-style spool becomes required, not optional.
+- Cables are modelled as reference routes only (coil feed over the band top and inside, LED feed on the rail's top edge, trunk to the nape). Nothing yet routes power through the pylon base or defines the hip-pack exit.
+- The ring stack (1 mm plate, 7 mm ring, 0.95 mm wave washer, 8.5 mm hub) is a printed tolerance stack: plan on shims or sanding the hub.
+- Steel within the coil's near field: six M3 × 30 at r 14.5 to 28, two lock screws at r 54, two nails at r 19 to 35. Jordan's call whether that matters; titanium or 316 is the fallback.
+- 8.3 mm sockets print closer to 8.0 in PLA: ream with the drill guide or open `CYL_SOCKET_D` to 8.5. The arch foot's socket prints horizontal and will need reaming. The back plate has no fillet.
+- Print audit (`print_check.py`, with the thin-wall scan): every STL bed-down; remaining flags are by design or cosmetic (1 mm spool plate and dome tap floors, 1 mm cover strips, rack tooth tips, pin-lock lobe cusps, the knob's 1 mm clip groove floor, a 0.45 mm sliver at the outer side of each link-pocket mouth, the standing coupler) plus the dial module's ratchet teeth.
+- Black PLA domes soften in the sun (PLA ~60 °C): PETG or a light colour for anything that sees daylight.
+- A 122 mm disc 37 mm off each ear shadows high frequencies from the side; the panel bottom edge sits ~30° above the line of sight and an LED array aimed at the face lights the eyes from there unless baffled.
+- The pylon peg (about 2 N·m) fuses into a loose blade: no lanyard yet. Put a nail down the peg's core or use aluminium rod.
+- Remaining single points: the three M3 × 30 per nexus (a hub-node crack takes the disk and visor with it; the lanyard keeps the disk on the helm), the PETG stalk (hollow now, filleted, 5 mm walls), the pawl tip as the visor's fuse (by design: a reprint).
+- Deferred from the v0.11 rosters: the kinked two-piece rear halves (decide after the cradle shake test), the hollow ridgeway duct and nape AC unit (no hardware on hand; the spine channel is where it would go), the cyberpunk faceting of the panel (the faceplate is the place for it), and the cable through the hinge axis (the knob shaft owns the axis now).
+- The pawl slider wants a Ø3 × 10 spring; if none exists in the drawer, the flexure variant is a one-line change in `build_visor_slider.py`.
+- Next steps if the fit is right: the temple bracket above, BOA-style cord tensioner, pocketed nodes and 2.2 mm dome shell for mass, heat-set inserts for the disk back and tab screws, PA12-CF for the cradle and nexus.
 - Nothing has been drop-tested. Capacities are hand calculations.

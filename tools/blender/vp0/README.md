@@ -1,6 +1,6 @@
 # `tools/blender/vp0/` — HelmKit visual prototype (clean-slate part set)
 
-Current revision: **vp0.9** (2026-09-05). Spec, print order and BOM:
+Current revision: **vp0.11** (2026-09-05). Spec, print order and BOM:
 [`docs/mechanical/vp0_visual_prototype.md`](../../../docs/mechanical/vp0_visual_prototype.md).
 Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 
@@ -10,33 +10,34 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 |---|---|
 | `canon.py` | Every number: wearer measurements, disk + bayonet + lock boss, cylinder port standard, cradle nodes / lug / sockets, nexus, captive pin, crown, brow rails and tabs, pylons, rear halves, nape modules, foam. `python3 canon.py` prints a summary. |
 | `vp0lib.py` | Mesh helpers: revolve, chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
-| `build_disk.py` | Enclosed disk: dome shell with screw bosses; back plate with the bayonet boss and the tapped lock boss (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
-| `build_nexus.py` | The NEXUS (PETG): Ø60 flange with the bayonet stalk, lock ear and lanyard hole; Ø44/32 spool (visor ring bearing); pin keeper; lock knob; pin collar (`--out-dir`) |
-| `build_cradle_front.py` | Cradle U: forehead + side band with a doubler around the hub nodes (nexus bolts, keeper-bolted pin lug, arch socket), rear nodes (tenon socket, pylon socket), strap slots (×1, PETG) |
+| `build_disk.py` | Enclosed disk: dome shell with screw bosses, apex knob dish + boss; L and R back plates with the cam bayonet groove (lofted ring), the lock notch and the cable hole (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
+| `build_nexus.py` | The NEXUS (PETG): L and R Ø68 flanges (hollow filleted stalk with the lock-pin hole, coil-cable bore, lanyard hole, head counterbores); spool with the notched hub and the spacer block; disk knob (shaft + eccentric); knob clip (`--out-dir`) |
+| `build_cradle_front.py` | Cradle U: 7 mm forehead + side band (lower edge rises at the forehead) with spine channels between the nodes, hub nodes (nexus bolt holes + inner-face nut pockets, arch socket, coil bore), LED bores, rear nodes (tenon socket, pylon socket), strap slots (×1, PETG) |
 | `build_crown_arch_half.py` | 20 × 7 arch half with a socketed foot over the hub node (coupler) (×2, same STL) |
 | `build_apex_block.py` | Apex sleeve with M4 clamp |
-| `build_brow_center.py`, `build_brow_rail.py`, `build_brow_tab.py`, `build_brow_lid.py` | 160 mm centre panel; rails with their nexus rings (24 index holes, two tab bolts; `--mirror`); L-tabs (`--mirror`); lid |
-| `build_rear_band_half.py` | Rear half: tapered tenon into the rear node, strap slots, phased rack (×2, same STL, PETG) |
-| `build_nape_dial.py` | Nape modules: `nape_pinlock` (print one) and the enclosed PULL dial set: body (ratchet ring), cover (window), lid, dial, key cap, pinion, retainer with M5 nut pocket (`--out-dir`) |
+| `build_brow_center.py`, `build_brow_rail.py`, `build_brow_link.py`, `build_visor_slider.py`, `build_brow_lid.py` | 160 mm centre panel with back-face link pockets and a front faceplate recess; rails with their Ø44 rings, gusseted bar, pawl tunnel, half-lap and underside cable groove (`--mirror`); links (lap + 55° bar; `--mirror`); pawl slider; faceplate |
+| `build_rear_band_half.py` | Rear half: tapered tenon into the rear node, strap slots, spine channel, phased rack (×2, same STL, PETG) |
+| `build_spine_covers.py` | Flush cover strips for the spine channels: front arc half, side span, rear half (`--out-dir`) |
+| `build_nape_dial.py` | Nape modules: `nape_pinlock` (print one; four-lobe nail slot, prints standing) and the enclosed PULL dial set: body (ratchet ring), cover (window), lid, dial, key cap, pinion, retainer with M5 nut pocket (`--out-dir`) |
 | `build_pylon.py` | Antenna pylon: pegged base with a serrated clevis, faceted blade, lock knob (`--out-dir`) |
 | `build_port_parts.py` | Cylinder port spares: plug, coupler, drill guide (`--out-dir`) |
 | `build_fit_coupon.py` | Print-first tolerance coupon: hole gauges, port, bayonet boss + stub, ratchet pair |
-| `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang; flags parts exported the wrong way up |
-| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`) + reference foam / coil / nails / springs / head, writes clearance, mass, collision and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend` |
+| `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang, thinnest wall (inward ray cast from every face); flags wrong-way-up parts and walls under 1.2 mm |
+| `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print) + reference foam / coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend` |
 
 ## Regenerate everything
 
 ```sh
 B=/Applications/Blender.app/Contents/MacOS/Blender   # linux: B=blender
 OUT=3D-Models/HelmKit/_generated/vp0
-for p in fit_coupon cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid; do
+for p in fit_coupon cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid visor_slider; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/$p.stl
 done
-for p in brow_rail brow_tab; do
+for p in brow_rail brow_link; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_L.stl
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_R.stl --mirror
 done
-for p in disk nexus nape_dial pylon port_parts; do
+for p in disk nexus nape_dial pylon port_parts spine_covers; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out-dir $OUT
 done
 $B --background --python tools/blender/vp0/print_check.py -- $OUT
@@ -49,8 +50,8 @@ manifold check, notes). Output is `.gitignore`d; the `.blend` is tracked.
 ## Working in the Blender UI
 
 Open `3D-Models/HelmKit_vp0/vp0_assembly.blend`. 1 unit = 1 mm. Collections:
-Cradle (with Nape), Disks.L/R (dome, back, nexus, spool, keeper, knob, collar), Crown (arches, couplers, apex), Brow (panel, rails with rings, tabs, lid),
-AddOns (pylons), Reference (foam, coil, nails, springs, head; not printed), PrintLayout (hidden). The `README_vp0` text block explains the edit → export
+Cradle (with Nape and the spine covers), Disks.L/R (dome, back, nexus, spool, disk knob, clip), Crown (arches, couplers, apex), Brow (panel, rails with rings, links, sliders, faceplate),
+AddOns (pylons), Checks (parked rails, cable runs; not printed), Reference (foam, coil, lock pins, pawl springs, rope, head, ears; not printed), PrintLayout (hidden). The `README_vp0` text block explains the edit → export
 workflow. Re-running `assemble_vp0.py` overwrites the file.
 
 ## Boolean and print hygiene (Blender 5.0 EXACT solver)
@@ -71,4 +72,13 @@ workflow. Re-running `assemble_vp0.py` overwrites the file.
 - Two coaxial cutters/revolves with different vertex counts still share radial lines wherever `phase_a + step_a*k == phase_b + step_b*j`; pick phases so the difference is never a multiple of the steps' common resolution (disk back: bore 72 verts @1.3°, groove 100 @2.37°, plate 120 @0°, boss 100 @0°). Features that must survive inside a groove are carved out of the groove TOOL, not unioned afterwards.
 - Coaxial cutters on a revolve (bore, groove, hole circles) get an odd rotation about the axis (`rot(1.3)` etc.) so no cutter vertex sits on a radial line; use annulus revolves, not full discs, where the centre gets bored anyway; and no bevel pass on such a plate before the bore.
 - Anything that protrudes from a part's bed face lifts the whole part off the bed: `print_check.py` shows it as a tiny bed contact and a huge flat overhang (the v0.9 disk lock boss moved to the cavity side for this reason).
-- Overlapping holes (the pin-lock's 2.2 mm holes 1.96 mm apart) are fine for the solver; check the physical waist instead (1.0 mm here, so a 2 mm nail stays in its lobe).
+- Overlapping holes (the pin-lock's 2.2 mm holes 1.96 mm apart) are NOT fine as separate cylinder cuts (142 non-manifold edges): cut them as one lobed polygon extrusion (`lobed_poly`). Check the physical waist (1.0 mm here, so a 2 mm nail stays in its lobe).
+- Two boxes that touch on a face (the cap's shroud walls) leave non-manifold edges after the union: make such shapes one polygon extrusion (a U), inset 0.2 from the plate they sit on.
+- A profile that varies with angle (the bayonet cam groove) is a `loft_ring`, not a revolve; the same phase rules apply.
+- Build the disc + tab of the spool as one CDT polygon: two 1 mm plates sharing both faces cannot be unioned.
+- A hole that ends just inside a slanted edge leaves a sliver (rail index holes through the gusset): either pass all the way through or keep holes off the feature; the thin-wall scan in `print_check.py` finds these.
+- Overlapping-lobe slots and involute tooth tips show up in the thin-wall scan as sub-millimetre walls: they are cusps, not walls.
+- An angled pocket meeting a flat face leaves a knife-edge lip at the acute side: cut a straight mouth relief around it, slightly taller than the pocket so the two cutters share no plane.
+- Two counterbores closer than their diameter merge into one; two holes and a slot end that touch leave zero walls. Space fasteners by at least their head diameter plus 1.5 mm.
+- A box that fills part of a filleted body must carry the same fillet, or its corners poke through the rounding as 0.3 mm slivers.
+- Cable placeholders are check objects: any pair they hit that is not in the expected set is a real routing conflict, so keep the expected set honest.

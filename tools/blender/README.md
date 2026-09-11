@@ -1,9 +1,9 @@
 # `tools/blender/` — parametric mesh generators
 
-> **2026-09-05:** the current printable set is the clean-slate **vp0.9** in [`vp0/`](vp0/README.md)
+> **2026-09-05:** the current printable set is the clean-slate **vp0.11** in [`vp0/`](vp0/README.md)
 > (hard-hat style PETG cradle with a nape pin-lock, enclosed brain-core-centred disks bayoneted
-> and screw-locked onto a per-side NEXUS hub that also carries the visor pivot with a captive
-> index pin, bolted-tab rail visor, socketed crown arch, knob-locked antenna pylons). It shares
+> and centre-knob-locked onto a per-side NEXUS hub that carries the visor pivot, one-hand pawl
+> visor with hidden brow links, rope-and-epoxy spine channels, socketed crown arch, knob-locked pylons). It shares
 > nothing with the Mk0.5-β generators below, which remain unprinted placeholders. Start there.
 
 This directory holds the **authoritative shape definition** for every

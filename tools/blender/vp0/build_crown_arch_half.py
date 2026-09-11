@@ -44,8 +44,11 @@ def make():
     arch = L.ribbon("crown_arch_half", pts, Vector((1.0, 0.0, 0.0)), ext, chamfer=1.0)
     # ridges on the bar's mating face, then the slot through both (before the foot and the spine: solver order matters)
     Mr = L.frame((C.CX, 0.0, C.CROWN_APEX_Z - C.CROWN_T / 2 + 1.1), (0.0, 0.0, 1.0), (0.0, 1.0, 0.0))
-    poly = L.ridge_plate_poly(-C.CROWN_OVERLAP + 1.0, -1.0, C.CROWN_SERR_PITCH, C.CROWN_SERR_H, 0.5, C.CROWN_SERR_PITCH / 4)
-    L.union(arch, L.extrude_polygon("ridges", poly, C.CROWN_T - 2.2, Mr))
+    # two ridge plates, one each side of the clamp slot's y-range (a plate through the slot would be cut to 0.2 mm stubs)
+    ys0, ys1 = -C.CROWN_OVERLAP / 2 - C.CROWN_SLOT_L / 2 - 0.5, -C.CROWN_OVERLAP / 2 + C.CROWN_SLOT_L / 2 + 0.5
+    for u0, u1 in ((-C.CROWN_OVERLAP + 1.0, ys0), (ys1, -1.0)):
+        poly = L.ridge_plate_poly(u0, u1, C.CROWN_SERR_PITCH, C.CROWN_SERR_H, 0.5, C.CROWN_SERR_PITCH / 4)
+        L.union(arch, L.extrude_polygon("ridges", poly, C.CROWN_T - 2.2, Mr))
     L.cut(arch, L.add_box("slot", (C.CX + C.CROWN_BAR_W / 2, -C.CROWN_OVERLAP / 2, C.CROWN_APEX_Z), (C.CROWN_BAR_W + 4, C.CROWN_SLOT_L, C.CROWN_SLOT_W)))
     # foot block (ridges first, then the foot: solver order) with an 8.3 socket over the hub node's socket; a coupler joins them
     fx, fy, fz = C.CROWN_FOOT

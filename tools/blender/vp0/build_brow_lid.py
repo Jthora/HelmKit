@@ -1,5 +1,5 @@
 #!/usr/bin/env -S blender --background --python
-"""build_brow_lid.py -- vp0.3 brow lid (head side), 4 screws, foam pad glues to it. Print flat. Qty: 1."""
+"""build_brow_lid.py -- vp0.11 brow FACEPLATE (front), 4 screws into the top and bottom walls. Print flat. Qty: 1."""
 from __future__ import annotations
 import sys
 from pathlib import Path
@@ -11,14 +11,15 @@ import canon as C
 import build_brow_center as BP
 
 PRINT_ROT = L.rot_dir_to(C.BROW_EX, (0, 0, 1))
-NOTES = ["print flat; foam forehead pad glues to the head-side face"]
+NOTES = ["print flat (outer face down for a clean finish); the LED strip sits behind it; 4x M3 x 8 thread-forming"]
 
 
 def make():
-    lid = L.add_box_local("brow_lid", BP.MP, (0.2 + C.BROW_LID_T / 2, 0.0, C.BROW_H / 2),
-                          (C.BROW_LID_T, C.BROW_CAV_W + 8.0 - 0.4, C.BROW_H - 2 * C.BROW_WALL))
+    x0 = C.BROW_T - BP.LID_RECESS + 0.2
+    lid = L.add_box_local("brow_lid", BP.MP, (x0 + C.BROW_LID_T / 2, 0.0, C.BROW_H / 2),
+                          (C.BROW_LID_T, C.BROW_CAV_W + 8.0 - 0.4, C.BROW_FACEPLATE_H - 0.4))
     for y, z in C.BROW_LID_SCREWS:
-        L.cut(lid, L.add_cyl_local("hole", BP.MP, (1.2, y, z), C.M3_CLEAR_DIA / 2, 6.0, axis="X", verts=16))
+        L.cut(lid, L.add_cyl_local("hole", BP.MP, (x0 + C.BROW_LID_T / 2, y, z), C.M3_CLEAR_DIA / 2, 6.0, axis="X", verts=16))
     L.fillet(lid, width=0.6)
     return lid
 

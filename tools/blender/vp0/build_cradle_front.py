@@ -71,46 +71,73 @@ def zcyl(name, x, y, side, r, z0, z1, verts=32):
     return L.add_cyl(name, (x, side * y, (z0 + z1) / 2), r, z1 - z0, axis="Z", verts=verts)
 
 
+def spine_runs(pts):
+    """Free spans of the band between the nodes: left rear-to-hub, the front arc, right hub-to-rear (world x limits with 0.5 clearance)."""
+    hx, hl = C.HUB_NODE
+    rx, rl = C.REAR_NODE
+    x_hub0, x_hub1 = hx - hl / 2 - 0.5, hx + hl / 2 + 0.5
+    x_rear1 = rx + rl / 2 + 0.5
+    left = [p for p in pts if p.y > 0 and x_rear1 <= p.x <= x_hub0]
+    front = [p for p in pts if p.x >= x_hub1]
+    right = [p for p in pts if p.y < 0 and x_rear1 <= p.x <= x_hub0]
+    return [r for r in (left, front, right) if len(r) >= 3]
+
+
+def channel_pts(run):
+    zc = (C.SPINE["z"][0] + C.SPINE["z"][1]) / 2 - C.CRADLE_Z
+    return [Vector((p.x, p.y, p.z + zc)) for p in run]
+
+
+def offset_outboard(run, d):
+    """Points shifted outboard (away from the head) by d, using the local tangent and UP (N = T x UP points inboard)."""
+    out = []
+    for i, p in enumerate(run):
+        a = run[max(i - 1, 0)]; b = run[min(i + 1, len(run) - 1)]
+        Tv = (b - a).normalized()
+        N = Tv.cross(UP).normalized()
+        out.append(p - N * d)
+    return out
+
+
 def make():
     pts = centreline()
-    band = L.ribbon("cradle_front", pts, UP, [(H2 - 0.1, H2, T2, T2)] * len(pts), chamfer=1.0)
+    band = L.ribbon("cradle_front", pts, UP, [(H2 - 0.1, H2 - C.cradle_rise(p.x), T2, T2) for p in pts], chamfer=1.0)   # lower edge rises at the forehead, top edge stays planar (inverted print)
     Z = C.CRADLE_Z
     # strap slots first, on the plain ribbon (the solver dislikes them after the node unions)
     sh, sw = C.STRAP_SLOT
     for side in (+1, -1):
         for x in C.CRADLE_STRAP_X:
-            L.cut(band, L.add_box("strap", (x + 0.45, side * (C.CRADLE_SIDE_Y + 1.5), Z + 4.5), (sw + 0.3, C.CRADLE_T + 6.0, sh)))
+            L.cut(band, L.add_box("strap", (x + 0.45, side * (C.CRADLE_SIDE_Y + 1.5), Z - 0.5), (sw + 0.3, C.CRADLE_T + 6.0, sh)))
     for side in (+1, -1):
-        (dx0, dx1), (dy0, dy1), (dz0, dz1) = C.CRADLE_DOUBLER
-        L.union(band, sbox("doubler", dx0, dx1, dy0 - 0.2, dy1, dz0, dz1 - 0.2, side, fillet=1.0))
         hx, hl = C.HUB_NODE
         w0, w1 = C.HUB_NODE_W
         L.union(band, sbox("hnode", hx - hl / 2, hx + hl / 2, C.NODE_IN_Y, C.HUB_NODE_OUT_Y, Z + w0, Z + w1, side, fillet=1.0))
         rx, rl = C.REAR_NODE
         w0, w1 = C.REAR_NODE_W
         L.union(band, sbox("rnode", rx - rl / 2, rx + rl / 2, C.NODE_IN_Y, C.NODE_OUT_Y, Z + w0, Z + w1, side, fillet=1.0))
-        (lx0, lx1), (ly0, ly1), (lz0, lz1) = C.NEXUS_PIN_LUG
-        L.union(band, sbox("pinlug", lx0, lx1, ly0 - 0.5, ly1, lz0, lz1 - 0.2, side, fillet=0.8))
-    # nexus bolt holes for both sides first, one combined cutter per side (the solver is order-sensitive here)
+    # spine channels: 4 x 4 grooves in the outer face at z 63..67 on every free span between the nodes (potted rope + flush cover)
+    for run in spine_runs(pts):
+        L.cut(band, L.ribbon("spinech", channel_pts(run), UP, [(C.SPINE["w"] / 2, C.SPINE["w"] / 2, C.SPINE["d"] - T2, T2 + 1.0)] * len(run)))
+    # cable bores along y through the hub nodes: coil feed at CX - 15 (in line with the flange bore), LED feed at CX + 15
+    cb = C.CABLE_BORE
+    for side in (+1, -1):
+        L.cut(band, ycyl("cbore", C.CX - cb["dx"], cb["z"], side, cb["dia"] / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0, verts=20))
+        L.cut(band, ycyl("lbore", cb["led_x"], cb["led_z"], side, cb["dia"] / 2, C.CRADLE_SIDE_Y - C.CRADLE_T / 2 - 2.0, C.CRADLE_SIDE_Y + C.CRADLE_T / 2 + 2.0, verts=20))
+    # nexus bolt holes for both sides first, one combined cutter per side (the solver is order-sensitive here):
+    # M3 clearance through the node + hex nut pocket on the INNER face (the nut sits flush under the foam)
+    af, pdep = C.NEXUS_NUT_POCKET
     for side in (+1, -1):
         tool = None
-        for i, (x, z) in enumerate(C.NEXUS_BOLTS):
+        for (x, z) in C.NEXUS_BOLTS:
             c = ycyl("nbolt", x, z, side, C.M3_CLEAR_DIA / 2, C.NODE_IN_Y - 2.0, C.HUB_NODE_OUT_Y + 2.0)
-            if i > 0:     # the bottom bolt sits 3.5 mm above the node's edge: its head stays proud under the foam
-                L.union(c, ycyl("nhead", x, z, side, 3.3, C.NODE_IN_Y - 1.0, C.NODE_IN_Y + 2.2))
-            if tool is None:
-                tool = c
-            else:
-                L.union(tool, c)
+            nut = L.add_hex_prism("nut", (x, side * C.NODE_IN_Y, z), af, 2 * pdep, axis="Y")
+            nut.matrix_world = Matrix.Translation((x, 0.0, z)) @ Matrix.Rotation(math.radians(7.0), 4, "Y") @ Matrix.Translation((-x, 0.0, -z)) @ nut.matrix_world
+            L.apply_transform(nut)
+            L.union(c, nut)
+            tool = c if tool is None else (L.union(tool, c) or tool)
         L.cut(band, tool)
     md, mdep = C.SOCKET_MOUTH_STEP
     for side in (+1, -1):
-        # nexus bolts through the hub node, heads counterbored under the foam
-        # index pin hole down through the lug
-        px, py = C.NEXUS_PIN
-        (lx0, lx1), (ly0, ly1), (lz0, lz1) = C.NEXUS_PIN_LUG
-        L.cut(band, zcyl("pin", px, py, side, C.M3_CLEAR_DIA / 2, lz0 - 1.0, lz1 + 1.0, verts=16))
-        L.cut(band, L.add_cyl("kbolt", ((lx0 + lx1) / 2, side * py, C.PIN_KEEPER["bolt_z"]), C.M3_CLEAR_DIA / 2, lx1 - lx0 + 6.0, axis="X", verts=16))   # keeper saddle bolt
         # sockets: hub top (spare), rear top (pylon); cross holes along Y; mouth relief on the bed faces
         sx, sy = C.HUB_SOCKET
         L.cut(band, zcyl("hsock", sx, sy, side, C.CYL_SOCKET_D / 2, Z + C.HUB_NODE_W[1] - C.CYL_DEPTH, Z + C.HUB_NODE_W[1] + 1.0))

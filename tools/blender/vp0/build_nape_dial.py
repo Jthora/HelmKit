@@ -159,21 +159,52 @@ def make_retainer():
     return r
 
 
+def lobed_poly(centres, r, n_arc=8):
+    """Outline of the union of equal circles centred on the u axis (spacing < 2r): a lobed slot, one clean polygon."""
+    cs = sorted(centres)
+    d = cs[1] - cs[0] if len(cs) > 1 else 0.0
+    phi = math.acos(min(1.0, d / (2 * r))) if d < 2 * r else 0.0
+    pts = []
+    for i, c in enumerate(cs):                    # top arcs, left to right
+        a0 = math.pi if i == 0 else math.pi - phi
+        a1 = 0.0 if i == len(cs) - 1 else phi
+        for k in range(n_arc + 1):
+            if (i > 0 and k == 0):
+                continue                          # shared waist point already emitted
+            a = a0 + (a1 - a0) * k / n_arc
+            pts.append((c + r * math.cos(a), r * math.sin(a)))
+    for i, c in reversed(list(enumerate(cs))):    # bottom arcs, right to left
+        a0 = 0.0 if i == len(cs) - 1 else -phi
+        a1 = -math.pi if i == 0 else -(math.pi - phi)
+        for k in range(n_arc + 1):
+            if k == 0:
+                continue                          # (c_last, 0) / waist points already emitted
+            a = a0 + (a1 - a0) * k / n_arc
+            pts.append((c + r * math.cos(a), r * math.sin(a)))
+    return pts[:-1]                               # last point == first (leftmost, angle -pi == pi)
+
+
 def make_pinlock():
-    """Print-one nape module: a one-piece 52 x 44 x 10.6 block with two rack tunnels (each open at its own end) and two vertical
-    Ø2.2 holes on the mid-plane. A 2 mm nail dropped through the top wall passes both racks' tooth spaces and the web between
-    them: the racks cannot slide. Hole at u = 0 for whole-pitch settings, u = p/2 for half-pitch ones (3.9 mm steps of
-    circumference). Thread lanyard through the corner hole keeps the nail."""
+    """Print-one nape module: a one-piece block with two rack tunnels (each open at its own end) and four vertical Ø2.2 holes
+    on the mid-plane at u = 0, p/2, p, 3p/2. Two 2 mm nails dropped through the top wall pass both racks' tooth spaces
+    (whole-pitch settings use 0 and p, half-pitch ones p/2 and 3p/2): two teeth per rack, 3.9 mm steps of circumference.
+    Heads sit flush in counterbores; the bottom wall is a snug 2.1 so the nails stay put; a lanyard hole takes their thread."""
     T = C.NAPE_PINLOCK_T
     ch = CH + 0.5
+    pin = C.NAPE_PINLOCK_PIN
     pl = box("nape_pinlock", (0.0, 0.0, 0.0), (HU, HV, T))
     L.fillet(pl, width=0.8)
     lo, hi = UPPER
     ch_c, ch_h = (lo + hi) / 2, hi - lo
     L.cut(pl, box("ch_up", ((-HU / 2 - 1.0 + HU / 2 - 3.0) / 2, ch_c, 0.0), (HU - 2.0, ch_h, 2 * ch)))    # left rack enters from -u (+Y)
     L.cut(pl, box("ch_lo", ((HU / 2 + 1.0 - HU / 2 + 3.0) / 2, -ch_c, 0.0), (HU - 2.0, ch_h, 2 * ch)))    # right rack enters from +u
-    for u in C.NAPE_PINLOCK_HOLES:
-        L.cut(pl, L.add_cyl_local("pin", M, (u, 0.0, 0.0), C.NAPE_PINLOCK_PIN["hole"] / 2, HV + 2.0, axis="Y", verts=16))
+    v_bot_in = -HV / 2 + WALL                     # inner face of the bottom wall (inside the lower tunnel)
+    cb_d, cb_h = pin["cbore"]
+    Mv = M @ Matrix.Rotation(-math.pi / 2.0, 4, "X")            # local z -> +v, local x -> u
+    us = list(C.NAPE_PINLOCK_HOLES)
+    L.cut(pl, L.extrude_polygon("pins", lobed_poly(us, pin["hole"] / 2), HV / 2 + 1.0 - (v_bot_in + 0.5), Mv, z0=v_bot_in + 0.5))
+    L.cut(pl, L.extrude_polygon("pinsb", lobed_poly(us, pin["hole_bottom"] / 2), v_bot_in + 0.3 + HV / 2 + 1.0, Mv, z0=-HV / 2 - 1.0))
+    L.cut(pl, L.extrude_polygon("cbores", lobed_poly(us, cb_d / 2), cb_h + 1.0, Mv, z0=HV / 2 - cb_h))
     L.cut(pl, cyl("lanyard", (-HU / 2 + 4.0, 0.0, 0.0), 1.1, T + 2.0, verts=12))
     return pl
 
@@ -200,7 +231,7 @@ PARTS = {
     "nape_dial": (make_dial, L.rot_dir_to(N_OUT, (0, 0, -1)), ["print outer face down (well and key screw holes down), teeth up; no supports"]),
     "nape_key": (make_key, L.rot_dir_to(N_OUT, (0, 0, 1)), ["print ring down, ribs up; two M3 x 6 into the dial face"]),
     "nape_retainer": (make_retainer, L.rot_dir_to(N_OUT, (0, 0, 1)), ["print flat, nut pocket up; press an M5 nut in, run it down the axle against the spring to the chosen preload, thread-lock"]),
-    "nape_pinlock": (make_pinlock, L.rot_dir_to(N_OUT, (0, 0, 1)), ["print either face down (6.6 x 15 mm tunnel bridges); no supports", "slide both racks in, drop the 2 mm nail through the hole whose tooth spaces line up (u = 0 or u = p/2); tie the nail to the lanyard hole"]),
+    "nape_pinlock": (make_pinlock, L.rot_dir_to(M.to_3x3() @ Vector((0.0, 1.0, 0.0)), (0, 0, 1)), ["print standing on its bottom end (nail holes vertical and round; 6.6 mm tunnel bridges); brim", "slide both racks in, drop the two 2 mm nails through the pair of holes whose tooth spaces line up (0 + p, or p/2 + 3p/2); heads flush; tie both to the lanyard hole"]),
     "nape_pinion": (make_pinion, L.rot_dir_to(N_OUT, (0, 0, 1)), ["print pinion down, lugs up; no supports"]),
 }
 
