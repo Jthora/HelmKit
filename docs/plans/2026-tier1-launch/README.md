@@ -21,7 +21,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 
 | ID | Track | Status | Wiki-blocked? | Design doc |
 |----|-------|--------|---------------|------------|
-| **A** | Wiki content → engineering translation | `blocked-pending` | yes | [track-A-wiki-translation.md](track-A-wiki-translation.md) |
+| **A** | Wiki content → engineering translation | `in-progress` (unblocked 2026-08-05) | no | [track-A-wiki-translation.md](track-A-wiki-translation.md) |
 | **B** | `tools/wiki_sync.py` — auto-ingestion tool | `done` (commit `31ea41a`) | no | [track-B-wiki-sync-tool.md](track-B-wiki-sync-tool.md) |
 | **C** | Original math derivations (`docs/derivations/`) | `v0` (bifilar landed) | no | [track-C-derivations.md](track-C-derivations.md) |
 | **D** | Executable notebooks (figures for Field Notes) | `v0` (script-only; `.ipynb` deferred) | no | [track-D-notebooks.md](track-D-notebooks.md) |
@@ -32,7 +32,9 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **I** | Pre-Hardware Sprint (Mk0.5 BOM + wiring + G2 protocol + capture tool) | `landed` | no | [track-I-pre-hardware-sprint.md](track-I-pre-hardware-sprint.md) |
 | **J** | Mk0.5 Sensor Bring-up Sprint (MAX30102/MLX90614/MAX30205/GSR/AD8232 drivers + G2 analyser + G2 closure) | `in-progress` (commits 1–3 landed) | no | [track-J-sensor-bring-up.md](track-J-sensor-bring-up.md) |
 | **K** | Bench Readiness & Hardware-Latency Reduction (capture analyser + bench quickstart + J-4/5/6 scaffolds) | `scoped` | no | [track-K-bench-readiness.md](track-K-bench-readiness.md) |
-| **M** | Combat Trim (pad-free sensing under motion and sweat, sensor bar, pad frames, five modes with cues, Sanctuary + Combat gates) | `scoped` (2026-09-11); v0.12/v0.13 mechanical + host-side sensing reference landed | no | [track-M-combat-trim.md](track-M-combat-trim.md) |
+| **L** | Foundational Psionics Research (literature grounding, Dicke-scaling test design, confound rejection, forced-choice pilot protocol) | `v0-landed` | no | [track-L-psionics-foundational-research.md](track-L-psionics-foundational-research.md) |
+| **M** | Combat Trim (pad-free sensing under motion and sweat, sensor bar, pad frames, five modes with cues, Sanctuary + Combat gates) | `scoped` (2026-09-11) | no | [track-M-combat-trim.md](track-M-combat-trim.md) |
+| **N** | Capability Robustness (fail-loud channels, bus recovery, brownout and link-loss survival, buttons + OLED, capture service, replay equivalence, CI on the Mk0.5 target) | `scoped` (2026-09-11) | no | [track-N-capability-robustness.md](track-N-capability-robustness.md) |
 
 ---
 
