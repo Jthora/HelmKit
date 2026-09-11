@@ -1,6 +1,6 @@
 # Track N — Capability robustness (firmware + host software)
 
-**Status:** `scoped` (2026-09-11). Nothing in this track needs money except the IMU already planned under Track M.
+**Status:** `phase-0-built` (2026-09-11: N-D1, N-D2, N-T1, N-T2, N-F1, N-F2, N-F4, N-F6, N-L1, N-H2 landed; 12 native + 217 host tests; target builds). Nothing in this track needs money except the IMU already planned under Track M.
 **Owner:** firmware/mk0.5 + tools/. **Builds on:** [track-M-combat-trim.md](track-M-combat-trim.md) §7 (M-F1..M-F6), [track-E](track-E-firmware-wave-m1.md), [track-J](track-J-sensor-bring-up.md), [track-K](track-K-bench-readiness.md).
 
 ## 1. Purpose
@@ -116,7 +116,7 @@ N-G1 and N-G4 need only the hardware already on hand. N-G5 needs the nape pod pr
 
 | Phase | Needs | Items | Delivers |
 |---|---|---|---|
-| 0 · now, ~3 days | nothing | N-D1, N-D2, N-T1, N-T2, N-F1, N-F2, N-F6, N-F4, N-L1, N-H2 | CI on the real target, attributable restarts and gaps, bus recovery, an analyser that never crashes |
+| 0 · **done 2026-09-11** | nothing | N-D1, N-D2, N-T1, N-T2, N-F1, N-F2, N-F6, N-F4, N-L1, N-H2 | CI on the real target, attributable restarts and gaps, bus recovery, an analyser that never crashes. Bench gates N-G1..G4 still to run on hardware. |
 | 1 · with the IMU, ~4 days | IMU ~$5, switches | N-S4, N-U1, N-U3, N-F3, N-F5, N-F7, N-S1..N-S3, N-T3, N-T4 | real stillness and impacts, buttons with guards, clean low-battery ending, self-tests, the bench checklist |
 | 2 · ~4 days | nothing | N-L2, N-L3, N-H1, N-U2, N-S5, N-S6, N-H4, N-D3 | survives a yanked link, OLED status, fusion and sweat rule on the helm, equivalence tool |
 | 3 · after M-G2 | one real capture | N-H3, N-G6 | golden fixtures, the equivalence gate closed |

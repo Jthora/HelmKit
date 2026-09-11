@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import io
+import contextlib
 import json
 import math
 import os
@@ -319,3 +320,116 @@ class Cli(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Hardening(unittest.TestCase):
+    """Track N, N-H2: the analyser never crashes on a capture and reports what it could not use."""
+
+    def _dirty_session(self, tmp: str) -> str:
+        path = os.path.join(tmp, "dirty.ndjson")
+        build_session(path, with_imu=False)
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write("this is not json\n")
+            fh.write("\x00\xff garbage \n")
+            fh.write('{"t": NaN, "ch": "gsr", "v": 1}\n')
+            fh.write('{"t": Infinity, "ch": "gsr", "v": 1}\n')
+            fh.write('{"t": 1.0, "ch": "gsr", "v": true}\n')
+            fh.write('{"t": 1.0, "ch": "gsr", "v": [1, 2]}\n')
+            fh.write('{"t": 1.0, "ch": "gsr", "v": {"a": 1}}\n')
+            fh.write('{"t": 1.0, "ch": "", "v": 1}\n')
+            fh.write('{"t": "1.0", "ch": "gsr", "v": 1}\n')
+            fh.write('[1, 2, 3]\n')
+            fh.write('"just a string"\n')
+            fh.write('{"t": 1.0, "v": 1}\n')
+            fh.write('{"t":0.5,"kind":"hello","mk":50,"boot":"abc"}\n')
+            fh.write('{"t":0.6,"kind":"boot","reason":"poweron","boot":"abc"}\n')
+            fh.write('{"t":5.0,"ch":"hb","v":5.0,"q":"ok","drops":3,"boot":"abc"}\n')
+            fh.write('{"t":10.0,"ch":"hb","v":10.0,"q":"ok","drops":7,"boot":"abc"}\n')
+            fh.write('{"t":11.0,"ch":"gsr","v":1500,"q":"ok","boot":"abc","n":100}\n')
+            fh.write('{"t":11.1,"ch":"gsr","v":1501,"q":"ok","boot":"abc","n":101}\n')
+            fh.write('{"t":11.2,"ch":"gsr","v":1502,"q":"ok","boot":"abc","n":105}\n')   # 102..104 lost
+            fh.write('{"t":11.2,"ch":"gsr","v":1502,"q":"ok","boot":"abc","n":105}\n')   # duplicate
+        return path
+
+    def test_malformed_lines_are_counted_not_fatal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rep = M.analyze(self._dirty_session(tmp))
+            self.assertEqual(rep.integrity["skipped"], 12)
+            self.assertGreaterEqual(rep.integrity["meta"], 2)              # the two appended plus whatever build_session wrote
+            self.assertEqual(rep.integrity["duplicates"], 1)
+            self.assertEqual(rep.integrity["lost"], 3)
+            self.assertEqual(rep.integrity["firmware_drops"], 7)
+            self.assertIn("abc", M.load_capture(self._dirty_session(tmp)).boots)
+            self.assertTrue(rep.rounds)                                  # the session underneath still scores
+            self.assertIn("lost", rep.capabilities["link"])
+            self.assertTrue(any("skipped" in n for n in rep.notes))
+
+    def test_strict_exit_code(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            dirty = self._dirty_session(tmp)
+            clean = os.path.join(tmp, "clean.ndjson")
+            build_session(clean, with_imu=True)
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(M.main([dirty, "--strict"]), 2)
+                self.assertEqual(M.main([dirty]), 0)
+                self.assertEqual(M.main([clean, "--strict"]), 0)
+
+    def test_capabilities_name_what_is_missing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "s.ndjson")
+            build_session(p, with_imu=False)
+            rep = M.analyze(p)
+            self.assertTrue(rep.capabilities["hr"].startswith("ok"))
+            self.assertTrue(rep.capabilities["hrv"].startswith("provisional"))
+            self.assertTrue(rep.capabilities["impacts"].startswith("unavailable"))
+            self.assertTrue(rep.capabilities["stillness"].startswith("unavailable"))
+            self.assertEqual(rep.capabilities["link"], "ok")
+            build_session(p, with_imu=True)
+            rep = M.analyze(p)
+            self.assertEqual(rep.capabilities["hrv"], "ok")
+            self.assertEqual(rep.capabilities["impacts"], "ok")
+
+    def test_empty_and_meta_only_captures(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "empty.ndjson")
+            open(p, "w").close()
+            rep = M.analyze(p)
+            self.assertEqual(rep.duration_s, 0.0)
+            self.assertTrue(rep.capabilities["hr"].startswith("unavailable"))
+            with open(p, "w") as fh:
+                fh.write('{"t":0.1,"kind":"hello","boot":"x"}\n{"t":0.2,"kind":"boot","reason":"sw","boot":"x"}\n')
+            rep = M.analyze(p)
+            self.assertEqual(rep.integrity["meta"], 2)
+            self.assertEqual(rep.integrity["boots"], 1)
+
+    def test_two_boots_are_stitched_end_to_end(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "boots.ndjson")
+            with open(p, "w", encoding="utf-8") as fh:
+                # boot A: 0..100 s with a round, then a reset; boot B restarts at t 0 with another round
+                for boot, cue_t in (("aaaa", (10.0, 70.0)), ("bbbb", (5.0, 65.0))):
+                    fh.write(json.dumps({"t": 0.1, "kind": "boot", "reason": "poweron" if boot == "aaaa" else "brownout", "boot": boot}) + "\n")
+                    fh.write(json.dumps({"t": cue_t[0], "ch": "cue", "v": "round-start", "boot": boot}) + "\n")
+                    t = cue_t[0]
+                    while t < 100.0:
+                        fh.write(json.dumps({"t": round(t, 3), "ch": "ppg-rr", "v": 600, "q": "ok", "boot": boot}) + "\n")
+                        t += 0.6
+                    fh.write(json.dumps({"t": cue_t[1], "ch": "cue", "v": "round-end", "boot": boot}) + "\n")
+            cap = M.load_capture(p)
+            self.assertEqual(cap.time_base, "stitched")
+            self.assertEqual(cap.boots, ["aaaa", "bbbb"])
+            self.assertGreater(cap.t_max, 190.0)                         # second boot re-based after the first
+            rep = M.analyze(p)
+            self.assertEqual(len(rep.rounds), 2)
+            self.assertGreater(rep.rounds[1].t_start, rep.rounds[0].t_end)
+            self.assertTrue(any("re-based" in n for n in rep.notes))
+
+    def test_wallclock_preferred_when_present_everywhere(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "wall.ndjson")
+            with open(p, "w", encoding="utf-8") as fh:
+                for i in range(20):
+                    fh.write(json.dumps({"t": i * 0.6, "t_wallclock": 1.7e9 + i * 0.6, "ch": "ppg-rr", "v": 600, "q": "ok", "boot": "w"}) + "\n")
+            cap = M.load_capture(p)
+            self.assertEqual(cap.time_base, "wallclock")
+            self.assertGreater(cap.t_min, 1.6e9)

@@ -12,6 +12,31 @@ on:
   workflow_dispatch:
 
 jobs:
+  mk05-platformio:
+    name: mk0.5 build + native tests (Track N, N-T1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Cache PlatformIO
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            firmware/mk0.5/.pio
+          key: pio-${{ runner.os }}-${{ hashFiles('firmware/mk0.5/platformio.ini') }}
+          restore-keys: pio-${{ runner.os }}-
+      - name: Install PlatformIO
+        run: pip install platformio==6.1.19
+      - name: Native unit tests (Arduino-free modules)
+        working-directory: firmware/mk0.5
+        run: pio test -e native
+      - name: Build the Heltec V3 target
+        working-directory: firmware/mk0.5
+        run: pio run -e mk05_heltec_v3
+
   compile-and-smoketest:
     name: compile + smoketest
     runs-on: ubuntu-latest

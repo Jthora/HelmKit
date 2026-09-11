@@ -9,6 +9,7 @@
 #include <MAX30105.h>   // SparkFun MAX3010x library, pinned 1.1.2
 
 #include "board/pins.h"
+#include "board/watchdog.h"
 #include "drivers/smoke_fail.h"
 
 namespace helmkit::drivers {
@@ -183,6 +184,7 @@ SmokeResult max30102_smoke_test() {
     uint32_t last_count = 0;
 
     while (millis() < t_end) {
+        board::wdt_feed();                       // Track N: this loop runs 10 s
         dev.pump(on_sample);
         if (g_smoke.count != last_count) {
             last_count = g_smoke.count;

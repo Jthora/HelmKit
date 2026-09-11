@@ -46,8 +46,15 @@ schematic rev. 2.1.
 | GPIO 6     | AD8232 LO+ (leads-off +)    | input           | Wave 2. |
 | GPIO 7     | AD8232 LO- (leads-off -)    | input           | Wave 2. |
 | GPIO 35    | Status LED (heartbeat)      | output          | Soft PWM, 1 Hz idle / 4 Hz acquiring / solid on fault. |
-| GPIO 45    | RESERVED — Wave 2 spare     | —               | Held for Mk1.0 dual-MCU UART or stim safety interlock. |
-| GPIO 46    | RESERVED — Wave 2 spare     | —               | (as above) |
+| GPIO 45    | RESERVED — Wave 2 spare     | —               | Held for Mk1.0 dual-MCU UART or stim safety interlock. **Strapping pin** (VDD_SPI voltage): never a pulled-up input. |
+| GPIO 46    | RESERVED — Wave 2 spare     | —               | (as above) **Strapping pin** (boot mode with GPIO 0). |
+| GPIO 26    | Button: round (planned, Track N N-U1) | input, pull-up | Nape pod tact switch. Short press = round start / end. Not wired yet. |
+| GPIO 33    | Button: prime / session (planned) | input, pull-up | Short = prime; long (1.5 s) = session start / end. Not wired yet. |
+| GPIO 34    | Button: tally (planned)     | input, pull-up  | The large cap. Intrusion tally. Not wired yet. |
+| GPIO 40    | Slide: sanctuary (planned)  | input, pull-up  | Sanctuary on / off. Not wired yet. |
+| GPIO 47    | IMU INT1 (planned, N-S4)    | input           | LSM6DS3-class IMU on the external I²C bus 1 (0x6A / 0x6B); high-g or data-ready interrupt. Not wired yet. |
+
+Planned pins were chosen off the ESP32-S3 strapping set (GPIO 0, 3, 45, 46) and off the LoRa lines (8–14, wired to the SX1262 on the board). `board/pins.h` carries them as constants so wiring and firmware land against the same numbers.
 
 ---
 
@@ -113,3 +120,4 @@ supply is reserved for Mk1.0+ coil-driver bring-up.
 | Date       | Author      | Change                                      |
 |------------|-------------|---------------------------------------------|
 | 2026-05-15 | (operator)  | Initial draft, Day 1 morning.               |
+| 2026-09-11 | Track N     | Planned rows for the nape pod buttons (26, 33, 34, 40) and the IMU interrupt (47), off the strapping pins; 45 / 46 flagged as strapping. Nothing wired. |

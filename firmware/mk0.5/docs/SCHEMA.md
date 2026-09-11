@@ -75,7 +75,23 @@ so captures made by hand-wired sensors can be scored before the firmware exists.
 | `imu`             | 6-axis IMU                          | 50–100 Hz | packed or per-axis | Layout to be fixed with the IMU purchase (Track M phase 1). |
 | `cue` values      | Mk0.5 L0 / host                     | event  | string          | Adds `round-start`, `round-end`, `prime`, `sanctuary`, `tally` (operator keys m M b B i n y) to the v0.2 set (`inhale`, `exhale`, `hold`, `session-start`, `session-end`), and the mode machine's outputs `mode:<name>`, `tally-ack`, `impact:<N>g`, `summary:tally=<N>` (`layers/modes`). |
 
-### 2.4 Reserved channel namespaces (do NOT use without coordination)
+### 2.4 Track N line kinds and fields (emitted since 2026-09-11)
+
+Robustness plumbing from `docs/plans/2026-tier1-launch/track-N-capability-robustness.md`. The analyser reads all of them;
+psiStabilizer ingest ignores unknown fields and `kind` lines.
+
+| Line / field | Shape | Notes |
+|---|---|---|
+| `n` (every line) | uint32, per boot, starts at 1 | The `seq` promised in §5 rule 3, per line rather than per channel. A line that could not be written (link down, TX ring full) still consumes a number, so a gap in `n` is exactly one lost line. |
+| `kind: boot` | `{"t","kind":"boot","reason","reason_num","wdt","mk","git","schema","boot"}` | First line after `hello`. `reason` from `esp_reset_reason()`: `poweron`, `sw`, `panic`, `int-wdt`, `task-wdt`, `wdt`, `brownout`, `deepsleep`, `ext`, `sdio`, `unknown`. `wdt` = 1 when the loop task joined the 5 s task watchdog. |
+| `ch: hb` | `{"t","ch":"hb","v":<uptime s>,"q":"ok","drops","drops_ev","link_down","heap","boot"}` | Every 5 s. `drops` is cumulative per boot (all classes), `drops_ev` the event-class subset, `link_down` the subset lost while no host was attached. A gap in `hb` is a link gap, not a sensor gap. |
+| `kind: health` | `{"t","kind":"health","source","from","to","attempt","note","boot"}` | One line per driver health transition (gap / ok flapping rate-limited to one per 2 s) and per re-begin attempt; `source` is `ppg-hrv`, `temp`, `gsr` or `i2c1` (bus recovery). |
+
+Drop policy (Track N §2 rule 4): raw sample lines (`gsr`, `temp-*`) are the `raw` class and are shed first; RR intervals,
+breaths, cues, health, heartbeat, boot, smoke and error lines are the `event` class. Phase 0 counts both; Phase 2 buffers
+the event class to flash while the link is down.
+
+### 2.5 Reserved channel namespaces (do NOT use without coordination)
 
 - `eeg-*` — reserved for OpenBCI / Mk2.0 (psiStabilizer A02).
 - `ambient-*` — reserved for environmental sensors (psiStabilizer A01).
@@ -135,8 +151,8 @@ detect noise online.
    migrate, deprecate.
 2. **Never change a channel's raw unit** without a major schema bump.
 3. **Adding a field to a line object** (e.g. `seq`) requires consumer-side
-   handling first. Mk0.5 firmware will add `seq` (monotonic per-channel
-   sample counter) at the v0.2 bump for drop-detection.
+   handling first. Landed 2026-09-11 as `n` (§2.4): a monotonic per-boot line
+   counter, consumed by `tools/analyze_combat_session.py` for lost-line counts.
 4. **The Pi log-sink is allowed to enrich**: e.g. inject a `t_wallclock`
    field at ingest, rename it back to `t` in the parquet rollup. The
    firmware-emitted file is the immutable record.

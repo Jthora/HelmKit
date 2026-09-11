@@ -23,9 +23,11 @@ namespace helmkit::log {
 
 namespace {
 
-bool g_attached = false;
+bool      g_attached = false;
+LinkStats g_stats;
+uint32_t  g_seq = 0;
 
-constexpr size_t kBufSz = 256;
+constexpr size_t kBufSz = 320;   // longest line (smoke result) ~210 B + ,"n":4294967295
 
 // Escape a free-form note into JSON-safe text. Replaces " and \ with _,
 // drops control chars. Truncates to at most `cap-1` bytes. Output is NUL-
@@ -45,19 +47,94 @@ void sanitize(const char* in, char* out, size_t cap) {
     out[j] = '\0';
 }
 
-void emit_line(const char* buf) {
-    if (!g_attached) return;
+// Central writer (Track N, N-F1). Appends the sequence number, checks the
+// link and the TX ring, never blocks: a line that does not fit is counted,
+// not waited for, so a yanked cable cannot stall the loop.
+void emit_line(char* buf, LineClass cls = LineClass::kEvent) {
+    ++g_seq;
+    const bool link = (bool)Serial;
+    g_attached = link;
+    if (!append_seq(buf, kBufSz, g_seq)) {
+        g_stats.note(cls, false, link);
+        return;
+    }
+    if (!link) {
+        g_stats.note(cls, false, false);
+        return;
+    }
+    const size_t len = strlen(buf);
+    if ((size_t)Serial.availableForWrite() < len + 2) {   // + CR LF
+        g_stats.note(cls, false, true);
+        return;
+    }
     Serial.println(buf);
+    g_stats.note(cls, true, true);
 }
 
 }  // namespace
 
 void init() {
     g_attached = (bool)Serial;
+#if defined(ARDUINO_USB_CDC_ON_BOOT) && ARDUINO_USB_CDC_ON_BOOT
+    // Never block on a host that is attached but not draining (the pre-check
+    // above makes this a backstop, not the mechanism).
+    Serial.setTxTimeoutMs(2);
+#endif
 }
 
 bool serial_attached() {
-    return g_attached;
+    return (bool)Serial;
+}
+
+const LinkStats& link_stats() {
+    return g_stats;
+}
+
+uint32_t seq() {
+    return g_seq;
+}
+
+void emit_boot(const char* reason, int reason_num, bool wdt_ok) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)millis() / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"kind\":\"boot\",\"reason\":\"%s\",\"reason_num\":%d,"
+             "\"wdt\":%d,\"mk\":%d,\"git\":\"%s\",\"schema\":\"%s\",\"boot\":\"%s\"}",
+             t, reason ? reason : "unknown", reason_num, wdt_ok ? 1 : 0,
+             HELMKIT_MK, HELMKIT_GIT_SHA, HELMKIT_SCHEMA_VERSION, hex);
+    emit_line(buf);
+}
+
+void emit_hb(uint32_t t_ms, uint32_t free_heap) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"hb\",\"v\":%.1f,\"q\":\"ok\","
+             "\"drops\":%lu,\"drops_ev\":%lu,\"link_down\":%lu,\"heap\":%lu,\"boot\":\"%s\"}",
+             t, (double)t,
+             (unsigned long)g_stats.dropped(), (unsigned long)g_stats.dropped_event,
+             (unsigned long)g_stats.link_down, (unsigned long)free_heap, hex);
+    emit_line(buf);
+}
+
+void emit_health(const char* source, const char* from, const char* to,
+                 uint16_t attempt, const char* note_in) {
+    char note[64];
+    sanitize(note_in, note, sizeof note);
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)millis() / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"kind\":\"health\",\"source\":\"%s\",\"from\":\"%s\","
+             "\"to\":\"%s\",\"attempt\":%u,\"note\":\"%s\",\"boot\":\"%s\"}",
+             t, source ? source : "?", from ? from : "?", to ? to : "?",
+             (unsigned)attempt, note, hex);
+    emit_line(buf);
 }
 
 void emit_hello() {
@@ -133,7 +210,6 @@ void emit_ppg_rr(uint32_t t_ms,
                  uint16_t rr_ms,
                  bool in_range,
                  float confidence) {
-    if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
@@ -154,7 +230,6 @@ void emit_temp_object(uint32_t t_ms,
                       float ambient_c,
                       bool in_range,
                       const char* channel) {
-    if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
@@ -165,13 +240,13 @@ void emit_temp_object(uint32_t t_ms,
              "{\"t\":%.3f,\"ch\":\"%s\",\"v\":%.2f,"
              "\"q\":\"%s\",\"boot\":\"%s\"}",
              t, channel, (double)object_c, q_obj, hex);
-    emit_line(buf);
+    emit_line(buf, LineClass::kRaw);
     // Ambient line; always q="ok" — ambient has no SCHEMA range gate.
     snprintf(buf, kBufSz,
              "{\"t\":%.3f,\"ch\":\"%s.amb\",\"v\":%.2f,"
              "\"q\":\"ok\",\"boot\":\"%s\"}",
              t, channel, (double)ambient_c, hex);
-    emit_line(buf);
+    emit_line(buf, LineClass::kRaw);
 }
 
 void emit_temp_forehead(uint32_t t_ms,
@@ -182,7 +257,6 @@ void emit_temp_forehead(uint32_t t_ms,
 }
 
 void emit_cue_at(uint32_t t_ms, const char* value) {
-    if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
@@ -198,7 +272,6 @@ void emit_cue(const char* value) {
 }
 
 void emit_resp_thermal(uint32_t t_ms, float breaths_per_min) {
-    if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
@@ -213,7 +286,6 @@ void emit_resp_thermal(uint32_t t_ms, float breaths_per_min) {
 void emit_gsr(uint32_t t_ms,
               uint16_t raw,
               bool in_range) {
-    if (!g_attached) return;
     char hex[17];
     boot_id_hex(hex);
     char buf[kBufSz];
@@ -223,7 +295,7 @@ void emit_gsr(uint32_t t_ms,
              "{\"t\":%.3f,\"ch\":\"gsr\",\"v\":%u,\"q\":\"%s\","
              "\"boot\":\"%s\"}",
              t, (unsigned)raw, q, hex);
-    emit_line(buf);
+    emit_line(buf, LineClass::kRaw);
 }
 
 }  // namespace helmkit::log

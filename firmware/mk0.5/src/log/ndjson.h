@@ -15,12 +15,35 @@
 #include "drivers/sensor.h"
 #include "drivers/smoke_fail.h"
 #include "drivers/smoke_result.h"
+#include "log/line.h"
 
 namespace helmkit::log {
 
-// Call once early in setup() — captures (bool)Serial into a module flag.
+// Call once early in setup(). Track N: the link state is re-read on every
+// line, so a cable plugged in after boot starts logging without a reset.
 void init();
 bool serial_attached();
+
+// Track N (N-F1): every line carries a per-boot sequence number `n`; lines
+// that could not be written (link down or TX buffer full) still consume one,
+// so a gap in `n` on the host is exactly one lost line. Counters per class.
+const LinkStats& link_stats();
+uint32_t         seq();
+
+// Track N (N-F2). Wire shape: {"t":<s>,"kind":"boot","reason":"<str>",
+//   "reason_num":<n>,"wdt":<0|1>,"mk":50,"git":"<sha>","schema":"...","boot":"<hex>"}
+void emit_boot(const char* reason, int reason_num, bool wdt_ok);
+
+// Track N (N-L1). Heartbeat every 5 s so the host can tell a link gap from a
+// sensor gap. Wire shape: {"t":<s>,"ch":"hb","v":<uptime_s>,"q":"ok",
+//   "drops":<u32>,"drops_ev":<u32>,"link_down":<u32>,"heap":<u32>,"boot":"<hex>"}
+void emit_hb(uint32_t t_ms, uint32_t free_heap);
+
+// Track N (N-F4). One line per driver health transition and per retry.
+// Wire shape: {"t":<s>,"kind":"health","source":"<n>","from":"<h>","to":"<h>",
+//   "attempt":<u16>,"note":"<str>","boot":"<hex>"}
+void emit_health(const char* source, const char* from, const char* to,
+                 uint16_t attempt, const char* note);
 
 // Wire shape: {"t":0.000,"kind":"hello","mk":50,"git":"<sha>","dirty":0,
 //              "schema":"...","boot":"<16-hex>","build":"<__DATE__ __TIME__>"}

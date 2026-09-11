@@ -9,13 +9,16 @@
 #include <Arduino.h>
 
 #include "board/adc_mutex.h"
+#include "board/i2c_recover.h"
 #include "board/pins.h"
+#include "board/watchdog.h"
 #include "drivers/max30102.h"
 #include "drivers/mlx90614.h"
 #include "drivers/gsr.h"
 #include "drivers/smoke_fail.h"
 #include "dsp/r_peak.h"
 #include "dsp/resp_thermal.h"
+#include "layers/backoff.h"
 #include "layers/modes.h"
 #include "layers/pacer.h"
 #include "log/ndjson.h"
@@ -125,6 +128,103 @@ bool                          g_gsr_streaming = false;
 
 void on_gsr_sample(const helmkit::drivers::GsrSample& s) {
     helmkit::log::emit_gsr(s.t_ms, s.raw, s.in_range);
+}
+
+// ---- Track N (N-F4 / N-L1): stream supervisor and heartbeat -----------------
+//
+// Driver health used to be sticky until the operator re-ran the smoke test.
+// Each streaming driver now has a supervisor record: every health transition
+// is logged, and a sticky fault (no-ack / overflow / error) on a stream the
+// operator wants running triggers re-begin attempts on the Backoff schedule
+// (5, 10, 20, then 60 s). Before an I²C re-begin the bus is recovered if a
+// slave is holding SDA. Gap <-> ok flapping is rate-limited to one line per
+// 2 s per stream so a finger lifting on and off cannot flood the log.
+struct StreamSupervisor {
+    const char*               source;
+    helmkit::layers::Backoff  bo;
+    helmkit::drivers::Health  last = helmkit::drivers::Health::kUninit;
+    uint32_t                  last_flap_ms = 0;
+};
+StreamSupervisor g_sv_ppg{"ppg-hrv"};
+StreamSupervisor g_sv_mlx{"temp"};
+StreamSupervisor g_sv_gsr{"gsr"};
+uint32_t         g_last_sv_ms = 0;
+uint32_t         g_last_hb_ms = 0;
+bool             g_wdt_ok     = false;
+
+bool sticky_fault(helmkit::drivers::Health h) {
+    using helmkit::drivers::Health;
+    return h == Health::kNoAck || h == Health::kOverflow || h == Health::kError;
+}
+
+bool soft_state(helmkit::drivers::Health h) {
+    using helmkit::drivers::Health;
+    return h == Health::kOk || h == Health::kGap || h == Health::kOutOfRange;
+}
+
+void recover_ext_bus_if_stuck() {
+    if (!helmkit::board::i2c_bus_stuck(helmkit::pins::kExtI2cSda)) return;
+    const bool ok = helmkit::board::i2c_bus_recover(Wire1, helmkit::pins::kExtI2cSda,
+                                                    helmkit::pins::kExtI2cScl, helmkit::pins::kExtI2cHz);
+    helmkit::log::emit_health("i2c1", "stuck", ok ? "released" : "stuck", 0, "9-clock bus recovery");
+}
+
+template <typename Retry>
+void supervise(StreamSupervisor& s, bool wanted, helmkit::drivers::Health h, uint32_t now, Retry retry) {
+    using helmkit::drivers::health_str;
+    if (h != s.last) {
+        const bool flap = soft_state(h) && soft_state(s.last);
+        if (!flap || (now - s.last_flap_ms) >= 2000) {
+            helmkit::log::emit_health(s.source, health_str(s.last), health_str(h), s.bo.attempts(),
+                                      sticky_fault(h) ? "fault" : "");
+            if (flap) s.last_flap_ms = now;
+        }
+        s.last = h;
+    }
+    if (!wanted) { s.bo.succeed(); return; }          // operator stopped it: nothing to retry
+    if (!sticky_fault(h)) { s.bo.succeed(); return; }
+    if (!s.bo.armed()) { s.bo.arm(now); return; }     // first retry 5 s after the fault
+    if (!s.bo.due(now)) return;
+    if (retry()) {
+        helmkit::log::emit_health(s.source, health_str(h), "ok", (uint16_t)(s.bo.attempts() + 1), "re-begin ok");
+        s.last = helmkit::drivers::Health::kOk;
+        s.bo.succeed();
+    } else {
+        s.bo.fail(now);
+        char note[40];
+        snprintf(note, sizeof note, "re-begin failed; next in %lus", (unsigned long)(s.bo.step_ms() / 1000));
+        helmkit::log::emit_health(s.source, health_str(h), health_str(h), s.bo.attempts(), note);
+    }
+}
+
+bool retry_ppg() {
+    recover_ext_bus_if_stuck();
+    helmkit::drivers::Max30102Config cfg;
+    cfg.sample_rate_hz = 100;
+    cfg.sample_avg = 4;
+    if (!g_ppg.begin(Wire1, cfg)) return false;
+    g_rpeak.reset();
+    return true;
+}
+
+bool retry_mlx() {
+    recover_ext_bus_if_stuck();
+    helmkit::drivers::Mlx90614Config cfg;
+    cfg.period_ms = 250;
+    return g_mlx.begin(Wire1, cfg);
+}
+
+bool retry_gsr() {
+    helmkit::drivers::GsrConfig cfg;
+    cfg.period_ms      = 20;
+    cfg.adc_timeout_ms = 5;
+    return g_gsr.begin(cfg);
+}
+
+void supervise_all(uint32_t now) {
+    supervise(g_sv_ppg, g_streaming,     g_ppg.health(), now, retry_ppg);
+    supervise(g_sv_mlx, g_mlx_streaming, g_mlx.health(), now, retry_mlx);
+    supervise(g_sv_gsr, g_gsr_streaming, g_gsr.health(), now, retry_gsr);
 }
 
 void on_ppg_sample(const helmkit::drivers::Max30102Sample& s) {
@@ -376,6 +476,13 @@ void poll_serial_commands() {
                 Serial.print(F("[main] thermopile channel: "));
                 Serial.println(g_thermal_on_nose ? F("temp-nose (sensor bar)") : F("temp-forehead (Mk0.5 wiring)"));
                 break;
+#ifdef HELMKIT_DEBUG
+            case 'W':
+                // Track N fault injection: spin without feeding the watchdog.
+                // Expected: reset within 5 s and a boot line with reason task-wdt.
+                Serial.println(F("[main] DEBUG: spinning for the task watchdog..."));
+                for (;;) { }
+#endif
             case '\n':
             case '\r':
             case ' ':
@@ -403,6 +510,8 @@ void prose_banner() {
                      "e=gsr-stream-start  E=gsr-stream-stop"));
     Serial.println(F(" combat modes (Track M): m=session-start  M=session-end  b=round-start  "
                      "B=round-end  i=prime  n=sanctuary  y=tally  N=thermopile forehead<->nose"));
+    Serial.println(F(" every line carries n (sequence); hb every 5 s; health lines on driver transitions; "
+                     "faulted streams re-begin at 5/10/20/60 s (Track N)"));
     Serial.println(F("===================================================="));
 }
 
@@ -412,6 +521,9 @@ void setup() {
     helmkit::ui::status_led_begin(helmkit::pins::kStatusLed);
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kBoot);
 
+    // Track N (N-F1): a 4 KB TX ring so a burst (a temp pair plus an RR line)
+    // does not overflow the default 256 B ring while the host is between polls.
+    Serial.setTxBufferSize(4096);
     Serial.begin(115200);
     // Give USB-CDC a moment to attach so the banner isn't lost.
     const uint32_t t0 = millis();
@@ -422,6 +534,10 @@ void setup() {
 
     prose_banner();
     helmkit::log::emit_hello();
+    // Track N (N-F2 / N-F6): why this boot happened, then the loop task joins
+    // the 5 s task watchdog (the smoke loops feed it themselves).
+    g_wdt_ok = helmkit::board::wdt_begin(5);
+    helmkit::log::emit_boot(helmkit::board::reset_reason_str(), helmkit::board::reset_reason_num(), g_wdt_ok);
 
     // Eager ADC1 mutex init (Wave I / R6). If this fails, every downstream
     // ADC consumer would get mutex-timeouts forever; surface the OS-layer
@@ -478,6 +594,15 @@ void loop() {
         g_modes.tick(now, hr, -1, NAN);
         apply_mode_pacer(now);
     }
+    if ((now - g_last_hb_ms) >= 5000) {                 // Track N (N-L1)
+        g_last_hb_ms = now;
+        helmkit::log::emit_hb(now, ESP.getFreeHeap());
+    }
+    if ((now - g_last_sv_ms) >= 1000) {                 // Track N (N-F4)
+        g_last_sv_ms = now;
+        supervise_all(now);
+    }
+    helmkit::board::wdt_feed();                         // Track N (N-F6)
     helmkit::ui::status_led_pump();
     poll_serial_commands();
     delay(10);

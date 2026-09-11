@@ -1,0 +1,36 @@
+name: host-tools
+
+on:
+  push:
+    paths:
+      - 'tools/**'
+      - 'tests/**'
+      - 'firmware/mk0.5/scripts/**'
+      - '.github/workflows/host-tools.yml'
+  pull_request:
+    paths:
+      - 'tools/**'
+      - 'tests/**'
+      - 'firmware/mk0.5/scripts/**'
+      - '.github/workflows/host-tools.yml'
+  workflow_dispatch:
+
+jobs:
+  unittest:
+    name: unittest (Track N, N-T2)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install tool deps
+        run: pip install -r tools/requirements.txt
+      - name: Host tests (stdlib runner; pytest is optional)
+        run: python -m unittest discover -s tests -t . -v 2>&1 | tail -20
+      - name: R-peak reference self-test
+        run: python firmware/mk0.5/scripts/rr_replay.py --self-test

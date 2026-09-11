@@ -188,6 +188,79 @@ void test_modes_millis_wrap() {
 
 }  // namespace
 
+// ---- Track N: pure pieces of the writer and the retry schedule -------------
+
+#include "layers/backoff.h"
+#include "log/line.h"
+
+void test_line_append_seq_before_closing_brace() {
+    char buf[64] = "{\"t\":1.000,\"ch\":\"cue\",\"v\":\"x\"}";
+    TEST_ASSERT_TRUE(helmkit::log::append_seq(buf, sizeof buf, 42));
+    TEST_ASSERT_EQUAL_STRING("{\"t\":1.000,\"ch\":\"cue\",\"v\":\"x\",\"n\":42}", buf);
+    // not a closed object: untouched
+    char open_obj[64] = "{\"t\":1.0";
+    TEST_ASSERT_FALSE(helmkit::log::append_seq(open_obj, sizeof open_obj, 1));
+    TEST_ASSERT_EQUAL_STRING("{\"t\":1.0", open_obj);
+    // no room: untouched
+    char tight[12] = "{\"a\":1}";
+    TEST_ASSERT_FALSE(helmkit::log::append_seq(tight, sizeof tight, 4294967295u));
+    TEST_ASSERT_EQUAL_STRING("{\"a\":1}", tight);
+    // exactly enough room for the largest sequence number
+    char fit[8 + 15 + 1] = "{\"a\":1}";
+    TEST_ASSERT_TRUE(helmkit::log::append_seq(fit, sizeof fit, 4294967295u));
+    TEST_ASSERT_EQUAL_STRING("{\"a\":1,\"n\":4294967295}", fit);
+}
+
+void test_link_stats_count_by_class_and_link() {
+    helmkit::log::LinkStats st;
+    st.note(helmkit::log::LineClass::kEvent, true, true);
+    st.note(helmkit::log::LineClass::kRaw, false, true);     // buffer full
+    st.note(helmkit::log::LineClass::kEvent, false, false);  // link down
+    st.note(helmkit::log::LineClass::kRaw, false, false);    // link down
+    TEST_ASSERT_EQUAL_UINT32(1, st.written);
+    TEST_ASSERT_EQUAL_UINT32(2, st.dropped_raw);
+    TEST_ASSERT_EQUAL_UINT32(1, st.dropped_event);
+    TEST_ASSERT_EQUAL_UINT32(2, st.link_down);
+    TEST_ASSERT_EQUAL_UINT32(3, st.dropped());
+    TEST_ASSERT_FALSE(st.link);
+}
+
+void test_backoff_schedule_5_10_20_60() {
+    helmkit::layers::Backoff bo;
+    TEST_ASSERT_FALSE(bo.armed());
+    TEST_ASSERT_FALSE(bo.due(0));
+    bo.arm(1000);
+    TEST_ASSERT_TRUE(bo.armed());
+    TEST_ASSERT_FALSE(bo.due(5999));
+    TEST_ASSERT_TRUE(bo.due(6000));                 // 5 s after the fault
+    bo.fail(6000);
+    TEST_ASSERT_EQUAL_UINT16(1, bo.attempts());
+    TEST_ASSERT_EQUAL_UINT32(16000, bo.next_ms());   // +10 s
+    bo.fail(16000);
+    TEST_ASSERT_EQUAL_UINT32(36000, bo.next_ms());   // +20 s
+    bo.fail(36000);
+    TEST_ASSERT_EQUAL_UINT32(96000, bo.next_ms());   // +60 s
+    bo.fail(96000);
+    TEST_ASSERT_EQUAL_UINT32(156000, bo.next_ms());  // stays at 60 s
+    TEST_ASSERT_EQUAL_UINT16(4, bo.attempts());
+    bo.succeed();
+    TEST_ASSERT_FALSE(bo.armed());
+    TEST_ASSERT_EQUAL_UINT16(0, bo.attempts());
+    bo.arm(200000);
+    TEST_ASSERT_EQUAL_UINT32(205000, bo.next_ms()); // schedule restarts from 5 s
+    bo.arm(300000);                                  // arming twice does not move it
+    TEST_ASSERT_EQUAL_UINT32(205000, bo.next_ms());
+}
+
+void test_backoff_millis_wrap() {
+    helmkit::layers::Backoff bo;
+    const uint32_t near_wrap = 0xFFFFFFFFu - 2000u;
+    bo.arm(near_wrap);                               // due at near_wrap + 5000 (wraps)
+    TEST_ASSERT_FALSE(bo.due(near_wrap + 4999u));
+    TEST_ASSERT_TRUE(bo.due(near_wrap + 5000u));     // 2999 after the wrap
+    TEST_ASSERT_TRUE(bo.due(near_wrap + 7000u));
+}
+
 void setUp() {}
 void tearDown() {}
 
@@ -201,5 +274,9 @@ int main(int, char**) {
     RUN_TEST(test_modes_timeouts);
     RUN_TEST(test_modes_ignore_events_outside_session);
     RUN_TEST(test_modes_millis_wrap);
+    RUN_TEST(test_line_append_seq_before_closing_brace);
+    RUN_TEST(test_link_stats_count_by_class_and_link);
+    RUN_TEST(test_backoff_schedule_5_10_20_60);
+    RUN_TEST(test_backoff_millis_wrap);
     return UNITY_END();
 }

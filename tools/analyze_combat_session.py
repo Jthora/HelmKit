@@ -121,7 +121,13 @@ class Capture:
     t_min: float | None = None
     t_max: float | None = None
     n_lines: int = 0
-    n_bad: int = 0
+    n_bad: int = 0            # malformed or non-numeric sample lines skipped
+    n_meta: int = 0           # hello / smoke / boot / health / error lines (kind, no ch)
+    n_dup: int = 0            # exact duplicate sample lines dropped
+    boots: list[str] = field(default_factory=list)   # boot ids in order of first appearance
+    seq_lost: int = 0         # lines the firmware numbered (`n`) but the capture never received
+    fw_drops: int = 0         # lines the firmware itself reported dropping (`hb` drops, per boot max, summed)
+    time_base: str = "boot"   # "wallclock" (t_wallclock on every line) | "boot" | "stitched" (several boots re-based, gaps unknown)
 
     def channel(self, *names: str) -> tuple[str | None, list[Sample]]:
         """First present channel of `names` (in order) and its samples."""
@@ -185,6 +191,8 @@ class SessionReport:
     impacts_total: int = 0
     impact_exposure_g: float = 0.0
     notes: list[str] = field(default_factory=list)
+    capabilities: dict[str, str] = field(default_factory=dict)   # Track N: each capability is "ok" or says why not
+    integrity: dict[str, object] = field(default_factory=dict)   # lines / skipped / meta / duplicates / lost / firmware_drops / boots / time_base
 
 
 # ---------------------------------------------------------------------------
@@ -192,9 +200,27 @@ class SessionReport:
 # ---------------------------------------------------------------------------
 
 
+def _finite(x) -> bool:
+    return isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(x)
+
+
 def load_capture(path: str | Path) -> Capture:
+    """Read an NDJSON capture without ever raising on its content (Track N, N-H2).
+
+    Malformed lines are counted and skipped. Meta lines (hello / smoke / boot / health) are counted, and boot ids are
+    collected from them and from every sample's `boot` field. Exact duplicate samples are dropped. `n` sequence gaps and
+    the heartbeat's `drops` counter are turned into a lost-line count. When the capture spans several boots and carries
+    no `t_wallclock`, each boot's `t` is re-based to start one second after the previous boot's last sample (the true gap
+    is unknown; the report says so). `t_wallclock` (added by the Pi log-sink, SCHEMA §3) is preferred over `t` when
+    present on every sample line.
+    """
     cap = Capture()
-    with open(path, "r", encoding="utf-8") as fh:
+    raw_rows: list[tuple[str, float, str, object, str]] = []   # (boot, t, ch, v, q)
+    seen: set[tuple] = set()
+    last_seq: dict[str, int] = {}
+    hb_drops: dict[str, int] = {}
+    n_wall = 0
+    with open(path, "r", encoding="utf-8", errors="replace") as fh:
         for raw in fh:
             raw = raw.strip()
             if not raw:
@@ -202,26 +228,88 @@ def load_capture(path: str | Path) -> Capture:
             cap.n_lines += 1
             try:
                 rec = json.loads(raw)
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, RecursionError, ValueError):
                 cap.n_bad += 1
                 continue
-            if not isinstance(rec, dict) or "ch" not in rec or "t" not in rec:
-                continue                        # hello / smoke lines are not samples
-            t, ch, v = rec.get("t"), rec.get("ch"), rec.get("v")
-            if not isinstance(t, (int, float)) or isinstance(t, bool) or not isinstance(ch, str):
+            if not isinstance(rec, dict):
                 cap.n_bad += 1
                 continue
-            t = float(t)
-            cap.t_min = t if cap.t_min is None else min(cap.t_min, t)
-            cap.t_max = t if cap.t_max is None else max(cap.t_max, t)
-            q = rec.get("q", "ok")
-            q = q if isinstance(q, str) else "ok"
-            if ch == "cue" and isinstance(v, str):
-                cap.cues.append(Event(t, v))
-            elif isinstance(v, (int, float)) and not isinstance(v, bool):
-                cap.numeric.setdefault(ch, []).append(Sample(t, float(v), q))
+            boot = rec.get("boot")
+            boot = boot if isinstance(boot, str) and boot else ""
+            if boot and boot not in cap.boots:
+                cap.boots.append(boot)
+            n = rec.get("n")
+            if isinstance(n, int) and not isinstance(n, bool):
+                prev = last_seq.get(boot)
+                if prev is not None and n > prev + 1:
+                    cap.seq_lost += n - prev - 1
+                if prev is None or n > prev:
+                    last_seq[boot] = n
+            if "ch" not in rec:
+                cap.n_meta += 1 if "kind" in rec else 0
+                if "kind" not in rec:
+                    cap.n_bad += 1
+                continue
+            ch, v = rec.get("ch"), rec.get("v")
+            if not isinstance(ch, str) or not ch:
+                cap.n_bad += 1
+                continue
+            tw = rec.get("t_wallclock")
+            if _finite(tw):
+                t = float(tw)
+                n_wall += 1
+            elif _finite(rec.get("t")):
+                t = float(rec["t"])
             else:
                 cap.n_bad += 1
+                continue
+            q = rec.get("q", "ok")
+            q = q if isinstance(q, str) else "ok"
+            if ch == "hb":
+                d = rec.get("drops")
+                if _finite(d):
+                    hb_drops[boot] = max(hb_drops.get(boot, 0), int(d))
+            if ch == "cue" and isinstance(v, str):
+                key = (boot, t, ch, v, q)
+            elif _finite(v):
+                v = float(v)
+                key = (boot, t, ch, v, q)
+            else:
+                cap.n_bad += 1
+                continue
+            if key in seen:
+                cap.n_dup += 1
+                continue
+            seen.add(key)
+            raw_rows.append(key)
+    cap.fw_drops = sum(hb_drops.values())
+
+    # time base: wall-clock on every sample line, or per-boot re-basing when the file spans boots
+    if raw_rows and n_wall == len(raw_rows):
+        cap.time_base = "wallclock"
+        offsets: dict[str, float] = {}
+    else:
+        boots_in_rows: list[str] = []
+        for b, *_ in raw_rows:
+            if b not in boots_in_rows:
+                boots_in_rows.append(b)
+        offsets = {}
+        if len(boots_in_rows) > 1:
+            cap.time_base = "stitched"
+            prev_end: float | None = None
+            for b in boots_in_rows:
+                ts = [r[1] for r in raw_rows if r[0] == b]
+                off = 0.0 if prev_end is None else prev_end + 1.0 - min(ts)
+                offsets[b] = off
+                prev_end = max(ts) + off
+    for boot, t, ch, v, q in raw_rows:
+        t += offsets.get(boot, 0.0)
+        cap.t_min = t if cap.t_min is None else min(cap.t_min, t)
+        cap.t_max = t if cap.t_max is None else max(cap.t_max, t)
+        if ch == "cue":
+            cap.cues.append(Event(t, v))            # type: ignore[arg-type]
+        else:
+            cap.numeric.setdefault(ch, []).append(Sample(t, v, q))   # type: ignore[arg-type]
     for ch in cap.numeric:
         cap.numeric[ch].sort(key=lambda s: s.t)
     cap.cues.sort(key=lambda e: e.t)
@@ -493,8 +581,16 @@ def analyze(path: str | Path, *, rounds: int | None = None, round_s: float = 180
     t1 = cap.t_max if cap.t_max is not None else 0.0
     rep = SessionReport(path=str(path), duration_s=t1 - t0, channels={k: len(v) for k, v in cap.numeric.items()},
                         thermal_channel=None, eda_channel=None, rr_channels=[], still_source="")
+    rep.integrity = {"lines": cap.n_lines, "skipped": cap.n_bad, "meta": cap.n_meta, "duplicates": cap.n_dup,
+                     "lost": cap.seq_lost, "firmware_drops": cap.fw_drops, "boots": len(cap.boots), "time_base": cap.time_base}
     if cap.n_bad:
         rep.notes.append(f"{cap.n_bad} unparseable or non-numeric sample lines skipped")
+    if cap.n_dup:
+        rep.notes.append(f"{cap.n_dup} duplicate sample lines dropped")
+    if cap.time_base == "stitched":
+        rep.notes.append(f"{len(cap.boots)} boots re-based end to end (the real gaps are unknown without t_wallclock)")
+    if cap.seq_lost or cap.fw_drops:
+        rep.notes.append(f"{cap.seq_lost} lines missing from the sequence; the firmware reported dropping {cap.fw_drops}")
 
     # rounds
     rnds = rounds_from_cues(cap.cues)
@@ -525,6 +621,20 @@ def analyze(path: str | Path, *, rounds: int | None = None, round_s: float = 180
     if not still_name:
         rep.notes.append("no IMU `still` channel: between-round rest is ASSUMED still; RMSSD values are provisional")
 
+    rep.capabilities = {
+        "hr": f"ok ({', '.join(rr_sources)})" if rr_sources else "unavailable: no RR channel",
+        "hrv": ("unavailable: no RR channel" if not rr_sources else
+                ("provisional: no IMU, rest assumed still" if not still_name else "ok")),
+        "breathing": ("unavailable: no thermal channel" if th_name is None else
+                      ("degraded: thermopile on the forehead, not the nose" if th_name == "temp-forehead" else "ok")),
+        "eda": ("unavailable: no EDA channel" if eda_name is None else
+                ("unchecked: no skin temperature for the sweat rule" if not skin else "ok")),
+        "impacts": "ok" if impacts else "unavailable: no IMU impact channel",
+        "stillness": "ok (imu)" if still_name else "unavailable: no IMU",
+        "link": ("ok" if not (cap.seq_lost or cap.fw_drops) else
+                 f"{cap.seq_lost} lines lost ({cap.fw_drops} reported dropped by the firmware)"),
+    }
+
     breaths = breath_times(thermal) if thermal else []
     scrs = scr_times(eda) if eda else []
     rep.tallies = sum(1 for e in cap.cues if e.v == CUE_TALLY)
@@ -548,6 +658,9 @@ def analyze(path: str | Path, *, rounds: int | None = None, round_s: float = 180
         if fused and len(hrs) < 0.5 * len(fused):
             rs.notes.append("HR reported in under half of the windows (motion / perfusion): in-round HR is coarse by design")
         rep.rounds.append(rs)
+    n_sweat = sum(1 for r in rep.rounds if r.eda_quality == "sweat")
+    if n_sweat and rep.capabilities.get("eda") == "ok":
+        rep.capabilities["eda"] = f"ok, sweat rule withheld EDA in {n_sweat} of {len(rep.rounds)} rounds"
 
     # per-rest
     for i, w in enumerate(rests):
@@ -680,6 +793,9 @@ def _f(v: float | None, fmt: str = "{:.1f}", none: str = "—") -> str:
 def format_report(r: SessionReport) -> str:
     lines = [f"combat session: {r.path}", f"  duration {r.duration_s:.0f} s; channels: " + ", ".join(f"{k} ({n})" for k, n in sorted(r.channels.items())),
              f"  RR sources: {', '.join(r.rr_channels) or 'none'}; thermal: {r.thermal_channel or 'none'}; EDA: {r.eda_channel or 'none'}; stillness: {r.still_source}",
+             f"  integrity: {r.integrity.get('lines', 0)} lines, {r.integrity.get('skipped', 0)} skipped, {r.integrity.get('duplicates', 0)} duplicate, "
+             f"{r.integrity.get('lost', 0)} lost ({r.integrity.get('firmware_drops', 0)} firmware drops); {r.integrity.get('boots', 0)} boot(s), time base {r.integrity.get('time_base', '?')}",
+             "  capabilities: " + "; ".join(f"{k} = {v}" for k, v in r.capabilities.items()),
              f"  intrusion tallies: {r.tallies}; impacts: {r.impacts_total} (cumulative {r.impact_exposure_g:.0f} g)"]
     for n in r.notes:
         lines.append(f"  note: {n}")
@@ -710,6 +826,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--thermal-channel", default=None, help="override: temp-nose (default) or temp-forehead")
     ap.add_argument("--eda-channel", default=None, help="override: eda-forehead (default) or gsr")
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--strict", action="store_true", help="exit 2 when any line was skipped as malformed (CI gate, Track N)")
     args = ap.parse_args(argv)
     if not Path(args.capture).exists():
         print(f"error: {args.capture} not found", file=sys.stderr)
@@ -717,13 +834,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         rep = analyze(args.capture, rounds=args.rounds, round_s=args.round_s, rest_s=args.rest_s,
                       thermal_channel=args.thermal_channel, eda_channel=args.eda_channel)
-    except (OSError, ValueError) as e:
+    except (OSError, ValueError, TypeError, KeyError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
     if args.json:
         print(json.dumps(asdict(rep), indent=2))
     else:
         print(format_report(rep))
+    if args.strict and rep.integrity.get("skipped", 0):
+        print(f"strict: {rep.integrity['skipped']} malformed line(s) skipped", file=sys.stderr)
+        return 2
     return 0
 
 

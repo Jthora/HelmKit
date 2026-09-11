@@ -5,6 +5,7 @@
 
 #include "board/adc_mutex.h"
 #include "board/pins.h"
+#include "board/watchdog.h"
 #include "drivers/smoke_fail.h"
 
 namespace helmkit::drivers {
@@ -100,6 +101,7 @@ SmokeResult gsr_smoke_test() {
     const uint32_t t_start = millis();
     const uint32_t t_end   = t_start + 3000;
     while (millis() < t_end) {
+        board::wdt_feed();                       // Track N
         dev.pump(on_sample);
         delay(2);
     }
