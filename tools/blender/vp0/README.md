@@ -9,8 +9,8 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | File | Role |
 |---|---|
 | `canon.py` | Every number: wearer measurements, disk + bayonet + lock boss, cylinder port standard, cradle nodes / lug / sockets, nexus, captive pin, crown, brow rails and tabs, pylons, rear halves, nape modules, foam, pad frames, sensor bar, cable channel, headgear fit rule. `python3 canon.py` prints a summary. |
-| `vp0lib.py` | Mesh helpers: revolve, chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
-| `build_disk.py` | Enclosed disk: dome shell with screw bosses, apex knob dish + boss; L and R back plates with the cam bayonet groove (lofted ring), the lock notch and the cable hole (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
+| `vp0lib.py` | Mesh helpers: revolve, cones (countersinks), chamfered ribbon sweep, centripetal Catmull-Rom, CDT-triangulated polygon extrusion, involute gear / rack / sawtooth / ridge / serration profiles, fillet pass, EXACT booleans, BVH overlap, mass properties, print-orientation export. |
+| `build_disk.py` | Enclosed disk: dome shell with screw bosses, apex knob dish + boss, rim print flat and unlock mark (prints on edge); L and R back plates with the cam bayonet groove (lofted ring), the lock notch and the cable hole (`--out-dir`). `bayonet_boss()` / `bayonet_cuts()` are shared with the coupon |
 | `build_nexus.py` | The NEXUS (PETG): L and R Ø68 flanges (hollow filleted stalk with the lock-pin hole, coil-cable bore, lanyard hole, head counterbores); spool with the notched hub and the spacer block; disk knob (shaft + eccentric); knob clip (`--out-dir`) |
 | `build_cradle_front.py` | Cradle U: 7 mm forehead + side band (lower edge rises at the forehead) with spine channels between the nodes, hub nodes (nexus bolt holes + inner-face nut pockets, arch socket, coil bore), LED bores, rear nodes (tenon socket, pylon socket), strap slots, pad-frame taps, sensor-bar pin sockets, and the v0.13 bottom-face cable channel with its groove up to the LED bore (×1, PETG). Exact-arc helpers `front_run` / `arc_span` / `arc_point` / `s_at_x` are shared with the pad and bar builders |
 | `build_crown_arch_half.py` | 20 × 7 arch half with a socketed foot over the hub node (coupler) (×2, same STL) |
@@ -85,3 +85,13 @@ workflow. Re-running `assemble_vp0.py` overwrites the file.
 - Two counterbores closer than their diameter merge into one; two holes and a slot end that touch leave zero walls. Space fasteners by at least their head diameter plus 1.5 mm.
 - A box that fills part of a filleted body must carry the same fillet, or its corners poke through the rounding as 0.3 mm slivers.
 - Cable placeholders are check objects: any pair they hit that is not in the expected set is a real routing conflict, so keep the expected set honest.
+
+### Print-readiness lessons (v0.14)
+
+- A shallow recess on the face that prints on the bed does not exist after slicing: the first layers bridge it and droop onto the bed (the nexus flange's 0.5 mm spool pocket). Put locating recesses on the top face or make them through-holes.
+- Symmetric tapers on a tenon always put one face at a shallow overhang; taper one side only and keep the straight face on the bed side of the print.
+- A shallow dome (sag 10 on Ø122) is within 19° of vertical everywhere when printed on edge and needs support over its whole interior when printed rim-down. Cut a 0.15 mm flat at the rim for a real first layer.
+- Countersinks and counterbores need their full diameter plus a wall inside the part's outline: a Ø5.6 countersink 3 mm from an edge breaks out.
+- Give a cone cutter's narrow end 0.1 mm more than the hole it meets so the solver never sees two coincident cylinders.
+- Expected-contact pairs in the collision report can hide real interference (the pawl tip against the un-notched hub): when a pair is expected, read the face count and the location, not just the flag.
+- Fastener tips: count the stack (counterbore floor to nut face) against the bolt length and relieve whatever the last 0.5 mm lands on.

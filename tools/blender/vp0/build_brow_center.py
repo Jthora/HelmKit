@@ -21,7 +21,7 @@ PRINT_ROT = L.rot_dir_to(C.BROW_EZ, (0, 0, 1))
 T, H, W = C.BROW_T, C.BROW_H, C.BROW_CENTER_W
 LID_RECESS = 2.2
 NOTES = ["print standing on the bottom face; brim; no supports; faceplate recess on the front, link pockets in the back face",
-         "sliders: two M3 x 10 thread-forming into each end face; lid: 4x M3 x 8"]
+         "links: one M3 x 16 per pocket from the underside, head in a Ø6.2 counterbore; lid: 4x M3 x 8"]
 
 
 def make():
@@ -47,6 +47,8 @@ def make():
         zt = -(C.RAIL_H + 0.3) / 2 + 0.5
         for d in C.BROW_LINK["screws_d"]:
             L.cut(panel, L.add_cyl_local("pscrew", Mk, (d, 0.0, (zb + zt) / 2), C.M3_CLEAR_DIA / 2, zt - zb, axis="Z", verts=16))
+            cbd, cbh = C.BROW_LINK["screw_cbore"]
+            L.cut(panel, L.add_cyl_local("pcbore", Mk, (d, 0.0, zb + cbh / 2 - 0.5), cbd / 2, cbh + 1.0, axis="Z", verts=20))   # head flush under the panel
         L.cut(panel, L.add_cyl_local("pcable", MP, (6.5, side * (C.BROW_CAV_W / 2 + 2.5), C.BROW_POCKET_Z - 4.0), 2.0, 9.0, axis="Y", verts=16))   # from the pocket's end straight into the cavity
     L.fillet(panel, width=1.0)    # last
     return panel

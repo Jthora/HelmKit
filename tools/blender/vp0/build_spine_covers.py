@@ -30,7 +30,8 @@ def cradle_runs():
 
 
 def strip(name, run_ch, offset_out, w, t):
-    return L.ribbon(name, CF.offset_outboard(run_ch, offset_out), CF.UP, [(w / 2 - 0.05, w / 2 - 0.05, t / 2, t / 2)] * len(run_ch))
+    hw = (w - C.SPINE["cover_clear"]) / 2
+    return L.ribbon(name, CF.offset_outboard(run_ch, offset_out), CF.UP, [(hw, hw, t / 2, t / 2)] * len(run_ch))
 
 
 def cover_front(run=None):
@@ -46,7 +47,8 @@ def cover_side(run=None):
 def cover_rear():
     run = RB.spine_run(RB.centre_pts())
     pts = RB.spine_pts(run, C.REAR_T / 2 - C.SPINE["rear_cover_t"] / 2)
-    return L.ribbon("cover_rear", pts, RB.W, [(C.SPINE["w"] / 2 - 0.05, C.SPINE["w"] / 2 - 0.05, C.SPINE["rear_cover_t"] / 2, C.SPINE["rear_cover_t"] / 2)] * len(pts))
+    hw = (C.SPINE["w"] - C.SPINE["cover_clear"]) / 2
+    return L.ribbon("cover_rear", pts, RB.W, [(hw, hw, C.SPINE["rear_cover_t"] / 2, C.SPINE["rear_cover_t"] / 2)] * len(pts))
 
 
 PARTS = {

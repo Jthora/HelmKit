@@ -61,6 +61,11 @@ def dome(side=+1):
     n_top = n_out(0.0)
     L.cut(shell, L.add_cyl_local("dish", M, (0.0, 0.0, n_top - ddep / 2 + 1.0), dd / 2, ddep + 2.0, axis="Z", verts=64))
     L.cut(shell, L.add_cyl_local("shafthole", M, (0.0, 0.0, n_top - 8.0), kb["hole"] / 2, 20.0, axis="Z", verts=32))
+    # v0.14: the dome prints ON EDGE (axis horizontal). A 0.15 mm flat at the rim's lowest point is its first layer (6 mm chord,
+    # invisible), and a small notch in the dish rim at the bottom marks the knob's unlocked position.
+    L.cut(shell, L.add_box("printflat", (C.CX, yc, C.CZ - C.DISK_R - 7.0 + C.DISK_PRINT_FLAT), (200.0, 80.0, 14.0)))
+    mw, md = C.DISK_UNLOCK_MARK
+    L.cut(shell, L.add_box("unlockmark", (C.CX, side * (C.DISK_OUT_Y - md / 2 + 0.5), C.CZ - dd / 2 - 0.5), (mw, md + 1.0, 2.0)))
     return shell
 
 
@@ -147,7 +152,7 @@ def back(side=+1):
 
 
 PARTS = {
-    "disk_dome": (lambda: dome(+1), L.ROT_Y_TO_Z, ["print dome up with tree supports under the shell (or on edge with a brim); 0.12 mm layers for the dome; the knob dish and Ø9 shaft hole sit at the apex",
+    "disk_dome": (lambda: dome(+1), L.ROT_NONE, ["print ON EDGE (axis horizontal) standing on the 6 mm rim flat with a wide brim; needs Z >= 125 mm; interior tree supports only under the apex boss and the rim crown (the shell itself is within 19 deg of vertical everywhere); 0.16 mm layers; 3 walls",
                                                     f"six M3 x 8 into the bosses hold the back plate; cavity {C.DISK_CAVITY} for the coil; no metal on the axis"]),
     "disk_back_L": (lambda: back(+1), L.ROT_Y_TO_Z, ["LEFT plate (lock boss down-front). print flat, bayonet boss up; no supports (3.5 mm groove ceiling bridges)",
                                                       "seat on the nexus flange with the lugs in the notches, quarter turn to the stop (it tightens), then turn the centre knob 180 deg: its eccentric drives the stalk pin into the boss notch"]),

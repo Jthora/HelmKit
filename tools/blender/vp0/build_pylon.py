@@ -103,10 +103,11 @@ def blade(side=+1, angle=None):
         return bw + (tw - bw) * t, bt + (tt - bt) * t
     zc0 = zf + 8.0
     zc1 = zf + (zt - zf) * (bt - 8.0) / (bt - tt)          # section 8 mm thick here
-    def inner(z):
-        w, h = outer(z)
-        return [(u, v + side * (h - rt) / 2) for (u, v) in octagon(w - 2 * wall, h - 2 * wall, 1.0)]
-    L.cut(tongue, loft("cavity", [(zc0, inner(zc0)), (zc1, inner(zc1))], M))
+    if wall:                                             # v0.14: None = solid blade, the slicer's infill does the lightening
+        def inner(z):
+            w, h = outer(z)
+            return [(u, v + side * (h - rt) / 2) for (u, v) in octagon(w - 2 * wall, h - 2 * wall, 1.0)]
+        L.cut(tongue, loft("cavity", [(zc0, inner(zc0)), (zc1, inner(zc1))], M))
     y_mid = side * (outer(zc1)[1] - rt) / 2
     L.cut(tongue, L.add_cyl_local("bore", M, (0.0, y_mid, (zc1 - 2.0 + zt + 1.0) / 2), C.PYLON_WIRE_D / 2, zt + 1.0 - (zc1 - 2.0), axis="Z", verts=16))
     L.cut(tongue, L.add_cyl_local("bolt", M, (0.0, 0.0, 0.0), C.M3_CLEAR_DIA / 2, rt + 4.0, axis="Y", verts=24))
@@ -133,7 +134,7 @@ def knob(side=+1):
 
 PARTS = {
     "pylon_base": (lambda: base(+1), L.ROT_FLIP, ["print inverted (ear tops on the bed, peg up); 16 mm bridge; no supports", "8 mm peg into the rear node's top socket, M3 cross-bolt; hinge M3 x 30 + wave washer, nut in the inner ear"]),
-    "pylon_blade": (lambda: blade(+1, 0.0), L.rot_dir_to(Vector((0.0, 1.0, 0.0)), (0.0, 0.0, 1.0)), ["print lying on the flat (inner) face; no supports", "Ø4 wire bore from the flare to the tip"]),
+    "pylon_blade": (lambda: blade(+1, 0.0), L.rot_dir_to(Vector((0.0, 1.0, 0.0)), (0.0, 0.0, 1.0)), ["print lying on the flat (inner) face; no supports; modelled solid: slice at 10-15 % gyroid (the mass report counts it solid)", "Ø4 wire bore from the flare to the tip"]),
     "pylon_knob": (lambda: knob(+1), L.ROT_Y_TO_Z, ["print flat; glue the M3 head into the pocket; tighten to lock the pylon"]),
 }
 

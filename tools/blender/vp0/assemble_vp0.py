@@ -141,8 +141,8 @@ def cable_runs(side):
     cb = C.CABLE_BORE
     xc, xl, zb = C.CX - cb["dx"], C.CX + cb["dx"], cb["z"]
     y_in = C.NODE_IN_Y - C.PAD_FRAME["gap"] - C.PAD_FRAME["plate_t"] - 2.5      # in the foam layer, head side of the hub / rear pad plates
-    coil = [(xc, s * (C.DISK_IN_Y + 8.0), zb), (xc, s * (C.NODE_IN_Y + 2.0), zb), (xc, s * (y_in + 1.0), zb), (xc - 3.0, s * y_in, zb - 6.0), (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 48.0),
-            (-45.0, s * y_in, 38.0), (-62.0, s * 84.0, 30.0),      # under the rear pad plate (z 44..68) and its MAX30205 pillar (-80.0, s * 73.0, 8.0), (-98.0, s * 54.0, -12.0), (-106.0, s * 38.0, -22.0), (-109.0, s * 20.0, -27.0),
+    coil = [(xc, s * (C.DISK_IN_Y + 8.0), zb), (xc, s * (C.NODE_IN_Y + 2.0), zb), (xc, s * (y_in + 1.0), zb), (xc - 3.0, s * y_in, zb - 6.0), (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 46.0),
+            (-45.0, s * y_in, 36.0), (-62.0, s * 84.0, 30.0),      # under the rear pad plate (z 42..68) and its MAX30205 pillar (z 43.7..56.3) (-80.0, s * 73.0, 8.0), (-98.0, s * 54.0, -12.0), (-106.0, s * 38.0, -22.0), (-109.0, s * 20.0, -27.0),
             (-110.0, 0.0, -42.0), (-110.0, 0.0, -80.0)]
     a = math.radians(C.RAIL_ANGLE)
     y_ch = s * (C.RAIL_Y0 + C.RAIL_T - 0.6 - C.RAIL_CHANNEL[1] / 2.0)
@@ -254,7 +254,7 @@ def bar_cable_runs(side):
          [at(build_cradle_front.s_at_x(pts, cc["x_end"] + 1.5, s), 0.25, zb_g + 1.6), at(s_groove, 1.6, zb_g + 3.0), at(s_groove, n_g, zb_g + 5.0),
           at(s_groove, n_g, zb_g + 9.0), at(s_groove, n_g, cc["groove_z"] - 1.0)] + \
          [(cc["x_end"], s * (C.CRADLE_SIDE_Y - T2 - 1.0), cc["groove_z"]), (cc["x_end"], s * (y_in + 1.0), cc["groove_z"] - 3.0), (31.0, s * y_in, 46.0), (10.0, s * y_in, 42.5), (-6.0, s * y_in, 46.0),
-          (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 48.0)]
+          (-14.0, s * y_in, 50.0), (-28.0, s * y_in, 46.0)]
     return cable(f"cable_bar.{'L' if s > 0 else 'R'}", wp, dia=cc["cable_d"])
 
 
@@ -370,7 +370,7 @@ def build_assembly(with_head=True, trim="full"):
             n0 = C.DISK_PLATE_T + 1.0
             R[f"coil_{tag}"] = style(L.foam_ring("coil", (C.CX, side * (C.DISK_IN_Y + n0), C.CZ), cd / 2, 18.0, ct - 2.0, axis="Y" if side > 0 else "-Y"), f"coil_apparatus.{tag}", "rope", ref)
     if full:
-        for side, tag in ((+1, "L"), (-1, "R")):    # lock pins (7.2 mm of 3.2 nail in the stalk top), pawl springs -- reference
+        for side, tag in ((+1, "L"), (-1, "R")):    # lock pins (7.8 mm of 3.2 nail in the stalk top), pawl springs -- reference
             lk = C.BAYONET_LOCK
             R[f"lockpin_{tag}"] = style(L.add_cyl("lockpin", (C.CX, side * (C.DISK_IN_Y + lk["n"]), C.CZ + (4.8 + 12.0) / 2), lk["pin_dia"] / 2, lk["pin_len"], axis="Z", verts=12), f"lock_pin.{tag}", "spring", ref)
             vp = C.VISOR_PAWL

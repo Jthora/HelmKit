@@ -166,6 +166,25 @@ def add_cyl(name, center, radius, depth, axis="Z", verts=64):
     return ob
 
 
+def add_cone(name, center, r_base, r_top, depth, axis="Z", verts=32):
+    """Truncated cone: r_base at the -axis end, r_top at the +axis end (countersinks: wide end toward the screw head)."""
+    bpy.ops.mesh.primitive_cone_add(radius1=r_base, radius2=r_top, depth=depth, vertices=verts)
+    ob = bpy.context.active_object
+    ob.name = name
+    ob.matrix_world = Matrix.Translation(Vector(center)) @ _axis_rot(axis)
+    apply_transform(ob)
+    return ob
+
+
+def add_cone_local(name, M: Matrix, center, r_base, r_top, depth, axis="Z", verts=32):
+    bpy.ops.mesh.primitive_cone_add(radius1=r_base, radius2=r_top, depth=depth, vertices=verts)
+    ob = bpy.context.active_object
+    ob.name = name
+    ob.matrix_world = M @ Matrix.Translation(Vector(center)) @ _axis_rot(axis)
+    apply_transform(ob)
+    return ob
+
+
 def add_cyl_local(name, M: Matrix, center, radius, depth, axis="Z", verts=48):
     bpy.ops.mesh.primitive_cylinder_add(radius=radius, depth=depth, vertices=verts)
     ob = bpy.context.active_object

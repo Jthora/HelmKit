@@ -56,7 +56,7 @@ def make():
     L.fillet(foot, width=1.0)
     L.union(arch, foot)
     z_mouth = C.CROWN_LEG_Z0 - fz
-    L.cut(arch, L.add_cyl("socket", (C.CX, C.HUB_SOCKET[1], z_mouth + C.CYL_DEPTH / 2 - 0.5), C.CYL_SOCKET_D / 2, C.CYL_DEPTH + 1.0, axis="Z", verts=48))
+    L.cut(arch, L.add_cyl("socket", (C.CX, C.HUB_SOCKET[1], z_mouth + C.CYL_DEPTH / 2 - 0.5), C.CROWN_FOOT_SOCKET_D / 2, C.CYL_DEPTH + 1.0, axis="Z", verts=48))   # prints horizontal: 0.2 more than the vertical cradle sockets
     L.cut(arch, L.add_cyl("cross", (C.CX, C.HUB_SOCKET[1], C.CROWN_CROSS_Z), C.M3_CLEAR_DIA / 2, fy + 4.0, axis="Y", verts=24))
     return arch
 

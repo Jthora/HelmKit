@@ -49,9 +49,11 @@ def tenon_frame(side):
 
 
 def tenon_poly(clear=0.0, side=+1):
-    t, mouth_h, depth, tip = C.CRADLE_TENON
+    """Tenon outline in (along T, along W). The W+ face (the band's top edge: on the bed in both prints) is straight; only the
+    W- face tapers, from the mouth half-height to the tip's lower half-height, so neither print has an overhang under the tenon."""
+    t, mouth_h, depth, tip_lo = C.CRADLE_TENON
     h = mouth_h / 2 + clear
-    return [(-1.0, -h), (depth + clear, -(tip + clear)), (depth + clear, tip + clear), (-1.0, h)]
+    return [(-1.0, -h), (depth + clear, -(tip_lo + clear)), (depth + clear, h), (-1.0, h)]
 
 
 def sbox(name, x0, x1, y0, y1, z0, z1, side, fillet=None):
@@ -233,7 +235,7 @@ def make():
     for s_ in sb["pins_s"]:
         p, Tv, N = arc_point(run, s_)
         p = Vector((p.x, p.y, sb["screw_z"]))
-        L.cut(band, normal_cyl("bpin", p, N, (sb["pin"][0] + 0.3) / 2, -T2 - 1.0, -T2 + sb["pin"][1] + 0.5, verts=20))
+        L.cut(band, normal_cyl("bpin", p, N, (sb["pin"][0] + sb["pin_fit"][0]) / 2, -T2 - 1.0, -T2 + sb["pin"][1] + 0.5, verts=20))
     p, Tv, N = arc_point(run, 0.0)
     L.cut(band, normal_cyl("btap", Vector((p.x, p.y, sb["screw_z"])), N, C.M3_TAP_DIA / 2, -T2 - 1.0, -T2 + 5.0))
     for side in (+1, -1):

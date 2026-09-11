@@ -81,9 +81,8 @@ def flange(side=+1):
     lk = C.BAYONET_LOCK
     Mp = radial_frame(lk["pin_world_deg"], side, y=y1 + lk["n"])
     L.cut(fl, L.add_cyl_local("pinhole", Mp, ((C.STALK_BORE / 2.0 - 1.0 + sd / 2.0 + 1.0) / 2.0, 0.0, 0.0), (lk["pin_dia"] + 0.2) / 2.0, sd / 2.0 - C.STALK_BORE / 2.0 + 2.0, axis="X", verts=16))
-    # spool hub pocket on the inner face; bolt holes with head counterbores on the outer face (under the disk plate)
-    hub_d = C.NEXUS_SPOOL[2]
-    L.cut(fl, ycyl("spoolp", C.CX, C.CZ, side, hub_d / 2.0 + 0.2, y0 - 1.0, y0 + 0.5, verts=64, rot=2.1))
+    # bolt holes with head counterbores on the outer face (under the disk plate). v0.14: no spool pocket on the inner face --
+    # that face is the print bed and a 0.5 mm recess there fills in; the hub now bears on the flat face and the bolts locate it.
     cd, cdep = C.NEXUS_HEAD_CBORE
     for (x, z) in C.NEXUS_BOLTS:
         L.cut(fl, ycyl("bolt", x, z, side, C.M3_CLEAR_DIA / 2.0, y0 - 1.0, y1 + 1.0, verts=16))
@@ -140,7 +139,7 @@ def disk_knob():
         a = 2 * math.pi * i / 8 + 0.1
         L.cut(k, L.add_cyl("grip", ((kd / 2.0 + 0.5) * math.cos(a), (kd / 2.0 + 0.5) * math.sin(a), kt / 2.0), 2.2, kt + 2.0, axis="Z", verts=16))
     L.union(k, L.add_cyl("shaft", (0.0, 0.0, kt - 0.1 + (L_shaft - el + 0.1) / 2.0), sd / 2.0, L_shaft - el + 0.1, axis="Z", verts=48))
-    L.union(k, L.add_cyl("ecc", (ecc, 0.0, kt + L_shaft - el / 2.0 - 0.1), sd / 2.0, el + 0.2, axis="Z", verts=40))
+    L.union(k, L.add_cyl("ecc", (ecc, 0.0, kt + L_shaft - el / 2.0 - 0.1), kb["ecc_d"] / 2.0, el + 0.2, axis="Z", verts=40))   # Ø6 offset 1: envelope 8.0 in the 8.2 bore
     gn = C.DISK_THICK + 0.2 - kb["clip_n"]                    # clip groove position along the shaft (from the knob face)
     L.cut(k, L.add_cyl("groove_out", (0.0, 0.0, gn), sd / 2.0 + 1.0, kb["clip"][2] + 0.2, axis="Z", verts=48))
     L.union(k, L.add_cyl("groove_core", (0.0, 0.0, gn), sd / 2.0 - 1.0, kb["clip"][2] + 0.4, axis="Z", verts=40))
@@ -157,10 +156,10 @@ def knob_clip():
 
 
 PARTS = {
-    "nexus_L": (lambda: flange(+1), L.ROT_Y_TO_Z, ["PETG, LEFT. print inner face down, stalk up; no supports (3 mm lug overhangs)", "three M3 x 30 from outside through spool and node into nuts in the node's inner face (thread-lock); lanyard cord through the flange hole to a strap slot; 7.2 mm piece of 3.2 nail in the stalk's top hole"]),
+    "nexus_L": (lambda: flange(+1), L.ROT_Y_TO_Z, ["PETG, LEFT. print inner face down, stalk up; no supports (3 mm lug overhangs)", "three M3 x 30 from outside through spool and node into nuts in the node's inner face (thread-lock); lanyard cord through the flange hole to a strap slot; 7.8 mm piece of 3.2 nail, outer end filed round, in the stalk's top hole (grease it: it is loose until the disk is on)"]),
     "nexus_R": (lambda: flange(-1), L.ROT_NEGY_TO_Z, ["PETG, RIGHT (mirrored). print inner face down, stalk up; no supports"]),
     "nexus_spool": (lambda: spool(+1), L.ROT_Y_TO_Z, ["PETG. print plate down, hub and spacer up; no supports", "the visor ring runs on the hub; its pawl drops into the notches at the visor positions; wave washer between ring and nexus flange"]),
-    "disk_knob": (disk_knob, L.ROT_NONE, ["PETG. print knob face down, shaft up (brim); the eccentric end is the top", "push through the dome's apex hole from outside, snap the C-clip into the groove from inside, then fit the plate; 180 deg = lock / unlock"]),
+    "disk_knob": (disk_knob, L.ROT_NONE, ["PETG. print knob face down, shaft up (brim); the eccentric end is the top", "push through the dome's apex hole from outside, snap the C-clip into the groove from inside, then fit the plate; index mark at the dish notch (bottom) = unlocked, mark up = locked"]),
     "knob_clip": (knob_clip, L.ROT_NONE, ["PETG. print flat; snaps into the shaft groove inside the dome"]),
 }
 def main():

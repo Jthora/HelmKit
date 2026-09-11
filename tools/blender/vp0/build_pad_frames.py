@@ -53,9 +53,15 @@ def front_plate():
         p, Tv, N = CF.arc_point(wide, s_)
         M = L.frame(Vector((p.x, p.y, pf["z"])), N, Tv)      # local x along the arc, y up, z inboard
         L.cut(plate, L.add_box_local(f"win_{kind}", M, (0.0, 0.0, d_c), (pw + 0.3, ph + 0.3, PT + 2.0)))
+    csk_d, csk_depth = C.PAD_FRAME["countersink"]
     for s_ in pf["screws_s"]:
         p, Tv, N = CF.arc_point(wide, s_)
-        L.cut(plate, CF.normal_cyl("screw", Vector((p.x, p.y, pf["screw_z"])), N, C.M3_CLEAR_DIA / 2, d_c - 2.0, d_c + 2.0))
+        q = Vector((p.x, p.y, pf["screw_z"]))
+        L.cut(plate, CF.normal_cyl("screw", q, N, C.M3_CLEAR_DIA / 2, d_c - 2.0, d_c + 2.0))
+        # 90-deg countersink opening on the head-side (inboard) face: wide end inboard
+        face = d_c + PT / 2
+        M = L.frame(q, N, (0.0, 0.0, 1.0))
+        L.cut(plate, L.add_cone_local("csk", M, (0.0, 0.0, face - csk_depth + (csk_depth + 0.5) / 2), C.M3_CLEAR_DIA / 2 + 0.1, csk_d / 2 + 0.5, csk_depth + 0.5, axis="Z", verts=24))
     return plate
 
 
@@ -100,12 +106,21 @@ def _pillar_pocket(pl, y_in, ft, wall, spec):
 
 
 def _holes(pl, y_c, spec):
+    csk_d, csk_depth = C.PAD_FRAME["countersink"]
+    y_in = y_c - PT / 2                                 # head-side face (side +1 build; mirrored later)
     for (x, z) in spec["screws"]:
         L.cut(pl, L.add_cyl("screw", (x, y_c, z), C.M3_CLEAR_DIA / 2, PT + 4.0, axis="Y", verts=16))
+        # 90-deg countersink: wide end (r csk_d/2 + 0.5) 0.5 outside the head face, narrowing to the hole at csk_depth
+        L.cut(pl, L.add_cone("csk", (x, y_in - 0.5 + (csk_depth + 0.5) / 2, z), csk_d / 2 + 0.5, C.M3_CLEAR_DIA / 2 + 0.1, csk_depth + 0.5, axis="Y", verts=24))
     for key in ("cable", "cross"):
         if key in spec:
             d, x, z = spec[key]
             L.cut(pl, L.add_cyl(key, (x, y_c, z), d / 2, PT + 4.0, axis="Y", verts=24))
+    if "bolt_relief" in spec:                           # shallow recesses on the band-side face over the nexus bolt tips
+        rd, rdep = spec["bolt_relief"]
+        y_out = y_c + PT / 2
+        for (x, z) in C.NEXUS_BOLTS:
+            L.cut(pl, L.add_cyl("brelief", (x, y_out - rdep + (rdep + 1.0) / 2, z), rd / 2, rdep + 1.0, axis="Y", verts=24))
 
 
 def hub(side=+1):
@@ -158,12 +173,12 @@ def foam_refs():
 
 
 PARTS = {
-    "pad_front": (front_plate, L.ROT_NONE, ["print standing on its bottom edge (curved plate), brim; the three carriers plug into the windows from the head side (epoxy); 8 mm foam glues over it, cut around the towers"]),
+    "pad_front": (front_plate, L.ROT_NONE, ["print standing on its bottom edge (curved plate), brim; countersunk M3 x 8 from the head side; the three carriers plug into the windows from the head side (epoxy); 8 mm foam glues over it, cut around the towers"]),
     "carrier_ppg": (carrier_ppg, L.ROT_NONE, ["print plug down (1.5 mm flange overhang is fine); MAX30102 module in the pocket, optical window toward the skin, cable out through the bottom notch"]),
     "carrier_eda": (carrier_eda, L.ROT_NONE, ["print x2, plug down; glue a conductive-fabric patch into the recess; wire to the GSR module's tip and ring"]),
-    "pad_hub_L": (lambda: hub(+1), L.ROT_NEGY_TO_Z, ["LEFT. print outer face down, seat up; bone-conduction transducer in the round seat; the coil cable passes the Ø6 hole; 4 mm foam around the pillar; the Ø6.5 hole clears the hub socket's cross-bolt"]),
+    "pad_hub_L": (lambda: hub(+1), L.ROT_NEGY_TO_Z, ["LEFT. print outer face down, seat up; countersunk M3 x 8 from the head side; put the three nexus nuts in the node pockets BEFORE this plate goes on (it captures them); the Ø5 recesses on the band face clear the bolt tips; the Ø7.5 hole clears the hub socket's cross-bolt nut or nail; bone-conduction transducer in the round seat; the coil cable passes the Ø5.4 hole"]),
     "pad_hub_R": (lambda: hub(-1), L.ROT_Y_TO_Z, ["RIGHT (mirrored). print outer face down, seat up"]),
-    "pad_rear_L": (lambda: rear(+1), L.ROT_NEGY_TO_Z, ["LEFT. print outer face down, pillar up; MAX30205 in the pocket (occipital skin); 4 mm foam; the Ø6.5 hole clears the rear socket's cross-bolt"]),
+    "pad_rear_L": (lambda: rear(+1), L.ROT_NEGY_TO_Z, ["LEFT. print outer face down, pillar up; countersunk M3 x 8; nail the rear-half tenon BEFORE this plate goes on (its edge crosses the nail head's counterbore); MAX30205 in the pocket (occipital skin); 4 mm foam; the Ø7.5 hole clears the rear socket's cross-bolt"]),
     "pad_rear_R": (lambda: rear(-1), L.ROT_Y_TO_Z, ["RIGHT (mirrored). print outer face down, pillar up"]),
 }
 
