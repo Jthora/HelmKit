@@ -78,6 +78,13 @@ void CombatModes::event(uint32_t t_ms, ModeCue cue) {
     }
 }
 
+void CombatModes::restore(uint32_t t_ms, uint32_t tally) {
+    in_session_ = true;
+    tally_ = tally;
+    mode_ = Mode::kNone;            // force the mode: line even if we were already Tranquil
+    enter_(Mode::kTranquil, t_ms);
+}
+
 void CombatModes::tick(uint32_t t_ms, float hr_bpm, int8_t still, float impact_g) {
     if (!in_session_ || mode_ == Mode::kNone) return;
     const bool have_hr = !isnan(hr_bpm);

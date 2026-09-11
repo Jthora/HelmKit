@@ -121,6 +121,67 @@ void emit_hb(uint32_t t_ms, uint32_t free_heap) {
     emit_line(buf);
 }
 
+void emit_num(const char* ch, uint32_t t_ms, float v, const char* q, LineClass cls) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"%s\",\"v\":%.3f,\"q\":\"%s\",\"boot\":\"%s\"}",
+             t, ch, (double)v, q ? q : "ok", hex);
+    emit_line(buf, cls);
+}
+
+void emit_str(const char* ch, uint32_t t_ms, const char* v) {
+    char val[48];
+    sanitize(v, val, sizeof val);
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"%s\",\"v\":\"%s\",\"boot\":\"%s\"}",
+             t, ch, val, hex);
+    emit_line(buf);
+}
+
+void emit_vbat(uint32_t t_ms, uint16_t raw, float volts, uint8_t pct) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"vbat\",\"v\":%u,\"q\":\"ok\",\"volts\":%.3f,\"pct\":%u,\"boot\":\"%s\"}",
+             t, (unsigned)raw, (double)volts, (unsigned)pct, hex);
+    emit_line(buf);
+}
+
+void emit_gsr_q(uint32_t t_ms, uint16_t raw, const char* q) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"gsr\",\"v\":%u,\"q\":\"%s\",\"boot\":\"%s\"}",
+             t, (unsigned)raw, q ? q : "ok", hex);
+    emit_line(buf, LineClass::kRaw);
+}
+
+void emit_temp_object_q(uint32_t t_ms, float object_c, float ambient_c, const char* q, const char* channel) {
+    char hex[17];
+    boot_id_hex(hex);
+    char buf[kBufSz];
+    const float t = (float)t_ms / 1000.0f;
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"%s\",\"v\":%.2f,\"q\":\"%s\",\"boot\":\"%s\"}",
+             t, channel, (double)object_c, q ? q : "ok", hex);
+    emit_line(buf, LineClass::kRaw);
+    snprintf(buf, kBufSz,
+             "{\"t\":%.3f,\"ch\":\"%s.amb\",\"v\":%.2f,\"q\":\"ok\",\"boot\":\"%s\"}",
+             t, channel, (double)ambient_c, hex);
+    emit_line(buf, LineClass::kRaw);
+}
+
 void emit_health(const char* source, const char* from, const char* to,
                  uint16_t attempt, const char* note_in) {
     char note[64];

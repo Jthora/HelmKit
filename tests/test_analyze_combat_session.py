@@ -433,3 +433,20 @@ class Hardening(unittest.TestCase):
             cap = M.load_capture(p)
             self.assertEqual(cap.time_base, "wallclock")
             self.assertGreater(cap.t_min, 1.6e9)
+
+    def test_string_event_channels_are_events_not_errors(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "btn.ndjson")
+            build_session(p, with_imu=False)
+            with open(p, "a", encoding="utf-8") as fh:
+                fh.write('{"t":12.0,"ch":"btn","v":"round:short","boot":"abc"}\n')
+                fh.write('{"t":13.0,"ch":"btn","v":"prime:long","boot":"abc"}\n')
+                fh.write('{"t":14.0,"ch":"cue","v":"low-battery","boot":"abc"}\n')
+            cap = M.load_capture(p)
+            self.assertEqual(len(cap.events["btn"]), 2)
+            self.assertEqual(cap.n_bad, 0)
+            rep = M.analyze(p)
+            self.assertTrue(any("2 button events" in n for n in rep.notes))
+            self.assertTrue(any("low-battery" in n for n in rep.notes))
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(M.main([p, "--strict"]), 0)

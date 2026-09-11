@@ -118,6 +118,7 @@ class Window:
 class Capture:
     numeric: dict[str, list[Sample]] = field(default_factory=dict)
     cues: list[Event] = field(default_factory=list)
+    events: dict[str, list[Event]] = field(default_factory=dict)   # other string-valued channels (btn, ...)
     t_min: float | None = None
     t_max: float | None = None
     n_lines: int = 0
@@ -269,7 +270,7 @@ def load_capture(path: str | Path) -> Capture:
                 d = rec.get("drops")
                 if _finite(d):
                     hb_drops[boot] = max(hb_drops.get(boot, 0), int(d))
-            if ch == "cue" and isinstance(v, str):
+            if isinstance(v, str):                    # cue and the other event channels (btn)
                 key = (boot, t, ch, v, q)
             elif _finite(v):
                 v = float(v)
@@ -308,10 +309,14 @@ def load_capture(path: str | Path) -> Capture:
         cap.t_max = t if cap.t_max is None else max(cap.t_max, t)
         if ch == "cue":
             cap.cues.append(Event(t, v))            # type: ignore[arg-type]
+        elif isinstance(v, str):
+            cap.events.setdefault(ch, []).append(Event(t, v))
         else:
-            cap.numeric.setdefault(ch, []).append(Sample(t, v, q))   # type: ignore[arg-type]
+            cap.numeric.setdefault(ch, []).append(Sample(t, v, q))
     for ch in cap.numeric:
         cap.numeric[ch].sort(key=lambda s: s.t)
+    for ch in cap.events:
+        cap.events[ch].sort(key=lambda e: e.t)
     cap.cues.sort(key=lambda e: e.t)
     return cap
 
@@ -638,6 +643,15 @@ def analyze(path: str | Path, *, rounds: int | None = None, round_s: float = 180
     breaths = breath_times(thermal) if thermal else []
     scrs = scr_times(eda) if eda else []
     rep.tallies = sum(1 for e in cap.cues if e.v == CUE_TALLY)
+    n_btn = len(cap.events.get("btn", []))
+    if n_btn:
+        rep.notes.append(f"{n_btn} button events logged")
+    for cue_v, msg in (("low-battery", "the session was ended by the low-battery policy"),
+                       ("session-resumed", "the session was resumed after an involuntary reset"),
+                       ("check-nose-sensor", "the donning check failed: thermopile not seeing breaths at session start")):
+        n = sum(1 for e in cap.cues if e.v == cue_v)
+        if n:
+            rep.notes.append(f"{msg} ({n}x)")
     rep.impacts_total = len(impacts)
     rep.impact_exposure_g = sum(s.v for s in impacts)
 

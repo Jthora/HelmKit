@@ -72,6 +72,11 @@ class CombatModes {
     // Operator / timer cues. Outside a session only kSessionStart is honoured.
     void event(uint32_t t_ms, ModeCue cue);
 
+    // Track N (N-F5): re-enter a persisted session after an involuntary reset.
+    // Opens the session in Tranquil (never mid-round: the round clock is gone)
+    // with the saved tally; emits "mode:tranquil" like a fresh start.
+    void restore(uint32_t t_ms, uint32_t tally);
+
     // Periodic tick (1 Hz is plenty). hr_bpm: NaN when unknown. still: 1, 0,
     // or -1 when there is no IMU. impact_g: NaN when no impact this tick.
     void tick(uint32_t t_ms, float hr_bpm, int8_t still, float impact_g);

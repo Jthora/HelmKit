@@ -90,7 +90,7 @@ Plus the **intrusion tally**: one button, one timestamp per intrusive-thought ep
 
 Host-side reference first, firmware second (the r_peak.cpp / rr_replay.py pattern): `tools/analyze_combat_session.py` + `tests/test_analyze_combat_session.py` (2026-09-11) implement M-F2, M-F3, the M-F4 rules and the M-F5 state machine on NDJSON captures, so hand-wired sensors can be scored before any firmware exists. Channel names proposed in `firmware/mk0.5/docs/SCHEMA.md` §2.3.
 
-- M-F1: IMU driver, `still` detector, impact detector, activity index; NDJSON channels per SCHEMA conventions. (Host side consumes `still` and `impact` already.)
+- M-F1 **firmware done (Track N phase 1, 2026-09-11; part not yet bought)**: `drivers/imu.{h,cpp}` (MPU-6050 / LSM6DS3 auto-detect, ±16 g, ~100 Hz) + `dsp/motion.h` (`still` at 1 Hz, `impact` ≥ 10 g with a 200 ms peak window, `activity` per 10 s, clip counter), native-tested; the mode tick consumes stillness and impacts. (Host side consumes `still` and `impact` already.)
 - M-F2 **done**: host reference + firmware port `firmware/mk0.5/src/dsp/resp_thermal.{h,cpp}` (same pipeline, native Unity tests; emits `resp-thermal` on the MLX stream; 'N' switches the thermopile channel to `temp-nose`).
 - M-F3 host reference done: SCR rate on `eda-forehead`/`gsr` (phasic rises 0.5–3 s above 0.5 % of tonic) withheld when the skin-temperature slope exceeds 0.05 °C/min; firmware port open.
 - M-F4 host reference done: two-source HR agreement within 5 bpm or one high-quality source (≥ 80 % in-range beats per 10 s window), RMSSD only in still rests ≥ 60 s (assumed still without an IMU, flagged), HR recovery slope over the first minute of rest.

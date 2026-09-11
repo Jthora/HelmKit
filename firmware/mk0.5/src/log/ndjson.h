@@ -39,6 +39,17 @@ void emit_boot(const char* reason, int reason_num, bool wdt_ok);
 //   "drops":<u32>,"drops_ev":<u32>,"link_down":<u32>,"heap":<u32>,"boot":"<hex>"}
 void emit_hb(uint32_t t_ms, uint32_t free_heap);
 
+// Track N phase 1: generic sample emitters for the new channels (still,
+// impact, activity, vbat, ppg-q: numeric; btn: string). `cls` picks the
+// drop class (raw streams are shed first).
+void emit_num(const char* ch, uint32_t t_ms, float v, const char* q, LineClass cls = LineClass::kEvent);
+void emit_str(const char* ch, uint32_t t_ms, const char* v);
+// vbat with the schema's raw ADC count as v plus volts / pct fields.
+void emit_vbat(uint32_t t_ms, uint16_t raw, float volts, uint8_t pct);
+// gsr / temp with an explicit quality string ("ok" / "out-of-range" / "gap").
+void emit_gsr_q(uint32_t t_ms, uint16_t raw, const char* q);
+void emit_temp_object_q(uint32_t t_ms, float object_c, float ambient_c, const char* q, const char* channel);
+
 // Track N (N-F4). One line per driver health transition and per retry.
 // Wire shape: {"t":<s>,"kind":"health","source":"<n>","from":"<h>","to":"<h>",
 //   "attempt":<u16>,"note":"<str>","boot":"<hex>"}

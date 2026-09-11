@@ -26,4 +26,7 @@ private:
     Health health_ = Health::kUninit;
 };
 SmokeResult battery_smoke_test();
+// Track N: the most recent pump() result (volts / percent) and its raw ADC count.
+const BatterySample& battery_last();
+uint16_t battery_last_raw();
 }  // namespace helmkit::drivers

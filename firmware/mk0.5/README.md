@@ -3,12 +3,13 @@
 **Target:** Heltec WiFi LoRa 32 V3 (HTIT-WB32LAF, ESP32-S3) — the single-MCU
 sensor host for the vp0 helm (Track M combat trim, Track N robustness).
 
-**Status (2026-09-11):** builds (7 % RAM, 9 % flash); 12 native tests and
+**Status (2026-09-11):** builds (7 % RAM, 11 % flash); 21 native tests and
 the target build run in CI. Real drivers: MAX30102 PPG, MLX90614 thermopile,
-GSR, battery. Header-only stubs: AD8232 ECG, MAX30205 contact temperature,
-OLED. No IMU yet (stillness is reported unknown; impact cues cannot fire).
-Operator interface is serial keys; the nape pod's buttons and OLED are
-planned (Track N phases 1–2). No stim, no radio, no WiFi at Mk0.5.
+GSR, battery, IMU (register-level, MPU-6050 or LSM6DS3 class, part not yet
+bought). Header-only stubs: AD8232 ECG, MAX30205 contact temperature, OLED.
+Operator interface is serial keys plus the nape pod's three buttons and slide
+switch (firmware done, not yet wired); the OLED is phase 2. No stim, no radio,
+no WiFi at Mk0.5.
 
 Plans: [`docs/plans/2026-tier1-launch/track-M-combat-trim.md`](../../docs/plans/2026-tier1-launch/track-M-combat-trim.md)
 (what the helm senses and cues) and
@@ -31,7 +32,15 @@ Serial keys (115200): `r`/`R` smoke retry, `?` last result, `h` hello, `p`/`s` p
 `g`/`x` PPG stream (`ppg-rr`), `t`/`T` thermopile stream, `e`/`E` GSR stream, and the Track M
 combat modes: `m`/`M` session start/end (owns the pacer), `b`/`B` round start/end, `i` prime,
 `n` sanctuary, `y` intrusion tally, `N` thermopile channel `temp-forehead` <-> `temp-nose`.
-Build with `-D HELMKIT_DEBUG` for the fault-injection keys (`W` spins for the watchdog).
+Phase 1 adds `a`/`A` for the IMU stream (`still`, `impact`, `activity`), a second `M` within 3 s to
+end a session (the first emits `confirm-end`), and the nape pod buttons on GPIO 26 / 33 / 34 with the
+sanctuary slide on 40: round = short press, prime = short, session start / end = long press on prime,
+tally = the large cap. `vbat` goes out every 5 s; a pack under 3.5 V for 10 s ends the session and
+stops the streams. A session survives a brownout, panic or watchdog reset (resumed in Tranquil with
+its tally); a power-on reset discards it.
+Build with `-D HELMKIT_DEBUG` for the fault-injection keys: `W` spins for the watchdog, `K` ends the
+I²C bus (the supervisor must recover the streams), `F` floods the TX ring (drops, then raw shedding),
+`V` fakes a 3.3 V pack.
 Score a session afterwards with `tools/analyze_combat_session.py capture.ndjson`
 (`--strict` fails on any malformed line, for CI).
 
@@ -72,12 +81,12 @@ firmware/mk0.5/
 ├── src/
 │   ├── main.cpp           # dispatcher: smoke tests, serial keys, streams, modes, supervisor, heartbeat
 │   ├── board/             # pins, ADC1 mutex, task watchdog + reset reason, I²C bus recovery
-│   ├── drivers/           # max30102, mlx90614, gsr, battery (real); ad8232, max30205 (stubs); health model
-│   ├── dsp/               # r_peak (RR intervals), resp_thermal (breathing from the thermopile)
-│   ├── layers/            # pacer (L0 resonance breathing), modes (combat state machine), backoff (retry schedule)
+│   ├── drivers/           # max30102, mlx90614, gsr, battery, imu (real); ad8232, max30205 (stubs); health model
+│   ├── dsp/               # r_peak (RR intervals), resp_thermal (breathing), motion (still / impact / activity), fog (thermopile)
+│   ├── layers/            # pacer, modes (combat state machine), backoff (retry), power_policy (low battery), degrade (shedding), session_store
 │   ├── log/               # NDJSON writer (sequence numbers, drop accounting), line helpers, boot id
 │   ├── safety/            # no_stim_below_mk1.h (compile-time guard)
-│   └── ui/                # status LED; OLED (stub)
+│   └── ui/                # status LED; buttons (debounce, short / long press); OLED (stub)
 └── test/test_native/      # Unity tests for the Arduino-free modules (`pio test -e native`)
 ```
 
@@ -89,8 +98,8 @@ firmware/mk0.5/
 | L0 → L1 | MLX90614, GSR, battery, NDJSON logger | done |
 | Track M | thermal respiration, combat modes, pacer retune | done (firmware + host reference) |
 | Track N phase 0 | sequence numbers, boot line, heartbeat, health lines, retry with backoff, bus recovery, task watchdog, CI | done |
-| Track N phase 1 | IMU (`still`, `impact`), nape pod buttons, low-battery policy, session persistence, self-tests | next |
-| Track N phase 2 | derived-channel buffer on flash while the link is down, OLED status, MAX30205, capture service | after |
+| Track N phase 1 | IMU driver (MPU-6050 / LSM6DS3 auto-detect) with `still`, `impact`, `activity`; nape pod buttons; low-battery policy; session persistence; PPG window quality; thermopile fog + donning check; EDA open-circuit gap; raw shedding; fault-injection keys | done in firmware, awaiting the IMU and the switches on the bench |
+| Track N phase 2 | derived-channel buffer on flash while the link is down, OLED status, MAX30205, capture service | next |
 
 ## Discipline rules
 

@@ -178,3 +178,25 @@ has changed.
 - Firmware safety model: [`SAFETY.md`](SAFETY.md)
 - Serial protocol: [`PROTOCOL.md`](PROTOCOL.md)
 - Pin map and §6.5.5 K1 fail-open logic: [`../docs/sprint_0.2_circuit_spec.md`](../docs/sprint_0.2_circuit_spec.md)
+
+## Track N capability checks (Mk0.5, Heltec V3)
+
+Run after the first flash of any Track N build. Each block names the trigger, the log lines to expect and the pass rule.
+Debug keys need a build with `-D HELMKIT_DEBUG`. Score the capture afterwards with
+`python3 tools/analyze_combat_session.py capture.ndjson --strict`; the integrity line must show 0 skipped.
+
+| Capability | Trigger | Expect in the log | Pass |
+|---|---|---|---|
+| Boot attribution | power on; later `W` (watchdog) | `kind:boot` after `hello` with `reason:poweron`; after `W`, a reset within 5 s and `reason:task-wdt` | both reasons seen |
+| Sequence + heartbeat | leave the board 60 s | `n` increments by one on every line; `ch:hb` every 5 s with `drops:0` | no gaps in `n`, 12 heartbeats |
+| USB yank (N-G2) | unplug USB for 60 s three times during a session, then reconnect | `hb` gap of 60 s; the first `hb` after reconnect reports `drops` and `link_down` > 0; `n` gap equals the drops | analyser `lost` equals firmware drops; boot id unchanged |
+| TX flood + shedding | `F` | `hb` with `drops` > 20; `kind:health` source `link` `ok -> shed`; `gsr` / `temp-*` lines stop; `ppg-rr`, `cue`, `hb` continue; `shed -> ok` 30 s after the last drop | derived lines never stop |
+| Bus fault (N-G4) | `K` with `g`, `t`, `a` streams running; or pull one sensor's connector for 30 s | `kind:health` `ok -> no-ack` per stream; re-begin attempts at 5, 10, 20, 60 s (`note:re-begin ...`); `no-ack -> ok` once the bus is back; `source:i2c1` line if SDA was held | every stream back within 10 s of the bus returning; other streams unaffected |
+| Low battery (N-G3) | `V` during a session | `cue:low-battery` after 10 s, `summary:tally=N`, `session-end`, `kind:health` `vbat ok -> low`; streams stop; LED fault pattern; `V` again → `low -> ok` | session ended cleanly with the summary line last |
+| Session persistence (N-G3) | start a session, tally twice, press the board's RST | after the boot line: `kind:health` source `session` `lost -> resumed` with the tally, `cue:session-resumed`, `mode:tranquil`; a power-on reset instead gives `saved -> discarded` | tally preserved across the reset |
+| Session-end guard (N-U3) | `M` once, wait 4 s, `M` twice within 3 s | first `M`: `cue:confirm-end` only; the pair: `summary:` + `session-end` | a single `M` never ends a session |
+| Buttons (N-G5) | wire tact switches to GPIO 26 / 33 / 34 and a slide to 40 (to GND, pull-ups internal); press each; hold prime 1.5 s | `ch:btn` per press (`round:short`, `prime:short`, `tally:short`, `prime:long`, `sanctuary:on/off`) and the matching `cue` / `mode:` lines | a 5 ms tap logs nothing; a long press fires once |
+| IMU (N-S4) | `a` with the board flat and still, then shake, then rap it on the bench | `kind:smoke` source `imu` `ok:1` with `ev_a` ≈ 1000; `still` 1 at rest, 0 while shaking; `impact` with the peak g on the rap; `activity` every 10 s | self-test passes; ≥ 1 impact per rap, none while shaking gently |
+| PPG quality (N-S1) | `g` with a finger on the sensor for 30 s, then off for 30 s | `ppg-q` every 10 s: `q:ok` with v ≥ 0.8 on the finger, then `q:gap` with v 0 | the quality flips within 20 s of the finger leaving |
+| Thermopile fog + donning (N-S2) | `t`, `N` (nose), `m`, breathe on the sensor 3× within 30 s; then breathe elsewhere for 30 s after a new `m`; then cover the lens with a cold wet cloth for 25 s | no cue on the first session; `cue:check-nose-sensor` 30 s into the second; `temp-nose` `q:gap` after 20 s under the cloth, `ok` again once uncovered | breaths open the session silently; the fogged lines are flagged |
+| EDA contact (N-S3) | `e` with the electrodes on, then lift one for 2 s | `gsr` `q:ok` → `q:out-of-range` for the first second below the floor → `q:gap` after 1 s; `kind:health` `gsr ok -> gap` | the gap flag appears after one second, not at once |

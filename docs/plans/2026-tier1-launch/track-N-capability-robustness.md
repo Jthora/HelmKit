@@ -1,6 +1,6 @@
 # Track N — Capability robustness (firmware + host software)
 
-**Status:** `phase-0-built` (2026-09-11: N-D1, N-D2, N-T1, N-T2, N-F1, N-F2, N-F4, N-F6, N-L1, N-H2 landed; 12 native + 217 host tests; target builds). Nothing in this track needs money except the IMU already planned under Track M.
+**Status:** `phase-1-built` (2026-09-11: phase 0 and the firmware side of phase 1 landed; 21 native + 218 host tests; target builds at 10.6 % flash; bench gates and the IMU / switch wiring pending). Nothing in this track needs money except the IMU already planned under Track M.
 **Owner:** firmware/mk0.5 + tools/. **Builds on:** [track-M-combat-trim.md](track-M-combat-trim.md) §7 (M-F1..M-F6), [track-E](track-E-firmware-wave-m1.md), [track-J](track-J-sensor-bring-up.md), [track-K](track-K-bench-readiness.md).
 
 ## 1. Purpose
@@ -117,7 +117,7 @@ N-G1 and N-G4 need only the hardware already on hand. N-G5 needs the nape pod pr
 | Phase | Needs | Items | Delivers |
 |---|---|---|---|
 | 0 · **done 2026-09-11** | nothing | N-D1, N-D2, N-T1, N-T2, N-F1, N-F2, N-F6, N-F4, N-L1, N-H2 | CI on the real target, attributable restarts and gaps, bus recovery, an analyser that never crashes. Bench gates N-G1..G4 still to run on hardware. |
-| 1 · with the IMU, ~4 days | IMU ~$5, switches | N-S4, N-U1, N-U3, N-F3, N-F5, N-F7, N-S1..N-S3, N-T3, N-T4 | real stillness and impacts, buttons with guards, clean low-battery ending, self-tests, the bench checklist |
+| 1 · **firmware done 2026-09-11**, bench pending | IMU ~$5, switches | N-S4, N-U1, N-U3, N-F3, N-F5, N-F7, N-S1..N-S3, N-T3, N-T4 | real stillness and impacts, buttons with guards, clean low-battery ending, self-tests, the bench checklist. As built: the IMU driver auto-detects MPU-6050 or LSM6DS3 class parts (register-level, no new library); session state lives in NVS (Preferences), not LittleFS, and resumes only after an involuntary reset (brownout / panic / watchdog / sw) because there is no clock for the plan's 5-minute window; the serial `M` needs a second `M` within 3 s while the button's long press is its own guard; EDA stays at 50 Hz (SCHEMA); the PPG self-test is the existing smoke rate gate plus the new `ppg-q` window quality (LED-current / DC checks wait for a finger on the bench). |
 | 2 · ~4 days | nothing | N-L2, N-L3, N-H1, N-U2, N-S5, N-S6, N-H4, N-D3 | survives a yanked link, OLED status, fusion and sweat rule on the helm, equivalence tool |
 | 3 · after M-G2 | one real capture | N-H3, N-G6 | golden fixtures, the equivalence gate closed |
 | 4 · Mk1 BOM | bone conduction, LED strip, coil driver | cue hardware, N-F8 | cueing on the head; the coil interlock |

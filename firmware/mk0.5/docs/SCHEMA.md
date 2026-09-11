@@ -89,7 +89,23 @@ psiStabilizer ingest ignores unknown fields and `kind` lines.
 
 Drop policy (Track N §2 rule 4): raw sample lines (`gsr`, `temp-*`) are the `raw` class and are shed first; RR intervals,
 breaths, cues, health, heartbeat, boot, smoke and error lines are the `event` class. Phase 0 counts both; Phase 2 buffers
-the event class to flash while the link is down.
+the event class to flash while the link is down. Since phase 1 the firmware sheds the raw class itself when more than 20
+lines dropped in one heartbeat interval and restores it after 30 s without a drop (`kind:health`, source `link`).
+
+Phase 1 channels (emitted since 2026-09-11; the `still` / `impact` rows of §2.3 are now live):
+
+| Channel | Shape | Notes |
+|---|---|---|
+| `still` | `{t, ch:"still", v: 0/1, q:"ok"}` at 1 Hz | `dsp/motion.h`: RMS dynamic acceleration over 2 s below 0.05 g. Only while the IMU stream runs (`a`). |
+| `impact` | `{t, ch:"impact", v: <peak g>, q:"ok"}` per event | dynamic acceleration ≥ 10 g; peak captured over a 200 ms window that is also the refractory. `t` = the first crossing. |
+| `activity` | `{t, ch:"activity", v: <mean g>, q:"ok"}` per 10 s | mean dynamic acceleration: an exertion index. |
+| `ppg-q` | `{t, ch:"ppg-q", v: 0..1, q:"ok"/"low"/"gap"}` per 10 s | fraction of in-range beats in the trailing 10 s; `low` below 0.8, `gap` with no beats. The fusion rule's per-window quality. |
+| `vbat` | `{t, ch:"vbat", v: <ADC count>, q:"ok", volts, pct}` per 5 s | with the heartbeat. `pct` from a 1S LiPo open-circuit curve. |
+| `btn` | `{t, ch:"btn", v:"<name>:<short|long>"}` per press | names `round`, `prime`, `tally`; the slide switch logs `sanctuary:on` / `sanctuary:off`. Every press is logged even when the mode machine ignores it. |
+| `cue` values added | `confirm-end`, `low-battery`, `session-resumed`, `check-nose-sensor` | first `M` press; low-battery policy fired; session resumed after an involuntary reset; donning check failed (no three breaths within 30 s of session start). |
+| `kind:smoke` source `imu` | as §1 | boot self-test when the IMU stream starts: 50 reads, |a| within 1 g ± 10 %; `ev_a` = mean milli-g. |
+| `temp-*` q `gap` | | thermopile fogged: object within 0.3 °C of ambient for 20 s. The breathing extractor ignores fogged samples. |
+| `gsr` q `gap` | | electrode lifted: below the open-circuit floor (100) for 1 s. |
 
 ### 2.5 Reserved channel namespaces (do NOT use without coordination)
 

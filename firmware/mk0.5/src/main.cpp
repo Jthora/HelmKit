@@ -7,20 +7,29 @@
 // reflexive retry cannot defeat the safety floor.
 
 #include <Arduino.h>
+#include <Preferences.h>
 
 #include "board/adc_mutex.h"
 #include "board/i2c_recover.h"
 #include "board/pins.h"
 #include "board/watchdog.h"
+#include "drivers/battery.h"
+#include "drivers/imu.h"
 #include "drivers/max30102.h"
 #include "drivers/mlx90614.h"
 #include "drivers/gsr.h"
 #include "drivers/smoke_fail.h"
+#include "dsp/fog.h"
+#include "dsp/motion.h"
 #include "dsp/r_peak.h"
 #include "dsp/resp_thermal.h"
 #include "layers/backoff.h"
+#include "layers/degrade.h"
 #include "layers/modes.h"
 #include "layers/pacer.h"
+#include "layers/power_policy.h"
+#include "layers/session_store.h"
+#include "ui/buttons.h"
 #include "log/ndjson.h"
 #include "log/session.h"
 #include "ui/status_led.h"
@@ -58,13 +67,27 @@ uint8_t                       g_rr_n = 0;
 uint8_t                       g_rr_head = 0;
 uint32_t                      g_last_mode_tick_ms = 0;
 
-void modes_cue_sink(const char* cue, void*) { helmkit::log::emit_cue(cue); }
+void persist_session();
+void modes_cue_sink(const char* cue, void*) {
+    helmkit::log::emit_cue(cue);
+    if (strncmp(cue, "mode:", 5) == 0 || strncmp(cue, "summary:", 8) == 0) persist_session();   // Track N (N-F5)
+}
+
+// Track N phase 1 state (declared early: the sample callbacks use it).
+helmkit::dsp::FogDetector     g_fog;          // N-S2: lens fogged -> q="gap"
+helmkit::dsp::DonningCheck    g_donning;      // N-S2: three breaths within 30 s of session start
+bool                          g_shed_raw = false;   // N-F7: raw streams shed under link pressure
 
 void on_mlx_sample(const helmkit::drivers::Mlx90614Sample& s) {
-    helmkit::log::emit_temp_object(s.t_ms, s.object_c, s.ambient_c, s.in_range,
-                                   g_thermal_on_nose ? "temp-nose" : "temp-forehead");
-    // Only in-range samples feed the extractor (the analyser uses q="ok" only).
-    if (s.in_range && g_resp.process(s.t_ms, s.object_c)) {
+    const bool fogged = g_fog.feed(s.t_ms, s.object_c, s.ambient_c);
+    const char* q = fogged ? "gap" : (s.in_range ? "ok" : "out-of-range");
+    if (!g_shed_raw) {
+        helmkit::log::emit_temp_object_q(s.t_ms, s.object_c, s.ambient_c, q,
+                                         g_thermal_on_nose ? "temp-nose" : "temp-forehead");
+    }
+    // Only good samples feed the extractor (the analyser uses q="ok" only).
+    if (s.in_range && !fogged && g_resp.process(s.t_ms, s.object_c)) {
+        g_donning.breath(s.t_ms);
         float bpm = 0.0f;
         if (g_resp.rate_bpm(s.t_ms, &bpm)) {
             helmkit::log::emit_resp_thermal(g_resp.last_breath_ms(), bpm);
@@ -127,7 +150,67 @@ helmkit::drivers::Gsr         g_gsr;
 bool                          g_gsr_streaming = false;
 
 void on_gsr_sample(const helmkit::drivers::GsrSample& s) {
-    helmkit::log::emit_gsr(s.t_ms, s.raw, s.in_range);
+    if (g_shed_raw) return;
+    helmkit::log::emit_gsr_q(s.t_ms, s.raw, s.open ? "gap" : (s.in_range ? "ok" : "out-of-range"));
+}
+
+// ---- Track N phase 1: IMU, battery, buttons, session persistence ---------------
+helmkit::drivers::Imu         g_imu;
+bool                          g_imu_streaming = false;
+helmkit::dsp::MotionDetector  g_motion;
+int8_t                        g_still = -1;                 // latest `still` (-1 = no IMU stream)
+float                         g_impact_pending = NAN;       // largest impact since the last mode tick
+helmkit::drivers::Battery     g_batt;
+helmkit::layers::PowerPolicy  g_power;
+uint32_t                      g_last_batt_ms = 0;
+bool                          g_low_batt = false;
+float                         g_fake_vbat = NAN;            // HELMKIT_DEBUG 'V'
+helmkit::layers::Degrade      g_degrade;
+helmkit::ui::Button           g_btn_round, g_btn_prime, g_btn_tally;
+helmkit::ui::Debounced        g_slide(20);
+Preferences                   g_prefs;
+helmkit::layers::SessionState g_session;
+uint32_t                      g_confirm_end_ms = 0;         // 'M' once = confirm-end; again within 3 s = end
+struct RrQ { uint32_t t; bool ok; };
+RrQ                           g_rrq[32];                    // last RR intervals for the 10 s `ppg-q` window
+uint8_t                       g_rrq_n = 0, g_rrq_head = 0;
+uint32_t                      g_last_ppgq_ms = 0;
+
+void on_imu_sample(const helmkit::drivers::ImuSample& s) {
+    g_motion.feed(s.t_ms, s.ax, s.ay, s.az);
+    helmkit::dsp::MotionEvent e;
+    while (g_motion.pop(e)) {
+        switch (e.kind) {
+            case helmkit::dsp::MotionEvent::Kind::kStill:
+                g_still = (int8_t)e.value;
+                helmkit::log::emit_num("still", e.t_ms, e.value, "ok");
+                break;
+            case helmkit::dsp::MotionEvent::Kind::kImpact:
+                if (isnan(g_impact_pending) || e.value > g_impact_pending) g_impact_pending = e.value;
+                helmkit::log::emit_num("impact", e.t_ms, e.value, "ok");
+                break;
+            case helmkit::dsp::MotionEvent::Kind::kActivity:
+                helmkit::log::emit_num("activity", e.t_ms, e.value, "ok");
+                break;
+            default: break;
+        }
+    }
+}
+
+void persist_session() {
+    char buf[48];
+    if (g_modes.in_session()) {
+        g_session.valid      = true;
+        if (g_session.session_id == 0) g_session.session_id = helmkit::log::boot_id();
+        g_session.mode       = (uint8_t)g_modes.mode();
+        g_session.tally      = g_modes.tally();
+        g_session.uptime_ms  = millis();
+        helmkit::layers::encode_session(g_session, buf, sizeof buf);
+        g_prefs.putString("session", buf);
+    } else {
+        g_session = helmkit::layers::SessionState{};
+        g_prefs.remove("session");
+    }
 }
 
 // ---- Track N (N-F4 / N-L1): stream supervisor and heartbeat -----------------
@@ -148,6 +231,7 @@ struct StreamSupervisor {
 StreamSupervisor g_sv_ppg{"ppg-hrv"};
 StreamSupervisor g_sv_mlx{"temp"};
 StreamSupervisor g_sv_gsr{"gsr"};
+StreamSupervisor g_sv_imu{"imu"};
 uint32_t         g_last_sv_ms = 0;
 uint32_t         g_last_hb_ms = 0;
 bool             g_wdt_ok     = false;
@@ -197,7 +281,21 @@ void supervise(StreamSupervisor& s, bool wanted, helmkit::drivers::Health h, uin
     }
 }
 
+void ensure_ext_bus() {
+    // Idempotent on the ESP32 driver; restores the bus after a fault-injection end() or a recovery.
+    Wire1.begin(helmkit::pins::kExtI2cSda, helmkit::pins::kExtI2cScl, helmkit::pins::kExtI2cHz);
+}
+
+bool retry_imu() {
+    ensure_ext_bus();
+    recover_ext_bus_if_stuck();
+    if (!g_imu.begin(Wire1)) return false;
+    g_motion.reset();
+    return true;
+}
+
 bool retry_ppg() {
+    ensure_ext_bus();
     recover_ext_bus_if_stuck();
     helmkit::drivers::Max30102Config cfg;
     cfg.sample_rate_hz = 100;
@@ -208,6 +306,7 @@ bool retry_ppg() {
 }
 
 bool retry_mlx() {
+    ensure_ext_bus();
     recover_ext_bus_if_stuck();
     helmkit::drivers::Mlx90614Config cfg;
     cfg.period_ms = 250;
@@ -225,6 +324,141 @@ void supervise_all(uint32_t now) {
     supervise(g_sv_ppg, g_streaming,     g_ppg.health(), now, retry_ppg);
     supervise(g_sv_mlx, g_mlx_streaming, g_mlx.health(), now, retry_mlx);
     supervise(g_sv_gsr, g_gsr_streaming, g_gsr.health(), now, retry_gsr);
+    supervise(g_sv_imu, g_imu_streaming, g_imu.health(), now, retry_imu);
+}
+
+// ---- Track N phase 1: session start / end paths shared by keys and buttons ----
+void stop_all_streams() {
+    if (g_streaming) { g_streaming = false; g_ppg.shutdown(); }
+    g_mlx_streaming = false;
+    g_gsr_streaming = false;
+    g_imu_streaming = false;
+}
+
+void start_session(const char* how) {
+    if (g_last_was_safety_halt || g_low_batt) {
+        Serial.printf("[main] session start (%s) refused: %s.\n", how, g_low_batt ? "battery low" : "safety halt; use 'R'");
+        return;
+    }
+    if (g_modes.in_session()) { Serial.println(F("[main] modes session already running.")); return; }
+    if (g_pacer.running()) g_pacer.suspend();            // the plain pacer hands over silently
+    g_session = helmkit::layers::SessionState{};
+    g_session.session_id = helmkit::log::boot_id();
+    Serial.printf("[main] modes session start via %s (Tranquil, 6 bpm).\n", how);
+    mode_cue("session-start", helmkit::layers::ModeCue::kSessionStart);
+    if (g_mlx_streaming && g_thermal_on_nose) g_donning.start(millis());   // N-S2: three breaths in 30 s or a cue
+}
+
+void end_session(const char* how) {
+    if (!g_modes.in_session()) { Serial.println(F("[main] no modes session.")); return; }
+    g_donning.cancel();
+    g_confirm_end_ms = 0;
+    g_modes.event(millis(), helmkit::layers::ModeCue::kSessionEnd);   // emits summary:tally=N and clears the persisted state
+    helmkit::log::emit_cue("session-end");
+    if (g_pacer.running()) {
+        g_pacer.suspend();
+        helmkit::ui::status_led_set_intensity(0);
+        helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+    }
+    Serial.printf("[main] modes session end via %s.\n", how);
+}
+
+// N-U3: a serial 'M' needs a second 'M' within 3 s; the first emits confirm-end.
+void request_end(uint32_t now) {
+    if (!g_modes.in_session()) { Serial.println(F("[main] no modes session.")); return; }
+    if (g_confirm_end_ms != 0 && (now - g_confirm_end_ms) < 3000) { end_session("key"); return; }
+    g_confirm_end_ms = now;
+    helmkit::log::emit_cue("confirm-end");
+    Serial.println(F("[main] press 'M' again within 3 s to end the session."));
+}
+
+// N-U1: nape pod buttons. Every press is logged as `btn`; the mode machine ignores what makes no sense.
+void handle_button(const char* name, helmkit::ui::Press p, uint32_t now) {
+    const bool lng = (p == helmkit::ui::Press::kLong);
+    char v[24];
+    snprintf(v, sizeof v, "%s:%s", name, lng ? "long" : "short");
+    helmkit::log::emit_str("btn", now, v);
+    if (strcmp(name, "prime") == 0) {
+        if (lng) { if (g_modes.in_session()) end_session("button"); else start_session("button"); }
+        else       mode_cue("prime", helmkit::layers::ModeCue::kPrime);
+    } else if (strcmp(name, "round") == 0) {
+        if (g_modes.mode() == helmkit::layers::Mode::kCombatSustain) mode_cue("round-end", helmkit::layers::ModeCue::kRoundEnd);
+        else                                                          mode_cue("round-start", helmkit::layers::ModeCue::kRoundStart);
+    } else if (strcmp(name, "tally") == 0) {
+        mode_cue("tally", helmkit::layers::ModeCue::kTally);
+    }
+}
+
+void poll_buttons(uint32_t now) {
+    const auto r = g_btn_round.feed(now, digitalRead(helmkit::pins::kBtnRound) == LOW);
+    if (r != helmkit::ui::Press::kNone) handle_button("round", r, now);
+    const auto p = g_btn_prime.feed(now, digitalRead(helmkit::pins::kBtnPrime) == LOW);
+    if (p != helmkit::ui::Press::kNone) handle_button("prime", p, now);
+    const auto t = g_btn_tally.feed(now, digitalRead(helmkit::pins::kBtnTally) == LOW);
+    if (t != helmkit::ui::Press::kNone) handle_button("tally", t, now);
+    const int sl = g_slide.feed(now, digitalRead(helmkit::pins::kSlideSanct) == LOW);
+    if (sl != 0) {
+        helmkit::log::emit_str("btn", now, sl > 0 ? "sanctuary:on" : "sanctuary:off");
+        if (sl > 0) mode_cue("sanctuary", helmkit::layers::ModeCue::kSanctuary);
+    }
+}
+
+// N-F3: 1 Hz battery read; low for 10 s ends the session cleanly and stops the streams.
+void poll_battery(uint32_t now) {
+    g_batt.pump();
+    const float v = isnan(g_fake_vbat) ? helmkit::drivers::battery_last().volts : g_fake_vbat;
+    if (g_power.feed(now, v)) {
+        g_low_batt = true;
+        helmkit::log::emit_cue("low-battery");
+        helmkit::log::emit_health("vbat", "ok", "low", 0, "session ended, streams stopped");
+        if (g_modes.in_session()) end_session("low battery");
+        if (g_pacer.running()) g_pacer.stop(now);
+        stop_all_streams();
+        helmkit::ui::status_led_set_intensity(0);
+        helmkit::ui::status_led_set(helmkit::ui::Pattern::kFail);
+    } else if (g_low_batt && !g_power.low()) {
+        g_low_batt = false;
+        helmkit::log::emit_health("vbat", "low", "ok", 0, "recovered");
+        helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
+    }
+}
+
+// N-S1: 10 s window quality for the PPG-derived heart rate.
+void note_rr_quality(const helmkit::dsp::Peak& p) {
+    g_rrq[g_rrq_head] = RrQ{p.t_ms, p.in_range};
+    g_rrq_head = (uint8_t)((g_rrq_head + 1) % 32);
+    if (g_rrq_n < 32) ++g_rrq_n;
+}
+
+void emit_ppg_quality(uint32_t now) {
+    uint8_t n = 0, ok = 0;
+    for (uint8_t i = 0; i < g_rrq_n; ++i) {
+        if ((now - g_rrq[i].t) <= 10000) { ++n; if (g_rrq[i].ok) ++ok; }
+    }
+    const float frac = n ? (float)ok / (float)n : 0.0f;
+    helmkit::log::emit_num("ppg-q", now, frac, n == 0 ? "gap" : (frac >= 0.8f ? "ok" : "low"));
+}
+
+// N-F5: resume a persisted session after an involuntary reset.
+void restore_session_if_any(uint32_t now) {
+    String saved = g_prefs.getString("session", "");
+    helmkit::layers::SessionState st;
+    if (!helmkit::layers::decode_session(saved.c_str(), st)) return;
+    char note[64];
+    if (helmkit::layers::should_resume(st, helmkit::board::reset_reason_str())) {
+        g_session = st;
+        g_modes.restore(now, st.tally);
+        apply_mode_pacer(now);
+        snprintf(note, sizeof note, "resumed id=%016llx tally=%lu after %s", (unsigned long long)st.session_id,
+                 (unsigned long)st.tally, helmkit::board::reset_reason_str());
+        helmkit::log::emit_health("session", "lost", "resumed", 0, note);
+        helmkit::log::emit_cue("session-resumed");
+    } else {
+        g_prefs.remove("session");
+        snprintf(note, sizeof note, "discarded id=%016llx after %s", (unsigned long long)st.session_id,
+                 helmkit::board::reset_reason_str());
+        helmkit::log::emit_health("session", "saved", "discarded", 0, note);
+    }
 }
 
 void on_ppg_sample(const helmkit::drivers::Max30102Sample& s) {
@@ -436,34 +670,32 @@ void poll_serial_commands() {
             // ---- Track M combat modes (layers/modes.h). 'm' opens a session that
             // owns the pacer; 'p'/'s' are the plain L0 pacer and should not be
             // mixed with it.
-            case 'm':
-                if (g_last_was_safety_halt) {
-                    Serial.println(F("[main] 'm' refused after safety halt; use 'R' first."));
+            case 'm': start_session("key"); break;
+            case 'M': request_end(millis()); break;
+            case 'a': {
+                // Track N (N-S4): IMU stream -> still / impact / activity.
+                if (g_last_was_safety_halt) { Serial.println(F("[main] 'a' refused after safety halt; use 'R' first.")); break; }
+                if (g_imu_streaming) { Serial.println(F("[main] IMU stream already running.")); break; }
+                ensure_ext_bus();
+                if (!g_imu.begin(Wire1)) {
+                    Serial.println(F("[main] IMU begin FAILED (no chip on 0x68/0x69/0x6A/0x6B)."));
+                    helmkit::log::emit_error("mk0.5", helmkit::drivers::SmokeFail::kNoAck, "imu-begin-failed", 0, 0,
+                                             helmkit::drivers::Health::kNoAck);
                     break;
                 }
-                if (g_modes.in_session()) {
-                    Serial.println(F("[main] modes session already running."));
-                    break;
-                }
-                if (g_pacer.running()) {
-                    g_pacer.suspend();          // the plain pacer hands over silently
-                }
-                Serial.println(F("[main] modes session start (Tranquil, 6 bpm)."));
-                mode_cue("session-start", helmkit::layers::ModeCue::kSessionStart);
+                const auto st = g_imu.self_test();
+                helmkit::log::emit_smoke_result("imu", st);
+                Serial.printf("[main] IMU %s @0x%02x self-test: %s\n", g_imu.chip_name(), g_imu.addr(), st.ok ? "PASS" : "FAIL");
+                g_motion.reset();
+                g_still = -1;
+                g_imu_streaming = true;
                 break;
-            case 'M':
-                if (!g_modes.in_session()) {
-                    Serial.println(F("[main] no modes session."));
-                    break;
-                }
-                g_modes.event(millis(), helmkit::layers::ModeCue::kSessionEnd);   // emits summary:tally=N
-                helmkit::log::emit_cue("session-end");
-                if (g_pacer.running()) {
-                    g_pacer.suspend();
-                    helmkit::ui::status_led_set_intensity(0);
-                    helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
-                }
-                Serial.println(F("[main] modes session end."));
+            }
+            case 'A':
+                if (!g_imu_streaming) { Serial.println(F("[main] IMU stream not running.")); break; }
+                g_imu_streaming = false;
+                g_still = -1;
+                Serial.println(F("[main] IMU stream stopped."));
                 break;
             case 'b': mode_cue("round-start", helmkit::layers::ModeCue::kRoundStart); break;
             case 'B': mode_cue("round-end",   helmkit::layers::ModeCue::kRoundEnd);   break;
@@ -482,6 +714,22 @@ void poll_serial_commands() {
                 // Expected: reset within 5 s and a boot line with reason task-wdt.
                 Serial.println(F("[main] DEBUG: spinning for the task watchdog..."));
                 for (;;) { }
+            case 'K':
+                // N-T3: kill the external I²C bus. Expected: the streams go no-ack, health
+                // lines follow, and the supervisor re-begins them on the backoff schedule.
+                Serial.println(F("[main] DEBUG: ending Wire1 (bus fault injection)."));
+                Wire1.end();
+                break;
+            case 'F':
+                // N-T3: flood the TX ring. Expected: drops counted on the next hb; raw streams shed.
+                Serial.println(F("[main] DEBUG: flooding the TX ring with 300 lines."));
+                for (int i = 0; i < 300; ++i) helmkit::log::emit_num("dbg", millis(), (float)i, "ok", helmkit::log::LineClass::kRaw);
+                break;
+            case 'V':
+                // N-T3: fake a 3.3 V pack. Expected: low-battery cue after 10 s, session ended, streams stopped.
+                g_fake_vbat = isnan(g_fake_vbat) ? 3.3f : NAN;
+                Serial.printf("[main] DEBUG: fake vbat %s.\n", isnan(g_fake_vbat) ? "off" : "3.3 V");
+                break;
 #endif
             case '\n':
             case '\r':
@@ -512,6 +760,8 @@ void prose_banner() {
                      "B=round-end  i=prime  n=sanctuary  y=tally  N=thermopile forehead<->nose"));
     Serial.println(F(" every line carries n (sequence); hb every 5 s; health lines on driver transitions; "
                      "faulted streams re-begin at 5/10/20/60 s (Track N)"));
+    Serial.println(F(" Track N phase 1: a/A=imu stream (still, impact, activity)  M twice within 3 s ends a session  "
+                     "buttons on GPIO 26/33/34, slide 40  vbat every 5 s, low battery ends the session"));
     Serial.println(F("===================================================="));
 }
 
@@ -557,7 +807,15 @@ void setup() {
     helmkit::ui::status_led_set(helmkit::ui::Pattern::kIdle);
     g_pacer.begin();
     g_modes.set_emitter(modes_cue_sink, nullptr);
+    // Track N phase 1: buttons (pull-ups; the planned pins are off the strapping set), battery, persisted session.
+    pinMode(helmkit::pins::kBtnRound,   INPUT_PULLUP);
+    pinMode(helmkit::pins::kBtnPrime,   INPUT_PULLUP);
+    pinMode(helmkit::pins::kBtnTally,   INPUT_PULLUP);
+    pinMode(helmkit::pins::kSlideSanct, INPUT_PULLUP);
+    g_batt.begin();
+    g_prefs.begin("helmkit", false);
     run_smoke();
+    restore_session_if_any(millis());
 }
 
 void loop() {
@@ -576,7 +834,12 @@ void loop() {
             helmkit::log::emit_ppg_rr(p.t_ms, p.rr_ms,
                                       p.in_range, p.confidence);
             note_rr(p);
+            note_rr_quality(p);
         }
+        if ((now - g_last_ppgq_ms) >= 10000) { g_last_ppgq_ms = now; emit_ppg_quality(now); }   // N-S1
+    }
+    if (g_imu_streaming) {
+        g_imu.pump(on_imu_sample);                  // ~100 Hz; events drained inside
     }
     if (g_mlx_streaming) {
         // 4 Hz — driver self-throttles; pumping every tick is cheap.
@@ -591,12 +854,28 @@ void loop() {
         // finger-off) counts as unknown; no IMU at Mk0.5 -> still = -1.
         g_last_mode_tick_ms = now;
         const float hr = (g_hr_at_ms != 0 && (now - g_hr_at_ms) < 15000) ? g_hr_bpm : NAN;
-        g_modes.tick(now, hr, -1, NAN);
+        g_modes.tick(now, hr, g_imu_streaming ? g_still : (int8_t)-1, g_impact_pending);
+        g_impact_pending = NAN;
         apply_mode_pacer(now);
+        const auto dr = g_donning.poll(now);        // N-S2
+        if (dr == helmkit::dsp::DonningCheck::Result::kFail) helmkit::log::emit_cue("check-nose-sensor");
     }
+    if ((now - g_last_batt_ms) >= 1000) {           // N-F3
+        g_last_batt_ms = now;
+        poll_battery(now);
+    }
+    poll_buttons(now);                              // N-U1
     if ((now - g_last_hb_ms) >= 5000) {                 // Track N (N-L1)
         g_last_hb_ms = now;
         helmkit::log::emit_hb(now, ESP.getFreeHeap());
+        const auto& b = helmkit::drivers::battery_last();
+        helmkit::log::emit_vbat(now, helmkit::drivers::battery_last_raw(), b.volts, b.percent);
+        const bool shed = g_degrade.feed(now, helmkit::log::link_stats().dropped());   // N-F7
+        if (shed != g_shed_raw) {
+            helmkit::log::emit_health("link", g_shed_raw ? "shed" : "ok", shed ? "shed" : "ok", 0,
+                                      shed ? "raw streams shed: link dropping lines" : "raw streams restored");
+            g_shed_raw = shed;
+        }
     }
     if ((now - g_last_sv_ms) >= 1000) {                 // Track N (N-F4)
         g_last_sv_ms = now;

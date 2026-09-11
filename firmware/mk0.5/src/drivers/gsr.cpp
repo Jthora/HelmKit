@@ -15,6 +15,8 @@ namespace {
 inline bool in_range(uint16_t raw) {
     return raw > 100 && raw < 4000;
 }
+constexpr uint16_t kOpenFloor  = 100;    // below this the electrodes are not on skin
+constexpr uint32_t kOpenHoldMs = 1000;   // for this long = gap, not a transient
 }  // namespace
 
 bool Gsr::begin(const GsrConfig& cfg) {
@@ -54,11 +56,18 @@ uint8_t Gsr::pump(GsrCallback cb) {
     s.t_ms     = now;
     s.raw      = raw;
     s.in_range = in_range(raw);
+    if (raw <= kOpenFloor) {
+        if (low_since_ == 0) low_since_ = now ? now : 1;
+        s.open = (now - low_since_) >= kOpenHoldMs;
+    } else {
+        low_since_ = 0;
+        s.open = false;
+    }
 
     // Sticky precedence: only begin() clears kNoAck/kOverflow/kError on
     // the other sensors; for GSR we have no sticky failure modes besides
     // mutex contention (handled above), so refresh on every good sample.
-    health_ = s.in_range ? Health::kOk : Health::kOutOfRange;
+    health_ = s.open ? Health::kGap : (s.in_range ? Health::kOk : Health::kOutOfRange);
 
     if (cb) cb(s);
     return 1;

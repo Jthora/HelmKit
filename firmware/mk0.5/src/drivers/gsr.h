@@ -21,6 +21,7 @@ struct GsrSample {
     uint32_t t_ms;
     uint16_t raw;       // 0..4095 (12-bit ADC)
     bool     in_range;  // true if 100 < raw < 4000 (SCHEMA §4)
+    bool     open;      // Track N (N-S3): below the floor for >= 1 s = electrode lifted -> q="gap"
 };
 
 struct GsrConfig {
@@ -56,6 +57,7 @@ private:
     uint32_t  last_emit_        = 0;
     uint32_t  total_samples_    = 0;
     uint32_t  mutex_timeouts_   = 0;
+    uint32_t  low_since_        = 0;   // Track N: first t_ms of the current run below the floor (0 = none)
     Health    health_           = Health::kUninit;
 };
 
