@@ -27,7 +27,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **D** | Executable notebooks (figures for Field Notes) | `v0` (script-only; `.ipynb` deferred) | no | [track-D-notebooks.md](track-D-notebooks.md) |
 | **E** | Firmware Wave M1 (MAX30102 + R-peak + RR NDJSON) | `dsp-landed; pending on-target validation` | no | [track-E-firmware-wave-m1.md](track-E-firmware-wave-m1.md) |
 | **F** | Field Notes Vol. I (Tier 1 PDF artifact) | `v0-complete` (§§0-10 all drafted) | no | [track-F-field-notes-vol-1.md](track-F-field-notes-vol-1.md) |
-| **G** | Social launch + cold-lead outreach | `posts-drafted` | no | [track-G-social-launch.md](track-G-social-launch.md) |
+| **G** | Social launch + cold-lead outreach | `posts-drafted`; build-case rosters `v0` (2026-09-12) | no | [track-G-social-launch.md](track-G-social-launch.md), [track-G-build-case-rosters.md](track-G-build-case-rosters.md) |
 | **H** | Repo hygiene (link-check, wiki-URL probe, pre-commit) | `landed` (tools + CI gate + allowlist) | no | [track-H-repo-hygiene.md](track-H-repo-hygiene.md) |
 | **I** | Pre-Hardware Sprint (Mk0.5 BOM + wiring + G2 protocol + capture tool) | `landed` | no | [track-I-pre-hardware-sprint.md](track-I-pre-hardware-sprint.md) |
 | **J** | Mk0.5 Sensor Bring-up Sprint (MAX30102/MLX90614/MAX30205/GSR/AD8232 drivers + G2 analyser + G2 closure) | `in-progress` (commits 1–3 landed) | no | [track-J-sensor-bring-up.md](track-J-sensor-bring-up.md) |
