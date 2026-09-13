@@ -106,7 +106,7 @@ The Stabilizer as derived is a resonance-breathing pacer with closed-loop regula
 
 | # | Part | Qty | Orientation | Supports |
 |---|---|---|---|---|
-| 0 | `fit_coupon.stl`, `fit_coupon_b.stl` | 1 each | flat | no. **Print first**: A = hole gauges, 8.3 socket + 8 peg + cross-bolt, bayonet boss + stub, ratchet click pair; B = horizontal hole row (round and teardrop), sideways nut pocket, hub + ring, stalk with the round lock-pin hole, bar pin sockets |
+| 0 | `fit_coupon.stl`, `fit_coupon_b.stl`, `band_gauge_front.stl` | 1 each | flat | no. **Print first** (the gauge is the bottom 3 mm of the band as a 7 mm ribbon on the band's real bottom edge, supports under the forehead rise: head fit in an hour and a half, not eight): A = hole gauges, 8.3 socket + 8 peg + cross-bolt, bayonet boss + stub, ratchet click pair; B = horizontal hole row (round and teardrop), sideways nut pocket, hub + ring, stalk with the round lock-pin hole, bar pin sockets |
 | 1 | `cradle_front.stl` (PETG), `cover_front.stl` ×2 (one flipped), `cover_side.stl` ×2 | 1 + 4 | cradle upside down, node tops on the bed; covers standing on the long edge, brim | no |
 | 2 | `rear_band_half.stl` (PETG), `cover_rear.stl` | 2 + 2 | top edge down (the tenon's straight face is on the bed side); cover standing on its edge | no |
 | 3 | `disk_dome.stl` | 2 | **on edge**, standing on the rim flat, wide brim, Z ≥ 125 mm, 0.16 mm layers, PETG or light PLA | interior only: under the apex boss and the rim crown (the shell is within 19° of vertical everywhere) |

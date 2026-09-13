@@ -28,6 +28,7 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 | `build_sensor_bar.py` | v0.12 combat-trim sensor bar: hollow curved brow bar on the band's front face with the floor window + flush recess, the sensor carrier (thermopile, camera, IR LEDs), LED lane, pin sockets; the Ø4 shear pins (`--out-dir`) |
 | `build_fit_coupon.py` | Print-first tolerance coupon A: hole gauges, port, bayonet boss + stub, ratchet pair |
 | `build_fit_coupon_b.py` | v0.17 coupon B: horizontal hole row (round vs teardrop), sideways nut pocket, hub + ring, stalk with the lock-pin hole, bar pin sockets |
+| `build_band_gauge.py` | Track P head-fit gauge: the bottom 3 mm of the band as a 7 mm ribbon along the centreline (about 1.5 h with supports against the cradle's eight) |
 | `print_check.py` | Audit of every exported STL in print orientation: bed contact, flat overhang / bridge area, 45..70 deg overhang, thinnest wall (inward ray cast from every face); flags wrong-way-up parts and walls under 1.2 mm |
 | `assemble_vp0.py` | Builds everything (nape parts per `NAPE_MODULE`; right pylons as rotated copies of the left print; pad frames with the foam on them) + reference coil / nails / springs / head + EAR phantoms, plus check-only objects (rails in the parked pose, cable runs); writes clearance (head + ears), mass, collision (worn + parked + cables) and snag reports, renders, saves `3D-Models/HelmKit_vp0/vp0_assembly.blend`. `--trim combat` builds the cradle + pads + sensor bar + flush plugs only, adds the headgear phantom, the bar cable routes as check-only objects, and writes `fit.txt` (the 20 mm sparring rule, bar excepted; overlaps with the headgear shell), saves `vp0_assembly_combat.blend`. `--core nape|slab|none` picks the electronics core (nape pod on the base, two slab pods on the rear sockets, or belt-only with the cap) and the mass report adds the electronics as reference masses |
 
@@ -36,14 +37,14 @@ Earlier revisions are archived in `archive_v01/` … `archive_v08/`.
 ```sh
 B=/Applications/Blender.app/Contents/MacOS/Blender   # linux: B=blender
 OUT=3D-Models/HelmKit/_generated/vp0
-for p in fit_coupon fit_coupon_b cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid visor_slider; do
+for p in fit_coupon fit_coupon_b cradle_front rear_band_half crown_arch_half apex_block brow_center brow_lid visor_slider; do   # band_gauge uses --out-dir below
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/$p.stl
 done
 for p in brow_rail brow_link; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_L.stl
   $B --background --python tools/blender/vp0/build_$p.py -- --out $OUT/${p}_R.stl --mirror
 done
-for p in disk nexus nape_dial pylon port_parts spine_covers pad_frames sensor_bar nape_core belt_pack coil_former; do
+for p in disk nexus nape_dial pylon port_parts spine_covers pad_frames sensor_bar nape_core belt_pack coil_former band_gauge; do
   $B --background --python tools/blender/vp0/build_$p.py -- --out-dir $OUT
 done
 $B --background --python tools/blender/vp0/print_check.py -- $OUT

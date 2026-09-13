@@ -34,6 +34,7 @@ It is updated as tracks land. When a track completes, its design doc gets a `sta
 | **K** | Bench Readiness & Hardware-Latency Reduction (capture analyser + bench quickstart + J-4/5/6 scaffolds) | `scoped` | no | [track-K-bench-readiness.md](track-K-bench-readiness.md) |
 | **L** | Foundational Psionics Research (literature grounding, Dicke-scaling test design, confound rejection, forced-choice pilot protocol) | `v0-landed` | no | [track-L-psionics-foundational-research.md](track-L-psionics-foundational-research.md) |
 | **M** | Combat Trim (pad-free sensing under motion and sweat, sensor bar, pad frames, five modes with cues, Sanctuary + Combat gates) | `scoped` (2026-09-11) | no | [track-M-combat-trim.md](track-M-combat-trim.md) |
+| **P** | Print to Completion (one-shot campaign: real-slicer pass, tolerance stack, head-fit gauge, gated print order, safety case) | `scoped + P1 run` (2026-09-13) | no | [track-P-print-to-completion.md](track-P-print-to-completion.md) |
 | **N** | Capability Robustness (fail-loud channels, bus recovery, brownout and link-loss survival, buttons + OLED, capture service, replay equivalence, CI on the Mk0.5 target) | `phase-0-built` (2026-09-11) | no | [track-N-capability-robustness.md](track-N-capability-robustness.md) |
 
 ---
