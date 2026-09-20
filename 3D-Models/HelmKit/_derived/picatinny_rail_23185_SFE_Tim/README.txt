@@ -1,1 +1,0 @@
-Picatinny rail by SFE_Tim on Thingiverse: https://www.thingiverse.com/thing:23185

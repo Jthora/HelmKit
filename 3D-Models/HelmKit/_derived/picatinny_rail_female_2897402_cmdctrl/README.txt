@@ -1,1 +1,0 @@
-Picatinny Rail Female Diamond Grip by cmdctrl on Thingiverse: https://www.thingiverse.com/thing:2897402
