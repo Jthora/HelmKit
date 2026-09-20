@@ -77,4 +77,9 @@ if __name__ == "__main__":
     args = ap.parse_args(L.argv_after_dashdash())
     L.reset_scene()
     side = -1 if args.mirror else +1
-    L.finalize_and_export(make(side), args.out, L.ROT_Y_TO_Z if side > 0 else L.ROT_NEGY_TO_Z, NOTES)
+    # Track P: OUTER side face down. The other way up, the link's half-lap tongue (the rail's outer half over s 75..90) is a
+    # 15 mm shelf hanging 3.5 mm above the bed with nothing under it; this way it lies on the bed and the lap void is above it.
+    rot = L.ROT_NEGY_TO_Z if side > 0 else L.ROT_Y_TO_Z
+    ring = make(side)
+    L.bed_plane(ring, rot, 0.1)   # Track P: a quarter-layer step in the bed face; one plane
+    L.finalize_and_export(ring, args.out, rot, NOTES)

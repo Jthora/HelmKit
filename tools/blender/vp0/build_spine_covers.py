@@ -36,7 +36,13 @@ def strip(name, run_ch, offset_out, w, t):
 
 def cover_front(run=None):
     run = run or cradle_runs()[1]
-    return strip("cover_front", CF.channel_pts(run), C.CRADLE_T / 2 - C.SPINE["cover_t"] / 2, C.SPINE["w"], C.SPINE["cover_t"])
+    ob = strip("cover_front", CF.channel_pts(run), C.CRADLE_T / 2 - C.SPINE["cover_t"] / 2, C.SPINE["w"], C.SPINE["cover_t"])
+    # Track P: the front run is a closed tunnel for 8 mm at each sensor-bar fastener; the strip stops 0.5 short of the skin
+    half = C.SPINE["tunnel_half"] + 0.5
+    for q, Tv in CF.spine_stations(CF.centreline()):
+        Mg = L.frame(Vector((q.x, q.y, C.SPINE["z"][0] + C.SPINE["w"] / 2)), CF.UP, Tv)   # gap square-cut across the strip, not axis-aligned
+        L.cut(ob, L.add_box_local("gap", Mg, (0.0, 0.0, 0.0), (2 * half, C.SPINE["w"] + 4.0, C.CRADLE_T + 4.0)))
+    return ob
 
 
 def cover_side(run=None):
@@ -95,7 +101,7 @@ def cover_bottom_placed(side=+1):
 
 
 PARTS = {
-    "cover_front": (cover_front, L.ROT_NONE, ["print standing on its long edge, brim; PETG or PLA", "lay the 2 mm rope in the channel, fill with steel epoxy, press the strip in flush, wipe"]),
+    "cover_front": (cover_front, L.ROT_NONE, ["print standing on its long edge, brim; PETG or PLA; the file holds the strip in pieces (gaps at the three sensor-bar tunnel stations)", "lay the 2 mm rope in the channel, fill with steel epoxy, press the strip in flush, wipe"]),
     "cover_side": (cover_side, L.ROT_NONE, ["print standing on its long edge; short span between the rear and hub nodes"]),
     "cover_rear": (cover_rear, L.rot_dir_to(RB.W, (0.0, 0.0, 1.0)), ["print standing on its long edge, brim; two identical (the right half is the left print turned over, so its cover is too)"]),
     "cover_bottom": (lambda: cover_bottom(+1), L.ROT_NONE, ["v0.17: 1 mm strip glued into the band's bottom-face cable channel over the cables; x2 (one flipped for the right side)"]),

@@ -37,9 +37,9 @@ def make():
     L.cut(plate, L.add_cyl("csock", (-30.0, -10.0, 6.0 + 18.0 - C.CYL_DEPTH / 2 + 0.5), C.CYL_SOCKET_D / 2, C.CYL_DEPTH + 1.0, axis="Z", verts=48))
     L.cut(plate, L.add_cyl("ccross", (-30.0, -10.0, 6.0 + 18.0 - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, 24.0, axis="X", verts=24))
     # bayonet boss on the plate: same revolve and cutters as the disk back (local z 0 = 2 mm below the plate top, like the disk's head face)
-    Mb = Matrix.Translation((-2.0, 6.0, 6.0 - C.DISK_PLATE_T))
-    L.union(plate, build_disk.bayonet_boss(Mb, C.DISK_PLATE_T - 0.1))
-    build_disk.bayonet_cuts(plate, Mb, mouth=False, z_below=6.0 - C.DISK_PLATE_T + 1.0)
+    Mb = Matrix.Translation((-2.0, 6.0, 0.0))    # local 0 = the plate's BED face; the stub enters from underneath
+    L.union(plate, build_disk.bayonet_boss(Mb, C.DISK_PLATE_T - 0.1, h=14.5))
+    build_disk.bayonet_cuts(plate, Mb, mouth=False, z_below=1.0, **build_disk.LEGACY)
     # face-ratchet test: ring on the plate + a loose ring disc to click against it
     L.union(plate, L.face_ratchet_ring("ratchet", (32.0, 0.0, 6.0), (0, 0, 1), C.NAPE_RATCHET_R[0], C.NAPE_RATCHET_R[1],
                                        C.NAPE_RATCHET_TEETH, C.NAPE_RATCHET_H, direction=C.NAPE_RATCHET_DIR))
@@ -53,7 +53,7 @@ def make():
     sx, sy = 85.0, 50.0
     stub = L.add_cyl("stub_base", (sx, sy, 1.5), 15.0, 3.0, axis="Z", verts=60)
     L.union(stub, L.add_cyl("stalk", (sx, sy, (2.5 + 3.0 + C.STALK_LEN) / 2), C.STALK_D / 2, 3.0 + C.STALK_LEN - 2.5, axis="Z", verts=72))
-    lw, lr, lh = C.STALK_LUG
+    lw, lr, lh = C.STALK_LUG[0], 3.0, C.STALK_LUG[2]   # pinned: the 3.0 reach this coupon printed with (canon is 2.6 since coupon H)
     n0, n1 = C.STALK_LUG_N
     for s in (+1, -1):
         L.union(stub, L.add_box("lug", (sx + s * (C.STALK_D / 2 + lr / 2 - 0.15), sy, 3.0 + (n0 + n1) / 2), (lr + 0.3, lw, n1 - n0)))

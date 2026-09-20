@@ -370,6 +370,10 @@ and documented (reserved) in [`firmware/mk0.5/docs/PINOUT.md`](../firmware/mk0.5
 | 1 | 800-pc flat washer kit M2–M12 |
 | 1 | 220-pc fender washer M3–M12 |
 | 1 | 140-pc hex flange nut kit M3–M12 |
+| ~1 box | **Common nails 12 Ga. × 2"** — 2.68 mm shank |
+| ~1 box | **Common nails 16 Ga. × 1"** — 1.59 mm shank |
+| ~1 box | **Common nails 16 Ga. × 1/2"** — 1.59 mm shank |
+| many | **Wood-construction nails, 2"–4", assorted heavier gauges** |
 | 1 | 100-pc + 148-pc + 200-pc spring assortment kits |
 | 1 | Grommet hand press + 500× 3/8" grommets |
 | 1 | Heat-shrink tubing 200-pc 1.5–10 mm |

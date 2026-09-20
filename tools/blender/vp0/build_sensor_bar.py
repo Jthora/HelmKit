@@ -57,6 +57,7 @@ def bar():
     L.cut(b, arc_ribbon("window", wa, z0 - 2.0, z0 + SB["floor"] + 0.5, wn0, wn1))
     ra, rn0, rn1, rd = SB["recess"]
     L.cut(b, arc_ribbon("recess", ra, z0 - 2.0, z0 + rd, rn0, rn1))
+    L.cut(b, arc_ribbon("recessmouth", ra + 0.4, z0 - 2.0, z0 + 0.4, rn0 - 0.4, rn1 + 0.4))   # Track P: 0.4 x 0.4 step: the first two layers squash inward, the carrier still seats flush
     ga, gn0, gn1, gd = SB["led_groove"]
     L.cut(b, arc_ribbon("ledlane", ga, z0 - 2.0, z0 + gd, gn0, gn1))
     n_mid = (wn0 + wn1) / 2

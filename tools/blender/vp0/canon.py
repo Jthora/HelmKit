@@ -143,13 +143,24 @@ CABLE_BORE = dict(dia=5.0, dx=15.0, z=CZ + 24.5, led_x=36.0, led_z=CZ + 20.0)   
 DISK_FOCAL = (DISK_R - DISK_RIM_WALL) ** 2 / (4.0 * DISK_SAG)
 # bayonet: stalk from the yoke enters the back plate; lugs turn 90 deg into a groove inside a boss on the cavity side
 STALK_D = 20.0
-STALK_LUG = (6.0, 3.0, 3.0)   # tangential width, radial reach, height
+STALK_LUG = (6.0, 2.6, 3.0)   # tangential width, radial reach, height. Track P coupon H (2026-09-20): reach 2.6 not 3.0, a 3.0 lug would not enter a slot printing ~0.2 clear
+STALK_LUG_CHAMFER = 1.4       # 45-deg chamfer off the lug's outer bottom edge: leaves a 1.2 mm shelf, which droops far less than the 3 mm one (coupon H)
 STALK_LEN = 14.0              # beyond the nexus flange's outer face: 2 plate + 12 into the boss (the lock pin sits at n 10.8, 1.5 mm of tip above its hole)
 STALK_BORE = 8.2              # axial bore for the knob shaft (Ø7.6), 2 mm into the flange; v0.14: 8.2 not 10 so the shaft is guided where the eccentric works
 STALK_LUG_N = (4.0, 7.0)      # lug band measured from the disk back face (n)
-BAYONET_BOSS = (34.0, 14.5)   # dia x height on the cavity side of the back plate: groove to 7.7, lock notch 9.0..12.6, 1.9 mm top
+BAYONET_BOSS = (34.0, 7.6)    # Track P (2026-09-20): OPEN groove, wall to lug top + 0.6. The 14.5 boss roofed the groove with a 3.3 mm annular
+                              # overhang that could not print, and that roof (7.8) never touched the lug (7.0): the flange stops the plate first. The
+                              # material above the groove only hosted the knob-lock notch (BAYONET_LOCK), which now has no host until the lock post is designed.
+                              # was: (34.0, 14.5)   # dia x height on the cavity side of the back plate: groove to 7.7, lock notch 9.0..12.6, 1.9 mm top
 BAYONET_GROOVE = (13.6, 4.0, 7.8)   # groove outer radius, nominal floor n0, ceiling n1 (measured from the plate's head face); v0.14: +0.1 for the printed ceiling's sag over the 3.3 mm annular overhang (1.2 mm wall to the lock notch floor)
-BAYONET_CAM = (4.5, 3.8)      # groove floor at the entry notch / at the stop: the turn cams the plate 0.2 mm onto the flange face (printed lugs at n 4..7)
+BAYONET_CAM = (3.2, 3.8)      # Track P coupon H (2026-09-20): floor RISES 3.2 at the notch -> 3.8 at the stop, 0.8 then 0.2 under lugs at n 4..7, snug-tight as printed.
+                              # was (4.5, 3.8): inverted, 0.34 mm of solid in the lug's path 20 deg in and 0.2 loose at the stop; every coupon E/F stub jammed.   # groove floor at the entry notch / at the stop: the turn cams the plate 0.2 mm onto the flange face (printed lugs at n 4..7)
+BAYONET_BORE_CLEAR = 0.5      # radius: Ø21.0 for the Ø20 stalk. 0.3 printed as a friction fit that held the flange up and turned stiff or not at all (coupon G)
+BAYONET_NOTCH_CLEAR = 1.1     # the entry slot reaches this far beyond the lug's reach (r 13.7 over a 12.6 lug, as coupon H printed); 0.3 beyond it (the old slot) printed too tight to enter (coupon G)
+# Every bearing face of the bayonet sits on a 0.2 mm layer in its print orientation (the plate prints head face down, so n is print z;
+# the nexus prints stalk up with its flange face at NEXUS_T). A face on a slice plane prints a tenth high or low at random (coupon F).
+for _z in (BAYONET_CAM[0], BAYONET_CAM[1], BAYONET_BOSS[1], STALK_LUG_N[0], STALK_LUG_N[1]):
+    assert abs(_z / 0.2 - round(_z / 0.2)) < 1e-6, f"bayonet bearing face {_z} is not on a 0.2 mm layer"
 BAYONET_STOP = dict(bump_deg=129.0, bump_w=3.0, flat_end=135.0)   # v0.16: stop bump centre (plate deg past the entry notch) and the end of the flat n_stop floor; the 6 mm lug spans 30 deg at r 11.5 and the bump 14 deg, so the lug centre stops at 108 deg = 107 deg of travel (was a notional 98 that the lug could not reach)
 DISK_CABLE_SLOT_W = 5.0       # v0.16: the plate's cable exit is an arc SLOT at the bore radius spanning the lock travel, so the lead stays in the flange bore while the plate turns
 BAYONET_LOCK = dict(pin_world_deg=90.0, pin_dia=3.2, pin_len=7.8, n=10.8, notch=(3.6, 2.5), notch_n=(9.0, 12.6))   # centre-knob disk lock: a 7.2 mm piece of 3.2 nail in a radial hole in the hollow stalk (top) is pushed 2 mm out into a notch in the boss bore by the knob shaft's eccentric; the notch sits 98 deg past the pin in the plate frame (locked pose)
@@ -225,7 +236,7 @@ VISOR_PARK_DEG = 43.0                    # parked visor = two 15-deg steps up (t
 RAIL_GUSSET = (13.0, 40.0)               # rail root gusset: half-height at the ring's rim, radius where it has narrowed to the bar's 10
 REAR_TENON_W0 = -17.0                    # rear half centreline leaves the rear node here (z 38)
 CRADLE_TENON = (5.0, 26.0, 14.0, 3.0)    # y thickness, mouth height, depth, tip LOWER half-height: the W+ face (the band's top edge, on the bed) is straight, only the W- face tapers (v0.14: a symmetric taper was a 70-deg overhang)
-TENON_PIN_X = REAR_NODE_X - NODE_LEN / 2.0 + 6.0          # -52: nail through node + tenon along Y
+TENON_PIN_X = REAR_NODE_X - NODE_LEN / 2.0 + 8.0          # -50: nail through node + tenon along Y (Track P: 8 not 6, so the nail-head counterbore clears the right node groove's wedge by 2 mm; the tenon is 14 deep)
 STRAP_SLOT = (14.0, 4.0)                 # W height x along-band width, through the band, centred at W +4.5; pairs 8 mm apart
 CRADLE_STRAP_X = (49.0, 57.0)            # slot centres in front of the hub node (world x); slots sit below the spine channel (z 47.5..61.5)
 REAR_STRAP_S = (24.0, 32.0)              # slot centres along the rear half from the node (arc mm)
@@ -239,7 +250,8 @@ def cradle_rise(x: float) -> float:
     return CRADLE_FRONT_RISE * t * t * (3.0 - 2.0 * t)
 
 
-SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0, cover_clear=0.3, bottom_cover_t=1.0)   # cover strips 0.3 narrower than the channel (curved strip in a curved channel)
+SPINE = dict(w=4.0, d=4.0, z=(CRADLE_Z + 8.0, CRADLE_Z + 12.0), cover_t=1.5, rope=2.0, rear_v=(-8.0, -4.0), rear_d=3.0, rear_cover_t=1.0, cover_clear=0.3, bottom_cover_t=1.0,
+             tunnel_half=4.0, tunnel_ramp=4.0, skin=1.5)   # Track P: closed-tunnel stations at the sensor-bar fasteners on the front run (half length, transition length, printed skin)   # cover strips 0.3 narrower than the channel (curved strip in a curved channel)
 #   rope-and-steel-epoxy spine: 4 x 4 channel in the band's outer face (z 63..67) between the nodes and around the front, 3 deep on the rear halves;
 #   2 mm rope potted in metal-filled epoxy, flush printed cover strips glued in wet. The nodes themselves are solid blocks; each free span is bonded over its length.
 # --- v0.12: pad frames (printed sensor carriers under the foam), the combat-trim sensor bar, headgear fit rule ---
@@ -330,7 +342,7 @@ BROW_TOP_BEAD_R = 4.0
 RAIL_S1 = 90.0                           # the rail ends here (x ~98); the LINK takes over: half-lap on the rail's inner half, then a bend inboard behind the panel
 RAIL_LAP = (74.0, 90.0)                  # half-lap: the rail's inner half (y 101.1..104.6) is removed here, the link's lap fills it
 RAIL_BOLTS_S = (77.0, 85.0)              # two M3 x 10 through the lap (heads counterbored on the rail's outer face) into the link
-BROW_LINK = dict(angle=53.0, lap_t=3.5, pocket_depth=10.0, screws_d=(6.0,), screw_cbore=(6.2, 3.0))   # one M3 x 16 from the panel's underside; the pocket walls carry the bending   # bend angle inboard (plan), lap thickness, depth into the panel's back-face pocket, screw depths along the pocket
+BROW_LINK = dict(angle=53.0, lap_t=3.5, pocket_depth=10.0, screws_d=(7.0,), screw_cbore=(6.0, 3.0))   # Track P: the counterbore breaks out of the panel's back face unless the screw sits >= 7 mm along the 53-deg pocket (6.0 left 0.6, 5.0 left 0.4)   # one M3 x 16 from the panel's underside; the pocket walls carry the bending   # bend angle inboard (plan), lap thickness, depth into the panel's back-face pocket, screw depths along the pocket
 _bx = CX + RAIL_S1 * math.cos(_t); _bz = CZ + RAIL_S1 * math.sin(_t)
 _xl = (_bx - BROW_X_IN) * math.cos(_t) + (_bz - BROW_Z0) * math.sin(_t)           # bend point in panel coordinates (negative: behind the back face)
 BROW_LINK_LEN = -_xl / math.cos(math.radians(BROW_LINK["angle"]))                # bend point to the panel's back face along the link
@@ -454,7 +466,7 @@ SOCKET_FOOT = dict(plate=(50.0, 20.0, 4.0), taps=((-20.0, 0.0), (20.0, 0.0)))   
 BUTTON_CAP = dict(d=(10.0, 14.0), h=4.0, bore=(3.6, 2.0))                                   # small / large (tally) caps pressed onto the 3.5 mm tact plunger
 BELT_PACK = dict(inner=(100.0, 65.0, 35.0), wall=2.5, lid_t=2.5, rebate=1.0, lip=1.8, fillet=0.8, boss=7.0, belt=(45.0, 4.5, 26.0),   # Heltec + 2x18650 + coil driver; belt slots w x h at +/-y
                  umbilical=(8.0, 3.0), usb=(10.0, 7.0, 14.0))
-COIL_FORMER = dict(style="spool", flange_t=1.8, hub=(40.0, 44.0, 3.0), pad=(3.5, 8.0, 3.0), spool_groove=(1.4, 0.55), pass_hole=3.0, stack=2, foam_ring=5.0,   # pad (radial, tangential, height) inside the Ø110 cavity wall; 0.55 groove (24 AWG enamelled 0.56) leaves a 1.25 floor   # v0.17 spool: one flange + a hub ring, the pair scramble-wound and glued; two stack for the both-channel sham; a 5 mm foam ring above
+COIL_FORMER = dict(style="spool", flange_t=2.0, hub=(40.0, 44.0, 3.0), pad=(3.5, 8.0, 3.0), spool_groove=(1.4, 0.8), pass_hole=3.0, stack=2, foam_ring=5.0,   # pad (radial, tangential, height) inside the Ø110 cavity wall; Track P: the back groove is on the bed face, so 0.8 deep (four layers: a 0.55 recess vanishes under the first-layer squish) in a 2.0 flange, 1.2 floor   # v0.17 spool: one flange + a hub ring, the pair scramble-wound and glued; two stack for the both-channel sham; a 5 mm foam ring above
                    od=109.4, id=40.0, t=3.5, r0=22.0, r1=50.0, pitch=1.9, groove=(1.1, 0.8), back_groove=(1.4, 1.0),   # 0.8 mm ribs between turns, an 0.8 deep furrow (the pair stands proud, glued)
                    boss_hole=7.6, pin_hole=1.2)                                               # pancake former in the disk cavity: bifilar pair (2 x 24 AWG) in one spiral groove; 6 boss holes; the back grooves drop all four ends into the plate's cable hole
 REAR_CABLE = dict(w=3.0, d=2.5, v=-13.0, s0=12.0, y_end=RACK_Y0 + 8.0, cover_t=1.0)   # v0.16: BELOW the strap slots (v -2.5..11.5) and the rack; the flipped right half carries it at +13           # harness channel on the rear halves' INNER face at v +9.5, from 10 mm behind the node to 8 mm short of the rack. The RIGHT half is the left print flipped over (its rack takes the lower tunnel), so on the right the channel sits at v -9.5 and the +W x-shift of a tilted band would carry a nearer start into the node: hence s0 10

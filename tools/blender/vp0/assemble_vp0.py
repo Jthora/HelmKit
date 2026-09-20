@@ -21,7 +21,7 @@ import vp0lib as L
 import canon as C
 import build_disk, build_nexus, build_crown_arch_half, build_apex_block, build_cradle_front
 import build_brow_center, build_brow_rail, build_brow_link, build_visor_slider, build_brow_lid, build_rear_band_half, build_nape_dial, build_spine_covers
-import build_pylon, build_port_parts, build_fit_coupon, build_fit_coupon_b, build_pad_frames, build_sensor_bar, build_nape_core, build_belt_pack, build_coil_former
+import build_pylon, build_port_parts, build_fit_coupon, build_fit_coupon_b, build_fit_coupon_c, build_fit_coupon_d, build_fit_coupon_e, build_fit_coupon_f, build_fit_coupon_g, build_fit_coupon_h, build_pad_frames, build_sensor_bar, build_nape_core, build_belt_pack, build_coil_former
 
 COLORS = {"graphite": (0.10, 0.10, 0.11, 1.0), "accent": (0.80, 0.16, 0.12, 1.0), "bone": (0.86, 0.84, 0.78, 1.0), "spring": (0.75, 0.75, 0.78, 1.0),
           "steel": (0.55, 0.57, 0.60, 1.0), "skin": (0.72, 0.58, 0.48, 1.0), "bed": (0.30, 0.32, 0.36, 1.0),
@@ -480,6 +480,13 @@ PRINT_ITEMS = [
     ("bay_spool", build_coil_former.PARTS["bay_spool"][0], lambda: build_coil_former.PARTS["bay_spool"][1], "rope"),
     ("cover_bottom", build_spine_covers.PARTS["cover_bottom"][0], lambda: build_spine_covers.PARTS["cover_bottom"][1], "accent"),
     ("fit_coupon_b", build_fit_coupon_b.make, lambda: build_fit_coupon_b.PRINT_ROT, "bone"),
+    ("fit_coupon_c", build_fit_coupon_c.make, lambda: build_fit_coupon_c.PRINT_ROT, "bone"),
+    ("fit_coupon_d1", build_fit_coupon_d.make_d1, lambda: build_fit_coupon_d.PRINT_ROT, "bone"),
+    ("fit_coupon_d2", build_fit_coupon_d.make_d2, lambda: build_fit_coupon_d.PRINT_ROT, "bone"),
+    ("fit_coupon_e", build_fit_coupon_e.make, lambda: build_fit_coupon_e.PRINT_ROT, "bone"),
+    ("fit_coupon_f", build_fit_coupon_f.make, lambda: build_fit_coupon_f.PRINT_ROT, "bone"),
+    ("fit_coupon_g", build_fit_coupon_g.make, lambda: build_fit_coupon_g.PRINT_ROT, "bone"),
+    ("fit_coupon_h", build_fit_coupon_h.make, lambda: build_fit_coupon_h.PRINT_ROT, "bone"),
     ("cover_rear_in", build_spine_covers.cover_rear_in, lambda: build_spine_covers.PARTS["cover_rear_in"][1], "accent"),
     *NAPE_ITEMS,
     ("pylon_base", lambda: build_pylon.base(+1), lambda: build_pylon.PARTS["pylon_base"][1], "steel"),

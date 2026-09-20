@@ -58,6 +58,7 @@ def make():
     z_mouth = C.CROWN_LEG_Z0 - fz
     L.cut(arch, L.add_cyl("socket", (C.CX, C.HUB_SOCKET[1], z_mouth + C.CYL_DEPTH / 2 - 0.5), C.CROWN_FOOT_SOCKET_D / 2, C.CYL_DEPTH + 1.0, axis="Z", verts=48))   # prints horizontal: 0.2 more than the vertical cradle sockets
     L.cut(arch, L.add_teardrop("cross", (C.CX, C.HUB_SOCKET[1], C.CROWN_CROSS_Z), C.M3_CLEAR_DIA / 2, fy + 4.0, (0.0, 1.0, 0.0), (-1.0, 0.0, 0.0), verts=24))   # arch prints on edge: -X is up
+    L.bed_plane(arch, PRINT_ROT, 0.25)   # Track P: 190 mm2 of the bed face sat 0.2 up; one bed plane
     return arch
 
 

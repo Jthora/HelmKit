@@ -97,6 +97,7 @@ def make_cover(fillet=True):
         print("nape_cover: filleted build not manifold, rebuilding without the fillet")
         L.delete(cover)
         return make_cover(fillet=False)
+    L.bed_plane(cover, L.rot_dir_to(N_OUT, (0, 0, -1)), 0.25)   # Track P: 130 mm2 of the bed face sat 0.15-0.2 up; one bed plane
     return cover
 
 

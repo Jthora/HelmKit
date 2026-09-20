@@ -24,7 +24,7 @@ from mathutils import Matrix, Vector  # type: ignore
 W = Vector(C.REAR_W)
 T_IN = Vector(C.REAR_T_IN)
 PRINT_ROT = L.rot_dir_to(W, (0.0, 0.0, -1.0))
-NOTES = ["print with the planar top edge on the bed (rack teeth up); PETG; no supports",
+NOTES = ["print with the planar top edge on the bed (rack teeth up); PETG; no supports; BRIM (a 5 mm ridge standing 36 mm)",
          f"tenon into the cradle's rear node: {C.PIN_DIA} mm nail along Y through node and tenon, epoxy",
          "strap slot pair 24 / 32 mm behind the node: rear leg of the chin strap"]
 BACK = Vector((C.REAR_BACK_X, 0.0, C.REAR_BACK_Z))
@@ -75,8 +75,9 @@ def make():
     sgn = outward_sign(run)
     d = C.SPINE["rear_d"]
     n_out, n_in = C.REAR_T / 2 + 1.0, d - C.REAR_T / 2
-    ext = (n_out, n_in) if sgn > 0 else (n_in, n_out)
-    L.cut(band, L.ribbon("spinech", spine_pts(run, 0.0), W, [(C.SPINE["w"] / 2, C.SPINE["w"] / 2, ext[0], ext[1])] * len(run)))
+    # Track P: the half prints top edge down, so the groove's -W wall would face down: wedge it (see vp0lib.groove_section)
+    sec = L.groove_section(face=sgn * C.REAR_T / 2, floor=sgn * (C.REAR_T / 2 - d), over=sgn * (C.REAR_T / 2 + 1.0), wh=C.SPINE["w"] / 2, depth=d)
+    L.cut(band, L.ribbon("spinech", spine_pts(run, 0.0), W, None, section=sec))
     # strap slots through the band behind the node (first: the solver likes them on the plain ribbon)
     sh, sw = C.STRAP_SLOT
     for s in C.REAR_STRAP_S:
@@ -96,8 +97,10 @@ def make():
         Tv = (b - a).normalized()
         N = Tv.cross(W).normalized() * sgn                       # outward
         pts_c.append(p + W * rc["v"] - N * (C.REAR_T / 2 - rc["d"] / 2 + 0.5))
-    n_in, n_out = rc["d"] / 2 + 0.5, rc["d"] / 2 + 0.5
-    L.cut(band, L.ribbon("cablech", pts_c, W, [(rc["w"] / 2, rc["w"] / 2, n_in, n_out)] * len(pts_c)))
+    # Track P: same wedge on the harness channel (its -W wall faces down in the print). The ribbon's N is the path's
+    # T x W, which equals the outward N above only when sgn > 0; the signs below follow that.
+    csec = L.groove_section(face=-0.75 * sgn, floor=(rc["d"] / 2 + 0.5) * sgn, over=-(rc["d"] / 2 + 0.5) * sgn, wh=rc["w"] / 2, depth=rc["d"])
+    L.cut(band, L.ribbon("cablech", pts_c, W, None, section=csec))
     r0, r1 = C.REAR_NODE_W
     L.cut(band, L.add_box("nodebox", (C.REAR_NODE_X, CF.NODE_Y, C.CRADLE_Z + (r0 + r1) / 2), (C.NODE_LEN, CF.NODE_T + 4.0, r1 - r0 + 4.0)))
     L.union(band, L.extrude_polygon("tenon", CF.tenon_poly(0.0, +1), C.CRADLE_TENON[0] - 0.2, CF.tenon_frame(+1), z0=-(C.CRADLE_TENON[0] - 0.2) / 2))
@@ -109,6 +112,7 @@ def make():
     poly = L.rack_poly(C.RACK_LEN + 2.0, C.GEAR_MODULE, C.GEAR_PA, body_h)
     poly = [(u - C.RACK_SHIFT, C.RACK_PITCH_W - v) for (u, v) in poly]   # phase: a tooth space on y = 0 at the nominal fit
     L.union(band, L.extrude_polygon("rack", poly, C.REAR_T - 0.1, Mr, z0=-(C.REAR_T - 0.1) / 2))
+    L.bed_plane(band, PRINT_ROT, 0.25)   # Track P: the rack strip's ridge sat 0.2 above the band's (body_h - 0.2); one bed plane
     return band
 
 

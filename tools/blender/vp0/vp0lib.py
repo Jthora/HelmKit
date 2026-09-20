@@ -484,17 +484,39 @@ def arc_index_range(pts, from_start, from_end):
     return [i for i in range(len(pts)) if from_start <= d[i] <= d[-1] - from_end]
 
 
-def ribbon(name, pts, wide, ext, chamfer=0.0):
+def groove_section(face, floor, over, wh, depth):
+    """Track P: the section of a groove that prints without a ledge. A rectangular groove cut into a face has one
+    wall facing down in the print; this pentagon (rectangle plus a 45-degree wedge on the -W side, from the face to
+    the floor) turns that wall into a 45-degree overhang. Coordinates along N (face, floor, over = the cutter's
+    overshoot beyond the face) and W (wh = half the groove width; the wedge extends `depth` below -wh).
+    Returned counter-clockwise in (n, w) for ribbon(section=...)."""
+    # the wedge starts where the cutter meets the face; when the cutter stops short of the face (a closed tunnel
+    # with a printed skin) it starts at the cutter's own edge, a little inside it, so the polygon never crosses itself
+    if over < floor:
+        face = max(face, over + 0.2)
+    else:
+        face = min(face, over - 0.2)
+    pts = [(floor, wh), (over, wh), (over, -wh), (face, -wh), (floor, -wh - depth)]
+    # orientation is decided by the geometry, not by a sign test, so sections along one path never flip
+    return pts if over < floor else list(reversed(pts))
+
+
+def ribbon(name, pts, wide, ext, chamfer=0.0, section=None):
     """
     Sweep a rectangle along a polyline. pts: centreline Vectors; wide: W direction
     (Vector or per-station list); ext: per-station (w_pos, w_neg, n_pos, n_neg),
     N = T x W. `chamfer` > 0 cuts every corner of the section at 45 deg by that
     amount (octagonal section: rounded-looking edges without a bevel pass).
+    `section`: an explicit polygon [(n, w), ...], counter-clockwise in (n, w), used at every
+    station instead of the rectangle (ext is then ignored): see groove_section(). A list of
+    such polygons, one per station (all with the same vertex count), varies the section
+    along the path.
     """
     n = len(pts)
     verts = []
     per_station = isinstance(wide, (list, tuple)) and len(wide) == n and not isinstance(wide[0], (int, float))
-    K = 8 if chamfer > 0 else 4
+    sec_per_station = bool(section) and isinstance(section[0][0], (list, tuple))
+    K = (len(section[0]) if sec_per_station else len(section)) if section else (8 if chamfer > 0 else 4)
     for i in range(n):
         p = Vector(pts[i])
         if i == 0:
@@ -507,6 +529,10 @@ def ribbon(name, pts, wide, ext, chamfer=0.0):
         W = Vector(wide[i] if per_station else wide)
         W = (W - T * W.dot(T)).normalized()
         N = T.cross(W).normalized()
+        if section:
+            sec = section[i] if sec_per_station else section
+            verts += [p + N * sn + W * sw for sn, sw in sec]
+            continue
         wp, wn, npos, nneg = ext[i]
         if chamfer > 0:
             c = min(chamfer, (wp + wn) / 4.0, (npos + nneg) / 4.0)
@@ -862,6 +888,20 @@ def to_print_frame(ob, rot: Matrix) -> None:
     zs = [v.co.z for v in ob.data.vertices]
     ob.location = (-(max(xs) + min(xs)) / 2.0, -(max(ys) + min(ys)) / 2.0, -min(zs))
     apply_transform(ob)
+
+
+def bed_plane(ob, print_rot: Matrix, depth: float):
+    """Cut away the last `depth` mm of the part nearest the print bed, so the bed face is ONE plane.
+    Several generators draw a feature 0.1 to 0.2 short of its neighbour to keep a union off a coplanar face; flipped
+    for printing that becomes a step in the bed face, and the slicer's first slice plane (0.1 at 0.2 mm layers) cuts
+    through it: a ragged, half-adhered first layer. Track P deep audit 2026-09-20: cradle (band edge 0.1 above the
+    node tops), rear band (rack strip 0.2 above the ridge), crown arch, nape cover. `depth` must exceed the step and
+    must not equal any existing face height, so the cut plane is coplanar with nothing."""
+    d = (print_rot.inverted().to_3x3() @ Vector((0.0, 0.0, -1.0))).normalized()   # design-frame direction toward the bed
+    ext = max((ob.matrix_world @ v.co).dot(d) for v in ob.data.vertices)
+    hint = (0.0, 1.0, 0.0) if abs(d.x) > 0.9 else (1.0, 0.0, 0.0)
+    M = frame(d * ext, d, hint)
+    return cut(ob, add_box_local("bedplane", M, (0.0, 0.0, 200.0 - depth), (400.0, 400.0, 400.0)))
 
 
 def export_stl(ob, out_path: Path) -> None:

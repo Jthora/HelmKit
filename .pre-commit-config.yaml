@@ -14,3 +14,9 @@ repos:
         pass_filenames: false
         types_or: [markdown]
         stages: [pre-push]
+      - id: scan-wiki-consistency
+        name: Wiki numeric-claim consistency scan
+        entry: python tools/scan_wiki_consistency.py
+        language: system
+        pass_filenames: false
+        files: ^docs/wiki_cache/.*\.wikitext$

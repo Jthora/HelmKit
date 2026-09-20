@@ -22,7 +22,8 @@ PRINT_ROT = L.ROT_NONE
 NOTES = ["print flat; M3 nut must press into the sideways pocket; a 3.4 nail slips through the teardrop 3.4 but binds in the round 3.4 if your printer sags",
          "the ring must turn freely on the hub; the 7.8 mm nail piece must sit in the stalk hole and move 1.8 mm when pushed from the bore",
          "a printed Ø4 pin: snug in 4.1, free in 4.3",
-         "a 2 mm nail: must enter the 2.1 (snug) and 2.2 (clear) vertical holes near the pin sockets; if not, the pin-lock gets a 2.0 mm drill pass"]
+         "a 2 mm nail: must enter the 2.1 (snug) and 2.2 (clear) vertical holes near the pin sockets; if not, the pin-lock gets a 2.0 mm drill pass",
+         "the 8 mm peg must enter the socket that opens on the BED face (turn the coupon over) without force: that is the cradle's socket condition; if not, add 0.2 to CYL_SOCKET_D or set the slicer's initial-layer horizontal expansion to -0.2"]
 
 
 def make():
@@ -54,6 +55,9 @@ def make():
     pd = C.SENSOR_BAR["pin"][0]
     for dx, clr in ((44.0, C.SENSOR_BAR["pin_fit"][0]), (50.0, C.SENSOR_BAR["pin_fit"][1])):
         L.cut(plate, L.add_cyl("psock", (dx, -18.0, 4.0 - 3.0 + 0.5), (pd + clr) / 2, 6.0 + 1.0, axis="Z", verts=24))
+    # Track P: a port socket that opens on the BED face, as the cradle's do (elephant foot narrows a bed-face mouth)
+    L.union(plate, L.add_box("bedsockblock", (5.0, -18.0, 4.0 + 5.5 - 0.5), (14.0, 14.0, 11.0 + 1.0)))
+    L.cut(plate, L.add_cyl("bedsocket", (5.0, -18.0, 6.5), C.CYL_SOCKET_D / 2, 15.0, axis="Z", verts=48))
     # Track P: the nape pin-lock's 2 mm nail holes, vertical, snug and clearance sizes (the one fit no coupon covered)
     npin = C.NAPE_PINLOCK_PIN
     for dx, d in ((36.0, npin["hole_bottom"]), (40.0, npin["hole"])):

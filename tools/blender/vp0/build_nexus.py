@@ -74,8 +74,17 @@ def flange(side=+1):
     L.union(fl, fil)
     lw, lr, lh = C.STALK_LUG
     n0, n1 = C.STALK_LUG_N
-    for sx in (+1, -1):
-        L.union(fl, L.add_box("lug", (C.CX + sx * (sd / 2.0 + lr / 2.0 - 0.3), side * (y1 + (n0 + n1) / 2.0), C.CZ), (lr + 0.6, n1 - n0, lw)))
+    # Track P coupon H (2026-09-20): the lugs as a revolved ring with a 45-deg chamfer off the outer bottom edge, trimmed to their
+    # tangential width, exactly as the coupon stubs that turned. Inner radius deep inside the stalk, 60 segments turned 2.3 deg
+    # so no vertex line coincides with the stalk's 72 (the union left slivers on the trim planes otherwise).
+    r_out, ch = sd / 2.0 + lr, C.STALK_LUG_CHAMFER
+    prof = [(8.5, n0), (r_out - ch, n0), (r_out, n0 + ch), (r_out, n1), (8.5, n1)]
+    ring = L.revolve("lugring", prof, axis="Y" if side > 0 else "-Y", center=(C.CX, side * y1, C.CZ), segments=60)
+    ring.matrix_world = Matrix.Translation((C.CX, 0.0, C.CZ)) @ Matrix.Rotation(math.radians(2.3), 4, "Y") @ Matrix.Translation((-C.CX, 0.0, -C.CZ)) @ ring.matrix_world
+    L.apply_transform(ring)
+    for s2 in (+1, -1):
+        L.cut(ring, L.add_box("lugtrim", (C.CX, side * (y1 + (n0 + n1) / 2.0), C.CZ + s2 * (lw / 2.0 + 50.0)), (60.0, 20.0, 100.0)))
+    L.union(fl, ring)
     # shaft bore down the axis (2 mm into the flange) and the radial lock-pin hole at the top
     L.cut(fl, ycyl("bore", C.CX, C.CZ, side, C.STALK_BORE / 2.0, y1 - 2.0, y1 + C.STALK_LEN + 1.0, verts=48, rot=2.9))
     lk = C.BAYONET_LOCK
@@ -162,7 +171,7 @@ def knob_clip():
 
 
 PARTS = {
-    "nexus_L": (lambda: flange(+1), L.ROT_Y_TO_Z, ["PETG, LEFT. print inner face down, stalk up; no supports (3 mm lug overhangs)", "three M3 x 30 from outside through spool and node into nuts in the node's inner face (thread-lock); lanyard cord through the flange hole to a strap slot; 7.8 mm piece of 3.2 nail, outer end filed round, in the stalk's top hole (grease it: it is loose until the disk is on)"]),
+    "nexus_L": (lambda: flange(+1), L.ROT_Y_TO_Z, ["LEFT. print inner face down, stalk up; no supports (2.6 mm lugs with a 1.4 chamfer under: a 1.2 mm shelf, Track P coupon H)", "three M3 x 30 from outside through spool and node into nuts in the node's inner face (thread-lock); lanyard cord through the flange hole to a strap slot; 7.8 mm piece of 3.2 nail, outer end filed round, in the stalk's top hole (grease it: it is loose until the disk is on)"]),
     "nexus_R": (lambda: flange(-1), L.ROT_NEGY_TO_Z, ["PETG, RIGHT (mirrored). print inner face down, stalk up; no supports"]),
     "nexus_spool": (lambda: spool(+1), L.ROT_Y_TO_Z, ["PETG. print plate down, hub and spacer up; no supports", "the visor ring runs on the hub; its pawl drops into the notches at the visor positions; wave washer between ring and nexus flange"]),
     "disk_knob": (disk_knob, L.ROT_NONE, ["PETG. print knob face down, shaft up (brim); the eccentric end is the top", "push through the dome's apex hole from outside, snap the C-clip into the groove from inside, then fit the plate; index mark at the dish notch (bottom) = unlocked, mark up = locked"]),

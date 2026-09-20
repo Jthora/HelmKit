@@ -88,7 +88,22 @@ def spine_runs(pts):
     left = [p for p in pts if p.y > 0 and x_rear1 <= p.x <= x_hub0]
     front = [p for p in pts if p.x >= x_hub1]
     right = [p for p in pts if p.y < 0 and x_rear1 <= p.x <= x_hub0]
+    spine_runs.front_ref = front
     return [r for r in (left, front, right) if len(r) >= 3]
+
+
+spine_runs.front_ref = None
+
+
+def spine_stations(pts):
+    """World points on the band centreline where the sensor bar fastens (two pins, one tap): the spine run is a closed
+    tunnel there (Track P)."""
+    run = front_run(pts, C.PAD_FRONT["half_arc"] + 10.0)
+    out = []
+    for s_ in tuple(C.SENSOR_BAR["pins_s"]) + (0.0,):
+        p, Tv, N = arc_point(run, s_)
+        out.append((Vector((p.x, p.y, 0.0)), Vector((Tv.x, Tv.y, 0.0)).normalized()))
+    return out
 
 
 def channel_pts(run):
@@ -224,8 +239,29 @@ def make():
         w0, w1 = C.REAR_NODE_W
         L.union(band, sbox("rnode", rx - rl / 2, rx + rl / 2, C.NODE_IN_Y, C.NODE_OUT_Y, Z + w0, Z + w1, side, fillet=1.0))
     # spine channels: 4 x 4 grooves in the outer face at z 63..67 on every free span between the nodes (potted rope + flush cover)
+    # Track P: the cradle prints upside down, so the groove's lower wall would be a 4 mm ledge printed in the air;
+    # the section carries a 45-degree wedge below the groove (inside the band) that turns it into a printable overhang.
+    spine_sec = L.groove_section(face=-T2, floor=C.SPINE["d"] - T2, over=-(T2 + 1.0), wh=C.SPINE["w"] / 2, depth=C.SPINE["d"])
+    # the sensor bar's two pin sockets and centre tap sit right under the front run: there the groove is a closed
+    # tunnel for 8 mm (a 1.5 mm printed skin on the outer face; its print-ceiling is a 2.5 mm bridge, no wedge needed)
+    # so the wedge cannot cut into the sockets; 4 mm transitions either side. The cover strips skip these stations.
+    stations = spine_stations(pts)
     for run in spine_runs(pts):
-        L.cut(band, L.ribbon("spinech", channel_pts(run), UP, [(C.SPINE["w"] / 2, C.SPINE["w"] / 2, C.SPINE["d"] - T2, T2 + 1.0)] * len(run)))
+        cpts = channel_pts(run)
+        if run is not spine_runs.front_ref:
+            L.cut(band, L.ribbon("spinech", cpts, UP, None, section=spine_sec))
+            continue
+        secs = []
+        for p in cpts:
+            d = min(((p.x - q.x) ** 2 + (p.y - q.y) ** 2) ** 0.5 for q, _ in stations)
+            f = min(max((d - C.SPINE["tunnel_half"]) / C.SPINE["tunnel_ramp"], 0.0), 1.0)      # 0 inside the tunnel, 1 in the open groove
+            # inside the tunnel the section is the 4 x 4 rectangle plus a 0.2 mm token wedge (its floor side stays 1.25 mm
+            # above the pin sockets); it grows to the full 45-degree wedge over the ramp
+            # the skin ends square (a step between two stations) rather than tapering to a knife edge over the ramp
+            over = -(T2 - C.SPINE["skin"]) if d < C.SPINE["tunnel_half"] else -(T2 + 1.0)
+            secs.append(L.groove_section(face=-T2, floor=C.SPINE["d"] - T2, over=over,
+                                         wh=C.SPINE["w"] / 2, depth=0.2 + (C.SPINE["d"] - 0.2) * f))
+        L.cut(band, L.ribbon("spinech", cpts, UP, None, section=secs))
     # cable bores along y through the hub nodes: coil feed at CX - 15 (in line with the flange bore), LED feed at CX + 15
     cb = C.CABLE_BORE
     for side in (+1, -1):
@@ -278,7 +314,14 @@ def make():
         ng = C.NODE_CABLE_GROOVE
         gy0, gy1 = ng["y"]
         gz = ng["z_L"] if side > 0 else ng["z_R"]
-        L.cut(band, sbox("hgroove", rx - rl / 2 - 1.0, rx - rl / 2 + ng["d"], gy0 - 1.0, gy1, gz - ng["w"] / 2, gz + ng["w"] / 2, side))
+        # Track P: rectangle plus a wedge below it (the groove's lower wall would face down in the upside-down print)
+        xo, xfl = rx - rl / 2 - 1.0, rx - rl / 2 + ng["d"]
+        # the slope starts at the cutter's overshoot, not at the nominal rear face: the node's real face sits 0.8 mm
+        # further back (its fillet), and a slope starting inside it left a knife-edge sliver against the face
+        gpoly = [(xfl, gz + ng["w"] / 2), (xo, gz + ng["w"] / 2), (xo, gz - ng["w"] / 2), (xfl, gz - ng["w"] / 2 - (xfl - xo))]
+        ylo, yhi = sorted((side * (gy0 - 1.0), side * gy1))
+        Mg = Matrix.Rotation(math.radians(90.0), 4, "X")          # local y -> world z, local z -> world -y
+        L.cut(band, L.extrude_polygon("hgroove", gpoly, yhi - ylo, Mg, z0=-yhi))
         # rear-half tenon slot + nail
         t = C.CRADLE_TENON[0] + 0.4
         L.cut(band, L.extrude_polygon("tslot", tenon_poly(0.2, side), t, tenon_frame(side), z0=-t / 2))
@@ -290,6 +333,7 @@ def make():
         hx_, hl_ = C.HUB_NODE
         Mc = Matrix.Translation((hx_, side * C.NODE_IN_Y, Z + C.HUB_NODE_W[0])) @ Matrix.Rotation(math.radians(45.0), 4, "X")
         L.cut(band, L.add_box_local("earchamfer", Mc, (0.0, 0.0, 0.0), (hl_ + 4.0, ch * math.sqrt(2.0), ch * math.sqrt(2.0))))
+    L.bed_plane(band, PRINT_ROT, 0.15)   # Track P: the band's top edge sat 0.1 above the node tops (H2 - 0.1); one bed plane
     return band
 
 

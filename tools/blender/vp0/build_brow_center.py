@@ -30,7 +30,7 @@ def make():
     # cavity opens to the FRONT: the faceplate (brow_lid) sits in a recess in the front face; the back face stays solid for the link pockets
     cav_x0, cav_x1 = C.BROW_WALL, T - LID_RECESS
     L.cut(panel, L.add_box_local("cavity", MP, ((cav_x0 + cav_x1) / 2, 0.0, H / 2), (cav_x1 - cav_x0, C.BROW_CAV_W, C.BROW_CAV_H)))
-    L.cut(panel, L.add_box_local("recess", MP, (T - LID_RECESS / 2 + 1.0, 0.0, H / 2), (LID_RECESS + 2.0, C.BROW_CAV_W + 8.0, C.BROW_FACEPLATE_H + 0.4)))
+    L.cut(panel, L.add_box_local("recess", MP, (T - LID_RECESS / 2 + 1.0, 0.0, H / 2), (LID_RECESS + 2.0, C.BROW_CAV_W + 8.0, C.BROW_FACEPLATE_H + 0.8)))   # Track P: 0.8 not 0.4; the recess ceiling is a 2.2 mm cantilever and droops ~0.3 at its free edge
     ww, wt = C.BROW_LED_WINDOW
     L.cut(panel, L.add_box_local("ledwin", MP, (T / 2 - 1.0, 0.0, (H - C.BROW_CAV_H) / 2 - 1.0), (wt, ww, (H - C.BROW_CAV_H) / 2 + 1.0)))
     for y, z in C.BROW_LID_SCREWS:
