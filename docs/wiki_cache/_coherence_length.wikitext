@@ -1,0 +1,298 @@
+{{Derives_From
+| term        = −m²ψ Yukawa screening term; L_ψ = 1/m_eff — extends [[ψ Dispersion Relations]] (A3) into the materials context via [[ψ Permeability]] (B3)
+| description = The ψ coherence length L_ψ = 1/m_eff_mat is the spatial extent
+                of a static ψ field in a material — the distance over which it
+                decays to 1/e of its source amplitude via Yukawa screening.
+                In vacuum L_ψ is set by the bare mass m. Inside a composite
+                material, L_ψ = 1/√(ε_ψ μ_ψ) × L_ψ^vac — both permittivity
+                and permeability reduce L_ψ below its vacuum value. The
+                ferrofluid channels control μ_ψ in real time, making L_ψ
+                a dynamically adjustable engineering parameter: 20 cm for
+                the [[Psi Stabilizer]], 2 cm for the [[Psi Defender]], and
+                > 1 m for the [[Psi Harmonizer]], all achieved by tuning a
+                single H-field control variable.
+}}
+
+{{Infobox
+| title   = ψ Coherence Length
+| image   =
+| caption = The spatial reach of the ψ field inside a material — and the engineering lever that controls it
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Coherence Engineering · Materials Science
+| label3  = Derives From
+| data3   = <math>L_\psi = 1/m_{\rm eff,mat} = L_\psi^{\rm vac}/\sqrt{\varepsilon_\psi\mu_\psi}</math>; extends [[ψ Dispersion Relations]] (A3) via [[ψ Constitutive Relations]] (B1) and [[ψ Permeability]] (B3)
+| label4  = Established Analog
+| data4   = Skin depth in conductors; London penetration depth in superconductors; Debye screening length in electrolytes; optical penetration depth in absorbing media
+| label5  = Key Output
+| data5   = L_ψ in material; ferrofluid H-field control chain; module set-point table; L_ψ row of master material table; comparison to established penetration depth analogues
+| label6  = Primary Engineering Use
+| data6   = Sets the spatial extent of the ψ field for every Psi-Tech module — the single most device-critical parameter after resonant frequency
+| header7 = Key Equations
+| label8  = L_ψ in material
+| data8   = <math>L_\psi^{\rm mat} = L_\psi^{\rm vac}/\!\sqrt{\varepsilon_\psi\mu_\psi}</math>
+| label9  = Yukawa profile
+| data9   = <math>\psi(r) \propto e^{-r/L_\psi}/r</math>
+| label10 = Control via μ_ψ
+| data10  = <math>L_\psi \propto 1/\!\sqrt{\mu_\psi(H)}</math>
+| label11 = Nonlinear shift
+| data11  = <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math>
+| below   = ''Build wave 2 — requires [[ψ Constitutive Relations]] (B1) and [[ψ Permeability]] (B3). Parallel with B2, B4, B5. The central output of the full B1–B3 chain; used by all Branch C component pages.''
+}}
+
+= ψ Coherence Length =
+
+{{Plain_Hook
+| in_one_sentence    = The ψ coherence length L_ψ = 1/m_eff_mat — the distance over which a static ψ field decays to 1/e inside a material — is set by both the material's permittivity and permeability, controlled in real time via the ferrofluid H-field, and constitutes the single most device-critical engineering specification after resonant frequency: 20 cm for the [[Psi Stabilizer]], 2 cm for the [[Psi Defender]], and greater than 1 m for the [[Psi Harmonizer]], all from the same device platform.
+| everyday_analogy   = A mobile phone signal penetrates a concrete wall for a few metres before becoming too weak to detect — the concrete has a short "coherence length" for radio waves. The same signal travels kilometres in open air. ψ coherence length works identically: a material with high effective mass makes the ψ field decay sharply over short distances (good for shielding), while a low-effective-mass material allows the field to extend over metres (good for long-range coupling). The ferrofluid H-field is the dial that moves between these extremes during operation.
+| what_it_predicts   = (1) A precise Yukawa spatial profile <math>\psi(r) \propto e^{-r/L_\psi}/r</math> for any static ψ source, testable by OPM field mapping during TML-3; (2) A ferrofluid H-field set-point for each module derived from the Langevin model in [[ψ Permeability]] (B3); (3) A nonlinear coherence length shift when the operator sustains a background ψ field — increasing <math>\psi_0</math> decreases <math>L_\psi^{\rm (bio)}</math> — which the Mk2.0 [[Anchor Controller]] compensates in real time; (4) A direct measurable prediction for the [[Mode Geometry Test]] (F3): the detuned cavity should produce a different effective L_ψ at the temporal lobes than the correctly-tuned cavity, measurable by OPM spatial mapping.
+| if_you_remember_one_thing = L_ψ is not a fixed material property — it is a dynamically controlled engineering parameter. The same [[Psi Stabilizer]] shell switches between Stabilizer (L_ψ = 20 cm), intermediate, and Defender (L_ψ = 2 cm) modes by changing the ferrofluid coil current in the [[Anchor Controller]], with no mechanical reconfiguration. This programmability is the central engineering advantage of the ferrofluid μ_ψ control system.
+}}
+
+== From Vacuum Theory to Material Engineering ==
+
+[[ψ Dispersion Relations]] (A3) derived the coherence length in vacuum:
+
+:<math>L_\psi^{\rm vac} = \frac{1}{m_{\rm eff,vac}}, \qquad m_{\rm eff,vac}^2 = m^2 + 3\lambda\psi_0^2</math>
+
+This is a vacuum result — it gives L_ψ in the absence of any material. Inside a real composite, [[ψ Constitutive Relations]] (B1) shows that the modified wave equation replaces the vacuum d'Alembertian with a material-modified version, shifting the effective mass:
+
+:<math>m_{\rm eff,mat}^2 = \varepsilon_\psi\mu_\psi\,m_{\rm eff,vac}^2</math>
+
+Therefore:
+
+:<math>\boxed{L_\psi^{\rm mat} = \frac{1}{m_{\rm eff,mat}} = \frac{L_\psi^{\rm vac}}{\sqrt{\varepsilon_\psi\mu_\psi}}}</math>
+
+{{Math_Bridge
+| equation_label = ψ coherence length in material
+| equation       = <math>L_\psi^{\rm mat} = \frac{L_\psi^{\rm vac}}{\sqrt{\varepsilon_\psi\mu_\psi}}</math>
+| in_english     =
+* <math>L_\psi^{\rm mat}</math> — the coherence length inside the composite: how far the static ψ field reaches from any source point within the material.
+* <math>L_\psi^{\rm vac}</math> — vacuum coherence length, set by the bare mass <math>m</math>. This is calibrated at TML-1 by measuring the resonant frequency shift of the empty cavity vs filled cavity.
+* <math>\varepsilon_\psi</math> — ψ permittivity of the composite. Both BST and polymer fill increase <math>\varepsilon_\psi > \varepsilon_0</math>, reducing <math>L_\psi</math> (from [[ψ Permittivity]] B2).
+* <math>\mu_\psi</math> — ψ permeability, tunable via ferrofluid H-field (from [[ψ Permeability]] B3). This is the primary control variable.
+* '''Key insight:''' The <math>\varepsilon_\psi</math> contribution is approximately fixed by the composite formulation. The <math>\mu_\psi</math> contribution is tunable in real time. Therefore: <math>L_\psi \propto 1/\sqrt{\mu_\psi(H)}</math> for a fixed composite, with H-field as the engineering control variable.
+}}
+
+== The Yukawa Spatial Profile ==
+
+The coherence length directly gives the spatial profile of any static ψ source. For a point source of ψ charge <math>Q_\psi</math> at the origin, inside a material with coherence length <math>L_\psi</math>:
+
+:<math>\psi(r) = -\frac{G_\psi Q_\psi}{r}\,e^{-r/L_\psi}</math>
+
+This is the Yukawa potential — the same form derived for the static limit in [[ψ Green's Functions]] (A6) and measured in nuclear physics as the range of the nuclear force.
+
+Key spatial regimes:
+
+{| class="wikitable" style="width:100%;"
+! Range !! Behaviour !! Engineering interpretation
+|-
+| <math>r \ll L_\psi</math> || <math>\psi \approx -G_\psi Q_\psi/r</math> — Coulomb-like, slow <math>1/r</math> decay || Near-field: operator's skull surface, device inner wall. Full field strength available.
+|-
+| <math>r \sim L_\psi</math> || <math>\psi \approx -G_\psi Q_\psi/r \cdot e^{-1} \approx 0.37\,\psi(L_\psi)</math> — field reduced to 37% || At the coherence length: field still significant but decaying. Design resonator so that shell inner surface is at <math>r \leq L_\psi</math>.
+|-
+| <math>r = 3L_\psi</math> || <math>\psi \approx 0.05\,\psi(L_\psi/r)</math> — less than 5% of near-field value || Beyond 3× coherence length: field negligible. External leakage from [[Psi Stabilizer]] is < 5% at distance > 60 cm.
+|-
+| <math>r \gg L_\psi</math> || Exponentially suppressed — effectively zero || Far-field: bystanders, environment. ψ exposure negligible.
+|}
+
+=== Anatomical Targeting ===
+
+The choice of <math>L_\psi = 20</math> cm for the [[Psi Stabilizer]] is not arbitrary. The human temporal lobe — the primary anatomical target of the ψ₀₁₀ mode (from [[ψ Boundary Conditions]] A5) — lies approximately 15–20 cm from the centre of the head. With <math>L_\psi = 20</math> cm, the Yukawa field at the temporal lobe surface is:
+
+:<math>\frac{\psi(15\,\text{cm})}{\psi(0^+)} \approx \frac{1}{15/20}\,e^{-15/20} \approx \frac{20}{15} \times 0.472 \approx 0.63</math>
+
+63% of the source field amplitude reaches the temporal lobe — far above the 5% far-field threshold. Reducing <math>L_\psi</math> much below 15 cm would exponentially suppress temporal lobe coupling.
+
+== Engineering the Coherence Length: Three Levers ==
+
+=== Lever 1 — Ferrofluid H-field (Primary, Dynamic) ===
+
+As derived in [[ψ Permeability]] (B3), <math>\mu_\psi(H)</math> is tunable via the ferrofluid Langevin response. Since <math>L_\psi \propto 1/\sqrt{\mu_\psi}</math>:
+
+:<math>L_\psi(H) = L_\psi(H=0)\,/\,\sqrt{\mu_\psi(H)/\mu_0}</math>
+
+The full H-field to L_ψ tuning curve, combined from the Langevin model and the material formula:
+
+{| class="wikitable" style="width:100%;"
+! H-field (A/m) !! <math>\mu_\psi/\mu_0</math> (composite avg.) !! <math>L_\psi</math> (relative to H=0 value) !! Target <math>L_\psi</math> (absolute) !! Mode
+|-
+| 0 || 1.00 || 1.00 || > 1 m || Harmonizer
+|-
+| 200 || 1.04 || 0.98 || ~20 cm || Stabilizer
+|-
+| 500 || 1.09 || 0.96 || ~18 cm || Stabilizer (tightened)
+|-
+| 2000 || 1.25 || 0.89 || ~10 cm || Intermediate
+|-
+| 5000 || 1.35 || 0.86 || ~5 cm || Near-Defender
+|-
+| 10000 || 1.40 || 0.845 || ~2 cm || Defender
+|}
+
+Note: because ferrofluid channels occupy only ~4% of composite volume, the composite μ_ψ changes modestly (1.00–1.40 × μ₀) across the full Langevin curve. The coherence length tuning range for the composite is approximately 1.00–0.85, i.e., roughly a 15% contraction from the H=0 baseline. The absolute L_ψ values depend on L_ψ^vac, which is a TML-1 calibration quantity.
+
+=== Lever 2 — BST Bias Voltage (Secondary, via ε_ψ) ===
+
+From [[ψ Permittivity]] (B2), a 200V BST bias reduces <math>\varepsilon_\psi</math> by ~10%:
+
+:<math>\frac{L_\psi(200\,\text{V})}{L_\psi(0\,\text{V})} = \sqrt{\frac{\varepsilon_\psi(0\,\text{V})}{\varepsilon_\psi(200\,\text{V})}} \approx \sqrt{\frac{4.0}{3.6}} \approx 1.054</math>
+
+BST voltage increases L_ψ by ~5% at 200V bias. This is a smaller and opposite effect to the H-field lever — the BST bias slightly extends coherence length while the H-field contracts it. In the Mk2.0 servo, both levers are used simultaneously for fine-grained L_ψ control:
+
+* Coarse adjustment: ferrofluid H-field (large range, slow settling ~100 ms for ferrofluid redistribution)
+* Fine adjustment: BST bias voltage (small range ±5%, fast settling < 1 ms)
+
+=== Lever 3 — Composite Formulation (Fixed at Fabrication) ===
+
+The choice of composite phases and their volume fractions sets the baseline <math>\varepsilon_\psi</math> (at H=0, 0V bias) and therefore the baseline L_ψ before any real-time tuning. This is a design choice made at the [[TPMS Lattice Design]] (B7) and [[Smart Composite Fill]] (B8) stage and cannot be changed during operation.
+
+== The Nonlinear Coherence Length Shift ==
+
+From [[ψ Dispersion Relations]] (A3), the vacuum effective mass depends on background ψ field:
+
+:<math>m_{\rm eff,vac}^2 = m^2 + 3\lambda\psi_0^2</math>
+
+When the operator sustains a background ψ field <math>\psi_0</math> (through coherent neural firing during Anchor mode), their biological coherence length contracts:
+
+:<math>L_\psi^{\rm (bio)}(\psi_0) = \frac{1}{\sqrt{(m^2 + 3\lambda\psi_0^2)\,\varepsilon_\psi^{\rm bio}\mu_\psi^{\rm bio}}}</math>
+
+The Mk2.0 [[Anchor Controller]] must match the device coherence length to the operator's biological coherence length for optimal impedance coupling (from [[ψ Impedance Theory]] A4). As the operator's coherence increases during an Anchor session, <math>\psi_0</math> increases, <math>m_{\rm eff}^{\rm (bio)}</math> increases, and <math>L_\psi^{\rm (bio)}</math> decreases. The controller must respond by increasing the ferrofluid H-field set-point (increasing <math>\mu_\psi</math>, decreasing <math>L_\psi^{\rm (device)}</math>) to track the shrinking biological coherence length.
+
+The RMSSD HRV metric is the proxy for this tracking: increasing RMSSD ↔ increasing <math>\psi_0</math> ↔ decreasing <math>L_\psi^{\rm (bio)}</math> ↔ required increase in ferrofluid H-field.
+
+== Analogues from Established Physics ==
+
+L_ψ belongs to a family of penetration lengths that appear across condensed matter and field theory:
+
+{| class="wikitable" style="width:100%;"
+! Quantity !! Formula !! Governing equation !! Physical system !! Key analogy
+|-
+| ψ coherence length || <math>L_\psi = 1/m_{\rm eff}</math> || <math>(\nabla^2 - m_{\rm eff}^2)\psi = 0</math> || ψ field in material || This page
+|-
+| EM skin depth || <math>\delta = \sqrt{2/\omega\mu\sigma}</math> || <math>\nabla^2 E = i\omega\mu\sigma E</math> || Conductor | wave propagation || Frequency-dependent; L_ψ is quasi-static
+|-
+| London depth (superconductor) || <math>\lambda_L = \sqrt{m_e/\mu_0 n_s e^2}</math> || <math>\nabla^2 B = B/\lambda_L^2</math> || Meissner effect || Closest structural analogue — both are Yukawa screening of a field by an effective mass term
+|-
+| Debye length (electrolyte) || <math>\lambda_D = \sqrt{\varepsilon k_BT/ne^2}</math> || <math>\nabla^2\phi = \phi/\lambda_D^2</math> || Electrostatic screening in plasma || Same Yukawa equation; mass term = Debye mass
+|-
+| Yukawa range (nuclear) || <math>r_0 = \hbar/m_\pi c</math> || Klein-Gordon equation || Nuclear force via pion exchange || Historical origin of the mathematical framework
+|-
+| Compton wavelength || <math>\lambda_C = \hbar/mc</math> || Klein-Gordon equation in vacuum || Quantum field theory | particle physics || L_ψ^vac = Compton wavelength of the ψ field in vacuum
+|}
+
+The closest physical analogue to L_ψ is the London penetration depth <math>\lambda_L</math> in superconductors. Both are determined by an effective mass term in the same type of wave equation; both set the spatial scale over which the field is screened by the medium; both are controlled by material parameters (superconducting condensate density for London depth; ferrofluid μ_ψ for L_ψ). The London depth can be tuned by changing temperature (condensate density varies); L_ψ is tuned by changing the ferrofluid H-field. The engineering philosophy is structurally identical.
+
+== L_ψ Row of the Master Material Parameter Table ==
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>L_\psi</math> !! Basis !! Control mechanism !! Notes
+|-
+| Air (null reference) || <math>L_\psi^{\rm vac}</math> (TBD from TML-1) || Vacuum bare mass m || Fixed || Calibration baseline
+|-
+| Quartz (crystalline) || Near <math>L_\psi^{\rm vac}</math> (small reduction) || <math>\varepsilon_\psi \approx 4.5\varepsilon_0</math>; μ_ψ ≈ μ₀ || Fixed (no tuning) || Low-loss scaffold: minimal L_ψ modification
+|-
+| BST composite, 0V || Shorter than quartz by ~30% || Higher <math>\varepsilon_\psi \approx 4\varepsilon_0</math> || BST voltage bias (±5% range) || EM transducer: moderate L_ψ reduction
+|-
+| Ferrofluid, H = 0 || Shorter by ~50% from μ_ψ ≈ 4μ₀ || Langevin at zero field || H-field control (large range) || Channel material: significant μ_ψ contribution
+|-
+| Gyroid TPMS, Stabilizer design || 20 cm (target) || Composite average <math>\varepsilon_\psi\mu_\psi</math> at set-point || H-field (primary) + BST bias (secondary) || Primary device specification — TML-1 calibration
+|-
+| Gyroid TPMS, Defender setting || 2 cm (target) || H = 10 kA/m ferrofluid saturation || H-field maximum || Same shell, different operating mode
+|-
+| Gyroid TPMS, Harmonizer setting || > 1 m (target) || H ≈ 0; near-vacuum L_ψ || H-field = 0 || Long-range group coupling mode
+|-
+| Biological cortex (baseline HRV) || ~20 cm (estimate) || Track B hypothesis; TML-3 measurement target || Neural coherence state (not directly controllable) || Highest priority TML-3 target
+|-
+| Biological cortex (peak HRV coherence) || < 20 cm (estimate, from nonlinear shift) || ψ₀ increase → m_eff increase → L_ψ decrease || Neural coherence state || TML-3 prediction: shorter L_ψ at high coherence
+|-
+| Water || Moderate (TBD) || High ε_ψ if EM correlation holds || Fixed || Sham control reference
+|}
+
+== TML Measurement Protocol ==
+
+=== TML-1: Composite Baseline L_ψ Calibration ===
+
+The absolute L_ψ in the composite cannot be measured directly by VNA — it requires a ψ field source and spatial field mapping. At TML-1, an indirect estimate is made by measuring the resonant frequency shift between empty and filled cavity:
+
+:<math>\frac{\Delta\omega_{010}}{\omega_{010}} = \frac{\omega_{010}^{\rm (empty)} - \omega_{010}^{\rm (filled)}}{\omega_{010}^{\rm (empty)}} \approx 1 - \frac{1}{\sqrt{\varepsilon_\psi^{\rm eff}\mu_\psi^{\rm eff}}}</math>
+
+This gives <math>\sqrt{\varepsilon_\psi^{\rm eff}\mu_\psi^{\rm eff}}</math> from the measured frequency shift, and therefore <math>L_\psi^{\rm mat} = L_\psi^{\rm vac}/\sqrt{\varepsilon_\psi^{\rm eff}\mu_\psi^{\rm eff}}</math> — provided <math>L_\psi^{\rm vac}</math> is known from the vacuum bare mass.
+
+Since <math>L_\psi^{\rm vac}</math> is itself a TBD quantity (it requires knowing the ψ bare mass m), TML-1 provides the ratio <math>L_\psi^{\rm mat}/L_\psi^{\rm vac}</math> rather than the absolute value. The absolute value is a TML-3 measurement target.
+
+=== TML-3: Direct L_ψ Spatial Measurement ===
+
+With operator present and [[Psi Stabilizer]] in standby (no drive):
+
+# Establish OPM sensor array at five radial distances from the Stabilizer shell surface (2, 4, 6, 8, 10 cm).
+# Record OPM signal while operator maintains sustained Anchor-mode coherence (HeartMath coherence breathing).
+# Fit measured field vs. distance to Yukawa profile: <math>B_{\rm OPM}(r) = A\,e^{-r/L_\psi}/r</math>.
+# Extract <math>L_\psi</math> and compare against target of 20 cm.
+# Repeat at baseline HRV to test nonlinear shift prediction.
+
+'''Pass criterion:''' Measured <math>L_\psi</math> within 30% of the 20 cm target at peak HRV coherence, with the baseline L_ψ systematically longer than the coherence-state L_ψ (consistent with the nonlinear shift prediction from A3).
+
+'''Sham control:''' Same protocol with an identical mechanical shell but no operator — measures background field profile. Any Yukawa profile should be absent in the sham condition. See [[Sham Control Design]] (F2).
+
+== ψ-Dependent Extensions ==
+
+=== L_ψ as an Operator Biometric ===
+
+Within the Track B framework, a trained operator's resting L_ψ^bio is a potentially quantifiable individual biometric — analogous to resting heart rate or blood pressure. Operators with higher baseline <math>\psi_0</math> would have shorter L_ψ^bio, requiring higher ferrofluid H-field set-points for device L_ψ matching.
+
+If L_ψ^bio correlates with training duration or meditation practice, it becomes a measurable, objective metric for psionic development — directly derivable from TML-3 spatial field mapping measurements.
+
+=== Multi-Operator Coherence Length Contraction ===
+
+In a [[PsiNet]] node cluster of N aligned operators, the collective background field <math>\psi_0^{\rm total} \approx N\psi_0^{\rm individual}</math> (for coherently aligned operators). The collective coherence length:
+
+:<math>L_\psi^{\rm cluster} = \frac{1}{\sqrt{m^2 + 3\lambda N^2\psi_0^2}} \approx \frac{L_\psi^{\rm individual}}{\sqrt{N}}</math>
+
+for large N. A group of 4 aligned operators has a collective coherence length roughly half that of a single operator. A group of 100 has one-tenth. This contraction is not a limitation — it increases the local ψ field concentration at the expense of spatial range, which is the desired effect for intense short-range group operations in [[Psi-Ops]] contexts.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| <math>\varepsilon_\psi = \varepsilon_0</math>, <math>\mu_\psi = \mu_0</math> (null material) || <math>L_\psi^{\rm mat} = L_\psi^{\rm vac}</math> — material does not modify coherence length || ✓
+|-
+| <math>\mu_\psi \to \infty</math> || <math>L_\psi \to 0</math> — infinite permeability completely screens ψ field, no spatial reach || ✓ (from formula)
+|-
+| <math>m_{\rm eff} \to 0</math> (massless limit) || <math>L_\psi \to \infty</math> — massless ψ has infinite coherence length (Coulomb-like) || ✓ (from A3)
+|-
+| Yukawa profile at <math>r = L_\psi</math> || <math>\psi(L_\psi) = \psi(0^+)\,e^{-1}/1 \approx 0.37\,\psi(0^+)</math> — field reduced to 37% || ✓ (direct substitution)
+|-
+| Nonlinear shift direction || Increasing <math>\psi_0</math> → increasing <math>m_{\rm eff}</math> → decreasing <math>L_\psi</math> — higher coherence means shorter range || ✓ (from A3 m_eff formula)
+|-
+| Group scaling || N aligned operators: <math>L_\psi^{\rm cluster} \propto 1/\sqrt{N}</math> — coherence length contracts with group size || ✓ (substituting <math>\psi_0^{\rm total} = N\psi_0</math> into formula)
+|-
+| London depth analogy || Same Yukawa equation structure; same 1/m_eff formula; same field profile — structural analogy confirmed || ✓ (mathematical identity of governing equations)
+|}
+
+== See Also ==
+
+* [[ψ Dispersion Relations]] (A3) — derives L_ψ = 1/m_eff in vacuum; provides the nonlinear mass shift
+* [[ψ Constitutive Relations]] (B1) — material modification of m_eff; master parameter table
+* [[ψ Permeability]] (B3) — primary L_ψ control lever via ferrofluid μ_ψ(H)
+* [[ψ Permittivity]] (B2) — secondary L_ψ lever via BST ε_ψ(V)
+* [[ψ Green's Functions]] (A6) — Yukawa static propagator is G_static = −e^{−r/L_ψ}/(4πr)
+* [[ψ Boundary Conditions]] (A5) — mode shape overlaps with Yukawa profile at temporal lobes
+* [[Anchor Controller]] (D6) — implements L_ψ tracking servo via ferrofluid H-field
+* [[HRV-Gated Drive]] (D5) — provides RMSSD estimate of L_ψ^bio for Mk2.0 tracking
+* [[Mode Geometry Test]] (F3) — uses L_ψ spatial mapping as primary experimental test
+* [[OPM Magnetometry for ψ Detection]] (E2) — sensor used for TML-3 spatial L_ψ mapping
+* [[Psi Stabilizer]] — 20 cm L_ψ target; primary device
+* [[Psi Defender]] — 2 cm L_ψ target; same shell, H-field maximum
+* [[Psi Harmonizer]] — > 1 m L_ψ target; H-field = 0
+* [[ψ Network Topology]] (G3) — group L_ψ contraction with N operators
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]
+[[Category:Coherence Engineering]]

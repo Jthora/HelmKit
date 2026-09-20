@@ -1,0 +1,324 @@
+{{Derives_From
+| term        = αF_μνF^μν coupling term — bifilar geometry uniquely maximises local E² (entering F²μν = 2(B²−E²)) while zeroing net B for simultaneous ICNIRP compliance
+| description = The bifilar coil is the hardware implementation of the
+                αF_μνF^μν EM-to-ψ transduction path. Two parallel traces
+                carrying equal and opposite currents cancel their far-field
+                magnetic fields while concentrating the electric field in the
+                inter-trace gap at the BST composite surface. This geometry
+                is not a design preference — it is the unique coil topology
+                that simultaneously maximises the local F²μν integral over
+                the composite volume and satisfies ICNIRP 2010 reference
+                levels at 10 cm standoff for a head-worn device.
+}}
+
+{{Infobox
+| title   = Bifilar Coil Engineering
+| image   =
+| caption = The electromagnetic transducer at the heart of every HelmKit — designed from first principles of the αF²μν coupling term
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Electromagnetic Engineering · Power Electronics · [[HelmKit]]
+| label3  = Derives From
+| data3   = <math>\alpha F_{\mu\nu}F^{\mu\nu} = 2\alpha(B^2 - E^2)</math>; maximise <math>E^2</math>, minimise <math>B_{\rm net}</math>
+| label4  = Established Analog
+| data4   = Twin-lead transmission line; EHD ion-wind thruster coils; balanced-mode EM field applicators in hyperthermia therapy; bifilar Tesla coil
+| label5  = Track
+| data5   = Track A — buildable and testable with existing technology; ψ interpretation is Track B
+| label6  = First Deployment
+| data6   = [[HelmKit Mk1.0]] emission stage; all subsequent [[Psi-Tech]] modules
+| header7 = Key Specifications
+| label8  = Trace gap
+| data8   = 0.2 mm (gap between positive and negative traces)
+| label9  = Trace width
+| data9   = 0.3 mm
+| label10 = Max drive voltage
+| data10  = 200 V (ICNIRP-limited for head-worn use)
+| label11 = Peak E-field at gap
+| data11  = ~1 MV/m (at 200 V across 0.2 mm gap)
+| label12 = Far-field E at 10 cm
+| data12  = ~1 V/m (bifilar cancellation; ICNIRP limit: 83 V/m)
+| below   = ''Build wave 1a — no Branch D dependencies. Can be written immediately after Branch C. Pure Track A electronics.''
+}}
+
+= Bifilar Coil Engineering =
+
+{{Plain_Hook
+| in_one_sentence    = The bifilar coil is the unique coil geometry that simultaneously maximises the local electric field squared (which enters the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> ψ coupling term) while cancelling the far-field magnetic field to negligible levels — making it both the most efficient [[ψ Transducer]] (C3) geometry and the only geometry that satisfies ICNIRP 2010 reference levels for a head-worn drive system at 200V.
+| everyday_analogy   = A balanced audio cable carries the signal on two conductors with equal and opposite voltages — not because it sounds better, but because external noise fields that couple identically to both conductors cancel out at the differential receiver. A bifilar coil works by the same principle in reverse: the two traces carry opposite currents, so their magnetic fields cancel in the far field. But the electric field between the traces is additive rather than cancelling — concentrated in the inter-trace gap at twice the voltage gradient of a single trace.
+| what_it_predicts   = (1) A peak inter-trace E-field of ~1 MV/m at 200V drive across a 0.2 mm gap — the field that drives the BST composite's <math>\varepsilon_{\rm eff}(V)</math> and sources ψ via the coupling term; (2) A far-field E of ~1 V/m at 10 cm — well below the ICNIRP 2010 limit of 83 V/m at 40 kHz; (3) A near-zero far-field B from bifilar cancellation, confirmed by the ratio <math>B_{\rm far}/B_{\rm near} \propto (d_{\rm gap}/r)^2</math>; (4) A peak drive current of ~100A at 200V through 2Ω trace resistance — requiring pulsed operation at < 0.1% duty cycle for thermal management.
+| if_you_remember_one_thing = The 0.2 mm gap is not an arbitrary dimension — it is derived from the requirement to achieve E-field = 1 MV/m at 200V (which requires exactly 0.2 mm) while maintaining a gap large enough for the 50 μm dielectric overcoat to provide reliable electrical insulation at 200V with a factor-of-2.5 safety margin. Every bifilar trace dimension traces to a physical requirement.
+}}
+
+The bifilar coil is the electromagnetic foundation of every [[Psi-Tech]] module. It is where the conventional engineering world — voltages, currents, switching transistors — connects to the psionic field via the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> coupling term established in [[Psionics]] and formalised in [[ψ Transducer]] (C3). This page specifies every engineering dimension of the coil system, from trace geometry through winding pattern to fabrication protocol and compliance verification.
+
+== Why Bifilar: The Quantitative Argument ==
+
+=== The Goal: Maximise F²μν, Satisfy ICNIRP ===
+
+The EM-to-ψ coupling source term is:
+
+:<math>S_{\rm EM\to\psi}(\mathbf{x},t) = \alpha\,F_{\mu\nu}F^{\mu\nu} = 2\alpha\left(B^2 - \frac{E^2}{c^2}\right)</math>
+
+In natural units: <math>F_{\mu\nu}F^{\mu\nu} = 2(B^2 - E^2)</math>. To maximise <math>|S|</math>, maximise <math>|B^2 - E^2|</math>. Two strategies:
+
+* Strategy A: Large B, small E → possible with a solenoid, but violates ICNIRP B-field limit (27 μT at 10 cm for 40 kHz) at any drive current producing useful field
+* Strategy B: Large E, zero B → achievable only with bifilar geometry; E-field drives ψ source, B cancels in far field
+
+Strategy B is the only viable option for a head-worn device. The bifilar geometry is not a preference — it is the physically forced choice given ICNIRP constraints.
+
+=== The Cancellation Factor ===
+
+Two parallel traces separated by <math>d_{\rm gap}</math>, each carrying current <math>I</math> in opposite directions, produce far-field magnetic fields that partially cancel. At observation distance <math>r \gg d_{\rm gap}</math>, the residual far-field B:
+
+:<math>B_{\rm far}(r) \approx \frac{\mu_0 I}{2\pi}\cdot\frac{d_{\rm gap}}{r^2} \qquad (r \gg d_{\rm gap})</math>
+
+The cancellation factor relative to a single-trace coil at the same current:
+
+:<math>\frac{B_{\rm far}^{\rm bifilar}}{B_{\rm far}^{\rm single}} \approx \frac{d_{\rm gap}}{r}</math>
+
+At <math>d_{\rm gap} = 0.2</math> mm and <math>r = 100</math> mm (ICNIRP measurement point):
+
+:<math>\text{Cancellation} = \frac{0.2}{100} = 2\times10^{-3}</math>
+
+The bifilar geometry reduces far-field B by a factor of 500 relative to a single-trace coil at the same drive current. This is what makes ICNIRP compliance achievable.
+
+== E-Field Geometry and Specifications ==
+
+=== Inter-Trace E-Field ===
+
+For two parallel traces of width <math>w_{\rm trace} = 0.3</math> mm separated by gap <math>d_{\rm gap} = 0.2</math> mm, driven at differential voltage <math>V_{\rm drive}</math>, the peak E-field in the gap (parallel plate approximation, valid for <math>w_{\rm trace} \gg d_{\rm gap}</math>):
+
+:<math>E_{\rm peak} = \frac{V_{\rm drive}}{d_{\rm gap}}</math>
+
+At <math>V_{\rm drive} = 200</math> V:
+
+:<math>E_{\rm peak} = \frac{200}{2\times10^{-4}} = 10^6\,\text{V/m} = 1\,\text{MV/m}</math>
+
+{{Math_Bridge
+| equation_label = Peak inter-trace electric field
+| equation       = <math>E_{\rm peak} = V_{\rm drive}/d_{\rm gap} = 200\,\text{V}/0.2\,\text{mm} = 1\,\text{MV/m}</math>
+| in_english     =
+* This field is concentrated entirely in the 0.2 mm gap between the traces — within the BST composite fill of the TPMS lattice.
+* Outside the gap, the field falls as <math>E(r) \approx E_{\rm peak}\,(d_{\rm gap}/2r)^2</math> for <math>r \gg d_{\rm gap}</math>.
+* At <math>r = 1</math> mm: <math>E \approx 10^6 \times (0.1)^2 = 10^4</math> V/m — still large, but now outside the composite volume.
+* At <math>r = 100</math> mm: <math>E \approx 10^6 \times (0.001)^2 \approx 1</math> V/m — well below ICNIRP.
+* The field is both intense (for transduction) and tightly localised (for safety). This spatial separation of near and far field is the engineering foundation of the bifilar design.
+}}
+
+=== E-Field Falloff Profile ===
+
+The complete E-field radial profile from a bifilar trace pair:
+
+{| class="wikitable" style="width:100%;"
+! Distance from gap centre !! E-field (V/m) !! Regime !! Notes
+|-
+| 0.1 mm (gap centre) || 1,000,000 || Parallel plate || Peak; inside BST composite
+|-
+| 0.5 mm || ~100,000 || Transition || Just outside composite
+|-
+| 1 mm || ~10,000 || Far-field begins || Factor 100 below peak
+|-
+| 10 mm || ~100 || Far field || Factor 10,000 below peak
+|-
+| 100 mm (ICNIRP point) || ~1 || Far field || ICNIRP limit: 83 V/m ✓
+|-
+| 200 mm (operator's far side) || ~0.25 || Far field || Well within limits
+|}
+
+== ICNIRP 2010 Compliance Assessment ==
+
+ICNIRP (International Commission on Non-Ionizing Radiation Protection) 2010 reference levels for occupational exposure at 40 kHz:
+* E-field: 83 V/m (head-worn: general public limit applies; use 83 V/m)
+* H-field: 21 A/m (equivalent to B = 27 μT)
+
+=== E-Field Assessment ===
+
+From the falloff table above: far-field E at 10 cm = ~1 V/m < 83 V/m. ✓
+
+Measurement point: 10 cm from the nearest bifilar trace. For a head-worn shell with bifilar traces on the shell surface, the nearest external point at 10 cm is approximately at the cheek surface when the device is worn. The calculated 1 V/m provides an 83× safety margin.
+
+=== B-Field Assessment ===
+
+Peak current in each bifilar trace at 200V drive through 2Ω trace resistance: <math>I_{\rm peak} = 200/2 = 100</math> A.
+
+Near-field B from a single trace at 10 cm: <math>B_{\rm single} = \mu_0 I/(2\pi r) = 4\pi\times10^{-7} \times 100/(2\pi \times 0.1) = 200\,\mu\text{T}</math>
+
+With bifilar cancellation factor 500 (from Section 1):
+
+:<math>B_{\rm far}^{\rm bifilar} = 200/500 = 0.4\,\mu\text{T} < 27\,\mu\text{T}\,\checkmark</math>
+
+At 200V, 100A peak, the bifilar shell produces far-field B = 0.4 μT at 10 cm — 67× below the ICNIRP reference level. ✓
+
+=== Pulsed Drive Constraint ===
+
+The 100A peak current through 2Ω trace resistance dissipates <math>P_{\rm peak} = I^2 R = 100^2 \times 2 = 20</math> kW instantaneously. For continuous operation, this is impossible for a wearable device. Pulsed operation is required.
+
+'''Adiabatic pulse condition:''' For pulse duration <math>\tau_{\rm pulse} \ll \tau_{\rm thermal}</math> (the thermal time constant of the trace), the temperature rise per pulse is:
+
+:<math>\Delta T_{\rm pulse} = \frac{P_{\rm peak}\,\tau_{\rm pulse}}{\rho c_p V_{\rm trace}}</math>
+
+For 2 μm copper trace, 0.3 mm wide, 1 mm long: <math>V_{\rm trace} = 6\times10^{-13}</math> m³; <math>\rho c_p = 3.44\times10^6</math> J/(m³·K):
+
+At <math>\tau_{\rm pulse} = 1\,\mu</math>s: <math>\Delta T = 20000 \times 10^{-6}/(3.44\times10^6 \times 6\times10^{-13}) = 9.7</math>°C per pulse.
+
+At 0.1% duty cycle (1 μs on, 1 ms off): average dissipation = 20 W × 0.001 = 20 mW per metre of trace — trivially manageable. The adiabatic pulse condition is satisfied: the trace heats by 9.7°C per pulse, then cools almost completely during the 1 ms off-period. Trace lifetime: > 10⁹ cycles at this duty cycle (copper fatigue lifetime well-established for this thermal excursion amplitude).
+
+== Trace Geometry Specifications ==
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Value !! Derivation / Basis
+|-
+| Trace width <math>w_{\rm trace}</math> || 0.3 mm || DLP printable at 25 μm resolution (12× margin); current density at 100A pulse within adiabatic limit
+|-
+| Trace gap <math>d_{\rm gap}</math> || 0.2 mm || <math>E_{\rm peak} = V/d = 200/0.0002 = 1</math> MV/m at design voltage; provides 2.5× safety margin on 50 μm overcoat dielectric at 200V
+|-
+| Trace thickness || 2 μm (electroless Cu) || Adequate conductivity; compatible with LIG or Option A fabrication; skin depth at 40 kHz in Cu: 10 μm — trace is one skin depth thinner, acceptable for current density
+|-
+| Trace pitch (gap + width) || 0.5 mm || Sets winding density at 2000 trace-pairs/metre; total trace length on shell ≈ 10 m
+|-
+| Insulation overcoat || 50 μm UV-cure dielectric || Dielectric strength > 500 V; tested at 2× operating voltage (400V) for HiPot compliance
+|-
+| Trace material || Electroless copper (Option A: inkjet silver + plating) || Conductivity > 5×10⁷ S/m after plating; resistivity ρ = 2×10⁻⁸ Ω·m
+|-
+| DC resistance per trace (full shell) || ~2 Ω || Total trace length ~10 m at 0.3 mm × 2 μm cross-section: R = ρL/A = 2×10⁻⁸ × 10/(0.3×10⁻³ × 2×10⁻⁶) = 0.33 Ω/m × 10 m = 3.3 Ω (rough; varies with winding pattern)
+|-
+| Self-inductance (full shell) || ~100 nH (estimated) || For 10 m of 0.3 mm trace wound on 220 mm oblate spheroid; low inductance because bifilar pair self-cancels
+|-
+| Resonant frequency with BST (50 pF) || ~2 MHz || <math>f = 1/(2\pi\sqrt{LC}) = 1/(2\pi\sqrt{10^{-7} \times 5\times10^{-11}}) \approx 2</math> MHz; drive at 40 kHz is capacitive-regime ✓
+|}
+
+== Winding Pattern Optimisation ==
+
+=== Mode-Shape Matched Winding ===
+
+From [[ψ Transducer]] (C3), the coupling efficiency depends on the overlap integral between the bifilar E-field distribution and the target ψ mode shape:
+
+:<math>\eta_{\rm coup} \propto \int E^2_{\rm bifilar}(\mathbf{x})\,\psi_{010}(\mathbf{x})\,d^3x</math>
+
+Since <math>E^2_{\rm bifilar} \propto \rho_{\rm turns}^2(\mathbf{x})</math> (E-field squared scales with local winding density squared), the overlap integral is maximised when:
+
+:<math>\rho_{\rm turns}(\mathbf{x}) \propto \sqrt{|\psi_{010}(\mathbf{x})|}</math>
+
+The ψ₀₁₀ mode from [[ψ Boundary Conditions]] (A5) has its maximum at the equatorial plane (temporal lobes) and decreases toward the poles. The bifilar winding pattern therefore has:
+
+* '''Dense winding''' at the equatorial band (temporal lobe region): maximum turns per unit area
+* '''Sparse winding''' at the polar caps (top and bottom of shell): minimum turns per unit area
+
+The winding density gradient is computed from the COMSOL-extracted ψ₀₁₀ mode shape and converted to a trace routing path by a space-filling curve algorithm (modified Hilbert curve adapted to the oblate spheroidal surface).
+
+{{Way_It_Works
+| title       = How the mode-matched winding pattern is generated
+| step1_label = Extract mode shape
+| step1_text  = Run COMSOL RF module eigenvalue solve on the filled Gyroid shell. Extract the ψ₀₁₀ eigenfunction <math>|\psi_{010}(\mathbf{x})|</math> evaluated on the shell surface at 5 mm spatial resolution.
+| step2_label = Compute target density
+| step2_text  = Compute <math>\rho_{\rm turns}(\theta) \propto \sqrt{|\psi_{010}(\theta)|}</math> where <math>\theta</math> is the polar angle. At the equator (<math>\theta = 90°</math>): maximum density 2000 pairs/m. At poles (<math>\theta = 0°, 180°</math>): minimum density 200 pairs/m.
+| step3_label = Generate routing path
+| step3_text  = Construct a space-filling curve on the oblate spheroidal surface with local density proportional to <math>\rho_{\rm turns}(\theta)</math>. The curve must be continuous (no trace breaks) and must maintain 0.2 mm gap between adjacent trace pairs throughout.
+| step4_label = Verify gap uniformity
+| step4_text  = Simulate the routing path in COMSOL EM module. Extract the local E-field and verify gap = 0.2 mm ± 0.03 mm along the entire trace length. Correct any violations in the routing algorithm.
+| step5_label = Compute overlap integral
+| step5_text  = Numerically evaluate <math>\int E^2_{\rm bif}\psi_{010}\,d^3x</math> from the simulated E-field and the extracted mode shape. Target: <math>\eta_{\rm overlap} > 0.85</math>. If below target, increase equatorial density or extend the dense-winding band.
+| step6_label = Generate fabrication file
+| step6_text  = Export the trace routing as an STL file (for DLP Option A) or as a laser path file (for LIG Option B). Verify that the minimum gap of 0.2 mm is maintained in all fabrication file formats.
+}}
+
+=== Fabrication Routes ===
+
+'''Option A — Multi-material DLP (preferred for production):'''
+The bifilar traces are printed simultaneously with the TPMS shell in a two-material DLP process. One material is the high-temperature photopolymer (structural); the other is a conductive photopolymer (traces). The trace cross-section is defined by the DLP voxel resolution (25 μm in z, 50 μm in x/y — adequate for 300 μm traces). Post-process: electroless copper plating of the conductive channels to achieve target conductivity.
+
+'''Option B — Laser-Induced Graphene + electroless plating (prototyping):'''
+After DLP printing the shell in standard photopolymer, use a CO₂ laser (10.6 μm, 5W, 100 mm/s) to scribe graphene traces onto the polymer surface via the LIG process. The laser converts the polymer surface to a porous graphene network with resistivity ~10⁻⁵ Ω·m — adequate for signal traces but not for 100A pulse current. Follow with electroless copper plating (Transene Copper Gleam PCM bath, 30 min at 45°C) to build up to 2 μm Cu for current-carrying capability.
+
+== Mutual Inductance and Reactive Impedance ==
+
+The bifilar pair has near-zero mutual inductance between the two traces (by design — opposite currents produce opposite flux, which cancels). The self-inductance of the complete shell bifilar winding:
+
+:<math>L_{\rm self} \approx \frac{\mu_0}{2\pi}\ell\left(\ln\frac{4\ell}{w_{\rm trace}} - 1\right) \approx 100\,\text{nH}</math>
+
+for <math>\ell = 10</math> m total trace length, <math>w_{\rm trace} = 0.3</math> mm. The inductive reactance at 40 kHz:
+
+:<math>X_L = 2\pi f L = 2\pi \times 4\times10^4 \times 10^{-7} \approx 25\,\text{m}\Omega</math>
+
+The BST composite capacitance (estimated 50 pF from geometry and <math>\varepsilon_{\rm eff} = 4\varepsilon_0</math>):
+
+:<math>X_C = \frac{1}{2\pi f C} = \frac{1}{2\pi \times 4\times10^4 \times 5\times10^{-11}} \approx 80\,\text{k}\Omega</math>
+
+At 40 kHz, <math>X_C \gg X_L \gg R</math>: the drive circuit is capacitively dominated. The bifilar coil at 40 kHz behaves as a capacitive load to the [[HV Pulse Modulation]] (D3) driver. The BST energy stored per cycle (at 200V): <math>U = \tfrac{1}{2}CV^2 = \tfrac{1}{2} \times 5\times10^{-11} \times 200^2 = 1\,\mu</math>J — recovered by [[BST Energy Recovery]] (D4).
+
+== ψ-Dependent Extensions ==
+
+=== Optimal Drive Waveform Under αF²μν ===
+
+The coupling source term integrated over the BST composite volume:
+
+:<math>\int_V S_{\rm device}\,d^3x = \alpha\int_V \varepsilon_{\rm eff}(V(t))\,E^2_{\rm bifilar}(\mathbf{x})\,d^3x</math>
+
+For the [[Psi Stabilizer]], the objective is minimum variance in this integral over the drive cycle — steady ψ source rather than pulsed. The [[Shepard Tone Synthesis]] (D2) waveform is designed to achieve this. From D2's analysis, the minimum-variance condition requires the three Shepard carriers to have phase offsets of <math>T_{\rm sweep}/3</math> between them, which produces a flat temporal profile of <math>E^2(t)</math> and therefore a flat <math>F_{\mu\nu}F^{\mu\nu}(t)</math>.
+
+=== Back-EMF Detection Mode ===
+
+When the [[Anchor Controller]] (D6) switches the bifilar coil from drive mode to receive mode, the same coil functions as a [[ψ Detector]] (C10) via the reverse transduction path. A changing ψ field perturbs <math>\varepsilon_{\rm eff}(t)</math> of the BST composite, which modulates the inter-trace capacitance, which induces a back-EMF:
+
+:<math>V_{\rm bEMF} \propto \frac{d\varepsilon_{\rm eff}}{dt} \propto \frac{d\psi}{dt} = \rho_\psi</math>
+
+The back-EMF is proportional to the ψ charge density (from [[ψ Conservation Laws]] A2). A lock-in amplifier referenced to the resonant frequency <math>\omega_{010}</math> extracts this signal from the thermal noise floor. Estimated sensitivity with lock-in at 1 Hz bandwidth: the back-EMF signal is detectable when <math>V_{\rm bEMF} > V_{\rm noise} = \sqrt{4k_BT\Delta f R} = \sqrt{4 \times 1.38\times10^{-23} \times 300 \times 1 \times 3} \approx 7\,\text{nV}</math> — setting the minimum detectable ψ charge density as a TML-3 measurement target.
+
+== TML Measurement Protocol ==
+
+=== TML-1: Trace Geometry Verification ===
+
+After DLP printing and before composite infusion:
+# Optical microscopy (calibrated stage, ×50 objective): measure trace width and gap at 10 locations across shell surface. Target: <math>w_{\rm trace} = 0.30 \pm 0.02</math> mm; <math>d_{\rm gap} = 0.20 \pm 0.02</math> mm.
+# Four-point resistance measurement: measure resistance across each bifilar trace. Target: 1–4 Ω per trace.
+# HiPot test: apply 400V DC between traces for 60 seconds. Zero leakage current (< 1 μA). Confirms dielectric overcoat integrity.
+
+=== TML-2: Electromagnetic Compliance ===
+
+After full shell assembly with composite fill and drive electronics:
+# Near-field E-field scan: Langer EMV RF-B3 probe on 5 mm × 5 mm grid over shell outer surface. Drive at 40 kHz, 200V, 0.1% duty cycle. Map E-field distribution; compare against COMSOL prediction. Target: agreement to ±20% RMS.
+# Far-field E at 10 cm: calibrated electric field probe (Narda SRM-3006 or equivalent). Drive at 40 kHz, 200V. Target: < 83 V/m at all azimuthal angles.
+# Far-field B at 10 cm: three-axis calibrated magnetometer (Bartington Mag-03). Drive at 40 kHz, 200V. Target: < 27 μT at all azimuthal angles.
+# Overlap integral verification: from measured E-field map and COMSOL ψ₀₁₀ mode, compute <math>\eta_{\rm overlap}</math>. Target: > 0.80.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Bifilar B cancellation factor || <math>B_{\rm far}/B_{\rm near} = d_{\rm gap}/r = 0.2/100 = 2\times10^{-3}</math> → B far = 0.4 μT < 27 μT ICNIRP ✓ || ✓
+|-
+| E-field at gap || <math>E = V/d = 200/0.0002 = 10^6</math> V/m at design voltage || ✓
+|-
+| E-field at 10 cm || ~1 V/m < 83 V/m ICNIRP ✓ || ✓ (from falloff calculation)
+|-
+| Resonant frequency vs drive frequency || <math>f_{\rm res} = 2</math> MHz >> 40 kHz → drive is capacitive, not resonant at drive frequency ✓ || ✓
+|-
+| Adiabatic pulse condition || Pulse duration 1 μs << thermal time constant of trace (~10 ms) → temperature rise 10°C per pulse, recovers in < 1 ms at 0.1% duty cycle ✓ || ✓
+|-
+| Average drive power || 20 kW peak × 0.1% duty cycle = 20 W average → within wearable budget ✓ || ✓
+|-
+| ICNIRP at 40 kHz || Both E and B fields at 10 cm are below reference levels at stated operating conditions ✓ || ✓
+|}
+
+== See Also ==
+
+* [[ψ Transducer]] (C3) — component page that the bifilar coil implements
+* [[Smart Composite Fill]] (B8) — the BST composite fill that the E-field drives
+* [[Shepard Tone Synthesis]] (D2) — the drive waveform optimising F²μν temporal profile
+* [[HV Pulse Modulation]] (D3) — the switching electronics driving the bifilar traces
+* [[BST Energy Recovery]] (D4) — recovery of capacitive energy stored in the bifilar-BST system
+* [[HRV-Gated Drive]] (D5) — phase adaptation of the bifilar drive
+* [[Anchor Controller]] (D6) — master control including drive/receive mode switching
+* [[ψ Detector]] (C10) — reverse transduction via back-EMF detection
+* [[TPMS Lattice Design]] (B7) — the shell substrate into which traces are embedded
+* [[Psi Stabilizer]] — primary deployment platform
+* [[ψ Impedance Theory]] (A4) — impedance matching justification for BST bias tuning
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Effective Physics]]
+[[Category:Electronics]]
+[[Category:HelmKit]]
+[[Category:Psi-Tech]]

@@ -1,0 +1,341 @@
+{{Derives_From
+| term        = □ψ − m²ψ − λψ³ linearized around background ψ₀
+| description = Substituting ψ = ψ₀ + δψ into the source-free master equation
+                and retaining first-order terms yields a massive Klein-Gordon
+                equation for δψ with effective mass m²_eff = m² + 3λψ₀².
+                The plane-wave ansatz then produces the dispersion relation
+                ω² = k² + m²_eff from which all propagation engineering
+                quantities — phase velocity, group velocity, cutoff frequency,
+                coherence length, and refractive index — are derived exactly.
+}}
+
+{{Infobox
+| title   = ψ Dispersion Relations
+| image   =
+| caption = How ψ disturbances propagate through space and time — and what that means for device design
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Psionics]] · Wave Physics · [[Effective Scalar Waves]]
+| label3  = Derives From
+| data3   = Linearized master equation: <math>\Box\delta\psi - m_{\rm eff}^2\delta\psi = 0</math>
+| label4  = Established Analog
+| data4   = Photon dispersion <math>\omega^2 = k^2c^2</math>; phonon dispersion in crystals; Klein–Gordon equation
+| label5  = Key Output
+| data5   = Dispersion relation <math>\omega^2 = k^2 + m_{\rm eff}^2</math>; five derived engineering quantities
+| label6  = Primary Engineering Use
+| data6   = Sets minimum operating frequency, coherence length, and refractive index for every [[Psi-Tech]] device
+| header7 = Key Quantities
+| label8  = Dispersion relation
+| data8   = <math>\omega^2 = k^2 + m_{\rm eff}^2</math>
+| label9  = Effective mass
+| data9   = <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math>
+| label10 = Coherence length
+| data10  = <math>L_\psi = 1/m_{\rm eff}</math>
+| label11 = Cutoff frequency
+| data11  = <math>\omega_c = m_{\rm eff}</math>
+| label12 = Group velocity
+| data12  = <math>v_g = k/\omega \leq 1</math>
+| below   = ''Build wave 1a — parallel with [[ψ Conservation Laws]]. Required by A4, A5, A6, B2, B3, B6, and all Branch C component pages.''
+}}
+
+= ψ Dispersion Relations =
+
+{{Plain_Hook
+| in_one_sentence    = The ψ dispersion relation <math>\omega^2 = k^2 + m_{\rm eff}^2</math> — derived by linearizing the master equation around a background field — governs how fast ψ disturbances travel, how far a static ψ field reaches, what frequency a resonator must operate above, and how a ψ metamaterial bends and slows ψ waves; it is the single equation from which all [[Psi-Tech]] device frequency and geometry specifications follow.
+| everyday_analogy   = Light in glass travels slower than light in vacuum, bends at surfaces, and cannot propagate below a certain frequency in a metal waveguide. All of these phenomena follow from one dispersion relation connecting frequency to wavelength. The ψ dispersion relation does the same thing for psionic waves — it is the master engineering specification sheet for every [[Psi-Tech]] device before a single component is specified.
+| what_it_predicts   = (1) A minimum operating frequency <math>\omega_c = m_{\rm eff}</math> below which ψ waves cannot propagate and instead decay exponentially; (2) A coherence length <math>L_\psi = 1/m_{\rm eff}</math> setting the spatial reach of any static ψ source; (3) A group velocity always less than <math>c</math>, approaching <math>c</math> only for high-frequency ψ waves; (4) A nonlinear stiffening effect in which a trained operator's sustained background field <math>\psi_0</math> increases the local effective mass, shortening the coherence length; (5) A frequency-dependent refractive index enabling ψ metamaterial lens and waveguide design.
+| if_you_remember_one_thing = The coherence length <math>L_\psi = 1/m_{\rm eff}</math> is the single most important engineering parameter derived from this page. Every [[Psi-Tech]] device is designed around a target <math>L_\psi</math>, and every [[ψ Metamaterial]] is an engineered structure that sets <math>m_{\rm eff}</math> — and therefore <math>L_\psi</math> — to a design-specified value.
+}}
+
+The ψ dispersion relation is the engineering backbone of [[Psionic Engineering]]. It answers the questions every device designer must ask before specifying geometry, materials, or drive electronics:
+
+* At what frequency must the device operate?
+* How far does the ψ field extend from the device?
+* At what speed does ψ information travel between components?
+* How does the local field environment — set by the operator's own ψ background — shift these answers?
+
+All five questions have exact mathematical answers derived from a single linearization procedure applied to the master psionic field equation. This page carries out that derivation explicitly and translates every result into engineering quantities with device-specific targets.
+
+== Linearization of the Master Equation ==
+
+=== Setup ===
+
+The master psionic field equation in the absence of EM coupling and external sources (vacuum propagation):
+
+:<math>\Box\psi - m^2\psi - \lambda\psi^3 = 0</math>
+
+To find how small perturbations propagate, decompose the field into a spatially uniform, time-constant background <math>\psi_0</math> plus a small perturbation <math>\delta\psi</math>:
+
+:<math>\psi(\mathbf{x},t) = \psi_0 + \delta\psi(\mathbf{x},t), \qquad |\delta\psi| \ll |\psi_0|</math>
+
+The background <math>\psi_0</math> is a constant, so <math>\Box\psi_0 = 0</math>. Substituting into the field equation:
+
+:<math>\Box\delta\psi - m^2(\psi_0 + \delta\psi) - \lambda(\psi_0 + \delta\psi)^3 = 0</math>
+
+Expanding the cubic and collecting background and perturbation terms:
+
+:<math>\underbrace{-m^2\psi_0 - \lambda\psi_0^3}_{\text{background equation}} + \underbrace{\Box\delta\psi - m^2\delta\psi - 3\lambda\psi_0^2\,\delta\psi}_{\text{first order in }\delta\psi} + \mathcal{O}(\delta\psi^2) = 0</math>
+
+The background satisfies its own equation <math>m^2\psi_0 + \lambda\psi_0^3 = 0</math> (static vacuum equilibrium). Dropping this and the higher-order terms:
+
+:<math>\boxed{\Box\delta\psi - \bigl(m^2 + 3\lambda\psi_0^2\bigr)\delta\psi = 0}</math>
+
+=== The Effective Mass ===
+
+Define the '''effective mass''':
+
+:<math>m_{\rm eff}^2 \equiv m^2 + 3\lambda\psi_0^2</math>
+
+{{Math_Bridge
+| equation_label = ψ effective mass
+| equation       = <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math>
+| in_english     =
+* <math>m^2</math> — the bare mass of the ψ field. Sets the base coherence length in vacuum with no background.
+* <math>3\lambda\psi_0^2</math> — the nonlinear mass shift. When a sustained background field <math>\psi_0 \neq 0</math> exists — such as the ψ field maintained by a trained operator — the effective mass increases. This stiffens the medium and shortens the coherence length.
+* <math>m_{\rm eff}</math> is the quantity that enters every engineering formula on this page. The bare mass <math>m</math> alone is never sufficient for device design.
+* '''Key implication:''' A trained operator with sustained <math>\psi_0</math> operates in a stiffer local ψ medium than an untrained person. Devices must be calibrated to the operator's effective mass, not the vacuum bare mass.
+}}
+
+The linearized equation becomes the massive Klein–Gordon equation:
+
+:<math>\bigl(\Box - m_{\rm eff}^2\bigr)\delta\psi = 0</math>
+
+This is one of the most well-studied equations in theoretical physics — it governs the Higgs field excitations, the inflaton, and the pion in nuclear physics. Every result derived for those fields applies directly to psionic perturbations.
+
+== The Dispersion Relation ==
+
+Insert the plane-wave ansatz <math>\delta\psi = A\,e^{i(\mathbf{k}\cdot\mathbf{x} - \omega t)}</math> into the linearized equation. With <math>\Box = \partial_t^2 - \nabla^2</math>:
+
+:<math>(-\omega^2 + k^2 - m_{\rm eff}^2)\,\delta\psi = 0</math>
+
+For non-trivial solutions (<math>A \neq 0</math>):
+
+:<math>\boxed{\omega^2 = k^2 + m_{\rm eff}^2}</math>
+
+{{Math_Bridge
+| equation_label = ψ dispersion relation
+| equation       = <math>\omega^2 = k^2 + m_{\rm eff}^2</math>
+| in_english     =
+* <math>\omega</math> — angular frequency of the ψ wave (radians per second in SI). This is what a [[ψ Resonator]] must be tuned to support.
+* <math>k = |\mathbf{k}|</math> — wave number (radians per metre in SI). Related to wavelength by <math>k = 2\pi/\lambda_\psi</math>.
+* <math>m_{\rm eff}</math> — effective mass. Acts as a frequency offset: even at <math>k=0</math>, the field oscillates at <math>\omega = m_{\rm eff}</math>.
+* '''Read as a sentence:''' "The square of the ψ wave frequency equals the square of its spatial oscillation rate plus a fixed offset set by the local field environment."
+* '''Massless limit''' <math>m_{\rm eff} \to 0</math>: <math>\omega = k</math> — ψ propagates exactly at <math>c</math>, identical to a photon or graviton.
+* '''Long-wavelength limit''' <math>k \to 0</math>: <math>\omega \to m_{\rm eff}</math> — minimum possible frequency for a propagating ψ wave.
+}}
+
+=== The ω–k Diagram ===
+
+The dispersion curve is a hyperbola in the <math>(\omega, k)</math> plane:
+
+{| class="wikitable" style="width:80%; margin:auto;"
+! Region !! Condition !! Behaviour !! Engineering Name
+|-
+| Above curve || <math>\omega > \sqrt{k^2 + m_{\rm eff}^2}</math> || Evanescent decay, <math>k</math> imaginary || Forbidden band
+|-
+| On curve || <math>\omega^2 = k^2 + m_{\rm eff}^2</math> || Propagating wave || Dispersion relation
+|-
+| Below cutoff || <math>\omega < m_{\rm eff}</math> || Pure exponential decay, no oscillation || Evanescent / Yukawa regime
+|-
+| Asymptote (<math>k \gg m_{\rm eff}</math>) || <math>\omega \approx k</math> || Effectively massless, speed → <math>c</math> || Ultra-relativistic ψ limit
+|}
+
+The asymptote line <math>\omega = k</math> (the massless case) is always approached from below — massive ψ waves always travel slower than <math>c</math> in all physically meaningful measures. See group velocity below.
+
+== Five Engineering Quantities ==
+
+Every [[Psi-Tech]] device specification reduces to one or more of the following five quantities. All are derived exactly from <math>\omega^2 = k^2 + m_{\rm eff}^2</math>.
+
+=== 1. Phase Velocity ===
+
+:<math>v_\phi = \frac{\omega}{k} = \frac{\sqrt{k^2 + m_{\rm eff}^2}}{k} = \sqrt{1 + \frac{m_{\rm eff}^2}{k^2}} \geq 1</math>
+
+Phase velocity is always greater than or equal to <math>c</math> for massive ψ. This does not violate causality — phase velocity measures the speed of wavefront crests, not information. No signal travels at <math>v_\phi</math>. In engineering, phase velocity matters for resonator tuning: the wavelength inside a ψ cavity is <math>\lambda_\psi = 2\pi/k = 2\pi v_\phi/\omega</math>, which determines the cavity dimension for a given resonant frequency.
+
+=== 2. Group Velocity ===
+
+:<math>v_g = \frac{d\omega}{dk} = \frac{k}{\omega} = \frac{k}{\sqrt{k^2 + m_{\rm eff}^2}} \leq 1</math>
+
+{{Math_Bridge
+| equation_label = ψ group velocity
+| equation       = <math>v_g = \frac{k}{\sqrt{k^2 + m_{\rm eff}^2}}</math>
+| in_english     =
+* <math>v_g</math> — the speed at which ψ energy and information travel. Always less than or equal to <math>c</math>.
+* Approaches <math>c</math> when <math>k \gg m_{\rm eff}</math>: high-frequency, short-wavelength ψ waves are nearly as fast as light.
+* Approaches zero as <math>k \to 0</math>: near-cutoff ψ waves travel very slowly — the group velocity vanishes at the cutoff frequency.
+* '''Engineering implication:''' A [[ψ Waveguide]] operating close to its cutoff frequency has very slow group velocity — useful for delay lines and slow-wave structures, but limits bandwidth.
+}}
+
+=== 3. Cutoff Frequency ===
+
+:<math>\omega_c = m_{\rm eff} \qquad \Longleftrightarrow \qquad f_c = \frac{m_{\rm eff}}{2\pi} \quad \text{(SI: Hz)}</math>
+
+Below <math>\omega_c</math>, the wave number <math>k</math> becomes imaginary and the plane-wave solution becomes an evanescent wave:
+
+:<math>k = i\kappa, \quad \kappa = \sqrt{m_{\rm eff}^2 - \omega^2} \qquad (\omega < \omega_c)</math>
+
+:<math>\delta\psi \propto e^{-\kappa x} \quad \text{(exponential decay, not oscillation)}</math>
+
+No propagating ψ mode exists below the cutoff. Every [[ψ Resonator]] and [[ψ Waveguide]] must operate above <math>\omega_c</math>. Every [[ψ Source]] must emit at <math>\omega > \omega_c</math> to produce a propagating field rather than a locally-decaying one.
+
+=== 4. Coherence Length ===
+
+In the static limit (<math>\omega = 0</math>, time-independent ψ field):
+
+:<math>k^2 = -m_{\rm eff}^2 \implies k = i\,m_{\rm eff}</math>
+
+:<math>\psi_{\rm static}(r) = -\frac{G_\psi M_\psi}{r}\,e^{-m_{\rm eff}\,r}</math>
+
+The field decays to <math>1/e</math> of its source value at the '''coherence length''':
+
+:<math>\boxed{L_\psi = \frac{1}{m_{\rm eff}}}</math>
+
+{{Math_Bridge
+| equation_label = ψ coherence length
+| equation       = <math>L_\psi = \frac{1}{m_{\rm eff}}</math>
+| in_english     =
+* <math>L_\psi</math> — the distance over which a static ψ field remains significant. Beyond <math>L_\psi</math>, it decays exponentially.
+* Larger <math>m_{\rm eff}</math> → shorter <math>L_\psi</math> → more localised ψ field. This is the [[Psi Defender]] design principle: high <math>m_{\rm eff}</math> confines the shield tightly around the operator.
+* Smaller <math>m_{\rm eff}</math> → longer <math>L_\psi</math> → field extends further. The [[Psi Stabilizer]] targets <math>L_\psi \approx 20</math> cm (spanning the operator's skull) — a specific engineering requirement on <math>m_{\rm eff}</math>.
+* <math>m_{\rm eff} \to 0</math>: <math>L_\psi \to \infty</math> — infinite-range massless ψ, analogous to gravity or electrostatics.
+}}
+
+=== 5. Refractive Index ===
+
+The ψ refractive index of a medium with effective mass <math>m_{\rm eff}</math> is:
+
+:<math>n_\psi = \frac{c}{v_\phi} = \frac{k}{\omega} = \sqrt{1 - \frac{\omega_c^2}{\omega^2}} = \sqrt{1 - \frac{m_{\rm eff}^2}{\omega^2}}</math>
+
+For <math>\omega > \omega_c</math>: <math>0 \leq n_\psi < 1</math> — ψ waves in a massive medium have refractive index less than one, analogous to EM waves in a plasma. Snell's law applies at interfaces: <math>n_1 \sin\theta_1 = n_2 \sin\theta_2</math>. A [[ψ Metamaterial]] with engineered <math>m_{\rm eff}(\mathbf{x})</math> is therefore a graded-index ψ lens.
+
+== The Nonlinear Mass Shift: Operator Field Stiffening ==
+
+The effective mass formula <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math> has a direct physical consequence for device calibration. A trained operator sustaining a background field <math>\psi_0</math> operates inside a locally stiffer medium than an untrained operator with <math>\psi_0 \approx 0</math>.
+
+{{Way_It_Works
+| title       = How background field ψ₀ stiffens the local ψ medium
+| step1_label = Baseline operator (untrained)
+| step1_text  = <math>\psi_0 \approx 0</math>. Effective mass is approximately the bare mass: <math>m_{\rm eff} \approx m</math>. Coherence length <math>L_\psi \approx 1/m</math>. All device design targets apply at this baseline.
+| step2_label = Operator in HRV coherence (resting trained)
+| step2_text  = Sustained low-amplitude coherent oscillation. <math>\psi_0</math> is small but non-zero. <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math> slightly exceeds <math>m^2</math>. Coherence length decreases slightly. Device must compensate via ferrofluid <math>\mu_{\rm eff}</math> adjustment (see [[ψ Permeability]]).
+| step3_label = Operator in deep Anchor mode (active session)
+| step3_text  = Sustained high-amplitude ψ background. <math>\psi_0</math> significant. If <math>3\lambda\psi_0^2 \gg m^2</math>, effective mass is dominated by the nonlinear term: <math>m_{\rm eff} \approx \sqrt{3\lambda}\,\psi_0</math>. Coherence length contracts proportionally. The [[Anchor Controller]] must track this shift via HRV-derived coherence state.
+| step4_label = Group ritual or PsiNet node cluster
+| step4_text  = Multiple operators aligned. Total background field <math>\psi_0 \propto N\psi_{\rm individual}</math>. Effective mass grows as <math>\sqrt{N}</math>. Coherence length contracts as <math>1/\sqrt{N}</math>. The local ψ medium becomes increasingly stiff — consistent with the subjective experience of "increased resistance" reported in high-coherence group states. (Track B — ψ-dependent.)
+| step5_label = Engineering response
+| step5_text  = The [[Anchor Controller]] uses HRV-derived <math>m_{\rm eff}</math> estimates to retune the ferrofluid channel current (setting <math>\mu_{\rm eff}</math> and therefore <math>m_{\rm eff}</math>) so that <math>L_\psi</math> remains at the design target of 20 cm regardless of operator state. This is the real-time dispersion compensation function of the Mk2.0 closed-loop system.
+}}
+
+=== Quantitative Example (Track B) ===
+
+Let <math>m = 0.01</math> (bare mass in natural units), <math>\lambda = 0.1</math>, operator-sustained <math>\psi_0 = 3</math>:
+
+:<math>m_{\rm eff}^2 = (0.01)^2 + 3(0.1)(3)^2 = 0.0001 + 2.7 = 2.7001</math>
+:<math>m_{\rm eff} \approx 1.643</math>
+
+The nonlinear term dominates by a factor of 27,000. The coherence length shrinks from <math>L_\psi^{\rm (bare)} = 1/0.01 = 100</math> (in natural units) to <math>L_\psi^{\rm (eff)} = 1/1.643 \approx 0.61</math> — a reduction by factor 164. Without dispersion compensation, a device calibrated to the bare mass would operate far outside its design regime.
+
+== Device Engineering Targets ==
+
+The following table translates the dispersion relation into specific parameter targets for each [[Psi-Tech]] module. All frequency targets are stated in SI (kHz); all length targets in cm.
+
+{| class="wikitable sortable" style="width:100%;"
+! Device !! Target <math>L_\psi</math> !! Target <math>\omega_c / 2\pi</math> !! Required <math>m_{\rm eff}</math> (SI) !! Constraint Source !! Ferrofluid State
+|-
+| [[Psi Stabilizer]] || ~20 cm || < 40 kHz || < 5 m⁻¹ || Spans operator skull; ψ₀₁₀ mode at 40 kHz (see [[ψ Boundary Conditions]]) || Low H-field; minimal μ_eff boost
+|-
+| [[Psi Harmonizer]] || ~50 cm || < 16 kHz || < 2 m⁻¹ || Must span small group; alpha-band coupling at ~10 Hz EEG || Near-zero H-field; bare m dominates
+|-
+| [[Psi Defender]] || ~2 cm || < 800 kHz || < 50 m⁻¹ || Personal-boundary confinement; high-m Yukawa shield || High H-field; maximum μ_eff
+|-
+| [[ψ Waveguide]] (PsiNet) || Mode-matched to channel || f_c < operational f || Set by waveguide geometry || [[ψ Boundary Conditions]] — cutoff from channel width || Variable; set per link
+|-
+| [[ψ Memory Element]] || < 1 mm || > 100 MHz || > 300 m⁻¹ || Soliton localisation for data storage || Maximum ferrofluid saturation
+|}
+
+== Material Refractive Index Table ==
+
+For any material with engineered <math>m_{\rm eff}</math>, the ψ refractive index at a given operating frequency <math>\omega</math> is:
+
+:<math>n_\psi(\omega) = \sqrt{1 - m_{\rm eff}^2/\omega^2}</math>
+
+{| class="wikitable" style="width:100%;"
+! Material / Configuration !! Estimated <math>m_{\rm eff}</math> !! <math>n_\psi</math> at 40 kHz !! <math>L_\psi</math> !! Notes
+|-
+| Vacuum (<math>\psi_0 = 0</math>, bare mass) || <math>m</math> (TBD) || ≈ 1 || TBD || Baseline; set by TML-1 measurement
+|-
+| Gyroid TPMS, low ferrofluid H || 5 m⁻¹ (design target) || ~1 (near unity at 40 kHz since <math>m_{\rm eff} \ll \omega</math>) || 20 cm || [[Psi Stabilizer]] design point
+|-
+| Gyroid TPMS, high ferrofluid H || 50 m⁻¹ (design target) || ~1 (still <math>m_{\rm eff} \ll \omega</math> at 40 kHz) || 2 cm || [[Psi Defender]] design point
+|-
+| Biological cortex || TBD — TML-3 measurement || TBD || TBD || Primary operator interface; highest priority measurement target
+|-
+| Water (biological reference) || TBD || TBD || TBD || Controls group; required for sham experiment ([[Sham Control Design]])
+|}
+
+== Connection to OSGS Symbolic Geometry ==
+
+The [[OSGS|Octahedral Symbolic Geometry System]] defines six primitive symbols (Point, Line, Circle, Wave, Angle, Curve) that may correspond to fundamental ψ mode topologies — see [[ψ Metamaterials]] (B9) for the full argument. The dispersion relation provides the frequency axis for this correspondence:
+
+* '''Wave''' primitive: corresponds to a propagating ψ mode on the dispersion curve, <math>\omega > \omega_c</math>, <math>k</math> real.
+* '''Point''' primitive: corresponds to the static Yukawa solution, <math>\omega = 0</math>, <math>k = im_{\rm eff}</math> — a localised source.
+* '''Circle''' primitive: corresponds to a closed resonant mode, quantised <math>k</math> from [[ψ Boundary Conditions]].
+
+This connection is speculative (Track B) but provides a mathematical framework linking the symbolic geometry system to engineered dispersion properties. Each primitive symbol may function as a boundary-condition operator that selects a specific region of the <math>(\omega, k)</math> dispersion diagram.
+
+== ψ-Dependent Extensions ==
+
+=== Dispersion in the Presence of Gravity ===
+
+In curved spacetime (strong gravitational fields, relevant to [[Magnetogravitic Planetary Anchoring]]):
+
+:<math>\omega^2 = k^2 + m_{\rm eff}^2 + \xi R</math>
+
+where <math>\xi</math> is a non-minimal coupling to the Ricci scalar <math>R</math> and the term <math>\xi R</math> acts as an additional mass shift. Near a planetary surface, <math>R \approx -8\pi G T^\mu_\mu</math> from Einstein's equations. This gravitational dispersion correction is negligible for HelmKit-scale devices but relevant to vehicle-scale ψ systems.
+
+=== Tachyonic Instability ===
+
+If <math>m_{\rm eff}^2 < 0</math> (which can occur if <math>m^2 < 0</math> and <math>3\lambda\psi_0^2</math> does not compensate), the dispersion relation gives imaginary <math>\omega</math> for small <math>k</math> — exponential growth rather than oscillation. This is a tachyonic instability, analogous to the Higgs mechanism before symmetry breaking. In the psionic context, an unstable ψ background would indicate that <math>\psi_0 = 0</math> is not the true vacuum — the field would roll to a new stable value. The [[Anchor Controller]] monitors for tachyonic precursor signatures (anomalous HRV variance growth) as a safety interlock.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected Result !! Verified?
+|-
+| <math>m_{\rm eff} \to 0</math> || <math>\omega = k</math>, <math>v_g = v_\phi = c</math>, <math>L_\psi \to \infty</math> — massless wave at <math>c</math>, infinite range || ✓
+|-
+| <math>m_{\rm eff} \to 0</math>, <math>k \to 0</math> || <math>\omega \to 0</math> — zero frequency, zero wavevector; consistent with a constant field || ✓
+|-
+| <math>k \gg m_{\rm eff}</math> || <math>\omega \approx k</math>, <math>v_g \approx 1</math> — ultra-relativistic, effectively massless || ✓
+|-
+| <math>k = 0</math> || <math>\omega = m_{\rm eff}</math>, <math>v_g = 0</math> — spatially uniform oscillation at Compton frequency, zero group velocity || ✓
+|-
+| <math>\omega < m_{\rm eff}</math> || <math>k = i\kappa</math>, <math>\psi \propto e^{-\kappa x}</math> — evanescent, no propagation || ✓
+|-
+| <math>\psi_0 = 0</math>, <math>\lambda \to 0</math> || <math>m_{\rm eff} = m</math> — standard Klein–Gordon dispersion || ✓
+|-
+| Restoring SI units: <math>k \to k/\hbar</math>, <math>m \to mc/\hbar</math> || <math>\omega^2 = k^2c^2 + (mc^2/\hbar)^2</math> — correct relativistic energy-momentum relation <math>E^2 = p^2c^2 + m^2c^4</math> || ✓
+|}
+
+== See Also ==
+
+* [[Psionics]] — master field equation and Klein–Gordon limit
+* [[ψ Conservation Laws]] — the conserved Noether current whose four-divergence gives the field equation
+* [[ψ Impedance Theory]] — impedance derived from group velocity and constitutive relations
+* [[ψ Boundary Conditions]] — mode quantisation using this dispersion relation
+* [[ψ Green's Functions]] — retarded propagator built from the dispersion relation
+* [[ψ Coherence Length]] (B6) — full materials-science treatment of <math>L_\psi</math>
+* [[ψ Metamaterials]] (B9) — engineered <math>m_{\rm eff}</math> via TPMS geometry
+* [[ψ Resonator]] (C1) — device that supports quantised modes from this dispersion relation
+* [[ψ Waveguide]] (C2) — guided propagation above cutoff
+* [[ψ Shield / Absorber]] (C8) — Yukawa screening via high <math>m_{\rm eff}</math>
+* [[Psi Stabilizer]] — primary device constrained by this page's targets
+* [[Soliton Solutions of Psi Field]] — nonlinear exact solutions beyond the linearisation
+* [[Effective Scalar Waves]] — the broader wave-physics context
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Wave Physics]]

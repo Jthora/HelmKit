@@ -6,6 +6,8 @@ The [[Tho'ra Clan]] exists to '''save the future''' by establishing and reinforc
 
 The Clan is a small, mostly-covert R&D-and-rescue cell with the long-game intent of building infrastructure (the [[Resonant Finder]], the [[Earth Intelligence Network]], the [[Psi-Tech]] line, the [[Magneto Speeder]] platform, the [[AI Nursery]], the [[Tho'ra HQ]] itself) that outlasts any one founder and makes the mission ''run itself''.
 
+The Tho'ra Clan is on a [[Mission to Save the Future]].
+
 == Doctrinal Principles ==
 
 === Consent is Required ===
@@ -57,16 +59,6 @@ This doctrine is on the wiki for everyone to read. The Clan's legitimacy is buil
 * [[Earth Alliance]]
 * [[Psi-Tech]]
 * [[Tho'ra HQ]]
-
-== Psi-Tech Discipline ==
-The mission doctrine governs how the [[Psi-Tech]] roster is fielded:
-
-* '''Operator-driven, not operator-prescribed.''' Every [[HelmKit]] session, [[Resonant Chamber]] session, and [[Psi Tether]] pairing requires operator consent at the moment of use.
-* '''No coercive emission.''' [[Coherence Beacon]]s, [[Psi Anchor]]s, and [[Resonant Hailer]]s operate strictly below ICNIRP general-public reference levels; characterization is public and audit-visible.
-* '''No covert deployment.''' Every site emitter is published to [[Earth Intelligence Network|EIN]].
-* '''Epistemic honesty.''' Devices carry {{Psi-claim}} tags so any tier-3 [[Resonant Hailer|novelty]] device is clearly labeled.
-* '''Maturity gates.''' Mk0 → Mk1 → Mk2 → Mk3 progression is gated on documented validation (see [[Tho'ra Tech Maturity Levels]]).
-* '''Failure modes documented.''' Every Psi-Tech page carries ≥ 6 failure modes with mitigations.
 
 [[Category:Tho'ra Clan]]
 [[Category:Doctrine]]

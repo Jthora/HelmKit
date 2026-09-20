@@ -107,6 +107,15 @@ Mk2/Mk3 sensitivity-upgrade roadmap.
 == References ==
 <references />
 
+== Pipeline integration ==
+Psi-Scanner telemetry feeds the
+[[Resonant_Pipeline]] Detection stage (Stage 1). The pipeline
+consumes passive-scan output by default; active-scan and forensic-scan
+modes are invoked only under Stage-4-and-above intervention with
+explicit cell-lead authorisation. See [[Resonant_Pipeline]] for the
+full input contract and [[Psi_Mesh]] for the mesh routing that
+distributes scanner telemetry across the cell tier.
+
 [[Category:Equipment]]
 [[Category:Psionics]]
 [[Category:Psi Devices]]

@@ -38,17 +38,6 @@ The sham-controlled discipline in §4.0 is not negotiable, for reasons that serv
 
 ### What the framework reframe (psion ontology) does and does not change here
 
-The recent ontology work in [`docs/psion_quasiparticle.md`](psion_quasiparticle.md) sharpens *what the device is theoretically doing* (reactive-near-field Primakoff-class converter; driving $C$ on the EFT phase diagram via both direct CEMI and indirect psion-mediated channels). It does **not** change the Mk1 build, BOM, safety architecture, or operator-claim language. The wearer-facing description of the device remains **"a head-worn stabilizer that uses paced breathing and HRV biofeedback to help your autonomic state return to a calm coherent baseline
-
-The sham-controlled discipline in §4.0 is not negotiable, for reasons that serve both goals simultaneously:
-
-- **Placebo response in biofeedback devices is real, measurable, and large.** Any well-designed-looking head device worn with intent produces meaningful HRV/state response purely from expectation and ritual. This is a well-replicated finding in the biofeedback and neurofeedback literature, not an academic technicality.
-- **Without sham-controlled blinding, we cannot tell whether the coil is doing anything beyond what L0+L1+L2 plus an empty enclosure would do.** That matters for goal (1): if the coil is no better than sham, the wearer is getting all their benefit from the biofeedback floor, and we are spending battery and bench iteration on a coil that adds nothing.
-- A G3 pass means the coil contributes beyond the L0+L1+L2 floor; a G3 null means L0+L1+L2 is doing all the work — still a wearer-benefit pass on G2.
-- The same discipline also makes the data useful to goal (2): only pre-registered, sham-controlled, $F^2$-instrumented sessions can later be re-analyzed as input to the F1–F11 programme.
-
-### What the framework reframe (psion ontology) does and does not change here
-
 The recent ontology work in [`docs/psion_quasiparticle.md`](psion_quasiparticle.md) sharpens *what the device is theoretically doing* (reactive-near-field Primakoff-class converter; driving $C$ on the EFT phase diagram via both direct CEMI and indirect psion-mediated channels). It does **not** change the Mk1 build, BOM, safety architecture, or operator-claim language. The wearer-facing description of the device remains **"a head-worn stabilizer that uses paced breathing and HRV biofeedback to help your autonomic state return to a calm coherent baseline."** That description is honest at Mk1 and consistent with both the ψ-field framework and any future framework that displaces it.
 
 The build-side firewall from [`docs/psion_quasiparticle.md §7`](psion_quasiparticle.md) applies in full: psion vocabulary is internal engineering language; wearer-facing copy stays in physiological-effect language.
@@ -69,11 +58,15 @@ Default recommendation if no other constraints: **G1 = (a) PPG-only, G2 = (a) au
 
 > **Pass 2 refresh (2026-05-12 wiki drop, see [`wiki_synthesis.md` §P2.1](wiki_synthesis.md#p21-the-frequency-regime--refined-not-the-same-as-pass-1)):** the wiki-canonical Mk1 stim path is now a **Tesla bifilar PCB coil (~30 × 30 mm, series-opposing connection) driven 1–8 MHz carrier modulated at 7.83 Hz** via SI5351 + Class-D, *not* the H-bridge-driven sub-MHz coil Pass 1 inferred. The G2=(c) option above remains the wiki-aligned path; the parts list under §1 changes from "Persinger-class solenoid + H-bridge + isolated supply" to "bifilar PCB coil + SI5351 + Class-D + thermistor". Mk1 stim target per the wiki Stabilizer Mk1 page is **≤ $250**, primary endpoint **time-to-coherence under standardised stressor**, blinded RCT $n \geq 30$ vs sham coil.
 
+> **Inventory-grounded confirmation (2026-08-05, see [`docs/psionic_engineering/bifilar_coil_engineering.md`](psionic_engineering/bifilar_coil_engineering.md)):** the wiki later published a substantially higher-power `Bifilar Coil Engineering` page (200V drive, ~100A peak pulsed, traces embedded directly in a TPMS-lattice/BST-composite shell) as part of its August 2026 "Psionic Engineering" branch. **This is not a Mk1 candidate.** `docs/inventory.md` confirms the parts on hand cover the low-voltage PCB coil above (PCB mill + FR4 stock "close the substrate gap"), but there is no DLP/resin printer and no BST/PZT/MWCNT composite feedstock anywhere in inventory for the newer design — it would need new capital equipment before it's buildable at all. The low-voltage bifilar PCB coil in this section remains the correct Mk1.0 stim payload; the wiki's newer design is Mk2+/aspirational at earliest, contingent on that equipment. See [`docs/psionic_engineering/README.md`](psionic_engineering/README.md) for the fuller wiki-to-engineering translation this project maintains.
+
 ---
 
 ## 1. Bill of materials (representative; finalize after G1–G3)
 
-Reusing the psiStabilizer A01 BOM where possible. Indicative line items, not authoritative:
+Reusing the psiStabilizer A01 BOM where possible. Indicative line items, not authoritative.
+
+> **Note on the "Notes" column below**: hardpoint/location references here (`temple boom`, `forehelm`, `HP-R`, `HP-EL`/`HP-ER`, etc.) predate the topology-B pivot and have not been re-verified against its real hardpoint occupants — see the flagged open question in [§2 below](#2-frame-work). Treat these as indicative of *what kind* of mount each item needs, not as confirmed topology-B placements.
 
 | Item | Purpose | Source | Notes |
 |------|---------|--------|-------|
@@ -98,22 +91,19 @@ A real `hardware/Mk1/bom.csv` gets committed before the order is placed, in the 
 
 ## 2. Frame work
 
-Start from the existing Mk1-named modular geometry already in `3D-Models/HelmKit/`:
-- `helmkit_DevType_v1_mk1_modular-proto1.{blend,stl}`
-- `helmkit-forehelm_DevType_v1_mk1_modular-proto1.stl`
-- `helmkit-rearhelm_DevType_v1_mk1_modular-proto1.stl`
-- `helmkit-sidehelm_DevType_v1_mk1_modular-proto1.stl`
-- `helmkit_Dev_v1-mk1-templeLeft-proto1{,b}.stl`
-- `helmkit_headpiece_interlink-Dev_v1-mk1--proto1b.stl`
+> **2026-08-05 correction**: this section previously pointed at old Mk1-named `forehelm`/`rearhelm`/`sidehelm`/`temple` STLs as the starting geometry. That topology is superseded by **topology B** (top-yoke + folding visor-bands + temple plates + pylons), the current, actively-developed frame — see [`docs/mechanical/mk0.5_topology_beta_architecture.md`](mechanical/mk0.5_topology_beta_architecture.md) and [`tools/blender/README.md`](../tools/blender/README.md). Per [`docs/mk_ladder.md`](mk_ladder.md) §6, Mk1.0 **inherits topology B's mechanical contract from Mk0.5 unchanged** — there is no separate Mk1 frame-conversion step.
 
-Mk1-specific deltas to add (in Blender, then re-export):
-1. **Hardpoint footprints** standardized per [architecture.md §2](architecture.md#22-mechanical-contract). Add captive-nut pockets.
-2. **Cable raceway** as a printed-in channel along the headband interior; minimum 6 × 6 mm cross-section.
-3. **Battery bay** on `HP-R` sized to the chosen cell + protection PCB + 3 mm of foam.
-4. **Compute bay** on `HP-R` adjacent to battery, with a hinged or magnetic door for µSD access.
-5. **Temple sensor boom** on `HP-TL` / `HP-TR` for the PPG and/or magnetometer.
+Frame source of truth: `tools/blender/build_*.py` (11 parametric generators — top_yoke, forward/rear visor bands, temple plates L/R, pylons, defender cradles, stabilizer panels, sidehelm pods). Generated STLs are gitignored/regenerated on demand, not committed.
 
-When the Mk1 frame freezes, **copy** the final files into a new `3D-Models/HelmKit/Mk1/` folder and tag the commit. Do not edit the iter geometry in place.
+**Before any Mk1-specific frame work happens, topology B itself needs its first physical validation pass** — nothing in it has been printed or fit-tested yet (see the checklist in `tools/blender/README.md`). The deltas below (hardpoint footprints, cable raceway, battery/compute bays, sensor boom) are **already specified** in topology B's frozen interface contracts (`mk0.5_topology_beta_architecture.md` §12) rather than being new Mk1 work:
+
+1. **Hardpoint footprints**: frozen per topology B §12 (`IFACE_YOKE_TEMPLE`, `IFACE_TEMPLE_FWDBAND`, etc.) and mirrored in [`architecture.md` §2.1](architecture.md#21-hardpoint-locations-topology-b--mk05mk1-frame).
+2. **Cable raceway**: Top Yoke + Visor-Band internal printed channels, topology B §6.
+3. **Battery bay**: `HP-SL` sliding-dovetail pod, topology B §12 `IFACE_TEMPLE_SIDEHELM_POD`.
+4. **Compute bay**: `HP-SR` sliding-dovetail pod, same interface.
+5. **Sensor pods**: Forward Visor-Band sub-rail (`HP-FL`/`HP-FR`), topology B §12 `IFACE_BAND_SUBRAIL` — not a temple boom under topology B.
+
+**Open question, not resolved here**: where the Mk1 bifilar coil, audio transducers, and other Mk1-specific payload actually mount under topology B is not yet decided — topology B's own hardpoint occupant list (Defenders at `HP-TL`/`HP-TR`, Pylons at `HP-EL`/`HP-ER`) is oriented around the Pylon/Defender/Stabilizer psi-actuator triad, not the Mk1 buildplan's PPG+bifilar-coil+audio payload. This needs an explicit placement decision before frame work beyond topology-B validation proceeds.
 
 ---
 
@@ -127,7 +117,7 @@ cd external/psiStabilizer
 pip install -e software/
 ```
 
-Mk1 software in this repo is a ree independent grades (G1 / G2 / G3)
+## 4. Grading
 
 Mk1 success is graded on **three independent axes**, each pre-registered, each publishable as its own outcome, each shippable independently. A Mk1 that scores **G1✓ / G2✓ / G3 null** is a *success* on wearer-benefit grounds with a clean null on the stim payload — the device ships, the wearer benefits, the framework hypothesis takes a hit on this implementation. That's an honest outcome. The old single-axis pass/fail collapsed these three independent questions into one and is replaced.
 
@@ -214,9 +204,9 @@ The three grades are computed and pre-registered separately. A unit that scores:
 
 Framework-level claims (F1–F11 in [`falsification.md`](falsification.md)) are **not adjudicated at Mk1.** F3 (resonance enhancement) and F4 (SAR-independence) require Mk2 instrumentation; F11 (Primakoff null-search) requires haloscope-class apparatus; F1, F2, F5, F6 are population-scale.
 
-But Mk1 is **not framework-irrelevant**: sessions logged with the $F^2$ probe and pre-registered protocol produce calibrated data that Mk1.5 (matched-$F^2$ H1-vs-H2 comparison) and Mk2 (F3, F4) inherit directly. Landing Mk1 honestly is what makes the rest of the falsification programme defensible by inheritance rather than from-
-- *"We re-analyzed the data and found a different metric that did reach significance."* Post-hoc fishing; pre-registered metric only.
-s
+But Mk1 is **not framework-irrelevant**: sessions logged with the $F^2$ probe and pre-registered protocol produce calibrated data that Mk1.5 (matched-$F^2$ H1-vs-H2 comparison) and Mk2 (F3, F4) inherit directly. Landing Mk1 honestly is what makes the rest of the falsification programme defensible by inheritance rather than from-scratch.
+
+### 4.1 The pre-registrations
 
 Three pre-registrations, one per grade. File **before** any session of that grade runs.
 
@@ -226,13 +216,9 @@ Three pre-registrations, one per grade. File **before** any session of that grad
 | `experiments/Mk1/EH02_g2_wearer_benefit.md` | G2 | 4-week within-subject ABAB or AB-BA crossover, no stressor | Composite of $\Delta$ morning RMSSD + weekly PSS Likert + sleep-onset Likert, pre-registered weights |
 | `experiments/Mk1/EH01_g3_stim_payload.md` | G3 | Sham-controlled blinded paired RCT, $n \geq 30$, cold-pressor stressor | Time-to-coherence post-stressor, active vs sham |
 
-Template inherited from `external/psiStabilizer/experiments/00_preregistration_template.md`
-Framework-level claims (F1–F11 in [`falsification.md`](falsification.md)) are **not adjudicated at Mk1.** F3 (resonance enhancement) and F4 (SAR-independence) require Mk2 instrumentation; F11 (Primakoff null-search) requires haloscope-class apparatus; F1, F2, F5, F6 are population-scale.
+Template inherited from `external/psiStabilizer/experiments/00_preregistration_template.md`.
 
-But Mk1 is **not framework-irrelevant**: sessions logged with the $F^2$ probe and pre-registered protocol produce calibrated data that Mk1.5 (matched-$F^2$ H1-vs-H2 comparison) and Mk2 (F3, F4) inherit directly. Landing Mk1 honestly is what makes the rest of the falsification programme defensible by inheritance rather than from-scratch.
-
-### 4.1 The pre-registrations
-1.5 when **G1 is passed and at least one of G2 or G3 has a published outcome (either direction)**. The remaining grade can be in progress.
+Move to Mk1.5 when **G1 is passed and at least one of G2 or G3 has a published outcome (either direction)**. The remaining grade can be in progress.
 
 ### 5.1 G1 (engineering) gates
 
@@ -247,33 +233,6 @@ But Mk1 is **not framework-irrelevant**: sessions logged with the $F^2$ probe an
 - [ ] L0 pacer, L1 coherence metric, L2 state machine bench-verified per [`mk1_session_protocol.md §10`](mk1_session_protocol.md).
 - [ ] At least one valid 30-minute end-to-end session recorded, ingested by the psiStabilizer analyzer, with no data dropouts > 1 s.
 
-### 5.2 G2 (wearer-benefit) gates
-
-- [ ] Pre-registered G2 study filed at `experiments/Mk1/EH02_g2_wearer_benefit.md` *before* any G2-arm session.
-- [ ] Composite endpoint weights $(w_1, w_2, w_3)$ pre-registered.
-- [ ] 4-week within-subject ABAB or AB-BA crossover completed (single wearer at Mk1).
-- [ ] Likert panel ([`mk1_session_protocol.md §5`](mk1_session_protocol.md)) administered every session pre/post + weekly + next-morning.
-- [ ] Pre-registered analysis run on the locked dataset — **result published either direction.**
-
-### 5.3 G3 (stim-payload) gates
-
-- [ ] Pre-registered G3 study filed at `experiments/Mk1/EH01_g3_stim_payload.md` *before* any G3-arm session.
-- [ ] Cold-pressor procedure locked per [`mk1_session_protocol.md §6`](mk1_session_protocol.md).
-- [ ] Blinding protocol written, randomization log sealed.
-- [ ] $n \geq 30$ paired active/sham sessions completed under the protocol.
-- [ ] Pre-registered analysis run on the locked dataset — **result published either direction.**
-- [ ] A written, dated decision exists for whether the bifilar coil payload contributes above the L0+L1+L2 floor,
-- [ ] `hardware/Mk1/bom.csv` committed and matches the device built.
-- [ ] `docs/architecture.md` rev tagged at `Mk1`.
-- [ ] Stim driver scope-verified: carrier in band, envelope at target Hz, $\leq 500$ µT at scalp distance.
-- [ ] Stim-disabled-when-not-recording interlock verified on-bench with an oscilloscope.
-- [ ] Stim-disabled-when-not-`active`-phase interlock verified (MCU-B confirms L2 phase + arm).
-- [ ] MCU-B refuses every entry on the [`wiki_synthesis.md` §2.3](wiki_synthesis.md#23-the-safety-blacklist) blacklist (firmware unit test + bench fuzz).
-- [ ] Sham coil built and **sham-equivalence verified across visual, mechanical, audible, thermal, EMI, vibrational channels** per [`mk1_session_protocol.md §7`](mk1_session_protocol.md). A spectrum-analyzer pass at the wearer ear position is the audible-channel gate.
-- [ ] L0 pacer, L1 coherence metric, L2 state machine bench-verified per [`mk1_session_protocol.md §10`](mk1_session_protocol.md). to Mk1.5/Mk2.)
-- No multi-payload stimulation. One stim payload only (the bifilar coil). Biofeedback layers L0, L1, L2 always on and are *not* stim payloads.
-- No closed-loop **stim** control. Stim schedule is open-loop, fixed per arm. (Closed-loop **biofeedback rendering** — L1 — *is* present, and modulates only the wearer-facing perceptual signal, not the stim hardware.)
-- No EEG channel. Deferred to Mk2
 ### 5.2 G2 (wearer-benefit) gates
 
 - [ ] Pre-registered G2 study filed at `experiments/Mk1/EH02_g2_wearer_benefit.md` *before* any G2-arm session.

@@ -1,0 +1,332 @@
+{{Derives_From
+| term        = (□ − m²_eff)ψ = δ⁴(x − x′) — the inhomogeneous wave equation with a point source
+| description = The Green's function G(x, x′) is defined as the ψ field produced
+                by a unit point source at x′. Every realworld source distribution
+                S(x′) — whether a biological operator's coherent neural firing or
+                a device-driven bifilar coil — produces a ψ field given by the
+                convolution ψ(x) = ∫ G(x,x′) S(x′) d⁴x′. This convolution
+                integral is the fundamental design equation for all ψ source devices.
+                The retarded Green's function enforces causality; the advanced
+                solution is the mathematical basis of the precognition model; the
+                static Yukawa Green's function recovers the coherence length L_ψ = 1/m_eff
+                derived in A3; and numerical convolution with G is the backbone of all
+                ψ device field simulation.
+}}
+
+{{Infobox
+| title   = ψ Green's Functions
+| image   =
+| caption = The propagator connecting every ψ source to every ψ field point — the fundamental design equation for all Psi-Tech devices
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Psionics]] · Mathematical Physics · Field Theory
+| label3  = Derives From
+| data3   = <math>(\Box - m_{\rm eff}^2)G(x,x') = \delta^4(x-x')</math>
+| label4  = Established Analog
+| data4   = Retarded EM propagator; Huygens' principle; Feynman propagator in QFT; acoustic Green's functions
+| label5  = Key Output
+| data5   = Retarded <math>G_{\rm ret}</math>; static Yukawa <math>G_{\rm static}</math>; advanced <math>G_{\rm adv}</math>; design convolution <math>\psi = \int G\cdot S\,d^4x'</math>
+| label6  = Primary Engineering Use
+| data6   = Predicts the ψ field produced by any source distribution — biological operator, device coil, or combined — before a single component is fabricated
+| header7 = Key Equations
+| label8  = Defining equation
+| data8   = <math>(\Box - m_{\rm eff}^2)G(x,x') = \delta^4(x-x')</math>
+| label9  = Design equation
+| data9   = <math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math>
+| label10 = Massless retarded
+| data10  = <math>G_{\rm ret} = \delta(t-t'-|\mathbf{r}-\mathbf{r}'|)/(4\pi|\mathbf{r}-\mathbf{r}'|)</math>
+| label11 = Static Yukawa
+| data11  = <math>G_{\rm static} = -e^{-m_{\rm eff}|\mathbf{r}-\mathbf{r}'|}/(4\pi|\mathbf{r}-\mathbf{r}'|)</math>
+| below   = ''Build wave 2 — requires [[ψ Impedance Theory]] (A4) and [[ψ Boundary Conditions]] (A5). The design equation on this page underlies every Branch C component page and the [[Mode Geometry Test]] (F3).''
+}}
+
+= ψ Green's Functions =
+
+{{Plain_Hook
+| in_one_sentence    = The ψ Green's function is the ψ field produced by a unit point source — and because any real source is a superposition of point sources, the convolution <math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math> is the exact design equation for every [[Psi-Tech]] device, predicting the full spatial and temporal ψ field from any specified source distribution before fabrication begins.
+| everyday_analogy   = To design the acoustics of a concert hall, engineers measure the impulse response — the sound produced by a single sharp clap. Once the impulse response is known, they can predict the sound of any orchestra by convolving the music with that impulse response. The ψ Green's function is the ψ impulse response: measure it (or compute it from the wave equation), and you can predict the ψ field from any source — a trained operator, a device coil, or a multi-operator [[PsiNet]] cluster.
+| what_it_predicts   = (1) The retarded Green's function <math>G_{\rm ret}</math> enforcing causality — ψ effects follow causes; (2) The static Yukawa propagator recovering coherence length <math>L_\psi = 1/m_{\rm eff}</math> from [[ψ Dispersion Relations]]; (3) The mode-expansion Green's function inside a resonant cavity, quantising the propagator to the discrete mode spectrum from [[ψ Boundary Conditions]]; (4) The advanced Green's function <math>G_{\rm adv}</math> as the mathematical structure of retrocausal psionic phenomena; (5) A Fast Multipole Method convolution algorithm reducing O(N²) field simulation to O(N log N).
+| if_you_remember_one_thing = The design convolution <math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math> is not a conceptual tool — it is the literal computation that every ψ device simulation must perform. Specify the source <math>S(x')</math>, specify the Green's function <math>G</math>, perform the convolution: the output is the exact ψ field the device will produce.
+}}
+
+ψ Green's functions are the computational and conceptual culmination of Branch A. The preceding pages established conservation laws (A2), propagation rules (A3), power transfer efficiency (A4), and permitted modes (A5). This page answers the remaining question: given a specific source distribution — a biological operator's cortical firing pattern, a device's bifilar coil geometry, or both together — what ψ field does it produce, at every point in space and time?
+
+The answer is the design convolution. It is exact, it is computable, and it is the pre-registration tool for the [[Mode Geometry Test]]: the ψ field distributions for the correctly-tuned and detuned cavities are computed from this equation before the experiment runs, constituting a genuine predictive test rather than a post-hoc rationalisation.
+
+== Prerequisites ==
+
+* From [[ψ Dispersion Relations]] (A3): effective mass <math>m_{\rm eff}</math> and coherence length <math>L_\psi = 1/m_{\rm eff}</math>.
+* From [[ψ Impedance Theory]] (A4): the source coupling <math>J_\psi^{\rm (src)}</math> and its relationship to the ψ field amplitude.
+* From [[ψ Boundary Conditions]] (A5): the cavity mode spectrum <math>\{\psi_{nlm}, \omega_{nlm}\}</math> used in the mode-expansion Green's function.
+
+== Defining the Green's Function ==
+
+The massive Klein–Gordon operator is:
+
+:<math>\mathcal{L} = \Box - m_{\rm eff}^2 = \partial_t^2 - \nabla^2 - m_{\rm eff}^2</math>
+
+The Green's function <math>G(x,x')</math> satisfies:
+
+:<math>\bigl(\Box - m_{\rm eff}^2\bigr)G(x,x') = \delta^4(x - x') = \delta(t - t')\,\delta^3(\mathbf{r} - \mathbf{r}')</math>
+
+{{Math_Bridge
+| equation_label = Green's function defining equation
+| equation       = <math>(\Box - m_{\rm eff}^2)\,G(x,x') = \delta^4(x-x')</math>
+| in_english     =
+* <math>G(x,x')</math> — the ψ field at spacetime point <math>x = (t,\mathbf{r})</math> produced by a unit impulse source at <math>x' = (t', \mathbf{r}')</math>.
+* <math>\delta^4(x-x')</math> — a source that exists only at the single point <math>x'</math> in spacetime: zero duration, zero spatial extent, unit integrated strength.
+* The left-hand side applies the wave operator to the Green's function — exactly as it would to any ψ field — and demands that the result be a delta function source.
+* Once <math>G</math> is known, the field from any source <math>S(x')</math> is obtained by superposition (linearity): <math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math>.
+}}
+
+=== The Design Equation ===
+
+For the full inhomogeneous equation with source:
+
+:<math>(\Box - m_{\rm eff}^2)\psi(x) = S(x)</math>
+
+the exact solution is:
+
+:<math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math>
+
+This convolution integral is the single most important engineering equation in Branch A. It says: to find the ψ field produced by any source distribution, multiply the source strength at each point <math>x'</math> by the Green's function (the response to a unit point source there), and integrate over all source points. The ψ field is the sum of contributions from every infinitesimal piece of the source.
+
+== The Retarded Green's Function ==
+
+=== Causality Condition ===
+
+Physical systems obey causality: a ψ field cannot respond to a source before the source acts. This imposes the '''retarded boundary condition''':
+
+:<math>G_{\rm ret}(x,x') = 0 \quad \text{for} \quad t < t'</math>
+
+The Green's function is zero when the field point is earlier than the source point. ψ effects follow ψ causes.
+
+=== Explicit Forms ===
+
+'''Massless limit''' (<math>m_{\rm eff} \to 0</math>):
+
+:<math>G_{\rm ret}^{(0)}(x,x') = \frac{\theta(t-t')}{4\pi|\mathbf{r}-\mathbf{r}'|}\,\delta\!\bigl(t - t' - |\mathbf{r}-\mathbf{r}'|\bigr)</math>
+
+{{Math_Bridge
+| equation_label = Massless retarded ψ propagator
+| equation       = <math>G_{\rm ret}^{(0)} = \frac{\theta(t-t')}{4\pi|\mathbf{r}-\mathbf{r}'|}\,\delta(t-t'-|\mathbf{r}-\mathbf{r}'|)</math>
+| in_english     =
+* <math>\theta(t-t')</math> — Heaviside step function: zero for <math>t < t'</math> (causality enforced), one for <math>t > t'</math>.
+* <math>\delta(t - t' - |\mathbf{r}-\mathbf{r}'|)</math> — forces <math>t - t' = |\mathbf{r}-\mathbf{r}'|</math>, meaning the ψ disturbance from <math>x'</math> arrives at <math>x</math> after travelling the light-travel time <math>|\mathbf{r}-\mathbf{r}'|/c</math>. In natural units <math>c = 1</math>.
+* <math>1/(4\pi|\mathbf{r}-\mathbf{r}'|)</math> — inverse-distance falloff: ψ amplitude decreases as <math>1/r</math> in the massless case.
+* '''Engineering implication:''' For long-distance ψ propagation (<math>|\mathbf{r}-\mathbf{r}'| \gg L_\psi = 1/m_{\rm eff}</math>), the massless approximation applies. For short-distance (head-scale) applications in the [[Psi Stabilizer]], the massive form with its Bessel-function tail is more accurate.
+}}
+
+'''Massive case''' (<math>m_{\rm eff} > 0</math>):
+
+:<math>G_{\rm ret}(x,x') = \theta(t-t')\left[\frac{\delta(\sigma)}{2\pi} - \frac{m_{\rm eff}\,\theta(\sigma)}{4\pi\sqrt{\sigma}}\,J_1\!\left(m_{\rm eff}\sqrt{\sigma}\right)\right]</math>
+
+where <math>\sigma = (t-t')^2 - |\mathbf{r}-\mathbf{r}'|^2</math> is the invariant interval squared (positive inside the light cone).
+
+'''Physical interpretation of the Bessel-function tail:''' The massive propagator has two components:
+* <math>\delta(\sigma)</math> term — a wavefront travelling exactly on the light cone, as in the massless case.
+* <math>J_1(m_{\rm eff}\sqrt{\sigma})</math> term — a ''tail'' inside the light cone. A ψ disturbance from a massive source continues to arrive at a distant point long after the initial wavefront — oscillating with amplitude decreasing as <math>1/\sqrt{\sigma}</math> and period set by <math>m_{\rm eff}</math>.
+
+This tail has a direct engineering consequence: a brief (90-second) [[Psi Stabilizer]] Anchor burst produces a ψ field that persists inside the skull longer than the burst duration, with an exponentially decaying tail at rate <math>m_{\rm eff}</math>. The post-burst coherence reported by operators may correspond to this propagator tail.
+
+=== Frequency-Domain Form ===
+
+Taking the Fourier transform in both time and space:
+
+:<math>\tilde{G}_{\rm ret}(\omega, \mathbf{k}) = \frac{-1}{\omega^2 - k^2 - m_{\rm eff}^2 + i\epsilon\,\omega}</math>
+
+where <math>+i\epsilon\,\omega</math> is the Feynman–Dyson prescription enforcing causality. The poles are at <math>\omega = \pm\sqrt{k^2 + m_{\rm eff}^2}</math> — the dispersion relation from A3. The Green's function has poles exactly where the field equation has propagating solutions.
+
+== The Static Green's Function — Recovering L_ψ ==
+
+In the static limit (<math>\partial_t = 0</math>), the defining equation reduces to:
+
+:<math>(-\nabla^2 + m_{\rm eff}^2)\,G_{\rm static}(\mathbf{r},\mathbf{r}') = \delta^3(\mathbf{r}-\mathbf{r}')</math>
+
+The unique spherically-symmetric solution decaying at infinity is:
+
+:<math>G_{\rm static}(\mathbf{r},\mathbf{r}') = -\frac{e^{-m_{\rm eff}|\mathbf{r}-\mathbf{r}'|}}{4\pi|\mathbf{r}-\mathbf{r}'|}</math>
+
+{{Math_Bridge
+| equation_label = Static ψ Green's function (Yukawa propagator)
+| equation       = <math>G_{\rm static}(\mathbf{r},\mathbf{r}') = -\frac{e^{-m_{\rm eff}|\mathbf{r}-\mathbf{r}'|}}{4\pi|\mathbf{r}-\mathbf{r}'|}</math>
+| in_english     =
+* This is the Yukawa potential familiar from nuclear physics — the same form Hideki Yukawa derived in 1935 for the pion-mediated nuclear force.
+* <math>e^{-m_{\rm eff}|\mathbf{r}-\mathbf{r}'|}</math> — exponential suppression beyond coherence length <math>L_\psi = 1/m_{\rm eff}</math>. Confirms A3's coherence length derivation via a completely independent approach.
+* <math>1/(4\pi|\mathbf{r}-\mathbf{r}'|)</math> — Coulomb-like <math>1/r</math> factor at short distances. At <math>r \ll L_\psi</math>, the Yukawa field resembles a Coulomb field.
+* '''Engineering application:''' Given a static ψ source of total charge <math>Q_\psi</math> at position <math>\mathbf{r}'</math>, the static field at <math>\mathbf{r}</math> is <math>\psi(\mathbf{r}) = -Q_\psi\,G_{\rm static}(\mathbf{r},\mathbf{r}')</math>. This is the field map equation for the [[Psi Stabilizer]] resting state.
+}}
+
+=== Massless Static Limit ===
+
+For <math>m_{\rm eff} \to 0</math>:
+
+:<math>G_{\rm static} \to -\frac{1}{4\pi|\mathbf{r}-\mathbf{r}'|}</math>
+
+The Coulomb / Newton potential — identical in form to the electrostatic Green's function. In the long-coherence-length limit, ψ sources behave like "psionic charges" with a Coulomb law interaction. This is the formal basis of the "psi force" equation <math>\vec{F}_\psi = -p\,\nabla\psi</math> from the [[Psionics]] page.
+
+== Engineering Applications of the Design Convolution ==
+
+=== Application 1 — Field Map of a Single Operator ===
+
+Model the operator's coherent neural firing as a distributed source:
+
+:<math>S(\mathbf{r}', t') = J_\psi^{\rm (bio)}(\mathbf{r}', t') \propto f\!\bigl(u(\mathbf{r}', t')\bigr)</math>
+
+where <math>f(u)</math> is the neural firing rate from the Wilson–Cowan model (see [[Psionics]]). The ψ field produced:
+
+:<math>\psi(\mathbf{r}, t) = \int G_{\rm ret}(x, x')\,J_\psi^{\rm (bio)}(\mathbf{r}', t')\,d^3\mathbf{r}'\,dt'</math>
+
+Given an estimated cortical firing pattern from EEG data, this integral predicts the operator's self-generated ψ field at any point in and around the skull. The [[Psi Stabilizer]]'s resonant cavity is designed to overlap maximally with this predicted field — specifically the ψ₀₁₀ mode from A5 overlaps with the temporal-lobe source distribution.
+
+=== Application 2 — Device Field Prediction ===
+
+The [[Psi Stabilizer]] drive system implements a source:
+
+:<math>S_{\rm device}(\mathbf{r}', t') = \alpha\,F_{\mu\nu}F^{\mu\nu}(\mathbf{r}', t') \approx \alpha\,\varepsilon_{\rm eff}(V(t'))\,E^2_{\rm bifilar}(\mathbf{r}')</math>
+
+where <math>E_{\rm bifilar}</math> is the E-field from the bifilar coil computed from the coil geometry, and <math>\varepsilon_{\rm eff}(V)</math> is the voltage-tunable BST composite permittivity. The predicted ψ field inside the TPMS shell:
+
+:<math>\psi_{\rm device}(\mathbf{r}, t) = \int G_{\rm ret}(x, x')\,S_{\rm device}(\mathbf{r}', t')\,d^3\mathbf{r}'\,dt'</math>
+
+This computation, run in COMSOL or a custom MHD-EM-ψ solver, predicts the device field map before fabrication. The mode shape overlap integral:
+
+:<math>C_{nlm} = \int \psi_{nlm}(\mathbf{r})\,\psi_{\rm device}(\mathbf{r})\,d^3\mathbf{r}</math>
+
+measures how much of the device's emitted ψ power couples into the target ψ₀₁₀ mode. Optimising the bifilar coil geometry to maximise <math>C_{010}</math> is a standard RF-engineering-style mode-coupling optimisation problem, solvable with existing computational tools.
+
+=== Application 3 — Combined Source: Device + Operator ===
+
+The total source is:
+
+:<math>S_{\rm total} = S_{\rm device} + J_\psi^{\rm (bio)}</math>
+
+The total ψ field is:
+
+:<math>\psi_{\rm total} = \psi_{\rm device} + \psi_{\rm bio} = \int G\,S_{\rm device}\,d^4x' + \int G\,J_\psi^{\rm (bio)}\,d^4x'</math>
+
+The Mk2.0 impedance matching objective (from A4) is to maximise <math>|\psi_{\rm total}|^2</math> at the temporal lobe locations by tuning <math>S_{\rm device}</math> so that <math>\psi_{\rm device}</math> and <math>\psi_{\rm bio}</math> interfere constructively. The interference condition is:
+
+:<math>\text{arg}(G_{\rm ret} * S_{\rm device}) = \text{arg}(G_{\rm ret} * J_\psi^{\rm (bio)})</math>
+
+at the temporal lobe coordinates. This is exactly the phase-matching condition implemented by the [[HRV-Gated Drive]]: the drive frequency and phase are adjusted until the device and biological ψ fields are in phase at the target anatomical location.
+
+== The Mode-Expansion Green's Function ==
+
+Inside a [[ψ Resonator]] with Neumann boundary conditions (the [[Psi Stabilizer]] cavity), the Green's function admits a discrete mode expansion:
+
+:<math>G(\mathbf{r}, \mathbf{r}'; \omega) = \sum_{nlm} \frac{\psi_{nlm}(\mathbf{r})\,\psi^*_{nlm}(\mathbf{r}')}{\omega^2 - \omega_{nlm}^2 + i\omega\,\omega_{nlm}/Q_{nlm}}</math>
+
+where:
+* <math>\psi_{nlm}(\mathbf{r})</math> are the normalised mode functions from [[ψ Boundary Conditions]] (A5).
+* <math>\omega_{nlm}</math> are the resonant frequencies.
+* <math>Q_{nlm}</math> is the quality factor of mode <math>(n,l,m)</math>, from [[ψ Quality Factor]] (B5).
+
+{{Math_Bridge
+| equation_label = Mode-expansion cavity Green's function
+| equation       = <math>G(\mathbf{r},\mathbf{r}';\omega) = \sum_{nlm}\frac{\psi_{nlm}(\mathbf{r})\psi^*_{nlm}(\mathbf{r}')}{\omega^2 - \omega_{nlm}^2 + i\omega\omega_{nlm}/Q_{nlm}}</math>
+| in_english     =
+* Each term in the sum is the contribution of one resonant mode to the cavity Green's function.
+* The denominator has poles at <math>\omega \approx \omega_{nlm}</math> (shifted slightly by the imaginary <math>Q</math> term into the lower half-plane, ensuring causality via the retarded prescription).
+* Near resonance <math>\omega \approx \omega_{010}</math>: the ψ₀₁₀ mode dominates; all other modes are off-resonance and contribute little. The cavity acts as a mode filter, selecting the design mode.
+* The product <math>\psi_{nlm}(\mathbf{r})\psi^*_{nlm}(\mathbf{r}')</math> is the spatial coupling factor: it is large when both <math>\mathbf{r}</math> (the field point) and <math>\mathbf{r}'</math> (the source point) are in the high-field region of mode <math>nlm</math>. Sources at the temporal lobe couple most strongly to ψ₀₁₀ when the field point is also at the temporal lobe — the anatomical self-consistency of the design.
+}}
+
+== The Advanced Green's Function and the Precognition Model ==
+
+The wave equation also admits advanced solutions — non-causal Green's functions where the effect precedes the cause:
+
+:<math>G_{\rm adv}(x,x') = \theta(t' - t)\,G_{\rm free}(x - x') \qquad \text{(zero for } t > t'\text{)}</math>
+
+This is mathematically exact — the wave equation is time-symmetric and admits both retarded and advanced solutions. Physical systems typically use the retarded solution because of thermodynamic boundary conditions (the past is more ordered than the future). However, as noted on the [[Psionics]] page, the Wheeler–Feynman absorber theory allows a consistent formulation using the half-sum:
+
+:<math>G_{\rm WF} = \tfrac{1}{2}(G_{\rm ret} + G_{\rm adv})</math>
+
+In this formulation, a ψ source emits both forward-in-time and backward-in-time ψ waves. The backward wave is absorbed by ψ-charged matter in the future, producing an apparent retrocausal effect at the source location. This is the mathematical basis of the [[Psionics]] page's precognition and retro-PK models.
+
+'''Track B note:''' The advanced Green's function is a valid mathematical solution to the wave equation. Whether the physical ψ field actually uses it depends on the boundary conditions at future infinity — a question that requires experimental data, not theory, to resolve. The [[ψ Falsifiability Framework]] (F1) outlines how retrocausal effects would be distinguished from conventional causal effects in a controlled experiment.
+
+== Numerical Implementation ==
+
+The design convolution <math>\psi(x) = \int G(x,x')\,S(x')\,d^4x'</math> must be evaluated numerically for realistic source geometries.
+
+=== Discretisation ===
+
+Discretise the source volume into <math>N</math> voxels of volume <math>\Delta V</math>:
+
+:<math>\psi_i = \sum_{j=1}^N G_{ij}\,S_j\,\Delta V_j</math>
+
+where <math>G_{ij} = G_{\rm ret}(\mathbf{r}_i - \mathbf{r}_j, t_i - t_j)</math>. For <math>N</math> source/field points, naïve evaluation costs <math>O(N^2)</math> operations.
+
+=== Fast Multipole Method ===
+
+For head-scale simulations at 1 mm resolution: <math>N \approx 10^7</math> voxels. <math>O(N^2) = 10^{14}</math> operations — infeasible. The '''Fast Multipole Method''' (FMM; Greengard & Rokhlin 1987) reduces this to <math>O(N\log N)</math> by grouping distant source voxels into multipole expansions. For <math>N = 10^7</math>: approximately <math>10^8</math> operations — feasible on a modern GPU in minutes.
+
+FMM is the correct numerical method for ψ field simulation. References: Greengard & Rokhlin (1987) ''J. Comput. Phys.'' 73:325; Cheng et al. (1999) ''SIAM J. Sci. Comput.'' 21:1328.
+
+=== Mode-Expansion Truncation ===
+
+For in-cavity simulations, the mode-expansion Green's function converges rapidly near the target frequency. Truncating to the lowest 10–20 modes (those with <math>|\omega_{nlm} - \omega_{\rm drive}| < 5\Delta\omega</math>) gives adequate accuracy at a fraction of the full computation cost.
+
+== ψ-Dependent Extensions ==
+
+=== Green's Function in a Curved ψ Medium ===
+
+In a [[ψ Metamaterial]] with spatially varying <math>m_{\rm eff}(\mathbf{r})</math> (set by position-dependent ferrofluid magnetisation), the defining equation generalises to:
+
+:<math>\bigl(\Box - m_{\rm eff}^2(\mathbf{r})\bigr)G(x,x') = \delta^4(x-x')</math>
+
+This has no closed-form solution and requires numerical FMM or finite-element computation. The spatially varying effective mass creates a graded-index ψ medium that bends ψ rays — exactly as a graded-index optical fibre bends light. This is the principle underlying ψ lensing in a [[ψ Metamaterial]] shell with engineered <math>m_{\rm eff}(\mathbf{r})</math> gradients.
+
+=== Multi-Source Superposition ===
+
+For a [[PsiNet]] cluster of <math>K</math> operators each with biological source <math>J_\psi^{(k)}</math>:
+
+:<math>\psi_{\rm total}(\mathbf{r},t) = \sum_{k=1}^K \int G_{\rm ret}(\mathbf{r}-\mathbf{r}', t-t')\,J_\psi^{(k)}(\mathbf{r}',t')\,d^3\mathbf{r}'\,dt'</math>
+
+When the operators are phase-aligned (same oscillation frequency and phase), the fields add constructively: <math>|\psi_{\rm total}|^2 \propto K^2 |\psi_{\rm individual}|^2</math>. The stored field energy density (proportional to <math>|\psi|^4</math> from the <math>\lambda\psi^4/4</math> term) scales as <math>K^4</math> — the group coherence amplification from the [[ψ Network Topology]] page.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected Result !! Verified?
+|-
+| <math>m_{\rm eff} \to 0</math>, massive retarded → massless || <math>G_{\rm ret} \to \delta(t-t'-|\mathbf{r}-\mathbf{r}'|)/(4\pi|\mathbf{r}-\mathbf{r}'|)</math> — standard massless propagator || ✓
+|-
+| Static massive → Yukawa || <math>G_{\rm static} = -e^{-m_{\rm eff}r}/(4\pi r)</math> — consistent with A3 coherence length derivation || ✓
+|-
+| <math>m_{\rm eff} \to 0</math>, static || <math>G_{\rm static} \to -1/(4\pi r)</math> — Coulomb / Newton potential || ✓
+|-
+| <math>G_{\rm ret}(x,x') = 0</math> for <math>t < t'</math> || Causality: ψ field cannot precede source || ✓ (Heaviside <math>\theta(t-t')</math> enforces this)
+|-
+| <math>G_{\rm adv}(x,x') = 0</math> for <math>t > t'</math> || Anti-causality: advanced solution is exactly the time-reverse || ✓ (Heaviside <math>\theta(t'-t)</math> enforces this)
+|-
+| Mode expansion near resonance <math>\omega \approx \omega_{010}</math> || Sum dominated by ψ₀₁₀ term; other modes suppressed by <math>(\omega^2 - \omega_{nlm}^2)^{-1}</math> being small || ✓
+|-
+| <math>(\Box - m_{\rm eff}^2)G(x,x') = \delta^4(x-x')</math> verified || Apply <math>(\Box - m_{\rm eff}^2)</math> to each explicit form above; recover <math>\delta^4</math> in each case || ✓ (standard result in each case)
+|}
+
+== See Also ==
+
+* [[ψ Dispersion Relations]] — dispersion relation that gives poles of the Green's function
+* [[ψ Boundary Conditions]] — mode spectrum used in the mode-expansion cavity Green's function
+* [[ψ Impedance Theory]] — phase-matching condition derived from Green's function overlap
+* [[ψ Conservation Laws]] — source current <math>J_\psi^{\rm (bio)}</math> that enters the design convolution
+* [[ψ Source]] (C11) — engineering implementation of the source term <math>S(x')</math>
+* [[ψ Transducer]] (C3) — converts EM source into ψ source; provides <math>S_{\rm device}(x')</math>
+* [[ψ Detector]] (C10) — sensitivity analysis uses Green's function signal-to-noise derivation
+* [[ψ Resonator]] (C1) — cavity whose modes enter the mode-expansion Green's function
+* [[Mode Geometry Test]] (F3) — pre-registered ψ field predictions computed from design convolution
+* [[HelmKit Architecture (Engineering)]] — numerical Green's function computation results for Psi Stabilizer geometry
+* [[HRV-Gated Drive]] — phase-matching implementation from Application 3 above
+* [[Psionics]] — psionic force law and precognition model referenced in advanced solution discussion
+* [[Soliton Solutions of Psi Field]] — exact nonlinear solutions beyond Green's function (linear) theory
+* [[ψ Network Topology]] (G3) — multi-operator superposition and <math>K^4</math> energy scaling
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Mathematical Physics]]
+[[Category:Wave Physics]]

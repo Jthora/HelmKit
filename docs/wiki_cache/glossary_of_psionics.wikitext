@@ -1,5 +1,12 @@
 = Glossary of Psionics =
 
+{{Plain_Hook
+| in_one_sentence    = Plain-language definitions of every term used across the Psionics cluster — no math required, no Greek letters, just clear English sentences.
+| everyday_analogy   = Like a friendly translator at a foreign embassy: you hear an unfamiliar technical word, you come here, you get one clear English paragraph plus a link to the formal page if you want depth.
+| what_it_predicts   = Look up any term → a one-paragraph definition + cross-link to the page where the term is used in its native technical context.
+| if_you_remember_one_thing = Math symbols (ψ, F<sub>μν</sub>, Γ<sup>μ</sup><sub>νρ</sub>) live in [[Symbol_Glossary]]. Meanings live here.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Plain
 | reading_time = 15 minutes
@@ -10,6 +17,20 @@
 Plain-language definitions of every term used across the [[Psionics]] cluster. For the mathematical/typographical symbol reference (<math>\psi</math>, <math>T_{\mu\nu}</math>, <math>\Gamma^\mu_{\nu\rho}</math>, …) see [[Symbol_Glossary]].
 
 Terms are grouped by area and listed alphabetically inside each group. Cross-references are wikilinked.
+
+{{Way_It_Works
+| title  = How to use this glossary
+| step1_label = Browse by topic
+| step1_text  = Sections below cover foundations, ψ-specific concepts, math language, neuroscience, gravity, and extra-dimensional ideas. Skim section headings to find the right neighbourhood.
+| step2_label = Read the one-paragraph definition
+| step2_text  = Each entry is a single short paragraph in plain English. No equations are required to understand any definition here.
+| step3_label = Follow the cross-link for depth
+| step3_text  = Wikilinks point to the formal page where the term is used in its native mathematical context. Click through when you want to see how the concept actually works.
+| step4_label = Need the symbol or the LaTeX?
+| step4_text  = Follow the link to [[Symbol_Glossary]]. That page has typography, LaTeX source, SI units, and dimensional role for every symbol.
+| step5_label = Missing term?
+| step5_text  = If you encounter an undefined term in any psionics page, that's a bug. Flag it on the talk page or add it to [[Open_Questions_in_Psionics]].
+}}
 
 == Foundational concepts ==
 

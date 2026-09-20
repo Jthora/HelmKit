@@ -1,0 +1,29 @@
+The '''Psi Pen''' is a stylus-form-factor handheld instrument that combines a writing implement, a sigil-tracing tip, and a small sensor package, used by operators for the [[Psi-Tech]] practice of '''traced-sigil intent''' — drawing a sigil at a chosen location with documented intent and capturing the local field response for the duration of the trace. Engineering-honestly, a pen with an IMU + magnetometer + electrostatic probe and a small recorder; doctrinally, a tool for the Tho'ra-doctrinal practice of marking intent at a place.
+
+ Psi Pens are used to [[Quantum Printing|Quantum Print]] onto [[Hyperweave]] and [[Psychic Paper]] by hand; used by [[Amber Tho'ra]] for inscribing [[Universal Language]] graffiti on the hulls of [[Vyrin]] ships
+
+== Overview ==
+
+A Pen session:
+
+* Operator declares intent and chooses a sigil ([[SynastryEngine]] supplies an astrologically-derived sigil-of-the-moment).
+* Operator traces the sigil at the chosen location (in air or on a surface).
+* The Pen records the trace (IMU + position estimate) + local field state during trace + after-trace baseline window.
+* The session is signed and ingested into the [[Psi Recorder]] cohort.
+
+The practice is operator-driven; the Pen is the recorder.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Recorder]]
+* [[HelmKit]]
+* [[Focus Lens]]
+* [[SynastryEngine]]
+* [[Astrological Frequency Harmonics]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:Speculative Psi Claims]]

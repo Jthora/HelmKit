@@ -1,5 +1,12 @@
 = Celardo Microtubule Superradiance =
 
+{{Plain_Hook
+| in_one_sentence    = Celardo et al. 2019 is the theoretical demonstration that the millions of tryptophan molecules inside neuronal microtubules can lock together into a Dicke "superradiant" collective state — the same physics that makes lasers brighter than light bulbs — dramatically extending the coherence lifetime that Tegmark's 2000 critique used to dismiss Orch-OR.
+| everyday_analogy   = One firefly blinking in a forest is easy to miss — it lasts a few seconds and goes dark. Get ten thousand fireflies to flash in sync (a real phenomenon in Southeast Asia) and the forest lights up like a beacon, *and* the synchronisation makes any one firefly harder to disrupt: knocking out a few doesn't break the chorus. Microtubule tryptophans, packed in a regular helical lattice, are conjectured to form exactly this kind of self-protecting chorus — except they sync at ultraviolet wavelengths inside a living neuron.
+| what_it_predicts   = N coherent tryptophans → emission intensity ∝ N², collective lifetime τ_0/N (superradiant decay) OR coherence enhancement × N (subradiant protection). For N ~ 10⁶ lattice tryptophans, subradiant protection gives effective coherence times ~ 6 orders of magnitude longer than independent-molecule estimates — closing most of the Tegmark gap.
+| if_you_remember_one_thing = If true, Tegmark's critique is too pessimistic by ~10⁶×. Status: EXPERIMENTAL, low confidence; replication trials underway. Predicts measurable UV emission signature from microtubule arrays, awaiting direct experiment.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Advanced
 | reading_time = 10 minutes
@@ -13,21 +20,11 @@
 | units     = SI for biological observables; ℏ = c = 1 in field-theoretic expressions.
 }}
 
-'''Celardo superradiance''' refers to the 2019 theoretical proposal by Giuseppe Luca Celardo, Marco Angeli, Travis J. A. Craddock, and Philip Kurian that '''aromatic tryptophan residues''' in microtubule tubulin dimers form a '''Dicke superradiant''' collective electronic system. The proposal predicts coherent electronic states with lifetimes orders of magnitude longer than would be expected from independent-molecule estimates, providing a theoretical basis for the empirical [[Bandyopadhyay_Microtubule_Conductance|Bandyopadhyay results]] and addressing the [[Tegmark_Critique_and_Hagan_Rebuttal|Tegmark critique]].
+'''Celardo superradiance''' refers to the 2019 theoretical proposal by Giuseppe Luca Celardo, Marco Angeli, Travis J. A. Craddock, and Philip Kurian that '''aromatic tryptophan residues''' in microtubule tubulin dimers form a '''Dicke superradiant''' collective electronic system. The proposal predicts coherent electronic states with lifetimes orders of magnitude longer than would be expected from independent-molecule estimates, providing an advanced basis for the empirical [[Bandyopadhyay_Microtubule_Conductance|Bandyopadhyay results]] and addressing the [[Tegmark_Critique_and_Hagan_Rebuttal|Tegmark critique]].
 
 The original paper is:
 
 * Celardo, G. L., Angeli, M., Craddock, T. J. A., Kurian, P. (2019). "On the existence of superradiant excitonic states in microtubules." ''New Journal of Physics'' 21: 023005. (Open-access.)
-
-{{Psi-claim
-| status = EXPERIMENTAL
-| claim = Microtubules exhibit cooperative photon emission (superradiance) under specific excitation.
-| cites = [[Coherent Quantum Effects in Biology]], [[Biophotons]]
-| methods = Active trials underway; preliminary results mixed.
-| falsifier = Two or more independent replications producing directly conflicting outcomes.
-| confidence = low
-| last_reviewed = 2026-05-12
-}}
 
 == Dicke superradiance: background ==
 
@@ -42,6 +39,17 @@ For an array of N atoms with single-atom lifetime τ<sub>0</sub>:
 Superradiance has been observed in many experimental systems (atomic gases, NV centres in diamond, quantum dots, photosynthetic light-harvesting complexes).
 
 A '''subradiant''' counterpart also exists: certain collective states have ''lifetimes longer'' than the single-atom estimate by a factor of N. Subradiance is the more relevant case for protecting coherent states against decay.
+
+{{Math_Bridge
+| equation_label = Dicke collective emission scaling
+| equation       = <math>\Gamma_{\text{coll}} = N\,\Gamma_0,\qquad \tau_{\text{coll}} = \tau_0/N,\qquad P_{\text{emit}} = N^2\,P_{\text{single}}</math>
+| in_english     = * '''Γ_0''' — the spontaneous-emission rate of *one* isolated atom. How fast a single atom dumps its excitation as a photon.
+* '''Γ_coll = N·Γ_0''' — N atoms in sync emit *N times faster* than a single one would. The "super" in superradiance.
+* '''τ_coll = τ_0 / N''' — collective lifetime; just the reciprocal of the rate.
+* '''P_emit = N² · P_single''' — the power emitted goes as N², not N. This is the hallmark of coherent constructive interference: incoherent sources add linearly, coherent sources add in amplitude *then* square.
+* '''Subradiant cousin''': certain dark collective states emit *N times slower* than a single atom — their decay is suppressed, not enhanced. These are the states that protect coherence against Tegmark's noise. Microtubule lattices are predicted to host both kinds.
+* '''Why it matters here''': for N ~ 10⁶ lattice tryptophans, subradiant protection plausibly extends coherence by ~10⁶× — closing most of the gap to the Orch-OR target.
+}}
 
 == The Celardo proposal ==
 
@@ -59,6 +67,24 @@ In this configuration, the tryptophan array supports '''collective Dicke states'
 * Phase-coherent superpositions across the lattice.
 
 The Celardo calculation shows that '''some''' of these collective states are '''subradiant''' — long-lived against radiative decay by a factor of order N.
+
+{{Way_It_Works
+| title  = How Celardo extends microtubule coherence by 10⁶×
+| step1_label = Spot the right molecule
+| step1_text  = Tryptophan is the aromatic amino acid found in every tubulin protein — 8 copies per tubulin dimer. It has a UV absorption near 280 nm with a usable transition dipole moment, making it the obvious quantum-optical building block.
+| step2_label = Recognise the lattice geometry
+| step2_text  = Microtubule tubulins assemble into a helical lattice with very regular spacing. This places ~10⁶–10⁸ tryptophans in a precisely periodic 3D array — the optical analogue of a perfect crystal.
+| step3_label = Compute the dipole-dipole coupling
+| step3_text  = Nearby tryptophans (within FRET distance, ~1.5–2.0 nm) couple via near-field EM interaction. The coupling Hamiltonian builds collective electronic states across the whole lattice.
+| step4_label = Diagonalise the collective Hamiltonian
+| step4_text  = The eigenstates split into superradiant (bright, fast-decay) and subradiant (dark, long-lived) bands — the standard Dicke decomposition for ordered emitter arrays.
+| step5_label = Use the subradiant band as the coherence reservoir
+| step5_text  = Subradiant collective states have lifetimes ~ N×τ_0 against radiative decay AND are symmetry-protected against several thermal-noise channels Tegmark's calculation included.
+| step6_label = Estimate the lifetime gain
+| step6_text  = For N ~ 10⁶ coherently coupled tryptophans, Celardo et al. estimate ~10⁶× longer effective coherence than independent-molecule estimates. This brings the picture much closer to (though not yet matching) the Orch-OR 10 ms target.
+| step7_label = Test by looking for the UV signature
+| step7_text  = The collective-state spectrum is in principle calculable from lattice geometry. Matching predicted UV-emission peaks to laboratory measurements on microtubule preparations is the obvious experimental test.
+}}
 
 == Predicted enhancement of coherence times ==
 

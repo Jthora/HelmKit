@@ -196,6 +196,10 @@ The only physical gates remaining are: (a) MCU-B watchdog firmware verified, (b)
 
 ---
 
+## 7a. Flagged follow-up (2026-08-05, not actioned)
+
+A fact-checking pass on the wiki's newer `Bifilar Coil Engineering` page (a different, higher-power design than this one — see `docs/psionic_engineering/bifilar_coil_engineering.md`) found real arithmetic errors in its thermal/power calculations (a claimed 9.7°C adiabatic pulse temperature rise that its own formula and inputs actually give ≈9690°C for). This design's own thermal/power numbers (§2 above) have **not** been put through the same independent-recomputation treatment (`tools/verify_psi_equations.py`-style: re-derive every number from its own stated inputs, don't just trust it because it's ours). Recommended before this coil is ever powered near a wearer, not actioned in this pass.
+
 ## 8. Cross-refs
 
 - [inventory_capability_map.md](inventory_capability_map.md) — what we have vs. wiki BOM

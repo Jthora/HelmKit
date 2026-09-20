@@ -1,5 +1,12 @@
 = HelmKit Architecture =
 
+{{Plain_Hook
+| in_one_sentence    = HelmKit Architecture is the hardware design rule that says "no single software bug may ever cause an RF overexposure" — enforced by splitting the device across two independent microcontrollers that have to agree before RF can come on.
+| everyday_analogy   = Same logic as a nuclear-missile silo's two-key system, or the dual-pilot rule on commercial jets: one operator can request action, but a second independent operator (with its own power supply, clock, and firmware) has to concur, or nothing happens. MCU-A is the "doer" (synthesises RF, runs UI). MCU-B is the "checker" — it watches power, temperature, body-proximity, and forbidden-frequency lists, and holds the physical switch that cuts RF. A bug in MCU-A cannot reach RF without MCU-B's agreement.
+| what_it_predicts   = (1) Single-fault tolerance — any one firmware bug, sensor failure, or operator mistake fails to a safe state (RF off, lockout); (2) Hardware-blacklisted frequencies (cardiac, seizure, Frey-effect ranges) are physically unreachable regardless of MCU-A state; (3) Field-update path cannot modify the safety-critical MCU-B firmware (requires physical access); (4) The dual-MCU pattern is the same one used in DO-178C DAL-A avionics and IEC 61508 SIL-3 industrial safety — inherited not invented.
+| if_you_remember_one_thing = Safety is enforced by an independent hardware channel, not by trust in primary firmware. The same architecture pattern that keeps fly-by-wire airliners from crashing on a software bug is what keeps the HelmKit from ever overexposing a wearer.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Intermediate
 | reading_time = 8 minutes
@@ -11,6 +18,22 @@
 '''HelmKit Architecture''' specifies the hardware and firmware design of the [[HelmKit]] — a head-worn near-field psionic device. The architecture is built around a '''dual-MCU checker-doer pattern''' inherited from aerospace and industrial functional-safety standards (DO-178C DAL-A, IEC 61508 SIL-3), adapted for a consumer-grade wearable.
 
 The central design constraint: '''no single software fault may cause an overexposure event'''. This is achieved by hardware-enforced safety oversight running on an independent MCU.
+
+{{Way_It_Works
+| title  = How the dual-MCU "checker-doer" pattern keeps the wearer safe
+| step1_label = Define the worst case
+| step1_text  = The worst plausible failure is: MCU-A's firmware crashes or is exploited in such a way that it drives the RF power amp at a forbidden frequency or amplitude. If MCU-A controlled RF directly, that would be enough to harm the wearer. So MCU-A is not allowed to control RF directly.
+| step2_label = Insert an independent gatekeeper
+| step2_text  = MCU-B sits between MCU-A and the RF power amp via an opto-isolated relay. MCU-B has its own power LDO, its own crystal clock, its own firmware (audited separately, < 5 kLOC), and its own sensor suite. If MCU-B doesn't enable the relay, no RF reaches the coil — full stop.
+| step3_label = Burn the safety rules into hardware
+| step3_text  = MCU-B holds a hardware-fuse-stored blacklist set at factory time — cardiac-stimulation pulse trains, brain-stimulation frequency ranges, Frey-effect pulsed-RF, ICNIRP-violating amplitudes. Updating the blacklist requires re-fusing the chip in a factory jig; field firmware updates cannot touch it.
+| step4_label = Cross-check every claim MCU-A makes
+| step4_text  = MCU-A says "I'm transmitting 1 W at 2.45 GHz with the device on a head." MCU-B independently verifies via directional coupler (forward/reflected power), coil thermistor, capacitive proximity sensor, and ambient E-field probes. If MCU-A's claim diverges from MCU-B's measurements, RF cuts.
+| step5_label = Demand a heartbeat
+| step5_text  = MCU-A must send a structured heartbeat to MCU-B every N ms. Silence → RF cuts. This catches the case where MCU-A is wedged or compromised in a way that doesn't trigger any of the other checks.
+| step6_label = Fail safely and loudly
+| step6_text  = On any MCU-B alert, RF cuts immediately, the device enters a non-resetable lockout (requires physical key release), the event is logged in tamper-evident memory, and the wearer is notified via display + BLE. There is no "automatic recovery" — every alert demands an operator look at it.
+}}
 
 == Block diagram ==
 

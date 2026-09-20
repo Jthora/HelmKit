@@ -1,0 +1,294 @@
+{{Infobox
+| title   = ψ Boundary Conditions
+| image   =
+| caption = How geometry selects permitted ψ modes — and why the Psi Stabilizer's resonant mode peaks at the temporal lobes
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Wave Physics · Resonator Design · [[Metamaterials]]
+| label3  = Derives From
+| data3   = <math>(\Box - m_{\rm eff}^2)\psi = 0</math> on finite domain with boundary specification
+| label4  = Established Analog
+| data4   = PEC/PMC boundary conditions in microwave cavity resonators; Dirichlet/Neumann conditions in acoustic chambers; optical cavity modes
+| label5  = Key Output
+| data5   = Three boundary types; mode spectrum and quantisation; ψ₀₁₀ mode for [[Psi Stabilizer]]; TPMS parameter <math>t</math> optimisation equation
+| label6  = Primary Engineering Use
+| data6   = Determines resonant frequencies, mode shapes, and cavity Q for every [[ψ Resonator]], [[ψ Waveguide]], [[ψ Shield / Absorber]], and [[Psi-Tech]] module
+| header7 = Key Equations
+| label8  = Dirichlet
+| data8   = <math>\psi\big|_{\partial V} = 0</math>
+| label9  = Neumann
+| data9   = <math>\nabla\psi\cdot\hat{n}\big|_{\partial V} = 0</math>
+| label10 = Robin
+| data10  = <math>\nabla\psi\cdot\hat{n} + \alpha_R\psi\big|_{\partial V} = 0</math>
+| label11 = Mode quantisation
+| data11  = <math>\omega_{nlm}^2 = m_{\rm eff}^2 + k_{nlm}^2</math>
+| below   = ''Build wave 1b — requires [[ψ Dispersion Relations]] (A3); loosely requires [[ψ Impedance Theory]] (A4) for Robin condition. Required by A6, C1, C2, C8, B7, [[Psi Stabilizer]], [[Mode Geometry Test]].''
+}}
+
+= ψ Boundary Conditions =
+
+ψ boundary conditions are the link between [[ψ Dispersion Relations]] — which specify what ψ waves can propagate in an infinite medium — and the finite-geometry engineering reality of every [[Psi-Tech]] device. The dispersion relation gives a continuous spectrum of allowed frequencies for infinite media. Boundaries cut that continuous spectrum down to a discrete set. That discrete set is what designers tune, test, and exploit.
+
+This page establishes the three fundamental boundary types, derives the mode quantisation condition, applies it to the oblate spheroidal geometry of the [[Psi Stabilizer]], and connects the result to the [[TPMS Lattice Design]] fabrication parameter <math>t</math>.
+{{Derives_From
+| term        = □ψ on a finite domain — the wave equation requires boundary specification to yield unique solutions
+| description = On an infinite domain the master equation admits plane waves at
+                any frequency above cutoff. Confining ψ to a finite region —
+                the resonant shell of a Psi Stabilizer, or the walls of a ψ
+                waveguide — quantises the allowed frequencies into a discrete
+                mode spectrum entirely determined by geometry and boundary type.
+                Dirichlet boundaries (ψ = 0) produce absorbing walls;
+                Neumann boundaries (∂ψ/∂n = 0) produce reflecting walls;
+                Robin boundaries interpolate between them. The ψ₀₁₀ mode of
+                the oblate spheroidal Psi Stabilizer shell — with its field
+                maximum at the temporal lobes — is the direct engineering
+                consequence of Neumann boundary conditions on this geometry.
+}}
+{{Plain_Hook
+| in_one_sentence    = Confining the ψ field to a finite region quantises its allowed frequencies into a discrete mode spectrum set entirely by geometry and boundary type — making the oblate spheroidal [[Psi Stabilizer]] shell, with Neumann conditions, support a lowest mode whose field maximum falls at the temporal lobes, not by design intent but as a direct mathematical consequence of the chosen geometry.
+| everyday_analogy   = A guitar string fixed at both ends can only vibrate at specific frequencies — harmonics of a fundamental. Change the length and all the frequencies shift. Change one fixed end to a free end and the frequency set changes entirely. ψ boundary conditions work identically: the shell geometry and boundary type together determine which ψ frequencies are permitted inside the device. Every other frequency is forbidden.
+| what_it_predicts   = (1) Three fundamental boundary types — absorbing (Dirichlet), reflecting (Neumann), and partial (Robin) — each with distinct engineering applications; (2) A discrete mode spectrum <math>\omega_{nlm}</math> for any closed ψ cavity, where the allowed frequencies depend on geometry and boundary type alone; (3) The ψ₀₁₀ mode of the oblate spheroidal shell as the [[Psi Stabilizer]] target — with field maximum at the temporal lobes by geometric necessity; (4) A design equation linking the TPMS lattice density parameter <math>t</math> to the target resonant frequency; (5) Mode shape predictions testable by the [[Mode Geometry Test]].
+| if_you_remember_one_thing = Boundary conditions are not a design choice imposed on the ψ field — they are determined by the material properties of the device shell. Choosing a shell material specifies which modes exist. The [[Psi Stabilizer]] shell material is chosen specifically because its Neumann-like boundary condition supports the ψ₀₁₀ mode with temporal-lobe field maximum.
+}}
+
+== Prerequisites ==
+
+* From [[ψ Dispersion Relations]] (A3): the linearised wave equation <math>(\Box - m_{\rm eff}^2)\psi = 0</math> and the relation <math>\omega^2 = k^2 + m_{\rm eff}^2</math>.
+* From [[ψ Impedance Theory]] (A4) (for Robin condition only): the impedance ratio <math>\alpha_R = Z_0/Z_{\rm wall}</math>.
+
+== Why Boundaries Are Not Optional ==
+
+The Helmholtz equation (time-harmonic form of the wave equation) inside a closed region <math>V</math>:
+
+:<math>(\nabla^2 + k^2)\psi = 0, \qquad k^2 = \omega^2 - m_{\rm eff}^2</math>
+
+admits infinitely many solutions for any real <math>k</math>. Without a boundary condition specifying the behaviour of <math>\psi</math> on the surface <math>\partial V</math>, the solution is not unique. A boundary condition selects a countably infinite but discrete set of eigenvalues <math>k_{nlm}</math> — the resonant wave numbers — and corresponding eigenfunctions <math>\psi_{nlm}(\mathbf{x})</math> — the resonant mode shapes. Every [[ψ Resonator]] and [[ψ Waveguide]] is a designed eigenvalue problem.
+
+== The Three Fundamental Boundary Types ==
+
+=== Dirichlet — Perfect ψ Absorber ===
+
+:<math>\psi\bigl|_{\partial V} = 0 \qquad \text{(field vanishes at wall)}</math>
+
+'''Physical meaning:''' The boundary is a perfect ψ absorber. The ψ field has a node (zero) at every point on the wall — no ψ energy reflects, all is absorbed. Equivalent in EM to a perfect electric conductor (PEC) for the scalar field.
+
+'''Material requirement:''' A material with very high ψ loss tangent (imaginary part of <math>\varepsilon_\psi</math> dominates over real part): <math>\tan\delta_\psi \gg 1</math>. ψ energy incident on the boundary is converted to heat or disorder rather than reflected.
+
+'''Mode shape consequence:''' Every resonant mode inside a Dirichlet cavity has a node at the wall. The lowest mode has a single antinode at the centre. Mode frequencies are higher than in a Neumann cavity of the same size (nodes at walls push energy toward the centre, increasing effective wave number).
+
+'''Engineering applications:'''
+* [[ψ Shield / Absorber]] (C8): outer wall — Dirichlet condition ensures no ψ escapes the shield.
+* [[Psi Defender]] outer shell: Dirichlet termination suppresses all incident ψ.
+* [[ψ Detector]] (C10): absorbing boundary used to prevent reflected ψ from contaminating measurement.
+
+=== Neumann — Perfect ψ Reflector ===
+
+:<math>\frac{\partial\psi}{\partial n}\bigg|_{\partial V} = 0 \qquad \text{(normal gradient vanishes at wall)}</math>
+
+where <math>\hat{n}</math> is the outward normal to <math>\partial V</math>.
+
+'''Physical meaning:''' Zero normal ψ flux — no ψ energy escapes through this face. The field has an antinode (maximum) at the wall; all energy reflects. Equivalent in EM to a perfect magnetic conductor (PMC).
+
+'''Material requirement:''' A material with Im(<math>\mu_\psi</math>) ≈ 0 and Re(<math>\mu_\psi</math>) ≫ 1 — a perfect ψ magnetic mirror. In practice, the ferrofluid channels in the [[TPMS Lattice Design]] approximate this condition at the Stabilizer's target frequency when the H-field is set to produce maximum <math>\mu_{\rm eff}</math>.
+
+'''Mode shape consequence:''' Resonant modes have antinodes at the wall. The lowest mode has its peak at the boundary rather than the centre, producing a field distribution that maximises the ψ field at the operator's skull surface — the design intent for the [[Psi Stabilizer]].
+
+'''Engineering applications:'''
+* [[ψ Resonator]] (C1): Neumann inner wall maximises stored ψ energy; ψ does not leak.
+* [[Psi Stabilizer]] shell: Neumann condition at inner surface produces ψ₀₁₀ mode with field peak at temporal lobes.
+* [[ψ Waveguide]] (C2): Neumann condition at guide walls supports low-loss guided modes.
+
+=== Robin — Impedance Wall ===
+
+:<math>\frac{\partial\psi}{\partial n}\bigg|_{\partial V} + \alpha_R\,\psi\bigg|_{\partial V} = 0</math>
+
+'''Physical meaning:''' Partial absorption proportional to field amplitude. The Robin condition continuously interpolates:
+* <math>\alpha_R \to 0</math>: Neumann limit (no absorption, perfect reflection).
+* <math>\alpha_R \to \infty</math>: Dirichlet limit (total absorption).
+
+The coefficient <math>\alpha_R</math> is the ratio of the ψ wave impedance in free space to the wall impedance:
+
+:<math>\alpha_R = \frac{Z_0}{Z_{\rm wall}} = \frac{1/\omega^2}{Z_{\rm wall}}</math>
+
+from [[ψ Impedance Theory]] (A4). Engineering the wall material's <math>Z_{\rm wall}</math> — by adjusting the ratio <math>\mu_\psi/\varepsilon_\psi</math> — directly sets <math>\alpha_R</math>.
+
+'''Engineering applications:'''
+* Outer surface of [[Psi Stabilizer]]: Robin condition allows controlled leakage for [[HRV as ψ Proxy]] sensing (the [[OPM Magnetometry for ψ Detection]] sensor must detect the field through the shell).
+* [[ψ Coupler]] (C5): Robin wall at the coupling gap sets the coupling coefficient <math>\kappa</math>.
+* [[ψ Filter]] (C6): frequency-selective Robin walls (frequency-dependent <math>\alpha_R</math>) implement bandpass response.
+
+=== Comparison Table ===
+
+{| class="wikitable" style="width:100%;"
+! Property !! Dirichlet !! Neumann !! Robin
+|-
+| Condition || <math>\psi = 0</math> at wall || <math>\partial_n\psi = 0</math> at wall || <math>\partial_n\psi + \alpha_R\psi = 0</math> at wall
+|-
+| Mode shape at wall || Node (zero) || Antinode (maximum) || Intermediate
+|-
+| ψ energy behaviour || Absorbed || Reflected || Partially absorbed
+|-
+| Material analogue || Perfect ψ absorber, high loss tangent || Perfect ψ reflector, high <math>\mu_\psi</math> || Impedance wall, controlled <math>Z_{\rm wall}</math>
+|-
+| EM analogue || PEC (E tangential = 0) || PMC (H tangential = 0) || Leaky wall / absorber tile
+|-
+| Lowest mode frequency || Higher than Neumann (same cavity) || Lower (antinode at wall) || Intermediate
+|-
+| Primary use in [[Psi-Tech]] || [[ψ Shield]], [[Psi Defender]] || [[ψ Resonator]], [[Psi Stabilizer]] inner wall || [[Psi Stabilizer]] outer wall, [[ψ Coupler]]
+|}
+
+== Mode Quantisation ==
+
+For any finite cavity with a specified boundary condition, the Helmholtz equation yields a countably infinite discrete spectrum of eigenvalues. The general form:
+
+:<math>\omega_{nlm}^2 = m_{\rm eff}^2 + k_{nlm}^2</math>
+
+where the wave numbers <math>k_{nlm}</math> are determined by the geometry and boundary condition. The indices <math>(n, l, m)</math> label the modes — their specific meaning depends on the coordinate system appropriate to the cavity geometry.
+
+{{Way_It_Works
+| title       = How geometry and boundary conditions jointly determine the ψ mode spectrum
+| step1_label = Choose the cavity geometry
+| step1_text  = The geometry of the cavity determines which coordinate system separates the Helmholtz equation. Sphere → spherical coordinates; oblate spheroid (head shape) → oblate spheroidal coordinates; cylinder → cylindrical coordinates.
+| step2_label = Separate the Helmholtz equation
+| step2_text  = In the chosen coordinates, <math>(\nabla^2 + k^2)\psi = 0</math> separates into a product of ordinary differential equations, one per coordinate direction. Each ODE has regular and irregular solutions; only the regular ones are physical inside the cavity.
+| step3_label = Apply boundary conditions
+| step3_text  = At the cavity wall, impose Dirichlet, Neumann, or Robin. For spherical cavities with Neumann conditions, this requires <math>j'_l(ka) = 0</math> — the zeros of the derivative of the spherical Bessel function. For Dirichlet: <math>j_l(ka) = 0</math>.
+| step4_label = Solve the eigenvalue equation
+| step4_text  = The boundary condition equation (Bessel zero, oblate spheroidal eigenvalue, etc.) has a discrete set of solutions <math>k_{nlm}</math> for each index triple. These are the allowed wave numbers. The corresponding <math>\omega_{nlm} = \sqrt{m_{\rm eff}^2 + k_{nlm}^2}</math> are the resonant frequencies.
+| step5_label = Compute mode shapes
+| step5_text  = The eigenfunction <math>\psi_{nlm}(\mathbf{x})</math> gives the spatial pattern of the ψ field inside the cavity at frequency <math>\omega_{nlm}</math>. The mode shape determines which anatomical regions experience high ψ field intensity during device operation.
+| step6_label = Select the target mode
+| step6_text  = Engineering choice: which mode <math>(n,l,m)</math> should the device operate in? The choice is driven by the anatomical field distribution needed for the application. The [[Psi Stabilizer]] requires maximum field intensity at the temporal lobes — this selects the ψ₀₁₀ mode.
+| step7_label = Design the cavity for that mode
+| step7_text  = Given target frequency <math>\omega_{\rm target}</math> and mode <math>k_{010}</math>, the cavity dimension <math>a</math> and effective mass <math>m_{\rm eff}</math> must satisfy <math>\omega_{\rm target}^2 = m_{\rm eff}^2 + k_{010}^2</math>. This is the design equation linking geometry, ferrofluid state, and operating frequency.
+}}
+
+== The Oblate Spheroidal Cavity — Psi Stabilizer ===
+
+=== Geometry ===
+
+The [[Psi Stabilizer]] shell approximates a human head: an oblate spheroid with equatorial semi-axis <math>a \approx 110</math> mm and polar semi-axis <math>b \approx 90</math> mm (eccentricity <math>e = \sqrt{1 - b^2/a^2} \approx 0.57</math>). The aspect ratio <math>a/b \approx 1.22</math> is chosen to match the 95th-percentile adult head dimensions.
+
+In oblate spheroidal coordinates <math>(\xi, \eta, \phi)</math>, the Helmholtz equation separates into the spheroidal wave equation. The radial equation is the oblate spheroidal wave equation; the angular equations are associated Legendre equations modified by the spheroidal parameter <math>c = ka\,e</math>.
+
+=== Mode Designation ===
+
+Modes are labelled <math>\psi_{nlm}</math>:
+* <math>n</math> — radial index: number of nodal surfaces in the radial direction.
+* <math>l</math> — angular index: related to the number of nodal lines on the spheroidal surface.
+* <math>m</math> — azimuthal index: number of azimuthal nodal planes (0 = azimuthally symmetric).
+
+=== The ψ₀₁₀ Mode ===
+
+The lowest Neumann mode of the oblate spheroidal cavity — <math>\psi_{010}</math> — has the following properties:
+
+* '''Radial structure:''' No radial nodes — field varies smoothly from centre to wall.
+* '''Angular structure:''' One angular half-wavelength — field peaks at equatorial plane (<math>\theta = \pi/2</math>) and decreases toward the poles.
+* '''Azimuthal structure:''' Azimuthally uniform — field is the same at all longitudes for <math>m=0</math>.
+* '''Field maximum:''' The equatorial plane of the oblate spheroid corresponds anatomically to the '''temporal lobe''' region of the cerebral cortex.
+* '''Target frequency:''' <math>\omega_{010}/(2\pi) \approx 40</math> kHz — within the Shepard tone operating range and above the theta-band EEG effective-frequency target.
+
+This is not a designed-in feature — it is a mathematical consequence of the oblate spheroidal geometry with Neumann boundary conditions. The temporal lobe correspondence arises because the equatorial plane is where the lowest Neumann mode of an oblate cavity concentrates its energy. Designing the shell to match head geometry automatically places the field peak at the anatomically relevant region.
+
+=== Mode Table ===
+
+{| class="wikitable" style="width:100%;"
+! Mode <math>(n,l,m)</math> !! Approximate <math>\omega_{nlm}/\omega_{010}</math> !! Field maximum location !! Anatomical region !! [[Psi-Tech]] application
+|-
+| <math>\psi_{010}</math> (target) || 1.00 (reference) || Equatorial plane || Temporal lobes bilaterally || [[Psi Stabilizer]] — HRV coherence coupling
+|-
+| <math>\psi_{011}</math> || ~1.41 || Tilted ~45° off-axis || Parietal–occipital junction || [[Psi Harmonizer]] candidate mode
+|-
+| <math>\psi_{020}</math> || ~1.73 || Two equatorial bands || Bilateral temporal (deeper) || Group synchronisation candidate
+|-
+| <math>\psi_{110}</math> || ~2.00 || Radial ring at mid-latitude || Frontal–temporal border || Decision-making coherence (speculative)
+|-
+| <math>\psi_{100}</math> || ~2.45 || Central radial maximum || Thalamic region (deep) || Speculative deep-field coupling (Track B)
+|}
+
+Frequencies are approximate — the oblate spheroidal eigenvalues require numerical computation (COMSOL RF module eigenvalue solve; see [[HelmKit Architecture (Engineering)]] for numerical results).
+
+=== The TPMS Parameter Design Equation ===
+
+The [[TPMS Lattice Design]] (B7) parameterises the Gyroid shell density by the level-set parameter <math>t</math> in:
+
+:<math>\sin x\cos y + \sin y\cos z + \sin z\cos x = t</math>
+
+The parameter <math>t</math> controls relative density, which sets <math>\varepsilon_{\rm eff}</math> and <math>\mu_{\rm eff}</math> of the composite fill via Maxwell-Garnett theory. Through the dispersion relation and constitutive relations:
+
+:<math>m_{\rm eff} = f(t, V_{\rm BST}, H_{\rm ferrofluid})</math>
+
+The design equation linking <math>t</math> to the target ψ₀₁₀ frequency:
+
+:<math>\omega_{010}^2 = m_{\rm eff}^2(t) + k_{010}^2(a, b, e)</math>
+
+Given target <math>\omega_{010}/(2\pi) = 40</math> kHz, cavity dimensions <math>a = 110</math> mm, <math>b = 90</math> mm, and ferrofluid H-field set to produce target <math>m_{\rm eff} = 5</math> m⁻¹ (from [[ψ Dispersion Relations]] device target table):
+
+:<math>k_{010}^2 = \omega_{010}^2 - m_{\rm eff}^2 = (2\pi \times 40\times10^3)^2 - 5^2 \approx (2.51\times10^5)^2 \approx 6.3\times10^{10}\,\text{m}^{-2}</math>
+
+This required <math>k_{010}</math> then determines which value of <math>t</math> (and therefore which lattice density) is needed, via the COMSOL eigenvalue solve. The TPMS fabrication parameter is not a free aesthetic choice — it is a calculated engineering quantity derived from the mode frequency requirement.
+
+== Connection to the Mode Geometry Test ==
+
+The [[Mode Geometry Test]] (F3) is the key experiment in the [[ψ Falsifiability Framework]]. It compares:
+
+* '''Correctly-tuned cavity:''' ψ₀₁₀ mode, field maximum at temporal lobes, as derived above.
+* '''Detuned cavity:''' identical EM parameters (<math>\varepsilon_{\rm eff}</math>, <math>\mu_{\rm eff}</math>, drive voltage) but outer shell geometry shifted to displace the mode maximum away from the temporal lobes.
+
+The two devices are electromagnetically identical by construction — only the spatial pattern of the ψ field differs. If the correctly-tuned device produces reliably higher HRV coherence gains, the difference cannot be explained by conventional EM biophysics, because there is no mechanism in classical electromagnetism by which the spatial pattern of a 40 kHz field (wavelength ~7.5 km) would matter at head-scale.
+
+This page establishes the mathematical foundation for that experiment: the mode shapes are predicted analytically and computed numerically before the experiment runs, providing a pre-registered prediction testable against the data.
+
+== ψ-Dependent Extensions ==
+
+=== Curved-Space Boundary Conditions ===
+
+In the presence of strong curvature (near a [[Magnetogravitic Planetary Anchoring]] coupling point), the effective geometry of the ψ field domain is modified. The metric perturbation shifts the eigenvalues:
+
+:<math>\delta\omega_{nlm} \approx \frac{\xi R}{2\omega_{nlm}} \cdot \langle\psi_{nlm}|\psi_{nlm}\rangle</math>
+
+where <math>R</math> is the Ricci scalar. For planetary-surface operation, this correction is negligible (<math>\delta\omega/\omega \sim 10^{-9}</math>). For deep gravitational well operation, the [[Anchor Controller]] must include a gravitational correction term in its frequency servo.
+
+=== Topological Boundary Conditions and the OSGS ===
+
+The [[OSGS|Octahedral Symbolic Geometry System]] may provide a library of topological boundary conditions — not smooth surfaces but combinatorial structures. A boundary shaped as a Schwarz-P surface (one of the six TPMS topologies) imposes a different mode spectrum than a Gyroid boundary of the same volume. The [[ψ Metamaterials]] (B9) page develops this connection explicitly: each primitive symbol in the Base-216 system may correspond to a distinct topological boundary condition, giving the symbolic geometry system a direct engineering interpretation as a mode-selector library.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected Result !! Verified?
+|-
+| Spherical cavity, Neumann, <math>m_{\rm eff} = 0</math> || Mode frequencies are <math>\omega_{nl} = x'_{nl}/a</math> where <math>x'_{nl}</math> are zeros of <math>j'_l(x)</math>; lowest is <math>x'_{01} = 0</math> (trivial) — consistent with known spherical cavity results || ✓
+|-
+| Spherical cavity, Dirichlet, <math>m_{\rm eff} = 0</math> || Mode frequencies from <math>j_l(ka) = 0</math>; lowest is <math>ka = \pi</math> so <math>\omega = \pi/a</math> — standard result || ✓
+|-
+| <math>\alpha_R = 0</math> (Robin) || Reduces to Neumann: <math>\partial_n\psi = 0</math> ✓ ||  ✓
+|-
+| <math>\alpha_R \to \infty</math> (Robin) || Reduces to Dirichlet: <math>\psi = 0</math> ✓ || ✓
+|-
+| <math>m_{\rm eff} \to \infty</math> || All mode frequencies shift up as <math>\omega_{nlm} \to m_{\rm eff}</math> with diminishing <math>k_{nlm}</math> contribution; consistent with very short coherence-length limit where field barely penetrates interior || ✓
+|-
+| <math>a \to b</math> (sphere limit) || Oblate spheroidal modes reduce to spherical harmonics; ψ₀₁₀ → TM₀₁ mode of sphere || ✓ (geometric continuity)
+|}
+
+== See Also ==
+
+* [[ψ Dispersion Relations]] — provides the dispersion relation and <math>m_{\rm eff}</math> used in mode quantisation
+* [[ψ Impedance Theory]] — provides the Robin coefficient <math>\alpha_R = Z_0/Z_{\rm wall}</math>
+* [[ψ Green's Functions]] — uses boundary-condition mode structure to build the cavity Green's function
+* [[ψ Resonator]] (C1) — device that implements a Neumann-bounded ψ cavity
+* [[ψ Waveguide]] (C2) — device that implements Neumann walls for guided propagation
+* [[ψ Shield / Absorber]] (C8) — device implementing Dirichlet boundary conditions
+* [[TPMS Lattice Design]] (B7) — fabrication of the boundary structure; parameter <math>t</math> optimisation
+* [[Mode Geometry Test]] (F3) — experiment testing ψ₀₁₀ vs detuned cavity
+* [[HelmKit Architecture (Engineering)]] — numerical COMSOL eigenvalue results for the actual shell geometry
+* [[Psi Stabilizer]] — primary device specified by the ψ₀₁₀ mode analysis on this page
+* [[OSGS]] — symbolic geometry system whose primitives may correspond to topological boundary conditions
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Wave Physics]]
+[[Category:Resonators]]

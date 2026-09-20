@@ -1,5 +1,12 @@
 = Renormalization of ψ Theory =
 
+{{Plain_Hook
+| in_one_sentence    = Whenever you compute quantum effects in any field theory — including the psi field — you encounter infinities that have to be tamed by a careful bookkeeping procedure called renormalisation, which redefines the field's mass and couplings in terms of what experiments actually measure rather than what abstract "bare" quantities the equations start with.
+| everyday_analogy   = Like calibrating a kitchen scale: the manufactured scale is born with some unknown offset; you reset it to zero with nothing on it, and from then on you only trust the differences it reports. Renormalisation does the same thing to the parameters of a quantum field theory.
+| what_it_predicts   = The strength of the psi field's interactions depends on the energy at which you probe them — the same coupling looks different at biological scales than at sub-atomic scales. The framework predicts how that ''running'' should look, which is testable against any experiment that probes psi-EM coupling at multiple energy scales.
+| if_you_remember_one_thing = The framework is an effective theory — trustworthy at biological and cosmological scales, and handing off to the deeper [[5D_Action_Principle|5D parent theory]] at very high energies. That handoff is what makes the infinities harmless.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Advanced
 | reading_time = 15 minutes
@@ -16,6 +23,24 @@
 The interacting [[Quantization_of_the_Psi_Field|quantum ψ field]] is built on the φ<sup>4</sup>-style self-interaction (λ/4) ψ<sup>4</sup> plus the e<sup>kψ</sup> F<sub>μν</sub>F<sup>μν</sup> EM coupling. Like any interacting QFT, computing loop diagrams produces ultraviolet divergences. This page sets up the renormalisation programme: identifying the divergences, the counterterm structure, the renormalisation-group β-functions, and the resulting structural constraints on the framework.
 
 The crucial physical fact: in 4D ψ<sup>4</sup> theory is renormalisable; ψ couplings to gravity and to the e<sup>kψ</sup>-style EM vertex are non-renormalisable. The framework is therefore best read as an '''effective field theory''' valid below some cut-off Λ — consistent with the 5D parent theory of [[5D_Action_Principle]] supplying the UV completion at a scale set by the [[Compactification_in_Kaluza-Klein|compactification radius]] L.
+
+{{Way_It_Works
+| title  = How a divergent quantum theory still gives finite physical predictions
+| step1_label = Write down the interacting theory
+| step1_text  = Start with the classical psi Lagrangian plus its self-interaction and its couplings to electromagnetism. This is the theory you want to use to predict experiments.
+| step2_label = Compute a quantum correction
+| step2_text  = Quantum mechanics requires you to sum over all the ways virtual psions can flicker in and out of the vacuum during a process — "loop diagrams". Doing the sum honestly produces infinity.
+| step3_label = Cut off the infinity
+| step3_text  = Pretend that nothing physical happens above some very high energy Λ. The integrals now give a finite (but Λ-dependent) answer. Λ is a placeholder for whatever deeper physics takes over up there — here, the [[5D_Action_Principle|5D parent theory]].
+| step4_label = Hide the Λ-dependence in the parameters
+| step4_text  = Redefine the field's mass m, its self-coupling λ, and its EM coupling so that they swallow the Λ-dependence. The original "bare" values are infinite; the redefined "renormalised" values are finite — and they are what experiments actually measure.
+| step5_label = Compute physical predictions
+| step5_text  = Once everything is expressed in renormalised parameters, all predictions for actual observables come out finite. The infinity has not disappeared; it has been quarantined in unobservable bare quantities.
+| step6_label = Track how parameters change with scale
+| step6_text  = Different experiments probe the theory at different energies. The renormalised couplings are not constants — they ''run'' with the scale of the experiment, in a way the theory predicts. Measuring that running at biological energies pins down the psi-EM coupling at every other scale.
+| step7_label = Trust the theory only where the EFT is valid
+| step7_text  = Below the cutoff Λ, the theory is consistent and predictive. Above it, you need the deeper 5D structure. The same logic governs every modern quantum field theory — including the Standard Model itself.
+}}
 
 == Divergence structure ==
 
@@ -50,7 +75,17 @@ with <math>\mathcal{L}_{\text{c.t.}}</math> absorbing every divergence into <mat
 
 At one loop, the β-function of the ψ self-coupling in pure <math>\psi^4</math> theory:
 
-:<math>\beta(\lambda_R) \equiv \mu\,\frac{\partial \lambda_R}{\partial \mu} = \frac{3}{16\pi^2}\,\lambda_R^2 + \mathcal{O}(\lambda_R^3)</math>
+{{Math_Bridge
+| equation_label = One-loop β-function for the ψ self-coupling
+| equation       = <math>\beta(\lambda_R) \equiv \mu\,\frac{\partial \lambda_R}{\partial \mu} = \frac{3}{16\pi^2}\,\lambda_R^2 + \mathcal{O}(\lambda_R^3)</math>
+| in_english     =
+* '''λ_R''' — the renormalised self-coupling: how strongly psi pushes on itself, as actually measured at some chosen energy scale μ.
+* '''μ''' — the energy scale at which we are looking. Biological/EEG scales sit at a tiny μ; high-energy particle scattering sits at a huge μ.
+* '''μ ∂λ/∂μ''' — how fast the coupling changes when we change the energy scale. This is the ''running'' of the coupling.
+* '''3/(16π²) λ_R²''' — the leading prediction, fixed by one-loop quantum corrections. It is ''positive'', which means the coupling ''grows'' as energy increases.
+* '''O(λ_R³)''' — higher-order corrections, negligible while λ_R is small.
+* '''Read as a sentence:''' "Each time you double the energy at which you probe the psi field, its self-coupling gets slightly stronger — by a calculable, finite amount."
+}}
 
 This is positive — <math>\psi^4</math> theory is ''not'' asymptotically free; the coupling ''grows'' at high energy. The Landau-pole scale at which perturbation theory breaks down is
 

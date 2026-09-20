@@ -1,0 +1,28 @@
+The '''Field Recorder''' vehicle or pack-mounted environmental recorder, designed for documenting [[Psi Field]]-relevant conditions during deployment. Where the [[Psi Recorder]] captures the wearer-and-equipment state, the Field Recorder captures the ''world the wearer is walking through''. The two together form the [[Psi-Tech]] session record.
+
+== Overview ==
+
+The Field Recorder is a small ruggedized box that captures:
+
+* '''Magnetic field''' — 3-axis fluxgate (or HMC5883L cluster at Mk1).
+* '''Electric field / electrostatic''' — quad-probe array for vector estimate.
+* '''Broadband RF''' — SDR sweep (HF–UHF), spectrogram + classifier.
+* '''Schumann resonance band''' — narrowband 3–60 Hz channel; see [[Schumann Lattice]] for the federated picture.
+* '''Atmospheric''' — temperature, pressure, humidity, air-ion count (Mk2).
+* '''Geo''' — GPS lat/lon/alt; orientation (IMU).
+
+Sessions are time-aligned with the operator's [[Psi Recorder]] feed for joint analysis in the [[Resonant Pipeline]].
+
+== See Also ==
+
+* [[Psi Recorder]]
+* [[Resonant Pipeline]]
+* [[Schumann Lattice]]
+* [[Resonant Finder]]
+* [[Earth Intelligence Network]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

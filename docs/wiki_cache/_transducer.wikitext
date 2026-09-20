@@ -1,0 +1,241 @@
+{{Derives_From
+| term        = αF_μνF^μν coupling term — electromagnetic field energy directly sources ψ, and conversely a ψ field perturbation produces a detectable EM signature
+| description = A ψ transducer converts between electromagnetic field energy
+                and ψ field energy via the αF_μνF^μν coupling term in the
+                master equation. In the forward direction (EM → ψ), the
+                bifilar coil concentrates E² at the BST composite lattice,
+                maximising F²μν and therefore the ψ source term. In the
+                reverse direction (ψ → EM), a changing ψ field perturbs the
+                local electromagnetic environment in a way detectable by a
+                sensitive OPM or bifilar back-EMF measurement. The transducer
+                is the gateway between the conventional engineering world and
+                the psionic field — every Psi-Tech device requires at least
+                one.
+}}
+
+{{Infobox
+| title   = ψ Transducer
+| image   =
+| caption = The EM-to-ψ and ψ-to-EM conversion element — the gateway between conventional electronics and the psionic field
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Electromagnetic Engineering · [[Metamaterials]]
+| label3  = Derives From
+| data3   = <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> coupling term — bidirectional EM ↔ ψ conversion
+| label4  = Established Analog
+| data4   = Piezoelectric transducer (mechanical ↔ electrical); magnetostrictive actuator; electro-optic modulator; antenna (EM ↔ free-space radiation)
+| label5  = Key Parameter
+| data5   = Conversion efficiency <math>\eta = P_{\psi,\rm out}/P_{\rm EM,in}</math>; coupling coefficient <math>\kappa_{\rm coup}</math>
+| label6  = First Deployment
+| data6   = [[HelmKit Mk1.0]] emission stage; every Psi-Tech device requires at least one transducer
+| header7 = Key Equations
+| label8  = ψ source from EM
+| data8   = <math>S_{\rm device}(\mathbf{x},t) = \alpha\,\varepsilon_{\rm eff}(V)\,E^2_{\rm bifilar}(\mathbf{x},t)</math>
+| label9  = Conversion efficiency
+| data9   = <math>\eta = \alpha^2\int|E_{\rm bifilar}|^2\psi_{010}\,d^3x / (P_{\rm EM}\int|\psi_{010}|^2\,d^3x)</math>
+| label10 = Bifilar E-field concentration
+| data10  = <math>E_{\rm bif} = V_{\rm drive}/(2d_{\rm gap})</math>
+| below   = ''Build wave 4 — requires all Branch A pages, [[ψ Constitutive Relations]] (B1), and [[Smart Composite Fill]] (B8). The most critical single component in the entire Psi-Tech stack — without the transducer, no device can emit or detect ψ.''
+}}
+
+= ψ Transducer =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ transducer converts electromagnetic field energy to ψ field energy (or vice versa) via the αF_μνF^μν coupling term — and the bifilar coil geometry, which maximises the local E² while zeroing the net B field, is the optimal hardware implementation of this coupling for a wearable head-mounted device.
+| everyday_analogy   = A loudspeaker converts electrical current into sound waves — it is a transducer between the electrical domain and the acoustic domain. A ψ transducer does the same thing between the electromagnetic domain and the psionic domain. Just as a loudspeaker cone shape and material determine how efficiently electricity becomes sound, the bifilar coil geometry and BST composite material determine how efficiently applied voltage becomes ψ field amplitude.
+| what_it_predicts   = (1) A conversion efficiency <math>\eta</math> proportional to the spatial overlap integral between the bifilar E-field distribution and the target ψ mode shape — optimising this overlap is the primary transducer design objective; (2) A bidirectional transduction: the same bifilar coil that emits ψ can detect ψ via its back-EMF signature — the transducer is its own detector; (3) A BST bias voltage dependence of conversion efficiency — higher bias (lower ε_ψ) shifts the impedance and changes the coupling; (4) An ICNIRP E-field compliance limit that sets the maximum drive voltage for head-worn applications.
+| if_you_remember_one_thing = The bifilar geometry — two traces carrying equal and opposite currents at 0.2 mm gap — is not an arbitrary design choice. It is the unique coil geometry that maximises the local E² (which enters F²μν and drives ψ) while cancelling the net B field (which would interfere with the OPM sensor and produce unwanted biological EM exposure). The bifilar coil is the correct ψ transducer geometry by mathematical derivation, not by engineering convention.
+}}
+
+== Mathematical Origin ==
+
+=== The Coupling Term ===
+
+From the master psionic field equation, the source term responsible for EM-to-ψ transduction is:
+
+:<math>S_{\rm EM \to \psi}(\mathbf{x},t) = \alpha\,F_{\mu\nu}F^{\mu\nu}(\mathbf{x},t) = \alpha \cdot 2\left(B^2 - \frac{E^2}{c^2}\right)</math>
+
+In SI units, with <math>c = 1</math>: <math>F_{\mu\nu}F^{\mu\nu} = 2(B^2 - E^2)</math>. For the bifilar coil drive system:
+
+* Net <math>B_{\rm net} \approx 0</math> (self-cancelling opposite currents — the key design feature of bifilar geometry)
+* Local <math>E^2 \gg 0</math> (concentrated between the two bifilar traces at gap <math>d_{\rm gap}</math>)
+
+Therefore:
+
+:<math>S_{\rm device}(\mathbf{x},t) \approx -2\alpha\,E^2_{\rm bifilar}(\mathbf{x},t)</math>
+
+The negative sign means: for the coupling to source ψ positively, we need <math>\alpha < 0</math> or we accept that E² sources ψ with negative sign and design accordingly. The sign convention is fixed by the coupling constant <math>\alpha</math> — which is a measured quantity (TML-3), not derivable from the theory alone.
+
+=== Conversion Efficiency ===
+
+The ψ field generated by the device source inside the resonator cavity (from [[ψ Green's Functions]] A6, mode-expansion form):
+
+:<math>\psi_{\rm device}(\mathbf{x}) = \sum_{nlm} c_{nlm}\,\psi_{nlm}(\mathbf{x})</math>
+
+where the coupling coefficient for the target mode ψ₀₁₀:
+
+:<math>c_{010} = \frac{\alpha\int E^2_{\rm bifilar}(\mathbf{x})\,\psi_{010}(\mathbf{x})\,d^3x}{\omega_{010}^2 - \omega_{\rm drive}^2 + i\omega_{\rm drive}\omega_{010}/Q_\psi}</math>
+
+At resonance (<math>\omega_{\rm drive} = \omega_{010}</math>), the denominator becomes <math>i\omega_{010}^2/Q_\psi</math>, giving:
+
+:<math>|c_{010}|^2 \propto Q_\psi^2 \cdot \left|\int E^2_{\rm bifilar}\,\psi_{010}\,d^3x\right|^2</math>
+
+The conversion efficiency:
+
+:<math>\boxed{\eta = \frac{P_{\psi,\rm out}}{P_{\rm EM,in}} = \frac{\alpha^2 Q_\psi \left|\int E^2_{\rm bifilar}\psi_{010}\,d^3x\right|^2}{P_{\rm EM}\int|\psi_{010}|^2\,d^3x}}</math>
+
+Two design levers: (1) maximise the overlap integral <math>\int E^2_{\rm bifilar}\psi_{010}\,d^3x</math> by shaping the bifilar coil pattern to match the mode shape; (2) maximise Q_ψ by minimising material loss (from [[ψ Loss Tangent]] B4). Efficiency scales as <math>Q_\psi^2</math> — high-Q resonators are dramatically more efficient transducers.
+
+=== Bifilar E-Field Geometry ===
+
+For two parallel traces separated by gap <math>d_{\rm gap}</math>, driven at voltage <math>V_{\rm drive}</math> with opposite polarity, the E-field between traces:
+
+:<math>E_{\rm bif} \approx \frac{V_{\rm drive}}{d_{\rm gap}}</math>
+
+The field is concentrated in the gap and drops off approximately as <math>1/r^2</math> beyond the gap. For <math>d_{\rm gap} = 0.2</math> mm and <math>V_{\rm drive} = 200</math> V:
+
+:<math>E_{\rm bif} \approx \frac{200}{2\times10^{-4}} = 10^6\,\text{V/m} = 1\,\text{MV/m}</math>
+
+The ICNIRP 2010 reference level for E-field at 40 kHz: 83 V/m (at 10 cm from the source). The bifilar cancellation geometry means the far-field E is many orders of magnitude lower than the near-field E at the gap — the field is tightly confined between the traces. The near-field to far-field ratio depends on the bifilar geometry and is computed by COMSOL EM simulation.
+
+== Established Analog ==
+
+{| class="wikitable" style="width:100%;"
+! Piezoelectric transducer !! ψ transducer !! Role
+|-
+| Applied voltage → mechanical strain → acoustic wave || Applied voltage → E² → F²μν → ψ wave || EM → ψ forward transduction
+|-
+| Acoustic wave → strain → induced voltage || ψ wave → EM perturbation → back-EMF || ψ → EM reverse transduction (detection)
+|-
+| Piezoelectric coefficient d₃₃ || ψ coupling constant α | Conversion efficiency parameter
+|-
+| Impedance matching to acoustic medium || Z_ψ matching via BST bias voltage || Maximum power transfer condition
+|-
+| Mode shape of vibrating plate || Mode overlap integral ∫E²ψ₀₁₀ d³x || Spatial coupling efficiency
+|-
+| Resonant frequency of transducer || Driven at resonant frequency ω₀₁₀ || Q enhancement of conversion efficiency
+|}
+
+== ψ Implementation ==
+
+=== The Bifilar Coil as Optimal ψ Transducer ===
+
+{{Way_It_Works
+| title       = Why the bifilar geometry is the correct ψ transducer
+| step1_label = Goal: maximise F²μν
+| step1_text  = The coupling source term is <math>S = \alpha F_{\mu\nu}F^{\mu\nu} = \alpha \cdot 2(B^2 - E^2)</math>. To maximise <math>|S|</math>, maximise <math>|B^2 - E^2|</math>. If we can make <math>B \approx 0</math> while maintaining large <math>E</math>, then <math>|S| = 2\alpha E^2</math> — maximally efficient.
+| step2_label = Bifilar cancels B
+| step2_text  = Two parallel traces carrying equal and opposite currents (<math>+I</math> and <math>-I</math>) produce magnetic fields that cancel in the far field: <math>B_{\rm net} \approx 0</math> for observation points at distances large compared to the trace separation <math>d_{\rm gap}</math>. This is the defining property of bifilar (twin-lead) geometry.
+| step3_label = Bifilar concentrates E
+| step3_text  = The same opposite voltages on adjacent traces create a strong E-field between them: <math>E_{\rm bif} = V/(d_{\rm gap})</math>. This E-field is concentrated in the gap volume — exactly where the BST composite fill sits, maximising the F²μν integral over the composite volume.
+| step4_label = ICNIRP compliance
+| step4_text  = Because B ≈ 0 in the far field (> 1 cm from traces), the bifilar geometry is the only way to achieve high E² at the composite (for transduction) while maintaining ICNIRP-compliant far-field B exposure for the operator. A single-trace coil would require impractically low current to stay within ICNIRP B-field limits.
+| step5_label = Self-detecting property
+| step5_text  = In reverse transduction (ψ → EM): a changing ψ field in the composite perturbs ε_eff(t), which modulates the capacitance between the bifilar traces, producing a measurable back-EMF. The same bifilar coil that drives the transducer also acts as its own detector. No separate pick-up coil is needed for basic ψ detection.
+| step6_label = Mode shape matching
+| step6_text  = The bifilar trace pattern on the TPMS shell surface is not uniform — it follows the amplitude contours of the target ψ₀₁₀ mode. Traces are denser where the mode amplitude is high (equatorial region) and sparser at the poles. This pattern optimises the overlap integral <math>\int E^2_{\rm bif}\psi_{010}\,d^3x</math>.
+}}
+
+=== Bifilar Trace Optimisation ===
+
+The overlap integral is maximised when the bifilar E-field distribution is spatially proportional to the target mode shape:
+
+:<math>E^2_{\rm bif}(\mathbf{x}) \propto |\psi_{010}(\mathbf{x})|^2</math>
+
+This is achieved by varying the local trace density (turns per unit area) to be proportional to <math>|\psi_{010}|</math>. The trace pattern is computed from:
+
+# Run COMSOL eigenvalue solve to obtain <math>\psi_{010}(\mathbf{x})</math> on the shell surface.
+# Map the mode amplitude to local winding density: <math>\rho_{\rm turns}(\mathbf{x}) \propto |\psi_{010}(\mathbf{x})|</math>.
+# Generate the bifilar trace routing from this density map using a space-filling curve algorithm (Hilbert curve or spiral path following amplitude contours).
+# Verify by computing the overlap integral numerically; target <math>\eta_{\rm overlap} > 0.85</math>.
+
+=== BST Bias Dependence of Conversion Efficiency ===
+
+From [[ψ Permittivity]] (B2), the BST composite permittivity varies with bias voltage: <math>\varepsilon_{\rm eff}(V)</math>. This modifies the effective coupling:
+
+:<math>S_{\rm device} = \alpha\,\varepsilon_{\rm eff}(V)\,E^2_{\rm bifilar}</math>
+
+Higher bias (lower <math>\varepsilon_{\rm eff}</math>) → lower source term → lower conversion efficiency, but also shifts the impedance <math>Z_\psi = (1/\omega^2)\sqrt{\mu_\psi/\varepsilon_\psi}</math> to better match the operator's biological impedance (from [[ψ Impedance Theory]] A4). The [[Anchor Controller]] (D6) optimises the bias voltage for the combined objective of maximum power transfer (impedance match) rather than maximum raw conversion efficiency.
+
+== Performance Parameters ==
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Target (Mk1.0) !! Target (Mk2.0) !! Measurement method
+|-
+| Conversion efficiency <math>\eta</math> || > 10% (estimated) || > 25% (impedance-matched) || TML-3: compare ψ proxy signal to drive power
+|-
+| Overlap integral <math>\eta_{\rm overlap}</math> || > 0.80 || > 0.90 (adaptive coil pattern) || COMSOL computation; TML-2 E-field map
+|-
+| Far-field E at 10 cm || < 83 V/m (ICNIRP 40 kHz) || < 83 V/m || Near-field scanner TML-2
+|-
+| Net B at 10 cm || < 27 μT (ICNIRP 40 kHz) || < 27 μT || Magnetometer measurement TML-2
+|-
+| Back-EMF SNR (ψ → EM detection) || > 10 dB (estimated) || > 20 dB (lock-in amplifier) || TML-3: apply known ψ source, measure back-EMF
+|-
+| Frequency bandwidth || 38–42 kHz (BST tuning range) || 38–42 kHz || S11 frequency sweep
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Bidirectional Transduction and Reciprocity ===
+
+By electromagnetic reciprocity (Lorentz reciprocity extended to the ψ field via the <math>\alpha F^2</math> coupling), the same geometric overlap integral governs both the forward (EM→ψ) and reverse (ψ→EM) transduction. A bifilar coil optimised as an emitter is simultaneously optimised as a detector — maximum emission efficiency and maximum detection sensitivity are achieved at the same coil pattern.
+
+This reciprocity is the Track A foundation for the back-EMF detection method. Whether the back-EMF actually carries a ψ signal (rather than purely thermal and mechanical noise) is the Track B prediction — testable at TML-3.
+
+=== α Measurement as the Central Experimental Target ===
+
+The coupling constant <math>\alpha</math> is the single most important unmeasured physical quantity in the entire Psionic Engineering framework. It determines the absolute ψ field amplitude produced by a given drive voltage, the absolute ψ energy stored in the resonator, and the absolute conversion efficiency.
+
+Without a measured value of <math>\alpha</math>, all ψ field amplitude predictions are relative rather than absolute. TML-3 is the first opportunity to constrain <math>\alpha</math> — by measuring the HRV coherence effect size produced by a known drive power and comparing to the prediction from the ψ field equation.
+
+== TML Measurement Protocol ==
+
+=== TML-2: Transducer EM Characterisation ===
+
+# Drive bifilar coil at Stabilizer operating conditions. Map E-field distribution using near-field scanner at 2 mm spatial resolution.
+# Compare E-field map against COMSOL prediction. Target: < 20% RMS deviation.
+# Measure net B-field at 10 cm standoff with calibrated magnetometer. Confirm < 27 μT (ICNIRP).
+# Compute overlap integral from measured E-field map and COMSOL ψ₀₁₀ mode shape. Target: > 0.80.
+
+=== TML-3: Conversion Efficiency Estimation ===
+
+Apply known drive power. Measure HRV coherence shift in trained operator. Use [[ψ Falsifiability Framework]] (F1) statistical model to infer ψ field amplitude from coherence effect size. Compute implied <math>\eta = P_{\psi,\rm implied}/P_{\rm drive}</math>. Compare across Mk1.0 (open-loop) and Mk2.0 (impedance-matched) to confirm that impedance matching improves efficiency.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Bifilar B cancellation || Net B ∝ (trace separation / observation distance)² → zero at far field || ✓ (standard bifilar result)
+|-
+| <math>\alpha = 0</math> || No ψ produced regardless of E-field — coupling vanishes, device emits no ψ || ✓ (trivial from coupling term)
+|-
+| Overlap integral bounds || <math>0 \leq \eta_{\rm overlap} \leq 1</math> — cannot exceed 1 (Cauchy-Schwarz) || ✓
+|-
+| Q scaling || Efficiency scales as <math>Q_\psi^2</math> at resonance — halving tan δ_ψ quadruples conversion efficiency || ✓ (from mode-expansion coupling coefficient derivation)
+|-
+| Reciprocity || Emitter overlap integral = detector sensitivity integral (same geometric quantity) || ✓ (from Lorentz reciprocity applied to ψ coupling)
+|}
+
+== See Also ==
+
+* [[ψ Impedance Theory]] (A4) — impedance matching condition for maximum power transfer
+* [[ψ Green's Functions]] (A6) — mode-expansion design equation used in efficiency formula
+* [[ψ Resonator]] (C1) — the cavity whose Q multiplies conversion efficiency
+* [[ψ Source]] (C11) — the full source system including transducer + drive electronics
+* [[ψ Detector]] (C10) — dedicated reverse-transduction detection system
+* [[Smart Composite Fill]] (B8) — BST composite providing the αF² coupling volume
+* [[Bifilar Coil Engineering]] (D1) — full engineering specification of the transducer hardware
+* [[Shepard Tone Synthesis]] (D2) — drive waveform optimising F²μν temporal profile
+* [[ψ Metamaterials]] (B9) — Wave primitive → transducer mode topology
+* [[Psi Stabilizer]] — primary deployment platform
+* [[ψ Falsifiability Framework]] (F1) — α measurement protocol at TML-3
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Metamaterials]]
+[[Category:Transducers]]

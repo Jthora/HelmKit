@@ -1,5 +1,12 @@
 = Quantization of the ψ Field =
 
+{{Plain_Hook
+| in_one_sentence    = Quantising the psi field means treating it the way physicists treat light — not as a smooth continuous wave, but as something that comes in discrete chunks called ''psions'', which can be emitted one at a time, absorbed one at a time, and counted.
+| everyday_analogy   = Light looks like a continuous beam from a flashlight, but it is really a stream of photons. The psi field has the same double life: most of the time you see the smooth wave, but at low intensities it becomes a thin trickle of individual psi-particles — psions — each one carrying a small definite amount of energy.
+| what_it_predicts   = Faint psi sources should emit psions one at a time, with countable statistics; coherent neural activity should produce a coherent state of many psions in the same mode (the quantum description of a sustained psionic construct); and psi-to-light conversion should obey ordinary quantum scattering rules.
+| if_you_remember_one_thing = Once you grant that the psi field is real, quantum mechanics says it must come in particle-like quanta. Those quanta — psions — are the natural unit of low-level psionic phenomena, just as photons are the natural unit of low-level optics.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Advanced
 | reading_time = 15 minutes
@@ -18,6 +25,24 @@ This page sets up the canonical quantisation of the [[Psi_Field|ψ field]] — t
 
 The page is the QFT companion to [[Psi_Field]]; for the UV completion (loop divergences, renormalisation) see [[Renormalization_of_Psi_Theory]].
 
+{{Way_It_Works
+| title  = How a classical psi field becomes a swarm of countable psions
+| step1_label = Start with the classical psi field
+| step1_text  = Treat psi(x,t) as a number defined at every point in space and time, obeying its wave equation. This is the same starting point as for any classical field — sound, light's electric field, water height.
+| step2_label = Decompose into modes
+| step2_text  = Any wave can be written as a sum of pure-tone components (Fourier modes), each one a sinusoidal wave with a definite wavelength and frequency. The psi field is no different.
+| step3_label = Promote each mode to a quantum harmonic oscillator
+| step3_text  = Each mode behaves like a tiny spring — a harmonic oscillator. Quantum mechanics quantises a harmonic oscillator into discrete energy levels. Each level above the ground state = one extra psion in that mode.
+| step4_label = Define creation and annihilation operators
+| step4_text  = Standard QFT tools: a-dagger adds one psion in a chosen mode, a removes one. These satisfy the same algebra as for photons, just with psi-specific masses and couplings.
+| step5_label = Build the Fock space
+| step5_text  = The empty universe is the vacuum (no psions). Apply a-dagger and you get one psion. Apply more and you get many. This catalogue of all possible psion populations is the Fock space; every physical state lives in it.
+| step6_label = Compute scattering probabilities
+| step6_text  = Interactions — psi self-coupling, psi-EM coupling — mix these modes and let psions be created, destroyed, or converted into photons. Feynman diagrams give the probabilities for each process.
+| step7_label = Recover the classical field as a limit
+| step7_text  = A coherent state with many psions in one mode looks, to coarse observation, exactly like a smooth classical psi wave. The classical field is not abandoned; it is the high-population limit of the quantum description.
+}}
+
 == Canonical quantisation ==
 
 Start from the free-field Lagrangian:
@@ -26,7 +51,16 @@ Start from the free-field Lagrangian:
 
 The conjugate momentum is <math>\pi(\mathbf{x}) \equiv \partial\mathcal{L}/\partial(\partial_t\psi) = \partial_t\psi</math>. Imposing equal-time commutation relations:
 
-:<math>[\hat{\psi}(\mathbf{x}, t),\, \hat{\pi}(\mathbf{y}, t)] = i\,\delta^3(\mathbf{x} - \mathbf{y})</math>
+{{Math_Bridge
+| equation_label = Canonical commutation relation — the quantisation step itself
+| equation       = <math>[\hat{\psi}(\mathbf{x}, t),\, \hat{\pi}(\mathbf{y}, t)] = i\,\delta^3(\mathbf{x} - \mathbf{y})</math>
+| in_english     =
+* '''ψ̂(x,t)''' — the psi-field value at point x at time t, but now an ''operator'' (denoted by the hat) rather than just a number. It measures the field; it also affects the system being measured.
+* '''π̂(y,t)''' — the psi field's momentum at point y at time t. (Just as a particle has momentum p, a field has a momentum density π.) Also an operator.
+* '''[A, B] = AB − BA''' — the commutator. Tells you whether the order of two measurements matters. For ordinary numbers it is zero. For quantum operators it can be non-zero — and that non-zero result is precisely what makes the theory quantum mechanical.
+* '''i δ³(x − y)''' — a sharp spike, zero everywhere except where x and y are the same point. It says: "the field and its momentum interfere with each other only when measured at the same location, never at separated points."
+* '''Read as a sentence:''' "Measuring the psi field here and then its momentum there gives a different answer from doing them in the opposite order, but only if 'here' and 'there' are the same point. That is the quantum signature."
+}}
 
 :<math>[\hat{\psi}(\mathbf{x}, t),\, \hat{\psi}(\mathbf{y}, t)] = 0,\qquad [\hat{\pi}(\mathbf{x}, t),\, \hat{\pi}(\mathbf{y}, t)] = 0</math>
 

@@ -1,0 +1,96 @@
+{{Audience_Sidebar
+| difficulty   = Beginner
+| reading_time = 5 minutes
+| prerequisites = none
+| if_too_basic_see        =
+| if_too_advanced_see     =
+| if_you_want_the_math_see= [[Heart_Rate_Variability_and_Psi]]
+}}
+
+'''Photoplethysmography (PPG)''' is an optical technique that measures
+volumetric blood-flow change by illuminating tissue with a
+light-emitting diode (LED) and recording how much light is reflected
+or transmitted back to a photodiode. Each cardiac systole pushes a
+pressure wave outward; the pressure wave transiently expands the
+arterioles in the illuminated tissue volume; the expanded blood
+absorbs more of the LED light; the photodiode sees a periodic dip.
+The resulting waveform is the PPG signal.
+
+PPG is the standard sensing modality for [[HelmKit_Mk0.5|HelmKit Mk0.5+]]
+heart-rate-variability biofeedback. It is cheap (single LED + single
+photodiode + amplifier), low-power, non-invasive, and tolerates
+relatively coarse mechanical mounting compared with ECG (which
+requires three-electrode placement on bare skin).
+
+== 1. Optical mechanism ==
+
+Two wavelengths are commonly used:
+
+* '''Green (~525 nm)''' — absorbed strongly by both
+  oxyhaemoglobin and deoxyhaemoglobin; rejected by melanin to a
+  manageable degree; signal-to-noise is best at the wrist and
+  forehead. Used by wrist wearables (Apple Watch, Fitbit, Garmin)
+  and by the [[MAX30102]]-class temple/forehead sensors HelmKit Mk0.5
+  uses.
+* '''Red (~660 nm) + infrared (~940 nm)''' — the classical
+  pulse-oximetry pair; differential absorption of oxy- vs
+  deoxyhaemoglobin lets the ratio recover SpO₂ in addition to heart
+  rate. Used by fingertip clinical pulse oximeters.
+
+For HRV-only use (no SpO₂) the green-LED variant is preferred:
+better signal at the wrist and forehead, lower power, smaller die.
+
+== 2. Signal anatomy ==
+
+A clean PPG cycle has three named features:
+
+# '''Systolic peak''' — maximum vascular expansion; coincides with
+  the R-wave of ECG to within ~150 ms pulse-transit time.
+# '''Dicrotic notch''' — brief reflux dip on the down-slope as the
+  aortic valve closes.
+# '''Diastolic decay''' — exponential return toward baseline as
+  pressure equilibrates.
+
+The peak-to-peak interval is the '''PPI''' (peak-to-peak interval),
+the PPG analogue of the ECG R-R interval and the input to all
+[[Heart_Rate_Variability_and_Psi|HRV]] metrics.
+
+== 3. Limitations and failure modes ==
+
+* '''Motion artifact''' — PPG is sensitive to mechanical
+  perturbation; running, weightlifting, and rapid head motion can
+  swamp the cardiac signal. The Mk1.5 Combat-mode build of HelmKit
+  addresses this with motion-tolerant capture.
+* '''Skin tone''' — green-LED PPG has documented reduced signal
+  amplitude on darker skin (melanin absorption); IR-PPG is more
+  robust but consumes more power.
+* '''Cold extremities''' — peripheral vasoconstriction reduces
+  PPG amplitude; see [[Peripheral_Vasomotor_Tone]].
+* '''Respiration coupling''' — respiration modulates PPG
+  amplitude at 0.1–0.5 Hz (the source of the
+  [[PPG_Amplitude_Envelope|amplitude envelope]] used as a vasomotor
+  proxy).
+
+== 4. PPG vs ECG for HRV ==
+
+ECG measures cardiac electrical depolarisation directly; PPG measures
+the downstream mechanical pulse. The two differ by the
+'''pulse-transit time''' (PTT), typically 150–300 ms, which itself
+varies with blood pressure and vascular tone. For frequency-domain HRV
+this is negligible; for sub-millisecond timing analyses (e.g. some
+ψ-task protocols requiring R-wave-locked stimulus delivery) ECG is
+preferred.
+
+== 5. Wiki context ==
+
+* [[Heart_Rate_Variability_and_Psi]] — the anchor page; PPG is
+  the sensing front-end.
+* [[PPG_Amplitude_Envelope]] — slow-modulation feature extracted
+  from PPG, vasomotor proxy.
+* [[HelmKit_Architecture]] §2 — HP-TL / HP-EL hardpoint
+  locations for PPG mounting.
+* [[Psi_Scanner]], [[Psi_Recorder]] — downstream consumers.
+
+[[Category:Biomarker_layer]]
+[[Category:Biology]]
+[[Category:Psi-Tech]]

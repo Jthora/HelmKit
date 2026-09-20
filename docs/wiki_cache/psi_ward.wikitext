@@ -1,3 +1,28 @@
+= Psi Ward =
+
+{{Plain_Hook
+| in_one_sentence    = The Psi Ward is a static area-defense [[Psi Devices|psi device]] that creates a psionic boundary field — a defined spherical, cylindrical, or shaped perimeter inside which all external psionic effects (area psi attacks, [[Psychotronic Generator]], [[Neural Scrambler]]) are excluded by enforcing the null condition Ψ_external(r_boundary) = 0 along the bounding surface.
+| everyday_analogy   = A Faraday cage for psionic fields, with the same operating principle: enforce a boundary condition on the relevant field along a closed surface, and the interior becomes electromagnetically (here, psionically) isolated from the exterior. Inside a Faraday cage your phone has no signal, but a transmitter inside the cage can talk to a receiver inside the cage without leaking out. Same logic for the Psi Ward: it's bidirectional — outside attacks can't get in, and inside emissions can't get out (a warded area is psionically invisible). Compared to active defenses ([[Defense Discs]]) that intercept threats one at a time, the Psi Ward is passive infrastructure: once erected, only maintenance power is needed and ALL spectrum, ALL attack types are blocked at the perimeter.
+| what_it_predicts   = (1) Boundary condition Ψ_external(r) = 0 for all r on ∂V (the ward surface); (2) Bidirectional — blocks both incoming attacks AND outgoing emissions; (3) All-spectrum effective — covers all psionic frequencies and attack categories; (4) Static, requires only maintenance power once established; (5) Shape-flexible: spherical, cylindrical, or contoured boundaries; (6) Use cases: field hospital dome, command-post cylinder, sensor-outpost sphere, [[Psi Harmonizer]] recovery wards; (7) Real-world parallel: Faraday cage / anechoic chamber / SCIF (Sensitive Compartmented Information Facility).
+| if_you_remember_one_thing = The Psi Ward is the area-denial analogue of a Faraday cage — boundary-condition-based passive defense. The framework's claim is engineering, not new physics: if the [[Psi Field]] exists and obeys field-theoretic boundary conditions, then enforcing Ψ = 0 on a closed surface produces a null interior.
+}}
+
+{{Way_It_Works
+| title  = How a Psi Ward enforces a closed psionic boundary
+| step1_label = Establish the geometry
+| step1_text  = Decide the shape and extent of the protected volume V (a sphere for field hospitals, a cylinder for command posts, a contoured envelope for a sensor outpost). The boundary ∂V is the surface on which the ward enforces null conditions. Geometry is determined by operational needs: dome over a building, cylinder over a vehicle convoy, custom contour for unusual installations.
+| step2_label = Deploy boundary emitters
+| step2_text  = Place [[Psi Emitter]] nodes around the boundary, spaced closely enough that their individual exclusion fields overlap. Each emitter generates a local cancellation field tuned to produce destructive interference with any psionic signal crossing its sector of the boundary. Spacing depends on emitter strength and target frequencies.
+| step3_label = Synchronise via PsiLink mesh
+| step3_text  = All boundary emitters are linked through the [[PsiLink]] mesh and coordinated by [[PsiSys]]. They share a common phase reference so their cancellation fields combine coherently along the entire boundary. Loss of synchronisation creates holes — hence Neural Firewall protection of the mesh itself is critical.
+| step4_label = Enforce Ψ_external(r_boundary) = 0
+| step4_text  = For any incoming psionic signal Ψ_in(r,t) reaching the boundary, the local emitter produces Ψ_emit(r,t) = −Ψ_in(r,t) at that surface point. Net Ψ = 0 on ∂V. By the linearity of the psi field equation and uniqueness of boundary-value solutions, this forces Ψ = 0 throughout the interior for purely external sources — the warded volume is psionically clean.
+| step5_label = Exploit the clean interior
+| step5_text  = Inside the ward, the ψ-field is determined entirely by internal sources — making it a controlled environment for sensitive operations: [[Psi Harmonizer]] therapy, [[Psi Scanner]] high-sensitivity sensing, [[Psi Recorder]] reference measurements, [[PsiLink]] secure communication. The bidirectional property is what makes the interior tactically invisible: external sensors can't detect activity within.
+| step6_label = Handle limits and failure modes
+| step6_text  = Limits: maintenance power must continue; mesh synchronisation must be preserved; boundary emitters are physical hardware and can be physically attacked. Failure mode: loss of one emitter creates a localised hole at that sector. Mitigation: redundant emitter coverage and [[Neural Firewall]] protection of the PsiLink mesh itself. The Psi Ward is robust but not invincible — it's the psionic equivalent of physical fortifications.
+}}
+
 {| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
 ! colspan="2" style="background:#333; color:#fff;" | '''Psi Ward'''
 |-
@@ -113,6 +138,23 @@ this framing.
 * [[Psi Defender]] — Active defense complement
 * [[Psi Scanner]] — Detection operations within ward
 * [[Psi Devices]] — Master device catalog
+
+== Threat classes mitigated ==
+{| class="wikitable"
+! Threat class !! Mitigation level !! Mechanism
+|-
+| [[Photic_Band_Entrainment]] || Primary || RF and visible-light shielding at workspace boundary.
+|-
+| [[Cardiac_Rate_Modulation_Attack]] || Primary || RF shielding eliminates the carrier; no envelope to demodulate inside the Ward.
+|-
+| [[Demoralisation_Field]] || Primary || Wideband RF/ELF shielding eliminates sustained-noise ingress.
+|-
+| [[Resonance_Hijacking]] || Secondary || Ward limits operator [[Psi Stabilizer]] emission egress (reduces reconnaissance) and external replay ingress.
+|-
+| [[Psi_Direct_Threat]] || Hypothetical || ψ-field shielding by physical geometry is not established; included for completeness.
+|}
+
+For the full device-vs-threat matrix see [[Defense_in_Depth]].
 
 [[Category:Defenses]]
 [[Category:Psionics]]

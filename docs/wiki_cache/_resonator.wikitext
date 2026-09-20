@@ -1,0 +1,249 @@
+{{Derives_From
+| term        = Standing-wave solutions to bounded (□ − m²_eff)ψ = 0 — mode quantisation from [[ψ Boundary Conditions]] (A5)
+| description = A ψ resonator is a closed region with Neumann boundary
+                conditions that supports a discrete set of standing ψ wave
+                modes at quantised frequencies ω_nlm = √(m²_eff + k²_nlm).
+                It is the most fundamental ψ storage element — the analogue
+                of an LC resonator in electronics or a Fabry-Pérot cavity
+                in optics. The [[Psi Stabilizer]] shell is a ψ resonator
+                designed to support the ψ₀₁₀ oblate spheroidal mode with
+                its field maximum at the operator's temporal lobes.
+}}
+
+{{Infobox
+| title   = ψ Resonator
+| image   =
+| caption = The fundamental ψ field storage element — a bounded cavity supporting discrete standing ψ wave modes
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Resonator Engineering
+| label3  = Derives From
+| data3   = Standing-wave solutions to bounded <math>(\Box - m_{\rm eff}^2)\psi = 0</math>; [[ψ Boundary Conditions]] (A5)
+| label4  = Established Analog
+| data4   = Microwave resonant cavity; optical Fabry-Pérot etalon; acoustic standing-wave resonator; LC tank circuit
+| label5  = Key Parameters
+| data5   = Resonant frequency <math>\omega_{010}</math>; quality factor <math>Q_\psi</math>; mode shape <math>\psi_{nlm}(\mathbf{x})</math>; stored energy <math>U_\psi</math>
+| label6  = First Deployment
+| data6   = [[Psi Stabilizer]] shell (ψ₀₁₀ mode, 40 kHz target, Q > 200)
+| header7 = Key Equations
+| label8  = Mode frequencies
+| data8   = <math>\omega_{nlm}^2 = m_{\rm eff}^2 + k_{nlm}^2</math>
+| label9  = Stored energy
+| data9   = <math>U_\psi = \int_V T^{00}_\psi\,d^3x</math>
+| label10 = Drive power
+| data10  = <math>P_{\rm drive} = \omega U_\psi/Q_\psi</math>
+| label11 = Ringdown time
+| data11  = <math>\tau = 2Q_\psi/\omega</math>
+| below   = ''Build wave 4 — requires all Branch A pages and [[ψ Constitutive Relations]] (B1). The primary component underlying the [[Psi Stabilizer]] and [[Psi Harmonizer]].''
+}}
+
+= ψ Resonator =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ resonator is a bounded region with Neumann boundary conditions that stores ψ field energy in discrete standing-wave modes at quantised frequencies — it is the ψ equivalent of an LC tank circuit, a microwave cavity, or an optical Fabry-Pérot, and the [[Psi Stabilizer]] shell is a ψ resonator specifically engineered to store energy in the ψ₀₁₀ mode whose field maximum falls at the operator's temporal lobes.
+| everyday_analogy   = A church bell rings at a specific frequency because its shape confines acoustic waves to certain standing patterns and forbids others. Change the shape, change the frequency. A ψ resonator does the same thing for ψ waves: the shell geometry determines which ψ frequencies are supported inside and which cannot exist, creating a frequency-selective storage element that accumulates ψ energy at precisely the operating frequency while rejecting everything else.
+| what_it_predicts   = (1) A discrete mode spectrum <math>\omega_{nlm}</math> determined entirely by the shell geometry, effective mass <math>m_{\rm eff}</math>, and boundary condition type — no free parameters once these are fixed; (2) A stored energy that builds up toward a steady-state value with time constant <math>\tau = 2Q_\psi/\omega</math> after the drive is engaged; (3) A spatial mode shape <math>\psi_{010}(\mathbf{x})</math> with its maximum at the equatorial plane of the oblate spheroid, corresponding anatomically to the temporal lobes; (4) A ringdown time of at least 1.6 ms at Q = 200, enabling measurement of ψ field persistence after the drive ceases.
+| if_you_remember_one_thing = The ψ resonator does not just contain the ψ field — it selects which field pattern can exist inside it. The mode shape, not just the drive frequency, determines which anatomical region experiences maximum ψ exposure. The [[Mode Geometry Test]] (F3) is designed precisely to isolate this mode-shape effect experimentally.
+}}
+
+== Mathematical Origin ==
+
+The ψ resonator emerges directly from the bounded wave equation. Inside a closed region <math>V</math> with Neumann boundary conditions <math>\partial\psi/\partial n = 0</math> on the surface <math>\partial V</math>, the time-harmonic Helmholtz equation:
+
+:<math>\left(\nabla^2 + k^2\right)\psi_{nlm}(\mathbf{x}) = 0, \qquad k^2 = \omega^2 - m_{\rm eff}^2</math>
+
+admits solutions only at discrete eigenvalues <math>k_{nlm}</math> — the resonant wave numbers. The corresponding resonant frequencies:
+
+:<math>\boxed{\omega_{nlm}^2 = m_{\rm eff}^2 + k_{nlm}^2}</math>
+
+The eigenvalues <math>k_{nlm}</math> depend entirely on the geometry of <math>V</math> and the boundary condition type. For the oblate spheroidal geometry of the [[Psi Stabilizer]] with Neumann conditions, they are computed numerically (COMSOL RF module eigenvalue solve).
+
+=== Mode Spectrum of the Oblate Spheroidal Psi Stabilizer Shell ===
+
+The first several resonant modes and their anatomical significance (from [[ψ Boundary Conditions]] A5):
+
+{| class="wikitable" style="width:100%;"
+! Mode <math>(n,l,m)</math> !! Relative frequency <math>\omega_{nlm}/\omega_{010}</math> !! Field maximum !! Anatomical region !! Application
+|-
+| ψ₀₁₀ (target) || 1.00 || Equatorial plane || Temporal lobes || [[Psi Stabilizer]] — HRV coherence
+|-
+| ψ₀₁₁ || ~1.41 || Tilted off-axis || Parietal-occipital || [[Psi Harmonizer]] candidate
+|-
+| ψ₀₂₀ || ~1.73 || Two equatorial bands || Bilateral temporal (deep) || Group synchronisation
+|-
+| ψ₁₁₀ || ~2.00 || Mid-latitude ring || Frontal-temporal || Decision-making coherence
+|-
+| ψ₁₀₀ || ~2.45 || Central radial maximum || Thalamic region || Deep-field coupling (Track B)
+|}
+
+=== Stored Energy ===
+
+From the ψ stress-energy tensor (established in [[Psionics]] and [[ψ Quality Factor]] B5):
+
+:<math>U_\psi = \int_V T^{00}_\psi\,d^3x = \int_V \left[\tfrac{1}{2}(\partial_t\psi)^2 + \tfrac{1}{2}|\nabla\psi|^2 + \tfrac{1}{2}m_{\rm eff}^2\psi^2 + \tfrac{\lambda}{4}\psi^4\right]d^3x</math>
+
+At resonance, energy shuttles between the kinetic term <math>\tfrac{1}{2}(\partial_t\psi)^2</math> and the potential terms <math>\tfrac{1}{2}|\nabla\psi|^2 + \tfrac{1}{2}m_{\rm eff}^2\psi^2</math> — exactly as in a harmonic oscillator. The time-averaged stored energy is constant at steady state.
+
+== Established Analog ==
+
+{| class="wikitable" style="width:100%;"
+! EM resonator property !! EM symbol !! ψ resonator analogue !! ψ symbol
+|-
+| Resonant frequency || <math>\omega_0 = 1/\sqrt{LC}</math> || Mode frequency from eigenvalue || <math>\omega_{nlm} = \sqrt{m_{\rm eff}^2 + k_{nlm}^2}</math>
+|-
+| Quality factor || <math>Q = \omega_0 L/R</math> || Material + radiation + coupling Q || <math>1/Q_L = 1/Q_{\rm mat} + 1/Q_{\rm rad} + 1/Q_{\rm coup}</math>
+|-
+| Stored energy || <math>U = \tfrac{1}{2}LI^2 = \tfrac{1}{2}CV^2</math> || ψ field energy in cavity volume || <math>U_\psi = \int T^{00}_\psi\,d^3x</math>
+|-
+| Drive power at steady state || <math>P = \omega_0 U/Q</math> || ψ drive power || <math>P_{\rm drive} = \omega U_\psi/Q_\psi</math>
+|-
+| Ringdown time || <math>\tau = 2Q/\omega_0</math> || ψ field lifetime after drive cut || <math>\tau = 2Q_\psi/\omega_0</math>
+|-
+| Bandwidth (−3 dB) || <math>\Delta\omega = \omega_0/Q</math> || ψ frequency selectivity || <math>\Delta\omega_\psi = \omega_{nlm}/Q_\psi</math>
+|-
+| Mode shape || Cavity field pattern (TM, TE modes) || ψ mode eigenfunction || <math>\psi_{nlm}(\mathbf{x})</math>
+|-
+| Coupling coefficient || Coupling loop area × field || Overlap integral || <math>\kappa = \int \psi_{nlm}\psi_{\rm drive}\,d^3x</math>
+|}
+
+== ψ Implementation ==
+
+=== Geometry: The Oblate Spheroidal Shell ===
+
+The [[Psi Stabilizer]] ψ resonator is an oblate spheroid:
+* Semi-axes: <math>a = 110</math> mm (equatorial), <math>b = 90</math> mm (polar), matching 95th-percentile adult head geometry
+* Eccentricity: <math>e = \sqrt{1-b^2/a^2} \approx 0.57</math>
+* Aspect ratio: <math>a/b \approx 1.22</math>
+
+The oblate spheroidal geometry is not merely anatomically convenient — it is geometrically selected. The ψ₀₁₀ lowest Neumann mode of an oblate spheroid places its field maximum at the equatorial plane. As the shell is fitted over the head, this plane aligns with the temporal lobes. A spherical shell would place the lowest mode maximum at the same amplitude everywhere on the equatorial great circle — anatomically less targeted. A prolate spheroid would tilt the mode maximum toward the poles (frontal/occipital lobes). The oblate spheroid is the geometry that selects temporal lobe targeting from among the available modes.
+
+=== Material: TPMS + Composite Fill ===
+
+The resonator wall is a [[TPMS Lattice Design]] (B7) Gyroid shell at density parameter <math>t = 0.4</math> (≈ 30% relative density), filled with the [[Smart Composite Fill]] (B8). The effective medium parameters at the Stabilizer design point:
+
+* <math>\varepsilon_\psi \approx 4.0\,\varepsilon_0</math> (BST composite at 0V bias)
+* <math>\mu_\psi \approx 1.04\,\mu_0</math> (ferrofluid at H = 200 A/m)
+* <math>m_{\rm eff} \approx 5</math> m⁻¹ (giving <math>L_\psi = 20</math> cm)
+* <math>\tan\delta_\psi < 0.005</math> (optimised formulation from B4)
+* <math>Q_\psi > 200</math> (material-limited)
+
+The wave speed inside the shell: <math>v_\psi = c/\sqrt{\varepsilon_\psi\mu_\psi} \approx c/2</math>. The resonant wave number for ψ₀₁₀ at 40 kHz:
+
+:<math>k_{010} = \sqrt{\omega_{010}^2/v_\psi^2 - m_{\rm eff}^2} \approx \sqrt{(2\pi\times4\times10^4)^2/(c/2)^2 - 25} \approx 1.68\,\text{m}^{-1}</math>
+
+This wave number is consistent with the oblate spheroidal geometry at the target dimensions — verified by COMSOL.
+
+=== Drive Coupling: Bifilar Coil ===
+
+The bifilar coil from [[Bifilar Coil Engineering]] (D1) drives the resonator via the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> coupling term. Coupling efficiency:
+
+:<math>\eta_{\rm coup} = \frac{|\int \psi_{010}(\mathbf{x})\,\alpha E^2_{\rm bifilar}(\mathbf{x})\,d^3x|^2}{\int|\psi_{010}|^2\,d^3x \cdot \int|\alpha E^2_{\rm bifilar}|^2\,d^3x}</math>
+
+This overlap integral is maximised when the bifilar coil E-field distribution spatially matches the ψ₀₁₀ mode shape. The coil geometry is optimised to this criterion — the coil winding pattern is not uniform but follows the mode amplitude contours.
+
+== Performance Parameters ==
+
+=== Design Targets for Each Module ===
+
+{| class="wikitable" style="width:100%;"
+! Module !! Target mode !! Target <math>\omega/2\pi</math> !! Target <math>Q_\psi</math> !! Target <math>L_\psi</math> !! Boundary condition
+|-
+| [[Psi Stabilizer]] || ψ₀₁₀ || 40 kHz || > 200 || 20 cm || Neumann inner; Robin outer (controlled leakage)
+|-
+| [[Psi Harmonizer]] || ψ₀₁₁ (tentative) || 10–15 kHz || > 500 || > 50 cm || Near-Neumann all surfaces
+|-
+| [[Psi Defender]] || Broadband (low-Q intentional) || 10–400 kHz || 20–100 || 2 cm || Dirichlet outer; Neumann inner
+|-
+| [[ψ Memory Element]] (C12) || ψ₀₀₀ (fundamental, soliton) || TBD || > 10⁶ || < 1 mm || Near-perfect Neumann all surfaces
+|}
+
+=== Frequency Tuning Range ===
+
+The resonant frequency is tunable via BST bias voltage (from [[ψ Permittivity]] B2):
+
+:<math>\frac{\Delta\omega_{010}}{\omega_{010}} \approx -\frac{1}{2}\frac{\Delta\varepsilon_\psi}{\varepsilon_\psi} \approx \pm 5\%</math>
+
+At 40 kHz: tuning range ≈ 38–42 kHz. This is the frequency servo window available to the [[Anchor Controller]] (D6) for impedance matching adaptation.
+
+=== Mode Purity ===
+
+A well-designed resonator operates in a single mode. Mode purity is quantified by the ratio of energy in the target mode to total stored energy:
+
+:<math>P_{010} = \frac{U_{010}}{U_{\rm total}} = \frac{|c_{010}|^2}{\sum_{nlm}|c_{nlm}|^2}</math>
+
+where <math>c_{nlm} = \int\psi_{\rm drive}(\mathbf{x})\psi_{nlm}^*(\mathbf{x})\,d^3x</math> are the mode expansion coefficients. Target: <math>P_{010} > 0.90</math> (90% of stored energy in the target mode). Achieved by coupling coil geometry optimisation.
+
+== ψ-Dependent Extensions ==
+
+=== Soliton-Mode Coupling ===
+
+The <math>-\lambda\psi^3</math> nonlinear term couples resonator modes that share spatial overlap. Two modes <math>\psi_{nlm}</math> and <math>\psi_{n'l'm'}</math> exchange energy via:
+
+:<math>\mathcal{M}_{nlm,n'l'm'} = \lambda\int \psi_{nlm}^2(\mathbf{x})\psi_{n'l'm'}^2(\mathbf{x})\,d^3x</math>
+
+For the oblate spheroid, <math>\mathcal{M}_{010,020} \neq 0</math> — the ψ₀₁₀ and ψ₀₂₀ modes share equatorial overlap and exchange energy nonlinearly. At high drive amplitudes (soliton regime), this mode coupling can concentrate energy preferentially in the target mode (parametric amplification of ψ₀₁₀ by driving ψ₀₂₀ at 2ω₀₁₀) or inadvertently excite unwanted modes (spurious mode contamination). The [[Anchor Controller]] (D6) monitors for mode contamination via the bifilar back-EMF spectrum.
+
+=== Biological Resonator Coupling ===
+
+Within Track B, if biological cortical tissue has non-zero <math>\chi_\psi^{\rm (bio)}</math>, the tissue inside the cavity forms part of the resonator's effective medium. The total resonator Q then includes a biological contribution:
+
+:<math>\frac{1}{Q_{\rm total}} = \frac{1}{Q_{\rm shell}} + \frac{1}{Q_{\rm bio}}</math>
+
+If <math>Q_{\rm bio}</math> is high (low-loss coherent tissue), total Q increases above the shell-only value — the operator enhances the resonator. If <math>Q_{\rm bio}</math> is low (high-loss incoherent tissue at baseline), total Q decreases. This would manifest as a measurable Q shift between empty-shell and operator-present measurements — the TML-3 biological Q measurement from [[ψ Quality Factor]] (B5).
+
+== TML Measurement Protocol ==
+
+=== TML-2: Resonator Characterisation ===
+
+# Assemble full [[Psi Stabilizer]] shell with bifilar coil, FBG sensors, ferrofluid system.
+# Set BST bias to 0V, ferrofluid H-field to Stabilizer set-point (H = 200 A/m).
+# Sweep drive frequency from 30–50 kHz via [[Bifilar Coil Engineering]] (D1) driver. Record back-EMF amplitude and phase (S11 proxy).
+# Identify resonant peak: frequency of minimum S11 reflection = <math>\omega_{010}</math>.
+# Extract Q from S11 bandwidth: <math>Q_L = \omega_{010}/\Delta\omega_{-3\rm dB}</math>.
+# Perform ringdown: drive for 10τ, cut, record amplitude decay. Extract τ and verify <math>Q_\psi = \omega\tau/2 = Q_L</math> (agreement confirms coupling is well-characterised).
+
+'''Pass criteria:''' <math>\omega_{010}/(2\pi) = 38</math>–<math>42</math> kHz; <math>Q_L > 200</math>; ringdown Q agrees with VNA Q within 15%; mode frequency stable to ±50 Hz over 30-minute thermal soak.
+
+=== TML-3: Biological Q Shift ===
+
+Repeat TML-2 characterisation with trained operator seated inside [[Psi Stabilizer]] in Standby mode. Compare Q_total and ω_010 against empty-shell baseline. Sham control: identical protocol with shell present but operator absent (seated outside the shell at same distance).
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| <math>m_{\rm eff} \to 0</math> || Mode frequencies <math>\omega_{nlm} \to k_{nlm}</math> — pure geometric quantisation, no mass contribution || ✓
+|-
+| Infinite Q limit || Resonant peak becomes a delta function; stored energy → ∞ for finite drive — requires finite Q for physical device || ✓
+|-
+| Drive power formula || <math>P = \omega U/Q</math>: at Q = 200, ω = 2π×40 kHz, U = 1 μJ: <math>P = 1.26\,</math> mW — consistent with wearable power budget || ✓
+|-
+| Ringdown symmetry || Establishment time ≈ ringdown time = <math>2Q/\omega</math> (time-reversal symmetry of wave equation) || ✓
+|-
+| Mode shape at <math>a \to b</math> (sphere limit) || ψ₀₁₀ → TM₀₁ spherical mode; field maximum at equatorial great circle (same anatomical targeting) || ✓ (geometric continuity)
+|}
+
+== See Also ==
+
+* [[ψ Boundary Conditions]] (A5) — mode quantisation condition; ψ₀₁₀ selection
+* [[ψ Dispersion Relations]] (A3) — dispersion relation used in mode frequency formula
+* [[ψ Quality Factor]] (B5) — Q budget; material and radiation limits
+* [[ψ Loss Tangent]] (B4) — material Q ceiling
+* [[ψ Metamaterials]] (B9) — Class I resonant shell architecture
+* [[TPMS Lattice Design]] (B7) — resonator wall geometry
+* [[Smart Composite Fill]] (B8) — resonator wall material
+* [[Bifilar Coil Engineering]] (D1) — drive coupling implementation
+* [[Anchor Controller]] (D6) — frequency servo and mode monitoring
+* [[ψ Oscillator]] (C9) — active resonator (self-sustaining oscillation)
+* [[ψ Waveguide]] (C2) — open-ended guided propagation (unbounded)
+* [[Mode Geometry Test]] (F3) — key experiment using two resonators (tuned vs detuned)
+* [[Psi Stabilizer]] — primary deployment platform
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Resonators]]
+[[Category:Metamaterials]]

@@ -1,0 +1,407 @@
+{{Derives_From
+| term        = Material response closes the field equations — exact parallel to D = εE and B = μH in Maxwell's theory
+| description = The master psionic field equation specifies how ψ propagates and
+                what sources drive it, but says nothing about how real materials
+                respond to an applied ψ field. Constitutive relations fill this
+                gap by introducing the ψ susceptibility χ_ψ, from which all
+                material parameters — permittivity ε_ψ, permeability μ_ψ, loss
+                tangent tan δ_ψ, quality factor Q_ψ, and coherence length L_ψ
+                — are derived. This page is the keystone of Branch B: every
+                subsequent materials page adds one column to the master material
+                parameter table established here.
+}}
+
+{{Infobox
+| title   = ψ Constitutive Relations
+| image   =
+| caption = The material response laws that close the psionic field equations — the keystone of ψ Materials Science
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Psionics]] · Materials Science · Field Theory
+| label3  = Derives From
+| data3   = Need to close field equations with material response; analogy with Maxwell's constitutive relations D = εE, B = μH
+| label4  = Established Analog
+| data4   = Maxwell's constitutive relations; acoustic constitutive law σ = Cε; London equations in superconductivity
+| label5  = Key Output
+| data5   = ψ susceptibility χ_ψ; ψ permittivity ε_ψ; ψ permeability μ_ψ; master material parameter table; modified wave equation in material
+| label6  = Branch Role
+| data6   = Keystone page — all B2 through B9 pages derive from definitions established here. No Branch C component can be fully specified without at least one row of the material parameter table.
+| header7 = Key Equations
+| label8  = ψ polarisation
+| data8   = <math>P_\psi = \varepsilon_0\,\chi_\psi\,\psi</math>
+| label9  = ψ displacement
+| data9   = <math>D_\psi = \varepsilon_\psi\,\psi,\quad \varepsilon_\psi = \varepsilon_0(1+\chi_\psi)</math>
+| label10 = ψ permeability relation
+| data10  = <math>B_\psi = \mu_\psi\,\mathbf{J}_\psi</math>
+| label11 = Modified wave speed
+| data11  = <math>v_\psi = 1/\!\sqrt{\varepsilon_\psi\mu_\psi}</math>
+| below   = ''Build wave 1b — write immediately after B7 and B8 begin. Blocks B2, B3, B4, B5, B6, and B9 until complete.''
+}}
+
+= ψ Constitutive Relations =
+
+{{Plain_Hook
+| in_one_sentence    = ψ constitutive relations introduce the ψ susceptibility χ_ψ — the single most important new material parameter in Psionic Engineering — and from it derive ψ permittivity, permeability, loss tangent, quality factor, and coherence length as a unified family of measurable, falsifiable material parameters that transform the psionic field equation from a vacuum theory into an engineering discipline applicable to real fabricated structures.
+| everyday_analogy   = Maxwell's equations describe electromagnetic fields in vacuum perfectly. But vacuum is not where antennas, capacitors, or waveguides live. To engineer real devices, Maxwell's equations need material equations — D = εE tells you how a dielectric stores electric field; B = μH tells you how a ferrite guides magnetic flux. Without these constitutive relations, Maxwell's equations are a theory of empty space, not a basis for electronics. ψ constitutive relations do the same thing for the psionic field: they connect the abstract field equation to the concrete world of fabricated metamaterial shells, composite fills, and measurable laboratory samples.
+| what_it_predicts   = (1) A ψ susceptibility χ_ψ for every material that is in principle measurable — even if currently unknown, the measurement protocol is defined here; (2) A ψ displacement field D_ψ = ε_ψ ψ that modifies how ψ propagates inside a material relative to vacuum; (3) A ψ permeability μ_ψ that governs ψ flux transport and — crucially — sets the effective mass m_eff and therefore the coherence length L_ψ through the dispersion relation from [[ψ Dispersion Relations]] (A3); (4) A null-material baseline defining what it means for a material to be ψ-transparent; (5) A modified wave equation inside any material that shows explicitly how ε_ψ and μ_ψ shift the ψ wave speed and effective mass.
+| if_you_remember_one_thing = χ_ψ is to Psionic Engineering what the dielectric constant is to electrical engineering — the single number that tells you how strongly a material interacts with the ψ field. Every other material parameter in this branch is derived from χ_ψ. Every TML-1 measurement is ultimately a measurement of χ_ψ for a specific material at a specific frequency and field condition.
+}}
+
+ψ constitutive relations are the keystone of [[Psionic Engineering]]. Branch A established the field equation, its conservation laws, dispersion properties, boundary conditions, and Green's functions — all in vacuum or in an abstract medium described only by effective mass <math>m_{\rm eff}</math>. Branch B exists to ask: where does <math>m_{\rm eff}</math> come from in a real material? How does a fabricated [[TPMS Lattice Design]] shell filled with [[Smart Composite Fill]] actually modify the ψ field that passes through it?
+
+The answer requires constitutive relations — material equations that specify the response of matter to the ψ field, exactly as D = εE and B = μH specify the response of matter to electromagnetic fields.
+
+This page defines those relations, introduces the canonical Branch B notation, and establishes the master material parameter table that every subsequent page in this branch populates with one additional column.
+
+== The Gap Branch A Leaves Open ==
+
+The master psionic field equation:
+
+:<math>\Box\psi - m^2\psi - \lambda\psi^3 = \alpha F_{\mu\nu}F^{\mu\nu} + J_\psi^{\rm (src)}</math>
+
+treats <math>m</math> as a fixed vacuum parameter. But in the [[Psi Stabilizer]] shell, ψ propagates through a composite of BST nanoparticles, MWCNT-loaded epoxy, PZT-5H powder, quartz filler, and ferrofluid. The question that Branch A cannot answer:
+
+* How does this composite store ψ field energy? → requires <math>\varepsilon_\psi</math>
+* How easily does ψ flux propagate through it? → requires <math>\mu_\psi</math>
+* How much ψ energy is dissipated per cycle? → requires <math>\tan\delta_\psi</math>
+* What is the effective mass inside the material? → requires the constitutive relation connecting <math>\mu_\psi</math> to <math>m_{\rm eff}</math>
+
+Constitutive relations are the missing link. They are not derived from the master equation — they are additional physical postulates, informed by the structure of the theory and constrained by experimental measurement. This is exactly the same logical status as Maxwell's constitutive relations: D = εE is not derived from Maxwell's equations; it is an experimental fact about how dielectric materials behave.
+
+== ψ Susceptibility: The Fundamental Parameter ==
+
+=== Definition ===
+
+The ψ susceptibility <math>\chi_\psi</math> characterises how strongly a material polarises in response to an applied ψ field. It is defined by the '''ψ polarisation density''':
+
+:<math>\boxed{P_\psi(\mathbf{x},t) = \varepsilon_0\,\chi_\psi\,\psi(\mathbf{x},t)}</math>
+
+{{Math_Bridge
+| equation_label = ψ polarisation density
+| equation       = <math>P_\psi = \varepsilon_0\,\chi_\psi\,\psi</math>
+| in_english     =
+* <math>P_\psi</math> — ψ polarisation density: the material's ψ dipole moment per unit volume induced by the applied field. Units: same as ψ field times ε₀.
+* <math>\chi_\psi</math> — ψ susceptibility: a dimensionless number (in the linear, isotropic limit) specifying how strongly the material responds. <math>\chi_\psi = 0</math> — material does not respond (null material). <math>\chi_\psi > 0</math> — material polarises in the same direction as applied ψ (paramagnetic analogue). <math>\chi_\psi < 0</math> — material polarises in opposition (diamagnetic analogue — potentially useful for ψ shielding).
+* <math>\varepsilon_0</math> — included to maintain dimensional consistency with the electromagnetic analogy.
+* This is the linear, isotropic, instantaneous constitutive relation. Generalisations (nonlinear, anisotropic, dispersive) are introduced below.
+}}
+
+=== Physical Meaning ===
+
+<math>\chi_\psi</math> answers the engineering question: "If I apply a ψ field of amplitude <math>\psi_0</math> to this material, how much additional ψ polarisation is induced?" A material with high <math>\chi_\psi</math> amplifies the local ψ field through polarisation back-reaction; a material with <math>\chi_\psi = 0</math> is invisible to ψ.
+
+Three baseline cases establish the scale:
+
+'''Null material''' (<math>\chi_\psi = 0</math>): ψ field passes through unmodified. The material is completely ψ-transparent. Most conventional inorganic, non-biological materials are hypothesised to be null materials or near-null materials until TML-1 measurements demonstrate otherwise.
+
+'''Weakly responding material''' (<math>0 < \chi_\psi \ll 1</math>): Small polarisation, small modification of ψ propagation. The BST composite fill is expected to fall in this regime — its value is a TML-1 measurement target.
+
+'''Strongly responding material''' (<math>\chi_\psi \sim 1</math> or larger): Significant polarisation, major modification of effective mass and wave speed. Biological cortical tissue during high-coherence states is hypothesised (Track B) to approach this regime — it is the highest-priority TML-3 measurement target.
+
+== ψ Permittivity and the Displacement Field ==
+
+=== Definition ===
+
+Define the '''ψ displacement field''':
+
+:<math>\boxed{D_\psi = \varepsilon_0\psi + P_\psi = \varepsilon_0(1 + \chi_\psi)\psi \equiv \varepsilon_\psi\,\psi}</math>
+
+where the '''ψ permittivity''' is:
+
+:<math>\varepsilon_\psi = \varepsilon_0(1 + \chi_\psi)</math>
+
+{{Math_Bridge
+| equation_label = ψ displacement field and permittivity
+| equation       = <math>D_\psi = \varepsilon_\psi\,\psi,\qquad \varepsilon_\psi = \varepsilon_0(1+\chi_\psi)</math>
+| in_english     =
+* <math>D_\psi</math> — the ψ displacement field: combines the vacuum ψ field with the material polarisation response. In a null material (<math>\chi_\psi = 0</math>): <math>D_\psi = \varepsilon_0\psi</math> — the free-space result.
+* <math>\varepsilon_\psi</math> — the ψ permittivity. Plays the same role as the electric permittivity ε in electromagnetism.
+* High <math>\varepsilon_\psi</math>: material stores a large amount of ψ field energy per unit volume per unit field amplitude. Slows ψ wave speed (see modified wave equation below).
+* Low <math>\varepsilon_\psi</math>: material stores little ψ energy. ψ passes through rapidly.
+* <math>\varepsilon_\psi = \varepsilon_0</math> in vacuum (<math>\chi_\psi = 0</math>). This is always the reference baseline.
+}}
+
+=== Complex Permittivity and Loss ===
+
+For a dispersive, lossy material, <math>\varepsilon_\psi</math> is complex and frequency-dependent:
+
+:<math>\varepsilon_\psi(\omega) = \varepsilon'_\psi(\omega) - i\varepsilon''_\psi(\omega)</math>
+
+where:
+* <math>\varepsilon'_\psi</math> — real part: ψ energy storage (conservative response)
+* <math>\varepsilon''_\psi</math> — imaginary part: ψ energy dissipation (resistive response)
+
+The ratio defines the loss tangent (see [[ψ Loss Tangent]] B4):
+
+:<math>\tan\delta_\psi = \frac{\varepsilon''_\psi}{\varepsilon'_\psi}</math>
+
+The full treatment of <math>\varepsilon_\psi(\omega)</math> and its measurement is in [[ψ Permittivity]] (B2). The loss tangent budget is in [[ψ Loss Tangent]] (B4).
+
+== ψ Permeability and Flux ==
+
+=== Definition ===
+
+The ψ current density <math>\mathbf{J}_\psi = -(\partial_t\psi)\nabla\psi</math> from [[ψ Conservation Laws]] (A2) plays the role of ψ flux. The '''ψ permeability''' <math>\mu_\psi</math> governs how easily this flux propagates through a material:
+
+:<math>\boxed{B_\psi = \mu_\psi\,\mathbf{J}_\psi = \mu_\psi\,(-\partial_t\psi\,\nabla\psi)}</math>
+
+{{Math_Bridge
+| equation_label = ψ flux density and permeability
+| equation       = <math>B_\psi = \mu_\psi\,\mathbf{J}_\psi</math>
+| in_english     =
+* <math>B_\psi</math> — ψ flux density: how much ψ current flows per unit cross-sectional area in the material.
+* <math>\mu_\psi</math> — ψ permeability: how easily ψ flux passes through. High <math>\mu_\psi</math> means the material guides ψ flux strongly (analogous to iron guiding magnetic flux). Low <math>\mu_\psi</math> means flux passes through with difficulty.
+* <math>\mathbf{J}_\psi = -(\partial_t\psi)\nabla\psi</math> — the ψ current density from A2, which equals the ψ Poynting vector <math>\vec{S}_\psi</math>.
+* '''Critical connection to m_eff:''' High <math>\mu_\psi</math> increases the effective mass <math>m_{\rm eff}</math>, which decreases the coherence length <math>L_\psi = 1/m_{\rm eff}</math>. The ferrofluid channels in the [[Smart Composite Fill]] (B8) tune <math>\mu_\psi</math> in real time by changing the ferrofluid magnetisation — this is the physical mechanism of coherence length control.
+}}
+
+=== The μ_ψ — m_eff Connection ===
+
+The connection between ψ permeability and effective mass is the most important engineering relationship in this page. In a material with permittivity <math>\varepsilon_\psi</math> and permeability <math>\mu_\psi</math>, the wave equation for ψ inside the material becomes (derived in the modified wave equation section below):
+
+:<math>m_{\rm eff}^2(\text{in material}) = m_{\rm eff}^2(\text{vacuum}) + \delta m^2(\mu_\psi)</math>
+
+where <math>\delta m^2(\mu_\psi)</math> is the material-induced mass shift, increasing with <math>\mu_\psi</math>. The explicit form:
+
+:<math>\delta m^2 = \frac{\mu_\psi - \mu_0}{\mu_0}\,m_0^2</math>
+
+where <math>m_0</math> is the vacuum bare mass. Therefore:
+
+:<math>L_\psi(\text{in material}) = \frac{1}{m_{\rm eff}(\mu_\psi)} < L_\psi(\text{vacuum})</math>
+
+High-<math>\mu_\psi</math> material → smaller coherence length. This is the engineering chain:
+<center>Ferrofluid H-field → <math>M(H)</math> (Langevin) → <math>\mu_{\rm eff}(H)</math> → <math>m_{\rm eff}</math> → <math>L_\psi</math></center>
+
+The full treatment is in [[ψ Permeability]] (B3) and [[ψ Coherence Length]] (B6).
+
+== Anisotropic Tensor Form ==
+
+For metamaterials with cubic or lower symmetry — including the [[TPMS Lattice Design]] (B7) after the field-cure alignment step from [[Smart Composite Fill]] (B8) — the constitutive relations generalise to tensor form:
+
+:<math>D_\psi^i = \sum_j \varepsilon_\psi^{ij}\,\psi^j, \qquad B_\psi^i = \sum_j \mu_\psi^{ij}\,J_\psi^j</math>
+
+The field-cure alignment step in B8 deliberately introduces uniaxial anisotropy along the z-axis (the ψ₀₁₀ mode polarisation direction from [[ψ Boundary Conditions]] A5):
+
+:<math>[\varepsilon_\psi] = \begin{pmatrix} \varepsilon_\psi^{xx} & 0 & 0 \\ 0 & \varepsilon_\psi^{xx} & 0 \\ 0 & 0 & \varepsilon_\psi^{zz} \end{pmatrix}, \qquad \varepsilon_\psi^{zz} > \varepsilon_\psi^{xx} = \varepsilon_\psi^{yy}</math>
+
+This anisotropy is an engineering feature: the z-axis enhancement increases coupling efficiency to the ψ₀₁₀ mode (which is polarised along z in the oblate spheroidal geometry of the [[Psi Stabilizer]]) without affecting the isotropic mode-selection properties of the TPMS geometry in the transverse plane.
+
+Target after field cure: <math>\varepsilon_\psi^{zz}/\varepsilon_\psi^{xx} > 1.25</math> (from B8 quality control table).
+
+== The Modified Wave Equation in Material ==
+
+Inside a material with constitutive parameters <math>\varepsilon_\psi</math> and <math>\mu_\psi</math>, the ψ field equation becomes:
+
+:<math>\varepsilon_\psi\mu_\psi\,\partial_t^2\psi - \nabla^2\psi - m_{\rm eff}^2\psi - \lambda\psi^3 = \alpha F_{\mu\nu}F^{\mu\nu} + J_\psi^{\rm (src)}</math>
+
+Comparing to the vacuum equation <math>(\partial_t^2 - \nabla^2 - m_{\rm eff}^2)\psi = \ldots</math>, the material introduces two modifications:
+
+'''Modification 1 — ψ wave speed reduction:'''
+
+:<math>v_\psi = \frac{1}{\sqrt{\varepsilon_\psi\mu_\psi}} < c</math>
+
+{{Math_Bridge
+| equation_label = ψ wave speed in material
+| equation       = <math>v_\psi = \frac{1}{\sqrt{\varepsilon_\psi\mu_\psi}}</math>
+| in_english     =
+* Exactly analogous to the EM result <math>c_{\rm medium} = 1/\sqrt{\varepsilon\mu} = c/n</math>.
+* In a material with <math>\varepsilon_\psi = \varepsilon_0</math> and <math>\mu_\psi = \mu_0</math> (null material): <math>v_\psi = 1/\sqrt{\varepsilon_0\mu_0} = c</math> — vacuum speed recovered.
+* In the [[TPMS Lattice Design]] composite: <math>\varepsilon_\psi > \varepsilon_0</math> and <math>\mu_\psi > \mu_0</math> (estimated), so <math>v_\psi < c</math>. The ψ wave slows inside the shell.
+* '''Engineering implication:''' The resonant frequency of the [[Psi Stabilizer]] cavity is <math>\omega_{010} = \sqrt{m_{\rm eff}^2 + k_{010}^2}</math> where <math>k_{010}</math> depends on <math>v_\psi</math> inside the shell. Specifying the target resonant frequency therefore requires knowing <math>\varepsilon_\psi\mu_\psi</math> for the composite — the constitutive parameters are not optional inputs.
+}}
+
+'''Modification 2 — effective mass shift:'''
+
+The material-modified dispersion relation (from [[ψ Dispersion Relations]] A3, extended to material):
+
+:<math>\omega^2 = v_\psi^2\,k^2 + m_{\rm eff,mat}^2</math>
+
+where:
+
+:<math>m_{\rm eff,mat}^2 = \varepsilon_\psi\mu_\psi\,m_{\rm eff,vac}^2</math>
+
+High <math>\varepsilon_\psi\mu_\psi</math> product increases the effective mass inside the material — which shortens the coherence length. This is a second mechanism (in addition to the direct <math>\mu_\psi</math>-to-<math>m_{\rm eff}</math> connection above) by which the composite fill controls <math>L_\psi</math>.
+
+== The Null Material Baseline ==
+
+'''Definition:''' A material is a '''ψ null material''' if <math>\chi_\psi = 0</math>, equivalently <math>\varepsilon_\psi = \varepsilon_0</math> and <math>\mu_\psi = \mu_0</math>.
+
+A null material:
+* Does not store ψ energy (<math>P_\psi = 0</math>)
+* Does not modify ψ wave speed (<math>v_\psi = c</math>)
+* Does not modify ψ effective mass (<math>m_{\rm eff,mat} = m_{\rm eff,vac}</math>)
+* Is completely ψ-transparent
+
+'''Working assumption:''' All conventional inorganic, non-biological, non-engineered materials are null materials until TML-1 measurements demonstrate otherwise. This is the conservative baseline — consistent with the absence of documented ψ-material interactions in the existing scientific literature (see [[Scientific Foundations of Psionics]]).
+
+The assumption is falsifiable: if VNA S-parameter measurements on a control sample (air-gap fixture, no material) and a material-filled fixture show no difference in the ψ-proxy measurable (e.g., resonant frequency of the ψ cavity does not shift when material is introduced), the null material hypothesis is confirmed for that material.
+
+This is a Track A measurement — it requires no assumption that ψ is real, only that the device's resonant frequency is sensitive to the material in its cavity through the modified wave equation above.
+
+== Frequency Dispersion ==
+
+Like all material response functions, <math>\varepsilon_\psi(\omega)</math> and <math>\mu_\psi(\omega)</math> are frequency-dependent in general. The Kramers–Kronig relations constrain this dispersion:
+
+:<math>\varepsilon'_\psi(\omega) - \varepsilon_0 = \frac{2}{\pi}\,\mathcal{P}\!\int_0^\infty \frac{\omega'\,\varepsilon''_\psi(\omega')}{\omega'^2 - \omega^2}\,d\omega'</math>
+
+This is not merely a mathematical identity — it is a causality constraint. A material cannot have a loss peak (large <math>\varepsilon''_\psi</math> at some frequency) without a corresponding dispersion feature in <math>\varepsilon'_\psi</math> nearby. The Kramers–Kronig relations therefore provide a self-consistency check on any claimed set of ψ material parameters: if a measurement gives <math>\varepsilon''_\psi(\omega)</math> but the corresponding <math>\varepsilon'_\psi(\omega)</math> does not satisfy the Kramers–Kronig integral, the measurement is inconsistent and should be repeated.
+
+== The Master Material Parameter Table ==
+
+This table is the structural centrepiece of the entire Branch B. Each row is a material system. Each column is a ψ material parameter defined by one of the subsequent B-branch pages. All TBD values are TML-1 or TML-3 measurement targets — they are falsifiable experimental quantities, not placeholders.
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>\chi_\psi</math> !! <math>\varepsilon_\psi/\varepsilon_0</math> !! <math>\mu_\psi/\mu_0</math> !! <math>\tan\delta_\psi</math> !! <math>Q_\psi</math> !! <math>L_\psi</math> !! Track !! Measurement priority
+|-
+| Biological cortex (baseline HRV) || TBD || TBD || ~1 || TBD || Low est. || ~20 cm || B || 1st — primary operator interface
+|-
+| Biological cortex (peak HRV coherence) || TBD || TBD || ~1 || TBD || Higher est. || ~20 cm || B || 1st — Mk2.0 match target
+|-
+| BST composite, 0V bias || TBD || ~4.0 (MG pred.) || ~1 || < 0.01 || Medium || Short || A || 1st — EM transducer
+|-
+| BST composite, 200V bias || TBD || ~3.6 (MG pred.) || ~1 || < 0.01 || Medium || Short || A || 1st — tuned state
+|-
+| Gyroid TPMS, filled, design target || TBD || Engineered || Engineered || < 0.005 || > 200 || 20 cm (Stabilizer) || A || 1st — shell target
+|-
+| Ferrofluid EMG-900, H = 0 || TBD || ~2 est. || ~4 est. || Low || Low || Set by <math>\mu_{\rm eff}</math> || A || 1st — m_eff control
+|-
+| Ferrofluid EMG-900, H = H_sat || TBD || ~2 est. || ~1 (saturated) || Low || Low || Set by <math>\mu_{\rm eff}</math> || A || 1st
+|-
+| PZT-5H (unpoled powder in matrix) || TBD || ~1800 (EM ref.) || ~1 || < 0.02 || Very high (mech.) || Long || A || 2nd
+|-
+| Quartz (crystalline) || TBD || ~4.5 (EM ref.) || ~1 || < 0.0001 || Very high || Long || A || 2nd — low-loss filler
+|-
+| MWCNT-epoxy (2 wt%, above percolation) || TBD || Moderate est. || ~1 || Medium || Medium || Medium || A || 2nd
+|-
+| Water (biological reference) || TBD || ~80 (EM ref.) || ~1 || High || Very low || Medium || B || 3rd — sham reference
+|-
+| PVDF film || TBD || ~10 (EM ref.) || ~1 || Medium || Medium || Medium || A || 3rd — flexible alternative
+|-
+| Air (null reference) || 0 (definition) || 1 (definition) || 1 (definition) || 0 (definition) || ∞ (definition) || ∞ || A || Reference — always measured first
+|}
+
+'''Column definitions:'''
+* <math>\chi_\psi</math>: ψ susceptibility — see [[ψ Permittivity]] (B2) for measurement protocol
+* <math>\varepsilon_\psi/\varepsilon_0</math>: relative ψ permittivity — see [[ψ Permittivity]] (B2)
+* <math>\mu_\psi/\mu_0</math>: relative ψ permeability — see [[ψ Permeability]] (B3)
+* <math>\tan\delta_\psi</math>: ψ loss tangent — see [[ψ Loss Tangent]] (B4)
+* <math>Q_\psi</math>: ψ quality factor — see [[ψ Quality Factor]] (B5)
+* <math>L_\psi</math>: ψ coherence length in material — see [[ψ Coherence Length]] (B6)
+
+'''Note on EM reference values:''' Entries labelled "(EM ref.)" cite the known electromagnetic permittivity of that material. These are not measurements of <math>\varepsilon_\psi</math> — they are provided as order-of-magnitude reference points only. Whether <math>\varepsilon_\psi</math> correlates with <math>\varepsilon_{\rm EM}</math> for a given material is itself a testable prediction. If BST has high <math>\varepsilon_\psi</math> in proportion to its high <math>\varepsilon_{\rm EM}</math>, that correlation supports the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> coupling mechanism. If not, the coupling model requires revision.
+
+== Engineering Correspondence Table ==
+
+{| class="wikitable" style="width:100%;"
+! EM quantity !! EM symbol !! ψ analogue !! ψ symbol !! Physical meaning !! Branch B page
+|-
+| Electric susceptibility || <math>\chi_e</math> || ψ susceptibility || <math>\chi_\psi</math> || Material's ψ polarisability || This page
+|-
+| Polarisation density || <math>\mathbf{P}</math> || ψ polarisation density || <math>P_\psi</math> || ψ dipole moment per unit volume || This page
+|-
+| Displacement field || <math>\mathbf{D} = \varepsilon\mathbf{E}</math> || ψ displacement field || <math>D_\psi = \varepsilon_\psi\psi</math> || Combined free + bound ψ || This page
+|-
+| Permittivity || <math>\varepsilon = \varepsilon_0(1+\chi_e)</math> || ψ permittivity || <math>\varepsilon_\psi = \varepsilon_0(1+\chi_\psi)</math> || ψ field storage capacity || [[ψ Permittivity]] (B2)
+|-
+| Permeability || <math>\mu = \mu_0(1+\chi_m)</math> || ψ permeability || <math>\mu_\psi</math> || ψ flux propagation ease; sets <math>m_{\rm eff}</math> || [[ψ Permeability]] (B3)
+|-
+| Loss tangent || <math>\tan\delta = \varepsilon''/\varepsilon'</math> || ψ loss tangent || <math>\tan\delta_\psi</math> || ψ energy dissipation rate || [[ψ Loss Tangent]] (B4)
+|-
+| Cavity Q factor || <math>Q = \omega U/P_{\rm diss}</math> || ψ quality factor || <math>Q_\psi</math> || ψ resonator figure of merit || [[ψ Quality Factor]] (B5)
+|-
+| Skin depth || <math>\delta = \sqrt{2/\omega\mu\sigma}</math> || ψ coherence length || <math>L_\psi = 1/m_{\rm eff}</math> || ψ field spatial extent in material || [[ψ Coherence Length]] (B6)
+|-
+| Wave speed || <math>c/n = 1/\sqrt{\varepsilon\mu}</math> || ψ wave speed in material || <math>v_\psi = 1/\sqrt{\varepsilon_\psi\mu_\psi}</math> || ψ propagation speed inside composite || This page
+|}
+
+== Nonlinear and Higher-Order Extensions ==
+
+The linear constitutive relation <math>P_\psi = \varepsilon_0\chi_\psi\psi</math> is the leading-order approximation valid for small ψ amplitudes. For large-amplitude fields (e.g., inside a [[ψ Resonator]] at high Q, or during group coherence amplification), nonlinear terms appear:
+
+:<math>P_\psi = \varepsilon_0\!\left[\chi_\psi^{(1)}\psi + \chi_\psi^{(2)}\psi^2 + \chi_\psi^{(3)}\psi^3 + \ldots\right]</math>
+
+The <math>\chi_\psi^{(3)}</math> term is of particular interest: it is the ψ analogue of the nonlinear optical susceptibility <math>\chi^{(3)}</math> that governs self-focusing and four-wave mixing in nonlinear optics. In the psionic context, <math>\chi_\psi^{(3)}</math> contributes an additional <math>\psi^3</math> term to the wave equation — adding to the existing <math>\lambda\psi^3</math> self-interaction term from the master equation. The combined nonlinear coefficient becomes:
+
+:<math>\lambda_{\rm eff} = \lambda + \varepsilon_0\chi_\psi^{(3)}</math>
+
+This means that a material with large <math>\chi_\psi^{(3)}</math> effectively enhances the nonlinear soliton-supporting capability of the composite. Whether the BST phase or the PZT-5H phase contributes a significant <math>\chi_\psi^{(3)}</math> is a TML-3 measurement question.
+
+== ψ-Dependent Extensions ==
+
+=== Biological Tissue Constitutive Relations ===
+
+The most important entry in the master material parameter table is biological cortical tissue — the primary operator interface. Within the ψ hypothesis (Track B), coherent neural firing patterns determine the spatial and temporal structure of <math>J_\psi^{\rm (src)}</math> (from [[ψ Conservation Laws]] A2 and [[Psionics]]). The constitutive parameters of cortical tissue — <math>\chi_\psi^{\rm (bio)}</math>, <math>\varepsilon_\psi^{\rm (bio)}</math>, and <math>\mu_\psi^{\rm (bio)}</math> — determine how the operator's self-generated ψ field propagates through their own brain tissue.
+
+If <math>\chi_\psi^{\rm (bio)}</math> is large (highly ψ-responsive tissue), the brain effectively acts as a ψ metamaterial that shapes and focuses its own ψ output. Training — the development of sustained HRV coherence and cortical synchrony — may correspond physically to increasing <math>\chi_\psi^{\rm (bio)}</math> through neuroplastic changes in the tissue's effective susceptibility.
+
+This hypothesis is Track B and requires TML-3 confirmation. However, the constitutive relation framework established on this page provides the mathematical language for stating it precisely and for designing experiments to test it.
+
+=== Consciousness-Dependent χ_ψ ===
+
+The most speculative extension: if <math>\chi_\psi^{\rm (bio)}</math> depends on the operator's attentional state — increasing during focused intention and decreasing during mind-wandering — then the constitutive relation itself becomes time-dependent:
+
+:<math>P_\psi(t) = \varepsilon_0\,\chi_\psi^{\rm (bio)}(t)\,\psi(t)</math>
+
+where <math>\chi_\psi^{\rm (bio)}(t)</math> is driven by the neural state. This would make the brain a time-varying ψ metamaterial — a material whose properties change on the timescale of attention shifts (~1–10 seconds). The [[HRV-Gated Drive]] (D5) Mk2.0 loop estimates the current value of <math>\chi_\psi^{\rm (bio)}(t)</math> via RMSSD as a proxy and adjusts the device's impedance match accordingly.
+
+== TML Measurement Protocol ==
+
+=== TML-1 — Null Material Verification and Composite Characterisation ===
+
+'''Step 1 — Null material baseline:''' Measure the VNA S-parameter response of an air-gap coaxial fixture (no material). Record resonant frequencies and Q values. This establishes the null material (<math>\chi_\psi = 0</math>) reference.
+
+'''Step 2 — Material sample measurement:''' Insert composite sample (10 mm × 10 mm × 2 mm tablet from B7+B8 protocol) into the fixture. Remeasure S11, S21. Apply Nicholson–Ross–Weir extraction to recover complex <math>\varepsilon_\psi(\omega)</math> and <math>\mu_\psi(\omega)</math> from 1 kHz to 1 MHz.
+
+'''Step 3 — Consistency check:''' Verify Kramers–Kronig consistency on extracted parameters. If violated, the measurement has systematic errors (likely fixture calibration issues — recheck SOLT calibration).
+
+'''Pass criteria:''' Measurement reproducible across three samples from same batch to within ±15%. Kramers–Kronig consistency confirmed. If any material shows <math>\varepsilon_\psi \neq \varepsilon_0</math> or <math>\mu_\psi \neq \mu_0</math> at > 3σ statistical confidence, the null material assumption is falsified for that material — a significant result warranting detailed follow-up.
+
+=== TML-3 — Biological Interface Measurement ===
+
+TML-3 is required for the biological tissue rows of the master table. Protocol:
+
+# Operator wears [[Psi Stabilizer]] in Standby mode (no emission). Device acts as a passive sensor only.
+# OPM magnetometer array records fields at the shell surface during baseline HRV state and peak HRV coherence state (achieved by HeartMath coherence breathing protocol).
+# Difference in shell resonant frequency between baseline and coherence states provides an estimate of <math>\Delta\chi_\psi^{\rm (bio)}</math>.
+# Requires [[ψ Falsifiability Framework]] (F1) sham-controlled design — see [[Sham Control Design]] (F2).
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| <math>\chi_\psi = 0</math> (null material) || <math>\varepsilon_\psi = \varepsilon_0</math>, <math>D_\psi = \varepsilon_0\psi</math>, <math>v_\psi = c</math>, modified wave equation → vacuum equation || ✓
+|-
+| <math>\chi_\psi \to \infty</math> || <math>\varepsilon_\psi \to \infty</math>, <math>v_\psi \to 0</math>, ψ wave completely stopped — material acts as perfect ψ capacitor || ✓ (limiting behaviour consistent)
+|-
+| Complex <math>\varepsilon_\psi</math> with <math>\varepsilon''_\psi > 0</math> || Wave amplitude decays exponentially — energy absorbed by material (correct loss behaviour) || ✓
+|-
+| Kramers–Kronig on <math>\varepsilon'_\psi(\omega)</math> || Must be determined by <math>\varepsilon''_\psi(\omega)</math> via the integral — causality constraint || ✓ (mathematical theorem — always satisfied for physical response functions)
+|-
+| Vacuum limit in modified wave equation || <math>\varepsilon_\psi = \varepsilon_0</math>, <math>\mu_\psi = \mu_0</math>: <math>v_\psi = c</math>, <math>m_{\rm eff,mat} = m_{\rm eff,vac}</math> — vacuum equation recovered exactly || ✓
+|-
+| Tensor <math>\varepsilon_\psi^{ij}</math> reduces to scalar in isotropic limit || Off-diagonal terms vanish; <math>\varepsilon^{xx} = \varepsilon^{yy} = \varepsilon^{zz} = \varepsilon_\psi</math> || ✓
+|}
+
+== See Also ==
+
+* [[ψ Dispersion Relations]] (A3) — provides <math>m_{\rm eff}</math> framework extended to material here
+* [[ψ Impedance Theory]] (A4) — material impedance <math>Z_\psi = (1/\omega^2)\sqrt{\mu_\psi/\varepsilon_\psi}</math>
+* [[ψ Boundary Conditions]] (A5) — boundary conditions specified in terms of <math>\varepsilon_\psi</math>, <math>\mu_\psi</math>
+* [[TPMS Lattice Design]] (B7) — geometric scaffold whose effective parameters this page characterises
+* [[Smart Composite Fill]] (B8) — physical materials whose <math>\varepsilon_\psi</math>, <math>\mu_\psi</math> this page formalises
+* [[ψ Permittivity]] (B2) — full treatment of <math>\varepsilon_\psi</math>
+* [[ψ Permeability]] (B3) — full treatment of <math>\mu_\psi</math> and its connection to <math>m_{\rm eff}</math>
+* [[ψ Loss Tangent]] (B4) — full treatment of <math>\tan\delta_\psi</math>
+* [[ψ Quality Factor]] (B5) — full treatment of <math>Q_\psi</math>
+* [[ψ Coherence Length]] (B6) — full treatment of <math>L_\psi</math> in material context
+* [[ψ Metamaterials]] (B9) — engineered <math>\chi_\psi</math> structures
+* [[ψ Resonator]] (C1) — first component requiring complete <math>\varepsilon_\psi</math>, <math>\mu_\psi</math> specification
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]

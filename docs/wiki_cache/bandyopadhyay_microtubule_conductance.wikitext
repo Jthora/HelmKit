@@ -19,16 +19,6 @@ The reported results are striking: microtubules exhibit '''anomalously high''' D
 
 If confirmed by independent groups at high precision, these results would provide a significant empirical foundation for the [[Orchestrated_Objective_Reduction|Orch OR]] proposal and for the framework's [[Biological_Substrate_of_Psi|microtubule substrate]] for ψ-coupling.
 
-{{Psi-claim
-| status = EXPERIMENTAL
-| claim = Single microtubules exhibit AC conductance resonances that may support computational/quantum effects.
-| cites = [[Anirban Bandyopadhyay]], [[Coherent Quantum Effects in Biology]]
-| methods = Active trials underway; preliminary results mixed.
-| falsifier = Two or more independent replications producing directly conflicting outcomes.
-| confidence = low
-| last_reviewed = 2026-05-12
-}}
-
 == Experimental setup ==
 
 The Bandyopadhyay group's experiments use:

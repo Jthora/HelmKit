@@ -1,0 +1,100 @@
+The '''Psi Mesh''' is the peer-to-peer encrypted radio mesh for operators and [[Field Recorder]] units in the field. It carries [[Psi-Tech]] telemetry, threat-signature exchange, and operator state-sharing across a small team without depending on cellular or internet infrastructure. The Psi Mesh is the field substrate that the [[PsiNet]] and the [[Earth Intelligence Network]] connect into when uplink is available, and stands alone when it is not.
+
+== Theoretical context (Dicke psion superradiance) ==
+
+Coherent operator coordination through a mesh produces collective
+[[Psion|psion]] emission whose rate scales as <math>N^2</math> for
+single-mode Dicke superradiance and as <math>N^4</math> for two-step
+phase-locked emission - the same superradiance theorem that underlies
+the [[Resonant_Pipeline#Theoretical_context_(Dicke_psion_superradiance)|Resonant
+Pipeline]] scaling. The mesh is, in this picture, the engineering
+substrate for the phase-locking that makes the higher-order scaling
+accessible.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[HelmKit]]
+* [[Psi Recorder]]
+* [[Psi Defender]]
+* [[Resonant Card]]
+* [[Earth Intelligence Network]]
+* [[PsiNet]]
+* [[Tho'ra Tech Maturity Levels]]
+
+== Tiered topology (cell / cluster / federation) for [[Tho'ra Tech]] ==
+The mesh is structured in three concentric tiers, each
+with distinct connectivity characteristics:
+
+* '''Tier 1 — Cell''' (1–6 operators). All-to-all connectivity. Local
+  state-shared by direct biofeedback exchange ([[HelmKit_Mk2.5|Mk2.5]]
+  paired sessions) and [[Psi_Scanner]] peer-telemetry. Latency
+  budget: <100 ms. This is the framework's primary trust-graph unit.
+* '''Tier 2 — Cluster''' (3–8 cells, typically 12–40 operators).
+  Cell-lead-mediated. Each cell exposes a single ''public'' state
+  vector (aggregate HRV-coherence, aggregate EEG-coherence,
+  declared-availability) to its cluster peers. Latency budget:
+  <1 s. Cross-cell intervention requests route at this tier.
+* '''Tier 3 — Federation''' (multi-cluster). Federation-level
+  aggregation by [[Resonant_Pipeline]] coordinators. Operates on
+  cluster-aggregate state only; individual-operator state is
+  '''never''' exposed at this tier. Latency budget: <10 s. The
+  primary purpose of Tier 3 is FP-budget calibration across
+  geographically diverse cells.
+
+The tiered design is the mesh's primary
+[[Adversary_Classes|adversary-class]] defense: a state-actor
+adversary may compromise a cell (Tier 1) without thereby being able
+to read or influence cluster-level (Tier 2) or federation-level
+(Tier 3) state.
+
+== Protocol stack (L0–L5) ==
+The mesh runs a layered protocol stack drawn
+loosely from OSI but specialized to biophysical and psi-coupled
+substrates:
+
+* '''L0 — Physical''' (operators, biofeedback hardware,
+  [[Neural_Network_Hardware]] nodes, conventional networking gear).
+* '''L1 — Biophysical link''' ([[HelmKit_Mk1.5|Mk1.5]]+ paced
+  breathing + HRV coherence; the link-level invariant the mesh's
+  upper layers can assume).
+* '''L2 — Cell session''' ([[HelmKit_Mk2.0|Mk2.0]] session-container
+  semantics; defines the cell's shared
+  [[Resonant_Field|resonant-field]] envelope).
+* '''L3 — Mesh routing''' (gauge-bundle layer described under
+  [[PsiNet]]; resolves intervention-request routing across cells
+  and clusters).
+* '''L4 — Pipeline orchestration''' ([[Resonant_Pipeline]] semantics;
+  detection-verification-intervention-closure cycle).
+* '''L5 — Federation telemetry''' (FP-budget accounting; long-term
+  Bayesian prior maintenance).
+
+Each layer's failure mode is contained at its layer. L1
+biophysical-link failure (e.g. operator below Mk1.5 threshold) does
+not corrupt L3 routing; the routing layer simply marks the operator
+as unavailable.
+
+== Federation layer ==
+The federation-level (Tier 3) layer is the mesh's
+'''calibration backbone'''. It performs:
+
+* '''Cross-cluster FP-budget aggregation''' — pooling closure-outcome
+  telemetry across clusters to detect cluster-local calibration drift.
+* '''Adversary-class threat-model updates''' — propagating cluster-
+  level threat-observations into mesh-wide adversary-class priors.
+* '''Doctrine versioning''' — the framework's
+  [[Falsification_Criteria_for_Psionics|F-criterion]] graduation
+  signals propagate at this tier.
+* '''No individual-operator telemetry''' — by hard architectural
+  rule, individual-operator state is not exposed above Tier 2.
+
+The federation layer is deliberately '''thin'''. Most of the mesh's
+substantive coordination happens at Tier 1 (cell) and Tier 2
+(cluster); the federation exists to keep the lower tiers honest, not
+to centralize authority.
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]
+[[Category:Communications]]

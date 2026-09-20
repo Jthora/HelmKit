@@ -1,0 +1,179 @@
+{{Derives_From
+| term        = −λψ³ nonlinear self-interaction — parametric gain from three-wave mixing in the nonlinear ψ medium
+| description = A ψ amplifier exploits the λψ³ nonlinear term to produce
+                parametric gain. A strong pump wave at frequency 2ω₀ drives
+                the nonlinearity, amplifying a weak signal at ω₀ (degenerate
+                parametric amplification). The gain is proportional to the
+                pump amplitude squared and the coupling coefficient λ. In
+                the [[Psi Harmonizer]], the amplifier stage increases the
+                collective ψ field of a coherently aligned operator group
+                by exploiting the N⁴ energy scaling that arises when N
+                operators contribute constructively to the ψ⁴ term in the
+                stress-energy tensor.
+}}
+
+{{Infobox
+| title   = ψ Amplifier
+| image   =
+| caption = Parametric gain from the λψ³ nonlinear term — the amplification mechanism of the Psi Harmonizer
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Nonlinear Wave Theory · [[Psi Harmonizer]]
+| label3  = Derives From
+| data3   = <math>-\lambda\psi^3</math> nonlinear self-interaction; three-wave mixing in ψ medium
+| label4  = Established Analog
+| data4   = Optical parametric amplifier (OPA); MASER; Josephson parametric amplifier; acoustic parametric amplification
+| label5  = Key Parameters
+| data5   = Parametric gain <math>G</math>; pump threshold amplitude <math>\psi_{\rm pump}^{\rm th}</math>; gain bandwidth; noise figure NF
+| label6  = First Deployment
+| data6   = [[Psi Harmonizer]] group-coherence amplification stage
+| header7 = Key Equations
+| label8  = Parametric gain
+| data8   = <math>G = \cosh^2(\gamma L)</math>
+| label9  = Gain coefficient
+| data9   = <math>\gamma = \lambda\psi_{\rm pump}^2/\omega_s</math>
+| label10 = Threshold condition
+| data10  = <math>\gamma L > \alpha_z L/2</math>
+| below   = ''Build wave 4 — requires [[ψ Resonator]] (C1) and [[ψ Constitutive Relations]] (B1). The amplification mechanism underlying [[Psi Harmonizer]] and group coherence N⁴ scaling.''
+}}
+
+= ψ Amplifier =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ amplifier uses the λψ³ nonlinear term to achieve parametric gain — a strong pump wave at 2ω₀ drives three-wave mixing that amplifies a weak signal at ω₀ with gain G = cosh²(γL), where γ = λψ²_pump/ω_s is proportional to the pump amplitude squared and the coupling coefficient λ.
+| everyday_analogy   = A child on a swing is amplified by a push at twice the natural frequency — this is parametric amplification. The swing's motion stores energy at its natural frequency; the push at twice that frequency drives the nonlinear coupling that transfers energy from the pusher to the swing. A ψ amplifier does the same: a strong pump ψ field at twice the signal frequency drives the λψ³ nonlinearity, which transfers pump energy into the signal, amplifying it.
+| what_it_predicts   = (1) Exponential gain G = cosh²(γL) for a signal propagating through a length L of pumped ψ medium; (2) A threshold pump amplitude above which gain exceeds loss, enabling net amplification; (3) A noise figure approaching the quantum limit of 3 dB (for phase-insensitive amplification) or 0 dB (for phase-sensitive degenerate amplification); (4) The N⁴ energy scaling in [[PsiNet]] group sessions as a collective parametric amplification effect.
+| if_you_remember_one_thing = The gain coefficient γ = λψ²_pump/ω_s scales as the pump amplitude squared — doubling the pump amplitude quadruples the gain coefficient. This is why the [[Psi Harmonizer]] works: each additional coherently aligned operator increases the effective pump amplitude, dramatically increasing the gain for the collective coherence signal.
+}}
+
+== Mathematical Origin ==
+
+=== Three-Wave Mixing in the Nonlinear ψ Medium ===
+
+Write the ψ field as a sum of pump (subscript p), signal (s), and idler (i) components:
+
+:<math>\psi = \psi_p e^{i(k_p z - \omega_p t)} + \psi_s e^{i(k_s z - \omega_s t)} + \psi_i e^{i(k_i z - \omega_i t)} + \text{c.c.}</math>
+
+Substituting into the master equation <math>\Box\psi - m^2\psi - \lambda\psi^3 = 0</math> and keeping only phase-matched terms (energy conservation: <math>\omega_p = \omega_s + \omega_i</math>; momentum conservation: <math>k_p = k_s + k_i</math>):
+
+For degenerate case <math>\omega_s = \omega_i = \omega_0</math>, <math>\omega_p = 2\omega_0</math>:
+
+:<math>\frac{d\psi_s}{dz} = i\gamma\,\psi_p^2\,\psi_s^*</math>
+
+where the gain coefficient:
+
+:<math>\gamma = \frac{3\lambda|\psi_p|^2}{2k_s}</math>
+
+This is parametric amplification: the signal amplitude grows exponentially driven by the pump squared.
+
+=== Parametric Gain ===
+
+Solving the coupled equations for the degenerate case with undepleted pump:
+
+:<math>\psi_s(L) = \psi_s(0)\cosh(\gamma L) + i\psi_s^*(0)\sinh(\gamma L)</math>
+
+Signal power gain:
+
+:<math>\boxed{G = |\psi_s(L)/\psi_s(0)|^2 = \cosh^2(\gamma L)}</math>
+
+For <math>\gamma L \gg 1</math>: <math>G \approx e^{2\gamma L}/4</math> — exponential gain.
+
+=== Threshold Condition ===
+
+For the amplifier to overcome propagation loss (attenuation coefficient <math>\alpha_z</math> from [[ψ Loss Tangent]] B4), the gain coefficient must exceed:
+
+:<math>\gamma_{\rm th} = \frac{\alpha_z}{2} = \frac{\omega\tan\delta_\psi}{2v_g}</math>
+
+Minimum pump amplitude:
+
+:<math>|\psi_p|_{\rm th} = \sqrt{\frac{\alpha_z k_s}{3\lambda}}</math>
+
+For the [[Psi Harmonizer]] design: <math>\tan\delta_\psi = 0.005</math>, <math>k_s = \omega_0/v_g</math>, <math>\lambda = 0.1</math> (estimated). The threshold pump amplitude is a TML-3 measurement target — it cannot be computed without knowing <math>\lambda</math>.
+
+=== N⁴ Group Amplification ===
+
+When N operators contribute coherently to the pump field: <math>|\psi_p| = N|\psi_p^{\rm (individual)}|</math>. The gain coefficient:
+
+:<math>\gamma_N = \frac{3\lambda N^2|\psi_p^{\rm (ind)}|^2}{2k_s} = N^2\gamma_1</math>
+
+The stored energy density in the ψ field scales as <math>|\psi|^4</math> (from the <math>\lambda\psi^4/4</math> term in the stress-energy tensor). For N coherently aligned operators above threshold:
+
+:<math>U_N \propto e^{4\gamma_N L} = e^{4N^2\gamma_1 L}</math>
+
+This super-exponential growth in N is the mathematical basis of the group coherence amplification effect. Even modest N = 3 or 4 produces dramatic amplification compared to a single operator above threshold.
+
+== Established Analog ==
+
+{| class="wikitable" style="width:100%;"
+! Optical parametric amplifier (OPA) !! ψ Amplifier !! Correspondence
+|-
+| Nonlinear crystal (χ⁽³⁾) || ψ composite (λψ³ term) || Nonlinear medium
+|-
+| Pump laser at 2ω₀ || Pump ψ field at 2ω₀ || Driving wave
+|-
+| Signal at ω₀ amplified || Signal ψ at ω₀ amplified || Amplified wave
+|-
+| Phase matching condition <math>k_p = 2k_s</math> || Phase matching in ψ || Same mathematical condition
+|-
+| Gain G = cosh²(γL) || Gain G = cosh²(γL) || Identical formula
+|-
+| Noise figure → 3 dB (quantum limit) || Noise figure → 3 dB (quantum ψ limit) || Same limit from commutation relations
+|-
+| MASER: stimulated emission by population inversion || ψ oscillator (C9): stimulated emission by nonlinear driving || Active amplification variant
+|}
+
+== Implementation: Psi Harmonizer Amplifier Stage ==
+
+The [[Psi Harmonizer]] implements a degenerate parametric ψ amplifier:
+
+# The operator group generates a collective ψ pump field at <math>2\omega_0 = 80</math> kHz via aligned Anchor mode operation.
+# The pump ψ propagates through a section of high-λ composite (PZT-rich formulation to increase effective <math>\lambda_{\rm eff}</math>).
+# The signal at <math>\omega_0 = 40</math> kHz (the individual operators' coherence frequency) is amplified.
+# The amplified signal is fed back to the operators via the resonator coupling chain — creating a positive feedback loop that sustains and amplifies the collective coherence state.
+
+'''Design challenge:''' The effective nonlinear coefficient <math>\lambda_{\rm eff}</math> of the composite must be large enough to provide above-threshold gain with realistic pump amplitudes. The PZT parametric response from [[Smart Composite Fill]] (B8) contributes to <math>\lambda_{\rm eff}</math> via the electro-acoustic coupling mechanism — but the magnitude is a TML-3 measurement target.
+
+== Performance Parameters ==
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Design target !! Constraint !! Measurement method
+|-
+| Small-signal gain G || > 10 dB || Must exceed round-trip loss in Harmonizer cavity || TML-3: measure signal enhancement vs single operator baseline
+|-
+| Pump threshold <math>|\psi_p|_{\rm th}</math> || TBD — requires λ measurement || Below achievable pump level (≥ 2 coherent operators) || TML-3: find minimum N for net gain
+|-
+| Gain bandwidth || > 200 Hz || Must cover natural operator frequency spread || VNA measurement of nonlinear response
+|-
+| Noise figure NF || < 6 dB || Phase-insensitive limit; phase-sensitive operation improves to < 3 dB || TML-3: compare signal SNR in/out
+|-
+| Phase-sensitive improvement || < 3 dB NF achievable || Requires pump-signal phase locking via [[ψ Phase Shifter]] (C4) || TML-3: locked vs unlocked NF comparison
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Soliton Amplification ===
+
+The <math>\lambda\psi^3</math> term also supports soliton propagation — self-stabilising ψ amplitude envelopes that resist decay. In the amplifier context, a soliton entering the gain medium experiences gain exactly compensating its natural spreading tendency (due to dispersion) and loss (due to tan δ_ψ). This produces a soliton amplifier with zero net dispersion and gain exactly equal to loss — a self-sustaining coherent ψ state that persists indefinitely given continuous pump.
+
+This is the physical basis for the [[Psi Stabilizer]] Anchor mode soliton — not a parametric amplifier but a soliton self-stabilisation regime where nonlinear gain balances linear loss.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| <math>\lambda = 0</math> (linear medium) || <math>\gamma = 0</math>, G = 1 — no gain in linear medium || ✓
+|-
+| <math>\gamma L \ll 1</math> (weak pump) || <math>G \approx 1 + (\gamma L)^2</math> — quadratic gain in weak-pump limit || ✓ (from cosh² expansion)
+|-
+| <math>\gamma L \gg 1</math> (strong pump) || <math>G \approx e^{2\gamma L}/4</math> — exponential gain || ✓
+|-
+| N-operator scaling || <math>\gamma_N = N^2\gamma_1</math> — quadratic in operator count; energy scales as <math>e^{4N^2\gamma_1 L}</math> || ✓ (from <math>|\psi_p| = N|\psi_p^{(1)}|</math>)
+|-
+| Phase matching || <math>\omega_p = 2\omega_s</math>, <math>k_p = 2k_s</math> — energy and momentum conservation || ✓ (required for coherent three-wave mixing)
+|}
+
+== See Also ==
+* [[ψ Oscillator]] (C9) · [[ψ Resonator]] (C1) · [[Psi Harmonizer]] · [[ψ Network Topology]] (G3) · [[Soliton Solutions of Psi Field]] · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Nonlinear Physics]]

@@ -1,28 +1,46 @@
 = Soliton Solutions of the ψ Field =
 
-{{Audience_Sidebar
-| difficulty   = Advanced
-| reading_time = 15 minutes
-| prerequisites = [[Psionics_Primer]]; [[Psionics]] §"Psionic Scalar Field Equation"; nonlinear PDEs; familiarity with the φ<sup>4</sup> potential, kink and breather solutions, and the [[Sine-Gordon_Equation|sine-Gordon]] equation.
-| if_too_advanced_see = [[What_is_the_Psi_Field]]
-| if_you_want_the_math_see = [[5D_Action_Principle]]
-}}
-
-{{Notation
-| psi_convention   = ψ = scalar field amplitude.
-| signature        = Mostly-plus (−,+,+,+).
-| units            = ℏ = c = 1 unless explicitly noted.
+{{Plain_Hook
+| in_one_sentence    = A soliton is a stable, self-contained "lump" of a field that holds its shape as it moves — and the psi field is allowed to form them, which is the mathematical reason a trained meditator can sustain a localised psionic construct (a "thought-form", a held intent, an energy ball) for many seconds without it dissipating.
+| everyday_analogy   = A tsunami wave that crosses an ocean without flattening out is a soliton. So is a smoke ring that drifts across a room intact. Solitons are nature's way of letting a wave behave like a particle.
+| what_it_predicts   = Sustained psionic states have characteristic widths, lifetimes, and energies that can be computed from the psi-field equation — and they should decay at predictable rates when no longer maintained, giving an empirical handle on the field's mass and self-coupling.
+| if_you_remember_one_thing = A psionic construct is not just a poetic metaphor. It is a long-lived oscillating bump in a real field, with a real width, real energy, and a real decay time you can in principle measure.
 }}
 
 A '''soliton''' is a localised, stable, non-spreading solution of a nonlinear wave equation. The [[Psi_Field|ψ field]] supports soliton solutions because of its λψ<sup>4</sup> self-interaction term. Solitons are the rigorous mathematical basis for stable "thought-forms", energy constructs, and the long-coherence-time states sustained by trained practitioners.
 
 This page works out the classical soliton solutions of the ψ field equation, their stability, their energy, and their role in the macroscopic phenomenology of psionics.
 
+{{Way_It_Works
+| title  = How a field equation lets a lump of psi hold itself together
+| step1_label = Start with the psi field equation
+| step1_text  = The psi field obeys a wave equation, like sound or light. Plain waves spread out and fade. But the psi equation has an extra term — a self-interaction — that lets the field push on itself.
+| step2_label = Recognise the competition
+| step2_text  = A bump in any field naturally wants to spread out (diffusion). But the self-interaction term pulls the field amplitude back in toward certain preferred values, fighting the spreading.
+| step3_label = Find the balance point
+| step3_text  = When the spreading force and the self-interaction force balance exactly, you get a stable shape that travels without changing — a soliton. Mathematically, this is a special solution of the field equation.
+| step4_label = Compute the shape
+| step4_text  = Solving the equation gives the exact profile: a hyperbolic-tangent step for the "kink", a cosh-shaped bump for the "lump". The width is set by the field's mass and self-coupling.
+| step5_label = Count the energy
+| step5_text  = Once you know the shape, you can integrate the field's energy over space. A soliton has a fixed total energy — in effect, an effective mass. It behaves like a particle.
+| step6_label = Sustain or let it decay
+| step6_text  = In real psi theory, pure-real-field solitons radiate slowly ("oscillons"). To keep one alive a practitioner has to feed it through J_ψ (focused intent) at the rate it leaks away. Sustained focus = sustained soliton.
+}}
+
 == The equation ==
 
 The master ψ field equation, in vacuum (no EM source, no external <math>J_\psi</math>):
 
-:<math>\Box\psi - m^2\psi - \lambda\psi^3 = 0</math>
+{{Math_Bridge
+| equation_label = Master ψ field equation (vacuum)
+| equation       = <math>\Box\psi - m^2\psi - \lambda\psi^3 = 0</math>
+| in_english     =
+* '''□ψ''' — the wave-operator acting on psi. Tells you how psi is changing in time and in space — oscillating, propagating, accelerating. Large where psi is curving sharply or vibrating fast.
+* '''m²ψ''' — a restoring tendency, proportional to the field's mass m. The field is pulled back toward zero; the larger m, the stronger the pull and the shorter the range over which psi can extend.
+* '''λψ³''' — the self-interaction, the term that makes everything interesting. Once psi gets large, this term pushes back hard. The sign of λ decides whether psi wants to stay small (stabilising) or wants to settle at a non-zero value (symmetry-breaking).
+* '''= 0''' — in vacuum, all three effects balance exactly. A soliton is just a non-trivial shape that achieves this balance.
+* '''Read as a sentence:''' "Wave motion, restoring pull, and self-interaction all cancel — and they do so in non-trivial, particle-like configurations."
+}}
 
 This is the [[Phi-Fourth_Theory|<math>\varphi^4</math>]] equation in mostly-plus signature with a real scalar. In static (<math>\partial_t\psi = 0</math>) one-dimensional form:
 

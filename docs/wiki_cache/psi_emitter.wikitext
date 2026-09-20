@@ -1,3 +1,28 @@
+= Psi Emitter =
+
+{{Plain_Hook
+| in_one_sentence    = A Psi Emitter is a hardware device that converts electrical/fusion energy into coherent [[Psi Field]] output — the fundamental building block of all [[Clan Tho'ra|Tho'ra]] psionic technology, ranging from fingertip-sized micro-emitters embedded in suit components up to large-array emitters powering [[Fusion Wings]] and area defenses, all networked via [[PsiLink]] into a mesh that doubles as both processing nodes and antennas.
+| everyday_analogy   = Speakers and microphones for the psi field. A regular speaker takes an electrical signal and produces sound; a regular microphone does the reverse. A Psi Emitter does the analogue for psionic fields: take electrical (or fusion) input, produce a structured ψ-field output — and the same hardware can also receive psionic signals coming the other way, making each emitter both a node and an antenna in the mesh. As with speakers, the SHAPE of the output is controlled by the emitter geometry plus the driving waveform: you can make a flat directional broadcast, a focused beam, or shape the field into specific structures (blades, shields, sensor arrays). Networked across many emitters via [[PsiLink]], you get an array that can do beam-forming, beam-steering, and parallel multi-target operation — just like a phased-array radar but for psionics.
+| what_it_predicts   = (1) Converts electrical/fusion energy into coherent psionic field output via [[Antenna Theory for Psionic Devices|antenna-theoretic principles]]; (2) Four core functions: project (barriers, auras, channels), shape (blades, shields, sensor arrays), sustain ([[Psi Stabilizer]] integration), communicate ([[Psionic Field Projection]] over [[PsiLink]]); (3) Bonus function: deceive ([[Sparkle Flairs]] — sensor spoofing across multiple modalities); (4) Mesh-networked via [[PsiLink]] with each emitter acting as both node and antenna; (5) Scale range: micro-emitters (fingertip-sized, embedded) through array-class emitters (large structural elements); (6) Used in: [[Fusion Engine Suit]], [[HelmKit]], [[Defense Discs]], [[Sparkle Flairs]], [[PsiSys]] infrastructure.
+| if_you_remember_one_thing = Every other psionic device on the wiki is built FROM Psi Emitters — they are the loudspeaker primitive of the psi-tech stack. If you understand the emitter, you understand how every downstream device couples energy into the ψ-field.
+}}
+
+{{Way_It_Works
+| title  = How a Psi Emitter converts input power into a shaped psi-field output
+| step1_label = Power conditioning
+| step1_text  = Input from a fusion cell or electrical source is conditioned (rectified, regulated, filtered) into the DC and RF rails the emitter driver stage needs. Micro-emitters draw watts; array emitters draw kilowatts. The conditioner also provides isolation from the rest of the [[Fusion Engine Suit]] power bus to prevent psionic feedback into other systems.
+| step2_label = Drive the antenna structure
+| step2_text  = The driver stage applies a modulated RF (or near-RF) waveform to the emitter's antenna structure — typically a [[Caduceus Coil]] variant or a near-field structured radiator chosen per [[Antenna Theory for Psionic Devices]] for the target frequency and coupling regime. Drive waveform is determined by the requested field shape and modulation pattern.
+| step3_label = Generate the coherent ψ-field
+| step3_text  = The antenna structure couples energy into the [[Psi Field]] via the framework's F_μν F^μν ↔ ψ vertex. The output is a structured ψ-field with controlled amplitude, phase, polarisation, and spatial distribution — the four parameters needed for any of the downstream functions (projection, shaping, sustaining, communicating).
+| step4_label = Shape via emitter geometry and array configuration
+| step4_text  = A single emitter shapes the field via its antenna geometry plus drive waveform. An array of emitters (multiple emitters connected via PsiLink) does beam-forming, beam-steering, and multi-target operation just like phased-array radar. The [[Psi Blade]], [[Defense Disc]], and [[Sparkle Flair]] are all special cases of array-shaped field output.
+| step5_label = Sustain via stabiliser feedback
+| step5_text  = For prolonged operation, the emitter is coupled to a [[Psi Stabilizer]] which monitors the produced field, detects drift or instability, and feeds corrective drive signals back to the emitter. This is closed-loop control on the field output — essential for hours-long [[Psi Ward]] or [[PsiLink]] operation.
+| step6_label = Bidirectional — the emitter is also an antenna
+| step6_text  = Reciprocity: the same hardware that emits a structured ψ-field can also receive psionic signals incident on it. This makes every emitter a node-plus-antenna in the [[PsiLink]] mesh. Switching is multiplexed in time (or in frequency); the mesh-level [[PsiSys]] coordinates which emitters are in transmit vs receive mode at any moment, enabling full-duplex network operation.
+}}
+
 {| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
 ! colspan="2" style="background:#333; color:#fff;" | '''Psi Emitter'''
 |-

@@ -1,0 +1,130 @@
+{{Derives_From
+| term        = p·∂^μψ force term and J^μ_ψ = ∂^μψ Noether current — a ψ-charged object experiences a force proportional to the ψ gradient, and this force is detectable via HRV coherence shift, OPM magnetometry, or bifilar back-EMF
+| description = A ψ detector measures the presence and amplitude of the ψ
+                field through one of three coupling mechanisms: (1) the
+                force p·∇ψ on a ψ-charged biological system, detected
+                as a change in HRV coherence; (2) the reverse transduction
+                of ψ → EM through the αF²μν coupling, detected as
+                bifilar back-EMF or OPM field perturbation; (3) the
+                resonator Q-shift when ψ-susceptible material (biological
+                tissue) is introduced into the cavity. All three mechanisms
+                are derived from the master equation; none requires new
+                physical assumptions.
+}}
+
+{{Infobox
+| title   = ψ Detector
+| image   =
+| caption = Three independent mechanisms for detecting the ψ field — from biological HRV shift to OPM magnetometry to bifilar back-EMF
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Sensing · [[Scientific Foundations of Psionics]]
+| label3  = Derives From
+| data3   = Force <math>p\,\partial^\mu\psi</math>; reverse <math>\alpha F^2</math> transduction; resonator Q-shift; [[ψ Conservation Laws]] (A2)
+| label4  = Established Analog
+| data4   = RF power detector (diode rectifier); optical photodiode; SQUID magnetometer; acoustic microphone
+| label5  = Key Parameters
+| data5   = Minimum detectable ψ amplitude <math>\psi_{\rm min}</math>; signal-to-noise ratio SNR; detection bandwidth; false positive rate
+| label6  = First Deployment
+| data6   = [[TML-3 Validation]] experimental apparatus; [[HRV as ψ Proxy]] (E1) biological detector
+| header7 = Detection Mechanisms
+| label8  = Biological (HRV)
+| data8   = RMSSD coherence shift ∝ ψ field amplitude at temporal lobes
+| label9  = EM (back-EMF)
+| data9   = Bifilar coil detects ψ → EM via reverse αF² coupling
+| label10 = Resonator (Q-shift)
+| data10  = Cavity Q changes when ψ-susceptible medium introduced
+| below   = ''Build wave 4 — requires [[ψ Transducer]] (C3), [[ψ Resonator]] (C1), and [[ψ Conservation Laws]] (A2). Primary experimental validation instrument.''
+}}
+
+= ψ Detector =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ detector exploits the force equation p·∇ψ (biological detection via HRV coherence shift), the reverse αF²μν transduction (electromagnetic detection via bifilar back-EMF or OPM), or the resonator Q-shift (cavity detection via frequency and bandwidth change) — three independent detection mechanisms derived from different terms in the master equation, providing cross-validation capability for TML-3 experimental measurements.
+| everyday_analogy   = A smoke detector can work by ionisation (charged particles deflected by smoke) or by photodetection (light beam interrupted by smoke) — two independent physical mechanisms detecting the same event. A ψ detector has three analogous independent mechanisms: the biological HRV response (the ψ field acts on the operator's physiology), the electromagnetic back-EMF (the ψ field disturbs the bifilar coil's electromagnetic environment), and the cavity Q-shift (the ψ field changes the resonator properties). Agreement across all three mechanisms is strong evidence that the measured quantity is actually ψ and not an artefact of any single sensor.
+| what_it_predicts   = (1) A biological detection sensitivity set by the operator's ψ charge <math>p</math> and the ψ gradient at the temporal lobes — measurable via RMSSD changes above the HRV noise floor; (2) An electromagnetic detection sensitivity set by the bifilar back-EMF SNR — detectable with lock-in amplification at the ψ resonant frequency; (3) A resonator detection sensitivity set by the cavity filling factor and the tissue's ψ susceptibility χ_ψ; (4) A detection limit for all three mechanisms that constitutes the minimum falsifiable ψ field amplitude.
+| if_you_remember_one_thing = The three detection mechanisms are independent — they derive from different terms in the master equation (force term, EM coupling term, constitutive relations). A signal that appears in all three simultaneously cannot be an artefact of any single sensor or coupling path. This redundancy is the experimental design principle of TML-3.
+}}
+
+== Mathematical Origin ==
+
+=== Mechanism 1: Biological Force Detection ===
+
+From [[Psionics]], the geodesic equation with psionic fifth force:
+
+:<math>\frac{D^2 x^\mu}{d\tau^2} = q F^{\mu}{}_\nu\frac{dx^\nu}{d\tau} + p\,\partial^\mu\psi</math>
+
+For a biological system with psionic charge <math>p</math> (non-zero for coherent neural oscillation), the ψ field gradient produces an additional acceleration <math>p\,\nabla\psi</math>. This accelerates the biological ψ oscillation, which manifests as a detectable change in HRV coherence — specifically, RMSSD increases when the biological ψ oscillator is driven by an external ψ gradient (the detected field).
+
+Detection sensitivity:
+
+:<math>\text{SNR}_{\rm HRV} = \frac{p\,|\nabla\psi|_{\rm RMS}}{\sigma_{\rm RMSSD}}\sqrt{N_{\rm cycles}}</math>
+
+where <math>\sigma_{\rm RMSSD}</math> is the measurement noise of RMSSD (≈ 2–5 ms for standard PPG measurement) and <math>N_{\rm cycles}</math> is the number of HRV cycles averaged.
+
+=== Mechanism 2: Electromagnetic Back-EMF Detection ===
+
+From [[ψ Transducer]] (C3), the coupling is bidirectional — a ψ field perturbation modulates the effective permittivity <math>\varepsilon_{\rm eff}(t)</math> of the BST composite, which changes the capacitance between bifilar traces, inducing a back-EMF:
+
+:<math>V_{\rm bEMF}(t) = -\frac{Q_{\rm bifilar}}{C^2}\frac{dC}{dt} = -\frac{Q_{\rm bifilar}}{C^2}\frac{d\varepsilon_{\rm eff}}{dt}\frac{\partial C}{\partial\varepsilon_{\rm eff}}</math>
+
+where <math>Q_{\rm bifilar}</math> is the charge on the bifilar traces and <math>d\varepsilon_{\rm eff}/dt \propto d\psi/dt = \rho_\psi</math> (the ψ charge density from [[ψ Conservation Laws]] A2). The back-EMF is proportional to the time derivative of ψ — it detects ψ activity, not static ψ.
+
+Detection sensitivity (lock-in at <math>\omega_0</math>, bandwidth <math>B</math>):
+
+:<math>\psi_{\rm min}^{\rm (bEMF)} = \frac{V_{\rm noise}}{|dV_{\rm bEMF}/d\psi|} \propto \frac{\sqrt{k_BT\,B}}{|d\varepsilon_{\rm eff}/d\psi| \cdot Q_{\rm bifilar}}</math>
+
+=== Mechanism 3: Resonator Q-Shift Detection ===
+
+From [[ψ Resonator]] (C1) and [[ψ Quality Factor]] (B5), the cavity Q is modified when a ψ-susceptible material (biological tissue) is introduced:
+
+:<math>\frac{1}{Q_{\rm loaded}} = \frac{1}{Q_{\rm shell}} + \frac{1}{Q_{\rm tissue}} = \frac{1}{Q_{\rm shell}} + \frac{\eta_{\rm fill}\,\tan\delta_\psi^{\rm (tissue)}}{\omega}</math>
+
+Measuring Q_loaded vs Q_shell (empty cavity) gives <math>\tan\delta_\psi^{\rm (tissue)}</math> — the tissue's ψ loss tangent. If this differs between baseline and coherent operator states, it confirms state-dependent ψ susceptibility <math>\chi_\psi^{\rm (bio)}</math>.
+
+Detection sensitivity (frequency shift):
+
+:<math>\delta\omega_0 = -\eta_{\rm fill}\,\omega_0\,\frac{\Delta\chi_\psi^{\rm (bio)}}{2}</math>
+
+Minimum detectable <math>\Delta\chi_\psi</math>:
+
+:<math>(\Delta\chi_\psi)_{\rm min} = \frac{2}{\eta_{\rm fill}\,\omega_0}\frac{\sigma_\omega}{\omega_0}</math>
+
+where <math>\sigma_\omega</math> is the VNA frequency resolution (~1 Hz).
+
+== Detector Comparison Table ==
+
+{| class="wikitable" style="width:100%;"
+! Mechanism !! Physical coupling !! Measured quantity !! Track !! Key advantage !! Key limitation
+|-
+| HRV biological || <math>p\,\nabla\psi</math> force || RMSSD (ms) || B — requires ψ to be real || Directly measures biological response — the functional endpoint || Confounded by autonomic state changes from many causes; requires sham control
+|-
+| Back-EMF electromagnetic || Reverse <math>\alpha F^2</math> transduction || Back-EMF voltage (μV) || A at TML-2; B at TML-3 || Purely physical measurement; no biological interpretation required || Very small signal; requires lock-in amplification; bifilar coupling efficiency unknown
+|-
+| Resonator Q-shift || <math>\chi_\psi^{\rm (bio)}</math> via loaded Q || Resonant frequency shift; bandwidth change || B — requires non-zero χ_ψ || Measures material property directly; not subject to autonomic confounds || Requires tissue to be inside cavity; geometry constrains measurement
+|-
+| OPM direct field || <math>T^{0i}_\psi = -\partial_t\psi\,\partial^i\psi</math> energy flux || OPM field (fT) || B — requires ψ → EM cross-coupling || Spatial field mapping possible; existing clinical instrument || Requires ψ → EM coupling path beyond the known αF² mechanism; most speculative
+|}
+
+== TML-3 Detection Protocol ==
+
+All three independent mechanisms are deployed simultaneously:
+
+# '''HRV arm:''' PPG sensor at mastoid; RMSSD computed in real time at 4 Hz. Compare active vs sham [[Psi Stabilizer]] condition. Primary endpoint.
+# '''Back-EMF arm:''' Bifilar coil in receive mode; lock-in amplifier at <math>\omega_0 = 40</math> kHz; 1 Hz bandwidth. Compare active vs sham. Secondary endpoint.
+# '''Q-shift arm:''' VNA probe coupled to shell; measure <math>\omega_0</math> and Q_L continuously. Compare operator-present vs empty-shell. Tertiary endpoint.
+
+'''Cross-validation criterion:''' A positive result at TML-3 requires the primary endpoint (HRV) to be significant at <math>p < 0.05</math> after Bonferroni correction AND at least one secondary/tertiary endpoint to show a consistent direction of effect. Agreement across independent mechanisms significantly reduces the probability of false positive from any single artefact.
+
+== ψ-Dependent Extensions ==
+
+=== ψ Charge as an Individual Biometric ===
+
+The biological detection sensitivity scales as <math>p\,|\nabla\psi|</math> where <math>p</math> is the operator's ψ charge. If different operators have systematically different <math>p</math> values (varying with training, genetics, or physiological factors), RMSSD sensitivity to the same ψ field would vary between operators. This would manifest as operator-to-operator variability in TML-3 effect sizes beyond what RMSSD noise alone predicts.
+
+Measuring this variability across the TML-3 cohort and correlating with training history constitutes a test of whether ψ charge is a stable individual biometric.
+
+== See Also ==
+* [[ψ Conservation Laws]] (A2) · [[ψ Transducer]] (C3) · [[ψ Resonator]] (C1) · [[HRV as ψ Proxy]] (E1) · [[OPM Magnetometry for ψ Detection]] (E2) · [[ψ Falsifiability Framework]] (F1) · [[Sham Control Design]] (F2) · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Sensing]]

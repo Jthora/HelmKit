@@ -1,0 +1,293 @@
+{{Derives_From
+| term        = Im(ε_ψ)/Re(ε_ψ) — the imaginary-to-real ratio of the complex ψ permittivity from [[ψ Constitutive Relations]] (B1)
+| description = The ψ loss tangent tan δ_ψ = ε''_ψ/ε'_ψ quantifies how much
+                ψ field energy is dissipated (converted to heat or disorder)
+                per oscillation cycle, relative to how much is stored. Low
+                loss tangent is the prerequisite for high-Q ψ resonators —
+                the [[Psi Stabilizer]] shell requires tan δ_ψ < 0.005 to
+                achieve Q_ψ > 200, which is the minimum quality factor for
+                soliton establishment during the 90-second Anchor burst.
+                Every phase of the [[Smart Composite Fill]] contributes to
+                the composite loss budget, and the design target is met only
+                if the low-loss quartz scaffold dominates over the higher-loss
+                BST and MWCNT phases.
+}}
+
+{{Infobox
+| title   = ψ Loss Tangent
+| image   =
+| caption = How quickly the ψ field decays inside a material — the parameter that sets the ceiling on cavity Q and soliton lifetime
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Materials Science · Resonator Design
+| label3  = Derives From
+| data3   = Imaginary part of complex <math>\varepsilon_\psi(\omega) = \varepsilon'_\psi - i\varepsilon''_\psi</math>; [[ψ Constitutive Relations]] (B1)
+| label4  = Established Analog
+| data4   = Microwave dielectric loss tangent; acoustic absorption coefficient; optical extinction coefficient; mechanical damping ratio
+| label5  = Key Output
+| data5   = tan δ_ψ definition; composite loss budget; Q ceiling from loss; phase-by-phase contribution; tan δ_ψ row of master material table
+| label6  = Primary Engineering Use
+| data6   = Sets the upper bound on cavity Q_ψ; determines minimum acceptable loss tangent for each composite phase; governs Anchor burst soliton lifetime
+| header7 = Key Equations
+| label8  = Loss tangent definition
+| data8   = <math>\tan\delta_\psi = \varepsilon''_\psi/\varepsilon'_\psi</math>
+| label9  = Q ceiling from loss
+| data9   = <math>Q_\psi^{\rm (loss)} = 1/\tan\delta_\psi</math>
+| label10 = Attenuation length
+| data10  = <math>\alpha_\psi^{-1} = \lambda_\psi/(2\pi\tan\delta_\psi)</math>
+| label11 = Ringdown time
+| data11  = <math>\tau = 2Q_\psi/\omega</math>
+| below   = ''Build wave 2 — requires [[ψ Constitutive Relations]] (B1). Parallel with B2, B3, B5, B6. Required by [[ψ Quality Factor]] (B5) — write B4 before or simultaneously with B5.''
+}}
+
+= ψ Loss Tangent =
+
+{{Plain_Hook
+| in_one_sentence    = The ψ loss tangent tan δ_ψ = ε''_ψ/ε'_ψ is the fraction of ψ field energy dissipated per radian of oscillation — setting a hard ceiling on the resonator quality factor Q_ψ = 1/tan δ_ψ and therefore on the soliton lifetime, the Anchor burst duration, and ultimately on the operational effectiveness of every [[Psi-Tech]] device that relies on sustained ψ field coherence.
+| everyday_analogy   = A tuning fork struck in air rings for several seconds — its internal damping is very low. The same fork struck while submerged in honey stops almost immediately — the high damping dissipates energy instantly. ψ loss tangent measures exactly this: how much energy the composite material absorbs from the ψ field per oscillation cycle. A high-loss-tangent material is honey for the ψ field; a low-loss-tangent material (like quartz) lets the ψ resonance ring freely.
+| what_it_predicts   = (1) A composite loss tangent dominated by whichever phase has the highest loss — requiring the low-loss quartz scaffold to be the largest volume fraction; (2) A Q ceiling <math>Q_\psi^{\rm max} = 1/\tan\delta_\psi</math> that cannot be exceeded regardless of cavity geometry; (3) A minimum Anchor burst soliton lifetime of <math>\tau_{\rm min} = 2Q_\psi/\omega</math> — at Q = 200 and 40 kHz, this is 1.6 ms ringdown, sufficient for the 90-second Anchor mode operation; (4) A frequency-dependent loss profile in BST that is much lower at 40 kHz than at microwave frequencies, justifying the low-frequency operating strategy.
+| if_you_remember_one_thing = The loss tangent sets the Q ceiling: Q_ψ ≤ 1/tan δ_ψ. Every design decision that increases tan δ_ψ directly lowers the maximum achievable Q. The quartz filler in the composite is present specifically to dilute the higher-loss BST and MWCNT phases and keep the composite tan δ_ψ below 0.005, which is the threshold for Q > 200.
+}}
+
+== Definition and Physical Meaning ==
+
+The complex ψ permittivity from [[ψ Constitutive Relations]] (B1):
+
+:<math>\varepsilon_\psi(\omega) = \varepsilon'_\psi(\omega) - i\varepsilon''_\psi(\omega)</math>
+
+The '''ψ loss tangent''' is defined as the ratio of imaginary to real parts:
+
+:<math>\boxed{\tan\delta_\psi \equiv \frac{\varepsilon''_\psi(\omega)}{\varepsilon'_\psi(\omega)}}</math>
+
+{{Math_Bridge
+| equation_label = ψ loss tangent
+| equation       = <math>\tan\delta_\psi = \frac{\varepsilon''_\psi}{\varepsilon'_\psi}</math>
+| in_english     =
+* <math>\varepsilon'_\psi</math> — real (storage) part of permittivity: how much ψ energy is held temporarily by the material and returned to the field. This is lossless.
+* <math>\varepsilon''_\psi</math> — imaginary (loss) part: how much ψ energy is permanently dissipated per cycle, converted to thermal energy or structural disorder.
+* <math>\tan\delta_\psi = 0</math>: perfectly lossless material — ψ oscillates indefinitely with no decay.
+* <math>\tan\delta_\psi = 1</math>: energy dissipated equals energy stored each cycle — field decays to <math>1/e</math> in one radian of oscillation.
+* <math>\tan\delta_\psi \ll 1</math>: low-loss material — field rings for many cycles before decaying. Required for [[ψ Resonator]] and [[Psi Stabilizer]] applications.
+}}
+
+=== Attenuation Length ===
+
+In a medium with complex wave vector <math>k = k' + ik''</math>, the ψ field amplitude decays as <math>e^{-k''x}</math>. For small loss (<math>\tan\delta_\psi \ll 1</math>):
+
+:<math>k'' \approx \frac{\omega}{2v_\psi}\tan\delta_\psi</math>
+
+The attenuation length (distance over which amplitude falls to <math>1/e</math>):
+
+:<math>\alpha_\psi^{-1} = \frac{1}{k''} \approx \frac{2v_\psi}{\omega\tan\delta_\psi} = \frac{\lambda_\psi}{\pi\tan\delta_\psi}</math>
+
+where <math>\lambda_\psi = 2\pi v_\psi/\omega</math> is the ψ wavelength. For <math>\tan\delta_\psi = 0.005</math> at 40 kHz:
+
+:<math>\alpha_\psi^{-1} = \frac{\lambda_\psi}{\pi \times 0.005} \approx 64\,\lambda_\psi</math>
+
+The field propagates 64 wavelengths before attenuating by <math>1/e</math> — well within the design margin for the 20 cm [[Psi Stabilizer]] shell.
+
+=== Q Ceiling from Material Loss ===
+
+For a resonator filled with material of loss tangent <math>\tan\delta_\psi</math>, the material-limited quality factor is:
+
+:<math>Q_\psi^{\rm (material)} = \frac{1}{\tan\delta_\psi}</math>
+
+The total loaded Q (including radiation and coupling losses) satisfies:
+
+:<math>\frac{1}{Q_L} = \frac{1}{Q_{\rm material}} + \frac{1}{Q_{\rm radiation}} + \frac{1}{Q_{\rm coupling}}</math>
+
+Since <math>Q_L \leq Q_{\rm material} = 1/\tan\delta_\psi</math> always, the loss tangent sets an absolute upper bound on achievable resonator Q regardless of geometry. For the [[Psi Stabilizer]] target <math>Q_\psi > 200</math>:
+
+:<math>\tan\delta_\psi < \frac{1}{200} = 0.005 \qquad \text{(design requirement)}</math>
+
+=== Ringdown Time ===
+
+The e-folding time of the ψ field amplitude after the drive is cut:
+
+:<math>\tau_{\rm ringdown} = \frac{2Q_\psi}{\omega}</math>
+
+At the [[Psi Stabilizer]] design point (<math>Q_\psi = 200</math>, <math>\omega = 2\pi \times 40\,\text{kHz}</math>):
+
+:<math>\tau_{\rm ringdown} = \frac{2 \times 200}{2\pi \times 4\times10^4} \approx 1.6\,\text{ms}</math>
+
+The ψ field persists for 1.6 ms after the drive ceases. This is orders of magnitude shorter than the 90-second Anchor burst — the drive must be continuous during Anchor mode to maintain the field amplitude. Soliton formation (from the <math>-\lambda\psi^3</math> term) provides additional amplitude stabilisation, but does not replace continuous drive at this Q value.
+
+Higher Q reduces the required drive power at the expense of narrower bandwidth — the design Q > 200 is chosen to balance drive power against frequency selectivity.
+
+== Composite Loss Budget ==
+
+The total composite loss tangent is a weighted average of the phase contributions. For a series loss model (each phase adds its contribution):
+
+:<math>\tan\delta_\psi^{\rm (composite)} \approx \sum_i f_i\,\tan\delta_{\psi,i}</math>
+
+where <math>f_i</math> is the volume fraction and <math>\tan\delta_{\psi,i}</math> is the loss tangent of phase <math>i</math>.
+
+Phase-by-phase contributions at the target composite formulation:
+
+{| class="wikitable" style="width:100%;"
+! Phase !! Volume fraction <math>f_i</math> !! Estimated <math>\tan\delta_{\psi,i}</math> at 40 kHz !! Contribution <math>f_i \times \tan\delta_{\psi,i}</math> !! Notes
+|-
+| Quartz filler (scaffold) || 0.25 || ~0.0001 || 0.000025 || Dominant low-loss phase; crystalline quartz has exceptional loss figure
+|-
+| UV acrylate binder || 0.10 || ~0.005 || 0.0005 || Main loss source in matrix; limits are set by cure completeness
+|-
+| BST nanoparticles || 0.05 (vol.) || ~0.020 at 40 kHz || 0.001 || Loss much lower at 40 kHz than at microwave; frequency advantage
+|-
+| PZT-5H powder || 0.08 (vol.) || ~0.010 || 0.0008 || Mechanical loss; lower than bulk PZT (unsintered)
+|-
+| MWCNT-epoxy || 0.15 || ~0.015 || 0.00225 || Highest individual contributor; kept at minimum effective loading
+|-
+| Photopolymer scaffold || 0.25 || ~0.010 || 0.0025 || TPMS walls; moderate loss; Formlabs High Temp Resin
+|-
+| Air voids (residual) || 0.07 || ~0 || ~0 || Air is lossless; voids reduce composite loss slightly
+|-
+| Ferrofluid (channels) || 0.05 || ~0.02 || 0.001 || Magnetic loss in alternating field; small volume fraction saves total
+|-
+| '''Composite total''' || '''1.00''' || — || '''~0.0076''' || Exceeds 0.005 target — see optimisation below
+|}
+
+The composite loss budget as formulated nominally exceeds the Q > 200 design target. Three optimisation levers are available:
+
+# '''Increase quartz fraction''' from 25% to 35%, reducing MWCNT-epoxy to 10% and acrylate binder to 7%. New estimated total: ~0.0055 — marginal improvement.
+# '''Switch to lower-loss photopolymer''' scaffold. Formlabs Rigid 10K (loss tangent ~0.003 at 40 kHz) instead of High Temp Resin. New estimated total: ~0.0051.
+# '''Use PVDF instead of PZT-5H.''' PVDF has lower mechanical loss tangent (~0.005) than unsintered PZT powder. New estimated total: ~0.0047 — below the 0.005 target.
+
+The recommended formulation for production shells: quartz 35%, Rigid 10K scaffold 25%, PVDF 8%, BST 5%, MWCNT-epoxy 12%, ferrofluid channels 5%, residual voids 10%. Predicted composite tan δ_ψ ≈ 0.0045 < 0.005 target.
+
+=== Frequency Dependence of BST Loss ===
+
+The loss tangent of BST is strongly frequency-dependent. At microwave frequencies (1–10 GHz), BST has <math>\tan\delta \approx 0.05</math>–<math>0.10</math> — too lossy for high-Q resonators. However, at low frequencies:
+
+{| class="wikitable" style="width:100%;"
+! Frequency !! BST <math>\tan\delta</math> (approximate) !! Source
+|-
+| 10 Hz || ~0.001 || Impedance analyser measurement (published literature)
+|-
+| 1 kHz || ~0.003 || Impedance analyser
+|-
+| 40 kHz || ~0.010–0.020 || Estimated by extrapolation; confirmed at TML-1
+|-
+| 1 MHz || ~0.025 || Impedance analyser
+|-
+| 1 GHz || ~0.050–0.100 || Microwave measurement (literature)
+|}
+
+Operating at 40 kHz rather than microwave frequencies reduces the BST contribution to composite loss by approximately 5×. This is the primary engineering rationale for the low-frequency operating strategy — not just biological coupling considerations, but also the fundamental materials advantage of operating where BST loss is minimal.
+
+== tan δ_ψ Row of the Master Material Parameter Table ==
+
+Populating the tan δ_ψ column of the table from [[ψ Constitutive Relations]] (B1):
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>\tan\delta_\psi</math> at 40 kHz !! Basis !! Measurement method !! Priority
+|-
+| Air (null reference) || 0 (definition) || Lossless vacuum analogue || Empty fixture reference || Reference
+|-
+| Quartz (crystalline) || ~0.0001 || Literature (AT-cut quartz at low frequency) || VNA loss measurement || 2nd
+|-
+| Photopolymer (Formlabs Rigid 10K) || ~0.003 || Literature + TML-1 || VNA loss measurement || 1st
+|-
+| BST composite || TBD; est. 0.010–0.020 || Interpolation from frequency data || VNA + HV bias measurement || 1st
+|-
+| MWCNT-epoxy (2 wt%) || TBD; est. ~0.015 || Above percolation — resistive loss dominant || Careful fixture measurement || 1st
+|-
+| PZT-5H powder in matrix || TBD; est. ~0.010 || Unsintered powder — mechanical loss reduced || Berlincourt + VNA || 2nd
+|-
+| PVDF film || TBD; est. ~0.005 || Literature (polymer piezo) || VNA measurement || 2nd
+|-
+| Ferrofluid EMG-900 || TBD; est. ~0.020 || Magnetic relaxation loss || LCR + VNA || 1st
+|-
+| Composite (optimised formulation) || TBD; target < 0.005 || Loss budget model above || Full-shell VNA + ringdown || 1st
+|-
+| Biological cortex || TBD || Unknown — highest priority TML-3 measurement || Cavity ringdown with operator || 1st (TML-3)
+|-
+| Water || TBD; est. high (~0.05+) || Polar molecule relaxation loss dominant at kHz || Coaxial cell || 3rd
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Coherence-Dependent Loss in Biological Tissue ===
+
+Within the Track B framework, the loss tangent of biological cortical tissue may depend on neural coherence state. In a high-coherence state, the operator's cortical ψ emission pattern is more ordered — the source distribution <math>J_\psi^{\rm (bio)}</math> has higher spatial coherence and less cancellation between out-of-phase contributions from different cortical columns.
+
+From a materials perspective, high coherence corresponds to lower effective loss tangent in the tissue: the tissue responds more collectively and stores ψ energy more efficiently. If true, <math>\tan\delta_\psi^{\rm (bio)}</math> decreases during HRV-coherent states — which would manifest as an increased effective Q of the [[Psi Stabilizer]] resonator when the operator reaches peak coherence. This would be observable as a narrowing of the S11 resonance peak.
+
+This prediction is testable at TML-3: measure resonator S11 bandwidth at baseline HRV vs peak coherence. A statistically significant decrease in bandwidth (increase in Q) would support the coherence-dependent loss hypothesis.
+
+=== Soliton Amplitude Stabilisation and Effective Loss Reduction ===
+
+The <math>-\lambda\psi^3</math> nonlinear term supports soliton solutions that are self-sustaining — they do not decay exponentially as a linear field would. In the energy budget sense, the soliton extracts energy from the drive and uses it to compensate the material loss, maintaining a stable amplitude envelope. This can be thought of as an effective reduction of <math>\tan\delta_\psi</math> for the soliton mode relative to a linear wave of the same frequency.
+
+The effective Q of a soliton mode in a nonlinear medium is higher than the linear Q = 1/tan δ_ψ — the soliton self-organises to minimise its interaction with the loss mechanism. This is the mathematical basis for the [[Psi Stabilizer]] Anchor mode being a fundamentally different operating regime from linear emission: the nonlinear λ term provides partial compensation of material loss that a linear analysis would not predict.
+
+== TML Measurement Protocol ==
+
+=== TML-1: Loss Tangent Extraction ===
+
+'''Method 1 — VNA S-parameter (preferred for composite samples):'''
+
+# Mount composite tablet (10 mm × 2 mm) in coaxial fixture with gold electrode contacts.
+# Measure S21 transmission from 1 kHz to 1 MHz.
+# Apply Nicholson–Ross–Weir extraction: complex <math>\varepsilon_\psi(\omega) = \varepsilon'_\psi - i\varepsilon''_\psi</math> from S11 + S21.
+# Compute tan δ_ψ = ε''_ψ/ε'_ψ at each frequency.
+
+'''Method 2 — Ringdown (for assembled shell):'''
+
+# Drive shell resonator at <math>\omega_{010}</math> with a 10-cycle tone burst.
+# Cut drive and measure ψ proxy signal (OPM field at shell surface) decay.
+# Fit exponential: amplitude ~ <math>e^{-t/\tau}</math>.
+# Extract <math>Q_\psi = \omega\tau/2</math>, then <math>\tan\delta_\psi = 1/Q_\psi</math>.
+
+'''Pass criteria:'''
+* <math>\tan\delta_\psi < 0.005</math> for optimised composite formulation
+* Ringdown time <math>\tau > 1.6</math> ms at 40 kHz (Q > 200)
+* Reproducibility: < ±20% variation across three samples from same batch
+
+=== TML-3: Biological Loss Tangent Estimation ===
+
+Measure resonator Q shift between empty cavity and operator-present cavity:
+
+:<math>\frac{1}{Q_L^{\rm (operator)}} = \frac{1}{Q_L^{\rm (empty)}} + \frac{1}{Q_{\rm bio}}</math>
+
+Solving for <math>Q_{\rm bio}</math> gives the Q contribution of the biological tissue alone, from which:
+
+:<math>\tan\delta_\psi^{\rm (bio)} = \frac{1}{Q_{\rm bio}} \times \eta_{\rm fill}^{-1}</math>
+
+where <math>\eta_{\rm fill}</math> is the filling factor (fraction of cavity energy in the biological tissue region), estimated from the ψ₀₁₀ mode shape and operator head dimensions.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| <math>\tan\delta_\psi = 0</math> || No attenuation; Q → ∞; field rings indefinitely || ✓
+|-
+| <math>\tan\delta_\psi = 1</math> || Q = 1; field decays to 1/e per radian; one oscillation cycle == one attenuation time || ✓
+|-
+| Q ceiling formula || <math>Q_L \leq 1/\tan\delta_\psi</math> always — loaded Q cannot exceed material-limited Q || ✓ (parallel Q formula always gives smaller result)
+|-
+| Ringdown formula || <math>\tau = 2Q/\omega</math>; at Q = 200, f = 40 kHz: <math>\tau = 400/(2\pi\times4\times10^4) \approx 1.6</math> ms || ✓
+|-
+| Composite loss additivity || At low loss, <math>\tan\delta_{\rm comp} \approx \sum_i f_i \tan\delta_i</math>; exact for series loss model; approximate for parallel || ✓ (standard composite materials result)
+|-
+| Kramers–Kronig consistency || Any physical <math>\varepsilon''_\psi(\omega)</math> must correspond to a specific <math>\varepsilon'_\psi(\omega)</math> — measured data must pass KK self-consistency test || ✓ (mathematical theorem)
+|}
+
+== See Also ==
+
+* [[ψ Constitutive Relations]] (B1) — defines complex ε_ψ; master material parameter table
+* [[ψ Permittivity]] (B2) — real and imaginary parts of ε_ψ
+* [[ψ Quality Factor]] (B5) — Q = 1/tan δ_ψ; detailed resonator treatment
+* [[ψ Resonator]] (C1) — device whose Q this page constrains
+* [[Smart Composite Fill]] (B8) — phase-by-phase material selection driven by loss budget
+* [[TPMS Lattice Design]] (B7) — scaffold material choice (Formlabs Rigid 10K) motivated by this page
+* [[Psi Stabilizer]] — design requirement Q > 200 sets tan δ_ψ < 0.005 constraint
+* [[Sham Control Design]] (F2) — TML-3 cavity Q measurement requires sham comparison
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]

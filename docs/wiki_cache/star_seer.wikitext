@@ -1,0 +1,83 @@
+'''Star Seer''' is the [[Tho'ra Clan]]'s real-time astrology visualizer and sensor-fusion HUD. It overlays minute-by-minute astrological events on a wearer's field of view, fused with local magnetometric, electrostatic, barometric, and other environmental sensor data, and personalized to the wearer's [[natal chart]].
+
+Star Seer is one of the three pillars of the [[Tho'ra Clan|Clan's]] operational software stack, alongside [[StarCom]] (cyber / command) and [[NavCom]] (navigation / tactical). It typically runs on a [[HelmKit]]-mounted display module.
+
+== Function ==
+
+Star Seer computes and displays:
+* Continuous astrological angle calculations to sub-arc-second resolution.
+* Personal natal-chart extrapolation onto the present moment (transits, progressions, returns).
+* Timestream visualization: forward-projected event likelihood as a probability volume.
+* Local sensor fusion: magnetometer, electrostatic field, barometer, accelerometer, GPS, ambient EM.
+* Event prediction in a ''localized and personalized'' frame — not generic transit advisories.
+
+== Use Cases ==
+
+* '''Off-grid combat HUD''' — special-forces-grade tactical aid for navigating without electronic detection. The astrology and local-field-fusion provides predictive utility independent of GPS / radio.
+* '''[[Resonant Pipeline|Resonant contact timing]]''' — picking the astrologically-supported window for an approach.
+* '''Self-navigation''' — Tho'ra operators reading their own moment-to-moment best action.
+* '''[[Resonant Finder]] feedback''' — Star Seer ground-truth telemetry feeds back into the central Finder model.
+
+== Maturity (Mk0 → Mk3) ==
+See [[Tho'ra Tech Maturity Levels]] for the full convention.
+
+{| class="wikitable"
+! Mark !! Phase !! Status !! Target Era
+|-
+| '''Mk0''' || Cosplay-type || Phone-app + cosplay overlay (complete) || Pre-Terra Novus (now)
+|-
+| '''Mk1''' || Prototype || Active development — current frontier || [[Solar Cycle 25]] (2026–2031)
+|-
+| '''Mk2''' || Test-type || Planned field-trial unit || Late [[Solar Cycle 25]] / early [[Solar Cycle 26]] (2030–2033)
+|-
+| '''Mk3''' || Production-type || Projected EA auxiliary issue || [[Solar Cycle 26]]+ (2032/2033–)
+|}
+
+
+== Versions and Variants ==
+
+* '''Mk0''' — ''Phone Astrology HUD''. Existing astrology apps + custom overlay decals on cosplay helmets. Hand-held only.
+* '''Mk1''' — ''HelmKit-mounted prototype''. Single-eye micro-OLED display, [[SynastryEngine]] back-end, basic sensor fusion (magnetometer + barometer). Bench-validated.
+* '''Mk2''' — ''Field-trial unit''. Binocular AR display, full sensor pack, on-board GPU for local inference, hardened against EMI. Deployed to senior Tho'ra operators only.
+* '''Mk3''' — ''Production HUD''. Ruggedized, [[Earth Alliance]] auxiliary-issued, integrated with [[NavCom]] for tactical overlay sharing.
+
+== Interfaces ==
+
+* '''Mount''': [[HelmKit]] standard rail / optical bay.
+* '''Compute''': on-helm SoC (Mk1–Mk2); on-helm + cloud (Mk3, via [[Earth Intelligence Network]]).
+* '''Data sources''': [[SynastryEngine]], on-board sensors, [[Resonant Finder]] downlink, [[Space Weather]] feeds.
+* '''Display''': transparent OLED / waveguide optics; subtle, non-intrusive HUD.
+
+== Sensor Fusion Detail ==
+
+Local readings the HUD fuses with astrological state:
+* '''Magnetometer''' — 3-axis, micro-Tesla resolution. Detects nearby magnetic anomalies, ferrous structures, and (at the high end) geomagnetic perturbation correlated with [[Space Weather]] events.
+* '''Electrostatic''' — measures local atmospheric potential gradient. Correlates with [[Atmospheric Electricity]] and approaching storm cells.
+* '''Barometric''' — absolute and rate-of-change pressure.
+* '''IMU''' — accelerometer + gyro for head-tracking and dead-reckoning.
+* '''Ambient EM''' — broadband RF environment scan.
+* '''Ambient light + color temp''' — for HUD brightness adaptation and circadian feedback.
+
+== See Also ==
+* [[HelmKit]]
+* [[StarCom]]
+* [[NavCom]]
+* [[SynastryEngine]]
+* [[Resonant Finder]]
+* [[Tho'ra Tech Maturity Levels]]
+
+== Psi-Tech Integration ==
+The [[Star Seer]] role is supported by dedicated [[Psi-Tech]] infrastructure:
+
+* '''Observatory''' — [[Star Seer Observatory]] is the canonical Star Seer workplace.
+* '''Astrology compute''' — [[Synastry Mesh]] provides reproducible signed natal + transit calculation.
+* '''Targeting''' — [[Psi Harmonizer]] uses [[SynastryEngine]] outputs (delivered via Synastry Mesh).
+* '''Recording''' — Star Seer sessions are captured by [[Psi Recorder]] (operator-side) and [[Field Recorder]] (environment-side).
+* '''Calibration''' — Star Seer sessions of consequence are run in a [[Resonant Chamber]] for documented baseline.
+* '''Federation''' — Star Seer outputs reach allies via [[Earth Intelligence Network|EIN]] gossip.
+
+The Star Seer is not the [[Psi-Tech]]; the Psi-Tech is the Star Seer's amplification.
+
+[[Category:Tho'ra Tech]]
+[[Category:Software]]
+[[Category:Psi-Tech]]

@@ -6,8 +6,8 @@ The HelmKit is a **platform**, not a device. Its job is to give Psi-Tech modules
 
 | Layer | What it is | Where it lives |
 |-------|------------|----------------|
-| **L0 — Fit** | Headband + frame ring; sets where the device sits on the head | `3D-Models/HelmKit/` headRing + Mk1 frame parts |
-| **L1 — Structure** | Forehelm, sidehelm, rearhelm, temple booms; the load-bearing skeleton | `3D-Models/HelmKit/` Mk1 modular parts |
+| **L0 — Fit** | Top Yoke + folding Forward/Rear Visor-Bands; sets where the device sits on the head | [`docs/mechanical/mk0.5_topology_beta_architecture.md`](mechanical/mk0.5_topology_beta_architecture.md); generated via `tools/blender/build_top_yoke.py` etc. |
+| **L1 — Structure** | Top Yoke, Forward/Rear Visor-Bands, Temple Plates L/R, Pylons; the load-bearing skeleton ("topology B") | `tools/blender/` (11 parametric generators; see [`tools/blender/README.md`](../tools/blender/README.md)) |
 | **L2 — Bus** | Power rails + data bus + cable raceway; carries V, GND, I²C, SPI, audio diff pair | Printed-in channels; documented connector pinout |
 | **L3 — Modules** | Sensing, stimulation, optics, comms — the actual Psi-Tech | Mount via the L1 hardpoints, plug into L2 |
 
@@ -19,15 +19,19 @@ A module is replaceable if and only if it conforms to the L1 hardpoint and the L
 
 Every module mounts at a **hardpoint**: a printed feature on the frame with a fixed mechanical and electrical contract.
 
-### 2.1 Hardpoint locations (Mk1 frame)
+> **2026-08-05 correction**: this section previously described an older forehelm/rearhelm/sidehelm/temple-boom modular topology. That topology was superseded by **"topology B"** (top-yoke + folding visor-bands + temple plates + pylons), which is the architecture actually built as of the last ~15 commits (see [`docs/mechanical/mk0.5_topology_beta_architecture.md`](mechanical/mk0.5_topology_beta_architecture.md) §12, "FROZEN" interface contracts). Per [`docs/mk_ladder.md`](mk_ladder.md) §6, Mk1.0 inherits the Mk0.5 mechanical contract unchanged, so topology B's hardpoint mapping — not the old one — is what's actually frozen at Mk1. The table below now matches topology B §12/§5 exactly. **Nothing in this mapping has been physically validated yet** — see `tools/blender/README.md`'s acceptance-gate checklist.
+
+### 2.1 Hardpoint locations (topology B / Mk0.5→Mk1 frame)
 | ID | Location | Typical occupant | Notes |
 |----|----------|------------------|-------|
-| `HP-F` | Forehelm, centerline | HUD optic mount, indicator LEDs, forward-facing sensor | Closest to gaze axis |
-| `HP-FL`, `HP-FR` | Forehelm, left/right of centerline | Camera, ambient EM antenna, photic LED bar | Symmetric pair |
-| `HP-TL`, `HP-TR` | Temple boom, left/right | EEG electrode, magnetometer boom, coil driver, PPG | Closest to skin contact line; most signal-relevant |
-| `HP-EL`, `HP-ER` | Ear-shield, left/right | Bone-conduction transducer, in-ear audio, ear-canal sensor | Existing `earShield-v3` accessory family |
-| `HP-SL`, `HP-SR` | Sidehelm, left/right | Battery bay (one side), comms radio bay (other side) | Larger volume than temple |
-| `HP-R` | Rearhelm | Compute node, primary battery, µSD/IO door | Largest volume; furthest from face |
+| `HP-F` | Forward Visor-Band, front-center | Front Psi-Stabilizer panel (2× bifilar PCB coil) | Integral to the visor-band, not a separate mount |
+| `HP-FL`, `HP-FR` | Forward Visor-Band sub-rail | Small sensor pods (PPG, EEG, IMU — Wave-1 sensors) | MIL-STD-1913 Picatinny sub-rail, generic dovetail pods |
+| `HP-TL`, `HP-TR` | Temple Plate L/R | Psi-Defender cradle (paired caduceus coil) | 2-axis gimbal aim, ±15° pitch/yaw |
+| `HP-EL`, `HP-ER` | Temple Plate L/R, behind-Defender | Psi-Pylon live-hinge | **Not** an ear/audio hardpoint under topology B — see note below |
+| `HP-SL`, `HP-SR` | Temple Plate L/R, lower-aft (sliding dovetail) | Battery pod (`HP-SL`) / compute pod (`HP-SR`) | Vertical-slide adjust, not a fixed bay |
+| `HP-R` | Rear Visor-Band, back-center | Rear Psi-Stabilizer panel | Integral to the visor-band, mirrors `HP-F` |
+
+**Known unresolved downstream inconsistency (flagged, not fixed here):** other parts of this document — §2.3's audio contract ("dedicated diff pair between `HP-EL`, `HP-ER`, and the compute node"), §4.3's HUD reservation at `HP-F`, and §5's EEG-electrode siting — were written against the *old* hardpoint occupant list (ear-shield/audio at `HP-EL/ER`, HUD reserved at `HP-F`) and have not been re-verified against topology B's real occupants (Pylons at `HP-EL/ER`, an integral Stabilizer panel at `HP-F`). This is a real open question — where do audio/HUD/EEG go under topology B, if anywhere — not resolved in this pass; flagged here rather than silently left contradictory.
 
 ### 2.2 Mechanical contract
 - **Bolt pattern:** 2-bolt M3, 20 mm centers, captive-nut pocket on the frame side. Tolerance ±0.2 mm at print scale.
@@ -215,7 +219,7 @@ Modules fall into five classes. Each class has its own design rules.
 
 - **Origin** = midpoint between the tragi (ear-canal openings), projected to the headband plane.
 - **+X** = right, **+Y** = forward, **+Z** = up (anatomical convention).
-- Module placement and EEG-electrode positions reference the 10-20 system; Fp1 / Fp2 / Cz / T7 / T8 are the primary Mk1/Mk2 positions of interest, all of which are reachable from the existing frame's forehelm and temple hardpoints.
+- Module placement and EEG-electrode positions reference the 10-20 system; Fp1 / Fp2 / Cz / T7 / T8 are the primary Mk1/Mk2 positions of interest. Whether these are reachable from topology B's actual hardpoints (§2.1) is part of the unresolved downstream question flagged there — not confirmed here.
 
 ---
 

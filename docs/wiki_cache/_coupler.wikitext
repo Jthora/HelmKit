@@ -1,0 +1,101 @@
+{{Derives_From
+| term        = Evanescent field overlap between adjacent ψ waveguides — below-cutoff ψ field couples energy between two parallel channels via exponentially decaying tails
+| description = A ψ coupler transfers ψ energy between two parallel waveguide
+                channels through the evanescent overlap of their below-cutoff
+                field tails. When two channels are separated by a gap small
+                compared to the evanescent decay length 1/κ, the tails
+                overlap and energy oscillates periodically between the two
+                channels with spatial period L_c = π/κ_coup (the coupling
+                length). The 3 dB coupler (equal energy split) has length
+                L_c/2. This is the ψ analogue of a directional coupler in
+                microwave engineering or a fiber-optic beamsplitter.
+}}
+
+{{Infobox
+| title   = ψ Coupler
+| image   =
+| caption = Evanescent-field energy transfer between parallel ψ channels — the fundamental PsiNet junction element
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Guided-Wave Engineering · [[PsiNet]]
+| label3  = Derives From
+| data3   = Evanescent overlap of guided ψ modes in adjacent waveguides; [[ψ Waveguide]] (C2)
+| label4  = Established Analog
+| data4   = Microwave directional coupler; optical fiber coupler (fused biconical taper); acoustic waveguide coupler
+| label5  = Key Parameter
+| data5   = Coupling coefficient <math>\kappa</math>; coupling length <math>L_c = \pi/(2\kappa)</math>; coupling ratio <math>P_2/P_1</math>
+| label6  = First Deployment
+| data6   = [[PsiNet]] node-to-node ψ link; operator-to-operator psionic coupling
+| header7 = Key Equations
+| label8  = Coupling equations
+| data8   = <math>da_1/dz = -i\kappa a_2,\quad da_2/dz = -i\kappa a_1</math>
+| label9  = Power split
+| data9   = <math>P_2/P_1 = \sin^2(\kappa L)</math>
+| label10 = 3 dB length
+| data10  = <math>L_{3\rm dB} = \pi/(4\kappa)</math>
+| below   = ''Build wave 4 — requires [[ψ Waveguide]] (C2). The fundamental PsiNet junction element enabling operator-to-operator ψ coupling.''
+}}
+
+= ψ Coupler =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ coupler transfers ψ energy between two parallel waveguide channels via evanescent field overlap — the coupling coefficient κ sets the spatial period over which energy oscillates between the channels, and the 3 dB coupler length L = π/(4κ) produces an equal 50:50 power split, which is the basic beamsplitter for PsiNet ψ networks.
+| everyday_analogy   = Hold two tuning forks close together and strike one — the other begins to vibrate through the air coupling between them. A ψ coupler does the same thing for guided ψ waves: two parallel channels brought close enough that their evanescent tails overlap begin to exchange energy, with the coupling strength determined by how close the channels are and how far below cutoff the gap region is.
+| what_it_predicts   = (1) Complete energy transfer from channel 1 to channel 2 and back with spatial period <math>L_c = \pi/\kappa</math>; (2) A coupling coefficient <math>\kappa</math> that increases exponentially as the gap between channels decreases — very sensitive to gap geometry; (3) A 3 dB coupler (equal power split) at length <math>L = L_c/2</math>; (4) A directional coupling property — power entered at port 1 exits only at ports 2 and 3 (not port 4), enabling signal routing in PsiNet.
+| if_you_remember_one_thing = The coupling coefficient κ scales as <math>e^{-\kappa_{\rm evan} d}</math> where d is the channel gap and κ_evan is the evanescent decay constant of the isolated waveguide. Halving the gap dramatically increases coupling. The gap tolerance is the tightest fabrication requirement in the entire PsiNet component set — gaps must be controlled to ±10 μm to achieve the required coupling ratio.
+}}
+
+== Mathematical Origin ==
+
+=== Coupled Mode Theory ===
+
+Let <math>a_1(z)</math> and <math>a_2(z)</math> be the complex amplitudes of the guided ψ modes in channels 1 and 2. When the channels are brought close together, the evanescent tail of each mode overlaps with the other, inducing a coupling. The coupled mode equations:
+
+:<math>\frac{da_1}{dz} = -i\kappa\,a_2 e^{i\Delta\beta z}</math>
+:<math>\frac{da_2}{dz} = -i\kappa\,a_1 e^{-i\Delta\beta z}</math>
+
+where <math>\kappa</math> is the coupling coefficient and <math>\Delta\beta = k_{z1} - k_{z2}</math> is the phase mismatch. For identical channels (<math>\Delta\beta = 0</math>), the solution with input <math>a_1(0) = 1</math>, <math>a_2(0) = 0</math>:
+
+:<math>a_1(z) = \cos(\kappa z)</math>
+:<math>a_2(z) = -i\sin(\kappa z)</math>
+
+Power in each channel:
+
+:<math>P_1(z) = \cos^2(\kappa z), \qquad P_2(z) = \sin^2(\kappa z)</math>
+
+Complete energy transfer at <math>z = \pi/(2\kappa)</math>. The 3 dB (equal split) length:
+
+:<math>\boxed{L_{3\rm dB} = \frac{\pi}{4\kappa}}</math>
+
+=== Coupling Coefficient ===
+
+The coupling coefficient is the overlap integral between the evanescent tail of mode 1 and the core of waveguide 2:
+
+:<math>\kappa = \frac{\omega}{4P}\int_{\rm channel\,2} \Delta\varepsilon_\psi(\mathbf{x})\,\psi_1^*(\mathbf{x})\,\psi_2(\mathbf{x})\,d^2x</math>
+
+where <math>\Delta\varepsilon_\psi</math> is the permittivity contrast between the channel core and the gap material. For practical TPMS waveguides separated by gap <math>d</math>, the coupling coefficient scales as:
+
+:<math>\kappa \propto e^{-\kappa_{\rm evan}\,d}, \qquad \kappa_{\rm evan} = \sqrt{\omega_c^2 - \omega^2}</math>
+
+At the [[Psi Stabilizer]] operating frequency (40 kHz), well above waveguide cutoff, <math>\kappa_{\rm evan}</math> is small — the evanescent tail decays slowly. This means coupling occurs over large gaps, but it also means κ is sensitive to large gap variations. At 40 kHz with 2 cm channel: <math>\kappa_{\rm evan} \approx \sqrt{\omega_c^2 - \omega^2} \approx \sqrt{(16\,\text{kHz})^2 - (40\,\text{kHz})^2} \cdot (2\pi/c)</math> — imaginary (because 40 kHz > 16 kHz cutoff), confirming propagating mode. The evanescent coupling gap must be below cutoff — requires a gap narrower than the channel.
+
+== Implementation ==
+
+In practice, ψ couplers for PsiNet are implemented as two parallel TPMS channels separated by a gap of 1–5 mm, with coupling length set to achieve the desired power split ratio. The gap region contains a higher-m_eff material (higher ferrofluid H-field, from [[ψ Permeability]] B3) to ensure the gap is in the evanescent regime relative to the guided mode.
+
+'''Gap fabrication tolerance:''' A ±10 μm variation in gap d produces approximately ±5% variation in κ (from the exponential sensitivity), giving ±5% variation in power split at the 3 dB point — acceptable for most PsiNet applications.
+
+'''Directional coupler (4-port):''' Two parallel TPMS channels of length <math>L_{3\rm dB}</math> in close proximity form a 4-port directional coupler. Signal entering port 1 splits equally between port 2 (through) and port 3 (coupled), with zero output at port 4 (isolated) — the standard directional coupler property that enables PsiNet signal routing.
+
+== ψ-Dependent Extensions ==
+
+The operator-to-operator psionic coupling in a [[PsiNet]] group session is modelled as a biological implementation of evanescent coupling. Each operator's biological ψ field (from [[ψ Source]] C11) has a spatial extent set by <math>L_\psi^{\rm (bio)}</math>. When two operators are within distance <math>2L_\psi^{\rm (bio)}</math> of each other, their biological ψ fields overlap in the evanescent region — transferring ψ energy between them exactly as the device coupler does between channels. The effective biological coupling coefficient:
+
+:<math>\kappa_{\rm bio} \propto e^{-d_{\rm operators}/L_\psi^{\rm (bio)}}</math>
+
+At typical social distance (1–2 m) and <math>L_\psi^{\rm (bio)} = 20</math> cm: <math>\kappa_{\rm bio} \propto e^{-5}</math> to <math>e^{-10}</math> — very weak. This predicts that direct biological ψ coupling requires close physical proximity, consistent with traditional accounts of group psionic practice.
+
+== See Also ==
+* [[ψ Waveguide]] (C2) · [[ψ Phase Shifter]] (C4) · [[ψ Filter]] (C6) · [[PsiNet]] · [[ψ Network Topology]] (G3) · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:PsiNet Substrate]]

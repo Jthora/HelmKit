@@ -1,0 +1,28 @@
+The '''Resonant Beacon Grid''' is the vision of a federated [[Psi Anchor]] + [[Coherence Beacon]] + [[Schumann Lattice]] network distributed across allied sites that, taken as a whole, constitutes a planetary infrastructure for [[Psi Field]] coherence — engineering-honestly, a long-horizon program to deploy ≥ 100 characterized fixed-site emitters and receivers across multiple continents under documented protocol; doctrinally, the [[Tho'ra Clan|Clan's]] working answer to the question "what would planetary [[Psi-Tech]] infrastructure look like if it existed?".
+
+== Overview ==
+
+A Beacon Grid is, layered:
+
+* '''Receive layer''' — [[Schumann Lattice]] nodes provide planetary-scale baseline measurement.
+* '''Emit layer''' — [[Coherence Beacon]]s provide calibration references; [[Psi Anchor]]s provide site references.
+* '''Compute layer''' — [[Resonant Finder]] farms ingest all of it, [[Synastry Mesh]] adds astrological context, [[Psi Anomaly Detector]] classifies.
+* '''Federation layer''' — [[Earth Intelligence Network]] gossip-distributes signed audit trails so the whole Grid is third-party-verifiable.
+
+== See Also ==
+
+* [[Schumann Lattice]]
+* [[Coherence Beacon]]
+* [[Psi Anchor]]
+* [[Resonant Finder]]
+* [[Synastry Mesh]]
+* [[Psi Anomaly Detector]]
+* [[Earth Intelligence Network]]
+* [[EIN Relay Node]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Infrastructure]]
+[[Category:PsiNet Substrate]]

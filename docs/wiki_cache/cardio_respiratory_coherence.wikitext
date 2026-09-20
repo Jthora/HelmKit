@@ -1,0 +1,51 @@
+'''Cardio-respiratory coherence''' is
+a physiological state in which heart-rate, respiration, and blood
+pressure synchronise at approximately 0.1 Hz (about six cycles per
+minute). It is the trained-state target of the
+[[HelmKit_Mk0.5|HelmKit Mk0.5]] L0+L1 biofeedback floor.
+
+== 1. The 0.1 Hz resonance ==
+
+The cardiovascular system has a natural oscillatory mode at ~0.1 Hz
+driven by the baroreflex. Breathing at the same rate phase-locks
+the respiratory-sinus-arrhythmia HRV oscillation, the baroreflex
+oscillation, and the Mayer-wave blood-pressure oscillation; the
+combined signal in this state is much larger than any of the three
+individually.
+
+The L0 paced-breathing pacer drives the wearer toward 0.1 Hz
+respiration (~6 bpm). The L1 closed-loop biofeedback measures
+the resulting HRV coherence in real time and renders it back as
+an audio harmonic the wearer hears.
+
+== 2. Evidence base ==
+
+Lehrer & Gevirtz 2014 review the resonance-frequency-biofeedback
+literature: effect sizes <math>d \approx 0.4\!-\!0.8</math> on
+stress / anxiety / PTSD / depression endpoints across dozens of
+trials. Goessl et al. 2017 meta-analysis confirms
+<math>d \approx 0.3\!-\!0.6</math> on similar endpoints.
+HeartMath Institute (McCraty et al. 2009) replicates on
+healthy-adult cognitive-performance endpoints.
+
+This is the '''empirical floor''' of the
+[[Heart_Rate_Variability_and_Psi|HRV-and-ψ]] claim: the
+state demonstrably benefits wearers regardless of whether it also
+enables ψ-coupling.
+
+== 3. Operator-state framing ==
+
+The framework's testable extension is that operators in coherent
+state show stronger effects on blinded ψ-tasks. This is
+unproven and is the Mk2.0 / Mk3.0 framework-contribution endpoint.
+
+== 4. Wiki context ==
+
+* [[Heart_Rate_Variability_and_Psi]] — anchor.
+* [[HelmKit_L0_Paced_Breathing]] — induction layer.
+* [[HelmKit_L1_HRV_Coherence_Biofeedback]] — rendering layer.
+* [[Vagal_Tone]], [[Polyvagal_Theory]] — substrate.
+
+[[Category:Biomarker_layer]]
+[[Category:Biology]]
+[[Category:Psi-Tech]]

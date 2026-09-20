@@ -1,0 +1,28 @@
+The '''Psi Tripwire''' is a deployable static sensor that watches a defined area for anomalous [[Psi Field]]-relevant signatures and alerts the local [[Psi Mesh]] when something crosses threshold. It is the [[Tho'ra Clan]]'s perimeter sensor for [[Psi-Tech]] operations — a [[Psi Compass]] that does not need to be carried, can be left for hours or days, and reports to the team rather than to a wearer.
+
+== Overview ==
+
+A Tripwire unit:
+
+* '''Watches''' a single locale for magnetic, electrostatic, ULF/Schumann, and broadband-RF anomaly.
+* '''Classifies''' detections against the local [[Psionic Threat Model]] signature library.
+* '''Alerts''' via the [[Psi Mesh]] when a class-above-threshold event is detected; logs everything regardless.
+* '''Sleeps''' aggressively between checks (default 5 % duty cycle) so a tripwire runs for days on a single battery.
+
+Tripwires are deployable individually or as a small array around a perimeter (a [[Star Seer Observatory]] grounds is the canonical example).
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Compass]]
+* [[Psi Defender]]
+* [[Psi Mesh]]
+* [[Star Seer Observatory]]
+* [[Psionic Threat Model]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]
+[[Category:Defense]]

@@ -1,0 +1,289 @@
+{{Derives_From
+| term        = D_ψ = ε_ψ ψ — the ψ displacement field constitutive relation from [[ψ Constitutive Relations]] (B1)
+| description = ψ permittivity ε_ψ = ε₀(1 + χ_ψ) is the material parameter
+                governing how much ψ field energy is stored per unit volume
+                for a given applied ψ amplitude. It determines ψ wave speed
+                inside the composite (v_ψ = 1/√(ε_ψμ_ψ)), the impedance
+                Z_ψ = (1/ω²)√(μ_ψ/ε_ψ) from [[ψ Impedance Theory]] (A4),
+                and the effective mass shift inside the material. The BST
+                nanocomposite from [[Smart Composite Fill]] (B8) is the
+                primary high-ε_ψ engineering material because its voltage-
+                tunable dielectric constant makes ε_ψ a controllable
+                parameter rather than a fixed material property.
+}}
+
+{{Infobox
+| title   = ψ Permittivity
+| image   =
+| caption = How much ψ field energy a material stores per unit volume — and how BST makes it voltage-tunable
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Materials Science · Dielectric Engineering
+| label3  = Derives From
+| data3   = <math>D_\psi = \varepsilon_\psi\,\psi</math> constitutive relation; [[ψ Constitutive Relations]] (B1)
+| label4  = Established Analog
+| data4   = Dielectric permittivity ε_r in electromagnetism; optical refractive index; ferroelectric tunability in microwave engineering
+| label5  = Key Output
+| data5   = ε_ψ definition and measurement protocol; BST tunability curve; Maxwell-Garnett composite prediction; ε_ψ row of master material table
+| label6  = Primary Engineering Use
+| data6   = Sets ψ wave speed and impedance inside the [[TPMS Lattice Design]] composite; enables voltage-tunable impedance matching via BST bias
+| header7 = Key Equations
+| label8  = Permittivity definition
+| data8   = <math>\varepsilon_\psi = \varepsilon_0(1+\chi_\psi)</math>
+| label9  = Displacement field
+| data9   = <math>D_\psi = \varepsilon_\psi\,\psi</math>
+| label10 = Wave speed
+| data10  = <math>v_\psi = 1/\!\sqrt{\varepsilon_\psi\mu_\psi}</math>
+| label11 = Complex form
+| data11  = <math>\varepsilon_\psi(\omega) = \varepsilon'_\psi - i\varepsilon''_\psi</math>
+| below   = ''Build wave 2 — requires [[ψ Constitutive Relations]] (B1). Parallel with B3, B4, B5, B6. Feeds [[ψ Impedance Theory]] (A4) material column and all Branch C component specifications.''
+}}
+
+= ψ Permittivity =
+
+{{Plain_Hook
+| in_one_sentence    = ψ permittivity ε_ψ quantifies how much ψ field energy a material stores per unit volume per unit field amplitude — determining ψ wave speed, device impedance, and cavity resonant frequency — and the BST nanocomposite in the [[Smart Composite Fill]] makes ε_ψ voltage-tunable, converting a fixed material property into a real-time engineering control variable.
+| everyday_analogy   = A capacitor stores electrical energy in the gap between its plates — the higher the dielectric constant of the gap material, the more energy stored per unit voltage. ψ permittivity is the same concept for the psionic field: a material with high ε_ψ stores more ψ field energy per unit ψ amplitude than a low-ε_ψ material. BST is the ψ engineering equivalent of a voltage-tunable capacitor dielectric — its storage capacity changes with applied voltage, allowing the device to shift its impedance to match the operator's biological ψ source.
+| what_it_predicts   = (1) A ψ wave speed <math>v_\psi = 1/\sqrt{\varepsilon_\psi\mu_\psi} < c</math> inside any material with <math>\varepsilon_\psi > \varepsilon_0</math>; (2) A ψ impedance <math>Z_\psi = (1/\omega^2)\sqrt{\mu_\psi/\varepsilon_\psi}</math> that decreases with increasing ε_ψ — high-permittivity material is a low-impedance ψ medium; (3) A resonant frequency shift in the [[Psi Stabilizer]] cavity proportional to changes in ε_ψ — enabling frequency tuning via BST bias voltage; (4) A Maxwell-Garnett prediction of composite ε_ψ(V) that constitutes a pre-registered quantitative target for TML-1 measurement.
+| if_you_remember_one_thing = Increasing ε_ψ slows ψ waves and lowers device impedance. The BST voltage bias is the knob that controls ε_ψ in real time — and therefore controls ψ wave speed, device impedance, and resonant frequency simultaneously through a single applied voltage.
+}}
+
+== Definition and Physical Meaning ==
+
+From [[ψ Constitutive Relations]] (B1), the ψ permittivity is defined by:
+
+:<math>D_\psi = \varepsilon_\psi\,\psi, \qquad \varepsilon_\psi \equiv \varepsilon_0(1 + \chi_\psi)</math>
+
+where <math>D_\psi</math> is the ψ displacement field and <math>\chi_\psi</math> is the ψ susceptibility. The physical content:
+
+* <math>\varepsilon_\psi = \varepsilon_0</math>: null material — ψ field passes through unmodified.
+* <math>\varepsilon_\psi > \varepsilon_0</math>: material stores ψ energy — ψ wave slows, impedance drops.
+* <math>\varepsilon_\psi \gg \varepsilon_0</math>: high-storage material — strongly slows ψ, low impedance, high effective index.
+
+=== Energy Storage Density ===
+
+The ψ field energy density stored in a material with permittivity <math>\varepsilon_\psi</math>:
+
+:<math>u_{\psi,\rm stored} = \frac{1}{2}\varepsilon_\psi\,|\psi|^2</math>
+
+Compared to the kinetic (temporal gradient) energy density <math>\frac{1}{2}(\partial_t\psi)^2</math> from [[ψ Conservation Laws]] (A2): high-ε_ψ material preferentially stores potential energy relative to kinetic, analogous to a capacitor storing electric potential energy rather than radiating it.
+
+=== Connection to ψ Wave Speed ===
+
+From the modified wave equation in B1, ψ waves inside the composite travel at:
+
+:<math>v_\psi = \frac{1}{\sqrt{\varepsilon_\psi\,\mu_\psi}}</math>
+
+For a composite with <math>\varepsilon_\psi = 4\varepsilon_0</math> and <math>\mu_\psi = \mu_0</math>:
+
+:<math>v_\psi = \frac{c}{\sqrt{4}} = \frac{c}{2}</math>
+
+ψ waves travel at half the speed of light inside this composite. The resonant frequency of the [[Psi Stabilizer]] cavity consequently shifts — the mode eigenvalue <math>k_{010}</math> is unchanged by the material (it is set by geometry), but <math>\omega_{010} = v_\psi k_{010}</math> decreases with increasing ε_ψ. This is the mechanism by which the BST bias voltage tunes the resonant frequency.
+
+=== Connection to ψ Impedance ===
+
+From [[ψ Impedance Theory]] (A4):
+
+:<math>Z_\psi = \frac{1}{\omega^2}\sqrt{\frac{\mu_\psi}{\varepsilon_\psi}}</math>
+
+High ε_ψ → low Z_ψ. The biological operator's cortical tissue has some impedance <math>Z_{\rm bio}</math>. If the device shell has ε_ψ tuned so that <math>Z_\psi^{\rm (device)} = Z_{\rm bio}^*</math> (complex conjugate match), maximum ψ power transfers from device to operator. The BST bias voltage is the tuning knob for this match.
+
+== Complex Permittivity and Dispersion ==
+
+In a real material, ε_ψ is complex and frequency-dependent:
+
+:<math>\varepsilon_\psi(\omega) = \varepsilon'_\psi(\omega) - i\varepsilon''_\psi(\omega)</math>
+
+The imaginary part <math>\varepsilon''_\psi > 0</math> represents ψ energy dissipation. The Kramers–Kronig relations (from B1) constrain the relationship between real and imaginary parts:
+
+:<math>\varepsilon'_\psi(\omega) - \varepsilon_0 = \frac{2}{\pi}\mathcal{P}\int_0^\infty \frac{\omega'\varepsilon''_\psi(\omega')}{\omega'^2 - \omega^2}\,d\omega'</math>
+
+For the [[Psi Stabilizer]] operating at 40 kHz, the relevant quantity is <math>\varepsilon'_\psi(40\,\text{kHz})</math> — the real (storage) component at the target frequency.
+
+=== Debye Relaxation Model ===
+
+For a material with a single relaxation time <math>\tau_\psi</math>:
+
+:<math>\varepsilon_\psi(\omega) = \varepsilon_{\psi,\infty} + \frac{\varepsilon_{\psi,s} - \varepsilon_{\psi,\infty}}{1 + i\omega\tau_\psi}</math>
+
+where <math>\varepsilon_{\psi,s}</math> is the static (DC) permittivity and <math>\varepsilon_{\psi,\infty}</math> is the high-frequency limit. This model is useful for fitting measured <math>\varepsilon_\psi(\omega)</math> data to extract the relaxation time — which characterises how quickly the material can respond to changes in ψ field amplitude (relevant for the [[Anchor Controller]] update rate).
+
+== BST as the Primary High-ε_ψ Engineering Material ==
+
+=== Why BST ===
+
+Barium strontium titanate (Ba<sub>0.6</sub>Sr<sub>0.4</sub>TiO<sub>3</sub>) is selected as the high-ε_ψ phase of the [[Smart Composite Fill]] for three reasons directly traceable to the engineering requirements:
+
+# '''High base permittivity:''' <math>\varepsilon_r(0\,\text{V}) \geq 2000</math> at the Curie temperature — orders of magnitude above conventional dielectrics. Within the ψ framework, high <math>\varepsilon_{\rm EM}</math> correlates with high <math>\varepsilon_\psi</math> via the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> coupling term.
+# '''Voltage tunability:''' <math>\varepsilon_r</math> decreases strongly with applied DC electric field — the material is a ferroelectric with field-suppressed polarisation above the Curie point. This makes ε_ψ a controllable parameter rather than a fixed constant.
+# '''Room-temperature Curie point at 40% Sr:''' The Ba₀.₆Sr₀.₄TiO₃ composition places the maximum tunability slope <math>d\varepsilon_r/dV</math> in the 15–35°C operating range of the [[HelmKit]].
+
+=== BST Tunability Curve ===
+
+The voltage-dependent relative permittivity of BST at 40 kHz:
+
+{| class="wikitable" style="width:100%;"
+! DC bias (V) !! <math>\varepsilon_r(V)</math> (bulk BST) !! <math>\varepsilon_{\rm eff}(V)</math> (composite, MG prediction) !! Tunability from 0V
+|-
+| 0 || 2000 || 4.0 || Reference
+|-
+| 25 || 1650 || 3.9 || 2.5%
+|-
+| 50 || 1300 || 3.8 || 5.0%
+|-
+| 100 || 900 || 3.7 || 7.5%
+|-
+| 150 || 700 || 3.65 || 8.8%
+|-
+| 200 || 600 || 3.6 || 10.0%
+|}
+
+The composite effective tunability (~10%) is lower than the bulk BST tunability (~70%) due to dilution in the polymer matrix — as predicted by Maxwell-Garnett theory (see B1 and B8). Increasing BST volume fraction raises composite tunability but worsens dispersion stability above 30 wt%.
+
+=== Resonant Frequency Tuning via BST Bias ===
+
+The [[Psi Stabilizer]] resonant frequency <math>\omega_{010}</math> shifts with BST bias voltage through:
+
+:<math>\omega_{010}(V) = \frac{k_{010}}{{\sqrt{\varepsilon_\psi(V)\,\mu_\psi}}}</math>
+
+For a 10% change in <math>\varepsilon_\psi</math> (0V to 200V bias):
+
+:<math>\frac{\Delta\omega_{010}}{\omega_{010}} \approx -\frac{1}{2}\frac{\Delta\varepsilon_\psi}{\varepsilon_\psi} \approx -5\%</math>
+
+At 40 kHz target frequency: tuning range ≈ ±1 kHz. This is the frequency servo range available to the [[Anchor Controller]] (D6) for impedance matching via BST bias — sufficient to track operator HRV coherence state variations without mechanical reconfiguration.
+
+== ε_ψ Row of the Master Material Parameter Table ==
+
+Populating the ε_ψ column of the table from [[ψ Constitutive Relations]] (B1):
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>\varepsilon_\psi/\varepsilon_0</math> !! Basis !! Measurement method !! Priority
+|-
+| Air (null reference) || 1.000 (definition) || Null material baseline || S-parameter in empty fixture || Reference
+|-
+| Quartz (crystalline) || TBD; EM ref. ~4.5 || EM correlation hypothesis || VNA fixture measurement || 2nd
+|-
+| PVDF film || TBD; EM ref. ~10 || EM correlation hypothesis || VNA fixture measurement || 3rd
+|-
+| BST composite, 0V bias || TBD; MG pred. ~4.0 || Maxwell-Garnett (B8) || VNA + HV bias sweep || 1st
+|-
+| BST composite, 200V bias || TBD; MG pred. ~3.6 || Maxwell-Garnett (B8) || VNA + HV bias sweep || 1st
+|-
+| Gyroid TPMS, filled, design || TBD; engineered target || Computed from MG + TPMS geometry || VNA on full shell || 1st
+|-
+| Ferrofluid EMG-900 || TBD; EM ref. ~2 || EM correlation hypothesis || Coaxial cell measurement || 1st
+|-
+| MWCNT-epoxy (2 wt%) || TBD; moderate est. || Above percolation — lossy || Requires careful fixture shielding || 2nd
+|-
+| PZT-5H (powder in matrix) || TBD; EM ref. ~1800 raw || Note: powder ε_r lower than bulk sintered || VNA fixture || 2nd
+|-
+| Water || TBD; EM ref. ~80 || EM correlation hypothesis || Coaxial cell measurement || 3rd
+|-
+| Biological cortex (baseline) || TBD || TML-3 only — requires ψ hypothesis || OPM cavity frequency shift || 1st (TML-3)
+|-
+| Biological cortex (peak HRV) || TBD || TML-3 only — requires ψ hypothesis || OPM cavity frequency shift || 1st (TML-3)
+|}
+
+== Engineering Design Targets ==
+
+For each [[Psi-Tech]] module, the required ε_ψ range follows from the impedance matching condition and resonant frequency specification:
+
+{| class="wikitable" style="width:100%;"
+! Module !! Required <math>Z_\psi</math> match !! Implied <math>\varepsilon_\psi/\varepsilon_0</math> range !! BST bias set-point !! Notes
+|-
+| [[Psi Stabilizer]] Mk1.0 || Fixed at baseline operator <math>Z_{\rm bio}</math> || ~3.8–4.2 || 100–150V || Open-loop; calibrated per operator at enrolment
+|-
+| [[Psi Stabilizer]] Mk2.0 || Dynamic — tracks operator HRV state || 3.6–4.0 (servo range) || 0–200V (closed-loop) || [[Anchor Controller]] adjusts bias in real time
+|-
+| [[Psi Harmonizer]] || Long-range coupling — lower impedance preferred || > 5 target || Higher BST loading needed || Group synchronisation application
+|-
+| [[Psi Defender]] || Impedance mismatch intentional — maximise reflection || Low ε_ψ preferred → high Z_ψ → high Γ || 0V (maximum ε_ψ, minimum Z_ψ gap) || Counterintuitively: Defender uses low-ε material to maximise reflection
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Nonlinear ψ Permittivity ===
+
+At high ψ field amplitudes inside a [[ψ Resonator]] operating near its Q limit, the quadratic and cubic susceptibility terms become relevant:
+
+:<math>\varepsilon_\psi^{\rm eff}(\psi) \approx \varepsilon_\psi^{(1)} + \varepsilon_0\chi_\psi^{(3)}|\psi|^2</math>
+
+A positive <math>\chi_\psi^{(3)}</math> produces self-focusing — the ψ field increases the local permittivity, which slows the wave, which focuses the field further. This is the psionic analogue of the Kerr effect in nonlinear optics and could contribute to soliton formation via a permittivity-mediated rather than purely self-interaction-mediated mechanism.
+
+Whether the BST phase contributes significant <math>\chi_\psi^{(3)}</math> is an open TML-3 question. BST is known to have large electro-optic nonlinearity in the electromagnetic context — a non-zero <math>\chi_\psi^{(3)}</math> would be consistent with this.
+
+=== Operator-State-Dependent ε_ψ ===
+
+Within the Track B framework, if biological cortical tissue has a state-dependent <math>\chi_\psi^{\rm (bio)}(t)</math> (varying with attentional state), then <math>\varepsilon_\psi^{\rm (bio)}(t)</math> varies accordingly. The impedance <math>Z_{\rm bio}(t)</math> therefore shifts with operator state — which is precisely what the Mk2.0 HRV servo estimates via RMSSD and compensates via BST bias tuning.
+
+== TML Measurement Protocol ==
+
+=== TML-1: ε_ψ(V) Curve Measurement ===
+
+'''Instrument:''' Keysight E4990A impedance analyser with 42841A bias adapter (DC bias superimposed on AC measurement signal).
+
+'''Sample preparation:''' Three tablets per batch, 10 mm diameter, 2 mm thick, from full B7+B8 protocol.
+
+'''Protocol:'''
+# Deposit 8 mm diameter gold electrodes on both faces by sputter deposition (30 nm Ti adhesion layer + 200 nm Au).
+# Mount in coaxial fixture with spring-loaded contacts.
+# Sweep DC bias from −200V to +200V in 10V steps. At each step, measure impedance at 40 kHz with 100 mV AC perturbation signal.
+# Extract <math>\varepsilon'_\psi(V)</math> and <math>\varepsilon''_\psi(V)</math> from parallel RC equivalent circuit fit.
+# Repeat measurement at 1 kHz, 10 kHz, 100 kHz, 1 MHz to characterise frequency dispersion.
+
+'''Pass criteria:'''
+* <math>\varepsilon'_\psi(0\,\text{V}) \geq 3.5</math> at 40 kHz (within 15% of Maxwell-Garnett prediction of 4.0)
+* Tunability <math>\tau_{\rm eff} = (\varepsilon'(0) - \varepsilon'(200))/\varepsilon'(0) \geq 0.08</math>
+* <math>\tan\delta_\psi = \varepsilon''_\psi/\varepsilon'_\psi < 0.01</math> at 40 kHz
+* Kramers–Kronig consistency verified by comparing measured <math>\varepsilon'(\omega)</math> against integral of measured <math>\varepsilon''(\omega)</math>
+
+=== TML-3: Biological Cortex ε_ψ Estimation ===
+
+Indirect measurement using cavity resonance frequency shift:
+
+# [[Psi Stabilizer]] shell placed in close proximity to operator's skull (Standby mode — no drive).
+# Weak probe signal injected at shell resonant frequency via a secondary coil.
+# Resonant frequency <math>\omega_{010}</math> measured via S11 response.
+# Repeat in baseline HRV state and peak coherence state (HeartMath coherence breathing, 5 minutes).
+# Frequency shift <math>\Delta\omega_{010}</math> between states gives <math>\Delta\varepsilon_\psi^{\rm (bio)}</math> via:
+
+:<math>\frac{\Delta\omega_{010}}{\omega_{010}} \approx -\frac{1}{2}\frac{\Delta\varepsilon_\psi^{\rm (bio)}}{\varepsilon_\psi^{\rm (device)}}\cdot\eta_{\rm fill}</math>
+
+where <math>\eta_{\rm fill}</math> is the filling factor — the fraction of cavity energy stored in the biological tissue region.
+
+'''Sham control required:''' Identical protocol with no operator present (empty cavity). Any frequency drift must be subtracted. See [[Sham Control Design]] (F2).
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| <math>\chi_\psi = 0</math> || <math>\varepsilon_\psi = \varepsilon_0</math>, <math>D_\psi = \varepsilon_0\psi</math> — null material || ✓
+|-
+| <math>f_{\rm BST} \to 0</math> in Maxwell-Garnett || <math>\varepsilon_{\rm eff} \to \varepsilon_m = 3.5</math> — pure matrix || ✓
+|-
+| <math>f_{\rm BST} \to 1</math> in Maxwell-Garnett || <math>\varepsilon_{\rm eff} \to \varepsilon_i(V)</math> — pure BST || ✓
+|-
+| <math>\varepsilon''_\psi > 0</math> || Imaginary part positive → wave attenuates (energy absorbed, not created) — consistent with thermodynamics || ✓
+|-
+| Resonant frequency shift sign || Increasing ε_ψ (lower bias) → lower <math>\omega_{010}</math> — wave slows, longer effective wavelength, lower resonant frequency || ✓
+|}
+
+== See Also ==
+
+* [[ψ Constitutive Relations]] (B1) — defines ε_ψ; master material parameter table
+* [[ψ Permeability]] (B3) — companion parameter; together set wave speed and impedance
+* [[ψ Loss Tangent]] (B4) — imaginary part of ε_ψ
+* [[ψ Impedance Theory]] (A4) — Z_ψ = (1/ω²)√(μ_ψ/ε_ψ) uses this parameter directly
+* [[Smart Composite Fill]] (B8) — BST synthesis and tunability characterisation
+* [[BST Energy Recovery]] (D4) — exploits nonlinear C(V) of BST for power recapture
+* [[Anchor Controller]] (D6) — implements BST bias servo for impedance matching
+* [[Psi Stabilizer]] — primary device whose resonant frequency is tuned by ε_ψ(V)
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]

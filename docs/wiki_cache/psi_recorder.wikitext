@@ -1,0 +1,26 @@
+The '''Psi Recorder''' is the  session-grade biosignal and environmental recorder for [[Psi-Tech]] operations. It is the black-box of the [[HelmKit]]: every emission, every sensor reading, every operator state-marker timestamped and signed, stored locally first and exported by deliberate operator action. Without the Recorder, the [[Psi Stabilizer]], [[Psi Harmonizer]], and [[Psi Defender]] are unfalsifiable; with it, every claim made about them can be checked against logged data.
+
+== Overview ==
+
+The Recorder captures:
+
+* '''Biosignal channel''' — HRV (Polar H10 / on-helm PPG), optionally EEG ([[OpenBCI]] / NeuroSky), respiration, GSR.
+* '''Environment channel''' — magnetometer (3-axis), electrostatic probe, ambient EM (broadband RSSI), barometric, IMU pose.
+* '''Device channel''' — every emit cycle of every [[Psi-Tech]] module: frequency, amplitude, dwell, MCU-B veto/pass.
+* '''Operator markers''' — manual time-stamps ("contact start", "drift felt", "stabilizer engaged") and structured post-session reports.
+* '''Astrological channel''' — [[SynastryEngine]] target tuples in force at each timestep.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[Psi Stabilizer]]
+* [[Resonant Pipeline]]
+* [[Heart Rate Variability and Psi]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

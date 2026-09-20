@@ -1,18 +1,9 @@
-The '''Psionic Threat Model''' is the operational framework used by the [[Tho'ra Clan]] and the [[Psi Defender]] device line to enumerate, classify, and detect adversarial ψ-field and EM activity directed against operators.
-
-{{Psi-claim
-| status = TESTABLE
-| cites = Reactive Near Field, Psi Field, Falsification Criteria for Psionics
-| methods = Concrete protocol defined; replication not yet attempted.
-| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
-| confidence = low
-| last_reviewed = 2026-05-12
-}}
+The '''Psionic Threat Model''' is the operational framework use to enumerate, classify, and detect adversarial ψ-field and EM activity directed against operators.
 
 == Threat classes ==
 
 {| class="wikitable"
-! Class !! Mechanism (hypothesised) !! Detectable signature
+! Class !! Mechanism (hypothesized) !! Detectable signature
 |-
 | '''Photic-band entrainment''' || 3–8 Hz pulsed RF or visible-light flicker at high amplitude, exploiting the known photic-driving response in EEG. || ELF modulation envelope detectable by an SDR or RF envelope detector; visible flicker by a fast photodiode.
 |-
@@ -50,8 +41,69 @@ The photic-band, cardiac-modulation, and demoralisation classes have partial ove
 * [[Psi Defender]]
 * [[Reactive Near Field]]
 * [[Microwave Auditory Effect]]
-* [[HelmKit Architecture]] §Safety blacklist
-* [[Falsification Criteria for Psionics]]
+* [[HelmKit Architecture]]
+
+= HelmKit and the Psionic Threat Model =
+
+== Adversary classes ==
+
+The threat model distinguishes four '''adversary classes''' (see [[Adversary_Classes]] for the full taxonomy): '''state actor''', '''criminal organisation''', '''lone operator''', and '''inadvertent / environmental'''. Each class is characterized by a distinct combination of capability, motive, and observable signature differential, and each carries a different prior probability for any given operator. Attribution requires explicit handling of these priors; the [[Detection_False_Positive_Budget|FP budget]] uses them quantitatively to tune per-class alarm thresholds.
+
+* '''State actor''' — broad capability, strategic motive, multi-vector sustained operations.
+* '''Criminal organization''' — moderate capability, tactical motive, higher tempo / lower sophistication.
+* '''Lone operator''' — limited capability, personal motive, short single-vector windows.
+* '''Inadvertent / environmental''' — not an adversary; incidental EM emissions affecting all operators in geographic vicinity uniformly.
+
+== Kill-chain progression ==
+The threat model adopts a
+'''kill-chain analogy''' from cybersecurity practice
+(Lockheed-Martin Cyber Kill Chain). Adversarial psionic operations
+are modelled as a five-stage progression:
+
+# '''Reconnaissance''' — adversary maps operator locations, schedules, and (for [[Resonance Hijacking]]) Stabilizer emission spectra.
+# '''Access''' — adversary establishes spectral or physical-proximity access sufficient to deploy a chosen threat class.
+# '''Effect''' — adversary deploys the threat-class payload ([[Photic_Band_Entrainment]], [[Demoralisation Field]], etc.) to produce the intended operator-state perturbation.
+# '''Exfil''' — for intelligence-collection operations, adversary removes information acquired via the operator-state perturbation (the operator's response under entrainment is itself the data).
+# '''Cleanup''' — adversary terminates the operation in a manner that leaves minimal forensic trace (gradual signal taper rather than sharp termination; correlation with operator schedule rather than absolute time).
+
+Defenses targeting earlier kill-chain stages (recon and access) are generally more cost-effective than defenses targeting later stages.
+
+''See [[Defense in Depth]] for the per-stage device mapping.''
+
+== Per-vector deep-dives ==
+Each row of the threat-classes
+table above is now anchored by a per-vector deep-dive:
+
+* [[Photic Band Entrainment]] — 3-8 Hz pulsed RF / visible-light flicker exploit; EEG photic-driving response is the operative mechanism.
+* [[Cardiac Rate Modulation Attack]] — 0.8-2 Hz envelope on RF carrier; hypothesized vagal-coupling channel.
+* [[Demoralisation Field]] — sustained wideband ELF/RF noise; cumulative sympathetic-dominance signature.
+* [[Resonance Hijacking]] — replay-attack on operator [[Psi Stabilizer]] emission spectrum.
+* [[Psi Direct Threat]] — hypothesized non-EM ψ-field perturbation defined by absence of EM signature; CONTESTED.
+
+== Defense in depth ==
+A defensively-postured operator runs overlapping coverage from multiple device-layers; no single device is treated as sufficient. 
+
+''See [[Defense in Depth]] for the full device-vs-threat matrix.'' 
+
+Minimum stack:
+
+* '''[[Psi Ward]]''' at workspace (physical shielding).
+* '''[[Psi Scanner]]''' continuous logging (detection).
+* '''[[Neural Firewall]]''' when leaving the warded workspace (operator-worn protection).
+* Operator-state monitoring (HRV, EEG) for [[Psi_Direct_Threat|ψ-direct]] residual detection.
+
+The framework rejects '''detection without defense''' (knowing you are being attacked but doing nothing) and '''defense without detection''' (defending against unknown threats with no feedback).
+
+For active operations the stack is extended with [[Psi Defender]] (frequency-hopping Stabilizer; signal authentication; multi-antenna direction-finding).
+
+== Detection FP budget ==
+Detection thresholds for each [[Psionic Threat Model|threat class]] are tuned against an explicit '''false-positive budget''' rather than against nominal per-event
+FP-rates. See [[Detection_False_Positive_Budget]] for the full
+calculation. The budget formula:
+
+<math>E[\text{FP per month}]_c = r_c \cdot N \cdot T_c</math>
+
+where '''r_c''' is per-class per-event FP-rate, '''N''' is cohort size, and '''T_c''' is monitoring time-window. The budget scales linearly with cohort size; per-class thresholds must therefore tighten as cohorts grow, because the alarm-fatigue ceiling (~10 false-alarms / investigator / week from NIST 800-94) is per-investigator, not per-operator. Demoralisation-field is the highest-FP class and the [[Psi_Direct_Threat|ψ-direct]] class carries the tightest budget (≤ 1 FP/month) given its very-low evidence-quality.
 
 [[Category:Psionics]]
 [[Category:Psi-Tech]]

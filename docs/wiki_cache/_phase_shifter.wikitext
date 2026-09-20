@@ -1,0 +1,99 @@
+{{Derives_From
+| term        = Propagation phase φ = k_z L — the accumulated phase of a guided ψ wave over path length L, tunable via ε_ψ(V) from [[ψ Permittivity]] (B2)
+| description = A ψ phase shifter controls the relative phase of a ψ wave
+                without changing its amplitude or frequency. The phase
+                accumulated over length L is φ = k_z(ω,ε_ψ) · L where k_z
+                depends on ε_ψ through the dispersion relation. Since ε_ψ
+                is voltage-tunable via the BST composite, applying a DC bias
+                across the waveguide section changes k_z and therefore φ —
+                producing a voltage-controlled phase shift. This is the ψ
+                analogue of an electro-optic phase modulator and the
+                fundamental beam-steering element for PsiNet phased arrays.
+}}
+
+{{Infobox
+| title   = ψ Phase Shifter
+| image   =
+| caption = Voltage-controlled ψ wave phase — the beam-steering element of PsiNet phased arrays
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Guided-Wave Engineering · [[PsiNet]]
+| label3  = Derives From
+| data3   = Propagation phase <math>\varphi = k_z L</math>; voltage-tunable <math>k_z</math> via <math>\varepsilon_\psi(V)</math> from [[ψ Permittivity]] (B2)
+| label4  = Established Analog
+| data4   = Electro-optic phase modulator (Pockels cell); voltage-controlled microwave phase shifter (varactor-loaded line); acoustic phased array steering
+| label5  = Key Parameter
+| data5   = Differential phase shift <math>\Delta\varphi</math> per unit voltage; insertion loss; switching time
+| label6  = First Deployment
+| data6   = [[PsiNet]] beam steering; multi-operator phase synchronisation in [[ψ Network Topology]] (G3)
+| header7 = Key Equations
+| label8  = Phase accumulation
+| data8   = <math>\varphi = k_z(\omega,\varepsilon_\psi) \cdot L</math>
+| label9  = Differential phase shift
+| data9   = <math>\Delta\varphi \approx -\frac{\omega L}{2v_g}\frac{\Delta\varepsilon_\psi}{\varepsilon_\psi}</math>
+| label10 = Phase-shift figure of merit
+| data10  = <math>\mathrm{FOM} = \Delta\varphi / (\alpha_z L)</math>
+| below   = ''Build wave 4 — requires [[ψ Waveguide]] (C2) and [[ψ Permittivity]] (B2). Primary PsiNet phased-array element.''
+}}
+
+= ψ Phase Shifter =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ phase shifter accumulates a voltage-controlled propagation phase <math>\varphi = k_z(\varepsilon_\psi(V)) \cdot L</math> in a BST-loaded waveguide section, providing the differential phase shift needed to steer ψ beams in [[PsiNet]] phased arrays and synchronise operators in multi-node coherence sessions.
+| everyday_analogy   = A trombone player changes the pitch by adjusting the tube length — more tube means more delay and lower pitch. A ψ phase shifter does the same thing electronically: by changing the BST dielectric constant with a voltage, it adjusts the effective electrical length of the waveguide section, adding or subtracting phase from the ψ wave without changing its frequency or amplitude.
+| what_it_predicts   = (1) A differential phase shift proportional to the BST tunability and the waveguide section length; (2) A figure of merit FOM = Δφ/insertion_loss that is maximised by a low-loss BST composite operating far above cutoff frequency; (3) A switching time determined by the RC time constant of the BST bias circuit — typically < 1 ms for head-worn scales; (4) A phase noise floor set by BST voltage noise, constraining PsiNet synchronisation accuracy.
+| if_you_remember_one_thing = The phase shift is proportional to both the BST tunability and the waveguide length L — longer sections give more phase shift per volt, but also more insertion loss. The FOM = Δφ/loss is the engineering figure of merit that balances these competing effects.
+}}
+
+== Mathematical Origin ==
+
+The propagation phase of the ψ₁₀ guided mode over length <math>L</math>:
+
+:<math>\varphi = k_z(\omega,\varepsilon_\psi)\,L = \sqrt{\omega^2 - (\pi/a)^2 - m_{\rm eff}^2\varepsilon_\psi\mu_\psi}\,L</math>
+
+When BST bias changes <math>\varepsilon_\psi</math> by <math>\Delta\varepsilon_\psi</math>:
+
+:<math>\Delta\varphi \approx \frac{\partial k_z}{\partial\varepsilon_\psi}\Delta\varepsilon_\psi \cdot L = \frac{-m_{\rm eff}^2\mu_\psi}{2k_z}\Delta\varepsilon_\psi \cdot L</math>
+
+In the high-frequency limit (<math>k_z \approx \omega/v_g</math>):
+
+:<math>\boxed{\Delta\varphi \approx -\frac{\omega L}{2v_g}\frac{\Delta\varepsilon_\psi}{\varepsilon_\psi}}</math>
+
+For the BST composite with 10% tunability (<math>\Delta\varepsilon_\psi/\varepsilon_\psi = 0.10</math>), waveguide length <math>L = 5</math> cm, at 40 kHz with <math>v_g \approx 0.97c</math>:
+
+:<math>|\Delta\varphi| \approx \frac{2\pi \times 4\times10^4 \times 0.05}{2 \times 0.97c} \times 0.10 \approx 2.2\times10^{-8}\,\text{rad}</math>
+
+This is an extremely small phase shift in natural units — because the ψ guided wavelength at 40 kHz is ~7500 m (from [[ψ Waveguide]] C2) and the phase shifter is only 5 cm long. To achieve a useful phase shift (say <math>\Delta\varphi = \pi/4 = 0.785</math> rad), the required length:
+
+:<math>L_{\pi/4} = \frac{\pi/4}{|\Delta\varphi/L|} \approx \frac{0.785}{4.4\times10^{-7}} \approx 1.8\,\text{Mm}</math>
+
+This is impractical — it reveals a fundamental limitation of the waveguide phase shifter at these frequencies. The very long guided wavelength means that realistic phase shifts require either: (a) a much higher operating frequency, (b) a resonant phase shifter (exploiting the steep phase slope near resonance), or (c) a free-space phase shifter where path length differences are set geometrically rather than by material tuning.
+
+=== Resonant Phase Shifter ===
+
+Near the resonant frequency of the [[ψ Resonator]] (C1), the phase of the transmitted signal changes by <math>\pi</math> over a bandwidth <math>\Delta\omega = \omega_0/Q_\psi</math>. The phase slope near resonance:
+
+:<math>\left.\frac{d\varphi}{d\omega}\right|_{\omega=\omega_0} = \frac{2Q_\psi}{\omega_0}</math>
+
+At Q = 200 and 40 kHz: slope = <math>200/(\pi \times 4\times10^4) \approx 1.6</math> ms/rad. A frequency detuning of <math>\Delta\omega/(2\pi) = 100</math> Hz produces phase shift:
+
+:<math>\Delta\varphi = \frac{2Q_\psi}{\omega_0}\Delta\omega = \frac{2\times200}{2\pi\times4\times10^4} \times 2\pi\times100 \approx 1\,\text{rad}</math>
+
+A 1-radian phase shift from 100 Hz frequency detuning — achievable within the BST bias tuning range (which shifts resonant frequency by ±2 kHz from [[ψ Resonator]] C1). The resonant phase shifter is far more practical than the waveguide phase shifter at these frequencies.
+
+== Implementation and Performance ==
+
+The resonant phase shifter is implemented as a [[ψ Resonator]] (C1) operated slightly off resonance. The BST bias voltage shifts the resonant frequency, which shifts the phase of the transmitted ψ signal. Phase-shift range: <math>-\pi/2</math> to <math>+\pi/2</math> (90°) within the resonator bandwidth.
+
+'''Figure of merit:''' <math>\mathrm{FOM} = \Delta\varphi/\mathrm{IL}_{\rm dB}</math> where IL is insertion loss in dB. For the resonant configuration: FOM ≈ 90°/0.5 dB = 180°/dB — competitive with EM voltage-controlled phase shifters.
+
+'''Switching time:''' BST RC time constant at 200V bias, 10 pF equivalent capacitance, 1 kΩ drive resistance: <math>\tau_{\rm RC} = 10^{-11}\times10^3 = 10\,\text{ns}</math> — fast enough for all PsiNet synchronisation applications.
+
+== ψ-Dependent Extensions ==
+
+Phase synchronisation across a [[PsiNet]] cluster of N operators requires each operator's [[Psi Stabilizer]] to emit ψ at the same phase. The phase shifter provides the individual-operator phase trim to achieve collective coherence. Phase errors below <math>\pi/N</math> are required for N-operator constructive interference — at N = 10 this requires phase accuracy of 18°, achievable with the resonant phase shifter.
+
+== See Also ==
+* [[ψ Waveguide]] (C2) · [[ψ Resonator]] (C1) · [[ψ Permittivity]] (B2) · [[ψ Network Topology]] (G3) · [[PsiNet]] · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:PsiNet Substrate]]

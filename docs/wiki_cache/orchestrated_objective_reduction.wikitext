@@ -1,5 +1,12 @@
 = Orchestrated Objective Reduction =
 
+{{Plain_Hook
+| in_one_sentence    = Orch OR is Penrose and Hameroff's proposal that each "moment of conscious experience" is a quantum superposition inside neuronal microtubules that collapses under gravity at exactly the rate of brain gamma oscillations (≈25–40 Hz).
+| everyday_analogy   = Picture a soap bubble growing inside every neuron. The bubble is a quantum possibility-cloud spread across thousands of microtubule proteins. When it gets big enough that gravity itself can no longer ignore it, it pops — and the "pop" is one frame of conscious experience. Brains run those pops at film-projector speed (≈30 Hz).
+| what_it_predicts   = Three coupled claims: (1) microtubules host coherent quantum states despite the warm wet brain; (2) those states collapse via Penrose's gravitational mechanism on a timescale τ ≈ ℏ/E_G; (3) collapses are orchestrated by microtubule-associated proteins to land on the 10–40 ms timescale of gamma synchrony. Anaesthetics that bind microtubules should switch consciousness off (Kalra 2023 ✓).
+| if_you_remember_one_thing = One moment of awareness = one quantum-gravity collapse. Heavily criticised (Tegmark 2000), partly rehabilitated (Hagan-Hameroff 2002, Bandyopadhyay, Celardo, Kalra). The framework treats Orch OR as one candidate substrate, not the unique theory.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Advanced
 | reading_time = 12 minutes
@@ -27,6 +34,24 @@ The proposal combines two distinct ideas:
 
 When the OR collapse time matches the brain's ~ 25–40 Hz gamma-oscillation timescale (10–40 ms), a "moment of consciousness" occurs. The frequency-locking is the "orchestration".
 
+{{Way_It_Works
+| title  = How Orch OR is supposed to produce a moment of consciousness
+| step1_label = Open a quantum possibility
+| step1_text  = Each tubulin protein in the microtubule has multiple electronic configurations. Quantum mechanics allows it to be in a superposition — several configurations at once — until something forces a definite outcome.
+| step2_label = Pool many tubulins into one big superposition
+| step2_text  = Microtubule-associated proteins (MAPs) bind to specific tubulin sites and link them into a coherent collective state. Penrose and Hameroff estimate ~10¹⁰ tubulin dimers participating per moment.
+| step3_label = Shield the superposition from the warm wet noise
+| step3_text  = Tubulin hydrophobic pockets and microtubule-lumen ordered water are claimed to suppress thermal decoherence. (This is the most contested step — see the Tegmark critique.)
+| step4_label = Wait for gravity to notice
+| step4_text  = Penrose's gravitational OR says the superposition is intrinsically unstable: it collapses by itself once the mass distributions involved differ enough for gravity to "feel" the difference. The collapse time is τ ≈ ℏ/E_G.
+| step5_label = Tune N so the collapse lands at gamma timing
+| step5_text  = Pick the number of coherent tubulins so τ ≈ 10–40 ms — the gamma-oscillation timescale. This is the "orchestration": MAPs adjust which tubulins participate to make collapses land on cognitive timing.
+| step6_label = Collapse = conscious moment
+| step6_text  = When the superposition collapses, Penrose-Hameroff identify the collapse event itself with one "frame" of conscious experience. The brain runs these frames at gamma frequency — about 25–40 per second — producing the felt stream of consciousness.
+| step7_label = Test it
+| step7_text  = Predictions include: anaesthetics target microtubule sites (✓ Kalra 2023), microtubule conductance has resonance peaks (✓ Bandyopadhyay), aromatic-residue arrays show superradiance (✓ Celardo). The required ~10 ms coherence time itself is not yet directly measured in vivo.
+}}
+
 == The OR collapse time formula ==
 
 The Penrose gravitational-OR time is:
@@ -38,6 +63,16 @@ For a superposition of two mass distributions separated by displacement ξ, the 
 :<math>E_G \sim G\,m^2 / \xi</math>
 
 for a compact mass m and displacement ξ. For a single tubulin dimer (m ≈ 1.8 × 10<sup>−22</sup> kg, ξ ≈ 8 nm protofilament spacing), τ ≈ 10<sup>14</sup> s — absurdly long.
+
+{{Math_Bridge
+| equation_label = Penrose gravitational-OR collapse time
+| equation       = <math>\tau \approx \hbar / E_G,\qquad E_G \sim G m^2/\xi</math>
+| in_english     = * '''τ''' — how long a quantum superposition survives before gravity forces it to collapse. The smaller τ is, the faster the collapse.
+* '''ℏ''' — the quantum of action. Sets the timescale connecting quantum mechanics to anything else.
+* '''E_G''' — the gravitational "cost" of holding the superposition. Two slightly-different mass distributions superposed each create slightly-different gravitational fields; E_G measures the self-energy difference.
+* '''G m²/ξ''' — typical scale of gravitational self-energy for a mass m displaced by ξ. Bigger masses, smaller displacements → bigger E_G → faster collapse.
+* '''Reading the equation''': a single tubulin gives τ ≈ 10¹⁴ s — effectively never. To get τ down to ~10 ms (gamma timing) you need ~10¹⁰–10¹¹ tubulins in coherent superposition together. That huge collective N is the central quantitative demand of Orch OR — and what the Tegmark critique attacks.
+}}
 
 For the OR time to land in the biologically-relevant 10–40 ms range, '''N coherent tubulins''' must contribute collectively, where N is determined by setting τ to the desired timescale. Penrose-Hameroff estimate N ~ 10<sup>10</sup>–10<sup>11</sup> tubulin dimers participating coherently — corresponding to ~ 10<sup>4</sup>–10<sup>5</sup> neurons each contributing ~ 10<sup>6</sup> tubulin dimers in coherent state.
 

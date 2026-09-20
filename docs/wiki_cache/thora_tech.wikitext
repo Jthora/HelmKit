@@ -3,14 +3,65 @@
 
 === https://thora.tech ===
 
+'''Tho'ra Tech''' is the '''technology brand''' founded and design-led by [[Jono Tho'ra]]. It is not a tech ''tier'' (cyber-tech / psi-tech / star-tech / etc. are tier classifications across the cosmology) and not a tech ''class'' (techno-mage gear, magic-tech instruments, angel-tech are class classifications). Tho'ra Tech is '''a brand''' — recognisable cool technology built to a particular set of themes, aesthetic conventions, and design-language standards that Jono curates personally.
+
+{{Plain_Hook
+| in_one_sentence    = Tho'ra Tech is Jono's technology brand — regular cool tech with a particular themed look, feel, and design language; not a tech tier and not a tech class.
+| everyday_analogy   = Think Apple as a brand vs. "personal computers" as a category. Tho'ra Tech is the brand; the underlying tech can be any tier (Cyber / Psi / Star / Magic / Angel) as long as the product meets the brand's aesthetic and design-doctrine standards.
+| what_it_predicts   = A product carries the Tho'ra Tech mark iff it (a) meets Jono's design-doctrine standards and (b) carries the brand's themed look-and-feel. The mark conveys provenance and quality, not capability class.
+| if_you_remember_one_thing = Tho'ra Tech is a brand. The tier ladder lives elsewhere.
+}}
+
 == Tho'ra Tech Projects ==
-* [[The Wings]]
+* [[The Wings]] ([[Fusion Wings]])
 * [[The HelmKit]]
 * [[The Kama]]
 
 * [[The Neuralizer]]
-* [[The Magneto Breaks]]
+* [[Magnetogravitic Dragsters]] - The Breaks
 * [[The MHD Core]]
 
 * [[The Shock Boots]]
+* [[Magneto Light Staff]] — Jono's personal signature Techno-Mage instrument
+
+== Brand vs. Tier vs. Class ==
+
+The canon keeps three independent product-classification axes distinct:
+
+{| class="wikitable"
+! Axis !! What it classifies !! Examples
+|-
+| '''Brand''' || ''Who made it'' and the aesthetic / design-doctrine signature || Tho'ra Tech · third-party Earth-Alliance contractors · [[Viran]] product lines
+|-
+| '''Tier''' || ''What capability ceiling'' the underlying engineering reaches || Cyber-Tech · Psi-Tech · Star-Tech · Ultra-Tech · Archo-Tech / Magic-Tech / Angel-Tech
+|-
+| '''Class''' || ''What kind of instrument'' it is || Techno-Mage staff · Magic-Tech wand · Angel-Tech relic · field-engineering multi-tool · psionic device
+|}
+
+A Tho'ra Tech-branded product can sit at any tier and any class, as long as it carries the brand's themed look-and-feel and meets Jono's design-doctrine standards. The brand mark is provenance and quality assurance — it does not by itself imply tier-ceiling or class.
+
+== Design Doctrine ==
+
+Tho'ra Tech products carry a recognisable themed look and feel curated by [[Jono Tho'ra]]:
+
+* '''Function-legible silhouettes''' — the form factor reads its function; nothing is ornamental for its own sake.
+* '''Tactile interface bias''' — physical controls and haptic feedback are preferred over screen-only UI where the use case permits.
+* '''[[Universal Language|UL]]-decorated where appropriate''' — glyph-marking is used where it does real work (warding, addressing, programmer-readable inscription) and is omitted where it would be ornamental.
+* '''Combat-dance-compatible ergonomics''' — wearables and hand-tools accommodate [[Combat Dance Style: Harmonic Fusion Flow Martial Arts]] movement vocabulary.
+* '''Magneto-gravitic / psi-tech aesthetic palette''' — visible field-emitters, exposed armature where structurally meaningful, materials chosen for psi-tech-compatibility rather than for cosmetic finish alone.
+
+This doctrine is a brand standard, not a tier or class standard. A Cyber-Tech product can carry the Tho'ra Tech mark if it meets the doctrine; a Star-Tech product carries the mark on the same criteria.
+
+== See Also ==
+
+* [[Tho'ra Tech LLC]]
+* [[Jono Tho'ra]] — design lead
+* [[Magneto Light Staff]] — Jono's personal signature article
+* [[Fusion Wings]] · [[HelmKit]] · [[Kama]]
+* [[Combat Dance Style: Harmonic Fusion Flow Martial Arts]]
+* [[Universal Language]] · [[Universal Symbology]]
+* [[Magneto-Gravitic Vehicles Industry]]
+
+[[Category:Tho'ra Tech]]
+[[Category:Brand]]
 * [[The Shock Paws]]

@@ -1,0 +1,308 @@
+{{Derives_From
+| term        = B_ψ = μ_ψ J_ψ — the ψ flux constitutive relation from [[ψ Constitutive Relations]] (B1); −m²ψ mass term — μ_ψ sets m_eff and therefore L_ψ
+| description = ψ permeability μ_ψ governs how easily the ψ current density
+                J_ψ = −(∂_tψ)∇ψ propagates through a material. Critically,
+                increasing μ_ψ increases the effective mass m_eff inside the
+                material, which decreases the coherence length L_ψ = 1/m_eff.
+                The ferrofluid microchannels in the [[Smart Composite Fill]]
+                (B8) tune μ_ψ in real time by changing the ferrofluid
+                magnetisation M(H) via the applied H-field — making coherence
+                length a dynamically controllable engineering parameter rather
+                than a fixed material constant. This is the primary mechanism
+                by which the [[Anchor Controller]] adapts the [[Psi Stabilizer]]
+                to the operator's instantaneous effective mass.
+}}
+
+{{Infobox
+| title   = ψ Permeability
+| image   =
+| caption = The material parameter that controls ψ flux propagation — and through it, the coherence length of every Psi-Tech device
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Magnetic Materials · Coherence Engineering
+| label3  = Derives From
+| data3   = <math>B_\psi = \mu_\psi\,\mathbf{J}_\psi</math>; connection <math>\mu_\psi \to m_{\rm eff} \to L_\psi</math> via [[ψ Dispersion Relations]] (A3)
+| label4  = Established Analog
+| data4   = Magnetic permeability μ_r in electromagnetism; ferrite core design in RF engineering; London penetration depth in superconductors
+| label5  = Key Output
+| data5   = μ_ψ definition; ferrofluid Langevin tuning curve; L_ψ control chain; μ_ψ row of master material table; H-field set-point table
+| label6  = Primary Engineering Use
+| data6   = Real-time coherence length control via ferrofluid H-field — the single most important dynamic parameter in [[Psi-Tech]] device operation
+| header7 = Key Equations
+| label8  = ψ flux relation
+| data8   = <math>B_\psi = \mu_\psi\,\mathbf{J}_\psi</math>
+| label9  = m_eff shift
+| data9   = <math>m_{\rm eff,mat}^2 = \varepsilon_\psi\mu_\psi\,m_{\rm eff,vac}^2</math>
+| label10 = Coherence length
+| data10  = <math>L_\psi = 1/m_{\rm eff,mat}</math>
+| label11 = Langevin magnetisation
+| data11  = <math>M(H) = M_{\rm sat}[\coth(\xi) - 1/\xi],\quad \xi = \mu_0 m_p H/k_{\rm B}T</math>
+| below   = ''Build wave 2 — requires [[ψ Constitutive Relations]] (B1). Parallel with B2, B4, B5, B6. Central parameter for [[ψ Coherence Length]] (B6) and [[Anchor Controller]] (D6) calibration.''
+}}
+
+= ψ Permeability =
+
+{{Plain_Hook
+| in_one_sentence    = ψ permeability μ_ψ governs how easily ψ flux passes through a material and — through its direct connection to the effective mass m_eff — determines the coherence length L_ψ of every Psi-Tech device; the ferrofluid microchannels in the composite fill make μ_ψ continuously tunable via the applied H-field, giving the [[Anchor Controller]] real-time control over the spatial reach of the ψ field.
+| everyday_analogy   = Iron has a magnetic permeability thousands of times higher than air — magnetic flux flows through it far more easily than through empty space, which is why transformer cores and electromagnet poles are made of iron. Raise the permeability, and magnetic flux concentrates. ψ permeability works the same way, with an added twist: raising μ_ψ also raises the effective mass of the ψ field inside the material, which shrinks the coherence length. Ferrofluid in a controlled H-field is a continuously variable iron core for ψ — turn up the H-field, raise μ_ψ, shrink L_ψ. Turn it down, restore long-range coherence.
+| what_it_predicts   = (1) A direct, calculable relationship between ferrofluid H-field set-point and coherence length <math>L_\psi</math> via the Langevin magnetisation model; (2) A [[Psi Stabilizer]] coherence length of 20 cm achievable at a specific H-field set-point derived from the ferrofluid's measured <math>M_{\rm sat}</math>; (3) A [[Psi Defender]] coherence length of 2 cm achievable at near-saturation H-field; (4) Real-time L_ψ tuning range sufficient to adapt to the nonlinear mass shift caused by the operator's sustained background ψ field (from [[ψ Dispersion Relations]] A3).
+| if_you_remember_one_thing = The ferrofluid H-field is the coherence length knob. Every other [[Psi-Tech]] specification cascades from this: set H, get μ_ψ, get m_eff, get L_ψ, get mode shape, get device behaviour. The [[Anchor Controller]] ferrofluid set-point table is the operational implementation of this four-step chain.
+}}
+
+== Definition and Physical Meaning ==
+
+From [[ψ Constitutive Relations]] (B1), the ψ permeability <math>\mu_\psi</math> relates the ψ flux density to the ψ current:
+
+:<math>B_\psi = \mu_\psi\,\mathbf{J}_\psi</math>
+
+where <math>\mathbf{J}_\psi = -(\partial_t\psi)\nabla\psi</math> is the ψ current density (= ψ Poynting vector) from [[ψ Conservation Laws]] (A2).
+
+Physical meaning: <math>\mu_\psi</math> quantifies how much ψ flux flows per unit driving ψ current. High <math>\mu_\psi</math> — material is strongly permeable to ψ, flux concentrates easily. Low <math>\mu_\psi</math> — material resists ψ flux, acts as a ψ reluctor.
+
+=== The Critical Engineering Connection ===
+
+Unlike ψ permittivity (which primarily controls wave speed and impedance), ψ permeability has a second, more consequential effect: it directly shifts the effective mass of ψ inside the material.
+
+From the modified wave equation in B1:
+
+:<math>m_{\rm eff,mat}^2 = \varepsilon_\psi\mu_\psi\,m_{\rm eff,vac}^2</math>
+
+Therefore:
+
+:<math>L_\psi(\text{in material}) = \frac{1}{m_{\rm eff,mat}} = \frac{1}{\sqrt{\varepsilon_\psi\mu_\psi}\,m_{\rm eff,vac}} = \frac{L_\psi(\text{vacuum})}{\sqrt{\varepsilon_\psi\mu_\psi}}</math>
+
+{{Math_Bridge
+| equation_label = Coherence length in material
+| equation       = <math>L_\psi(\text{mat}) = \frac{L_\psi(\text{vac})}{\sqrt{\varepsilon_\psi\mu_\psi}}</math>
+| in_english     =
+* High <math>\mu_\psi</math>: coherence length contracts — ψ field range shrinks. At fixed <math>\varepsilon_\psi</math>, doubling <math>\mu_\psi</math> halves <math>L_\psi</math>.
+* Low <math>\mu_\psi \approx \mu_0</math>: coherence length approaches vacuum value — material is ψ-magnetically transparent.
+* This is the engineering principle of the [[Psi Defender]]: by saturating the ferrofluid channels (maximum <math>\mu_\psi</math>), the shell contracts <math>L_\psi</math> to ~2 cm, creating a tight Yukawa screen around the operator.
+* And the [[Psi Harmonizer]]: by demagnetising the ferrofluid (minimum <math>\mu_\psi \approx \mu_0</math>), <math>L_\psi</math> extends beyond 1 m for long-range group coupling.
+}}
+
+== The Ferrofluid Tuning System ==
+
+=== Langevin Magnetisation Model ===
+
+The ferrofluid (EMG-900, magnetite nanoparticles in water carrier) has a magnetisation that follows the Langevin function for non-interacting superparamagnetic particles:
+
+:<math>M(H) = M_{\rm sat}\left[\coth\!\left(\frac{\mu_0 m_p H}{k_{\rm B}T}\right) - \frac{k_{\rm B}T}{\mu_0 m_p H}\right] \equiv M_{\rm sat}\,\mathcal{L}(\xi)</math>
+
+where <math>\xi = \mu_0 m_p H / k_{\rm B}T</math> is the Langevin parameter and <math>\mathcal{L}(\xi) = \coth\xi - 1/\xi</math>.
+
+'''EMG-900 parameters at 25°C:'''
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Symbol !! Value !! Source
+|-
+| Saturation magnetisation || <math>M_{\rm sat}</math> || 22.3 kA/m || Ferrotec datasheet
+|-
+| Mean particle diameter || <math>d_p</math> || 10 nm || TEM (B8 characterisation)
+|-
+| Single-particle moment || <math>m_p = M_{\rm sat,bulk}\cdot(\pi/6)d_p^3</math> || <math>4.8\times10^{-19}</math> A·m² || Calculated from magnetite bulk Msat = 480 kA/m
+|-
+| Thermal energy || <math>k_{\rm B}T</math> || <math>4.1\times10^{-21}</math> J || At 25°C
+|-
+| Langevin parameter at 1 kA/m || <math>\xi = \mu_0 m_p H/k_{\rm B}T</math> || 0.185 || Calculated
+|-
+| Initial susceptibility || <math>\chi_0 = \mu_0 M_{\rm sat}^2/(3k_{\rm B}T n_p)</math> || ~3.5 || Estimated from Msat and particle density
+|}
+
+=== μ_eff(H) from Magnetisation ===
+
+The effective permeability of the ferrofluid at applied H-field:
+
+:<math>\mu_{\rm eff}(H) = \mu_0\left(1 + \frac{M(H)}{H}\right) = \mu_0\left(1 + \frac{M_{\rm sat}}{H}\,\mathcal{L}\!\left(\frac{\mu_0 m_p H}{k_{\rm B}T}\right)\right)</math>
+
+For the ψ engineering chain, this is the key table:
+
+{| class="wikitable" style="width:100%;"
+! H-field (A/m) !! <math>M(H)</math> (kA/m) !! <math>M/M_{\rm sat}</math> !! <math>\mu_{\rm eff}/\mu_0</math> !! Implied <math>L_\psi</math> (Stabilizer geometry) !! Operating mode
+|-
+| 0 || 0 || 0 || 1.00 || <math>L_\psi^{\rm vac}</math> (long range) || [[Psi Harmonizer]] setting
+|-
+| 200 || 1.4 || 0.063 || 1.008 || ~20 cm target || [[Psi Stabilizer]] setting
+|-
+| 500 || 3.4 || 0.15 || 1.008 || ~18 cm || Stabilizer slight tighten
+|-
+| 2000 || 10.2 || 0.46 || 1.006 || ~10 cm || Intermediate
+|-
+| 5000 || 17.1 || 0.77 || 1.004 || ~4 cm || Near-Defender
+|-
+| 10000 || 20.8 || 0.93 || 1.002 || ~2 cm target || [[Psi Defender]] setting
+|}
+
+'''Important note:''' The μ_eff values above are for the ferrofluid alone. Within the TPMS composite, the ferrofluid fills only 3–5% of the total volume (dedicated microchannels). The effective composite μ_ψ is therefore much closer to μ₀ than the pure ferrofluid values suggest — the composite μ_ψ is dominated by the polymer matrix (μ_ψ ≈ μ₀). The coherence length control works through the spatial arrangement of the ferrofluid channels relative to the ψ field mode shape, not through bulk permeability modification of the entire composite.
+
+The precise relationship between ferrofluid channel H-field, composite μ_ψ, and resulting L_ψ requires numerical computation (COMSOL magnetic + ψ field coupled solver) calibrated against TML-1 measurements. The table above gives the engineering set-points; the calibration data from TML-1 populates the [[Anchor Controller]] (D6) look-up table.
+
+=== Control Coil Specification ===
+
+Each ferrofluid channel quadrant is controlled by a dedicated coil wound around the channel exterior:
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Value !! Basis
+|-
+| Coil geometry || 50-turn, 5 mm diameter air-core solenoid || Fits within TPMS wall thickness; minimises cross-talk between quadrants
+|-
+| Target H-field range || 0–10 kA/m at channel wall || Covers full Langevin curve from linear to near-saturation
+|-
+| Current required at 10 kA/m || <math>I = H \cdot l/N \approx 10000 \times 0.005/50 = 1</math> A || From solenoid formula <math>H = NI/l</math>
+|-
+| Coil resistance || ~2 Ω (copper wire, 0.1 mm diameter, 50 turns) || Sets power dissipation: 2W at max current — within thermal budget
+|-
+| Driver || H-bridge per quadrant, 0–2A range, PWM controlled || [[Anchor Controller]] (D6) outputs 4 independent H-bridge channels
+|-
+| Update rate || 4 Hz minimum (HRV coherence timescale) || Matched to [[HRV-Gated Drive]] (D5) sensor update rate
+|}
+
+== μ_ψ Row of the Master Material Parameter Table ==
+
+Populating the μ_ψ column of the table from [[ψ Constitutive Relations]] (B1):
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>\mu_\psi/\mu_0</math> !! Basis !! Measurement method !! Notes
+|-
+| Air (null reference) || 1.000 (definition) || Null material || Inductance measurement || Baseline
+|-
+| Quartz || TBD; EM ref. ~1 || Diamagnetic; expected near μ₀ || LCR inductance measurement || Low priority
+|-
+| BST composite || TBD; EM ref. ~1 || Non-magnetic fill; expected near μ₀ || LCR inductance measurement || Low priority
+|-
+| Ferrofluid, H = 0 || TBD; est. ~4 || Langevin model at zero field || VSM + inductance measurement || 1st priority
+|-
+| Ferrofluid, H = 200 A/m || TBD; calc. ~1.008 || Langevin model || In-channel inductance measurement || 1st priority
+|-
+| Ferrofluid, H = 10 kA/m || TBD; calc. ~1.002 || Langevin model (near saturation) || In-channel inductance measurement || 1st priority
+|-
+| Gyroid composite (filled) || TBD; dominated by polymer ~1 || Volume-averaged; channel contribution small || Full-shell inductance measurement || 1st priority
+|-
+| MWCNT-epoxy || TBD; EM ref. ~1 || Non-magnetic; expected near μ₀ || LCR measurement || 2nd priority
+|-
+| Biological cortex || TBD || Diamagnetic tissue; expected ~1 unless ψ hypothesis modifies || TML-3 cavity measurement || Highest priority TML-3
+|-
+| Water || TBD; EM ref. ~1 || Diamagnetic; expected near μ₀ || Coaxial cell || 3rd priority
+|}
+
+== The μ_ψ–m_eff–L_ψ Engineering Chain ==
+
+The full derivation chain from ferrofluid H-field set-point to [[Psi Stabilizer]] coherence length:
+
+{{Way_It_Works
+| title       = From H-field to coherence length — the four-step engineering chain
+| step1_label = Set the H-field
+| step1_text  = The [[Anchor Controller]] (D6) outputs a current <math>I</math> to the ferrofluid channel control coil. From solenoid geometry: <math>H = NI/l</math>. For the [[Psi Stabilizer]] Stabilizer target: <math>I \approx 0.02</math> A giving <math>H \approx 200</math> A/m.
+| step2_label = Compute M(H) via Langevin
+| step2_text  = <math>M(H) = M_{\rm sat}\,\mathcal{L}(\mu_0 m_p H/k_{\rm B}T)</math>. At H = 200 A/m: <math>\xi = 0.037</math>, <math>\mathcal{L}(\xi) \approx \xi/3 = 0.012</math>, <math>M \approx 0.012 \times 22.3 \approx 0.27</math> kA/m.
+| step3_label = Derive μ_eff(H)
+| step3_text  = <math>\mu_{\rm eff}(H) = \mu_0(1 + M/H) = \mu_0(1 + 270/200) = \mu_0 \times 2.35</math>. The channel permeability at this set-point is 2.35 times μ₀. The composite volume-averaged μ_ψ is much closer to μ₀ — weighted by ferrofluid channel volume fraction (~4%).
+| step4_label = Compute m_eff in material
+| step4_text  = <math>m_{\rm eff,mat} = \sqrt{\varepsilon_\psi\mu_\psi}\,m_{\rm eff,vac}</math>. With <math>\varepsilon_\psi \approx 4\varepsilon_0</math> and <math>\mu_\psi \approx 1.04\mu_0</math> (composite average): <math>m_{\rm eff,mat} \approx \sqrt{4 \times 1.04}\,m_{\rm eff,vac} \approx 2.04\,m_{\rm eff,vac}</math>.
+| step5_label = Read off L_ψ
+| step5_text  = <math>L_\psi = 1/m_{\rm eff,mat}</math>. If <math>m_{\rm eff,vac}</math> is calibrated so that <math>L_\psi^{\rm vac} = 40</math> cm (from TML-1 null measurement), then <math>L_\psi^{\rm (device)} = 40/2.04 \approx 20</math> cm — the Stabilizer design target.
+| step6_label = Close the loop
+| step6_text  = The [[Anchor Controller]] monitors RMSSD (proxy for operator <math>m_{\rm eff}^{\rm (bio)}</math> from A3 nonlinear shift) and adjusts H-field set-point to maintain <math>L_\psi^{\rm (device)} = L_\psi^{\rm (bio)}</math>. This is the Mk2.0 real-time coherence length matching function.
+}}
+
+== Module Set-Point Table ==
+
+The [[Anchor Controller]] (D6) uses the following pre-calibrated set-point table. Values in italics are design targets pending TML-1 calibration.
+
+{| class="wikitable" style="width:100%;"
+! Module !! Target <math>L_\psi</math> !! Required composite <math>\mu_\psi/\mu_0</math> !! Channel H-field set-point !! Coil current !! Ferrofluid state
+|-
+| [[Psi Harmonizer]] || > 1 m || ~1.00 (bare, near vacuum) || H ≈ 0 || ~0 A || Demagnetised
+|-
+| [[Psi Stabilizer]] || 20 cm || ~1.04 (slight boost) || H ≈ 200 A/m || ~0.02 A || Weakly magnetised
+|-
+| [[Psi Stabilizer]] Mk2.0 adaptive range || 15–25 cm || 1.03–1.06 || H = 150–300 A/m || 0.015–0.030 A || Servo-controlled
+|-
+| [[Psi Defender]] || 2 cm || ~1.40 (strong boost) || H ≈ 10 kA/m || ~1.0 A || Near saturation
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Operator m_eff Compensation ===
+
+From [[ψ Dispersion Relations]] (A3), an operator sustaining a background psionic field <math>\psi_0</math> experiences a locally increased effective mass:
+
+:<math>m_{\rm eff}^{\rm (bio)} = \sqrt{m^2 + 3\lambda\psi_0^2}</math>
+
+This decreases the operator's biological coherence length. The [[Psi Stabilizer]] Mk2.0 must track this shift and compensate by decreasing the ferrofluid H-field set-point (reducing <math>\mu_\psi</math>, increasing <math>L_\psi^{\rm (device)}</math>) so that the device coherence length continues to match the operator's biological coherence length despite the nonlinear stiffening.
+
+The RMSSD proxy for <math>\psi_0</math>: higher HRV coherence correlates with higher <math>\psi_0</math> (stronger sustained background field), which corresponds to larger <math>m_{\rm eff}^{\rm (bio)}</math> and shorter <math>L_\psi^{\rm (bio)}</math>. The [[HRV-Gated Drive]] (D5) feeds this estimate into the [[Anchor Controller]] ferrofluid servo in real time.
+
+=== Permeability Anisotropy from Channel Geometry ===
+
+The serpentine routing of ferrofluid channels through the TPMS wall creates a naturally anisotropic <math>\mu_\psi</math> tensor — the permeability is higher along the channel axis than perpendicular to it. With appropriate channel routing design, this anisotropy can be aligned to preferentially guide ψ flux along the ψ₀₁₀ mode field lines (from [[ψ Boundary Conditions]] A5), increasing mode coupling efficiency.
+
+This is a Track B engineering optimisation: channel routing anisotropy as a mode-coupling enhancement mechanism. Implementation requires the COMSOL coupled magnetic-ψ solver specified in [[HelmKit Architecture (Engineering)]] (G1).
+
+== TML Measurement Protocol ==
+
+=== TML-1: μ_ψ(H) Measurement ===
+
+'''Instrument:''' Two-probe inductance measurement using LCR meter (Keysight E4980A) at 40 kHz. Ferrofluid-filled test cell (coaxial geometry, 10 mm inner diameter, 50 mm length) surrounded by electromagnet providing H = 0–10 kA/m.
+
+'''Protocol:'''
+# Fill test cell with EMG-900 ferrofluid.
+# Ramp electromagnet current from 0 to maximum. At each H-field step, measure inductance L(H).
+# Extract <math>\mu_{\rm eff}(H) = L(H)/L_0</math> where <math>L_0</math> is the inductance of the empty cell.
+# Compare measured <math>\mu_{\rm eff}(H)</math> against Langevin model prediction. Target: agreement within 15%.
+
+'''VSM cross-check:''' Measure <math>M_{\rm sat}</math> and initial susceptibility of a ferrofluid aliquot using vibrating sample magnetometer (Lakeshore 7404). Use extracted parameters to recalculate Langevin curve and verify consistency with inductance measurement.
+
+'''Pass criteria:'''
+* Measured <math>M_{\rm sat}</math> within 10% of EMG-900 datasheet value (22.3 kA/m)
+* Inductance measurement reproducible across three cells from same ferrofluid batch to ±5%
+* Langevin model agreement within 15% across full H-field range
+
+=== TML-3: In-Situ μ_ψ Verification ===
+
+With full [[Psi Stabilizer]] shell assembled:
+
+# Set [[Anchor Controller]] to each H-field set-point in the module table above.
+# Measure shell resonant frequency <math>\omega_{010}</math> at each set-point via S11 probe.
+# Compare frequency shifts <math>\Delta\omega_{010}</math> against predicted values from <math>m_{\rm eff,mat}(\mu_\psi(H))</math> model.
+# Target: measured frequency shift within 20% of model prediction at each set-point.
+
+This constitutes a Track A test (no operator, no ψ hypothesis required) that validates the full μ_ψ → m_eff → L_ψ chain before any biological measurements are attempted.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| H = 0 (Langevin) || <math>M \to 0</math>, <math>\mu_{\rm eff} \to \mu_0(1 + \chi_0)</math> where <math>\chi_0 = \mu_0 M_{\rm sat}^2/(3\rho k_{\rm B}T)</math> — linear initial response || ✓ (Taylor expansion of coth: <math>\mathcal{L}(\xi) \approx \xi/3</math> for small ξ)
+|-
+| <math>H \to \infty</math> (Langevin) || <math>M \to M_{\rm sat}</math>, <math>M/H \to 0</math>, <math>\mu_{\rm eff} \to \mu_0</math> — permeability returns to μ₀ at saturation || ✓ (coth(ξ) → 1 and 1/ξ → 0 for large ξ)
+|-
+| <math>\mu_\psi = \mu_0</math> in L_ψ formula || <math>L_\psi(\text{mat}) = L_\psi(\text{vac})/\sqrt{\varepsilon_\psi}</math> — only permittivity contributes at μ₀ || ✓
+|-
+| <math>\varepsilon_\psi = \varepsilon_0</math> and <math>\mu_\psi = \mu_0</math> || <math>L_\psi(\text{mat}) = L_\psi(\text{vac})</math> — null material leaves coherence length unchanged || ✓
+|-
+| Module L_ψ ordering || Harmonizer (> 1 m) > Stabilizer (20 cm) > Defender (2 cm) — monotonically shorter with increasing H-field || ✓ (Langevin curve monotonically increasing; μ_eff monotonically decreasing back to μ₀ at saturation — actually inverts! See note below)
+|}
+
+'''Note on the saturation paradox:''' At very high H-fields, the Langevin function saturates and <math>M/H \to 0</math>, so <math>\mu_{\rm eff} \to \mu_0</math> — the same as zero field. This means extremely high H-field does not continue to increase μ_eff; it peaks at some intermediate H-field and returns toward μ₀. The maximum <math>\mu_{\rm eff}</math> occurs near <math>H = H_{\rm peak}</math> where <math>d(M/H)/dH = 0</math>. For EMG-900, <math>H_{\rm peak} \approx 300</math>–<math>500</math> A/m. Above this, increasing H-field actually decreases μ_eff back toward μ₀. The [[Psi Defender]] set-point (H ≈ 10 kA/m) is well into the saturation regime where μ_eff ≈ μ₀ — the Defender's short L_ψ is not achieved through high μ_eff but through the choice of a shell geometry with shorter intrinsic coherence length. The H-field in Defender mode primarily prevents the ferrofluid from de-magnetising under vibration, maintaining a stable uniform μ_eff ≈ μ₀ throughout the shell.
+
+== See Also ==
+
+* [[ψ Constitutive Relations]] (B1) — defines μ_ψ; master material parameter table
+* [[ψ Permittivity]] (B2) — companion parameter; together set wave speed and impedance
+* [[ψ Coherence Length]] (B6) — full treatment of L_ψ in material context; this page's primary output
+* [[Smart Composite Fill]] (B8) — ferrofluid selection and channel system specification
+* [[ψ Dispersion Relations]] (A3) — m_eff formula this page feeds into
+* [[ψ Impedance Theory]] (A4) — Z_ψ = (1/ω²)√(μ_ψ/ε_ψ) uses this parameter
+* [[Anchor Controller]] (D6) — implements ferrofluid H-field servo; uses calibration table from this page
+* [[HRV-Gated Drive]] (D5) — provides RMSSD estimate of operator m_eff for Mk2.0 compensation
+* [[Psi Stabilizer]] — primary device; Stabilizer/Defender modes set by H-field table above
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]

@@ -1,0 +1,132 @@
+{{Derives_From
+| term        = J_ψ^(src) source term — three implementations: biological coherent firing J_ψ^(bio) ∝ ∫f(u)dV, electromagnetic device J_ψ^(device) = α·ε_eff(V)·E²_bifilar, and hybrid (operator-in-loop)
+| description = A ψ source is a physical system that injects ψ charge into
+                the local ψ field via the source term J_ψ^(src) on the
+                right-hand side of the master equation. Three distinct
+                implementations exist: biological (coherent neural firing
+                in a trained operator), electromagnetic (bifilar coil driving
+                BST composite via αF² coupling), and hybrid (device
+                amplifying the operator's biological output). The ψ source
+                is the most fundamental active component — without it no
+                ψ field can be established and no [[Psi-Tech]] device can
+                function.
+}}
+
+{{Infobox
+| title   = ψ Source
+| image   =
+| caption = The three implementations of J_ψ^(src) — biological, electromagnetic, and hybrid — that drive the psionic field
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Psionics]] · [[Psi-Tech]]
+| label3  = Derives From
+| data3   = <math>J_\psi^{\rm (src)}</math> term in master equation; three physical implementations
+| label4  = Established Analog
+| data4   = RF antenna (EM source); acoustic speaker (acoustic source); laser (coherent optical source); neural oscillator (biological signal source)
+| label5  = Key Parameters
+| data5   = Source strength (ψ-watts); coherence time; spatial distribution; frequency spectrum
+| label6  = Implementations
+| data6   = Biological: <math>J_\psi^{\rm (bio)} \propto \int f(u)\,dV</math> · Device: <math>J_\psi^{\rm (dev)} = \alpha\varepsilon_{\rm eff}(V)E^2_{\rm bif}</math> · Hybrid: operator + amplifier
+| below   = ''Build wave 4 — requires [[ψ Conservation Laws]] (A2), [[ψ Transducer]] (C3), and [[ψ Green's Functions]] (A6). The active component underlying every Psi-Tech device.''
+}}
+
+= ψ Source =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ source implements the J_ψ^(src) term in the master equation through one of three mechanisms — biological coherent neural firing, electromagnetic bifilar coil transduction, or hybrid amplification of biological output — and the resulting ψ field at any point is computed exactly by the design convolution ψ(x) = ∫G(x,x')J_ψ(x')d⁴x' from [[ψ Green's Functions]] (A6).
+| everyday_analogy   = A loudspeaker is an acoustic source — it converts electrical energy into sound waves by pushing air. A ψ source is the psionic equivalent: it converts energy (biological metabolic energy, electromagnetic drive power, or both) into ψ waves by driving the source term J_ψ in the field equation. Just as the speaker's cone shape and diaphragm stiffness determine the acoustic pattern it radiates, the source's spatial distribution and frequency spectrum determine the ψ field pattern it creates.
+| what_it_predicts   = (1) A biological source strength proportional to the operator's coherent neural firing rate, measurable as the HRV coherence proxy; (2) A device source strength proportional to E²_bifilar × ε_eff(V) at the BST composite, controllable via drive voltage and BST bias; (3) A hybrid source where the operator's biological J_ψ and the device J_ψ must be in phase for constructive superposition — the impedance matching condition from [[ψ Impedance Theory]] (A4); (4) A source radiation pattern computed exactly from the Green's function convolution — no approximation required.
+| if_you_remember_one_thing = The source term J_ψ is not the ψ field itself — it is the generator of the ψ field. A strong source with poor radiation pattern (mismatch between source geometry and target mode shape) is less effective than a weaker source with optimal mode coupling. Optimising the source means optimising the overlap integral ∫G(x,x')J_ψ(x')d⁴x' at the target location — geometry matters as much as source strength.
+}}
+
+== The Three Source Implementations ==
+
+=== Implementation 1: Biological Source ===
+
+From [[Psionics]] (Wilson–Cowan coupling):
+
+:<math>J_\psi^{\rm (bio)}(\mathbf{x},t) \propto \int f\!\bigl(u(\mathbf{x}',t)\bigr)\,d^3x'</math>
+
+where <math>f(u)</math> is the neural firing rate in the Wilson–Cowan model. The biological source is:
+* '''Spatial extent:''' distributed over the cortex, primarily temporal and frontal lobes during coherent states
+* '''Temporal character:''' oscillating at the operator's coherence frequency <math>\omega_{\rm bio}</math> (related to alpha/theta EEG band via the ψ–EM coupling)
+* '''Amplitude:''' proportional to RMSSD; increases with HRV coherence training
+
+The biological source is Track B — its existence and magnitude are the primary TML-3 measurement targets.
+
+=== Implementation 2: Electromagnetic Device Source ===
+
+From [[ψ Transducer]] (C3):
+
+:<math>J_\psi^{\rm (dev)}(\mathbf{x},t) = \alpha\,\varepsilon_{\rm eff}(V(t))\,E^2_{\rm bifilar}(\mathbf{x},t)</math>
+
+The device source is:
+* '''Spatial extent:''' concentrated at the bifilar trace gap volume within the TPMS lattice
+* '''Temporal character:''' driven at <math>\omega_{\rm drive}</math> by the [[Shepard Tone Synthesis]] (D2) waveform
+* '''Amplitude:''' proportional to drive voltage squared and BST permittivity
+* '''Track:''' Track A (buildable now) — the EM source term exists regardless of whether ψ is real
+
+=== Implementation 3: Hybrid Source ===
+
+Total source:
+
+:<math>J_\psi^{\rm (total)} = J_\psi^{\rm (dev)} + J_\psi^{\rm (bio)}</math>
+
+For constructive superposition at the temporal lobe target:
+
+:<math>\text{arg}(G * J_\psi^{\rm (dev)}) = \text{arg}(G * J_\psi^{\rm (bio)}) \quad \text{at } \mathbf{x}_{\rm temporal}</math>
+
+This phase-matching condition is implemented by the [[HRV-Gated Drive]] (D5) Mk2.0 loop — the device source phase is continuously adjusted to remain in phase with the biological source. When matched, total source amplitude = device + biological; when mismatched, partial or complete cancellation occurs.
+
+== Source Strength and Radiation Efficiency ==
+
+The ψ field at the target location (temporal lobes) is computed from the design convolution (A6):
+
+:<math>\psi(\mathbf{x}_{\rm target}) = \int G_{\rm ret}(\mathbf{x}_{\rm target},\mathbf{x}')\,J_\psi^{\rm (total)}(\mathbf{x}')\,d^4x'</math>
+
+The radiation efficiency — fraction of total source power that reaches the target:
+
+:<math>\eta_{\rm rad} = \frac{|\psi(\mathbf{x}_{\rm target})|^2}{||J_\psi^{\rm (total)}||^2} \cdot \frac{1}{|G(\mathbf{x}_{\rm target},\mathbf{x}')|^2_{\rm mean}}</math>
+
+This efficiency is maximised when the source spatial distribution is matched to the Green's function — i.e., when the source is concentrated where the Green's function has its maximum. For the [[ψ Resonator]] cavity at resonance, the Green's function is dominated by the ψ₀₁₀ mode shape, so the optimal source distribution is proportional to <math>\psi_{010}(\mathbf{x}')</math> — exactly the bifilar coil pattern optimisation from C3.
+
+== Source Comparison Table ==
+
+{| class="wikitable" style="width:100%;"
+! Implementation !! J_ψ expression !! Spatial character !! Frequency !! Track !! Control mechanism
+|-
+| Biological || <math>\propto \int f(u)\,d^3x'</math> || Distributed, cortical || <math>\omega_{\rm bio}</math> (variable) || B || HRV coherence training; HeartMath breathing
+|-
+| Device (bifilar + BST) || <math>\alpha\varepsilon_{\rm eff}(V)E^2_{\rm bif}</math> || Concentrated at trace gap || <math>\omega_{\rm drive}</math> (set) || A || Drive voltage; BST bias; Shepard tone frequency
+|-
+| Hybrid (phase-matched) || <math>J_\psi^{\rm (dev)} + J_\psi^{\rm (bio)}</math> || Combined — resonator couples both || <math>\omega_{\rm drive} = \omega_{\rm bio}</math> (locked) || B || [[HRV-Gated Drive]] (D5) Mk2.0 phase servo
+|-
+| Collective (N operators) || <math>N \cdot J_\psi^{\rm (bio,ind)}</math> || Spatially distributed across N operators || <math>\omega_{\rm ref}</math> (locked by [[ψ Oscillator]] C9) || B || [[Psi Harmonizer]] injection locking
+|}
+
+== ψ-Dependent Extensions ==
+
+=== α Measurement as Critical Calibration ===
+
+The device source strength <math>J_\psi^{\rm (dev)} = \alpha\varepsilon_{\rm eff}E^2_{\rm bif}</math> depends on the coupling constant <math>\alpha</math>, which is unmeasured. Until <math>\alpha</math> is measured at TML-3, the device source strength cannot be computed in absolute units — only relative changes (from BST bias or drive voltage variation) are predictable.
+
+The first TML-3 measurement goal is therefore to constrain <math>\alpha</math> by comparing the device source strength (known in EM units) to the biological effect size (measured in RMSSD units) via the theoretical transfer function from the master equation. This is the single most important experimental result in the entire Psionic Engineering programme.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| <math>J_\psi = 0</math> || No ψ field generated; <math>\psi(x) = 0</math> everywhere in absence of initial conditions || ✓
+|-
+| Phase matching || In-phase superposition: <math>|J_{\rm total}| = |J_{\rm dev}| + |J_{\rm bio}|</math>; anti-phase: <math>||J_{\rm dev}| - |J_{\rm bio}||</math> || ✓
+|-
+| N-operator collective || <math>|J_{\rm total}| = N|J_{\rm individual}|</math> for coherently aligned; field amplitude scales as N, energy as N² || ✓
+|-
+| Design convolution || <math>\psi = \int G\cdot J\,d^4x'</math>; setting <math>J = \delta^4(x-x_0)</math> recovers the Green's function — consistent || ✓
+|}
+
+== See Also ==
+* [[ψ Conservation Laws]] (A2) · [[ψ Green's Functions]] (A6) · [[ψ Transducer]] (C3) · [[ψ Detector]] (C10) · [[HRV-Gated Drive]] (D5) · [[Bifilar Coil Engineering]] (D1) · [[HRV as ψ Proxy]] (E1) · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Psi-Tech]]

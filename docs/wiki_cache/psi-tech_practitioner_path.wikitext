@@ -1,0 +1,144 @@
+{{Plain_Hook
+| in_one_sentence = "Psi-Tech Practitioner Path" is the wiki's name for what a working life looks like for someone who treats their Resonant / sensitive / psychic competence as a vocation — with clear distinctions between healing work, energy work, and what the saga formalises as Psi-Tech.
+| everyday_analogy = If "I might be psychic" is wondering whether you can play music, healing-arts is taking up the violin in your living room, and Psi-Tech is the structured discipline of becoming a working musician — including the practice, the gear, the ethics, the people, and the actual paying work.
+| what_it_predicts = If you treat your sensitivity as a vocation rather than as a private trait, your life pattern will start to look recognisable: a daily practice, a tool inventory, a small set of clients or peers, a mentor or peer-network, and the slow accumulation of competence that comes from doing the work for years.
+| if_you_remember_one_thing = There is a difference between being sensitive and being a practitioner. The first is a trait. The second is a discipline. Treat them differently.
+}}
+
+{{Audience_Sidebar
+| difficulty = Intermediate (assumes some self-recognition as sensitive / Resonant)
+| reading_time = 10 min
+| prerequisites = [[Are You A Resonant]], [[Resonant Awakening Signs]]
+}}
+
+This page is for visitors arriving from searches like "how to become an energy healer," "psychic protection training," "empath career," "lightworker mission," "energy work practitioner," "psychic services as a job," "how to develop psychic abilities," or "how do I make a living being sensitive."
+
+The FusionGirl wiki uses the term '''Psi-Tech''' (saga canon, see [[Psi-Tech]] and [[Psychic Services (Aurora Tho'ra)]]) to denote a ''disciplined practitioner-tier'' competence with the Resonant / sensitive substrate. Psi-Tech is distinct from generic "energy work" or generic "healing-arts" practice in the same way that aerospace engineering is distinct from "tinkering with model aeroplanes" — same substrate, different discipline.
+
+This page describes the real-world Psi-Tech-equivalent practitioner path.
+
+== Three Tiers Of Practice ==
+
+The wiki recognises three tiers of practice with the Resonant substrate. They are not better or worse; they are different commitments.
+
+=== Tier 1 — Personal Practice ===
+
+* '''Who:''' Almost anyone who recognises themselves as Resonant.
+* '''What:''' A daily or near-daily practice for one's own grounding, perception, and integration. Meditation, breathwork, journaling, somatic work, prayer, energy hygiene, sleep discipline.
+* '''Scope:''' Self-care, self-knowledge, self-regulation.
+* '''Failure modes:''' Drift, abandonment, over-spiritualisation of ordinary problems.
+
+This tier is the floor. ''No higher tier is durable without this one.''
+
+=== Tier 2 — Healing Arts / Energy Work ===
+
+* '''Who:''' Practitioners who work on themselves and others, with or without formal credentialing.
+* '''What:''' Bodywork, energy work, somatic therapy, breathwork facilitation, plant-medicine guidance, intuitive reading, astrology, tarot, ritual work, etc.
+* '''Scope:''' Service to clients, often with payment, usually one-on-one or small-group.
+* '''Credentials:''' Vary widely. Some traditions are licensed (massage, acupuncture). Most are not. Self-regulation is the norm.
+* '''Failure modes:''' Power-over dynamics with clients, financial exploitation, magical-thinking diagnoses, scope-creep into medical territory.
+
+This is the tier most "energy worker" / "lightworker" / "intuitive coach" / "healer" community language describes. It is real work. The good practitioners are very good; the bad ones do real harm.
+
+=== Tier 3 — Psi-Tech ===
+
+* '''Who:''' Practitioners whose work bridges the sensitive substrate with technical / engineering / scientific discipline. Rare cross-section.
+* '''What:''' Operational use of sensitivity in technical contexts — flight test, emergency medicine, materials sensing, structural fault-finding, large-animal work, machine "feel," intuitive engineering. Also: research into the substrate itself (biophoton, EM, Schumann, plasma, magneto-gravitic).
+* '''Scope:''' Often institutional — military, aerospace, medical, research, trades — with the sensitivity treated as an operational instrument rather than as a brand.
+* '''Credentials:''' Conventional technical / professional credentialing in the host discipline, with the sensitivity competence implicit and unadvertised.
+* '''Failure modes:''' Pretending the sensitivity isn't real to fit institutional culture (under-using the channel), or over-claiming the sensitivity in technical settings (losing institutional credibility).
+
+This is the tier the FusionGirl saga's '''Psi-Tech''' canon formalises. It is the [[Aurora Tho'ra]] and [[Earth-Side Aurora Tho'ra Archetype]] tier — sensitive and technical simultaneously, with both channels operationally used.
+
+Most real-world Aurora-archetype candidates belong to Tier 3 even if their cultural framing has them attempting Tier 2 (because Tier 2 is the only tier the awakening community has popularised). The mismatch is what this page exists to clarify.
+
+== What A Tier 3 Practice Actually Looks Like ==
+
+Concrete, not abstract.
+
+=== Daily Practice ===
+
+* '''Morning anchor.''' 10–40 minutes. Choice of: meditation, breathwork, somatic check-in, prayer, embodied movement. The point is consistency; the form is whichever you'll actually do.
+* '''Tool maintenance.''' Tier 3 practitioners maintain their instruments — both physical (knives, hands, body, kit) and energetic (channel cleanliness, boundary integrity, after-work clearance practice).
+* '''Field-state hygiene.''' Sleep, hydration, nutrition, light exposure, EMF management to the level you find empirically necessary. Boring; load-bearing.
+* '''Capture.''' Notebook / journal / voice-note discipline for the data the channel provides. The sensitivity channel produces ''data''. Tier 3 practitioners treat it as data.
+
+=== Weekly Practice ===
+
+* '''Peer contact.''' At least one Tier 3-capable peer (or one trusted Tier 2 mentor) you talk to about practice and field-state.
+* '''Reading.''' Primary literature in your host discipline + at least one bridge-discipline text per quarter (see [[Suppressed Propulsion Reading List]], [[Morphic-Psi Bridge]], [[Plasma-Psi Bridge]], etc.).
+* '''Practice review.''' Did the channel produce data this week? Was the data correct? What is the error pattern? Calibration discipline matters.
+
+=== Annual Practice ===
+
+* '''Retreat or deep-rest interval.''' One or two times a year, at least.
+* '''Skill upgrade.''' Conventional technical credential or skill in your host discipline — for the institutional-credibility leg.
+* '''Mentor / mentee.''' One person you learn from, one person you teach. Both are load-bearing for Tier 3.
+
+=== Tools ===
+
+Real tools, not metaphorical ones:
+
+* '''Physical kit.''' Whatever your host discipline requires. Maintained.
+* '''Capture kit.''' Notebook, voice recorder, sketchbook.
+* '''Field-state kit.''' Whatever you've empirically found to keep you operational — earplugs, blue-blocker glasses, salt, water, particular foods, particular music, particular places.
+* '''Energetic kit.''' Whatever practice family you've come from — talisman, prayer object, sigil, [[Resonant Card]], or nothing-at-all if that is what works.
+
+The wiki does not prescribe any specific tool family. It prescribes ''having an inventory and knowing what each item does''.
+
+== Ethics ==
+
+Tier 3 ethics are stricter than Tier 2, not looser.
+
+* '''Scope discipline.''' Don't diagnose what you can't treat. Don't claim authority you haven't earned. Don't make your client / colleague / institution dependent on the sensitivity-channel in ways that make ordinary life harder for them.
+* '''Consent.''' Do not "read" people who have not agreed to be read. The channel is real; uninvited use of it is the energetic equivalent of opening someone's mail.
+* '''Financial proportion.''' If you charge for your work, charge proportionate to what you provide and what your peer practitioners charge.
+* '''Confidentiality.''' What you receive in the channel about others stays with you unless they ask.
+* '''Hand-off discipline.''' If something is outside your tier or scope, hand off to someone whose tier or scope it is. Especially medical, especially psychiatric, especially crisis.
+
+The [[Psi Tether]] / [[Psi Stabilizer]] / [[Psi Defender]] family on this wiki are the saga's formalisation of the tools that support these ethics in operational form. The real-world equivalents are: clear-headed boundary practice, regular debrief with a peer, and a real referral network.
+
+== Common Failure Modes ==
+
+These are common; if you recognise yourself, you're not alone.
+
+* '''Trying to do Tier 2 when you're built for Tier 3.''' Lots of energy on healing-arts brand-building, when the actual work that needs your cross-section is in your host discipline.
+* '''Trying to do Tier 3 without Tier 1.''' Operationally using the channel without daily-practice maintenance. Burns out fast.
+* '''Charging too little''' because Tier 2 community taught you that "spiritual gifts can't be sold." Tier 3 practitioners charge for technical work and exercise the sensitivity channel within it; the question doesn't arise.
+* '''Hiding the channel from your institution''' because you assume they'd reject it. Many institutions will tolerate or even welcome it; what they will not tolerate is being told you have it instead of being shown that it works. Be effective first, articulated second.
+* '''Treating Tier 3 as a hierarchy above Tier 2.''' It isn't. Tiers are different commitments, not different ranks.
+
+== In-Saga Mirror ==
+
+In the FusionGirl saga, the Tier 3 path is canonised across:
+
+* [[Psi-Tech]] — the saga's umbrella canon for the disciplined-practitioner substrate.
+* [[Psychic Services (Aurora Tho'ra)]] — Aurora's layered Tier 3 service offering inside [[Tho'ra HQ]].
+* [[Resonant Pipeline]] — how the saga's clan receives Resonants and routes them into the right tier of work.
+* [[Pilot Licensing (Magneto-Gravitic)]] — the saga's structural argument for why Tier 3 cross-section practitioners hold the high-leverage operational roles.
+
+== See Also ==
+
+* [[Are You A Resonant]]
+* [[Resonant Awakening Signs]]
+* [[Empath Pilot Profile]]
+* [[Earth-Side Aurora Tho'ra Archetype]]
+* [[Pair-Bond (Twin-Flame Bridge)]]
+* [[Psi-Tech]]
+* [[Psi Tech]]
+* [[Psychic Services (Aurora Tho'ra)]]
+* [[Resonant Pipeline]]
+* [[Psi Tether]]
+* [[Psi Stabilizer]]
+* [[Psi Defender]]
+* [[Psi Harmonizer]]
+* [[Aurora Tho'ra]]
+* [[Tho'ra Clan]]
+* [[Pilot Licensing (Magneto-Gravitic)]]
+* [[Disclosure Era Bridge]]
+* [[Suppressed Propulsion Reading List]]
+
+[[Category:Entry Pages]]
+[[Category:Bridge Pages]]
+[[Category:Resonant]]
+[[Category:Psi-Tech]]

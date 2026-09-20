@@ -1,0 +1,262 @@
+{{Derives_From
+| term        = Q_ψ = ω·U_ψ/P_diss — ratio of stored ψ energy to dissipated power, derived from the ψ stress-energy tensor T^{00}_ψ
+| description = The ψ quality factor Q_ψ is the single most important figure
+                of merit for every [[ψ Resonator]]-based Psi-Tech device.
+                It determines how long a ψ field persists after driving ceases
+                (ringdown time τ = 2Q_ψ/ω), how sharply frequency-selective
+                the resonator is (bandwidth Δω = ω/Q_ψ), how much ψ energy
+                can be stored for a given drive amplitude, and how long a
+                soliton can be sustained before it requires re-establishment.
+                The [[Psi Stabilizer]] requires Q_ψ > 200 to maintain a
+                coherent reference field through the full 90-second Anchor
+                burst. The material-limited Q ceiling from [[ψ Loss Tangent]]
+                (B4) is 1/tan δ_ψ; the geometric and coupling contributions
+                further reduce the loaded Q to the engineering design value.
+}}
+
+{{Infobox
+| title   = ψ Quality Factor
+| image   =
+| caption = The single most important resonator figure of merit — how long the ψ field rings after the drive stops
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Resonator Engineering · Materials Science
+| label3  = Derives From
+| data3   = <math>Q_\psi = \omega\,U_\psi/P_{\rm diss}</math>; ψ stress-energy tensor <math>T^{00}_\psi</math>; [[ψ Loss Tangent]] (B4)
+| label4  = Established Analog
+| data4   = RF resonator Q factor; optical cavity finesse; acoustic reverberation time T60; mechanical Q of tuning fork
+| label5  = Key Output
+| data5   = Q_ψ definition and measurement; loaded Q decomposition; Q targets per module; Q_ψ row of master material table; ringdown measurement protocol
+| label6  = Primary Engineering Use
+| data6   = Governs soliton lifetime, drive power requirement, frequency selectivity, and Anchor burst duration for all [[Psi-Tech]] modules
+| header7 = Key Equations
+| label8  = Q definition
+| data8   = <math>Q_\psi = \omega\,U_\psi/P_{\rm diss}</math>
+| label9  = Loaded Q
+| data9   = <math>1/Q_L = 1/Q_{\rm mat} + 1/Q_{\rm rad} + 1/Q_{\rm coup}</math>
+| label10 = Ringdown time
+| data10  = <math>\tau = 2Q_\psi/\omega_0</math>
+| label11 = Bandwidth
+| data11  = <math>\Delta\omega = \omega_0/Q_\psi</math>
+| below   = ''Build wave 2 — requires [[ψ Constitutive Relations]] (B1) and benefits from [[ψ Loss Tangent]] (B4). Parallel with B2, B3, B6.''
+}}
+
+= ψ Quality Factor =
+
+{{Plain_Hook
+| in_one_sentence    = The ψ quality factor Q_ψ — defined as the ratio of stored ψ energy to power dissipated per radian — is the central engineering figure of merit for every [[ψ Resonator]]-based device, setting simultaneously the soliton lifetime, the drive power requirement, the frequency selectivity, and the Anchor burst duration; for the [[Psi Stabilizer]] it must exceed 200, and this requirement cascades directly into every composite material choice in the [[Smart Composite Fill]].
+| everyday_analogy   = A wine glass struck with a fork rings for seconds — it has a high Q. The same note played into a room full of heavy curtains disappears almost immediately — low Q. A radio tuned to a weak station needs a high-Q antenna circuit to select that frequency precisely without pulling in neighbours. ψ quality factor captures both meanings simultaneously: it determines how long the resonator rings (soliton lifetime) and how narrowly it selects frequencies (mode purity). High Q is always preferable in ψ resonator design — but the composite material's loss tangent sets a ceiling that cannot be exceeded.
+| what_it_predicts   = (1) A hard Q ceiling <math>Q_\psi^{\rm max} = 1/\tan\delta_\psi</math> from material loss, derivable from the [[ψ Loss Tangent]] (B4) composite budget; (2) A loaded Q below the ceiling after radiation and coupling losses are included, measurable directly by ringdown; (3) A module-specific Q target table showing that different applications require very different Q values — the [[Psi Defender]] deliberately uses low Q for broad-spectrum shielding while the [[ψ Memory Element]] requires Q > 10⁶ for hour-scale soliton retention; (4) A drive power scaling law showing that required drive power scales as <math>1/Q_\psi</math> — high-Q devices are more efficient to operate continuously.
+| if_you_remember_one_thing = Q_ψ = 2π × (energy stored)/(energy lost per cycle). Doubling Q halves the required continuous drive power for the same stored ψ amplitude. But Q is bounded above by 1/tan δ_ψ — and that constraint is why every material choice in the [[Smart Composite Fill]] is driven by the loss budget in [[ψ Loss Tangent]] (B4).
+}}
+
+== Definition from the Stress-Energy Tensor ==
+
+The ψ field energy stored in a volume <math>V</math> is derived from the time-time component of the ψ stress-energy tensor <math>T^{00}_\psi</math> (from [[Psionics]]):
+
+:<math>U_\psi = \int_V T^{00}_\psi\,d^3x = \int_V \left[\tfrac{1}{2}(\partial_t\psi)^2 + \tfrac{1}{2}|\nabla\psi|^2 + \tfrac{1}{2}m_{\rm eff}^2\psi^2 + \tfrac{\lambda}{4}\psi^4\right]d^3x</math>
+
+The power dissipated by the material:
+
+:<math>P_{\rm diss} = \omega\,\varepsilon''_\psi\,\langle|\psi|^2\rangle\,V</math>
+
+where <math>\varepsilon''_\psi</math> is the imaginary part of the complex permittivity (from [[ψ Loss Tangent]] B4) and <math>\langle|\psi|^2\rangle</math> is the volume-averaged squared amplitude.
+
+The '''ψ quality factor''':
+
+:<math>\boxed{Q_\psi = \frac{\omega\,U_\psi}{P_{\rm diss}}}</math>
+
+{{Math_Bridge
+| equation_label = ψ quality factor
+| equation       = <math>Q_\psi = \frac{\omega\,U_\psi}{P_{\rm diss}}</math>
+| in_english     =
+* <math>Q_\psi</math> — dimensionless. Directly measures how many radians of oscillation occur before the stored energy falls to <math>1/e</math> of its initial value.
+* <math>\omega</math> — angular frequency of the resonant mode. Higher frequency → same stored energy dissipated per unit time → Q harder to achieve at higher frequencies (partly why 40 kHz is chosen over microwave: material Q is higher at lower frequencies).
+* <math>U_\psi</math> — total stored ψ field energy in the cavity. Depends on drive amplitude and cavity volume.
+* <math>P_{\rm diss}</math> — power permanently removed from the ψ field each second. Sets the continuous drive power required to maintain constant amplitude.
+* '''Engineering interpretation:''' The device must supply <math>P_{\rm drive} = P_{\rm diss} = \omega U_\psi / Q_\psi</math> of continuous ψ power to maintain a steady-state amplitude. High Q means lower required drive power at the same stored energy.
+}}
+
+=== Simplified Form for Linear Resonator ===
+
+For a resonator with uniform mode field and loss-tangent-dominated dissipation:
+
+:<math>Q_\psi = \frac{\varepsilon'_\psi}{\varepsilon''_\psi} = \frac{1}{\tan\delta_\psi}</math>
+
+This is the material-limited Q. The full loaded Q is always less than this value.
+
+== Loaded Q Decomposition ==
+
+The total (loaded) quality factor combines three independent loss mechanisms:
+
+:<math>\frac{1}{Q_L} = \frac{1}{Q_{\rm mat}} + \frac{1}{Q_{\rm rad}} + \frac{1}{Q_{\rm coup}}</math>
+
+{{Math_Bridge
+| equation_label = Loaded Q decomposition
+| equation       = <math>\frac{1}{Q_L} = \frac{1}{Q_{\rm mat}} + \frac{1}{Q_{\rm rad}} + \frac{1}{Q_{\rm coup}}</math>
+| in_english     =
+* <math>Q_{\rm mat} = 1/\tan\delta_\psi</math> — material Q: losses from ψ absorption in the composite fill. Set by [[ψ Loss Tangent]] (B4). For the target composite: <math>Q_{\rm mat} = 1/0.005 = 200</math>.
+* <math>Q_{\rm rad}</math> — radiation Q: ψ energy lost by leaking through the shell boundary. For a Neumann boundary (perfect reflector from [[ψ Boundary Conditions]] A5): <math>Q_{\rm rad} \to \infty</math>. For a Robin boundary (partial absorption): finite <math>Q_{\rm rad}</math> determined by the Robin coefficient <math>\alpha_R</math>. The [[Psi Stabilizer]] outer shell uses Robin conditions to allow controlled ψ leakage for OPM sensing — this reduces <math>Q_{\rm rad}</math>.
+* <math>Q_{\rm coup}</math> — coupling Q: ψ energy extracted by the measurement/drive coupling system (the bifilar coil). For critical coupling: <math>Q_{\rm coup} = Q_{\rm mat}</math>, giving <math>Q_L = Q_{\rm mat}/2</math>.
+* '''Design strategy:''' The [[Psi Stabilizer]] targets <math>Q_L > 200</math>. With <math>Q_{\rm mat} = 200</math>, this requires both <math>Q_{\rm rad}</math> and <math>Q_{\rm coup}</math> to be as high as possible. The Robin outer boundary coefficient must be minimised (less leakage), and the bifilar coil coupling must be under-coupled (<math>Q_{\rm coup} > Q_{\rm mat}</math>) to sacrifice some drive efficiency for higher loaded Q.
+}}
+
+=== Three-Q Budget for Each Module ===
+
+{| class="wikitable" style="width:100%;"
+! Module !! Target <math>Q_L</math> !! <math>Q_{\rm mat}</math> (from tan δ) !! <math>Q_{\rm rad}</math> target !! <math>Q_{\rm coup}</math> target !! Design strategy
+|-
+| [[Psi Stabilizer]] || > 200 || 200 (at tan δ = 0.005) || > 1000 (near-Neumann outer wall) || > 400 (under-coupled drive) || Material Q is the bottleneck; minimise shell leakage; under-couple drive
+|-
+| [[Psi Harmonizer]] || > 500 || 200 (same composite) || > 2000 (more Neumann-like) || > 1000 (heavily under-coupled) || Must improve material Q — requires lower-loss fill formulation
+|-
+| [[Psi Defender]] || 20–100 (deliberately low) || 200 || Low (Robin boundary, intentional leakage) || Low (over-coupled — efficient absorption) || Low Q = broad bandwidth = screens wide frequency range of incoming ψ
+|-
+| [[ψ Memory Element]] || > 10⁶ || Requires tan δ < 10⁻⁶ || > 10⁷ (near-perfect Neumann) || > 2×10⁶ (minimal coupling) || Requires fundamentally different (likely cryogenic or superconducting analogue) material
+|}
+
+The [[Psi Harmonizer]] Q target (> 500) exceeds what the standard composite formulation can deliver. This is an unsolved engineering problem — the [[Psi Harmonizer]] will require either a lower-loss fill (perhaps replacing MWCNT with vapour-grown carbon fibres at lower loading) or a cavity geometry that reduces the effective filling factor of the lossy phases.
+
+The [[ψ Memory Element]] Q requirement (> 10⁶) is not achievable with any room-temperature composite. This page records the target as an engineering specification — the physics requires it — while noting that the material science solution is a future research problem.
+
+== Ringdown Time and Anchor Burst Duration ==
+
+The ringdown time <math>\tau</math> (e-folding time of amplitude after drive cut) and Anchor burst duration <math>t_{\rm burst}</math> must satisfy:
+
+:<math>\tau = \frac{2Q_\psi}{\omega_0}, \qquad t_{\rm burst} \gg \tau_{\rm establish}</math>
+
+where <math>\tau_{\rm establish}</math> is the time required for the ψ field to build up from zero to its steady-state amplitude when the drive is first applied — approximately <math>2Q_\psi/\omega_0</math> (the same as the ringdown time, by time-reversal symmetry).
+
+At the [[Psi Stabilizer]] design point:
+
+:<math>\tau = \frac{2 \times 200}{2\pi \times 4\times10^4} \approx 1.6\,\text{ms}</math>
+
+The 90-second Anchor burst is 56,000 times longer than the field establishment time. The Anchor drive is entirely dominated by steady-state operation — the establishment transient is negligible. This is not universally true:
+
+{| class="wikitable" style="width:100%;"
+! Module !! <math>Q_\psi</math> !! Frequency (kHz) !! <math>\tau</math> (ms) !! Anchor burst duration !! <math>t_{\rm burst}/\tau</math>
+|-
+| [[Psi Stabilizer]] || 200 || 40 || 1.6 || 90 s || 56,250 — establishment negligible
+|-
+| [[Psi Harmonizer]] || 500 || 10 || 16 || 90 s || 5,625 — still negligible
+|-
+| [[ψ Memory Element]] || 10⁶ || 100,000 || 3,180 (3.18 s) || Written in 100 ms pulses || 0.031 — establishment dominates! Must account for in write protocol
+|}
+
+The [[ψ Memory Element]] write protocol must explicitly account for the field establishment transient — a 100 ms write pulse at Q = 10⁶ reaches only 3% of steady-state amplitude. The write pulse must be extended to at least <math>5\tau \approx 16</math> s for the field to reach 99% of its target amplitude.
+
+== Q_ψ Row of the Master Material Parameter Table ==
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>Q_\psi</math> (material-limited) !! Basis !! Measurement method !! Notes
+|-
+| Air (null reference) || ∞ (definition) || Lossless reference || Empty cavity ringdown || Baseline
+|-
+| Quartz (crystalline) || ~10,000 || From tan δ ≈ 0.0001 || Ringdown on quartz resonator || Highest available at room temperature
+|-
+| Formlabs Rigid 10K || ~330 || From tan δ ≈ 0.003 || VNA + ringdown || Adequate scaffold material
+|-
+| BST composite (0V) || ~50–100 || From tan δ ≈ 0.010–0.020 || VNA loss extraction || Limiting phase at high loading
+|-
+| MWCNT-epoxy || ~65 || From tan δ ≈ 0.015 || Careful fixture measurement || Above percolation — resistive loss
+|-
+| Composite (optimised) || TBD; target > 200 || From tan δ target < 0.005 || Full-shell ringdown — primary TML-2 test || Pass/fail criterion for TML-2
+|-
+| Biological cortex (baseline) || TBD || TML-3 measurement || Cavity Q shift with operator || Highest priority TML-3
+|-
+| Biological cortex (peak HRV) || TBD; expected higher than baseline || TML-3 — coherence-dependent loss hypothesis || Cavity Q shift comparison || Track B prediction
+|}
+
+== Drive Power and Efficiency ==
+
+At steady state, the drive must supply exactly the power dissipated:
+
+:<math>P_{\rm drive} = P_{\rm diss} = \frac{\omega_0\,U_\psi}{Q_\psi}</math>
+
+For the [[Psi Stabilizer]] at design point, with target stored energy <math>U_\psi</math> estimated from the ψ field amplitude needed to produce detectable HRV coherence shift (a TML-3 calibration quantity):
+
+Assuming <math>U_\psi \sim 1</math> μJ (order-of-magnitude estimate pending TML-3):
+
+:<math>P_{\rm drive} \approx \frac{2\pi \times 4\times10^4 \times 10^{-6}}{200} \approx 1.3\,\text{mW}</math>
+
+This is well within the wearable power budget — a 500 mAh Li-ion cell at 3.7V provides approximately 6.6 kJ, giving continuous operation for <math>6600/0.0013 \approx 5\times10^6</math> seconds ≈ 58 days from material loss alone. The dominant power consumers are the electronics, not the ψ field drive. The [[BST Energy Recovery]] (D4) flyback recapture is therefore primarily relevant to the drive electronics efficiency, not the stored ψ field maintenance.
+
+== Measurement: Ringdown Protocol ==
+
+The most direct and reliable Q_ψ measurement is resonator ringdown:
+
+{{Way_It_Works
+| title       = Ringdown protocol for Q_ψ measurement
+| step1_label = Drive to steady state
+| step1_text  = Apply continuous drive to the resonator at the target resonant frequency <math>\omega_{010}</math> using the [[Bifilar Coil Engineering]] (D1) driver. Drive for a minimum of <math>10\tau</math> to ensure steady-state amplitude is reached. Monitor ψ-proxy signal (OPM output or bifilar coil back-EMF) until amplitude stabilises to within ±2%.
+| step2_label = Cut drive
+| step2_text  = Switch drive off in < 1 μs (GaN half-bridge gate switching time from [[HV Pulse Modulation]] D3). The fast cut prevents drive-signal contamination of the ringdown measurement.
+| step3_label = Record decay
+| step3_text  = Sample ψ-proxy signal at minimum 10× the resonant frequency (400 kHz sample rate for 40 kHz resonance). Record for at least <math>5\tau</math> to capture > 99% of the decay curve.
+| step4_label = Fit exponential
+| step4_text  = Fit the amplitude envelope of the recorded signal to <math>A(t) = A_0\,e^{-t/\tau}</math> using nonlinear least-squares (scipy.optimize.curve_fit or equivalent). Extract <math>\tau</math> and its 1σ uncertainty.
+| step5_label = Compute Q
+| step5_text  = <math>Q_\psi = \omega_0\tau/2 = \pi f_0\tau</math>. At 40 kHz: <math>Q_\psi = \pi \times 40000 \times \tau</math>. Pass criterion: <math>Q_\psi > 200</math> corresponds to <math>\tau > 1.6</math> ms.
+| step6_label = Cross-check with VNA bandwidth
+| step6_text  = Measure S11 resonance on the same cavity using VNA. Extract <math>Q_L = \omega_0/\Delta\omega_{3\text{dB}}</math> from the −3 dB bandwidth. Agreement between ringdown Q and VNA Q to within 15% confirms measurement validity.
+}}
+
+== ψ-Dependent Extensions ==
+
+=== Soliton-Enhanced Effective Q ===
+
+The <math>-\lambda\psi^3</math> nonlinear term supports soliton solutions that partially resist the decay that would occur in a purely linear resonator. The effective Q of a soliton mode in the nonlinear regime is higher than the linear Q = 1/tan δ_ψ — the soliton uses energy stored in the nonlinear field to compensate material loss, at the cost of a slight frequency shift from the linear resonant frequency.
+
+Quantitatively, for a soliton of amplitude <math>\psi_s</math> in a medium with linear loss <math>\Gamma = \omega/Q_{\rm mat}</math>:
+
+:<math>Q_{\rm eff} = Q_{\rm mat}\left(1 + \frac{3\lambda\psi_s^2}{m_{\rm eff}^2 + 3\lambda\psi_s^2}\right)</math>
+
+For <math>\psi_s^2 \gg m_{\rm eff}^2/(3\lambda)</math>: <math>Q_{\rm eff} \to 2Q_{\rm mat}</math> — the soliton effectively doubles the quality factor. This is a direct mathematical consequence of the master equation's nonlinear structure.
+
+Track B: this predicts that the measured ringdown time during a high-amplitude Anchor burst (soliton regime) is longer than during a low-amplitude test pulse (linear regime). Comparing ringdown times at two drive amplitudes provides a direct test of the soliton-enhanced Q mechanism.
+
+=== Q Measurement as ψ Field Verification ===
+
+The Q_ψ measurement protocol described above is Track A — it measures the electromagnetic properties of the composite resonator. However, if the [[ψ Falsifiability Framework]] (F1) predicts that the ψ field should produce specific anomalous effects in the ringdown (e.g., anomalously slow decay during operator presence, beyond what the EM Q alone predicts), then deviations from the electromagnetic ringdown model become direct experimental evidence for ψ.
+
+Specifically: if a trained operator maintains sustained intentional focus during a ringdown measurement, and the measured <math>\tau</math> is significantly longer than the EM-predicted <math>\tau = 2Q_{\rm mat}/\omega</math>, this excess ringdown time is attributable to ψ field contributions to the stored energy <math>U_\psi</math> — contributions not present in the empty-cavity measurement. This is the Mode Geometry Test ([[Mode Geometry Test]] F3) in its Q-measurement formulation.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected result !! Verified?
+|-
+| <math>Q_L < Q_{\rm mat}</math> always || Loaded Q always less than material Q — additional loss mechanisms only reduce Q || ✓ (from harmonic mean structure of 1/Q_L sum)
+|-
+| <math>Q_{\rm rad} \to \infty</math> (perfect Neumann wall) || <math>1/Q_L = 1/Q_{\rm mat} + 1/Q_{\rm coup}</math> — radiation loss drops out || ✓
+|-
+| <math>Q_{\rm coup} \to \infty</math> (uncoupled resonator) || <math>1/Q_L = 1/Q_{\rm mat} + 1/Q_{\rm rad}</math> — no energy extracted by coupling || ✓
+|-
+| Critical coupling <math>Q_{\rm coup} = Q_{\rm mat}</math> || <math>Q_L = Q_{\rm mat}/2</math> — loaded Q exactly half the material Q; maximum power transfer to load || ✓ (standard coupled resonator result)
+|-
+| Ringdown and VNA Q agreement || Both should give same loaded Q to within measurement noise; systematic disagreement indicates calibration error || Requires experimental confirmation at TML-2
+|-
+| Soliton Q enhancement limit || <math>Q_{\rm eff} \leq 2Q_{\rm mat}</math> — factor of 2 ceiling even for arbitrarily large soliton amplitude || ✓ (from formula derivation above)
+|}
+
+== See Also ==
+
+* [[ψ Constitutive Relations]] (B1) — defines energy density <math>U_\psi</math>; master table
+* [[ψ Loss Tangent]] (B4) — material Q ceiling: <math>Q_{\rm mat} = 1/\tan\delta_\psi</math>
+* [[ψ Resonator]] (C1) — primary device whose performance this parameter governs
+* [[ψ Boundary Conditions]] (A5) — radiation Q set by boundary condition type
+* [[Smart Composite Fill]] (B8) — material choices driven by Q budget on this page
+* [[Bifilar Coil Engineering]] (D1) — coupling Q set by coil geometry
+* [[HV Pulse Modulation]] (D3) — provides fast drive cut for ringdown measurement
+* [[Psi Stabilizer]] — Q > 200 design requirement
+* [[ψ Memory Element]] (C12) — Q > 10⁶ requirement drives future materials research
+* [[Mode Geometry Test]] (F3) — uses Q measurement as ψ field verification
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Metamaterials]]
+[[Category:Resonators]]

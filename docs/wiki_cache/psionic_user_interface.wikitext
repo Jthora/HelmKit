@@ -1,0 +1,30 @@
+The '''Psionic User Interface''' (PUI) is the design discipline for interfaces between operators and [[Psi-Tech]] systems. It is not a single product — it is the rules-of-engagement for how a HelmKit Mk1, a [[Star Seer]] HUD, a [[Psi Stabilizer]] anchor button, or a [[Resonant Finder]] tile feed presents information to and accepts intent from a human under conditions where the operator is also the sensor. A psionic interface is one where the user's biology, attention, and intent are first-class inputs and outputs, not just incidental peripherals.
+
+== Overview ==
+
+The PUI doctrine commits to four principles:
+
+* '''The operator is always in the loop.''' No [[Psi-Tech]] action engages without operator affirmation. There is no "auto" mode that does not start as a deliberate operator gesture.
+* '''Surface signal, hold meaning.''' The interface presents signal (a bearing, a coherence delta, an anomaly class) and reserves meaning to the operator. It does not pre-interpret.
+* '''Honest uncertainty.''' Confidence is always shown. The interface refuses to display a class above its actual confidence.
+* '''Disengage by default.''' All active modes have an obvious disengage; the lanyard kill works regardless of UI state.
+
+The PUI is also the rule for how astrologically- and psi-derived inputs (chart hash, transit state, [[Psi Defender]] threat classification) appear: never as imperatives, always as offers.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[HelmKit]]
+* [[HelmKit Architecture]]
+* [[Psi Stabilizer]]
+* [[Psi Harmonizer]]
+* [[Psi Defender]]
+* [[Psi Recorder]]
+* [[PsiSys]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Doctrine]]
+[[Category:PsiNet Substrate]]

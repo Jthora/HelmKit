@@ -1,18 +1,5 @@
 = Reactive Near-Field =
 
-{{Audience_Sidebar
-| difficulty   = Intermediate
-| reading_time = 5 minutes
-| prerequisites = [[Near_Field_Electromagnetics]]; Maxwell's equations.
-| if_too_advanced_see = [[Near_Field_Electromagnetics]]
-| if_you_want_the_math_see = This page
-}}
-
-{{Notation
-| signature = Non-relativistic; SI.
-| units     = E (V/m); H (A/m); D = largest antenna dimension (m); λ = wavelength (m).
-}}
-
 The '''reactive near-field''' is the innermost EM zone surrounding an antenna or radiating element — the region where electromagnetic energy is '''stored''' rather than radiated. It is defined by:
 
 :<math>0 < r < 0.62\,\sqrt{D^3/\lambda}</math>

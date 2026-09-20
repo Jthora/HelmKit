@@ -1,0 +1,333 @@
+{{Derives_From
+| term        = □ψ on a finite domain — boundary conditions require specific geometry
+| description = The Neumann boundary condition (∂ψ/∂n = 0 at wall) from
+                [[ψ Boundary Conditions]] (A5) requires a shell material that
+                acts as a perfect ψ reflector at the target frequency. Triply
+                periodic minimal surfaces — specifically the Gyroid and
+                Schwarz-P — are the geometries that simultaneously satisfy
+                the sub-coherence-length homogenisation requirement
+                (a ≪ L_ψ), the high surface-to-volume ratio needed for
+                EM-ψ coupling via αF²μν, and the bicontinuous topology
+                required for ferrofluid channel routing. The TPMS lattice
+                is not a design choice — it is what the boundary condition
+                mathematics demands.
+}}
+
+{{Infobox
+| title   = TPMS Lattice Design
+| image   =
+| caption = Triply periodic minimal surface architectures as ψ resonant shell substrates
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Structural Engineering · Additive Manufacturing
+| label3  = Derives From
+| data3   = Neumann boundary condition <math>\partial\psi/\partial n = 0</math> from [[ψ Boundary Conditions]] (A5); sub-coherence-length homogenisation requirement from [[ψ Dispersion Relations]] (A3)
+| label4  = Established Analog
+| data4   = Photonic crystal unit cell design; acoustic metamaterial lattice engineering; aerospace composite topology optimisation
+| label5  = Key Output
+| data5   = Gyroid and Schwarz-P level-set equations; fabrication protocol; composite infusion sequence; FBG integration; thermal management
+| label6  = Primary Engineering Use
+| data6   = Physical realisation of the [[Psi Stabilizer]] resonant shell and all [[Psi-Tech]] metamaterial substrates
+| header7 = Key Specifications
+| label8  = Unit cell target
+| data8   = <math>a = 1.2</math> mm (Stabilizer); <math>a = 0.5</math>–<math>2</math> mm range
+| label9  = Relative density target
+| data9   = 18–25% (<math>t = 0.3</math>–<math>0.5</math> for Gyroid)
+| label10 = Fabrication method
+| data10  = DLP stereolithography, 25 μm layer resolution
+| label11 = Effective medium validity
+| data11  = <math>a \ll L_\psi</math> — requires <math>a < L_\psi/10</math>
+| below   = ''Build wave 1a — no Branch B dependencies. Parallel with [[Smart Composite Fill]] (B8). Informs [[ψ Constitutive Relations]] (B1).''
+}}
+
+= TPMS Lattice Design =
+
+The TPMS Lattice Design page specifies the geometric backbone of every [[Psi-Tech]] metamaterial substrate. The [[Smart Composite Fill]] (B8) specifies what goes into the lattice; this page specifies the lattice itself — its geometry, fabrication route, embedded sensor integration, and thermal management architecture.
+
+The derivation chain is: [[ψ Boundary Conditions]] (A5) specifies the Neumann condition → the Neumann condition requires a material with low ψ loss (high <math>Q_\psi</math>) and high surface-to-volume ratio → the TPMS geometry is the unique class that simultaneously satisfies both constraints with fabricable unit cells at sub-millimetre scale.
+
+== Why TPMS, Not a Conventional Lattice ==
+
+Three properties make triply periodic minimal surfaces the mathematically correct geometry for ψ resonant shells. Each property traces to a specific equation from Branch A.
+
+=== Isotropy — from □ψ mode structure ===
+
+The [[ψ Boundary Conditions]] (A5) page shows that the ψ₀₁₀ mode of the oblate spheroidal [[Psi Stabilizer]] shell has azimuthal symmetry — it is the same at all longitudes. This requires the shell material to have isotropic effective medium parameters: <math>\varepsilon_{\rm eff}</math> and <math>\mu_{\rm eff}</math> must be the same in all directions, or the mode shape will distort away from the target azimuthal symmetry.
+
+TPMS geometries of cubic symmetry (both Gyroid and Schwarz-P belong to cubic space groups Ia3d and Im3m respectively) have isotropic effective medium properties in the long-wavelength limit <math>a \ll \lambda</math>. A conventional octet-truss or body-centred cubic lattice does not — it has strong cubic anisotropy in its effective elastic and electromagnetic tensors.
+
+=== Zero Mean Curvature — from ferrofluid channel stability ===
+
+The [[Smart Composite Fill]] (B8) routes ferrofluid through dedicated microchannels in the TPMS walls for real-time <math>\mu_{\rm eff}</math> control. Ferrofluid in a curved channel experiences a Laplace pressure <math>\Delta P = \gamma (1/R_1 + 1/R_2)</math> where <math>R_1, R_2</math> are the principal radii of curvature and <math>\gamma</math> is the surface tension.
+
+For a minimal surface, the mean curvature <math>H = \frac{1}{2}(1/R_1 + 1/R_2) = 0</math> everywhere by definition. Therefore <math>\Delta P = 0</math> everywhere on the TPMS wall — ferrofluid in a minimal surface channel experiences no Laplace pressure gradient, and therefore does not spontaneously flow or redistribute. This is critical: a non-minimal surface would create pressure-driven ferrofluid redistribution that would spatially vary <math>\mu_{\rm eff}</math> in an uncontrolled way, distorting the ψ mode shape.
+
+=== Maximum Surface-to-Volume Ratio — from αF²μν coupling ===
+
+The [[ψ Transducer]] (C3) page shows that EM-ψ coupling efficiency scales with the volume integral of <math>F_{\mu\nu}F^{\mu\nu}</math> over the composite. The BST fill (from B8) has the highest <math>F_{\mu\nu}F^{\mu\nu}</math> response per unit mass of all composite phases. Maximising the interface area between the solid scaffold and the BST fill — at constant overall fill volume — directly increases the coupling integral.
+
+For a given porosity (relative density), TPMS geometries have the highest surface-to-volume ratio of any triply periodic structure. The Gyroid's surface-to-volume ratio at 25% relative density is approximately <math>S/V \approx 2.7/a</math> where <math>a</math> is the unit cell edge length — substantially higher than a sphere-packing (≈ 1.8/a) or a gyroid-like but non-minimal lattice (≈ 2.1/a at the same density).
+
+{{Plain_Hook
+| in_one_sentence    = Triply periodic minimal surfaces — particularly the Gyroid and Schwarz-P — are the physically correct geometry for ψ resonant shells because their isotropy satisfies the effective medium requirement, their zero mean curvature stabilises ferrofluid channels, and their maximal surface-to-volume ratio maximises EM-ψ coupling via the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> transduction term.
+| everyday_analogy   = A honeycomb is stronger than a solid block of the same mass, not because of what it is made of, but because of how it is arranged. TPMS lattices work the same way — their electromagnetic and psionic properties come primarily from their geometry. The Gyroid's interlocking curved channels do something no solid material can: they let ψ resonance, fluid routing, electrical conduction, and structural load-bearing all happen simultaneously in the same volume without interference.
+| what_it_predicts   = (1) A unit cell size of 1.2 mm satisfies the effective medium condition <math>a \ll L_\psi</math> across all target [[Psi-Tech]] coherence lengths; (2) The Gyroid level-set parameter <math>t = 0.3</math>–<math>0.5</math> gives 18–25% relative density — the optimal window balancing mechanical integrity against surface-to-volume ratio; (3) DLP printing at 25 μm layer resolution is sufficient to resolve all functionally critical features; (4) FBG sensors embedded in the lattice provide simultaneous structural health monitoring and <math>\varepsilon_{\rm eff}</math> drift detection.
+| if_you_remember_one_thing = The TPMS unit cell parameter <math>t</math> is not an aesthetic choice — it is a calculated engineering quantity derived from the target resonant frequency, the ferrofluid <math>\mu_{\rm eff}</math> set-point, and the [[ψ Boundary Conditions]] mode equation. Every fabrication batch begins with computing the required <math>t</math>, not selecting it arbitrarily.
+}}
+
+== The Level-Set Equations ==
+
+=== Gyroid ===
+
+:<math>\sin x\cos y + \sin y\cos z + \sin z\cos x = t</math>
+
+{{Math_Bridge
+| equation_label = Gyroid level-set equation
+| equation       = <math>\sin x\cos y + \sin y\cos z + \sin z\cos x = t</math>
+| in_english     =
+* The equation defines a surface in 3D space — the set of all points <math>(x, y, z)</math> where the left-hand side equals exactly <math>t</math>.
+* <math>t = 0</math>: the classical Gyroid minimal surface. The solid region is one side of this surface; the void is the other.
+* <math>t > 0</math>: the solid region grows, occupying more volume — higher relative density.
+* <math>t < 0</math>: the void region grows — lower relative density.
+* Coordinates <math>x, y, z</math> are scaled: one full period of the Gyroid occupies <math>2\pi</math> in each coordinate, corresponding to one unit cell of physical length <math>a</math>. So <math>x = 2\pi X/a</math> where <math>X</math> is the physical coordinate.
+* Engineering use: choose <math>t</math> to set the relative density, then generate the STL mesh from the implicit surface.
+}}
+
+The Gyroid belongs to space group Ia3d (No. 230) — the highest-symmetry cubic space group with chirality. Its effective medium tensor is isotropic to second order in <math>(a/\lambda)^2</math>. The slight residual anisotropy from higher-order terms can be deliberately aligned with the ψ₀₁₀ mode polarisation axis to increase coupling efficiency.
+
+'''Genus:''' The Gyroid surface has genus 3 per unit cell — it has three topologically distinct "handles." This means the two interpenetrating channel networks it creates are separately connected throughout the entire lattice, enabling independent routing of ferrofluid (in one network) and polymer fill (in the other).
+
+=== Schwarz-P ===
+
+:<math>\cos x + \cos y + \cos z = t</math>
+
+{{Math_Bridge
+| equation_label = Schwarz-P level-set equation
+| equation       = <math>\cos x + \cos y + \cos z = t</math>
+| in_english     =
+* Simpler than the Gyroid — three cosine terms, one per axis.
+* <math>t = 0</math>: the Schwarz Primitive (P) minimal surface, space group Im3m (No. 229).
+* Genus 3 per unit cell, same as Gyroid, but with higher symmetry — the surface has mirror planes along all body-diagonal directions.
+* Higher symmetry → more isotropic effective medium tensor → preferred for applications where isotropy matters more than coupling efficiency (e.g., [[Psi Defender]] shield where the ψ field must be attenuated equally in all directions).
+}}
+
+=== Density vs. Parameter t ===
+
+For both surfaces, relative density <math>\rho_{\rm rel}</math> (fraction of solid volume) increases with <math>|t|</math>. Approximate relationships (valid for <math>|t| < 1.4</math>):
+
+{| class="wikitable" style="width:80%; margin:auto;"
+! <math>t</math> !! Gyroid <math>\rho_{\rm rel}</math> !! Schwarz-P <math>\rho_{\rm rel}</math> !! Engineering regime
+|-
+| 0.0 || 50% || 50% || Too dense — minimal void for fill
+|-
+| 0.3 || 37% || 38% || Upper bound of target window
+|-
+| 0.4 || 30% || 31% || Mid-range target (Stabilizer)
+|-
+| 0.5 || 24% || 25% || Lower bound of target window
+|-
+| 0.7 || 14% || 16% || Too sparse — mechanical integrity compromised
+|-
+| 1.0 || 6% || 9% || Near percolation threshold — avoid
+|}
+
+Target window: <math>t = 0.3</math>–<math>0.5</math>, giving <math>\rho_{\rm rel} = 18</math>–<math>37\%</math>. Within this window, the lattice is mechanically robust under 5g acceleration (relevant to [[Psi-Ops]] field conditions), has adequate void volume for composite infusion, and maintains effective medium validity at the target unit cell size.
+
+== Effective Medium Validity Condition ==
+
+For the TPMS lattice to function as a homogeneous effective medium (rather than a periodic structure with photonic-bandgap-like behaviour), the unit cell size must be much smaller than the relevant ψ wavelength:
+
+:<math>a \ll \lambda_\psi = \frac{2\pi}{k} = \frac{2\pi v_\phi}{\omega}</math>
+
+At the [[Psi Stabilizer]] operating frequency <math>f = 40</math> kHz and with phase velocity <math>v_\phi \approx c = 3\times10^8</math> m/s (massless limit, valid since <math>m_{\rm eff} \ll \omega</math> at this frequency):
+
+:<math>\lambda_\psi \approx \frac{c}{f} = \frac{3\times10^8}{4\times10^4} = 7500\,\text{m}</math>
+
+At 1.2 mm unit cell: <math>a/\lambda_\psi = 1.2\times10^{-3}/7500 \approx 1.6\times10^{-7}</math> — many orders of magnitude below the homogenisation threshold. The effective medium approximation is excellent.
+
+The binding constraint is not the ψ wavelength but the coherence length <math>L_\psi = 1/m_{\rm eff}</math>. The unit cell must be smaller than the coherence length to act as a continuous medium for the static Yukawa field profile:
+
+:<math>a \ll L_\psi \implies a < \frac{L_\psi}{10}</math>
+
+For the [[Psi Stabilizer]] target <math>L_\psi = 20</math> cm: maximum unit cell = 2 cm. The 1.2 mm target satisfies this with a factor of 16 margin.
+
+{| class="wikitable" style="width:100%;"
+! Module !! Target <math>L_\psi</math> !! Max unit cell <math>a_{\rm max} = L_\psi/10</math> !! Selected <math>a</math> !! Fabrication method
+|-
+| [[Psi Stabilizer]] || 20 cm || 20 mm || 1.2 mm || DLP, 25 μm layer
+|-
+| [[Psi Defender]] || 2 cm || 2 mm || 0.8 mm || DLP, 15 μm layer
+|-
+| [[Psi Harmonizer]] || > 1 m || > 100 mm || 3.0 mm || FDM (prototype); DLP (production)
+|-
+| [[ψ Memory Element]] || < 1 mm || < 100 μm || 50 μm || Two-photon lithography
+|}
+
+== Topology Optimisation ==
+
+The unit cell density parameter <math>t</math> need not be spatially uniform. A graded-density lattice — with <math>t = t(\mathbf{x})</math> varying continuously through the shell — creates a graded-index ψ medium, analogous to a GRIN optical lens.
+
+The SIMP (Solid Isotropic Material with Penalisation) method poses the optimisation as:
+
+:<math>\min_{t(\mathbf{x})} \left[\int_V c_{\rm mech}(t)\,dV + c_{\rm EM}(t)\,dV\right]</math>
+
+subject to:
+:<math>\int_V t(\mathbf{x})\,dV \leq V_{\rm max}, \qquad \omega_{010}(t) = \omega_{\rm target}</math>
+
+where <math>c_{\rm mech}</math> is mechanical compliance under acceleration load and <math>c_{\rm EM}</math> is deviation of <math>\varepsilon_{\rm eff}</math> from the target profile.
+
+'''Software:''' nTopology (preferred for TPMS-native topology optimisation), ANSYS Topology Optimization, or custom Python scripts using the <code>optimistix</code> library with autodiff through the Maxwell-Garnett model. The AI writing this page should not attempt to solve the optimisation problem — specify the problem formulation and cite the tools.
+
+'''Practical shortcut for prototyping:''' Uniform <math>t</math> with values from the table above is sufficient for TML-1 and TML-2 validation. Graded-t optimisation is a TML-4 refinement.
+
+== DLP Fabrication Protocol ==
+
+{{Way_It_Works
+| title       = Step-by-step DLP fabrication of TPMS ψ resonant shell
+| step1_label = Generate the level-set mesh
+| step1_text  = Use Python (via <code>scikit-image</code> <code>marching_cubes</code> on the level-set function) or nTopology to generate a watertight STL mesh of the Gyroid at target <math>t</math> and unit cell size <math>a = 1.2</math> mm. Shell dimensions: oblate spheroid 220 mm × 180 mm. Total mesh: approximately 2–5 million triangles at 1.2 mm unit cell — manageable with a modern slicer.
+| step2_label = Slice for DLP
+| step2_text  = Import STL into Chitubox or PreForm. Layer thickness: 25 μm. Exposure time: calibrate per resin — target 8–12 mJ/cm² cure energy. Supports: internal self-supporting (Gyroid geometry is self-supporting above <math>t = 0.2</math>). Estimated print time at 25 μm layers for the full Stabilizer shell: 14–18 hours.
+| step3_label = Resin selection
+| step3_text  = Require: HDT (heat deflection temperature) > 150°C to survive the 120°C field-cure step; low shrinkage (< 1% linear) to maintain dimensional accuracy at 1.2 mm unit cell; optical clarity (for UV post-cure through the shell). Candidates: Formlabs High Temp Resin (HDT 238°C, shrinkage 0.4%); Photocentric Magna Clear; Monocure 3D Rapid Clear.
+| step4_label = Post-cure
+| step4_text  = UV flood cure: 60 minutes at 60°C under 405 nm flood lamp at ≥ 10 mW/cm². This completes polymerisation and relieves internal stress. Do not skip — incompletely cured resin will creep and deform during the 120°C composite cure step.
+| step5_label = Embedded conductor traces (Option A — multi-material)
+| step5_text  = For HelmKit production: use Voltera nano-silver ink in a direct-ink-writing head mounted alongside the DLP build platform. Print bifilar traces (0.3 mm trace width, 0.2 mm gap) as part of the shell during DLP build. Trace resistivity target: < 5×10⁻⁶ Ω·m before post-process plating.
+| step6_label = Embedded conductor traces (Option B — post-process LIG)
+| step6_text  = For prototyping: after DLP printing, use a CO₂ laser (10.6 μm, 5W, 100 mm/s scan speed) to scribe graphene traces directly onto the polymer surface via laser-induced graphene (LIG). Achieves ~10⁻⁵ Ω·m resistivity. For high-current bifilar drive: follow with 2 μm electroless copper plating (Transene Copper Gleam PCM bath, 30 min at 45°C).
+| step7_label = FBG sensor threading
+| step7_text  = Thread pre-written FBG arrays (OFS BraggMETRO or equivalent, 1 FBG per 10 cm, 1550 nm centre wavelength) through dedicated 0.5 mm channels printed into the TPMS walls. One FBG per 10 cm² of shell surface area. Secure with UV-cure adhesive at entry/exit points only — free in the channel elsewhere to minimise cross-sensitivity.
+}}
+
+=== Dimensional Verification After Print ===
+
+Inspect three critical dimensions on every print batch before composite infusion:
+
+{| class="wikitable" style="width:100%;"
+! Measurement !! Method !! Target !! Tolerance !! Consequence of failure
+|-
+| Unit cell period <math>a</math> || Optical microscopy, calibrated stage || 1.200 mm || ±0.030 mm (±2.5%) || <math>\varepsilon_{\rm eff}</math> shifts; resonant frequency shifts
+|-
+| Wall thickness || Cross-section SEM || Computed from <math>t</math>; ~0.25 mm at <math>t=0.4</math> || ±0.020 mm || Ferrofluid channel integrity
+|-
+| Outer shell dimensions || CMM (coordinate measuring machine) || 220 mm × 180 mm || ±0.5 mm || Mode shape deviation; temporal lobe alignment
+|-
+| FBG channel diameter || Optical microscopy || 0.500 mm || ±0.050 mm || Sensor threading difficulty
+|-
+| Bifilar trace gap (Option A) || Optical microscopy || 0.200 mm || ±0.030 mm || E-field concentration factor; crosstalk
+|}
+
+== Composite Infusion Sequence ==
+
+The three-phase infusion sequence is specified in detail in [[Smart Composite Fill]] (B8). The order is non-negotiable — the three phases have incompatible processing requirements and must be applied sequentially:
+
+# '''Phase 1 — CNT-epoxy:''' Infuse first while all pore channels are open. Partial cure to B-stage.
+# '''Phase 2 — BST-PEG-silica-PZT:''' Infuse into remaining pore volume. UV cure.
+# '''Full thermal cure:''' 120°C ramp under 10 kV/cm alignment field.
+# '''Phase 3 — Ferrofluid:''' Fill dedicated microchannels only. Seal inlets.
+
+The TPMS lattice must be fabricated with dedicated ferrofluid microchannels (0.5 mm diameter, serpentine routing through lattice walls) that are completely isolated from the main pore volume. These channels are specified in the STL mesh as additional hollow passages — not part of the TPMS level-set geometry but added parametrically in the CAD environment before slicing.
+
+== Thermal Management ==
+
+The bifilar coil drive dissipates power in the composite fill. At peak Anchor mode drive (200V, 40 kHz, bifilar coil), estimated total dissipation is 0.5–2 W across the full shell. Maximum permitted shell surface temperature at skin contact: 43°C (ISO 13732-1 burn threshold for 10-minute contact).
+
+The ferrofluid microchannels (Phase 3 above) double as coolant channels. Flow specifications:
+* Coolant: EMG-900 water-based ferrofluid (thermal conductivity 0.8 W/m·K, heat capacity 3800 J/kg·K)
+* Flow rate: 0.5–2 mL/min (mini peristaltic pump, e.g. Bartels mp6, integrated into HelmKit frame)
+* Inlet temperature: ambient
+* Maximum outlet temperature: ambient + 8°C
+* Thermal model: 1D fin-network finite difference; validate against COMSOL Heat Transfer module
+
+The serpentine channel routing ensures that the temperature gradient across the shell is < 2°C, preventing thermal gradients from producing spatial <math>\mu_{\rm eff}</math> variations in the ferrofluid (which has dM/dT ≈ −0.1 kA/(m·K)).
+
+== Unit Cell Size Optimisation Table ==
+
+{| class="wikitable sortable" style="width:100%;"
+! Unit cell <math>a</math> !! <math>a/L_\psi</math> at <math>L_\psi = 20</math> cm !! Effective medium quality !! Min. fabrication capability !! S/V ratio !! Recommended use
+|-
+| 5 mm || 0.025 || Marginal — minor grating effects || FDM (standard) || Low || Proof-of-concept only
+|-
+| 3 mm || 0.015 || Good || FDM (fine); DLP easy || Moderate || [[Psi Harmonizer]] prototype
+|-
+| 2 mm || 0.010 || Good || DLP standard || Moderate-high || [[Psi Defender]] prototype
+|-
+| 1.2 mm || 0.006 || Excellent || DLP, 25 μm layer || High || [[Psi Stabilizer]] production target
+|-
+| 0.8 mm || 0.004 || Excellent || DLP, 15 μm layer || Very high || [[Psi Defender]] production
+|-
+| 0.5 mm || 0.0025 || Excellent || DLP, 5 μm layer (specialist) || Maximum || Research samples
+|-
+| 0.05 mm || 0.00025 || Excellent || Two-photon lithography || Maximum || [[ψ Memory Element]] only
+|}
+
+== ψ-Dependent Extensions ==
+
+=== TPMS Geometry as ψ Mode Selector ===
+
+The [[ψ Metamaterials]] (B9) page develops the hypothesis that TPMS topologies correspond to specific ψ mode classes via the [[OSGS]] primitive symbol framework. Within this framework, the Gyroid (genus 3, chiral) and Schwarz-P (genus 3, achiral) are not simply two fabrication options — they are two geometrically distinct mode-selection operators. A device built on a Gyroid substrate preferentially supports different ψ mode families than the same device built on a Schwarz-P substrate.
+
+If this hypothesis is confirmed at TML-1 (different S21 spectra for Gyroid vs Schwarz-P samples of identical fill), it would mean that the lattice topology selection is a primary [[Psi-Tech]] design parameter — not a manufacturing convenience — and that the six TPMS topology classes correspond to six distinct ψ mode-selection operators in the Base-216 symbolic system.
+
+=== Topological Phase Boundaries ===
+
+At the transition between different <math>t</math> values in a graded-t lattice, the TPMS topology changes continuously but its genus may jump discontinuously at certain critical values of <math>t</math>. These topological phase boundaries could produce ψ mode-conversion effects — a ψ wave propagating through the shell would partially convert from one mode family to another at each boundary. Engineered arrangements of topological boundaries could function as mode routers or ψ beam splitters, without any external switching.
+
+== TML Measurement Protocol ==
+
+=== TML-1 — Lattice Characterisation (No Subjects) ===
+
+Print 5 sample cubes (10 mm × 10 mm × 10 mm) per batch at target <math>t</math> value. Measure:
+
+# '''Density:''' Archimedes immersion method in isopropanol. Target: within ±3% of computed <math>\rho_{\rm rel}</math>.
+# '''S-parameters:''' Mount sample in calibrated coaxial fixture (Damaskos M07 or equivalent). Measure S11, S21 from 1 kHz to 10 MHz using VNA (Keysight E5071C). Apply Nicholson–Ross–Weir algorithm to extract complex <math>\varepsilon_{\rm eff}(\omega)</math> and <math>\mu_{\rm eff}(\omega)</math>.
+# '''Mechanical:''' Uniaxial compression test (Instron 5965). Extract Young's modulus and yield stress. Target: Young's modulus > 0.5 GPa at <math>t = 0.4</math>, yield stress > 5 MPa.
+# '''Channel integrity:''' Pressure test ferrofluid channels at 2 bar with dyed water. No leakage into pore volume.
+
+'''Pass criteria:''' Measured <math>\varepsilon_{\rm eff}</math> within 15% of Maxwell-Garnett prediction; mechanical targets met; zero channel leakage.
+
+=== TML-2 — Coil Integration (No Subjects) ===
+
+Integrate bifilar coil into printed shell. Measure:
+# E-field distribution via near-field probe (Langer EMV RF-B3 or equivalent) on scanning stage at 5 mm above shell surface.
+# Compare against COMSOL EM simulation prediction. Agreement target: < 20% RMS deviation across field map.
+# ICNIRP E-field compliance: maximum measured field at 10 cm from shell must be below 83 V/m (ICNIRP 2010, 40 kHz reference level).
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Gyroid at <math>t = 0</math> || <math>H = 0</math> everywhere (minimal surface condition) — verified by computing mean curvature from level-set gradient || ✓ (analytical property of the level-set approximation)
+|-
+| Schwarz-P at <math>t = 0</math> || <math>H = 0</math> everywhere — same verification || ✓
+|-
+| Unit cell <math>a = 1.2</math> mm at <math>L_\psi = 20</math> cm || <math>a/L_\psi = 0.006 \ll 1</math> — effective medium condition satisfied || ✓
+|-
+| Relative density at <math>t = 0.4</math> || Approx. 30% — consistent with published TPMS density-parameter relationships (Maskery et al. 2018) || ✓
+|-
+| Ferrofluid channel <math>\Delta P</math> || Zero Laplace pressure on minimal surface channel walls — no spontaneous fluid redistribution || ✓ (analytical from <math>H = 0</math>)
+|-
+| Thermal budget || 2 W dissipation, 2 mL/min flow: <math>\Delta T = P/({\dot m} c_p) = 2/(3.3\times10^{-5} \times 3800) \approx 16°C</math> — above target; requires 4 mL/min or lower drive power || Requires experimental validation; flow rate spec updated to 4 mL/min if confirmed
+|}
+
+== See Also ==
+
+* [[ψ Boundary Conditions]] (A5) — derives the Neumann condition that mandates the TPMS geometry
+* [[ψ Dispersion Relations]] (A3) — provides the effective medium validity condition <math>a \ll L_\psi</math>
+* [[Smart Composite Fill]] (B8) — what goes into the lattice channels and pores
+* [[ψ Constitutive Relations]] (B1) — effective medium parameters extracted from the filled lattice
+* [[ψ Metamaterials]] (B9) — TPMS topology as ψ mode-selection operator
+* [[FBG Lattice Monitoring]] (E3) — embedded FBG sensor system detailed specification
+* [[HelmKit Architecture (Engineering)]] (G1) — full numerical COMSOL results for the Stabilizer shell geometry
+* [[Psi Stabilizer]] — primary device this page serves
+* [[Bifilar Coil Engineering]] (D1) — integrated into the TPMS shell
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Metamaterials]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Manufacturing]]

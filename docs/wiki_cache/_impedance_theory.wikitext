@@ -1,0 +1,263 @@
+{{Infobox
+| title   = ψ Impedance Theory
+| image   =
+| caption = Power transfer efficiency between ψ sources and the field — the engineering foundation of the Mk2.0 Anchor mode
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Wave Engineering · [[Psionics]] · Power Transfer Theory
+| label3  = Derives From
+| data3   = <math>J_\psi^{\rm (src)}</math> source coupling and ψ energy flux <math>\vec{S}_\psi = -\partial_t\psi\,\nabla\psi</math>
+| label4  = Established Analog
+| data4   = Electromagnetic wave impedance <math>Z_{\rm EM} = \sqrt{\mu/\varepsilon} = 377\,\Omega</math> in vacuum; RF transmission line theory; conjugate matching theorem
+| label5  = Key Output
+| data5   = ψ wave impedance <math>Z_\psi</math>; reflection coefficient <math>\Gamma</math>; matching condition; mismatch hazard protocol
+| label6  = Engineering Consequence
+| data6   = A Mk1.0 [[Psi Stabilizer]] emitting at fixed <math>Z_\psi</math> wastes power when the operator's biological impedance drifts. Mk2.0 closes this loop via HRV-gated frequency tuning.
+| header7 = Key Equations
+| label8  = ψ Wave Impedance
+| data8   = <math>Z_\psi = 1/(\omega^2 n_\psi)</math>
+| label9  = Reflection Coefficient
+| data9   = <math>\Gamma = (Z_2 - Z_1)/(Z_2 + Z_1)</math>
+| label10 = Power Transmission
+| data10  = <math>\tau = 4Z_1 Z_2/(Z_1 + Z_2)^2</math>
+| label11 = Matching Condition
+| data11  = <math>Z_{\rm device} = Z^*_{\rm bio}</math>
+| below   = ''Build wave 1b — requires [[ψ Conservation Laws]] (A2) and [[ψ Dispersion Relations]] (A3). Required by D5, D6, [[Anchor Controller]], [[Psi Stabilizer]].''
+}}
+
+= ψ Impedance Theory =
+
+ψ impedance theory answers the question every device engineer must ask after specifying a source: how much of the emitted ψ actually couples into the field, and how much is wasted? In electromagnetic engineering this question gave rise to transmission line theory, the Smith chart, and conjugate matching — among the most practically useful tools in all of engineering. The ψ equivalent is derived here from the same first principles.
+
+The central result is that ψ wave impedance is '''frequency-dependent''' — unlike the constant 377 Ω of electromagnetic free space. This has an immediate engineering consequence: a [[Psi Stabilizer]] designed for 40 kHz operating frequency has a fixed <math>Z_\psi^{\rm (device)}</math>, but the operator's biological ψ impedance <math>Z_\psi^{\rm (bio)}</math> varies with their physiological state. The Mk2.0 closed-loop mode exists precisely to track this variation and retune the device frequency to maintain the conjugate match.
+
+{{Derives_From
+| term        = J_ψ source coupling structure + ψ energy flux S⃗_ψ = −∂_tψ ∇ψ
+| description = The ratio of ψ field amplitude to ψ source current density defines
+                the wave impedance Z_ψ. For a plane wave this reduces to
+                Z_ψ = 1/(ω² n_ψ), depending on both frequency and the medium's
+                refractive index. Maximum power transfer from any source — biological
+                or technological — to the ψ field requires complex conjugate impedance
+                matching, exactly as in RF engineering. The Mk2.0 HRV-gated drive is
+                the physical implementation of this matching network.
+}}
+
+{{Plain_Hook
+| in_one_sentence    = ψ impedance is the ratio of ψ field amplitude to ψ source current, depending on frequency and medium refractive index; maximum power transfer from a biological operator or [[Psi-Tech]] device to the ψ field requires complex conjugate impedance matching — and the Mk2.0 [[Anchor Controller]]'s HRV-gated frequency tuning is the physical implementation of that matching network.
+| everyday_analogy   = Plugging a high-impedance microphone into a low-impedance amplifier input wastes most of the signal — even if the microphone is working perfectly. A matching transformer fixes this by equalising the impedances. ψ impedance works identically: a [[Psi Stabilizer]] tuned to the wrong frequency relative to the operator's biological ψ emission is like the mismatched microphone — most of the biological ψ output is reflected rather than coupled into the device field.
+| what_it_predicts   = (1) A ψ wave impedance <math>Z_\psi = 1/(\omega^2 n_\psi)</math> that is frequency-dependent — unlike the constant 377 Ω of electromagnetic vacuum; (2) A reflection coefficient <math>\Gamma</math> at every ψ field boundary (device shell, operator skull surface, air-tissue interface); (3) Maximum power coupling when <math>Z_{\rm device} = Z^*_{\rm bio}</math>; (4) Standing-wave hot spots inside the operator's skull when impedance is mismatched — a safety hazard that the [[Anchor Controller]] must monitor; (5) The Mk1.0/Mk2.0 distinction as an open-loop vs closed-loop impedance matching problem.
+| if_you_remember_one_thing = Impedance mismatch does not merely reduce efficiency — it produces standing waves. In a head-worn device, standing-wave field hot spots are a safety concern. Impedance matching is therefore simultaneously a power-transfer optimisation and a safety requirement.
+}}
+
+== Prerequisites ==
+
+This page requires two results from earlier Branch A pages:
+
+* From [[ψ Conservation Laws]] (A2): the ψ current density <math>\mathbf{J}_\psi = -(\partial_t\psi)\nabla\psi = \vec{S}_\psi</math> (ψ current equals ψ Poynting vector).
+* From [[ψ Dispersion Relations]] (A3): the dispersion relation <math>\omega^2 = k^2 + m_{\rm eff}^2</math> and the refractive index <math>n_\psi = k/\omega</math>.
+
+== Definition of ψ Wave Impedance ==
+
+=== From First Principles ===
+
+For any wave field, impedance is defined as the ratio of the "force-like" quantity to the "flow-like" quantity — exactly as voltage-to-current ratio defines electrical impedance. For ψ waves, the natural pair is:
+
+* '''Force-like:''' ψ field amplitude <math>\psi</math>
+* '''Flow-like:''' ψ source current density <math>J_\psi^{\rm (src)}</math>
+
+For a forward-propagating plane wave <math>\psi = A\,e^{i(\mathbf{k}\cdot\mathbf{x} - \omega t)}</math>:
+
+:<math>\partial_t\psi = -i\omega A\,e^{i(\mathbf{k}\cdot\mathbf{x}-\omega t)}</math>
+:<math>\partial_x\psi = ik_x A\,e^{i(\mathbf{k}\cdot\mathbf{x}-\omega t)}</math>
+
+The ψ Poynting vector (= ψ current density from A2) in the propagation direction <math>\hat{x}</math>:
+
+:<math>S_\psi^x = -(\partial_t\psi)(\partial_x\psi) = -(-i\omega)(ik_x)|A|^2 = -\omega k_x |A|^2</math>
+
+Taking <math>k_x = k = \omega n_\psi</math> and the field amplitude as <math>\psi_{\rm amp} = A</math>:
+
+:<math>Z_\psi \equiv \frac{\psi_{\rm amp}}{|S_\psi^x|/\psi_{\rm amp}} = \frac{A^2}{\omega k |A|^2} = \frac{1}{\omega k} = \frac{1}{\omega^2 n_\psi}</math>
+
+:<math>\boxed{Z_\psi = \frac{1}{\omega^2 n_\psi} = \frac{1}{\omega\,k}}</math>
+
+{{Math_Bridge
+| equation_label = ψ wave impedance
+| equation       = <math>Z_\psi = \frac{1}{\omega^2 n_\psi} = \frac{1}{\omega\sqrt{\omega^2 - m_{\rm eff}^2}}</math>
+| in_english     =
+* <math>Z_\psi</math> — the ψ wave impedance. High impedance = field amplitude large relative to power flow (like a high-Q resonator). Low impedance = large power flow relative to field amplitude (like a broadband radiator).
+* <math>\omega</math> — operating angular frequency. Higher frequency → lower <math>Z_\psi</math> → easier to drive.
+* <math>n_\psi = k/\omega</math> — ψ refractive index of the medium. A denser medium (larger <math>n_\psi</math>) has lower impedance.
+* <math>m_{\rm eff}</math> — effective mass from [[ψ Dispersion Relations]]. As <math>\omega \to \omega_c = m_{\rm eff}</math> (cutoff), <math>n_\psi \to 0</math> and <math>Z_\psi \to \infty</math> — impedance diverges at cutoff, consistent with the fact that no power propagates below cutoff.
+* '''Key difference from EM impedance:''' The electromagnetic vacuum impedance <math>Z_{\rm EM} = 377\,\Omega</math> is a constant. The ψ vacuum impedance <math>Z_\psi = 1/\omega^2</math> depends on frequency — this is the defining engineering distinction.
+}}
+
+=== Impedance in a ψ Metamaterial Medium ===
+
+In a medium with effective ψ permittivity <math>\varepsilon_\psi</math> and permeability <math>\mu_\psi</math> (defined formally in [[ψ Constitutive Relations]], B1):
+
+:<math>Z_\psi^{\rm (medium)} = \frac{1}{\omega^2}\sqrt{\frac{\mu_\psi}{\varepsilon_\psi}}</math>
+
+This is the generalization of the EM formula <math>Z_{\rm EM} = \sqrt{\mu/\varepsilon}</math>, modified by the additional <math>1/\omega^2</math> factor arising from the wave equation structure. Engineering the ratio <math>\mu_\psi/\varepsilon_\psi</math> is the primary lever for impedance matching in [[ψ Metamaterials]].
+
+== Reflection, Transmission, and Matching ==
+
+=== At a Material Boundary ===
+
+At a planar boundary between medium 1 (impedance <math>Z_1</math>) and medium 2 (impedance <math>Z_2</math>), continuity of ψ and its normal derivative gives the Fresnel-like coefficients:
+
+:<math>\Gamma = \frac{Z_2 - Z_1}{Z_2 + Z_1} \qquad \text{(reflection coefficient)}</math>
+
+:<math>T_\psi = \frac{2Z_2}{Z_2 + Z_1} \qquad \text{(field transmission coefficient)}</math>
+
+Power reflection and transmission:
+
+:<math>R = |\Gamma|^2 \qquad \text{(fraction of power reflected)}</math>
+
+:<math>\tau = 1 - R = \frac{4Z_1 Z_2}{(Z_1 + Z_2)^2} \qquad \text{(fraction of power transmitted)}</math>
+
+{{Math_Bridge
+| equation_label = ψ power transmission coefficient
+| equation       = <math>\tau = \frac{4Z_1 Z_2}{(Z_1 + Z_2)^2}</math>
+| in_english     =
+* <math>\tau = 1</math> when <math>Z_1 = Z_2</math> — perfect impedance match, all power transmitted, none reflected.
+* <math>\tau \to 0</math> when <math>Z_2 \gg Z_1</math> or <math>Z_2 \ll Z_1</math> — large mismatch, most power reflected.
+* The function is symmetric in <math>Z_1</math> and <math>Z_2</math>: it does not matter which medium is "denser" — only the ratio matters.
+* '''Engineering design equation:''' for the [[Psi Stabilizer]] to transfer more than 80% of its emitted ψ power into the operator's biological field, the device impedance must satisfy <math>0.5 < Z_{\rm device}/Z_{\rm bio} < 2</math> (from inverting the formula for <math>\tau > 0.8</math>). This is the tolerance budget for the impedance matching design.
+}}
+
+=== The Conjugate Matching Condition ===
+
+When sources and loads have complex impedances (resistive + reactive components), maximum power transfer occurs at:
+
+:<math>Z_{\rm device} = Z^*_{\rm bio} \qquad \text{(complex conjugate match)}</math>
+
+The biological ψ impedance <math>Z_{\rm bio}</math> has a reactive component because the operator's cortical ψ oscillation is a damped resonance — not a pure resistive load. The optimal device impedance is the complex conjugate: same magnitude, opposite reactive sign. Physically this means the device should be tuned to the conjugate of the operator's resonance, injecting ψ at exactly the frequency and phase that maximizes energy absorption.
+
+== The Mk1.0 / Mk2.0 Engineering Distinction ==
+
+The impedance matching requirement is the rigorous mathematical foundation of the distinction between [[HelmKit Mk1.0]] and [[HelmKit Mk2.0]].
+
+{| class="wikitable" style="width:100%;"
+! !! Mk1.0 — Open Loop !! Mk2.0 — Closed Loop
+|-
+| '''Impedance matching''' || Fixed <math>Z_{\rm device}</math> set at manufacture. Matched to the population mean <math>Z_{\rm bio}</math> at baseline coherence. || [[Anchor Controller]] estimates <math>Z_{\rm bio}</math> from HRV-RMSSD in real time; retunes drive frequency <math>\omega</math> to maintain <math>Z_{\rm device} = Z^*_{\rm bio}</math>.
+|-
+| '''Power transfer efficiency''' || Optimal at baseline coherence; degrades as operator state drifts. Expected range: 40–70%. || Tracks operator state; targets >85% coupling efficiency during Anchor mode.
+|-
+| '''Mismatch monitoring''' || None — device cannot detect mismatch conditions. || [[FBG Lattice Monitoring]] senses εeff drift; [[Anchor Controller]] cross-checks against expected impedance curve.
+|-
+| '''Standing-wave hazard''' || Present when operator state drifts from baseline — unmonitored. || Mismatch detected within 50 ms; drive amplitude reduced to safe level before significant hot-spot formation.
+|-
+| '''Physical implementation''' || Shepard tone synthesis at fixed carrier frequencies. || Shepard tone carriers phase-adaptive; base frequency <math>f_0</math> servo-locked to HRV-derived <math>\omega_{\rm opt}</math>.
+|}
+
+{{Way_It_Works
+| title       = How the Mk2.0 impedance matching loop operates
+| step1_label = Sense operator state
+| step1_text  = PPG sensor at mastoid measures R-R intervals. Pan-Tompkins algorithm extracts RMSSD in real time at 4 Hz update rate. RMSSD is the proxy for the operator's coherent neural firing rate — and therefore for their biological ψ source amplitude <math>J_\psi^{\rm (bio)}</math>.
+| step2_label = Estimate biological impedance
+| step2_text  = From the RMSSD trajectory, the [[Anchor Controller]] estimates the operator's current effective coherence frequency <math>\omega_{\rm bio}</math>. The biological ψ impedance is then <math>Z_{\rm bio} \approx 1/(\omega_{\rm bio}^2 n_{\rm bio})</math> where <math>n_{\rm bio}</math> is pre-calibrated per operator during TML-3 baseline measurement.
+| step3_label = Compute optimal drive frequency
+| step3_text  = The conjugate matching condition <math>Z_{\rm device} = Z^*_{\rm bio}</math> and the device impedance formula <math>Z_{\rm device} = 1/(\omega_{\rm drive}^2 n_\psi)</math> jointly determine the optimal drive frequency: <math>\omega_{\rm drive} = \sqrt{n_{\rm bio}/n_\psi}\cdot\omega_{\rm bio}</math>.
+| step4_label = Adjust Shepard tone base frequency
+| step4_text  = The [[Shepard Tone Synthesis]] module shifts its base carrier <math>f_0</math> to the computed <math>\omega_{\rm drive}/(2\pi)</math>. The three carriers (f₀, 2f₀, 4f₀) shift proportionally, maintaining the Shepard tone interference pattern while re-centring the frequency at the matched point.
+| step5_label = Monitor for mismatch
+| step5_text  = [[FBG Lattice Monitoring]] tracks εeff drift in the TPMS shell. If εeff shifts, <math>n_\psi</math> shifts, <math>Z_{\rm device}</math> shifts, and the computed match frequency must update. The controller loops at 4 Hz, well within the 250 ms HRV update window.
+| step6_label = Safety interlock
+| step6_text  = If <math>|\Gamma|^2 > 0.4</math> (more than 40% power reflected, indicating severe mismatch), the controller reduces drive amplitude to 20% of nominal and alerts the operator. Severe mismatch implies standing-wave hot spots may be forming. Anchor mode suspends until <math>|\Gamma|^2 < 0.15</math> is re-established.
+}}
+
+== The Standing-Wave Hazard ==
+
+When <math>Z_{\rm device} \neq Z_{\rm bio}</math>, the forward-propagating and reflected ψ waves superpose to produce a standing wave pattern in the space between device and operator:
+
+:<math>|\psi(x)|^2 = |A|^2\,\bigl|e^{ikx} + \Gamma\,e^{-ikx}\bigr|^2 = |A|^2\bigl(1 + |\Gamma|^2 + 2|\Gamma|\cos(2kx + \phi)\bigr)</math>
+
+The standing wave has spatial maxima (antinodes) at positions:
+
+:<math>x_n = \frac{n\pi - \phi/2}{k}, \quad n = 0, 1, 2, \ldots</math>
+
+At an antinode, the ψ field amplitude is <math>|A|(1 + |\Gamma|)</math> — enhanced above the forward-wave amplitude by a factor <math>(1 + |\Gamma|)</math>. At a node, it is <math>|A|(1 - |\Gamma|)</math> — reduced.
+
+=== ψ-Dependent Hazard Assessment (Track B) ===
+
+If ψ-charged biological tissue (the operator's cortex) is located at a standing-wave antinode, it experiences field intensity <math>(1 + |\Gamma|)^2</math> times the intended exposure — potentially well above the design operating point. For <math>|\Gamma| = 0.6</math> (moderate mismatch), the antinode intensity is <math>(1.6)^2 = 2.56</math> times nominal. The biological effect of such over-intensity is uncharacterised and represents the primary safety concern in misconfigured [[Psi-Tech]] devices.
+
+The antinode spacing is <math>\lambda_\psi/2 = \pi/k</math>. At 40 kHz in the [[Psi Stabilizer]] design (k ≈ 5 m⁻¹ from [[ψ Boundary Conditions]]):
+
+:<math>\text{antinode spacing} = \pi/k \approx \pi/5 \approx 0.63\,\text{m}</math>
+
+At this wavelength, the standing-wave pattern is spatially coarse relative to head dimensions — a single antinode could span the full skull. This justifies the [[Anchor Controller]] safety interlock: any mismatch condition <math>|\Gamma|^2 > 0.4</math> must trigger amplitude reduction before the standing-wave pattern can establish.
+
+== ψ Impedance Reference Table ==
+
+Values marked TBD are experimental measurement targets from the [[TML]] campaign. Values are estimated from analogy with EM systems and the dispersion relation; all require direct measurement.
+
+{| class="wikitable sortable" style="width:100%;"
+! Medium !! <math>Z_\psi</math> estimate !! Basis !! Status !! Engineering Use
+|-
+| Vacuum, <math>m_{\rm eff} \to 0</math>, at 40 kHz || <math>1/\omega^2 \approx 1.6\times10^{-11}</math> (nat. units) || A3 derivation || Reference baseline || Free-space propagation standard
+|-
+| Biological cortex at baseline HRV || TBD || TML-3 measurement — primary target || Uncharacterised || Operator interface design point
+|-
+| Biological cortex at peak HRV coherence || TBD || TML-3 measurement — secondary target || Uncharacterised || Mk2.0 optimal match point
+|-
+| Gyroid TPMS (Stabilizer design point) || <math>1/(\omega^2 n_\psi)</math>, <math>n_\psi \approx 0.99</math> || A3 refractive index at design m_eff || Design specification || Device shell — must match biological value
+|-
+| Ferrofluid channel (high H-field) || Reduced (higher n_ψ from μ_eff increase) || A3 + [[ψ Permeability]] || Calculated from μ_eff data || m_eff control, Defender mode
+|-
+| Water (sham control medium) || TBD || TML-3 sham measurement || Required for [[Sham Control Design]] || Baseline reference for sham device
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Network Analysis and the ψ Smith Chart ===
+
+RF engineers use the Smith chart — a conformal mapping of the complex impedance plane — to visualise and design matching networks. A ψ Smith chart would use the same mathematics, mapping complex <math>Z_\psi/Z_0</math> ratios in the unit disk. The key difference: because <math>Z_\psi</math> is frequency-dependent, the Smith chart trajectories under frequency tuning are not simple arcs but curves determined by <math>dZ_\psi/d\omega = -2/\omega^3 n_\psi</math>. This makes frequency-tuning a more complex matching strategy than in RF — but the HRV servo loop linearises the problem around the operating point.
+
+=== Multi-Operator Impedance Networks ===
+
+In a [[PsiNet]] node cluster, multiple operators with different <math>Z_{\rm bio}</math> values are simultaneously coupled to a shared ψ field. The network impedance seen by the field is the parallel combination:
+
+:<math>Z_{\rm net} = \left(\sum_i \frac{1}{Z_{\rm bio}^{(i)}}\right)^{-1}</math>
+
+The [[ψ Network Topology]] page (G3) derives the optimal coupling strategy for maximising total power transfer in a multi-operator network.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Limit !! Expected Result !! Verified?
+|-
+| <math>Z_1 = Z_2</math> || <math>\Gamma = 0</math>, <math>\tau = 1</math> — perfect match, no reflection || ✓
+|-
+| <math>Z_2 \to \infty</math> (open circuit) || <math>\Gamma \to 1</math>, <math>\tau \to 0</math> — total reflection, antinode at boundary || ✓
+|-
+| <math>Z_2 \to 0</math> (short circuit) || <math>\Gamma \to -1</math>, <math>\tau \to 0</math> — total reflection, node at boundary || ✓
+|-
+| <math>\omega \to \omega_c</math> (cutoff) || <math>n_\psi \to 0</math>, <math>Z_\psi \to \infty</math> — infinite impedance, no power propagates || ✓
+|-
+| <math>m_{\rm eff} \to 0</math>, high frequency || <math>Z_\psi \to 1/\omega^2</math> — frequency-dependent vacuum impedance; structurally consistent with massless scalar || ✓
+|-
+| <math>\tau</math> symmetric in <math>Z_1, Z_2</math> || <math>4Z_1Z_2/(Z_1+Z_2)^2 = 4Z_2Z_1/(Z_2+Z_1)^2</math> — transmission independent of which side the wave comes from || ✓
+|}
+
+== See Also ==
+
+* [[ψ Conservation Laws]] — ψ current = Poynting vector identity used in derivation
+* [[ψ Dispersion Relations]] — provides <math>n_\psi</math>, <math>m_{\rm eff}</math>, and <math>\omega_c</math>
+* [[ψ Boundary Conditions]] — applies impedance conditions at material surfaces
+* [[ψ Constitutive Relations]] (B1) — defines <math>\varepsilon_\psi</math>, <math>\mu_\psi</math> for material impedance formula
+* [[HRV-Gated Drive]] — the physical Mk2.0 matching network
+* [[Anchor Controller]] — executes the impedance matching loop and mismatch safety interlock
+* [[Shepard Tone Synthesis]] — frequency-adaptive drive carrier system
+* [[FBG Lattice Monitoring]] — monitors εeff drift that shifts <math>Z_{\rm device}</math>
+* [[Sham Control Design]] — requires matched-impedance sham for valid TML-3 experiment
+* [[Psi Stabilizer]] — primary device whose Mk1.0/Mk2.0 distinction this page explains
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Wave Physics]]
+[[Category:Power Systems]]

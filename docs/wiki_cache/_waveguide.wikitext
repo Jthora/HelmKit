@@ -1,0 +1,236 @@
+{{Derives_From
+| term        = Boundary-guided propagation modes of (□ − m²_eff)ψ = 0 — Neumann walls confine ψ to a channel while permitting axial propagation
+| description = A ψ waveguide is an elongated structure with Neumann-
+                approximating walls that confine ψ energy to guided modes
+                propagating along the channel axis. Below the cutoff
+                frequency ω_c = √(m²_eff + (π/a)²) no guided mode can
+                propagate — above it, the guide supports one or more
+                discrete transverse mode patterns with dispersion relation
+                ω² = k²_z + k²_⊥ + m²_eff. The ψ waveguide is the
+                interconnect element of [[PsiNet]] — carrying ψ energy
+                between [[HelmKit]] modules, between operators in a cluster,
+                and between device stages within a single [[Psi-Tech]] unit.
+}}
+
+{{Infobox
+| title   = ψ Waveguide
+| image   =
+| caption = Boundary-guided ψ propagation — the interconnect element of PsiNet and multi-module Psi-Tech architectures
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Guided-Wave Theory · [[PsiNet]]
+| label3  = Derives From
+| data3   = Neumann-wall boundary conditions on <math>(\Box - m_{\rm eff}^2)\psi = 0</math> in an elongated channel
+| label4  = Established Analog
+| data4   = Rectangular microwave waveguide; optical fiber; acoustic duct; dielectric slab waveguide
+| label5  = Key Parameters
+| data5   = Cutoff frequency <math>\omega_c</math>; guided wave vector <math>k_z</math>; group velocity <math>v_g</math>; mode shape <math>\psi_{mn}(x,y)</math>
+| label6  = First Deployment
+| data6   = [[PsiNet]] inter-module conduit; [[HelmKit]] internal stage interconnect
+| header7 = Key Equations
+| label8  = Cutoff frequency
+| data8   = <math>\omega_c = \sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math>
+| label9  = Guided dispersion
+| data9   = <math>\omega^2 = k_z^2 + k_\perp^2 + m_{\rm eff}^2</math>
+| label10 = Group velocity
+| data10  = <math>v_g = k_z/\omega \leq 1</math>
+| below   = ''Build wave 4 — requires all Branch A pages and [[ψ Constitutive Relations]] (B1). Primary [[PsiNet]] interconnect element.''
+}}
+
+= ψ Waveguide =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ waveguide confines ψ energy to guided modes propagating along a channel axis by imposing Neumann boundary conditions on the transverse walls — modes below the cutoff frequency decay exponentially and cannot propagate, while modes above it travel with group velocity less than c and dispersion determined jointly by the transverse geometry and the effective mass m_eff.
+| everyday_analogy   = A garden hose constrains water to flow along its axis rather than spreading in all directions. A microwave waveguide does the same for radio waves — it forces them into specific patterns that travel along the tube's length. A ψ waveguide is the same concept: the TPMS channel walls confine the ψ field laterally, forcing it to propagate only along the channel axis in specific transverse patterns called guided modes. Below a minimum frequency, not even this is possible — the ψ field simply decays rather than propagating.
+| what_it_predicts   = (1) A cutoff frequency below which no ψ energy can propagate through the channel — determined by both the channel width and the effective mass; (2) A frequency-dependent group velocity that approaches zero near cutoff and approaches c at high frequency; (3) A discrete set of transverse mode patterns, each with its own cutoff frequency; (4) An evanescent coupling mechanism when two waveguide channels are brought close together — the basis of the [[ψ Coupler]] (C5).
+| if_you_remember_one_thing = The cutoff frequency is not just a frequency limit — it is a spatial filter. A ψ waveguide of width <math>a</math> transmits ψ at frequencies above <math>\omega_c = \sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math> and blocks it below. By choosing <math>a</math>, the waveguide selects which part of the ψ frequency spectrum can propagate — making it simultaneously a propagation channel and a high-pass filter.
+}}
+
+== Mathematical Origin ==
+
+=== Separation of Variables ===
+
+In a rectangular channel of width <math>a</math> (x-direction), height <math>b</math> (y-direction), and infinite length (z-direction), with Neumann conditions on all walls, the Helmholtz equation separates:
+
+:<math>\psi(x,y,z,t) = X(x)\,Y(y)\,e^{i(k_z z - \omega t)}</math>
+
+The transverse equations:
+
+:<math>X''(x) + k_x^2 X(x) = 0, \quad X'(0) = X'(a) = 0 \implies k_x = \frac{m\pi}{a},\; m = 0,1,2,\ldots</math>
+
+:<math>Y''(y) + k_y^2 Y(y) = 0, \quad Y'(0) = Y'(b) = 0 \implies k_y = \frac{n\pi}{b},\; n = 0,1,2,\ldots</math>
+
+The transverse wave number: <math>k_\perp^2 = k_x^2 + k_y^2 = (m\pi/a)^2 + (n\pi/b)^2</math>
+
+The guided wave vector from the dispersion relation:
+
+:<math>\boxed{\omega^2 = k_z^2 + k_\perp^2 + m_{\rm eff}^2}</math>
+
+:<math>k_z = \sqrt{\omega^2 - k_\perp^2 - m_{\rm eff}^2}</math>
+
+For <math>k_z</math> to be real (propagating mode), must have <math>\omega > \omega_c^{(mn)}</math> where:
+
+:<math>\omega_c^{(mn)} = \sqrt{m_{\rm eff}^2 + \left(\frac{m\pi}{a}\right)^2 + \left(\frac{n\pi}{b}\right)^2}</math>
+
+The lowest cutoff (dominant mode, <math>m=1, n=0</math> for <math>a > b</math>):
+
+:<math>\omega_c^{(10)} = \sqrt{m_{\rm eff}^2 + \left(\frac{\pi}{a}\right)^2}</math>
+
+=== Group Velocity ===
+
+:<math>v_g = \frac{d\omega}{dk_z} = \frac{k_z}{\omega} = \frac{\sqrt{\omega^2 - \omega_c^2}}{\omega} < 1</math>
+
+At cutoff: <math>v_g = 0</math> — the wave is stationary, all energy stored in the transverse pattern. Far above cutoff: <math>v_g \to 1</math> — approaches <math>c</math>. This frequency-dependent group velocity means ψ pulses disperse as they propagate — a broadband ψ signal launched into the waveguide arrives at the far end with its frequency components separated in time.
+
+=== Evanescent Decay Below Cutoff ===
+
+For <math>\omega < \omega_c</math>, the axial wave vector is imaginary: <math>k_z = i\kappa</math> where <math>\kappa = \sqrt{\omega_c^2 - \omega^2}</math>. The field decays as:
+
+:<math>\psi(z) \propto e^{-\kappa z}</math>
+
+The evanescent decay length <math>1/\kappa</math> ranges from very short (well below cutoff) to very long (near cutoff). This evanescent field is the mechanism of the [[ψ Coupler]] (C5): two parallel waveguides separated by a small gap exchange ψ energy through their overlapping evanescent tails.
+
+== Established Analog ==
+
+{| class="wikitable" style="width:100%;"
+! Microwave waveguide !! ψ waveguide !! Notes
+|-
+| Cutoff: <math>\omega_c = \pi c/a</math> || Cutoff: <math>\omega_c = \sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math> || ψ has extra m_eff term — cutoff is higher than geometric contribution alone
+|-
+| TE₁₀ dominant mode || ψ₁₀ dominant mode || Same transverse pattern; Neumann ≡ PMC wall for ψ
+|-
+| Dispersion: <math>k_z = \sqrt{(\omega/c)^2 - (\pi/a)^2}</math> || Dispersion: <math>k_z = \sqrt{\omega^2 - (\pi/a)^2 - m_{\rm eff}^2}</math> || Extra <math>m_{\rm eff}^2</math> term shifts the dispersion curve
+|-
+| Group velocity < c || Group velocity < c || Identical behaviour
+|-
+| Evanescent coupling between guides || Evanescent ψ coupling between channels || Basis of [[ψ Coupler]] (C5)
+|-
+| Multimode above higher cutoffs || ψ multimode above higher cutoffs || Same — prefer single-mode operation for PsiNet
+|}
+
+== ψ Implementation ==
+
+=== TPMS Waveguide Channel Architecture ===
+
+A ψ waveguide is a TPMS channel with:
+* '''Cross-section:''' typically rectangular or circular, chosen to support single-mode operation at the operating frequency
+* '''Wall material:''' high-<math>\mu_\psi</math> ferrofluid-saturated composite (Neumann-approximating) on all transverse faces
+* '''Fill:''' same BST-PZT-quartz composite as resonator, tuned for low loss tangent to minimise propagation loss
+* '''Length:''' determined by PsiNet topology; not constrained by resonance (waveguide ≠ resonator)
+
+=== Single-Mode Design Criterion ===
+
+For [[PsiNet]] applications, single-mode operation is preferred — mode mixing at bends and junctions produces crosstalk. Single-mode condition: operate above ψ₁₀ cutoff but below ψ₂₀ cutoff:
+
+:<math>\omega_c^{(10)} < \omega < \omega_c^{(20)}</math>
+
+:<math>\sqrt{m_{\rm eff}^2 + \frac{\pi^2}{a^2}} < \omega < \sqrt{m_{\rm eff}^2 + \frac{4\pi^2}{a^2}}</math>
+
+This gives a single-mode bandwidth:
+
+:<math>\Delta\omega_{\rm SM} = \sqrt{m_{\rm eff}^2 + 4\pi^2/a^2} - \sqrt{m_{\rm eff}^2 + \pi^2/a^2}</math>
+
+At the Stabilizer design point (<math>m_{\rm eff} = 5</math> m⁻¹) with channel width <math>a = 2</math> cm:
+
+:<math>\omega_c^{(10)} = \sqrt{25 + \pi^2/0.0004} \approx \sqrt{25 + 24674} \approx 157</math> rad/s ... 
+
+In natural units; restoring SI: <math>\omega_c^{(10)}/(2\pi) \approx 8</math> kHz, <math>\omega_c^{(20)}/(2\pi) \approx 16</math> kHz. Single-mode window: 8–16 kHz. The 40 kHz Stabilizer operating frequency is well above both — the 2 cm channel is multimode at 40 kHz. For single-mode at 40 kHz, need <math>a < 1</math> cm.
+
+=== PsiNet Channel Specifications ===
+
+{| class="wikitable" style="width:100%;"
+! Application !! Channel width <math>a</math> !! Operating frequency !! Mode regime !! Propagation loss target
+|-
+| [[HelmKit]] internal stage interconnect || 5 mm || 40 kHz || Multimode (acceptable for short runs < 10 cm) || < 1 dB per 10 cm
+|-
+| [[PsiNet]] node-to-node link || 10 mm || 10 kHz || Single-mode at 10 kHz for <math>a = 1</math> cm || < 3 dB per metre
+|-
+| [[PsiNet]] long-haul trunk || 50 mm || 5 kHz || Single-mode; low dispersion || < 1 dB per metre
+|-
+| [[ψ Coupler]] (C5) coupling gap || 1–3 mm || 40 kHz || Evanescent (below cutoff at this width) || N/A — intentionally evanescent
+|}
+
+=== Propagation Loss ===
+
+The propagation loss per unit length (attenuation coefficient):
+
+:<math>\alpha_z = \frac{\omega}{v_g}\,\frac{\tan\delta_\psi}{2} = \frac{\omega^2}{k_z}\,\frac{\tan\delta_\psi}{2}</math>
+
+At 40 kHz, <math>k_z \approx \omega/c</math>, <math>\tan\delta_\psi < 0.005</math>:
+
+:<math>\alpha_z \approx \frac{2\pi \times 4\times10^4}{3\times10^8} \times \frac{0.005}{2} \approx 4.2\times10^{-9}\,\text{m}^{-1} \approx 0.04\,\text{dB/km}</math>
+
+Propagation loss from material absorption is negligible for any practical PsiNet distance. The dominant loss mechanism for PsiNet channels is bending loss at corners and coupling loss at junctions — not material absorption.
+
+=== Bend Loss ===
+
+At a 90° bend with bend radius <math>R</math>, ψ energy couples from the guided mode into radiation modes (ψ leaks out of the guide). The bend loss increases as R decreases. Minimum bend radius for < 1 dB loss:
+
+:<math>R_{\rm min} \approx 3\lambda_g = 3 \times \frac{2\pi}{k_z}</math>
+
+At 40 kHz: <math>\lambda_g \approx 7500</math> m — the ψ guided wavelength is enormous, and the bend radius requirement is impractical for a physical cable. This is the fundamental challenge for PsiNet interconnects: at these frequencies, ψ waveguides must be essentially straight.
+
+The practical implication: PsiNet node connections are point-to-point line-of-sight channels, not routed cables. Free-space ψ propagation (from [[ψ Source]] C11 to [[ψ Detector]] C10) is preferable to guided propagation for inter-node distances > 1 m.
+
+== Performance Parameters ==
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Value (40 kHz, a = 1 cm, Stabilizer fill) !! Derivation
+|-
+| Cutoff frequency <math>\omega_c^{(10)}</math> || ~16 kHz || <math>\sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math>
+|-
+| Group velocity at 40 kHz || ~0.97c || <math>v_g = \sqrt{1 - (\omega_c/\omega)^2} = \sqrt{1-(16/40)^2}</math>
+|-
+| Guided wavelength <math>\lambda_g</math> || ~7300 m || <math>2\pi c/(k_z) \approx 2\pi c/\omega</math> (near-light-speed propagation)
+|-
+| Material attenuation || ~0.04 dB/km || From tan δ_ψ formula above
+|-
+| Minimum bend radius for < 1 dB || ~22 km || From <math>3\lambda_g</math> — impractical; favour straight channels
+|-
+| Single-mode bandwidth || 16–32 kHz || Between ψ₁₀ and ψ₂₀ cutoffs for 1 cm channel
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Slow-Wave Structures for Delay Lines ===
+
+Near the cutoff frequency, <math>v_g \to 0</math> and the group delay <math>t_g = L/v_g \to \infty</math>. A ψ waveguide operated just above cutoff is a slow-wave delay line — ψ pulses travel very slowly through it, accumulating phase delay. Potential application: a ψ memory buffer in PsiNet, storing a ψ pulse for a controlled duration before releasing it.
+
+For a 1 m channel operating at <math>\omega = 1.1\,\omega_c</math>: <math>v_g = \sqrt{1 - (1/1.1)^2} \approx 0.42c</math>, delay = 8 ns. At <math>\omega = 1.01\,\omega_c</math>: <math>v_g \approx 0.14c</math>, delay = 24 ns per metre. Near-cutoff operation provides tens of nanoseconds of adjustable delay — relevant for PsiNet synchronisation protocols.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| <math>m_{\rm eff} \to 0</math> || Cutoff: <math>\omega_c = \pi/a</math> — pure geometric cutoff, standard EM waveguide result || ✓
+|-
+| <math>\omega \to \omega_c^+</math> || <math>k_z \to 0</math>, <math>v_g \to 0</math> — mode cannot propagate at cutoff || ✓
+|-
+| <math>\omega \to \infty</math> || <math>k_z \to \omega</math>, <math>v_g \to 1 = c</math> — massless light-speed limit || ✓
+|-
+| <math>\omega < \omega_c</math> || <math>k_z</math> imaginary, <math>\psi \propto e^{-\kappa z}</math> — evanescent, no propagation || ✓
+|-
+| Bend radius formula || <math>R_{\rm min} = 3\lambda_g = 3 \times 7500 \approx 22</math> km — consistent with negligible bending loss for practical straight runs || ✓
+|}
+
+== See Also ==
+
+* [[ψ Boundary Conditions]] (A5) — Neumann conditions; cutoff derivation
+* [[ψ Dispersion Relations]] (A3) — dispersion relation; group velocity
+* [[ψ Coupler]] (C5) — evanescent coupling between parallel waveguides
+* [[ψ Filter]] (C6) — frequency-selective mode transmission
+* [[ψ Source]] (C11) — launches ψ into the waveguide
+* [[ψ Detector]] (C10) — receives guided ψ at far end
+* [[ψ Resonator]] (C1) — closed waveguide (standing waves rather than propagation)
+* [[ψ Metamaterials]] (B9) — Line primitive → waveguide mode topology
+* [[TPMS Lattice Design]] (B7) — physical channel wall material
+* [[PsiNet]] — deployment context for ψ waveguide interconnects
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Equations]]
+[[Category:Effective Physics]]
+[[Category:Wave Physics]]
+[[Category:PsiNet Substrate]]

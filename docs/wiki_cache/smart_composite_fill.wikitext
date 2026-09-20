@@ -1,0 +1,437 @@
+{{Derives_From
+| term        = αF²μν + (−m²ψ) + (−λψ³) — three master equation terms, three composite phases
+| description = The αF²μν EM coupling term requires a voltage-tunable dielectric
+                to make the transduction efficiency a controllable parameter —
+                BST nanoparticles provide this. The −m²ψ mass term requires a
+                tunable permeability to set the coherence length in real time —
+                ferrofluid in dedicated microchannels provides this. The −λψ³
+                nonlinear self-interaction term requires electro-acoustic
+                parametric amplification to sustain soliton amplitude envelopes —
+                PZT-5H and MWCNT in the polymer matrix provide this. Each phase
+                of the composite fill traces to exactly one term in the master
+                equation. No phase is present for aesthetic or speculative
+                reasons.
+}}
+
+{{Infobox
+| title   = Smart Composite Fill
+| image   =
+| caption = The three-phase nanocomposite that transforms a TPMS lattice into a functional ψ metamaterial substrate
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · Materials Chemistry · Nanocomposite Processing
+| label3  = Derives From
+| data3   = <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> (BST phase); <math>-m^2\psi</math> (ferrofluid phase); <math>-\lambda\psi^3</math> (PZT/MWCNT phase)
+| label4  = Established Analog
+| data4   = Ferroelectric ceramic processing; CNT-polymer nanocomposites; magnetorheological fluid engineering; VARTM processing of aerospace composites
+| label5  = Key Output
+| data5   = Complete fabrication protocol: BST synthesis, MWCNT functionalisation, VARTM infusion sequence, field-cure alignment, ferrofluid channel filling
+| label6  = Primary Engineering Use
+| data6   = Transforms the [[TPMS Lattice Design]] (B7) scaffold into a functional [[ψ Metamaterials]] substrate with voltage-tunable <math>\varepsilon_{\rm eff}</math>, H-field-tunable <math>\mu_{\rm eff}</math>, and nonlinear parametric support
+| header7 = Key Specifications
+| label8  = BST composition
+| data8   = Ba<sub>0.6</sub>Sr<sub>0.4</sub>TiO<sub>3</sub>, 50–150 nm, PEG-silane functionalised
+| label9  = BST tunability target
+| data9   = <math>\tau = (\varepsilon_r(0\,\text{V}) - \varepsilon_r(200\,\text{V}))/\varepsilon_r(0\,\text{V}) \geq 0.70</math>
+| label10 = MWCNT loading
+| data10  = 1–3 wt%, below percolation threshold
+| label11 = PZT-5H d₃₃
+| data11  = <math>d_{33} > 600</math> pC/N (bulk ceramic reference)
+| label12 = Cure protocol
+| data12  = 120°C, 2h, 10 kV/cm alignment field
+| below   = ''Build wave 1a — parallel with [[TPMS Lattice Design]] (B7). No Branch B dependencies. Informs [[ψ Constitutive Relations]] (B1) material parameter table.''
+}}
+
+= Smart Composite Fill =
+
+{{Plain_Hook
+| in_one_sentence    = The smart composite fill is a three-phase nanocomposite — BST nanoparticles for voltage-tunable dielectric response, PZT-5H and MWCNT for electro-acoustic parametric support, and ferrofluid in dedicated microchannels for real-time permeability control — where each phase serves exactly one term in the master psionic field equation and nothing is present without a mathematical justification.
+| everyday_analogy   = A transistor is not made of one material — it is a sandwich of n-type, p-type, and gate-oxide layers, each doing a distinct job that the others cannot. The smart composite fill works the same way: three phases in one volume, each phase tuning a different physical parameter, all cooperating to make the filled [[TPMS Lattice Design]] behave as a single engineered effective medium with three independently controllable properties.
+| what_it_predicts   = (1) A BST nanocomposite with <math>\varepsilon_{\rm eff}</math> tunability <math>\geq 35\%</math> at 40 kHz across a 0–200V bias sweep, confirmed by Maxwell-Garnett prediction before measurement; (2) A MWCNT loading below the electrical percolation threshold that lowers ψ-source breakdown voltage without creating a conducting short-circuit path; (3) A PZT-5H piezoelectric response that parametrically amplifies lattice acoustic modes at the Shepard tone drive frequencies; (4) A sequential VARTM infusion protocol that prevents phase incompatibility between the three chemical systems; (5) A field-cure step that simultaneously aligns BST ferroelectric domains and MWCNT orientation along the ψ₀₁₀ mode polarisation axis.
+| if_you_remember_one_thing = The infusion sequence is non-negotiable. CNT-epoxy must be infused and B-stage cured before BST suspension is introduced, and ferrofluid is loaded last into sealed microchannels only. Reversing or combining any two phases destroys the electrochemical compatibility between them and produces a composite with undefined and uncontrollable properties.
+}}
+
+The smart composite fill converts the [[TPMS Lattice Design]] (B7) scaffold from a passive geometric structure into an active, tunable ψ metamaterial substrate. The lattice provides the boundary conditions; the fill provides the material response. Together they form the complete [[ψ Metamaterials]] (B9) architecture.
+
+This page is a fabrication guide. Every specification given here is a Track A engineering quantity — measurable and verifiable with existing laboratory equipment, independently of whether ψ is real. The Track B interpretation (how each phase connects to a term in the psionic master equation) is given alongside each phase, but it does not affect the fabrication procedure.
+
+== Phase Architecture Overview ==
+
+The composite fill consists of three chemically distinct phases, each occupying a different spatial region of the [[TPMS Lattice Design]] scaffold:
+
+{| class="wikitable" style="width:100%;"
+! Phase !! Material system !! Spatial location !! Master equation term !! Engineering function !! Volume fraction
+|-
+| Phase 1 || MWCNT-loaded epoxy || Primary pore volume (first fill) || <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> — field emitters reduce breakdown voltage || Field emission; mechanical stiffness; electrical conduction backbone || 15–20 vol% of total composite
+|-
+| Phase 2 || BST nanoparticles + PZT-5H + quartz in UV acrylate || Remaining pore volume after Phase 1 || <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> — tunable <math>\varepsilon_r(V)</math> modulates coupling; <math>-\lambda\psi^3</math> — PZT parametric amplification || Voltage-tunable dielectric; piezoelectric; low-loss scaffold || 30–40 vol% of total composite
+|-
+| Phase 3 || EMG-900 ferrofluid || Dedicated sealed microchannels only || <math>-m^2\psi</math> — tunable <math>\mu_{\rm eff}(H)</math> sets <math>m_{\rm eff}</math> and therefore <math>L_\psi</math> || Real-time coherence length control || 3–5 vol% of total composite (channels only)
+|-
+| Solid scaffold || Printed photopolymer (from B7) || TPMS wall material || Geometric boundary condition from [[ψ Boundary Conditions]] (A5) || Structural; mode-selecting geometry || 20–30 vol% (set by <math>t</math> parameter)
+|}
+
+'''Void volume''' after Phase 1 partial cure but before Phase 2: approximately 30–45% of total lattice volume. This void must remain accessible for Phase 2 infusion — over-saturating Phase 1 blocks Phase 2 access and ruins the composite.
+
+== Phase 1: MWCNT-Epoxy System ==
+
+=== Material Rationale ===
+
+Multi-wall carbon nanotubes serve two functions traceable to the master equation:
+
+# '''Field emission (αF²μν term):''' CNT tips have nanometre-scale radii of curvature, producing field enhancement factors <math>\beta = 100</math>–<math>1000</math> at their tips. This lowers the effective breakdown field in the BST composite from ~30 kV/cm (bulk breakdown) to an effective ignition threshold closer to 3–5 kV/cm — making the bifilar coil drive accessible at the 20–200V operating voltages of the [[HelmKit]] rather than the 20–400 kV required for Rail Drive applications.
+# '''Mechanical stiffening:''' MWCNT at 2 wt% loading increases the tensile modulus of the epoxy matrix by 15–25%, raising the composite Young's modulus well above the 0.5 GPa target for 5g field operation.
+
+=== MWCNT Selection and Functionalisation ===
+
+'''Source material:''' MWCNT with outer diameter 9–15 nm, length > 5 μm (aspect ratio > 500), carbon purity > 95%. Suitable commercial sources: Nanocyl NC7000 (9.5 nm OD, ~1.5 μm — requires longer tube variant), Sigma-Aldrich 698849 (> 5 μm length, preferred).
+
+'''Acid functionalisation protocol — required for polymer dispersion:'''
+
+# Weigh 1.0 g MWCNT into a 250 mL round-bottom flask.
+# Add 120 mL of 3:1 (v/v) concentrated H₂SO₄ (98%):HNO₃ (70%). '''Safety: perform in fume hood; use acid-resistant gloves and face shield. Exothermic addition — add acid to flask slowly.'''
+# Reflux at 70°C for 3 hours with magnetic stirring. This shortens tubes slightly (acceptable) and grafts carboxyl (–COOH) and hydroxyl (–OH) groups onto the tube surfaces.
+# Cool to room temperature. Dilute carefully with 500 mL deionised water (exothermic).
+# Filter through 0.2 μm PTFE membrane (Sartorius). Wash with deionised water until filtrate pH > 6.
+# Dry at 80°C in vacuum oven overnight.
+# Verify: FTIR should show –COOH peak at 1720 cm⁻¹; TGA mass loss onset should shift from 550°C (pristine) to 450°C (functionalised), confirming surface grafting.
+
+=== Dispersion and Matrix Preparation ===
+
+# Disperse acid-functionalised MWCNT in epoxy resin: add 2.0 wt% MWCNT to Epon 862 (bisphenol F epoxy, viscosity 5 Pa·s at 25°C).
+# Tip sonication: 40% amplitude, 30 minutes, ice bath cooling (solution temperature must not exceed 30°C — overheating causes epoxy pre-gelation). Use a 6 mm probe tip; 750W Sonics Vibra-Cell or equivalent.
+# Verify dispersion: dynamic light scattering (DLS) measurement of a 0.01 wt% diluted aliquot in acetone should show no aggregates > 500 nm. If aggregates present, extend sonication by 10-minute increments up to 60 minutes total.
+# Add stoichiometric DETDA (diethyltoluenediamine) hardener (26.4 phr for Epon 862). Mix thoroughly for 5 minutes. Pot life at 25°C: ~4 hours.
+
+=== Percolation Threshold Management ===
+
+The electrical percolation threshold of MWCNT in epoxy is typically 0.5–1.5 wt% depending on aspect ratio and dispersion quality. '''Above the percolation threshold, the composite becomes electrically conducting — this would short-circuit the bifilar coil drive and destroy the EM-ψ transduction pathway.'''
+
+At 2.0 wt% loading the composite is above percolation — deliberately so, to maximise field emission. However, the MWCNT percolation network must be electrically isolated from the bifilar traces by the BST-filled phase 2 layer, which acts as a dielectric separator. The infusion sequence (Phase 1 first, Phase 2 second, with Phase 1 only partially filling the pore volume) maintains this separation geometrically.
+
+For operator safety verification: after full cure, measure DC resistance between any two points on the composite surface at > 5 mm separation. Target: > 10 MΩ (confirms Phase 2 BST layer provides adequate isolation).
+
+=== Infusion (Phase 1) ===
+
+# Mount the DLP-printed TPMS shell in a vacuum-bag VARTM fixture. Seal edges with tacky tape. Connect resin inlet (bottom) and vacuum outlet (top).
+# Pull vacuum to < 100 mbar. Hold 10 minutes to degas residual air from lattice channels.
+# Open resin inlet. The MWCNT-epoxy mixture flows by vacuum pressure through the lattice. Target: 50–60% pore volume saturation (not 100% — leave room for Phase 2).
+# Monitor via mass balance on resin pot: stop infusion when target mass is reached.
+# Partially cure (B-stage): ramp to 80°C at 2°C/min, hold 2 hours. Resin gels but is NOT fully cross-linked. Surface chemistry remains reactive for Phase 2 bonding.
+# '''Do not fully cure at this stage.''' Full cure before Phase 2 infusion will prevent chemical bonding between phases, resulting in delamination under thermal cycling.
+
+== Phase 2: BST-PZT-Silica System ==
+
+=== BST Nanoparticle Synthesis ===
+
+Ba₀.₆Sr₀.₄TiO₃ composition is selected because its Curie temperature falls near room temperature at this Ba:Sr ratio — placing the ferroelectric peak dielectric response (maximum tunability <math>d\varepsilon_r/dV</math>) at the operating temperature range of the [[HelmKit]] (15–35°C).
+
+'''Hydrothermal synthesis protocol:'''
+
+{{Way_It_Works
+| title       = BST nanoparticle synthesis — hydrothermal route
+| step1_label = Precursor preparation
+| step1_text  = Dissolve 0.6 mol Ba(OH)₂·8H₂O (189.5 g) and 0.4 mol Sr(OH)₂·8H₂O (105.6 g) in 200 mL deionised water at 80°C with stirring. Separately, dissolve 1.0 mol Ti(OC₄H₉)₄ (titanium(IV) butoxide, 340.3 g) in 50 mL dry isopropanol. Add the titanium solution dropwise to the barium-strontium solution with vigorous stirring over 30 minutes. A white precipitate forms immediately — this is normal.
+| step2_label = pH adjustment
+| step2_text  = Add 6M KOH solution dropwise until pH > 13 (verified by pH electrode — do not use pH paper at this concentration). KOH drives the reaction toward perovskite phase formation and prevents anatase TiO₂ side phase. Target: pH 13.5–14.0.
+| step3_label = Autoclave reaction
+| step3_text  = Transfer suspension to a Teflon-lined stainless steel autoclave (500 mL capacity, Parr Instrument 4760 or equivalent). Fill to 80% capacity. Seal and place in convection oven at 200°C for 24 hours. Pressure inside autoclave will reach approximately 14 bar — ensure autoclave is rated and inspected.
+| step4_label = Washing
+| step4_text  = After cooling to room temperature, open autoclave. The product is a white precipitate in alkaline supernatant. Centrifuge at 8000 rpm for 10 minutes; discard supernatant. Wash pellet with deionised water five times (resuspend, centrifuge, discard) until supernatant conductivity < 10 μS/cm. Wash twice with absolute ethanol to exchange solvent.
+| step5_label = Size verification
+| step5_text  = Dry a small aliquot at 80°C overnight. Image by TEM (JEOL JEM-2100 or equivalent). Target particle diameter: 50–150 nm, log-normal size distribution, polydispersity index (PDI) < 0.20 by DLS. If PDI > 0.25, the batch has significant aggregation — discard and repeat with faster KOH addition rate.
+| step6_label = Phase verification
+| step6_text  = XRD pattern (Cu Kα radiation, 2θ = 20–80°) must show pure perovskite phase (Pm3m space group). Absence of TiO₂ anatase peak at 2θ = 25.3° confirms phase purity. Lattice parameter should be between pure BaTiO₃ (a = 4.036 Å) and SrTiO₃ (a = 3.905 Å), scaling linearly with Sr content — expected: a ≈ 3.982 Å for 40% Sr substitution.
+| step7_label = Surface functionalisation
+| step7_text  = Resuspend washed (pre-drying) BST in dry toluene at 50 mg/mL. Add 1 vol% PEG-silane (polyethylene glycol triethoxysilane, MW 1000, Gelest SIM6492.7 or equivalent). Reflux at 110°C for 4 hours with stirring under nitrogen blanket. The PEG chains graft covalently to surface hydroxyl groups via silane condensation, providing steric stabilisation in the polymer matrix and preventing aggregation during VARTM infusion.
+}}
+
+=== BST Dielectric Characterisation ===
+
+Before use in composites, each batch must be characterised:
+
+# Press BST powder into 10 mm diameter pellets at 200 MPa. Sinter at 1300°C for 2 hours in air (NOTE: sintered pellet characterisation only — do not sinter particles used for composite; sintering would agglomerate them).
+# Deposit gold electrodes on pellet faces by sputtering.
+# Measure <math>\varepsilon_r(V)</math> at 40 kHz using impedance analyser (Keysight E4990A) with DC bias superimposed (Keysight 42841A bias adapter). Sweep DC bias −200V to +200V.
+# '''Pass criteria:''' <math>\varepsilon_r(0\,\text{V}) \geq 2000</math>; <math>\varepsilon_r(200\,\text{V}) \leq 600</math>; tunability <math>\tau = (\varepsilon_r(0) - \varepsilon_r(200))/\varepsilon_r(0) \geq 0.70</math>; <math>\tan\delta < 0.05</math> at 40 kHz, 0V bias.
+# If batch fails: most common cause is off-stoichiometry from Ti butoxide hydrolysis during precursor mixing. Verify Ba+Sr:Ti ratio by ICP-OES on dissolved sample.
+
+=== PZT-5H Integration ===
+
+PZT-5H (lead zirconate titanate, Zr:Ti = 48:52, morphotropic phase boundary composition) provides the highest piezoelectric response of commercially available PZT grades: <math>d_{33} > 600</math> pC/N, <math>k_p > 0.60</math>.
+
+'''Why not sinter PZT into the composite:''' Sintering PZT requires 1100–1300°C — far above the degradation temperature of the polymer matrix and BST functionalisation. Instead, use as-received PZT-5H powder (APC International Grade 5H, or equivalent) mixed into the acrylate binder at 15–20 wt%. The resulting unpoled piezoelectric response is lower than bulk (<math>d_{33,\rm eff} \approx 50</math>–<math>100</math> pC/N after field-cure poling), but adequate for the parametric amplification role.
+
+'''PVDF alternative:''' Polyvinylidene fluoride (PVDF) film or powder provides a lead-free, biocompatible alternative. <math>d_{33} \approx 25</math>–<math>35</math> pC/N — lower than PZT-5H, but sufficient for prototyping. Use if PZT supply is constrained or if lead-free certification is required for operator skin contact.
+
+=== Phase 2 Suspension Preparation ===
+
+Prepare the Phase 2 suspension in the following order — sequence matters for viscosity management:
+
+# Add 25 wt% quartz filler (Minco 325-mesh, mean diameter 45 μm) to UV-curable acrylate resin (Sartomer SR349, viscosity 350 cP at 25°C). Mix at 500 rpm for 10 minutes.
+# Add 15 wt% PZT-5H powder. Continue mixing 10 minutes.
+# Add 20 wt% PEG-silane-functionalised BST nanoparticles. Mix 20 minutes.
+# Tip sonicate (same protocol as Phase 1) for 20 minutes to break up any BST agglomerates.
+# Final viscosity check: Brookfield DV2T viscometer at 25°C. Target: 500–800 cP. If too viscous, add up to 5 vol% additional monomer (Sartomer SR306 tripropylene glycol diacrylate); if too thin, increase quartz loading by 5 wt%.
+
+=== Infusion (Phase 2) ===
+
+# Re-mount B-stage-cured Phase-1 shell in VARTM fixture.
+# Pull vacuum to < 100 mbar. Hold 5 minutes.
+# Infuse Phase 2 suspension. Target: fill remaining pore volume completely — this is confirmed by breakthrough at the vacuum outlet port.
+# UV cure through the mold: 365 nm LED array, 20 mW/cm², 30 minutes per face (rotate sample). Total UV exposure: 36 J/cm².
+# Verify cure: Barcol hardness > 35 on cured sample.
+
+=== Full Thermal Cure Under Alignment Field ===
+
+This step simultaneously completes epoxy cross-linking (Phase 1), stress-relieves the composite, and aligns BST ferroelectric domains and MWCNT along the target axis.
+
+{{Way_It_Works
+| title       = Field-cure alignment protocol
+| step1_label = Electrode preparation
+| step1_text  = Attach copper foil electrodes to the north and south polar faces of the shell using conductive silver epoxy (Chemtronics CW2400). These are temporary electrodes for poling only — remove after cure. Ensure electrode area covers > 80% of each polar face.
+| step2_label = Safety interlock
+| step2_text  = This step requires a 10 kV/cm field across the composite. For a 20 mm thick shell section, this means 20 kV applied voltage. Use a dedicated HV laboratory setup: interlocked enclosure, HV cable rated at 30 kV minimum (Alden Products or equivalent), current-limited HV supply (Stanford Research PS350 or equivalent), ground strap on operator. Never proceed without a second person present.
+| step3_label = Temperature ramp
+| step3_text  = Place composite in convection oven. Ramp temperature at 2°C/min from room temperature to 120°C. At 120°C the epoxy (Phase 1) completes cross-linking and the BST nanoparticles pass through their Curie temperature into the paraelectric phase — making domain alignment possible.
+| step4_label = Apply alignment field
+| step4_text  = At 120°C, apply 10 kV/cm DC field (north positive, south negative — aligns along the z-axis matching the ψ₀₁₀ mode polarisation from [[ψ Boundary Conditions]] A5). Ramp field slowly (1 kV/cm per minute) to avoid arcing in residual pore voids.
+| step5_label = Hold
+| step5_text  = Maintain 120°C and 10 kV/cm for 2 hours. During this time: BST domains align along z-axis (verified by increase in <math>\varepsilon_r^{zz}</math> relative to <math>\varepsilon_r^{xx}</math> after cooling); MWCNT dielectrophoretically align along field axis (verified by anisotropic conductivity measurement).
+| step6_label = Controlled cooling
+| step6_text  = Cool at 1°C/min to 80°C while maintaining field. At 80°C, BST passes back through Curie temperature and ferroelectric domains freeze in aligned state. Remove field. Continue cooling to room temperature (rate unconstrained below 80°C). Remove temporary electrodes.
+| step7_label = Verification
+| step7_text  = Measure anisotropy: <math>\varepsilon_r^{zz} / \varepsilon_r^{xx} > 1.3</math> at 0V bias confirms successful domain alignment. Conductivity anisotropy: <math>\sigma_{zz}/\sigma_{xx} > 5</math> confirms MWCNT alignment.
+}}
+
+=== Maxwell-Garnett Prediction ===
+
+Before TML-1 measurement, the expected <math>\varepsilon_{\rm eff}(V)</math> curve is computed using the Maxwell-Garnett effective medium model for the BST inclusion phase in the polymer matrix.
+
+For spherical BST inclusions (volume fraction <math>f_{\rm BST}</math>, permittivity <math>\varepsilon_i(V)</math>) in polymer matrix (permittivity <math>\varepsilon_m \approx 3.5</math> for acrylate):
+
+:<math>\varepsilon_{\rm eff}(V) = \varepsilon_m\,\frac{\varepsilon_i(V) + 2\varepsilon_m + 2f_{\rm BST}\bigl(\varepsilon_i(V) - \varepsilon_m\bigr)}{\varepsilon_i(V) + 2\varepsilon_m - f_{\rm BST}\bigl(\varepsilon_i(V) - \varepsilon_m\bigr)}</math>
+
+{{Math_Bridge
+| equation_label = Maxwell-Garnett effective permittivity for BST composite
+| equation       = <math>\varepsilon_{\rm eff}(V) = \varepsilon_m\,\frac{\varepsilon_i(V) + 2\varepsilon_m + 2f(\varepsilon_i(V) - \varepsilon_m)}{\varepsilon_i(V) + 2\varepsilon_m - f(\varepsilon_i(V) - \varepsilon_m)}</math>
+| in_english     =
+* <math>\varepsilon_m = 3.5</math> — matrix permittivity (UV-cured acrylate with quartz filler).
+* <math>\varepsilon_i(V)</math> — BST nanoparticle permittivity at applied bias <math>V</math>. From characterisation: <math>\varepsilon_i(0\,\text{V}) \approx 2000</math>; <math>\varepsilon_i(200\,\text{V}) \approx 600</math>.
+* <math>f = f_{\rm BST}</math> — BST volume fraction in the composite fill. At 20 wt% loading and density ratio <math>\rho_{\rm BST}/\rho_{\rm matrix} \approx 5.6/1.2</math>, <math>f \approx 0.046</math> (volume fraction is much lower than weight fraction for dense ceramic in polymer).
+* '''Predicted values at <math>f = 0.046</math>:''' <math>\varepsilon_{\rm eff}(0\,\text{V}) \approx 4.0</math>; <math>\varepsilon_{\rm eff}(200\,\text{V}) \approx 3.6</math>; effective tunability <math>\tau_{\rm eff} \approx 0.10</math>.
+* '''Important:''' The effective tunability of the composite is much lower than the tunability of pure BST. This is inherent to the Maxwell-Garnett model — the ceramic inclusions are diluted by the low-permittivity matrix. To increase <math>\tau_{\rm eff}</math>, increase <math>f_{\rm BST}</math>; to increase <math>f</math>, increase BST weight loading but monitor for dispersion stability loss above 30 wt%.
+}}
+
+'''Predicted performance table at <math>f_{\rm BST} = 0.046</math> (20 wt%):'''
+
+{| class="wikitable" style="width:100%;"
+! Quantity !! At 0V bias !! At 200V bias !! Units !! Measurement method
+|-
+| <math>\varepsilon_{\rm eff}</math> (Maxwell-Garnett) || 4.0 || 3.6 || dimensionless || VNA S-parameter extraction
+|-
+| <math>\tau_{\rm eff}</math> effective tunability || — || 0.10 || dimensionless || Derived from above
+|-
+| <math>\tan\delta_{\rm eff}</math> at 40 kHz || < 0.01 || < 0.01 || dimensionless || VNA S-parameter extraction
+|-
+| <math>d_{33,\rm eff}</math> (PZT contribution) || ~80 || ~80 || pC/N || Berlincourt meter on cured sample
+|-
+| BST domain alignment ratio <math>\varepsilon^{zz}/\varepsilon^{xx}</math> || 1.35 || 1.30 || dimensionless || Two-axis VNA measurement
+|}
+
+== Phase 3: Ferrofluid Channel System ==
+
+=== Material Selection ===
+
+Ferrofluid for the microchannel system must satisfy:
+* '''High saturation magnetisation''' <math>M_{\rm sat} > 20</math> kA/m for adequate <math>\mu_{\rm eff}</math> modulation range
+* '''Water-based carrier''' for biocompatibility and compatibility with thermal management co-function
+* '''Low viscosity''' < 10 mPa·s for flow through 0.5 mm channels at low pump pressure
+* '''Chemical compatibility''' with cured acrylate and epoxy channel walls
+
+'''Selected material:''' Ferrotec EMG-900 (water-based, <math>M_{\rm sat} = 22.3</math> kA/m, viscosity 6 mPa·s at 25°C, magnetite nanoparticles, 10 nm mean diameter, oleic acid + surfactant-stabilised). Shelf life: 2 years if sealed from air oxidation.
+
+'''Alternative:''' EFH-1 (Ferrotec, hydrocarbon carrier) for non-aqueous applications where water contamination risk is present. Higher <math>M_{\rm sat} = 30</math> kA/m but not compatible with water-based thermal management co-use.
+
+=== Microchannel Specifications ===
+
+Dedicated ferrofluid microchannels are designed into the TPMS lattice STL before slicing (see [[TPMS Lattice Design]] B7). Specifications:
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Value !! Basis
+|-
+| Channel diameter || 0.5 mm || Minimum DLP-printable enclosed channel; balances flow resistance against ferrofluid volume
+|-
+| Channel routing || Serpentine, 10 mm pitch, through lattice walls || Maximises coverage area; maintains TPMS wall integrity
+|-
+| Channel isolation || Fully sealed from pore volume || Zero crossover — confirmed by pressure test at TML-1
+|-
+| Inlet/outlet locations || One pair per 100 cm² of shell surface || Enables quadrant-by-quadrant <math>\mu_{\rm eff}</math> control for graded-L_ψ operation
+|-
+| Control coil || 50-turn, 5 mm diameter air-core coil per channel quadrant || Sets local H-field; driven by [[Anchor Controller]] (D6)
+|-
+| Flow rate (thermal) || 0.5–4 mL/min || Peristaltic pump; doubles as coolant loop
+|-
+| Maximum H-field || 10 kA/m at channel wall || From coil geometry; gives <math>M \approx 0.9 M_{\rm sat}</math>
+|}
+
+=== Langévin Susceptibility Model ===
+
+The ferrofluid's magnetisation as a function of applied H-field follows the Langevin function for non-interacting superparamagnetic particles:
+
+:<math>M(H) = M_{\rm sat}\left[\coth\!\left(\frac{\mu_0 m_p H}{k_{\rm B} T}\right) - \frac{k_{\rm B} T}{\mu_0 m_p H}\right]</math>
+
+{{Math_Bridge
+| equation_label = Langevin magnetisation of ferrofluid
+| equation       = <math>M(H) = M_{\rm sat}\!\left[\coth\!\left(\frac{\mu_0 m_p H}{k_{\rm B}T}\right) - \frac{k_{\rm B}T}{\mu_0 m_p H}\right]</math>
+| in_english     =
+* <math>M(H)</math> — magnetisation of the ferrofluid at applied H-field (A/m).
+* <math>M_{\rm sat} = 22.3</math> kA/m — saturation magnetisation: maximum achievable M when all particles are aligned.
+* <math>m_p</math> — magnetic moment of a single magnetite nanoparticle. For 10 nm diameter magnetite: <math>m_p = M_{\rm sat,bulk} \times (\pi/6) d^3 \approx 4.8\times10^{-19}</math> A·m².
+* <math>k_{\rm B}T \approx 4.1\times10^{-21}</math> J at 25°C — thermal energy scale. At low H, thermal fluctuations randomise particle orientation and M ≈ 0.
+* At high H: <math>M \to M_{\rm sat}</math> (all particles aligned, maximum μ_eff).
+* '''Engineering use:''' Given target <math>L_\psi</math> for each mode (Stabilizer: 20 cm, Defender: 2 cm), compute required <math>\mu_{\rm eff}</math>, compute required <math>M(H)</math> from constitutive relations (B3), invert Langevin model to find H-field set-point, compute coil current from coil geometry. This is the calibration chain for the [[Anchor Controller]] (D6) ferrofluid set-point table.
+}}
+
+=== Channel Filling Protocol ===
+
+# '''After full thermal cure of Phases 1+2:''' Confirm Phase 1+2 cure completeness by DSC (no residual cure exotherm above 30°C).
+# Seal channel outlets with finger-tight luer fittings. Connect inlet to ferrofluid reservoir via 1/16" PTFE tubing.
+# Apply 0.5 bar nitrogen pressure to reservoir. Observe bubble-free ferrofluid emergence at outlets — indicates complete channel fill with no trapped air.
+# Seal outlets. Verify no external leakage: wipe shell surface dry; observe for 10 minutes.
+# '''Pressure integrity test:''' Apply 2 bar nitrogen to filled channels for 5 minutes. Zero leakage into pore volume (checked by absence of ferrofluid staining on polished cross-section sample).
+
+== Complete Processing Summary ==
+
+{| class="wikitable" style="width:100%;"
+! Step !! Operation !! Temperature !! Duration !! Critical control parameter
+|-
+| 1 || MWCNT acid functionalisation || 70°C reflux || 3 h || pH of wash > 6 before drying
+|-
+| 2 || BST hydrothermal synthesis || 200°C autoclave || 24 h || pH > 13; autoclave rated to 20 bar
+|-
+| 3 || BST PEG-silane functionalisation || 110°C reflux || 4 h || N₂ blanket; toluene moisture-free
+|-
+| 4 || Phase 1 (MWCNT-epoxy) infusion || 25°C (infusion) || 30 min infusion || 50–60% pore saturation only
+|-
+| 5 || Phase 1 B-stage cure || 80°C || 2 h || Do NOT fully cure
+|-
+| 6 || Phase 2 (BST-PZT-silica) infusion || 25°C || 45 min || Full pore saturation
+|-
+| 7 || Phase 2 UV cure || 25°C, 365 nm || 30 min per face || 36 J/cm² total dose
+|-
+| 8 || Full thermal cure + field alignment || 120°C, 10 kV/cm || 2 h || Field ramp: 1 kV/cm per min; slow cool to 80°C under field
+|-
+| 9 || Electrode removal; surface inspection || Room temp || 30 min || No delamination; no voids > 2 mm
+|-
+| 10 || Ferrofluid channel filling || Room temp || 20 min || 0.5 bar; bubble-free emergence at outlet
+|-
+| 11 || Channel integrity test || Room temp || 10 min || 2 bar; zero leakage
+|}
+
+== Quality Control Measurements ==
+
+Every fabricated shell must pass the following battery before being accepted for integration:
+
+{| class="wikitable" style="width:100%;"
+! Test !! Instrument !! Parameter !! Pass criterion
+|-
+| BST domain alignment || VNA (two-axis fixture) || <math>\varepsilon_{\rm eff}^{zz}/\varepsilon_{\rm eff}^{xx}</math> || > 1.25 at 40 kHz, 0V bias
+|-
+| Tunability || VNA + HV bias || <math>\varepsilon_{\rm eff}(0\,\text{V})</math> vs <math>\varepsilon_{\rm eff}(200\,\text{V})</math> || <math>\tau_{\rm eff} \geq 0.08</math> (≥ 80% of Maxwell-Garnett prediction)
+|-
+| Loss tangent || VNA || <math>\tan\delta_{\rm eff}</math> at 40 kHz || < 0.01
+|-
+| Piezoelectric response || Berlincourt meter || <math>d_{33,\rm eff}</math> || > 40 pC/N (detectable above noise floor)
+|-
+| Electrical isolation || LCR meter || Surface resistance || > 10 MΩ between any two surface points > 5 mm apart
+|-
+| Ferrofluid channel integrity || Pressure test || Leakage to pore volume || Zero leakage at 2 bar, 5 min
+|-
+| BST batch phase purity || XRD || Perovskite phase fraction || > 99%; no anatase TiO₂
+|-
+| MWCNT dispersion || DLS || Aggregate size in dilute suspension || < 500 nm
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Composite Phases as Master Equation Term Implementations ===
+
+The three composite phases implement three distinct terms in the master equation. Within the ψ hypothesis (Track B), each phase has a specific psionic function beyond its electromagnetic role:
+
+'''BST phase — αF²μν coupling control:''' The voltage-tunable <math>\varepsilon_{\rm eff}(V)</math> modulates the effective coupling coefficient <math>\alpha_{\rm eff}</math> between the bifilar coil EM field and the ψ source term. High-bias (200V) operation reduces <math>\varepsilon_{\rm eff}</math>, which shifts the impedance <math>Z_\psi = (1/\omega^2)\sqrt{\mu_\psi/\varepsilon_\psi}</math> (from [[ψ Impedance Theory]] A4), enabling real-time impedance matching adjustment without mechanical reconfiguration.
+
+'''PZT-5H phase — −λψ³ soliton support:''' The parametric amplification provided by the piezoelectric matrix at Shepard tone acoustic frequencies (10, 20, 40 kHz) feeds energy into the ψ field amplitude at precisely the frequencies where the <math>-\lambda\psi^3</math> nonlinear term would otherwise cause soliton amplitude decay. The PZT response compensates the nonlinear damping, sustaining the soliton envelope that provides the stable reference state during Anchor mode.
+
+'''Ferrofluid phase — −m²ψ coherence length control:''' The H-field-tunable <math>\mu_{\rm eff}(H)</math> of the ferrofluid channels sets <math>m_{\rm eff}</math> and therefore <math>L_\psi = 1/m_{\rm eff}</math> in real time. This is the only independently controllable parameter that can shift the coherence length during operation without changing drive frequency or cavity geometry. The [[Anchor Controller]] (D6) uses this as its primary mechanism for adapting the device to the operator's current effective mass (which shifts with ψ₀ background from the [[ψ Dispersion Relations]] A3 nonlinear mass formula).
+
+== TML Measurement Protocol ==
+
+=== TML-1 — Bench Characterisation (No Subjects) ===
+
+Fabricate three tablet samples (10 mm diameter, 2 mm thick) per batch following the full protocol above. Measure:
+
+# <math>\varepsilon_{\rm eff}(V)</math> curve from 0 to 200V DC bias at 40 kHz using Keysight E4990A impedance analyser + 42841A bias adapter.
+# <math>\tan\delta</math> at 40 kHz, 0V bias.
+# <math>d_{33,\rm eff}</math> using Berlincourt piezometer (APC International Model 8000).
+# Ferrofluid <math>M(H)</math> curve using vibrating sample magnetometer (VSM; Lakeshore 7400 or equivalent) on extracted channel ferrofluid sample.
+# DC surface resistance using Keithley 6517B electrometer.
+
+'''Pass criteria:'''
+* <math>\varepsilon_{\rm eff}</math> tunability <math>\geq 0.08</math>
+* <math>\tan\delta < 0.01</math> at 40 kHz
+* <math>d_{33,\rm eff} > 40</math> pC/N
+* <math>M_{\rm sat}</math> within 10% of EMG-900 spec sheet value
+* Surface resistance > 10 MΩ
+
+=== TML-2 — Integrated Shell Test (No Subjects) ===
+
+Integrate full composite-filled shell with bifilar coil drive. Measure:
+
+# <math>\varepsilon_{\rm eff}</math> uniformity across shell surface: VNA S-parameter map at 5 cm spatial resolution. Target: < 15% variation shell-to-shell and position-to-position.
+# Thermal stability: cycle shell through 15–40°C (simulated HelmKit operating range). Confirm <math>\varepsilon_{\rm eff}</math> drift < 5%.
+# Ferrofluid <math>\mu_{\rm eff}(H)</math> response in-situ: vary control coil current; measure inductive response of drive coil. Confirm Langevin model matches within 20%.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Maxwell-Garnett at <math>f \to 0</math> || <math>\varepsilon_{\rm eff} \to \varepsilon_m = 3.5</math> — pure matrix || ✓ (formula reduces to ε_m trivially)
+|-
+| Maxwell-Garnett at <math>f \to 1</math> || <math>\varepsilon_{\rm eff} \to \varepsilon_i(V)</math> — pure BST || ✓
+|-
+| Langevin at <math>H \to 0</math> || <math>M \to \chi_0 H</math> where <math>\chi_0 = \mu_0 M_{\rm sat} m_p / (3k_{\rm B}T)</math> — linear response || ✓ (Taylor expansion of coth confirms)
+|-
+| Langevin at <math>H \to \infty</math> || <math>M \to M_{\rm sat}</math> — saturation || ✓
+|-
+| Phase 1 percolation check || At 2 wt% MWCNT: conductivity above percolation threshold; isolated by Phase 2 BST dielectric || Requires experimental confirmation at TML-1
+|-
+| Field-cure alignment direction || <math>\varepsilon^{zz} > \varepsilon^{xx} = \varepsilon^{yy}</math> after z-axis field cure — anisotropy along field axis || ✓ (standard result in field-poled ferroelectrics)
+|-
+| Infusion sequence chemical compatibility || MWCNT-epoxy B-stage surface remains reactive for Phase 2 bonding — verified by DSC showing single combined Tg in cured composite || Requires experimental confirmation at TML-1
+|}
+
+== See Also ==
+
+* [[TPMS Lattice Design]] (B7) — the geometric scaffold this page fills
+* [[ψ Constitutive Relations]] (B1) — effective medium parameters derived from this composite
+* [[ψ Permittivity]] (B2) — BST tunability detailed treatment
+* [[ψ Permeability]] (B3) — ferrofluid <math>\mu_{\rm eff}(H)</math> detailed treatment
+* [[ψ Loss Tangent]] (B4) — composite loss budget
+* [[ψ Metamaterials]] (B9) — composite + lattice as integrated ψ metamaterial
+* [[Bifilar Coil Engineering]] (D1) — the EM driver integrated into this composite shell
+* [[BST Energy Recovery]] (D4) — exploits the BST C(V) nonlinearity for power recapture
+* [[Shepard Tone Synthesis]] (D2) — drive frequencies matched to PZT parametric response
+* [[Anchor Controller]] (D6) — ferrofluid H-field set-point controller
+* [[FBG Lattice Monitoring]] (E3) — in-situ <math>\varepsilon_{\rm eff}</math> monitoring
+* [[Psi Stabilizer]] — primary device this page serves
+* [[Psionic Engineering]] — branch hub and navigation
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Metamaterials]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:Manufacturing]]
+[[Category:Nanotechnology]]

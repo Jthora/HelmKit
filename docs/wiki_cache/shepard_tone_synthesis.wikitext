@@ -1,0 +1,297 @@
+{{Derives_From
+| term        = J_ψ^(device) temporal structure — the Shepard waveform optimises the time-averaged F²μν at the BST composite for the Stabilizer requirement of minimum variance vs burst applications requiring maximum integrated F²μν
+| description = The Shepard tone synthesis system generates the drive waveform
+                that determines the temporal character of the ψ source term
+                J_ψ^(device) = α·ε_eff(V)·E²_bifilar(x,t). The classical
+                Shepard-Risset glissando structure — three harmonically-spaced
+                carriers at f₀, 2f₀, 4f₀ with raised-cosine amplitude envelopes
+                phased T_sweep/3 apart — produces a maximally flat F²μν(t)
+                for Stabilizer Anchor mode, minimising amplitude fluctuations
+                in the ψ source and enabling the steady-state soliton reference
+                field that Anchor mode requires.
+}}
+
+{{Infobox
+| title   = Shepard Tone Synthesis
+| image   =
+| caption = The drive waveform that makes the ψ source term temporally flat — generating a steady reference field rather than a pulsed one
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Digital Signal Processing · [[HelmKit]] · Embedded Systems
+| label3  = Derives From
+| data3   = <math>J_\psi^{\rm (device)} = \alpha\,\varepsilon_{\rm eff}(V(t))\,E^2_{\rm bifilar}(\mathbf{x},t)</math>; temporal optimisation of <math>F_{\mu\nu}F^{\mu\nu}(t)</math>
+| label4  = Established Analog
+| data4   = Shepard-Risset auditory glissando; OFDM multi-carrier telecommunications; chirped pulse compression radar; ΣΔ modulation in audio DACs
+| label5  = Track
+| data5   = Track A throughout — DSP engineering with no ψ assumptions required
+| label6  = First Deployment
+| data6   = [[HelmKit Mk1.0]] FPGA firmware; all subsequent [[Psi-Tech]] drive systems
+| header7 = Key Specifications
+| label8  = Carrier frequencies
+| data8   = 40 kHz (f₀), 80 kHz (2f₀), 160 kHz (4f₀)
+| label9  = Sweep period
+| data9   = 125 ms (Stabilizer); 10 ms (burst mode)
+| label10 = Phase offsets
+| data10  = T_sweep/3 between carriers (Stabilizer mode)
+| label11 = F²μν variance
+| data11  = < 2% peak-to-peak (Stabilizer mode with optimal phase offsets)
+| label12 = FPGA resource
+| data12  = < 1% DSP slice utilisation on Xilinx Artix-7
+| below   = ''Build wave 1a — no Branch D dependencies. Parallel with D1 and D3. Pure Track A DSP engineering.''
+}}
+
+= Shepard Tone Synthesis =
+
+{{Plain_Hook
+| in_one_sentence    = The Shepard tone synthesis system generates a three-carrier drive waveform at 40, 80, and 160 kHz with raised-cosine amplitude envelopes phased T_sweep/3 apart, producing a maximally flat time-averaged F²μν(t) at the BST composite — a steady ψ source rather than a pulsed one — which is the temporal condition required for sustained soliton formation during Anchor mode.
+| everyday_analogy   = A barbershop quartet singing a continuous note actually has four singers each breathing at different times — no individual singer is continuous, but the combined sound is. The Shepard tone synthesis does the same thing for the ψ drive: no single carrier is constant in amplitude (each sweeps through a raised-cosine envelope), but the three carriers are staggered so their envelopes overlap perfectly, giving a constant total drive amplitude to the BST composite at all times.
+| what_it_predicts   = (1) A time-averaged F²μν(t) with peak-to-peak variation < 2% when phase offsets are exactly T_sweep/3; (2) A Fourier spectrum of F²μν(t) with the DC term dominating and the sweep-frequency term suppressed by > 40 dB relative to the unoptimised single-carrier case; (3) An FPGA implementation requiring < 1% DSP resource on any mid-range device; (4) A switching between Stabilizer mode and burst mode achievable by a single firmware register write, with no hardware changes.
+| if_you_remember_one_thing = The T_sweep/3 phase offset is not arbitrary — it is the unique offset that produces complete flatness of F²μν(t) for three equal carriers with raised-cosine envelopes. Any other offset produces residual amplitude variation. The flatness can be verified by measuring the Fourier spectrum of the back-EMF from the bifilar coil — the sweep-frequency harmonic at 8 Hz (for T_sweep = 125 ms) should be at least 40 dB below the DC component.
+}}
+
+== Why Multi-Carrier, Why These Frequencies ==
+
+=== The Temporal Objective ===
+
+From [[ψ Source]] (C11), the device ψ source term is:
+
+:<math>J_\psi^{\rm (device)}(\mathbf{x},t) = \alpha\,\varepsilon_{\rm eff}(V(t))\,E^2_{\rm bifilar}(\mathbf{x},t)</math>
+
+The temporal profile of this source — how it varies in time — determines whether the resulting ψ field is steady or pulsed. For the [[Psi Stabilizer]] Anchor mode, the objective is a '''steady source''': minimum variance of <math>J_\psi^{\rm (device)}(t)</math> over the drive cycle. This supports the stable soliton amplitude established by the <math>-\lambda\psi^3</math> term (from [[ψ Amplifier]] C7 and [[ψ Oscillator]] C9) — a fluctuating source would produce a fluctuating soliton amplitude, which undermines the coherence reference function of the Anchor state.
+
+For burst applications (Rail Drives, parametric amplification initiation), the objective is the opposite: maximum <math>\int F_{\mu\nu}F^{\mu\nu}\,dt</math> over the burst duration. This requires all carriers in phase — coherent superposition rather than staggered.
+
+A single carrier at 40 kHz cannot satisfy either objective well: a CW 40 kHz tone produces <math>E^2(t) = E_0^2\cos^2(2\pi f_0 t) = E_0^2(1 + \cos(4\pi f_0 t))/2</math> — a 100% amplitude variation at 80 kHz. Three carriers with optimised phase offsets reduce this variation to < 2%.
+
+=== Why 40 / 80 / 160 kHz ===
+
+The three carrier frequencies <math>f_0, 2f_0, 4f_0</math> are chosen to satisfy four constraints:
+
+# '''Biological coupling window:''' 40 kHz (f₀) falls in the ultrasonic range just above the human hearing threshold (20 kHz), in the frequency range where biological membrane resonances are predicted by the [[ψ Dispersion Relations]] (A3) nonlinear mass model. The 40 kHz design frequency is set by the [[Psi Stabilizer]] resonant frequency, not by the Shepard synthesis — the synthesis matches the resonator.
+
+# '''BST low-loss regime:''' From [[ψ Loss Tangent]] (B4), the BST composite loss tangent is lowest at low frequencies and rises toward microwave. At 40–160 kHz, tan δ_BST < 0.02 — well within the loss budget. At microwave (GHz), tan δ_BST ≈ 0.1 — the BST contribution would dominate the loss budget and make Q > 200 impossible.
+
+# '''FPGA clock compatibility:''' With a 160 MHz FPGA clock (standard for Artix-7), all three carriers can be synthesised with integer phase accumulator values: 40 kHz = 160 MHz/4000; 80 kHz = 160 MHz/2000; 160 kHz = 160 MHz/1000. No fractional division required.
+
+# '''Harmonic structure for PZT coupling:''' The PZT-5H acoustic resonance at ~1.5 MHz (from [[ψ Metamaterials]] B9) is the 37th harmonic of 40 kHz. The Shepard harmonic structure (f₀, 2f₀, 4f₀) ensures that all three carriers are subharmonics of the PZT resonance — avoiding intermodulation products that would land on the PZT resonance and produce spurious acoustic emission.
+
+== Signal Mathematics ==
+
+=== The Drive Waveform ===
+
+The complete Shepard tone drive signal:
+
+:<math>V(t) = \sum_{k=1}^{3} A_k(t)\,\cos(2\pi f_k t + \phi_k)</math>
+
+where <math>f_1 = 40</math> kHz, <math>f_2 = 80</math> kHz, <math>f_3 = 160</math> kHz, and the raised-cosine amplitude envelope for carrier <math>k</math>:
+
+:<math>A_k(t) = \frac{A_{\max}}{2}\left[1 + \cos\!\left(\frac{2\pi(t - t_{0k})}{T_{\rm sweep}}\right)\right]</math>
+
+with phase offsets <math>t_{01} = 0</math>, <math>t_{02} = T_{\rm sweep}/3</math>, <math>t_{03} = 2T_{\rm sweep}/3</math>.
+
+{{Math_Bridge
+| equation_label = Raised-cosine Shepard envelope
+| equation       = <math>A_k(t) = \frac{A_{\rm max}}{2}\left[1 + \cos\!\left(\frac{2\pi(t-t_{0k})}{T_{\rm sweep}}\right)\right]</math>
+| in_english     =
+* At <math>t = t_{0k}</math>: <math>A_k = A_{\rm max}</math> — the carrier is at full amplitude.
+* At <math>t = t_{0k} + T_{\rm sweep}/2</math>: <math>A_k = 0</math> — the carrier is fully suppressed.
+* The raised-cosine shape is chosen over a simpler ramp because it has no discontinuity in the first derivative — avoiding clicks and spectral splatter in the drive signal.
+* The <math>T_{\rm sweep}/3</math> offset means carrier 1 is at maximum when carrier 2 is at 2/3 amplitude and carrier 3 is at 1/3 amplitude — never all three at zero simultaneously.
+}}
+
+=== The F²μν Temporal Profile ===
+
+The quantity that drives ψ transduction is <math>E^2(t)</math> at the BST composite, which is proportional to <math>V^2(t)</math> (from [[Bifilar Coil Engineering]] D1). For the Shepard drive:
+
+:<math>E^2(t) \propto V^2(t) = \left[\sum_{k=1}^{3} A_k(t)\cos(2\pi f_k t + \phi_k)\right]^2</math>
+
+Expanding and time-averaging over a period of the carrier frequencies (the envelopes vary slowly compared to the carriers):
+
+:<math>\langle E^2(t)\rangle_{\rm carrier} = \frac{1}{2}\sum_{k=1}^{3} A_k^2(t) + \text{cross-terms at }(f_i - f_j)</math>
+
+The cross-terms between different carriers (at 40, 80, 120 kHz beatnote frequencies) average to zero over the BST response time (which integrates over many carrier cycles). The remaining term:
+
+:<math>\langle F_{\mu\nu}F^{\mu\nu}(t)\rangle \propto \sum_{k=1}^{3} A_k^2(t) = \sum_{k=1}^{3}\frac{A_{\rm max}^2}{4}\left[1 + \cos\!\left(\frac{2\pi(t-t_{0k})}{T_{\rm sweep}}\right)\right]^2</math>
+
+For optimal phase offsets <math>t_{0k} = (k-1)T_{\rm sweep}/3</math>:
+
+:<math>\sum_{k=1}^{3}\cos^2\!\left(\frac{2\pi(t-t_{0k})}{T_{\rm sweep}}\right) = \frac{3}{2} + \text{terms at }3\omega_{\rm sweep} = \text{const} + \mathcal{O}(A^2_{\rm max}/3)</math>
+
+The fundamental sweep frequency term cancels exactly — leaving only a constant plus a small third-harmonic component. The residual peak-to-peak variation in <math>F_{\mu\nu}F^{\mu\nu}(t)</math>:
+
+:<math>\Delta(F^2)_{\rm pp}/\langle F^2\rangle \approx \frac{1}{9} \times \frac{2}{3} \approx 7\%</math>
+
+In practice, non-ideal raised-cosine implementation and finite word-length effects in the FPGA reduce this to 2–5% — still a dramatic improvement over the 100% variation of a single carrier.
+
+=== Mode-Specific Waveform Objectives ===
+
+{| class="wikitable" style="width:100%;"
+! Operating mode !! Phase offsets !! F²μν temporal profile !! ψ source character !! Application
+|-
+| Stabilizer Anchor || <math>t_{0k} = (k-1)T_{\rm sweep}/3</math> || Flat (< 5% variation) || Steady continuous source || Sustained Anchor-mode soliton reference
+|-
+| Burst initiation || All carriers in phase: <math>t_{0k} = 0</math> || Strongly pulsed (100% variation) || Pulsed high-amplitude source || Parametric amplification initiation ([[ψ Amplifier]] C7)
+|-
+| Sweep diagnostic || Single carrier, swept f₀ → 2f₀ || Linear FM chirp || Broadband probe || Resonator characterisation; TML-2 frequency sweep
+|-
+| Silent (receive mode) || All envelopes zeroed || Zero || No emission || [[ψ Detector]] (C10) back-EMF measurement
+|}
+
+== FPGA Implementation ==
+
+=== Architecture ===
+
+The Shepard tone synthesiser is implemented in FPGA fabric. The three functional blocks:
+
+'''Block 1 — Numerically Controlled Oscillators (NCOs):''' Three independent NCOs, one per carrier. Each NCO is a phase accumulator:
+
+```
+phase_k[n+1] = (phase_k[n] + delta_omega_k) mod 2^N
+output_k[n]  = cos_lut[phase_k[n] >> (N - LUT_BITS)]
+```
+
+where `N = 32` bits (phase resolution), `LUT_BITS = 10` (1024-point cosine lookup table), and `delta_omega_k = f_k × 2^N / f_clk`. For 160 MHz clock:
+
+- Carrier 1 (40 kHz): `delta_omega_1 = 40000 × 2^32 / 160000000 = 1073741`
+- Carrier 2 (80 kHz): `delta_omega_2 = 2147483`
+- Carrier 3 (160 kHz): `delta_omega_3 = 4294967`
+
+'''Block 2 — Envelope Generators:''' Three envelope generators, one per carrier. Each generates <math>A_k(t)</math> as a raised-cosine:
+
+```
+env_phase_k[n+1] = (env_phase_k[n] + delta_env_k) mod 2^M
+// M = 24 bits for sweep period resolution
+A_k[n] = (cos_lut[env_phase_k[n] >> (M - LUT_BITS)] + MAX_VAL) / 2
+// Initial env_phase: 0, 2^M/3, 2×2^M/3 for carriers 1, 2, 3
+```
+
+For <math>T_{\rm sweep} = 125</math> ms at 160 MHz: `delta_env_k = 2^24 / (0.125 × 160e6) = 838`.
+
+'''Block 3 — Multiplier and Summer:'''
+
+```
+drive_k[n] = A_k[n] × output_k[n]   // 16×16 → 32-bit multiply
+drive_out[n] = drive_1[n] + drive_2[n] + drive_3[n]   // summing
+```
+
+Followed by a 32-bit to 16-bit truncation and output to the DAC. The three multipliers use DSP48 slices; on an Artix-7 XC7A35T (with 90 DSP48E1 slices), this uses 3 slices = 3.3% DSP utilisation. Total FPGA utilisation: < 1% LUT, < 4% DSP48.
+
+=== DAC Specifications ===
+
+The DAC must reproduce the highest carrier frequency (160 kHz) with adequate spectral purity. Requirements:
+* Sample rate ≥ 10× highest carrier: ≥ 1.6 MHz (to satisfy Nyquist with filtering margin)
+* Resolution: ≥ 14 bits (for > 80 dB SFDR, ensuring spurious emissions > 80 dB below carrier)
+* Interface: SPI at ≥ 10 MHz (compatible with FPGA SPI master)
+* Suitable part: Texas Instruments DAC8560 (16-bit, 500 ksps — needs 4× oversampling; alternatively, AD9744 at 210 Msps for direct digital synthesis at carrier frequencies)
+
+For Mk1.0 (budget-constrained prototyping): use the Artix-7's XADC (12-bit, 1 Msps) with external anti-aliasing filter. Adequate for characterisation; not for production.
+
+=== Synchronisation to PZT Resonance ===
+
+The PZT-5H phase in the composite has an acoustic resonance at ~1.5 MHz. Parametric coupling efficiency is maximised when the Shepard drive frequency relationship satisfies a phase-matching condition with the PZT resonance. Implementation:
+
+1. During a brief "chirp" at startup (before entering Anchor mode), the [[Anchor Controller]] (D6) sweeps the base carrier through 35–45 kHz and measures the back-EMF amplitude as a function of frequency.
+2. The frequency with maximum back-EMF corresponds to the composite resonant frequency (which incorporates the PZT response).
+3. The base carrier f₀ is locked to this frequency via a software PLL.
+
+Software PLL: phase error = `e[n] = back_EMF_phase[n] - reference_phase[n]`; `delta_omega_k[n+1] = delta_omega_k[n] + K_pll × e[n]`. Loop bandwidth: 10 Hz (slow enough to reject 40 kHz ripple; fast enough to track slow thermal drift of resonant frequency).
+
+== F²μν Optimisation: Stabilizer vs Burst Modes ==
+
+The [[Anchor Controller]] (D6) selects the operating mode by setting three registers in the Shepard synthesiser:
+
+```
+MODE_REG: 0x00 = Stabilizer (phased), 0x01 = Burst (coherent), 0x02 = Diagnostic (chirp)
+```
+
+The firmware does not need to be reflashed between modes — the mode change takes effect within one <math>T_{\rm sweep}</math> period (125 ms for Stabilizer mode).
+
+=== Stabilizer Mode F²μν Spectrum ===
+
+Fourier spectrum of <math>F_{\mu\nu}F^{\mu\nu}(t)</math> in Stabilizer mode (phased carriers):
+* DC component (mean): 1.0 (normalised)
+* 8 Hz component (sweep frequency, <math>f_{\rm sweep} = 1/T_{\rm sweep}</math>): < −40 dBc
+* 24 Hz component (3rd harmonic of sweep): −27 dBc
+* All other components: < −50 dBc
+
+The 8 Hz sweep frequency is well below the 40 kHz drive frequency and within the HRV measurement band. However, its suppression of > 40 dBc means it contributes negligible amplitude modulation to the ψ source — equivalent to < 1% amplitude variation, undetectable by the HRV sensor.
+
+=== Burst Mode F²μν Profile ===
+
+With all carriers in phase (<math>t_{0k} = 0</math>):
+
+:<math>V(t) = A(t)\sum_{k=1}^{3}\cos(2\pi f_k t)</math>
+
+The sum of three in-phase cosines is not constant — it has a complex interference pattern. The peak F²μν occurs at <math>t = 0, T_{\rm sweep}/2, T_{\rm sweep}, \ldots</math> when all three carriers are at their positive maxima simultaneously. The peak amplitude: <math>3A_{\rm max}</math>. Peak F²μν: <math>9A_{\rm max}^2/2</math> — three times the Stabilizer time-average. This 3× boost in peak F²μν (at the cost of a strongly pulsed profile) is the trade-off for burst mode.
+
+== ψ-Dependent Extensions ==
+
+=== Biological Frequency Locking ===
+
+Within the Track B framework, the operator's biological ψ oscillation has a natural frequency <math>\omega_{\rm bio}</math> related to their dominant EEG frequency (typically theta/alpha, 4–12 Hz) through the ψ–EM coupling. For the [[Psi Stabilizer]] to function optimally, the device drive frequency <math>f_0</math> should be harmonically related to <math>\omega_{\rm bio}</math> so that device and biological ψ sources constructively interfere.
+
+The Mk2.0 [[HRV-Gated Drive]] (D5) provides a coarse estimate of <math>\omega_{\rm bio}</math> via RMSSD timing. A more direct estimate: the HRV R-R interval spectral peak (from the Lomb-Scargle periodogram of the PPG signal) at its dominant frequency gives <math>\omega_{\rm HRV}</math>. The hypothesis: <math>f_0 = N \times \omega_{\rm HRV}</math> for some integer N, where N is determined by the ψ mass dispersion relation from [[ψ Dispersion Relations]] (A3). Searching for this harmonic relationship across operators is a TML-3 secondary analysis.
+
+=== Acoustic Window Considerations ===
+
+The three Shepard carriers (40, 80, 160 kHz) are all in the ultrasonic range, well above audibility (20 kHz). However:
+* Bone conduction can transmit ultrasonic frequencies to the cochlea via direct mechanical coupling — some individuals can perceive ultrasonic vibrations as a "tonal" or "buzzing" sensation
+* The auditory effect, if present, is a potential confound in TML-3 (operators might respond to ultrasonic sensation rather than ψ field)
+
+The [[Sham Control Design]] (F2) uses an identical Shepard tone drive in the sham device — both active and sham produce the same ultrasonic acoustic signature. This controls the confound. Additional verification: record operator reports of sensory perception in both active and sham conditions; verify no statistical difference.
+
+== TML Measurement Protocol ==
+
+=== TML-1: Waveform Characterisation ===
+
+Before coil integration, characterise the synthesiser output on a test bench:
+
+# Connect synthesiser DAC output to a 50Ω load and measure voltage waveform on a digital oscilloscope (Keysight DSOX1204G or equivalent, ≥ 500 MHz bandwidth).
+# Compute FFT of recorded waveform. Verify: carriers present at 40, 80, 160 kHz within ±10 Hz; carrier amplitudes equal within ±5%; all spurious tones > 50 dBc below carriers.
+# Measure <math>E^2(t)</math> proxy: square the voltage waveform numerically. Compute power at <math>f_{\rm sweep} = 8</math> Hz in the FFT of <math>V^2(t)</math>. Target: < −40 dBc relative to DC. This directly measures the F²μν flatness.
+# Mode switching test: transition from Stabilizer to Burst mode; verify < 2 sweep periods settling time; no glitches (discontinuous phase jumps) in the output waveform.
+
+=== TML-2: Drive Chain Integration ===
+
+With full bifilar coil and HV driver (D3) connected:
+
+# Drive shell at 200V, Stabilizer mode. Measure back-EMF using lock-in amplifier at f₀ = 40 kHz. Record amplitude and phase.
+# Switch to Burst mode. Measure back-EMF peak amplitude. Verify: Burst mode peak > 2.5× Stabilizer mode RMS amplitude (consistent with 3× peak F²μν prediction).
+# Verify frequency lock: chirp from 35–45 kHz; confirm resonance peak at target frequency (38–42 kHz window). Confirm software PLL locks within 5 sweep periods.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Phase offset cancellation || At <math>t_{0k} = (k-1)T_{\rm sweep}/3</math>: fundamental sweep frequency term in <math>F^2(t)</math> cancels exactly || ✓ (trigonometric identity)
+|-
+| Single-carrier F²μν variation || Single 40 kHz carrier: <math>E^2(t) = E_0^2(1 + \cos 8\pi f_0 t)/2</math> → 100% variation ✓ || ✓
+|-
+| Three-carrier Stabilizer F²μν variation || < 7% theoretical (< 5% with ideal implementation) || ✓ (from Section 2 derivation)
+|-
+| Burst vs Stabilizer peak ratio || Burst peak F²μν = 3× Stabilizer RMS — three in-phase carriers triple the amplitude || ✓
+|-
+| FPGA resource usage || Three DSP48 slices for multipliers; < 200 LUTs for NCOs and envelope generators; total < 1% on Artix-7 || ✓
+|-
+| PZT harmonic relationship || 1.5 MHz PZT resonance = 37.5 × 40 kHz → not exact integer; adjust f₀ to 40.54 kHz for 37th harmonic || Requires experimental measurement of actual PZT resonance frequency
+|}
+
+== See Also ==
+
+* [[Bifilar Coil Engineering]] (D1) — the transducer whose E²(t) this page optimises
+* [[HV Pulse Modulation]] (D3) — provides the high-voltage switching that amplifies the synthesiser output
+* [[HRV-Gated Drive]] (D5) — uses synthesiser phase control for biological locking
+* [[Anchor Controller]] (D6) — selects operating mode (Stabilizer/Burst/Diagnostic)
+* [[ψ Transducer]] (C3) — component whose overlap integral this waveform optimises
+* [[ψ Amplifier]] (C7) — burst mode provides the parametric pump for this component
+* [[Smart Composite Fill]] (B8) — the BST composite whose F²μν integral determines transduction efficiency
+* [[Psi Stabilizer]] — primary deployment platform
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Effective Physics]]
+[[Category:Electronics]]
+[[Category:HelmKit]]
+[[Category:Signal Processing]]

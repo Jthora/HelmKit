@@ -1,5 +1,12 @@
 = Falsification Criteria for Psionics =
 
+{{Plain_Hook
+| in_one_sentence    = This page enumerates the specific, quantitative empirical predictions of the psionic framework whose disconfirmation would falsify it — making the framework accountable to evidence in the Popperian sense rather than operating as the unfalsifiable hypothesis that has historically discredited parapsychology.
+| everyday_analogy   = Most fringe physics fails the Popper test: any failed prediction gets blamed on "experimenter effect" or "sceptic interference", protecting the central claim from refutation. The framework refuses that move. Instead it publishes a NUMBERED LIST of predictions — F1 through F11+ — each with a specific quantitative outcome and a specific falsification trigger. If the predictions survive, the framework gains evidential standing; if they fail at sufficient power, the framework is dead. There is no "psi-missing" escape hatch.
+| what_it_predicts   = Eleven (and counting) falsifiable predictions: F1 ganzfeld d > 0 at N > 10,000; F2 RV distance-independence; F3 resonance enhancement of ψ-coupling; F4 SAR-independence of ψ-coupling; F5 microtubule disruption blocks AC; F6 anaesthesia blocks AC; F7 universal α coupling constant; F8 soliton stability; F9 no conservation-law violations; F10 axion-class bound on α; F11 haloscope null falsifies psion quasiparticle ontology. Each criterion has a current empirical status (consistent / pilot / untested / contested).
+| if_you_remember_one_thing = This page is the framework's contract with evidence. Every numbered F-criterion is a place where the framework can lose. The framework is not strong because it cannot be wrong — it is strong because it has specified, in advance, exactly HOW it could be wrong.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Intermediate
 | reading_time = 7 minutes
@@ -25,6 +32,22 @@ The [[Psionics|psionic framework]] is a quantum field theory of a real scalar fi
 :<math>\mathcal{L} = \tfrac{1}{2}(\partial_\mu \psi)(\partial^\mu \psi) - \tfrac{1}{2} m^2 \psi^2 - \tfrac{\lambda}{4}\psi^4 - \alpha\,\psi\,F_{\mu\nu}F^{\mu\nu} + \ldots</math>
 
 with α (ψ-EM coupling), m (ψ mass), λ (ψ self-coupling) as fundamental parameters. The framework's predictions follow from this Lagrangian.
+
+{{Way_It_Works
+| title  = How to read the F-criterion list as a falsification programme
+| step1_label = Start from the Lagrangian
+| step1_text  = The framework's core claims — a scalar field ψ with mass m, self-coupling λ, and ψ-EM coupling α via the ψF·F vertex — are encoded in one Lagrangian. Every F-criterion is a consequence derivable from that Lagrangian, plus reasonable biological / experimental assumptions.
+| step2_label = Specify the prediction quantitatively
+| step2_text  = Each F-criterion states a NUMBER (effect size d, distance scaling, ratio of on-resonance to off-resonance, etc.) that the framework predicts and that experiment can measure. Vague predictions don't count.
+| step3_label = Specify the falsification trigger
+| step3_text  = Each criterion states what observation would refute the prediction. F2: if RV effect size falls with distance like an EM signal. F6: if AC effect size is normal under anaesthesia. F11: if haloscope null at all plausible psion masses. These triggers are pre-specified, not chosen post-hoc.
+| step4_label = Demand methodological rigour
+| step4_text  = The methodological floor: pre-registered analysis, statistical power ≥ 80%, multi-lab replication, raw-data-level reproducibility. Single-lab nulls and unblinded positive claims both fail the bar. This protects against both premature funeral and premature claim.
+| step5_label = Track current status honestly
+| step5_text  = For each criterion the page lists current empirical status. "Consistent" (F1, F2, F9, F10) means evidence to date matches prediction. "Pilot" (F4) means partial data. "Untested" (F3, F5, F7, F8, F11) means the experiment hasn't been run at proper power. "Contested" means meaningful disagreement among experts. The framework does NOT claim things are confirmed when they aren't.
+| step6_label = Distinguish whole-framework vs partial falsification
+| step6_text  = Some criteria (F1, F2, F9) would kill the framework if they failed. Others (F5, F6) would kill only the microtubule-substrate sub-claim; the framework would survive in modified form. F11 would force the framework to retreat from quasiparticle ontology to EFT-only. The page is explicit about which falsifications are global and which are local.
+}}
 
 == Quantitative falsification criteria ==
 

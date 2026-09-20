@@ -1,10 +1,10 @@
 {
-  "fetched_at": "2026-05-18T17:59:11+00:00",
-  "lastrev_timestamp": "2026-05-13T15:58:32Z",
-  "length": 6293,
+  "fetched_at": "2026-08-05T20:40:42+00:00",
+  "lastrev_timestamp": "2026-05-18T18:46:53Z",
+  "length": 6734,
   "pageid": 4589,
-  "revid": 8268,
-  "sha256": "89399938fc9bc25f2ce85b28c47dc9037bc85a810d49176745a3ef6602ed6057",
+  "revid": 8396,
+  "sha256": "c0d6b1bd00f42ad4f2beda2e40323a63a1ba6b4b156c6f7ada59ae9466ac4312",
   "title": "Psi Scanner",
   "url": "https://wiki.fusiongirl.app/wiki/Psi_Scanner"
 }

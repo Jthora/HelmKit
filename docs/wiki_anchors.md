@@ -149,3 +149,9 @@ These pages were published or substantially rewritten on 2026-05-12 and feed [`w
 - [`Microtubule`](https://wiki.fusiongirl.app/wiki/Microtubule), [`Orchestrated Objective Reduction`](https://wiki.fusiongirl.app/wiki/Orchestrated_Objective_Reduction), [`Biophotons`](https://wiki.fusiongirl.app/wiki/Biophotons).
 - [`Dotta Saroka Persinger 2012`](https://wiki.fusiongirl.app/wiki/Dotta_Saroka_Persinger_2012), [`Celardo Microtubule Superradiance`](https://wiki.fusiongirl.app/wiki/Celardo_Microtubule_Superradiance), [`Kalra Anaesthetic Microtubule`](https://wiki.fusiongirl.app/wiki/Kalra_Anaesthetic_Microtubule), [`Bandyopadhyay Microtubule Conductance`](https://wiki.fusiongirl.app/wiki/Bandyopadhyay_Microtubule_Conductance) — primary-paper citation-anchor pages.
 
+### Pages added in Pass 3 (2026-08-05 wiki content drop — "Psionic Engineering")
+
+The wiki published a new [`Psionic Engineering`](https://wiki.fusiongirl.app/wiki/Psionic_Engineering) hub page (pageid 6541) organizing a 42-page engineering discipline between `Psionics` and `Psi-Tech`. The 1-hop page graph connected to `Psionics`, `Psi Field`, and `Psionic Engineering` totals 484 pages; `tools/wiki_pages.yml` now tracks a curated 51-page priority subset (the pages that actually exist — Branch A/B/C and D1–D2 of the hub's 7 branches; Branches D3–D6/E/F/G are still redlinks on the live wiki). Full translation index and per-page engineering writeups: [`psionic_engineering/README.md`](psionic_engineering/README.md).
+
+Also revised in this drop (already-tracked pages, substantially expanded): `HelmKit`, `HelmKit Architecture`, `Psi Field`, `Psionics`, `Caduceus Coil`, `Psi Emitter`, `Effective Field Theory of Consciousness`, and most of the Pass-2 field-theory/methodology roster above. See `docs/wiki_cache/CHANGELOG.md` for the full sync diff.
+

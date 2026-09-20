@@ -1,15 +1,31 @@
+= Resonant Neurobiology =
+
+{{Plain_Hook
+| in_one_sentence    = Resonant Neurobiology is the working hypothesis that the abstract category of [[Resonant]] — individuals with elevated ψ-field coupling — has measurable neurophysiological signatures detectable with standard wearable instrumentation across five orthogonal axes (resting alpha-band coherence ≥ 0.7 on F3–F4–O1–O2 EEG eyes-closed; HRV RMSSD ≥ 50 ms; cardio-respiratory coherence; baroreflex sensitivity; gamma-band PLV during intent) — providing the concrete, testable phenotype that [[Resonant Finder]] models, [[Resonant Pipeline]] screening, and [[Psi Recorder]] telemetry validate against, with a defined falsifier (blinded protocol null at p<0.01).
+| everyday_analogy   = A multi-axis fitness test for psionic sensitivity, using off-the-shelf hardware. Just as standard fitness assessment combines several independent measurements (VO₂ max, resting heart rate, grip strength, body composition) to characterise overall conditioning, the Resonant Neurobiology phenotype combines five independent neurophysiological measurements: EEG alpha-band coherence (cortical resting-state organisation), heart-rate variability (parasympathetic tone), cardio-respiratory coherence (heart–breath alignment, HeartMath-style), baroreflex sensitivity (cardiovascular control), and gamma-band phase-locking value during deliberate intent. Each axis comes from mainstream cardiology/neurology with established protocols and consumer-wearable instrumentation. The framework's claim: Resonants score elevated on multiple axes simultaneously, and that combined elevation is detectable, quantifiable, and falsifiable.
+| what_it_predicts   = (1) Five-axis phenotype score; (2) Axis 1 — resting alpha-band coherence ≥ 0.7 across F3–F4–O1–O2 (EEG ≥4 channel, eyes closed); (3) Axis 2 — HRV RMSSD ≥ 50 ms (PPG/ECG, 5-min supine); (4) Axis 3 — cardio-respiratory coherence ≥ 4 within 1 min of intent (HeartMath-style); (5) Axis 4 — baroreflex sensitivity within elevated range; (6) Axis 5 — gamma-band PLV elevation during intent (see [[Gamma_PLV]]); (7) Confounders: caffeine, sleep deprivation, sympathetic arousal, athletic training; (8) Falsifier — blinded protocol returning null at p<0.01; (9) Operational use — [[Resonant Finder]], [[Resonant Pipeline]], [[Psi Recorder]] validation.
+| if_you_remember_one_thing = Resonant Neurobiology is the framework's empirical phenotype CONTRACT: if the Resonant category is real, these five axes should be elevated together; if a blinded study shows null at p<0.01, the phenotype claim is falsified. The page makes a specific, testable, instrumentable prediction.
+}}
+
+{{Way_It_Works
+| title  = How the five-axis Resonant Neurobiology phenotype works
+| step1_label = Define the operational target
+| step1_text  = The abstract category Resonant (elevated ψ-field coupling) is unobservable directly. The page COMMITS to a measurable phenotype: five neurophysiological axes, each with a provisional threshold and a documented instrumentation protocol. Concrete numbers and concrete hardware are the bet.
+| step2_label = Axis 1 — EEG alpha-band coherence
+| step2_text  = Resting alpha (8–13 Hz) coherence ≥ 0.7 across F3–F4–O1–O2 with eyes closed. Mainstream literature: alpha coherence reflects cortical resting-state organisation; values ≥ 0.7 across frontal-occipital long-range pairs are uncommon and have been associated with experienced meditators. See [[EEG Coherence]] for the methodology.
+| step3_label = Axis 2–3 — cardiac autonomic balance
+| step3_text  = HRV RMSSD ≥ 50 ms (PPG or ECG, 5-min supine recording) crosses the mainstream "high vagal tone" boundary. Cardio-respiratory coherence ≥ 4 (HeartMath-style score) within 1 minute of focused intent indicates heart-breath alignment. Both axes are well-established in cardiology and consumer wearables can capture them.
+| step4_label = Axis 4–5 — baroreflex + gamma PLV during intent
+| step4_text  = Axis 4: baroreflex sensitivity within elevated range — cardiovascular control indicating autonomic flexibility. Axis 5: gamma-band (30–60 Hz) phase-locking value (see [[Gamma_PLV]]) elevated during deliberate intent. The intent-conditioned axis is the strongest framework-distinguishing signal.
+| step5_label = Manage confounders
+| step5_text  = Each axis has known confounders: caffeine elevates HRV briefly; sleep deprivation reduces all axes; athletic training elevates baseline HRV without elevating other axes; sympathetic arousal can transiently invert the picture. The phenotype protocol controls these by standardized pre-test conditions (fasting, rest, no recent stimulants).
+| step6_label = Honor the falsifier
+| step6_text  = Falsifier: a blinded study following the proposed multi-axis protocol that returns null at p<0.01 falsifies the Resonant phenotype claim. The page commits to that bar explicitly. Operational consequence — if the falsifier triggers, [[Resonant Finder]] models cannot use neurophysiological signatures and the framework loses an empirical anchor.
+}}
+
 '''Resonant Neurobiology''' is the working hypothesis that the abstract category of '''[[Resonant]]''' — individuals with elevated ψ-field coupling — has '''measurable neurophysiological signatures''' that can be detected with standard wearable instrumentation.
 
 This page defines those proposed signatures so that [[Resonant Finder]] models, [[Resonant Pipeline]] screening, and [[Psi Recorder]] telemetry have a concrete, testable phenotype to validate against.
-
-{{Psi-claim
-| status = TESTABLE
-| cites = HRV and Psi, Coherent Quantum Effects in Biology, Orchestrated Objective Reduction
-| methods = Concrete protocol defined; replication not yet attempted.
-| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
-| confidence = low
-| last_reviewed = 2026-05-12
-}}
 
 == Proposed signatures ==
 
@@ -53,14 +69,110 @@ A genuine Resonant Neurobiology signal would therefore have to show '''elevation
 
 If a population of candidates self-identified or astrology-flagged as Resonant shows no statistically significant elevation on these axes above a training-history-matched control group, the Resonant Neurobiology hypothesis is falsified for this measurement battery, and the [[Resonant Finder]] must be retired or its scoring re-specified.
 
+== Per-axis literature dive ==
+
+Each axis is calibrated against a specific peer-reviewed result.
+
+=== Alpha-band coherence ===
+
+* '''Cahn & Polich 2006''' meta-review: alpha-power and alpha-coherence elevation in long-term meditators across Tibetan-Buddhist, Vipassana, Transcendental Meditation, and Zen traditions. Effect size <math>d \approx 0.5\!-\!1.2</math> across studies.
+* '''Lagopoulos et al. 2009''': novice-meditator alpha coherence elevation after 5-week intervention (effect smaller than long-term).
+* '''Travis & Shear 2010''': taxonomy of meditation → EEG signature mapping; the automatic-self-transcending category shows the strongest alpha-coherence signature.
+
+See [[Alpha_Band_Coherence]] for the dedicated treatment.
+
+=== Gamma phase-locking value ===
+
+* '''Lutz et al. 2004''': long-term Tibetan-Buddhist practitioners show sustained frontal-parietal gamma synchrony elevated by ~30× over baseline during compassion meditation. The strongest single published EEG signature of meditative attainment.
+* '''Berkovich-Ohana et al. 2012''': Vipassana replication.
+* '''Cahn et al. 2010''': shorter-training cohorts fail to show the effect; lifetime-practice threshold appears to be > 10⁹ minutes.
+
+See [[Gamma_PLV]] for the dedicated treatment.
+
+=== Heart-rate variability ===
+
+* '''Task Force 1996''' (European Society of Cardiology / North American Society of Pacing and Electrophysiology) — the foundational standardisation document for HRV metrics, recording conditions, and reference values.
+* '''Shaffer & Ginsberg 2017''' review — modern summary of HRV reference ranges across populations; mainstream-cardiology consensus.
+* '''Lehrer & Gevirtz 2014''' — resonance-frequency-biofeedback literature; <math>d \approx 0.4\!-\!0.8</math> on stress/anxiety.
+
+See [[Heart_Rate_Variability_and_Psi]] for the dedicated treatment.
+
+=== Cardio-respiratory coherence ===
+
+* '''McCraty et al. 2009''' — HeartMath synthesis review; small but replicable effect on cognitive-performance endpoints.
+* '''Goessl et al. 2017''' meta-analysis — confirms the effect at <math>d \approx 0.3\!-\!0.6</math> on stress/anxiety endpoints.
+
+See [[Cardio_Respiratory_Coherence]] for the dedicated treatment.
+
+=== Geomagnetic correlation ===
+
+The most speculative of the five axes. Literature is sparse and heterogeneous; see [[Geomagnetic Sensitivity in Humans]] and the upcoming open-questions sub-page for the unresolved threads.
+
+== False-positive-rate analysis ==
+
+With five orthogonal axes scored independently and a candidate classified as Resonant on any 3-of-5 above-threshold, the '''chance rate''' of false-positive Resonant classification, under an assumption of independent axis distributions and an above-threshold probability of <math>p = 0.1</math> per axis in the general population:
+
+<math>P_\mathrm{false-positive} = \sum_{k=3}^{5} \binom{5}{k} p^k (1-p)^{5-k} = 0.00856</math>
+
+i.e. ~0.9% of an unselected population would meet the criterion by chance. With <math>p = 0.2</math> (axes more permissive), the false-positive rate rises to ~5.8%. The screening protocol therefore aims to keep per-axis threshold at the <math>p \approx 0.1</math> mark.
+
+Multiple-comparison correction across the 10 pairwise tests embedded in the EEG-coherence axis is via false-discovery-rate control at <math>q = 0.05</math>; raw <math>p</math> values are deprecated.
+
+== Cohort-size power calculation ==
+
+Detecting a Resonant-vs-control effect of size <math>d = 0.6</math> (the smallest published effect under the strongest axes above) at <math>\alpha = 0.05</math>, <math>1 - \beta = 0.8</math> requires:
+
+<math>n_\mathrm{per\,group} \approx \frac{2(z_{1-\alpha/2} + z_{1-\beta})^2}{d^2} = \frac{2(1.96 + 0.84)^2}{0.36} \approx 44</math>
+
+i.e. 44 candidates and 44 controls minimum. For <math>d = 0.4</math> the requirement rises to ~99 per group; for <math>d = 0.3</math>, ~176 per group. The framework's Mk2.0 cohort target is therefore <math>n \geq 60</math> per arm, which detects <math>d \geq 0.55</math> at 80% power, and which is achievable in a single-investigator multi-month deployment.
+
+== Screening-cascade architecture ==
+
+Cheap-first ladder, designed so 95% of candidates are filtered before the expensive axes are deployed:
+
+# '''Tier 0''' — self-report + astrology flag from [[Resonant Finder]]. Free.
+# '''Tier 1''' — 5-minute supine HRV recording (PPG-only wearable). $0 / $50 single-use. Filters to top ~30% by RMSSD.
+# '''Tier 2''' — 1-minute cardio-respiratory coherence protocol. $0 (same hardware as Tier 1). Filters to top ~10%.
+# '''Tier 3''' — 30-minute resting EEG with 4-channel array (alpha coherence axis). $300–500 / session, Mk2.0 hardware. Filters to top ~3%.
+# '''Tier 4''' — attention-task gamma PLV. Same hardware, +60-minute protocol.
+# '''Tier 5''' — 14-day geomagnetic-correlation deployment. Mk2.0 hardware + Kp-index logging. Most expensive.
+
+Resonant (awakened) classification requires ≥ 3-of-5 above threshold; Resonant (latent) requires 1–2. The cascade design keeps total cost per Resonant-class confirmation low.
+
+== Bayesian-update protocol ==
+
+The framework treats each axis as evidence updating a prior on ψ-coupling. Per-axis likelihood ratios are calibrated from the literature above; the posterior on Resonant-class membership is computed as:
+
+<math>\mathrm{post}(R \mid \mathbf{e}) = \mathrm{prior}(R) \prod_i \mathrm{LR}(e_i \mid R)</math>
+
+where <math>e_i</math> is the binary above/below-threshold indicator on axis <math>i</math> and <math>\mathrm{LR}(e_i \mid R)</math> is the likelihood ratio for that evidence under the Resonant-class hypothesis. The framework's Mk2.0 cohort data will recalibrate these LRs; current values are placeholders seeded from the meditation literature.
+
+== Falsification-criterion mapping ==
+
+Resonant Neurobiology engages [[Falsification Criteria for Psionics|F1–F11]] as follows:
+
+* '''F2 (population-level operator-state predictor)''' — direct: the screening cascade IS the F2 instrument.
+* '''F1 (operator-state-conditioned effect)''' — candidates classified Resonant must show effect on a blinded ψ-task under controlled conditions.
+* '''F3 (resonance enhancement)''' — candidates with strong alpha coherence are the cohort in which Mk2.0 F3 is tested.
+
+Resonant Neurobiology does not engage F4–F11 directly; it is the substrate cohort-selection layer those engagements inherit from.
+
 == See also ==
 
+== See also ==
 * [[Resonant]]
 * [[Resonant Finder]]
 * [[Resonant Pipeline]]
 * [[Heart Rate Variability and Psi]]
 * [[Psi Recorder]]
+* [[EEG Coherence]] — the methodology of axes 1 and 4.
+* [[Alpha Band Coherence]], [[Gamma_PLV]] — the two EEG axes.
+* [[Default Mode Network]] — candidate substrate.
+* [[Heart Rate Variability and Psi]] — the HRV axis.
+* [[Cardio Respiratory Coherence]] — the HeartMath axis.
+* [[Polyvagal Theory]] — autonomic-state.
 
 [[Category:Psionics]]
 [[Category:Resonant]]
+[[Category:Biomarker layer]]
 [[Category:Testable Psi Claims]]

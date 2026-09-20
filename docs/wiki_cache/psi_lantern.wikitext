@@ -1,0 +1,26 @@
+The '''Psi Lantern''' is a hand-portable, lantern-form-factor combined sensor + indicator unit designed for operator-led psi-environmental reconnaissance in indoor or low-visibility settings. Engineering-honestly, a [[Psi Compass]] in lantern shape with omnidirectional sensing and a visible status display; doctrinally, the smallest piece of fielded [[Psi-Tech]] that can be handed to a recruit on their first walk.
+
+== Overview ==
+
+The Lantern provides:
+
+* '''Ambient field readout''' — color-graded LED lantern shell indicating local field-coherence state.
+* '''Bearing-on-tap''' — held shaken or twisted, switches from ambient mode to bearing mode (acts as a [[Psi Compass]] with reduced sensitivity).
+* '''Threshold ping''' — audible chirp on anomaly above operator-tuned threshold.
+* '''[[Psi Mesh]] visibility''' — optional; small mesh node for sharing readings with a nearby operator group.
+
+The Lantern is the canonical "first instrument" handed to a Clan recruit. It is simple, visible, honest about what it sees, and unambiguous about what it does not.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Compass]]
+* [[HelmKit]]
+* [[Psi Mesh]]
+* [[Resonant Finder]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

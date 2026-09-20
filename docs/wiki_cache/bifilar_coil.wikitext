@@ -1,28 +1,5 @@
 = Bifilar Coil =
 
-{{Audience_Sidebar
-| difficulty   = Intermediate
-| reading_time = 5 minutes
-| prerequisites = Basic coil theory (inductance, capacitance); some Tesla-era circuit intuition.
-| if_too_advanced_see = [[Near_Field_Electromagnetics]]
-| if_you_want_the_math_see = This page
-}}
-
-{{Notation
-| signature = SI throughout.
-| units     = L = inductance (H); V = voltage (V); I = current (A).
-}}
-
-{{Device_Vital_Stats
-| type           = Coil (counter-wound bifilar)
-| operating_freq = 1 kHz – 5 MHz (resonance design-dependent)
-| input_power    = 0.1 – 100 W (research scale)
-| size           = typical 50 – 200 mm diameter
-| status         = Prototype / experimental
-| safety_class   = ICNIRP Class II (general public, with shielding)
-| key_reference  = Tesla US 512,340 (1894)
-}}
-
 A '''bifilar coil''' is a coil with '''two parallel windings''' on the same core. Depending on how the two windings are connected, the coil can:
 
 * '''Add their inductances''' (series-aiding: currents flow in the same direction).

@@ -22,16 +22,6 @@ If confirmed by independent labs, the finding establishes a direct empirical lin
 
 The full citation: '''Dotta BT, Saroka KS, Persinger MA (2012). "Increased photon emission from the head while imagining light in the dark is correlated with changes in electroencephalographic power." ''Neuroscience Letters'' 513(2): 151–154. PMID: 22343311.'''
 
-{{Psi-claim
-| status = TESTABLE
-| claim = Photon emission from one isolated cell culture correlates with chemical perturbation of a second cell culture in a separate room.
-| cites = [[Biophotons]], [[Anomalous Cognition]]
-| methods = Concrete protocol defined; replication not yet attempted.
-| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
-| confidence = low
-| last_reviewed = 2026-05-12
-}}
-
 == Apparatus ==
 
 * '''Photomultiplier tube (PMT)''': Hamamatsu H7360-01 single-photon-counting head.

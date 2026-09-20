@@ -1,0 +1,50 @@
+The '''Psi Talisman''' is a small worn or pocket-carried object — a pendant, a coin, a sewn patch — engraved or otherwise crafted with a sigil tuned to the wearer's [[natal chart]], intended as a continuous low-level [[Psi Harmonizer|harmonizer]] effect carrier. Engineering-honestly, an intentional-practice object with no electronics; doctrinally, the smallest piece of [[Psi-Tech]] in the entire roster and the one the Clan most directly inherits from older traditions of charm, amulet, and worn sigil.
+
+== Overview ==
+
+A Talisman is, at minimum:
+
+* '''Crafted''' — by hand or by digital fabrication (laser engraving, etching, casting).
+* '''Personalised''' — sigil derived from the wearer's [[natal chart]] (sun + moon + ascendant placements, ruling-planet glyph).
+* '''Worn''' — continuously, in a manner unique to the wearer.
+* '''Coupled''' — to the wearer's own intentional practice, not to electronics.
+
+A Talisman has no battery, no sensor, no emission. Its function is symbolic and intentional, and it is honestly labeled as such.
+
+== Build Notes ==
+
+* '''Operator-crafted is allowed.''' A Talisman the wearer makes themselves is doctrinally valued; the Mk0 form encourages this.
+* '''Sigil derivation is published.''' The [[SynastryEngine]] sigil rules are open; allies and outside auditors can verify the derivation.
+* '''No occult claim.''' The Talisman is not a charm with power; it is an intentional-practice object with a [[Psi Field]] hypothesis attached.
+* '''Inheritable / replaceable.''' A Talisman lost or damaged is replaceable; no irreplaceable value is stored in it.
+
+== Safety and Ethics ==
+
+* No emission; no sensor; no privacy concern.
+* The Talisman carries no personal data unless the wearer chooses to inscribe it.
+* Non-wearer-targeted: a Talisman is the wearer's; gifting is permitted, third-party use is documented as a different ritual practice.
+* No selling Talismans with extraordinary claims attached. The Clan position: this is intentional practice, sold as such if at all.
+
+== Failure Modes and Mitigations ==
+
+* '''Wearer overclaims to outsiders.''' → Briefing material is explicit: this is intentional practice with a hypothesis attached, not a charm with power.
+* '''Lost or stolen.''' → Replaceable; no extraordinary value stored.
+* '''Commercial misrepresentation.''' → Clan policy: no Talisman sold with extraordinary claims attached.
+* '''Cross-cultural appropriation.''' → Sigil rules are derived from astrology + Clan iconography, documented and open; no appropriation of closed traditions.
+* '''Inscribed personal data leak.''' → Wearer-discretion; default Talismans carry sigil only.
+* '''Operator over-reliance.''' → The Talisman is one element of a personal practice, never the whole.
+
+== See Also ==
+
+* [[Psi Harmonizer]]
+* [[Resonant Card]]
+* [[natal chart]]
+* [[SynastryEngine]]
+* [[Astrological Frequency Harmonics]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:Speculative Psi Claims]]

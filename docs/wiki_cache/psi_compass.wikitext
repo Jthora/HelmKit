@@ -1,0 +1,26 @@
+The '''Psi Compass''' is a handheld or mounted field instrument that gives the operator a directional reading toward sources of [[Psi Field]] coherence anomaly — engineering-honestly, a multi-sensor anomalous-field bearing finder; doctrinally, a compass for psionic phenomena. It is the simplest deployable [[Psi-Tech]] sensor and is often the first piece of real instrumentation a Tho'ra recruit handles.
+
+== Overview ==
+
+The Compass shows the operator three things:
+
+* A '''bearing arrow''' to the strongest detected anomalous field within range.
+* A '''confidence ring''' (color-graded) reflecting signal-to-noise.
+* A '''class indicator''' (geological / electromagnetic / psionic / unknown) reflecting the [[Psionic Threat Model]] classifier's best guess.
+
+It is a finder, not a confirmer. A Psi Compass tells you ''something is over there''; the [[Psi Recorder]] and the [[Resonant Finder]] tell you ''what''.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Recorder]]
+* [[Resonant Finder]]
+* [[Psionic Threat Model]]
+* [[Geomagnetic Sensitivity in Humans]]
+* [[HelmKit]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

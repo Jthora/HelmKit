@@ -1,5 +1,28 @@
 = Caduceus Coil =
 
+{{Plain_Hook
+| in_one_sentence    = A caduceus coil is a '''bifilar''' winding in which two wires spiral around a common axis with '''opposite chirality''' — one right-handed and one left-handed, crossing at regular intervals — producing a geometry that strongly suppresses far-field radiation while maintaining a structured near-field, making it the canonical [[HelmKit]]-class wearable antenna for near-field psionic-device design at 10 kHz–10 MHz with research-scale 1–50 W input.
+| everyday_analogy   = Two helical staircases winding in opposite directions around the same atrium, crossing every half-turn. In ordinary single-helix coils (think a solenoid), every turn adds magnetic moment in the same direction — the coil radiates strongly. In a caduceus coil, the right-handed and left-handed windings carry currents whose magnetic dipole moments POINT IN OPPOSITE DIRECTIONS along the axis. From far away the two dipoles cancel: the coil looks like an electromagnetically silent object. But up close (within the coil's geometric extent), the cancellation is incomplete — you get a complex, chiral, structured near-field. The name comes from Hermes' staff with two serpents, used because the geometry is identical. Practically: a caduceus coil radiates very little to a distant receiver but couples strongly into anything within its near-field volume — ideal for a head-worn psionic device.
+| what_it_predicts   = (1) Two helical windings of opposite chirality, parameterised in cylindrical coordinates as r₁(t) = (R·cos t, R·sin t, p·t/2π) and r₂(t) = (R·cos t, −R·sin t, p·t/2π); (2) Net magnetic dipole moment of opposite-current bifilar pair vanishes in far field — radiation strongly suppressed; (3) Local near-field structure: chiral, with components not present in any single-helix coil; (4) Coupling to biological chirality (Smith's hypothesis): the chiral near-field interacts preferentially with chiral biological molecules; (5) Operating range 10 kHz–10 MHz, geometry-dependent; (6) Typical 80–300 mm length; (7) ICNIRP Class II safe with shielding.
+| if_you_remember_one_thing = The caduceus coil's superpower is RADIATION SUPPRESSION via chiral cancellation — not extra emission. It's used in psionic devices precisely because it can deliver structured near-field energy to the wearer without broadcasting a far-field beacon, which both improves coupling efficiency and reduces electromagnetic interference.
+}}
+
+{{Way_It_Works
+| title  = How the caduceus coil suppresses far-field radiation while building structured near-field
+| step1_label = Lay down two windings, opposite chirality
+| step1_text  = Wind two insulated wires around a cylindrical form, side by side. Wire 1 spirals right-handed (clockwise looking down the axis), wire 2 spirals left-handed (counter-clockwise). They cross each other twice per turn. The cross-overs are alternated to avoid contact. Pitch p sets crossover density; radius R sets the field-volume size.
+| step2_label = Drive the two wires with opposite-polarity currents
+| step2_text  = Connect the two wires so that current flows in opposite directions through them — wire 1 carries +I and wire 2 carries −I. Each helical current would individually produce a magnetic dipole moment along the axis. But the two helices have OPPOSITE chirality, so even with opposite-sign currents, their axial dipole moments combine in a specific geometric way — see step 4.
+| step3_label = Compute the local field
+| step3_text  = Use Biot-Savart along each wire and add. At points OUTSIDE the coil along the axis (far field), the two dipole contributions interfere destructively — the far-field radiation pattern is strongly suppressed compared to an equivalent single-helix coil with the same drive current. The radiation Q is much higher and the radiation resistance R_rad much lower.
+| step4_label = But maintain structure inside
+| step4_text  = INSIDE the coil's geometric volume (and within a few R of the surface), the two windings' fields do NOT cancel — their phase difference depends on position. The result is a complex chiral near-field with both poloidal and toroidal components, and with a definite handedness inherited from the winding chirality. This is the FEATURE: a structured, chiral near-field with minimal far-field leakage.
+| step5_label = Couple to biological chirality
+| step5_text  = Smith's hypothesis (and later framework extensions) holds that chiral biological structures — helical proteins, DNA, microtubule lattices — couple preferentially to chiral near-fields of matching handedness. A right-handed caduceus configuration would couple differently to a tissue volume than a left-handed one. This is a TESTABLE claim with a clear protocol: swap the chirality, look for a measurable difference in the biological endpoint.
+| step6_label = Engineer for the application
+| step6_text  = Operating frequency 10 kHz–10 MHz determined by p and R via standing-wave conditions. Typical 80–300 mm coil length sets the field envelope size. Input power 1–50 W at research scale; matching network needed (the coil's reactive impedance is large at these frequencies). Safety: ICNIRP Class II with shielding for general-public exposure. Hand off the structured near-field to whatever downstream device needs it: [[HelmKit]] cortical coupling, [[Psi Emitter]] modulator, biofeedback resonator.
+}}
+
 {{Audience_Sidebar
 | difficulty   = Intermediate
 | reading_time = 5 minutes

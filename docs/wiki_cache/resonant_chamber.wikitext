@@ -1,0 +1,27 @@
+The '''Resonant Chamber''' is a small, RF-quiet, magnetically-clean room used for bench-grade [[Psi-Tech]] calibration smf single-operator deep-state sessions. Engineered with a faraday-screened + mu-metal-lined + acoustically-treated room with a calibrated Coherence Beacon and instrumented seat.
+
+== Overview ==
+
+A Chamber session involves:
+
+* '''Operator seated''' in an instrumented chair; HelmKit + [[Psi Recorder]] + [[Field Recorder]] all active.
+* '''Background characterized''' — known [[Coherence Beacon]] reference; measured residual mains hum; documented ambient RF; airflow noise floor.
+* '''Protocol run''' — baseline, stressor, recovery; or single-operator deep-state under operator-controlled [[Psi Stabilizer]] anchor; or pair-bond [[Psi Tether]] characterization.
+* '''Records exported''' — signed sessions to [[Resonant Pipeline]] with chamber metadata stamp.
+
+The Chamber is the place where measurements get their floor: anything seen here that vanishes outside is a chamber artifact; anything seen outside that is also seen here is real.
+
+== See Also ==
+
+* [[Coherence Beacon]]
+* [[Psi Recorder]]
+* [[Field Recorder]]
+* [[Resonant Pipeline]]
+* [[Earth Intelligence Network]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Facilities]]
+[[Category:Tho'ra HQ Module]]
+[[Category:PsiNet Substrate]]

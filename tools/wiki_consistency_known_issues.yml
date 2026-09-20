@@ -1,0 +1,36 @@
+# Known findings from tools/scan_wiki_consistency.py — mirrors the
+# tools/known_missing.yml pattern used by check_wiki_urls.py.
+#
+# An entry here suppresses a matching conflict from the scanner's "new"
+# list (it still counts toward the known/allowlisted total in the
+# report). This is for CONFIRMED, understood findings already reported
+# upstream or tracked in a translation doc — not a way to silence noisy
+# low-confidence heuristic output in bulk. The scanner's within-page
+# heuristic check is expected to produce substantial uncurated noise
+# (see its docstring); only allowlist a specific finding once a human
+# has actually read the page and confirmed it's a real discrepancy.
+#
+# Maintenance rules (same as tools/known_missing.yml):
+#   1. Every entry must have a `reason` field.
+#   2. Every entry should reference the doc/track that tracks it.
+#   3. Remove an entry once the wiki page is corrected upstream.
+#
+# Matching: `page` must equal the conflict's page (wiki_cache filename
+# stem), and `match` (case-insensitive substring) must appear in the
+# conflict's label/context/values text.
+
+issues:
+  - page: smart_composite_fill
+    match: "BST tunability"
+    reason: >
+      The infobox states tau >= 0.70 for BST tunability; multiple other
+      values appear near "tunability" elsewhere on the page (a QC table
+      minimum around 0.08, other unrelated ratios). At least one of these
+      genuinely appears to be a different stated number for the same
+      "BST tunability" concept -- a human should read the full page to
+      confirm which are real duplicates of the same claim vs unrelated
+      quantities (volume fraction f, tan-delta thresholds, etc.) that
+      happen to share the "tunability" keyword's neighborhood. Found
+      2026-08-05 during manual translation review, independently
+      re-surfaced by the scanner's first real run.
+    doc: docs/psionic_engineering/tpms_lattice_design.md

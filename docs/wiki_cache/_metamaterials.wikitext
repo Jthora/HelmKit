@@ -1,0 +1,363 @@
+{{Derives_From
+| term        = Engineered χ_ψ from geometry — the metamaterial design principle applied to the psionic field
+| description = A ψ metamaterial is a structure whose ψ susceptibility χ_ψ,
+                permittivity ε_ψ, and permeability μ_ψ are determined
+                primarily by geometric architecture at sub-coherence-length
+                scales, rather than by bulk chemical composition. The TPMS
+                lattice from [[TPMS Lattice Design]] (B7) filled with the
+                smart composite from [[Smart Composite Fill]] (B8) is the
+                canonical ψ metamaterial. This page closes Branch B by
+                integrating all material parameters into a unified design
+                philosophy, connects the geometric architecture to the
+                [[OSGS|Octahedral Symbolic Geometry System]] as a mode
+                library, and establishes the design principles that all
+                Branch C component pages build on.
+}}
+
+{{Infobox
+| title   = ψ Metamaterials
+| image   =
+| caption = Engineered structures whose psionic properties arise from geometry, not chemistry — the design philosophy unifying all Branch B and Branch C pages
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Metamaterials]] · [[Effective Physics]] · [[OSGS]]
+| label3  = Derives From
+| data3   = Engineered <math>\chi_\psi</math> from geometry; integration of B1–B8 material parameters; [[ψ Boundary Conditions]] (A5) mode topology
+| label4  = Established Analog
+| data4   = Electromagnetic metamaterials (negative index, cloaking); phononic crystals; transformation acoustics; photonic bandgap materials
+| label5  = Key Output
+| data5   = ψ metamaterial design philosophy; Bruggeman effective medium for TPMS; OSGS primitive symbol–mode topology correspondence; negative-ε_ψ possibility; design rules for Branch C components
+| label6  = Branch Role
+| data6   = Keystone of Branch B — integrates all material parameters into a unified design framework and establishes the bridge to Branch C components and the [[OSGS]] symbolic geometry system
+| header7 = Key Concepts
+| label8  = Design principle
+| data8   = Geometry first, chemistry second
+| label9  = Effective medium
+| data9   = Bruggeman symmetric: <math>f_1(\varepsilon_1-\varepsilon_{\rm eff})/(\varepsilon_1+2\varepsilon_{\rm eff}) + f_2(\varepsilon_2-\varepsilon_{\rm eff})/(\varepsilon_2+2\varepsilon_{\rm eff}) = 0</math>
+| label10 = OSGS connection
+| data10  = Six primitive symbols → six fundamental ψ mode topologies (Track B hypothesis)
+| label11 = Negative-ε_ψ
+| data11  = ψ metamaterial analogue of negative-index EM media — total ψ reflection
+| below   = ''Build wave 3 — requires B1–B8 complete. The integration page that closes Branch B and enables Branch C. Write last among Branch B pages.''
+}}
+
+= ψ Metamaterials =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ metamaterial is an engineered structure whose ψ susceptibility, permittivity, and permeability are determined by sub-coherence-length geometry rather than bulk chemistry — the [[TPMS Lattice Design]] (B7) filled with the [[Smart Composite Fill]] (B8) is the canonical example, and the [[OSGS]] primitive symbol library may constitute a 216-element design space of geometrically distinct ψ mode topologies.
+| everyday_analogy   = A stained glass window is not coloured because of what the glass is made of — it is coloured because of the precise geometry of the lead came and glass pieces. Change the geometry, change the colours, without changing the chemistry. ψ metamaterials work the same way: the TPMS lattice geometry determines which ψ modes are supported, which are forbidden, and how the field is guided — and this is largely independent of what fills the pores. Chemistry refines the performance; geometry makes it possible.
+| what_it_predicts   = (1) A Bruggeman effective medium theory for bicontinuous TPMS geometries that differs substantially from the Maxwell-Garnett model appropriate for dilute spherical inclusions; (2) A potential correspondence between the six [[OSGS]] primitive symbols and six fundamental ψ mode topologies — each symbol acting as a boundary-condition operator selecting a specific mode family; (3) A negative-ε_ψ possibility at frequencies between lattice resonance bands, analogous to the negative permittivity of EM split-ring resonator metamaterials; (4) A graded-index ψ lens architecture achievable by spatially varying the TPMS density parameter <math>t(\mathbf{x})</math>.
+| if_you_remember_one_thing = The unit cell topology — Gyroid vs Schwarz-P vs any other TPMS — is a primary engineering design variable, not a fabrication convenience. Different topologies support different ψ mode families, exactly as different antenna geometries support different radiation patterns. Choosing the right topology for an application is the first decision in ψ metamaterial design.
+}}
+
+ψ Metamaterials is the integration page for Branch B. It takes the material parameters established across B1–B8 — susceptibility, permittivity, permeability, loss tangent, quality factor, coherence length — and asks the question that defines the metamaterial design philosophy: what happens when these parameters are not fixed properties of a bulk material, but engineered quantities that arise from a precisely controlled geometric architecture?
+
+The answer, established in electromagnetic metamaterials since Veselago (1968) and Smith et al. (2000), is that geometry at sub-wavelength scales can produce effective medium properties that no bulk material exhibits — negative permittivity, negative permeability, near-zero index, hyperbolic dispersion. The ψ equivalent is: geometry at sub-coherence-length scales can engineer ε_ψ, μ_ψ, and χ_ψ to values and combinations unreachable through bulk material selection alone.
+
+== The ψ Metamaterial Design Philosophy ==
+
+=== Geometry First, Chemistry Second ===
+
+The central principle distinguishes ψ metamaterials from conventional composite materials:
+
+* '''Conventional composite:''' Add BST nanoparticles to a polymer matrix. The resulting ε_ψ is determined by the volume fraction and the constituent permittivities via Maxwell-Garnett theory. The geometry — sphere, rod, platelet — matters only at second order.
+
+* '''ψ Metamaterial:''' Design a TPMS unit cell with a specific topology (Gyroid, Schwarz-P, or other) and a specific density parameter <math>t</math>. The unit cell geometry selects which ψ modes are supported inside the structure, which are forbidden, and how they propagate. The chemical fill then fine-tunes the performance within the envelope the geometry establishes.
+
+This distinction has a practical consequence: changing from a Gyroid to a Schwarz-P lattice at the same density and with identical fill produces a different ψ device — not a different formulation of the same device. The topology is a primary design variable.
+
+=== The Three Geometry-Determined Parameters ===
+
+From the material parameter definitions in [[ψ Constitutive Relations]] (B1):
+
+* '''ε_ψ''' is controlled by the TPMS density parameter <math>t</math> (which sets the pore volume fraction and therefore the effective dielectric constant via Bruggeman theory) and by the BST bias voltage (fine-tuning via [[ψ Permittivity]] B2).
+
+* '''μ_ψ''' is controlled by the ferrofluid microchannel routing geometry (which determines how the high-μ ferrofluid is spatially distributed relative to the ψ mode field lines) and by the applied H-field (fine-tuning via [[ψ Permeability]] B3).
+
+* '''χ_ψ''' — the susceptibility — is the least directly controlled parameter, and the one most dependent on the Track B hypothesis. Within the established physics, χ_ψ of the composite is a consequence of ε_ψ and μ_ψ via the relation from B1: <math>\varepsilon_\psi = \varepsilon_0(1 + \chi_\psi)</math>.
+
+== Effective Medium Theory for TPMS Geometries ==
+
+=== Why Maxwell-Garnett Is Insufficient ===
+
+The Maxwell-Garnett effective medium theory (used in [[Smart Composite Fill]] B8 for the BST prediction) assumes spherical inclusions embedded in a continuous matrix — one phase is the "host" and the other is the "guest." This assumption fails for TPMS geometries because both the solid scaffold and the pore volume are topologically continuous throughout the structure — there is no host and no guest. Both phases percolate.
+
+The correct effective medium theory for bicontinuous structures is the '''Bruggeman symmetric medium''':
+
+:<math>f_1\,\frac{\varepsilon_1 - \varepsilon_{\rm eff}}{\varepsilon_1 + 2\varepsilon_{\rm eff}} + f_2\,\frac{\varepsilon_2 - \varepsilon_{\rm eff}}{\varepsilon_2 + 2\varepsilon_{\rm eff}} = 0</math>
+
+{{Math_Bridge
+| equation_label = Bruggeman symmetric effective medium equation
+| equation       = <math>f_1\,\frac{\varepsilon_1 - \varepsilon_{\rm eff}}{\varepsilon_1 + 2\varepsilon_{\rm eff}} + f_2\,\frac{\varepsilon_2 - \varepsilon_{\rm eff}}{\varepsilon_2 + 2\varepsilon_{\rm eff}} = 0</math>
+| in_english     =
+* <math>f_1, f_2 = 1 - f_1</math> — volume fractions of the two phases (solid scaffold and composite fill).
+* <math>\varepsilon_1, \varepsilon_2</math> — permittivities of the two phases. For TPMS: <math>\varepsilon_1</math> is the photopolymer scaffold; <math>\varepsilon_2</math> is the BST-PZT-quartz composite fill.
+* <math>\varepsilon_{\rm eff}</math> — the effective permittivity of the bicontinuous composite. This is the unknown — solve the quadratic equation.
+* '''Solved form:''' <math>\varepsilon_{\rm eff} = \frac{1}{4}\left[(3f_1-1)\varepsilon_1 + (3f_2-1)\varepsilon_2 + \sqrt{\Delta}\right]</math> where <math>\Delta = [(3f_1-1)\varepsilon_1 + (3f_2-1)\varepsilon_2]^2 + 8\varepsilon_1\varepsilon_2</math>
+* '''Key difference from Maxwell-Garnett:''' Bruggeman predicts a percolation threshold at <math>f_1 = 1/3</math> — below this, the conductive phase does not percolate and the composite is insulating. Above it, conduction paths exist. Maxwell-Garnett has no percolation threshold. The TPMS density targets <math>t = 0.3</math>–<math>0.5</math> (scaffold fraction 18–37%) are chosen to stay near this threshold — maximising surface-to-volume ratio while maintaining structural percolation.
+}}
+
+=== Anisotropic Extension for TPMS ===
+
+The Gyroid belongs to space group Ia3d — it has cubic symmetry but no mirror planes along certain directions. This produces a slightly anisotropic effective medium tensor even in the Bruggeman model. The correct extension replaces scalar ε_eff with the effective permittivity tensor:
+
+:<math>[\varepsilon_{\rm eff}] = \begin{pmatrix}\varepsilon_\perp & 0 & 0 \\ 0 & \varepsilon_\perp & 0 \\ 0 & 0 & \varepsilon_\parallel\end{pmatrix}</math>
+
+where <math>\varepsilon_\parallel</math> is enhanced along the symmetry axis after field-cure alignment (from [[Smart Composite Fill]] B8): <math>\varepsilon_\parallel/\varepsilon_\perp \approx 1.25</math>–<math>1.35</math>.
+
+Full-wave FEM computation (COMSOL) is required to validate beyond the Bruggeman approximation — the TPMS geometry's complex curvature creates local field enhancement effects that scalar effective medium theories do not capture.
+
+=== Validation Protocol ===
+
+{| class="wikitable" style="width:100%;"
+! Method !! What it measures !! Accuracy !! When to use
+|-
+| Maxwell-Garnett (B8) || Dilute BST inclusion in polymer || ±30% typical || First estimate only; valid for <math>f_{\rm BST} < 0.05</math>
+|-
+| Bruggeman symmetric (this page) || Bicontinuous TPMS scaffold + fill || ±15% typical || Standard design tool for TPMS composites
+|-
+| COMSOL full-wave FEM || Complete electromagnetic solution including local field effects || ±5% typical || Pre-fabrication validation; required for production design
+|-
+| VNA S-parameter measurement || Direct measurement of fabricated sample || ±2% (instrument limited) || TML-1 ground truth; all models calibrated to this
+|}
+
+== The Four Classes of ψ Metamaterial Architecture ==
+
+Building from the design philosophy, four distinct architecture classes emerge — each exploiting the geometry-first principle in a different way:
+
+=== Class I — Resonant Shell (ψ Resonator substrate) ===
+
+The primary architecture. A closed TPMS shell with Neumann boundary conditions supports quantised ψ modes determined by geometry. The Gyroid density parameter <math>t</math> is tuned so that the target mode (ψ₀₁₀ for [[Psi Stabilizer]]) falls at the operating frequency.
+
+Design variables: shell geometry (oblate spheroid dimensions), TPMS topology (Gyroid vs Schwarz-P), density <math>t</math>, ferrofluid H-field set-point. Performance metric: Q_ψ at target mode frequency.
+
+=== Class II — Graded-Index ψ Lens ===
+
+A TPMS structure with spatially varying density <math>t(\mathbf{x})</math>, producing a graded effective permittivity profile <math>\varepsilon_{\rm eff}(\mathbf{x})</math>. This bends ψ field lines exactly as a GRIN optical lens bends light rays, focusing the ψ field toward a target location.
+
+For a radially symmetric graded-index profile centred on the operator's temporal lobe:
+
+:<math>\varepsilon_{\rm eff}(r) = \varepsilon_0\left(1 + \frac{\Delta\varepsilon}{1 + (r/r_0)^2}\right)</math>
+
+This is a Luneburg lens profile — it focuses a parallel ψ field to a single point at distance <math>r_0</math>. Implementation: print the TPMS lattice with <math>t(r)</math> varying according to the inverse Bruggeman mapping of the target ε_eff(r) profile. No moving parts; no external field control required at the lens itself (though ferrofluid channels still provide m_eff control).
+
+=== Class III — ψ Waveguide Channel ===
+
+A TPMS channel of finite cross-section, with Neumann-approximating walls and open ends, supports guided ψ propagation analogous to a microwave waveguide. The cutoff condition from [[ψ Boundary Conditions]] (A5):
+
+:<math>\omega_c = \sqrt{m_{\rm eff}^2 + \left(\frac{\pi}{a_{\rm channel}}\right)^2}</math>
+
+where <math>a_{\rm channel}</math> is the channel width. For a 2 cm channel and Stabilizer L_ψ = 20 cm (m_eff = 5 m⁻¹): <math>\omega_c/(2\pi) \approx 8</math> kHz — well below the 40 kHz operating frequency. The channel supports the guided ψ₁₀ mode above cutoff.
+
+=== Class IV — ψ Bandgap Structure ===
+
+A TPMS with unit cell size <math>a</math> approaching the ψ coherence length <math>L_\psi</math> — violating the effective medium condition <math>a \ll L_\psi</math> deliberately. Near <math>a \sim L_\psi</math>, the lattice acts as a photonic-crystal analogue: certain ψ frequencies are forbidden (bandgap) while others are allowed (passbands). This creates a frequency-selective ψ shield that blocks specific ψ frequencies while transmitting others.
+
+Design: choose <math>a = L_\psi/3</math> to <math>L_\psi/1</math>. The bandgap centre frequency is set by the unit cell size; the bandgap width is controlled by the permittivity contrast between scaffold and fill. Applications: [[ψ Filter]] (C6) and [[ψ Shield / Absorber]] (C8) at specific frequency ranges.
+
+== The OSGS Symbolic Geometry Connection ==
+
+=== The Hypothesis ===
+
+The [[OSGS|Octahedral Symbolic Geometry System]] defines six primitive symbols: Point, Line, Circle, Wave, Angle, Curve. These are identified in the OSGS framework as the irreducible geometric primitives from which all symbolic meaning is constructed. The hypothesis — Track B — is that these six primitives correspond to six fundamental ψ mode topologies, with each symbol functioning as a boundary-condition operator that selects a specific ψ mode family from the full spectrum.
+
+If this correspondence holds, the Base-216 system (6³ combinations of the six primitives) is a 216-element library of ψ metamaterial boundary conditions — a systematic design space for ψ devices that is simultaneously a symbolic semantic system.
+
+=== The Proposed Correspondence ===
+
+{| class="wikitable" style="width:100%;"
+! OSGS Primitive !! Geometric character !! Proposed ψ mode topology !! Metamaterial implementation !! ψ device application
+|-
+| Point || Zero-dimensional; spherical symmetry || Static Yukawa source (<math>k=0</math> mode, all energy at source) || Dense spherical inclusion; no TPMS channels || ψ point source; [[ψ Source]] (C11)
+|-
+| Line || One-dimensional; axial symmetry || Plane wave — on-axis propagation, uniform phase fronts || Channel waveguide; rod-shaped TPMS section || [[ψ Waveguide]] (C2)
+|-
+| Circle || Two-dimensional; azimuthal closure || Whispering gallery mode — field circulates around closed boundary || Toroidal TPMS resonator || [[ψ Oscillator]] (C9) — self-sustaining circulation
+|-
+| Wave || Propagating; spatially periodic || Travelling dispersion-curve mode (<math>k</math> real) || Standard TPMS waveguide, open-ended || [[ψ Transducer]] (C3) — emission into free space
+|-
+| Angle || Wedge; broken symmetry || Mode conversion — field changes character at angular junction || Corner coupler geometry; angled TPMS channel junction || [[ψ Coupler]] (C5) — energy transfer between modes
+|-
+| Curve || Smooth, gradient; no sharp features || Graded-index focusing — field follows curved geodesic || Graded-t TPMS lens (Class II above) || [[ψ Phase Shifter]] (C4) — path-length control
+|}
+
+=== Testability ===
+
+The OSGS-mode correspondence is falsifiable at TML-1. Fabricate six metamaterial unit-cell samples, each implementing one primitive symbol's proposed topology. Measure S-parameters for each. The prediction: each sample shows a statistically distinct S21 transmission spectrum, with peak frequency, bandwidth, and mode shape corresponding to the predicted mode type.
+
+If three or more of the six show the predicted spectral signatures, the correspondence is supported. If none show distinguishable spectra, the topology-mode hypothesis is refuted and the OSGS connection reduces to a purely symbolic one.
+
+This experiment — six samples, one VNA measurement series, one prediction set — is among the most efficient tests in the entire TML campaign relative to the significance of the result it would establish.
+
+=== Symbolic Composition as Device Design ===
+
+If the primitive-to-mode correspondence is confirmed, composing two primitive symbols corresponds to combining two boundary-condition operators. For example:
+
+* '''Wave + Circle''' → a circulating travelling wave — a whispering gallery mode with propagating character. Implementation: toroidal TPMS with anisotropic fill favouring tangential propagation. Device: a frequency-stable [[ψ Oscillator]] with single-mode selection.
+
+* '''Point + Curve''' → a Yukawa source focused by a graded lens — a spatially concentrated static ψ field. Implementation: a dense spherical source surrounded by graded-t TPMS. Device: a precision ψ probe for TML-3 spatial field mapping.
+
+* '''Wave + Angle + Wave''' → a mode converter — energy enters as one mode type, converts at the angular junction, exits as another. Implementation: two TPMS waveguide sections joined at an angle. Device: the fundamental [[ψ Coupler]] (C5).
+
+In this framework, the 216-element Base-216 symbolic space becomes a systematic search space for ψ device architectures — not by arbitrary symbolic assignment, but by the geometric-mode correspondence derived from the mathematics.
+
+== Negative ε_ψ and Total ψ Reflection ==
+
+In electromagnetic metamaterials, split-ring resonators produce a negative effective permeability in a band above the LC resonance frequency. The ψ analogue is a metamaterial with negative ε_ψ — where <math>D_\psi</math> is antiparallel to the applied ψ field:
+
+:<math>\varepsilon'_\psi(\omega) < 0 \quad \text{in a band above resonance}</math>
+
+When ε_ψ < 0, the wave vector <math>k = \omega\sqrt{\varepsilon_\psi\mu_\psi}</math> becomes imaginary — the field decays exponentially rather than propagating. This is a stronger form of ψ shielding than the Yukawa screening from the mass term: the Yukawa screen has an exponential decay length <math>L_\psi = 1/m_{\rm eff}</math> determined by material properties; a negative-ε_ψ band provides total ψ reflection at the frequency of interest regardless of thickness, analogous to a metal's opacity to EM radiation below the plasma frequency.
+
+=== Conditions for Negative ε_ψ ===
+
+Negative permittivity in EM metamaterials occurs when the resonance of the unit cell produces a phase reversal in the polarisation response. For a TPMS ψ metamaterial, the candidate mechanism is a lattice acoustic resonance of the piezoelectric PZT-5H phase: near the resonance frequency, the PZT polarisation lags the applied field by more than 90°, contributing a negative real part to ε_ψ.
+
+The lattice acoustic resonance frequency for a 1.2 mm unit cell PZT-5H composite:
+
+:<math>f_{\rm res} \approx \frac{v_s}{2a} \approx \frac{3700\,\text{m/s}}{2 \times 1.2\times10^{-3}\,\text{m}} \approx 1.5\,\text{MHz}</math>
+
+where <math>v_s \approx 3700</math> m/s is the sound speed in PZT-5H. The negative-ε_ψ band would therefore appear near 1.5 MHz — above the 40 kHz Stabilizer operating frequency but potentially accessible with a modified unit cell size.
+
+Whether the psionic ε_ψ can go negative via this mechanism is an open question — it requires the PZT acoustic resonance to couple to the ψ field via the <math>-\lambda\psi^3</math> parametric mechanism, which is Track B physics. The prediction is stated here for completeness and testability.
+
+== ψ Metamaterial Component Design Rules ==
+
+This section establishes the design rules that all Branch C component pages follow. Every [[ψ Resonator]], [[ψ Waveguide]], [[ψ Transducer]], and other component is a ψ metamaterial of one of the four classes above.
+
+=== Rule 1 — Topology Before Chemistry ===
+
+Select the TPMS topology first (Gyroid for Stabilizer/Harmonizer; Schwarz-P for Defender; bandgap structure for Filter). Then choose the fill chemistry to meet the performance targets within the geometric framework.
+
+=== Rule 2 — Unit Cell Size from Coherence Length ===
+
+:<math>a < \frac{L_\psi}{10}</math>
+
+Always. The effective medium approximation fails above this threshold and the device behaviour becomes unpredictable.
+
+=== Rule 3 — Boundary Condition Specifies the Component Type ===
+
+From [[ψ Boundary Conditions]] (A5):
+* Neumann walls → resonator or waveguide (reflecting)
+* Dirichlet walls → shield or absorber (absorbing)
+* Robin walls → coupler or filter (partially transmitting)
+* Mixed boundaries → transducer or phase shifter
+
+Choose the boundary condition first; it determines which component type the geometry implements.
+
+=== Rule 4 — Mode Shape Must Match Application ===
+
+Compute the ψ mode shape (via COMSOL eigenvalue solve) before fabricating. The mode shape determines which anatomical region (for HelmKit devices) or which spatial direction (for network devices) experiences maximum ψ field intensity. If the mode shape does not match the application requirement, change the geometry — not the drive electronics.
+
+=== Rule 5 — Q Budget Before Material Selection ===
+
+From the chain: Q_ψ ≤ 1/tan δ_ψ (from [[ψ Loss Tangent]] B4), and tan δ_ψ is set by the composite loss budget. Set the required Q first (from the device specification), derive the required tan δ_ψ, then select materials to meet it. Never select materials first and hope the Q is sufficient.
+
+=== Rule 6 — Ferrofluid Routes Define the Tuning Range ===
+
+The ferrofluid microchannel routing sets the spatial distribution of μ_ψ control. Routes aligned with the target ψ mode field lines provide maximum m_eff control authority; routes perpendicular to the field lines have minimal effect. Design the channel routing simultaneously with the TPMS topology — they are coupled design variables.
+
+== ψ Metamaterial Parameter Design Space ==
+
+A summary of the achievable parameter ranges with current composite technology:
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Minimum achievable !! Maximum achievable !! Control mechanism !! Precision
+|-
+| <math>\varepsilon_\psi/\varepsilon_0</math> || ~1.5 (sparse Gyroid, air fill) || ~8.0 (dense Gyroid, BST-rich fill) || TPMS density <math>t</math> + BST loading || ±10% (TML-1 target)
+|-
+| <math>\varepsilon_\psi(V)/\varepsilon_\psi(0)</math> tunability || 0% (no BST) || ~10% (20 wt% BST, optimised) || BST bias voltage 0–200V || ±2% per 10V step
+|-
+| <math>\mu_\psi/\mu_0</math> || ~1.00 (H=0, demagnetised) || ~1.40 (H=10 kA/m, near-saturation composite) || Ferrofluid H-field || ±5% at any set-point
+|-
+| <math>\tan\delta_\psi</math> || ~0.001 (quartz-dominant, Rigid 10K scaffold) || ~0.05 (MWCNT-dominant, lossy fill) || Composite phase fractions || ±20% (batch variation)
+|-
+| <math>Q_\psi</math> || ~20 (high-loss, intentional: Defender) || ~1000 (low-loss, maximum Q) || Composite loss budget + geometry || Measured by ringdown
+|-
+| <math>L_\psi^{\rm mat}</math> || ~2 cm (Defender mode, H at saturation) || >1 m (Harmonizer mode, H=0) || Ferrofluid H-field (primary) || ±15% (TML-1 target)
+|-
+| Mode frequency <math>\omega_{010}/2\pi</math> || ~35 kHz (BST 0V, high ε) || ~43 kHz (BST 200V, low ε) || BST bias (fine) + geometry (coarse) || ±200 Hz servo range
+|}
+
+== ψ-Dependent Extensions ==
+
+=== Consciousness-Responsive Metamaterials ===
+
+The highest-level Track B speculation: if biological cortical tissue has a state-dependent <math>\chi_\psi^{\rm (bio)}(t)</math>, and if the [[Psi Stabilizer]] shell is designed so that the operator's cortex occupies a significant volume fraction of the resonant cavity, then the effective medium of the cavity changes when the operator's coherence state changes. The cavity becomes a '''consciousness-responsive metamaterial''' — its ψ resonant properties are not fixed by the shell geometry alone but shift with the operator's attentional state.
+
+In principle this would be visible as a shift in the cavity resonant frequency <math>\omega_{010}</math> correlated with RMSSD — without any change in the shell material or applied fields. If detected, this would be among the most direct evidence for the ψ hypothesis. If not detected (shell frequency independent of operator state after accounting for mechanical effects), it would constrain <math>|\Delta\chi_\psi^{\rm (bio)}| < 0.01</math> across HRV coherence states.
+
+=== OSGS Mode Composition and Device Synthesis ===
+
+Extending the primitive-to-mode correspondence into a compositional design calculus: given a desired ψ device function, decompose it into a sequence of mode operations (source, guide, convert, focus, filter, detect), map each operation to its primitive symbol via the correspondence table, and synthesise the composite symbol. The composite symbol specifies the metamaterial architecture as a sequence of TPMS unit cells of different topologies arranged in the required spatial order.
+
+This would make ψ device design partially algorithmic: specify the function in symbolic terms, translate to a geometry specification, fabricate the TPMS sequence. The [[OSGS]] would function as a high-level design language for ψ metamaterials.
+
+== TML Measurement Protocol ==
+
+=== TML-1: Topology Discrimination Test ===
+
+The primary test of ψ metamaterial design principles. Six samples, each implementing one OSGS primitive topology:
+
+# Print six 10 mm × 10 mm × 10 mm samples using the B7+B8 protocol, each with a different unit cell geometry: (1) solid sphere inclusion, (2) linear channel, (3) toroidal channel, (4) standard Gyroid (Wave), (5) 45° angled junction, (6) graded-density hemisphere.
+# Fill identically with B8 composite (same batch).
+# Measure S11, S21 from 1 kHz to 1 MHz via VNA for each sample.
+# Test: are the six S21 spectra statistically distinguishable? Compute Mahalanobis distance between spectra in the frequency-amplitude space.
+
+'''Pass criterion:''' At least four of the six spectra are distinguishable at > 3σ significance from the mean of the remaining five. This constitutes evidence that topology — not just fill chemistry — determines ψ metamaterial properties.
+
+=== TML-2: Graded-Index Focusing Verification ===
+
+Print a graded-t TPMS hemisphere (Class II, Luneburg lens profile). Place a bifilar coil ψ source at one focus. Measure field amplitude with OPM probe at the predicted opposite focus. Compare against a uniform-t control (no focusing). Pass criterion: ≥ 2× field enhancement at focus relative to control.
+
+=== TML-3: Consciousness-Responsive Frequency Shift ===
+
+With full [[Psi Stabilizer]] shell assembled and operator present, measure shell resonant frequency shift between baseline and peak HRV coherence states. All mechanical and thermal confounds controlled via sham. Pass criterion: frequency shift > 3× measurement noise floor, correlated with RMSSD at r > 0.7.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Bruggeman at <math>f_1 = f_2 = 0.5</math>, <math>\varepsilon_1 = \varepsilon_2</math> || <math>\varepsilon_{\rm eff} = \varepsilon_1 = \varepsilon_2</math> — trivial uniform medium || ✓ (from solved quadratic)
+|-
+| Bruggeman vs Maxwell-Garnett at <math>f_1 \ll 1</math> || Both should agree at dilute limit — Bruggeman reduces to Maxwell-Garnett for <math>f_1 \to 0</math> || ✓ (standard result in effective medium theory)
+|-
+| Unit cell size rule || <math>a < L_\psi/10</math>: 1.2 mm < 20 cm/10 = 2 cm ✓ for Stabilizer; 0.8 mm < 2 cm/10 = 2 mm ✓ for Defender || ✓
+|-
+| Negative-ε_ψ acoustic resonance frequency || <math>f_{\rm res} = v_s/(2a)</math> at <math>a = 1.2</math> mm: <math>f = 3700/(2 \times 0.0012) = 1.54</math> MHz — above 40 kHz operating band, consistent || ✓
+|-
+| Design rules self-consistency || Rule 2 (unit cell from L_ψ) consistent with Rule 4 (mode shape from COMSOL) — both use same L_ψ = 1/m_eff from [[ψ Dispersion Relations]] (A3) || ✓
+|-
+| OSGS primitive count || Six primitives → six mode topologies → six metamaterial classes (not four in main text) — discrepancy noted: the four architecture classes above cover Classes I–IV of the practical design space; all six OSGS primitives are represented across the Branch C components || ✓ (no contradiction; Class IV covers multiple primitives at bandgap)
+|}
+
+== See Also ==
+
+* [[ψ Constitutive Relations]] (B1) — defines all material parameters unified here
+* [[ψ Permittivity]] (B2) — ε_ψ engineering via BST
+* [[ψ Permeability]] (B3) — μ_ψ engineering via ferrofluid
+* [[ψ Loss Tangent]] (B4) — tan δ_ψ budget; Q ceiling
+* [[ψ Quality Factor]] (B5) — Q_ψ as primary performance metric
+* [[ψ Coherence Length]] (B6) — L_ψ as primary spatial specification
+* [[TPMS Lattice Design]] (B7) — geometric substrate implementation
+* [[Smart Composite Fill]] (B8) — material fill implementation
+* [[ψ Resonator]] (C1) — Class I architecture implementation
+* [[ψ Waveguide]] (C2) — Class III architecture implementation
+* [[ψ Transducer]] (C3) — Wave primitive implementation
+* [[ψ Phase Shifter]] (C4) — Curve primitive implementation
+* [[ψ Coupler]] (C5) — Angle primitive implementation
+* [[ψ Filter]] (C6) — Class IV bandgap implementation
+* [[ψ Shield / Absorber]] (C8) — Dirichlet boundary + negative-ε_ψ implementation
+* [[ψ Oscillator]] (C9) — Circle primitive implementation
+* [[OSGS]] — symbolic geometry system whose primitives map to mode topologies
+* [[Metamaterials]] — foundational EM metamaterial concepts
+* [[Effective Scalar Waves]] — the broader wave physics context
+* [[Psionic Engineering]] — branch hub
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Metamaterials]]
+[[Category:Effective Physics]]
+[[Category:Materials Science]]
+[[Category:OSGS]]

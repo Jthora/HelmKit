@@ -1,0 +1,33 @@
+The '''Psi Anomaly Detector''' is the umbrella software stack that classifies events from [[Psi Recorder]], [[Field Recorder]], [[Psi Compass]], [[Psi Tripwire]], [[Schumann Lattice]], and [[Star Seer Observatory]] feeds against the Clan's [[Psionic Threat Model]] signature library. It is the analytical layer between raw sensor streams and the [[Resonant Finder]]; a multi-modal anomaly-detection + classification pipeline with provenance and human-in-the-loop review.
+
+== Overview ==
+
+The Detector does, per event:
+
+* '''Window''' — temporal window selection from raw multi-sensor stream.
+* '''Feature''' — frequency-band power, gradient magnitude, electrostatic transients, IMU correlation.
+* '''Classify''' — multi-class classifier (small CNN or gradient-boosted tree per modality), majority + confidence vote.
+* '''Provenance''' — every classification carries the model version, training-data hash, signature-library version.
+* '''Review''' — high-confidence high-class events surface to a human reviewer; low-class events log only.
+
+It is, importantly, the same code stack that runs in the [[Psi Defender]] (on the HelmKit, low-power), the [[Psi Tripwire]] (on the deployable node, low-power), the [[Field Recorder]] (post-session batch), and the [[Resonant Finder]] (full-resolution farm). Code reuse is the discipline.
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[Psi Defender]]
+* [[Psi Recorder]]
+* [[Psi Tripwire]]
+* [[Field Recorder]]
+* [[Schumann Lattice]]
+* [[Star Seer Observatory]]
+* [[Psionic Threat Model]]
+* [[Resonant Finder]]
+* [[Psionic User Interface]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Software]]
+[[Category:PsiNet Substrate]]
+[[Category:Defense]]

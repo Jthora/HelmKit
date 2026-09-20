@@ -1,40 +1,30 @@
 = Antenna Theory for Psionic Devices =
 
-{{Audience_Sidebar
-| difficulty   = Intermediate
-| reading_time = 7 minutes
-| prerequisites = [[Near_Field_Electromagnetics]]; basic antenna concepts; some impedance matching.
-| if_too_advanced_see = [[Near_Field_Electromagnetics]]
-| if_you_want_the_math_see = This page
-}}
-
-{{Notation
-| signature = Non-relativistic; SI.
-| units     = k = 2π/λ; a = bounding-sphere radius (m); Q = antenna quality factor; R<sub>rad</sub> = radiation resistance (Ω).
-}}
-
-{{Device_Vital_Stats
-| type           = Antenna (general — psionic-device coupling theory)
-| operating_freq = Application-dependent; ELF (Hz) through UHF (GHz)
-| input_power    = Application-dependent
-| size           = Wavelength-dependent (a ≪ λ regime emphasised)
-| status         = Theoretical framework page
-| safety_class   = Application-dependent; ICNIRP guidelines apply
-| key_reference  = Chu, L. J. (1948). ''J. Appl. Phys.'' 19: 1163 (Chu-Wheeler small-antenna limit).
+{{Plain_Hook
+| in_one_sentence    = This page adapts classical antenna engineering — Chu-Harrington bounds, Wheeler radiation resistance, near-field coupling — to the specific demands of [[HelmKit]]-class wearable psionic devices, which operate at the boundary of '''electrically small''' (D ≪ λ), in the reactive near-field, with biological matter (the brain) only centimetres away.
+| everyday_analogy   = Take everything radio engineers know about how small antennas fail — they radiate badly, have ultra-narrow bandwidth, and dump most of their energy into the reactive near-field rather than into propagating waves — and turn that bug into a feature. A psionic device on the head doesn't WANT to radiate to a faraway receiver. It wants to deposit structured electromagnetic energy into the brain centimetres away. The 5 cm coil at 2.45 GHz that would be useless as a wifi antenna is exactly the right shape to couple near-field energy into cortical tissue. Antenna theory tells us the bounds: how much Q the structure can have, how narrow the bandwidth must be, how close the source has to be for the near-field term to dominate.
+| what_it_predicts   = (1) For electrically-small antennas (D ≪ λ), the Chu-Harrington limit bounds minimum Q: Q_min ≈ 1/(ka)³ + 1/(ka), where k = 2π/λ and a is the bounding-sphere radius; (2) Radiation resistance R_rad scales as (D/λ)⁴ for small loops — catastrophic radiation efficiency, useful for near-field deposition; (3) Near-field-to-far-field transition at r ≈ λ/(2π); (4) Worked examples: 5 cm coil at 2.45 GHz (D/λ ≈ 0.4, boundary regime); 1 cm coil at 2.45 GHz (deeply small); 5 cm coil at 300 MHz (deeply small); (5) Impedance matching becomes critical: untuned electrically-small antennas reflect >99% of input power; (6) Polarisation matters for biological coupling; (7) ICNIRP exposure guidelines apply.
+| if_you_remember_one_thing = This is mainstream antenna engineering applied to a non-standard use case. The Chu-Harrington bound and Wheeler radiation resistance are textbook physics. What's framework-specific is the CLAIM that near-field structured EM energy couples to psionic/neural processes — that part is still a testable hypothesis with a defined falsifier (blinded protocol, null at p<0.01).
 }}
 
 '''Antenna theory for psionic devices''' adapts classical antenna engineering — Chu-Harrington bounds, Wheeler radiation resistance, near-field coupling — to the specific demands of [[HelmKit]]-class wearable systems. These devices operate at the boundary of '''electrically small''' (D ≪ λ) and resonant, in the reactive near-field, with biological matter (the brain) only centimetres away.
 
 This page collects the engineering-relevant equations and bounds.
 
-{{Psi-claim
-| status = TESTABLE
-| claim = Antenna-theoretic design principles (gain, impedance match, polarisation) carry over to psionic devices and predict measurable performance differences.
-| cites = [[Antenna Theory]], [[Psi-Tech]]
-| methods = Concrete protocol defined; replication not yet attempted.
-| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
-| confidence = low
-| last_reviewed = 2026-05-12
+{{Way_It_Works
+| title  = How antenna theory constrains psionic-device design
+| step1_label = Identify the regime
+| step1_text  = Measure the largest dimension D of the antenna and compare to operating wavelength λ. If D < λ/10, you're "electrically small" — Chu-Harrington applies and you have hard physical limits on bandwidth, efficiency, and Q. If D ≈ λ/2 (a half-wave dipole or resonant loop), classical efficient-radiator equations apply. The 5 cm coil at 2.45 GHz example sits right at the boundary, which is why it's worth analysing both ways.
+| step2_label = Apply the Chu-Harrington bound
+| step2_text  = For any antenna fitting inside a sphere of radius a, the minimum achievable Q is Q_min ≈ 1/(ka)³ + 1/(ka). This is a fundamental limit, not an engineering shortcoming — it comes from the spherical-mode expansion of the radiated field. High Q means narrow bandwidth, so an electrically-small antenna trying to push wide-band signals is FORBIDDEN by Maxwell's equations.
+| step3_label = Compute radiation resistance
+| step3_text  = For a small loop antenna of area A: R_rad ≈ 320π⁴ (A/λ²)² Ω. A 5 cm coil at 2.45 GHz gives R_rad of order 0.01 Ω. The implication: nearly all input power either dissipates as ohmic loss in the conductor (R_loss ≫ R_rad) or oscillates in the reactive near-field. Vanishingly little radiates.
+| step4_label = Decide — radiate or near-field?
+| step4_text  = For a wifi router, ka ¿ 1 and the small radiation resistance is a disaster. For a psionic device, the goal is near-field deposition into tissue centimetres away — so the reactive energy stored in the near field IS the working coupling. The classical "bug" of small-antenna inefficiency becomes the feature.
+| step5_label = Match the impedance
+| step5_text  = An unmatched electrically-small antenna reflects >99% of input power. Tune via resonant capacitor in series (or parallel) to bring the reactive part of the impedance to zero at operating frequency. Then transform the resulting low real impedance up to the source impedance (typically 50 Ω) via a matching network. This is non-optional engineering.
+| step6_label = Verify against the protocol
+| step6_text  = The page's Psi-claim says: antenna-theoretic design principles (gain, impedance match, polarisation) predict measurable performance differences in psionic devices. The falsifier: blinded replication returning null at p<0.01. A device built per these equations should outperform a randomly-tuned one on whatever endpoint the protocol specifies; if not, the design framework is wrong.
 }}
 
 == Electrically-small regime ==

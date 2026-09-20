@@ -1,0 +1,550 @@
+
+{{Infobox
+| title      = Psionic Engineering
+| image      =
+| caption    = The discipline of deriving physical structures from the consequences of the ψ field equation
+| header1    = Overview
+| label2     = Domain
+| data2      = [[Psionics]] · [[Metamaterials]] · [[Effective Physics]] · [[Psi-Tech]] · Wave Engineering
+| label3     = Core Doctrine
+| data3      = Every component, material, and system is derived from a specific term in the master ψ field equation — never invented by analogy alone
+| label4     = Master Equation
+| data4      = <math>\Box\psi - m_{\rm eff}^2\psi - \lambda_{\rm eff}\psi^3 = \alpha_{\rm eff} F_{\mu\nu}F^{\mu\nu} + J_{\psi}</math>
+| label5     = Established Analog
+| data5      = RF Engineering as derived from Maxwell's equations
+| label6     = Relationship to Psionics
+| data6      = [[Psionics]] states the field equations. Psionic Engineering derives what physical structures those equations require to exist.
+| label7     = Relationship to Psi-Tech
+| data7      = [[Psi-Tech]] catalogs devices. Psionic Engineering provides the mathematical justification for each one.
+| header8    = Branch Structure
+| label9     = Branch A
+| data9      = [[Psionic Engineering/Field Foundation|Field Engineering Foundation]] (6 pages)
+| label10    = Branch B
+| data10     = [[Psionic Engineering/Materials|ψ Materials Science]] (9 pages)
+| label11    = Branch C
+| data11     = [[Psionic Engineering/Components|Primitive ψ Components]] (12 pages)
+| label12    = Branch D
+| data12     = [[Psionic Engineering/Drive Systems|Drive and Modulation Systems]] (6 pages)
+| label13    = Branch E
+| data13     = [[Psionic Engineering/Sensing|ψ Sensing and Measurement]] (3 pages)
+| label14    = Branch F
+| data14     = [[Psionic Engineering/Validation|Test and Validation Protocol]] (3 pages)
+| label15    = Branch G
+| data15     = [[Psionic Engineering/Systems|Integrated Systems]] (3 pages)
+| below      = ''Total planned scope: 42 priority pages, all equation-derived''
+}}
+
+= Psionic Engineering =
+
+{{Plain_Hook
+| in_one_sentence    = Psionic Engineering is the discipline of deriving — not inventing — the physical structures, materials, components, and systems that must necessarily exist if the ψ field equation is correct.
+| everyday_analogy   = Maxwell wrote four equations. Engineers did not then invent capacitors, antennas, and waveguides by imagination — they derived them as mathematical consequences of those equations. Psionic Engineering does the same thing for the ψ field: it asks what physical objects the equation demands, and then builds them.
+| what_it_predicts   = (1) A complete hierarchy of ψ components analogous to RF components, each traceable to one term in the master equation; (2) A table of ψ material parameters (χ_ψ, ε_ψ, μ_ψ, Q_ψ) that are experimentally measurable and falsifiable; (3) A progressive test campaign that can distinguish genuine ψ effects from electromagnetic artifact; (4) A fabrication roadmap from existing metamaterial technology to operational [[Psi-Tech]] devices.
+| if_you_remember_one_thing = Never invent a component because it sounds useful. Only derive a component because the mathematics requires it. That single discipline separates Psionic Engineering from speculation.
+}}
+
+Psionic Engineering is the discipline sitting between [[Psionics]] (field theory) and [[Psi-Tech]] (device catalog). Its role is the engineering science layer: given that the ψ field obeys the equations established in [[Psionics]], what physical structures must necessarily exist? What materials can store, guide, or attenuate ψ? What components are implied by the wave equation's mathematical structure? What tests would falsify the entire framework?
+
+The discipline is modeled explicitly on the historical development of radio-frequency engineering from Maxwell's equations. Maxwell did not design a capacitor. The capacitor is a mathematical consequence of the divergence term in Gauss's law, implemented in hardware. Every mature engineering discipline follows the same progression:
+
+:<math>\text{Field Theory} \;\longrightarrow\; \text{Material Science} \;\longrightarrow\; \text{Constitutive Relations} \;\longrightarrow\; \text{Primitive Components} \;\longrightarrow\; \text{Circuits} \;\longrightarrow\; \text{Systems} \;\longrightarrow\; \text{Applications}</math>
+
+Psionic Engineering is the formalization of that progression for the ψ field.
+
+== The Core Doctrine ==
+
+=== The Derivation Rule ===
+
+Every page in this branch begins by stating which term in the master equation it derives from:
+
+:<math>\underbrace{\Box\psi}_{\text{wave propagation}} - \underbrace{m_{\rm eff}^2\psi}_{\text{screening/coherence length}} - \underbrace{\lambda_{\rm eff}\psi^3}_{\text{nonlinear self-interaction}} = \underbrace{\alpha_{\rm eff} F_{\mu\nu}F^{\mu\nu}}_{\text{EM coupling}} + \underbrace{J_\psi}_{\text{biological/tech source}}</math>
+
+{| class="wikitable" style="width:100%;"
+! Equation Term !! Physical Meaning !! Engineering Structures It Implies
+|-
+| <math>\Box\psi</math> || Wave propagation — ψ disturbances spread through spacetime || [[ψ Resonator]] · [[ψ Waveguide]] · [[ψ Reflector]] · [[ψ Lens]] · [[ψ Coupler]] · cavity modes · standing waves
+|-
+| <math>-m_{\rm eff}^2\psi</math> || Mass/screening — ψ field decays exponentially beyond range <math>1/m</math> || [[ψ Coherence Length]] · [[ψ Shield]] · [[ψ Permeability]] · ferrofluid μ_eff control · Yukawa design
+|-
+| <math>-\lambda_{\rm eff}\psi^3</math> || Nonlinear self-interaction (λ > 0 stabilizes) || [[ψ Amplifier]] · [[ψ Oscillator]] · [[ψ Memory Element]] · soliton states · bistability · parametric gain
+|-
+| <math>\alpha_{\rm eff} F_{\mu\nu}F^{\mu\nu}</math> || EM coupling — electromagnetic field energy directly sources ψ || [[ψ Transducer]] · bifilar coil design · BST composite · [[Shepard Tone Synthesis]] · [[HV Pulse Modulation]]
+|-
+| <math>J_\psi</math> || Biological/technological source — coherent neural firing drives ψ || [[ψ Source]] · [[HRV-Gated Drive]] · [[Anchor Controller]] · [[ψ Impedance Theory]] · biological coupling
+|}
+<math>\Box\psi - m_{\rm eff}^2\psi - \lambda_{\rm eff}\psi^3 = \alpha_{\rm eff} F_{\mu\nu}F^{\mu\nu} + J_{\psi}</math>
+
+=== The Two-Track Rule ===
+
+Every page in this branch explicitly separates its content into two tracks:
+
+* '''Track A — Established Physics:''' Content that is buildable and testable with existing technology, regardless of whether ψ is real. This includes metamaterial fabrication, TPMS lattice design, bifilar coil engineering, BST composite chemistry, FPGA control loops, and HRV biofeedback. Track A content is marked with no special label — it is standard engineering.
+
+* '''Track B — ψ-Dependent Extensions:''' Content that only becomes meaningful if the ψ field hypothesis is experimentally confirmed. This includes ψ impedance matching, soliton state storage, and group coherence amplification. Track B content appears in sections labeled <code>== ψ-Dependent Extensions ==</code> on each page.
+
+This separation is not a hedge — it is the discipline. A device that is buildable and measurable under Track A, and which produces anomalous results that Track A physics cannot explain, is the experimental gateway to Track B. The [[Mode Geometry Test]] is the designed experiment for this transition.
+
+{{Way_It_Works
+| title       = How Psionic Engineering derives hardware from mathematics
+| step1_label = Begin with the wave equation
+| step1_text  = The master equation <math>\Box\psi - m_{\rm eff}^2\psi - \lambda_{\rm eff}\psi^3 = \alpha_{\rm eff} F_{\mu\nu}F^{\mu\nu} + J_{\psi}</math> is taken as the internal axiomatic system. Whether it is experimentally confirmed is a separate question — the engineering derives from it regardless.
+
+| step2_label = Apply Noether's theorem
+| step2_text  = The Lagrangian's symmetries yield conservation laws. The shift symmetry ψ → ψ + ε produces a conserved current — ψ charge — the single most important quantity in the theory. Without a conserved quantity there can be no engineering. See [[ψ Conservation Laws]].
+| step3_label = Read off the dispersion relation
+| step3_text  = Linearizing around a background ψ₀ gives <math>\omega^2 = k^2 + m_{\rm eff}^2</math> where <math>m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math>. This tells engineers the minimum operating frequency, the group velocity, and the coherence length of any ψ device.
+| step4_label = Derive constitutive relations
+| step4_text  = Real materials respond to ψ with a polarization density <math>P_\psi = \varepsilon_0 \chi_\psi \psi</math>. The susceptibility χ_ψ, permittivity ε_ψ, permeability μ_ψ, quality factor Q_ψ, and coherence length L_ψ form the ψ material parameter table — each one a falsifiable measurement target.
+| step5_label = Identify primitive components
+| step5_text  = Wave equations always admit: resonators (standing waves), waveguides (boundary-guided modes), transducers (field conversion), filters (dispersion selection), amplifiers (nonlinear gain), and shields (Yukawa screening). Each of these is a mathematical consequence of the equation structure, not an invention.
+| step6_label = Specify drive systems
+| step6_text  = The αF²μν term means EM field energy directly sources ψ. Bifilar coils maximizing local E while canceling net B, driven by Shepard tone synthesis at the target frequency, are the EM-to-ψ transduction chain. This is Track A engineering — buildable now.
+| step7_label = Close the measurement loop
+| step7_text  = Every device requires a test protocol. The [[ψ Falsifiability Framework]] defines H₀: ψ = 0 formally. The [[Mode Geometry Test]] — comparing a correctly tuned resonant cavity against a detuned sham — is the designed experiment that can distinguish genuine ψ effects from electromagnetic artifact.
+}}
+
+== The Engineering Hierarchy ==
+
+Psionic Engineering organizes its content in strict derivation order. No page in a later tier may be written before the pages it depends on are complete.
+
+{| class="wikitable" style="width:100%;"
+! Tier !! Branch !! Pages !! Depends On !! Build Wave
+|-
+| 1 || [[#Branch A — Field Engineering Foundation|A: Field Foundation]] || 6 || Nothing — derives from master equation directly || Wave 1
+|-
+| 2 || [[#Branch B — ψ Materials Science|B: Materials Science]] || 9 || Branch A || Wave 2–3
+|-
+| 3 || [[#Branch C — Primitive ψ Components|C: Primitive Components]] || 12 || Branches A + B || Wave 4
+|-
+| 4 || [[#Branch D — Drive and Modulation Systems|D: Drive Systems]] || 6 || Branch A (partial); parallel with B || Wave 1–2
+|-
+| 5 || [[#Branch E — ψ Sensing and Measurement|E: Sensing]] || 3 || Branches A + C || Wave 3
+|-
+| 6 || [[#Branch F — Test and Validation Protocol|F: Validation]] || 3 || All branches || Wave 3–4
+|-
+| 7 || [[#Branch G — Integrated Systems|G: Systems]] || 3 || All branches || Wave 5
+|}
+
+----
+
+== Branch A — Field Engineering Foundation ==
+
+''Six pages. These must be built first. Every other page in the wiki depends on at least one of them. All content derives directly from the master equation without any material or fabrication assumptions.''
+
+The derivation axiom for this branch: the master equation is a wave equation with mass, nonlinear self-coupling, electromagnetic sourcing, and an external source current. Any such equation — regardless of what the field ψ physically represents — implies a specific set of mathematical structures. This branch makes those structures explicit as engineering concepts.
+
+{| class="wikitable" style="width:100%;"
+! Page !! Derives From !! Core Content !! Established Analog
+|-
+| '''This page''' — [[Psionic Engineering]] || Entire master equation || Hub, doctrine, navigation, derivation philosophy || RF Engineering as discipline
+|-
+| [[ψ Conservation Laws]] || Noether theorem applied to ψ Lagrangian || ψ charge definition; ψ continuity equation; conservation as the prerequisite for engineering || Charge conservation ∂_μJ^μ = 0
+|-
+| [[ψ Dispersion Relations]] || Linearization of master equation around background ψ₀ || <math>\omega^2 = k^2 + m_{\rm eff}^2</math>; group velocity; phase velocity; cutoff frequency; coherence length as <math>1/m_{\rm eff}</math> || Photon dispersion; phonon dispersion in crystals
+|-
+| [[ψ Impedance Theory]] || Source coupling structure of J_ψ and wave energy flux || Z_ψ definition; matching condition; reflection/transmission coefficients; mismatch hazard in head-worn devices || Electromagnetic wave impedance Z = √(μ/ε) = 377 Ω
+|-
+| [[ψ Boundary Conditions]] || Wave equation on finite domain requires boundary specification || Dirichlet (ψ absorber); Neumann (ψ reflector); Robin (impedance wall); mode quantization in spheroidal shell; ψ₀₁₀ mode selection for [[Psi Stabilizer]] || PEC/PMC boundaries in waveguide theory
+|-
+| [[ψ Green's Functions]] || Inhomogeneous wave equation with point source <math>\Box\psi - m^2\psi = \delta^4(x-x')</math> || Retarded propagator; Yukawa limit; advanced (retrocausal) solution; numerical convolution as design equation for all ψ sources || Retarded EM propagator; Huygens' principle
+|}
+
+=== Key Equations — Branch A ===
+
+'''ψ continuity (from [[ψ Conservation Laws]]):'''
+:<math>\frac{\partial \rho_\psi}{\partial t} + \nabla \cdot \left(\rho_\psi \mathbf{v}\right) = J_\psi</math>
+
+'''Dispersion relation (from [[ψ Dispersion Relations]]):'''
+:<math>\omega^2 = k^2 + m_{\rm eff}^2, \qquad m_{\rm eff}^2 = m^2 + 3\lambda\psi_0^2</math>
+
+'''Yukawa static solution — coherence length (from [[ψ Boundary Conditions]]):'''
+:<math>\psi(r) = -\frac{G_\psi M_\psi}{r}\,e^{-m_{\rm eff}\,r}, \qquad L_\psi = \frac{1}{m_{\rm eff}}</math>
+
+'''ψ impedance (from [[ψ Impedance Theory]]):'''
+:<math>Z_\psi = \frac{\psi_{\rm field\;amplitude}}{J_\psi\;{\rm source\;density}} = \frac{1}{\omega\,\chi_\psi}</math>
+
+'''Retarded Green's function — massless limit (from [[ψ Green's Functions]]):'''
+:<math>G_{\rm ret}(x,x') = \frac{\delta\!\left(t - t' - |\mathbf{r}-\mathbf{r}'|\right)}{4\pi|\mathbf{r}-\mathbf{r}'|}</math>
+
+----
+
+== Branch B — ψ Materials Science ==
+
+''Nine pages. Provides the constitutive relations that Branch C components require. The B1 page (ψ Constitutive Relations) is the keystone — all other B pages are entries in its material parameter table.''
+
+The derivation axiom for this branch: a wave equation alone is incomplete. Physical fields require constitutive relations specifying how materials respond — exactly as Maxwell's equations require <math>\mathbf{D}=\varepsilon\mathbf{E}</math> and <math>\mathbf{B}=\mu\mathbf{H}</math>. This branch derives ψ's constitutive relations and populates the material parameter table with specific fabricable systems.
+
+{| class="wikitable" style="width:100%;"
+! Page !! Derives From !! Core Content !! Established Analog
+|-
+| [[ψ Constitutive Relations]]
+| Need to close field equations with material response
+| ψ susceptibility <math>\chi_\psi</math>; ψ polarization density <math>P_\psi</math>; full material parameter table <math>(\chi_\psi,\varepsilon_\psi,\mu_\psi,Q_\psi,L_\psi)</math> for all key materials; anisotropic tensor form for metamaterials
+| <math>\mathbf{D}=\varepsilon\mathbf{E}</math>; <math>\mathbf{B}=\mu\mathbf{H}</math>; <math>\sigma=C\varepsilon</math> (elastic)
+|-
+| [[ψ Permittivity]]
+| <math>D_\psi=\varepsilon_\psi\psi</math> constitutive relation
+| <math>\varepsilon_\psi</math> as ψ field storage capacity per unit volume; measurement protocol; engineering targets for Stabilizer vs Harmonizer vs Defender; BST as high-<math>\varepsilon_\psi</math> candidate
+| Dielectric permittivity <math>\varepsilon_r</math>
+|-
+| [[ψ Permeability]]
+| <math>B_\psi=\mu_\psi(\nabla\times\psi)</math> constitutive relation
+| <math>\mu_\psi</math> as ψ flux propagation ease; ferrofluid as tunable <math>\mu_\psi</math> material; connection to <math>m_{\rm eff}</math> through <math>\mu_{\rm eff}</math> control
+| Magnetic permeability <math>\mu_r</math>
+|-
+| [[ψ Loss Tangent]]
+| Imaginary part of complex <math>\varepsilon_\psi</math> or <math>\mu_\psi</math>
+| Coherence decay rate; dissipative vs conservative materials; loss tangent measurement via VNA; design requirement: <math>\tan\delta_\psi<0.005</math> for <math>Q>200</math>
+| Microwave dielectric loss tangent
+|-
+| [[ψ Quality Factor]]
+| Resonant energy storage vs dissipation in ψ cavity
+| <math>Q_\psi=\omega\frac{\text{stored }\psi\text{ energy}}{\text{power dissipated}}</math>; ringdown measurement protocol; <math>Q_\psi>200</math> target for Stabilizer shell
+| Resonator Q factor; microwave cavity Q
+|-
+| [[ψ Coherence Length]]
+| Yukawa screening from <math>-m^2\psi</math> term
+| <math>L_\psi=\frac{1}{m_{\rm eff}}</math> in material; <math>L_\psi\approx20\,\mathrm{cm}</math> target for Stabilizer (spans operator skull); ferrofluid <math>\mu_{\rm eff}</math> as control parameter; spatial extent design for each [[Psi-Tech]] module
+| Skin depth in conductors; optical coherence length
+|-
+| [[TPMS Lattice Design]]
+| <math>\Box\psi</math> boundary conditions require specific geometry
+| Gyroid and Schwarz-P minimal surfaces; level-set equation <math>\sin x\cos y+\sin y\cos z+\sin z\cos x=t</math>; topology optimization via SIMP; DLP fabrication at 25 μm resolution; composite infusion sequence; FBG integration
+| Photonic crystal design; acoustic metamaterial unit cells
+|-
+| [[Smart Composite Fill]]
+| <math>\alpha_{\rm eff}F_{\mu\nu}F^{\mu\nu}</math> coupling requires voltage-tunable <math>\varepsilon</math> inside lattice
+| BST nanoparticle synthesis (hydrothermal, Ba₀.₆Sr₀.₄TiO₃, 50–150 nm, PEG-silane functionalization); MWCNT functionalization; PZT-5H vs PVDF selection; VARTM infusion sequence; field-cure protocol (10 kV/cm, 120°C, 2h); expected <math>\varepsilon_{\rm eff}(V)</math> curve from Maxwell-Garnett theory
+| Ferroelectric ceramic processing; CNT-polymer composites
+|-
+| [[ψ Metamaterials]]
+| Engineered <math>\chi_\psi</math> from geometry rather than composition
+| Design philosophy: unit cell as boundary-condition operator; geometry dominates over chemistry; connection to [[OSGS]] symbolic geometry — each primitive symbol (Point, Line, Circle, Wave, Angle, Curve) as a fundamental ψ mode topology; Base-216 as metamaterial mode library
+| Electromagnetic metamaterials; transformation optics; phononic crystals
+|}
+
+=== The ψ Material Parameter Table ===
+
+The master table populated across all B-branch pages. Values marked TBD are experimental measurement targets — each is a falsifiable quantity.
+
+{| class="wikitable sortable" style="width:100%;"
+! Material !! <math>\chi_\psi</math> !! <math>\varepsilon_\psi</math> !! <math>\mu_\psi</math> !! <math>Q_\psi</math> !! <math>L_\psi</math> !! Track !! Priority
+|-
+| Biological tissue (cortex) || TBD || TBD || <math>\sim 1</math> || low || <math>\sim 20</math> cm || B (<math>\psi</math>-dependent) || 1st — primary interface
+|-
+| BST nanocomposite (100V bias) || TBD || high, tunable || low || medium || short || A (buildable) || 1st — EM transducer
+|-
+| Gyroid TPMS (filled, optimized) || TBD || engineered || engineered || >200 target || set by <math>m_{\text{eff}}</math> || A (buildable) || 1st — resonant shell
+|-
+| Ferrofluid (EMG-900, H=0) || TBD || low || high, tunable || low || set by <math>\mu_{\text{eff}}</math> || A (buildable) || 1st — <math>m_{\text{eff}}</math> controller
+|-
+| PZT-5H ceramic || TBD || ~1800 (EM) || <math>\sim 1</math> || very high (mech) || long || A (buildable) || 2nd — soliton scaffold
+|-
+| Quartz (crystalline) || TBD || ~4.5 (EM) || <math>\sim 1</math> || very high || long || A (buildable) || 2nd — low-loss fill
+|-
+| MWCNT-epoxy composite || TBD || moderate || <math>\sim 1</math> || medium || medium || A (buildable) || 2nd — field emitter
+|-
+| Water (biological reference) || TBD || ~80 (EM) || <math>\sim 1</math> || very low || medium || B (<math>\psi</math>-dependent) || 3rd — baseline reference
+|-
+| PVDF film || TBD || ~10 (EM) || <math>\sim 1</math> || medium || medium || A (buildable) || 3rd — flexible alternative to PZT
+|}   
+
+----
+
+== Branch C — Primitive ψ Components ==
+
+''Twelve pages. Build after B1 ([[ψ Constitutive Relations]]) and all Branch A pages are complete. Each page is self-contained once the prerequisites exist. The twelve components are not invented — they are derived as mathematical consequences of wave equation structure.''
+
+The derivation axiom for this branch: any wave equation — for light, sound, ψ, or any other propagating field — admits a universal set of structural solutions. These solutions correspond to hardware. The analogy is exact: Maxwell → capacitor/inductor/antenna; acoustics → horn/cavity/muffler; ψ equation → the twelve components below.
+
+Every component page follows a four-section structure:
+# '''Mathematical Origin''' — which equation structure requires this component to exist
+# '''Established Analog''' — the RF/optics/acoustics equivalent with its design equations
+# '''ψ Implementation''' — specific fabrication using Branch B materials
+# '''Performance Parameters''' — engineering figures of merit (Q, bandwidth, insertion loss, coupling coefficient, etc.)
+
+{| class="wikitable" style="width:100%;"
+! Component !! Mathematical Origin !! Established Analog !! First Deployment !! Key Parameter
+|-
+| [[ψ Resonator]] || Standing-wave solutions to bounded □ψ || Microwave resonant cavity; optical Fabry-Pérot || [[Psi Stabilizer]] shell (ψ₀₁₀ mode, 40 kHz, Q > 200) || Q_ψ
+|-
+| [[ψ Waveguide]] || Boundary-guided propagation modes of □ψ || Rectangular waveguide; optical fiber || [[PsiNet]] inter-module conduit || Cutoff frequency f_c
+|-
+| [[ψ Transducer]] || αF²μν coupling: EM energy ↔ ψ energy conversion || Piezoelectric transducer; magnetostrictive actuator || [[HelmKit Mk1.0]] emission stage || Conversion efficiency η
+|-
+| [[ψ Phase Shifter]] || Propagation phase φ = kL tunable via ε_ψ(V) || Voltage-controlled phase shifter (varactor); electro-optic modulator || [[PsiNet]] beam steering || Differential phase shift ΔΦ
+|-
+| [[ψ Coupler]] || Evanescent field overlap between adjacent waveguides || Directional coupler; optical fiber coupler || Operator-to-operator ψ link || Coupling coefficient κ
+|-
+| [[ψ Filter]] || Dispersion relation gives frequency-dependent propagation || Bandpass filter; acoustic muffler; photonic bandgap || [[Psi Defender]] interference rejection || Center frequency f₀, bandwidth Δf
+|-
+| [[ψ Amplifier]] || Parametric gain from λψ³ nonlinearity; three-wave mixing || Parametric amplifier; MASER; optical OPA || [[Psi Harmonizer]] group-coherence amplification || Gain G, noise figure NF
+|-
+| [[ψ Shield / Absorber]] || Yukawa screening: ψ(r) ∝ e^{−mr}/r for high m material || EM shielding (mu-metal); acoustic barrier; Faraday cage || [[Psi Defender]] outer shell || Shielding effectiveness SE_ψ (dB)
+|-
+| [[ψ Oscillator]] || Van der Pol limit cycles from λψ³ nonlinear dynamics || Crystal oscillator; MASER; laser || [[Psi Harmonizer]] shared-frequency reference || Frequency stability Δf/f
+|-
+| [[ψ Detector]] || Force term p·∇ψ on ψ-charged matter; HRV coherence shift || RF power detector; optical photodiode; SQUID || [[TML-3 Validation]] experimental apparatus || Sensitivity (minimum detectable ψ amplitude)
+|-
+| [[ψ Source]] || J_ψ term: biological coherence and EM transduction both implement it || RF antenna; acoustic speaker; laser || All [[HelmKit]] modules (biological + device Jψ combined) || Source strength (ψ-watts)
+|-
+| [[ψ Memory Element]] || Soliton bistability from λψ³: two stable amplitude states || Magnetic bit (ferromagnet); optical bistable etalon; memristor || [[PsiNet]] data layer (speculative Track B) || Retention time τ_ret; write/erase energy
+|}
+
+----
+
+== Branch D — Drive and Modulation Systems ==
+
+''Six pages. These are the most immediately buildable content in the entire wiki — all Track A established engineering. Build in parallel with Branch B from Wave 1. The physical implementation of the αF²μν + J_ψ sourcing chain.''
+
+The derivation axiom for this branch: the αF²μν term is not a metaphor. F²μν = 2(B² − E²/c²) in SI units. A bifilar self-canceling coil maximizes local E while zeroing net B, making it the optimal geometry for maximizing F²μν at the lattice volume. Everything in this branch follows from that.
+
+{| class="wikitable" style="width:100%;"
+! Page !! Derives From !! Core Content !! Build Wave
+|-
+| [[Bifilar Coil Engineering]] || αF²μν: maximize local E²/c², minimize net B || Self-canceling current geometry; winding density (turns/m); E-field concentration factor vs bifilar spacing; HV insulation; printed vs wound; thermal management; ICNIRP E-field compliance for head-worn use || Wave 1
+|-
+| [[Shepard Tone Synthesis]] || Jψ source current temporal structure; standing ionization wave formation || DSP implementation: 3 carriers (10, 20, 40 kHz), raised-cosine envelopes, geometric spacing; FPGA implementation (VHDL/Verilog) or STM32H7; PZT sync; optimization target: minimum F²μν variance (Stabilizer) vs maximum F²μν integral (burst/Rail Drive modes) || Wave 1
+|-
+| [[HV Pulse Modulation]] || αF²μν requires high E-field amplitude at lattice; ns-DBD streamer regime || SiC MOSFET vs GaN HEMT selection; Marx generator topology; gate driver design (<10 ns rise); EMI mitigation for head-worn safety; ICNIRP compliance calculation; voltage ranges: 20–200V (HelmKit) vs 20–400 kV (Rail Drive) || Wave 1
+|-
+| [[BST Energy Recovery]] || C(V) nonlinearity of BST fill enables dielectric energy recapture || C(V) = C₀(1 + αV²) nonlinear capacitor model; flyback recovery topology; synchronous rectification timing; theoretical vs measured recovery efficiency (target: 60%); wearable battery sizing; impact on runtime || Wave 2
+|-
+| [[HRV-Gated Drive]] || Jψ ∝ coherent neural firing: device Jψ must phase-lock to biological Jψ || PPG vs OPM sensor comparison at mastoid; Pan-Tompkins R-peak detection; RMSSD real-time computation; PID loop (Ziegler-Nichols tuning); phase-lock implementation; anti-windup conditions; Mk1.0 (open-loop) vs Mk2.0 (closed-loop) distinction || Wave 2
+|-
+| [[Anchor Controller]] || Master control integrating all D-branch subsystems into operator-facing device || State machine: Standby → Anchor-manual (90s fixed) → Anchor-closed-loop (HRV-gated); interface to FBG lattice monitors; error handling and safe-state; Mk1.0 vs Mk2.0 vs Mk2.5 firmware differences; real-time OS: bare-metal vs FreeRTOS decision || Wave 2
+|}
+
+=== Key Drive Specifications ===
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! HelmKit Mk1.0 !! HelmKit Mk2.0 !! Rail Drive (reference) !! Constraint Source
+|-
+| Drive voltage || 20–200 V || 20–200 V || 20–400 kV || ICNIRP head-worn limit (HelmKit); ns-DBD requirement (Rail)
+|-
+| Operating frequency || 10–80 kHz (Shepard) || 10–80 kHz + HRV sync || 10–80 kHz + ns pulsing || Theta/alpha EEG coupling target; BST lattice acoustic modes
+|-
+| Carrier count || 3 (fixed) || 3 + phase-adaptive || 3+ || Shepard Tone effective frequency illusion minimum
+|-
+| Feedback || None (open-loop Jψ) || HRV-RMSSD PID || Plasma diagnostics + anchor coupling || Mk2.0 Z_ψ impedance match requirement
+|-
+| Energy recovery || Basic (passive) || BST flyback (target 60%) || BST flyback + regenerative anchoring || Wearable runtime; burst capacitor sizing
+|-
+| Anchor mode duration || 90 s fixed || Adaptive (HRV-gated) || 3–12 s (burst) || [[Psi Stabilizer]] soliton establishment time; Rail Drive mission profile
+|}
+
+----
+
+== Branch E — ψ Sensing and Measurement ==
+
+''Three pages. Critical for TML-3 and TML-4 validation. Without measurement, the engineering is untestable. Build after Branch A and the [[ψ Detector]] component page (C10).''
+
+The derivation axiom for this branch: the force equation <math>\vec{F}_\psi = -p\,\nabla\psi</math> and the biological coupling <math>J_\psi \propto \int f(u)\,dV</math> together imply that ψ should produce measurable effects on biological coherence (HRV, EEG) and potentially on sensitive EM instruments (OPM magnetometers). Measurement follows from coupling; coupling follows from the equation.
+
+{| class="wikitable" style="width:100%;"
+! Page !! Derives From !! Core Content
+|-
+| [[HRV as ψ Proxy]] || Jψ ∝ coherent neural firing (Wilson-Cowan coupling); βψ back-reaction on cortical columns || Scientific basis: RMSSD as Jψ coherence metric; the Wilson-Cowan closed loop: brain → Jψ → ψ field → β·ψ back-reaction → firing rate modulation → brain; existing HRV-coherence literature (HeartMath); measurement protocol: baseline (10 min), intervention (90 s Anchor), washout (10 min); statistical design: paired t-test, Cohen's d effect size; required N for 80% power at expected effect size d = 0.20
+|-
+| [[OPM Magnetometry for ψ Detection]] || T^0i_ψ = −∂_t ψ ∂^i ψ as candidate EM-measurable energy flux; αF²μν reverse: if ψ sources EM, ψ fluctuations should produce measurable EM perturbations || OPM physics at femtotesla sensitivity; noise floor requirements; mu-metal magnetic shielding design; interference from drive coils (bifilar geometry advantage); protocol: correlate OPM signal with ψ emission predictions from Green's function; null hypothesis test design
+|-
+| [[FBG Lattice Monitoring]] || Structural health of TPMS lattice determines ε_eff, which determines ψ cavity Q || Fiber Bragg grating physics: Δλ/λ = (1−p_e)·ε + (dn/dT + α)·ΔT; wavelength shift → strain + temperature; refractive index sensitivity as ε_eff tracker; interrogator hardware selection; data logging thresholds; integration into [[Anchor Controller]] feedback; alert conditions (lattice fatigue, dielectric drift, thermal runaway)
+|}
+
+----
+
+== Branch F — Test and Validation Protocol ==
+
+''Three pages. The falsifiability backbone of the entire branch. Without these, Psionic Engineering is not engineering — it is speculation with equations. Build after sufficient Branch A and D content exists to specify what is being tested.''
+
+The derivation axiom for this branch: the ψ field equation makes specific, quantitative predictions. H₀: ψ = 0 is a formally statable null hypothesis. The test campaign is designed to distinguish genuine ψ effects from electromagnetic artifact, expectation effects, and measurement noise.
+
+{| class="wikitable" style="width:100%;"
+! Page !! Core Content !! Critical Design Element
+|-
+| [[ψ Falsifiability Framework]] || Formal statement of H₀: ψ = 0 vs H₁: ψ obeys the master equation; Bayesian inference framework; prior from existing anomalous cognition literature (Star Gate review: combined d ≈ 0.20, p < 10⁻²⁰); likelihood from ψ equation predictions; required N for 80% power; pre-registration requirement; replication protocol; what a null result means for the theory || Effect size must be quoted in natural ψ₀ units, not arbitrary signal units. No special "psi statistics" — standard frequentist or Bayesian methods only.
+|-
+| [[Sham Control Design]] || Why sham control is mandatory; the auditory confound (ultrasonic emissions from drive electronics detectable by some subjects); sound-matched sham signal design; EMI-matched sham (identical EM signature, incoherent spatial mode, no standing-wave pattern); operator blinding verification; double-blind protocol for TML-3 series; crossover design to control individual differences || The sham must be electromagnetically identical to the active device in all parameters except the spatial mode structure of the ψ field. This is the only way to isolate field geometry as the causal variable.
+|-
+| [[Mode Geometry Test]] || The single most important experiment in the wiki: ψ₀₁₀ mode (field maximum at temporal lobes, predicted by FEM eigenvalue solve) vs detuned cavity (identical EM parameters, mode maximum displaced to wrong anatomical location); statistical design: N=20, randomized crossover, primary endpoint RMSSD coherence gain; secondary endpoint EEG theta power at temporal electrodes; expected effect size if ψ hypothesis correct; what a null result means; why this experiment is the gateway from Track A to Track B || If correctly-tuned cavity produces reliably higher HRV coherence gain than detuned sham, that result cannot be explained by conventional EM biophysics — because the two devices are electromagnetically identical. This is the experiment that demands explanation.
+|}
+
+=== The Tho'ra Tech Maturity Level (TML) Mapping ===
+
+{| class="wikitable" style="width:100%;"
+! TML !! Description !! ψ Hypothesis Required? !! Pass Criterion !! Pages
+|-
+| TML-1 || Lattice S-parameter characterization; VNA εeff sweep; no subjects || No — pure materials science || Measured ε_eff within 15% of Maxwell-Garnett prediction across target voltage range || [[TPMS Lattice Design]] · [[Smart Composite Fill]] · [[FBG Lattice Monitoring]]
+|-
+| TML-2 || Bench coil test; E-field mapping; ICNIRP compliance; EMI certification || No — pure electromagnetic engineering || E-field map matches bifilar FEM prediction; all fields within ICNIRP limits at 10 cm from device || [[Bifilar Coil Engineering]] · [[HV Pulse Modulation]] · [[Shepard Tone Synthesis]]
+|-
+| TML-3 || Single operator; Anchor active vs sham-controlled (N=1 pilot, then N=10) || Yes — first contact with hypothesis || RMSSD coherence gain: active > sham at p < 0.05, d > 0.20, replicated across N=10 || [[ψ Falsifiability Framework]] · [[Sham Control Design]] · [[HRV as ψ Proxy]] · [[HRV-Gated Drive]]
+|-
+| TML-4 || Closed-loop Mk2.0 vs open-loop Mk1.0; PID convergence; latency verification; N=10 || Yes — tests Z_ψ impedance matching hypothesis || Mk2.0 drives RMSSD toward target faster than Mk1.0 across N=10; PID latency < 50 ms verified || [[Anchor Controller]] · [[HRV-Gated Drive]] · [[ψ Impedance Theory]]
+|-
+| TML-5 || Field conditions; psionic perturbation resistance; [[StarCom]] integration; full [[HelmKit]] stack || Yes — full operational deployment || Operator maintains stable decision-making under documented psionic perturbation conditions || [[HelmKit Architecture]] · [[Psi-Ops]] · [[Psionic Warfare]]
+|}
+
+'''The Mode Geometry Test''' sits between TML-3 and TML-4. It is the gateway experiment: a positive result moves the entire framework from "interesting biofeedback device" to "evidence that ψ field geometry produces effects conventional EM physics cannot explain."
+
+----
+
+== Branch G — Integrated Systems ==
+
+''Three pages. Build last — these integrate all preceding branches into the deployed technology stack. No new engineering concepts introduced here; these pages synthesize earlier derivations into system-level specifications.''
+
+{| class="wikitable" style="width:100%;"
+! Page !! Core Content !! Integrates
+|-
+| [[HelmKit Architecture (Engineering)]] || Engineering layer for the existing [[HelmKit Architecture]] page; component placement rationale (TPMS shell → bifilar layer → ferrofluid routing → FBG monitors → Anchor Controller PCB); thermal budget; power budget; mass budget; Mk1.0/Mk2.0/Mk2.5 hardware differences mapped to full engineering stack; manufacturing sequence || All Branch B materials · All Branch C components · All Branch D drive systems · All Branch E sensors
+|-
+| [[Psionic Power Systems]] || Power sourcing for ψ devices; BST energy recovery as primary efficiency mechanism; wearable battery sizing (mAh vs peak current draw); micro-fusion fuel cell interface for high-power devices ([[Magnetogravitic Rail Drives]] reference); peak vs average power consumption; burst capacitor bank for Anchor mode; power distribution bus architecture || [[BST Energy Recovery]] · [[Micro Fusion Fuel Cells]] · [[Magnetogravitic Rail Drives]]
+|-
+| [[ψ Network Topology]] || How multiple HelmKit operators form a [[PsiNet]] node cluster; group coherence amplification from λψ³: N aligned practitioners produce field energy density growing as N⁴ (from T⁰⁰ containing λψ⁴/4 term); network topology maximizing collective coherence; phase synchronization protocol; latency requirements for distributed coherence (<10 ms between nodes for phase-lock); [[PsiNet]] data layer architecture || [[ψ Oscillator]] (shared reference) · [[ψ Coupler]] (node-to-node link) · [[ψ Amplifier]] (group gain) · [[PsiNet]] · [[Collective Consciousness]]
+|}
+
+----
+
+== Navigation Master Table ==
+
+Complete page list for the Psionic Engineering branch. All 42 priority pages, with derivation term, build wave, and status.
+
+{| class="wikitable sortable" style="width:100%;"
+! # !! Page !! Branch !! Derives From (equation term) !! Build Wave !! Status
+|-
+| A1 || [[Psionic Engineering]] || A — Foundation || Entire master equation || Wave 1 || '''This page'''
+|-
+| A2 || [[ψ Conservation Laws]] || A — Foundation || Noether theorem / Lagrangian symmetry || Wave 1 || Planned
+|-
+| A3 || [[ψ Dispersion Relations]] || A — Foundation || Linearized <math>\Box\psi-m_{\rm eff}^2\psi-\lambda_{\rm eff}\psi^3=0</math> || Wave 1 || Planned
+|-
+| A4 || [[ψ Impedance Theory]] || A — Foundation || <math>J_\psi</math> source coupling + wave energy flux || Wave 1 || Planned
+|-
+| A5 || [[ψ Boundary Conditions]] || A — Foundation || <math>\Box\psi</math> on finite domain || Wave 1 || Planned
+|-
+| A6 || [[ψ Green's Functions]] || A — Foundation || <math>\Box\psi-m_{\rm eff}^2\psi=\delta^{(4)}(x-x')</math> || Wave 1 || Planned
+|-
+| B1 || [[ψ Constitutive Relations]] || B — Materials || Material response closes field equations || Wave 2 || Planned
+|-
+| B2 || [[ψ Permittivity]] || B — Materials || <math>D_\psi=\varepsilon_\psi\psi</math> || Wave 2 || Planned
+|-
+| B3 || [[ψ Permeability]] || B — Materials || <math>B_\psi=\mu_\psi(\nabla\times\psi)</math> || Wave 2 || Planned
+|-
+| B4 || [[ψ Loss Tangent]] || B — Materials || <math>\operatorname{Im}(\varepsilon_\psi)</math> or <math>\operatorname{Im}(\mu_\psi)</math> || Wave 2 || Planned
+|-
+| B5 || [[ψ Quality Factor]] || B — Materials || Resonant energy / dissipation ratio || Wave 2 || Planned
+|-
+| B6 || [[ψ Coherence Length]] || B — Materials || <math>-m_{\rm eff}^2\psi</math> Yukawa screening || Wave 2 || Planned
+|-
+| B7 || [[TPMS Lattice Design]] || B — Materials || <math>\Box\psi</math> boundary conditions &rarr; geometry || Wave 1 || Planned
+|-
+| B8 || [[Smart Composite Fill]] || B — Materials || <math>\alpha_{\rm eff}F_{\mu\nu}F^{\mu\nu}</math> coupling &rarr; voltage-tunable <math>\varepsilon</math> || Wave 1 || Planned
+|-
+| B9 || [[ψ Metamaterials]] || B — Materials || Engineered <math>\chi_\psi</math> from geometry || Wave 3 || Planned
+|-
+| C1 || [[ψ Resonator]] || C — Components || Standing-wave solutions to bounded <math>\Box\psi</math> || Wave 4 || Planned
+|-
+| C2 || [[ψ Waveguide]] || C — Components || Boundary-guided propagation modes || Wave 4 || Planned
+|-
+| C3 || [[ψ Transducer]] || C — Components || <math>\alpha_{\rm eff}F_{\mu\nu}F^{\mu\nu}</math> coupling implemented as hardware || Wave 4 || Planned
+|-
+| C4 || [[ψ Phase Shifter]] || C — Components || <math>\phi=kL</math> tunable via <math>\varepsilon_\psi(V)</math> || Wave 4 || Planned
+|-
+| C5 || [[ψ Coupler]] || C — Components || Evanescent field overlap between waveguides || Wave 4 || Planned
+|-
+| C6 || [[ψ Filter]] || C — Components || Dispersion relation frequency selectivity || Wave 4 || Planned
+|-
+| C7 || [[ψ Amplifier]] || C — Components || <math>\lambda_{\rm eff}\psi^3</math> parametric gain; three-wave mixing || Wave 4 || Planned
+|-
+| C8 || [[ψ Shield / Absorber]] || C — Components || Yukawa screening: <math>\psi\propto\frac{e^{-m_{\rm eff}r}}{r}</math> for high-<math>m_{\rm eff}</math> material || Wave 4 || Planned
+|-
+| C9 || [[ψ Oscillator]] || C — Components || Van der Pol limit cycles from <math>\lambda_{\rm eff}\psi^3</math> || Wave 4 || Planned
+|-
+| C10 || [[ψ Detector]] || C — Components || <math>\mathbf{p}\cdot\nabla\psi</math> force on ψ-charged matter || Wave 4 || Planned
+|-
+| C11 || [[ψ Source]] || C — Components || <math>J_\psi</math> term: biological + EM implementations || Wave 4 || Planned
+|-
+| C12 || [[ψ Memory Element]] || C — Components || <math>\lambda_{\rm eff}\psi^3</math> soliton bistability || Wave 4 || Planned
+|-
+| D1 || [[Bifilar Coil Engineering]] || D — Drive || <math>\alpha_{\rm eff}F_{\mu\nu}F^{\mu\nu}</math>: maximize <math>E^2</math>, minimize net <math>B</math> || Wave 1 || Planned
+|-
+| D2 || [[Shepard Tone Synthesis]] || D — Drive || <math>J_\psi</math> temporal structure; standing ionization wave || Wave 1 || Planned
+|-
+| D3 || [[HV Pulse Modulation]] || D — Drive || <math>\alpha_{\rm eff}F_{\mu\nu}F^{\mu\nu}</math> requires high electric-field amplitude || Wave 1 || Planned
+|-
+| D4 || [[BST Energy Recovery]] || D — Drive || <math>C(V)=C_0(1+\alpha V^2)</math> nonlinear energy recapture || Wave 2 || Planned
+|-
+| D5 || [[HRV-Gated Drive]] || D — Drive || <math>J_\psi</math> ↔ biological <math>J_\psi</math> phase-lock requirement || Wave 2 || Planned
+|-
+| D6 || [[Anchor Controller]] || D — Drive || Master control integrating all D subsystems || Wave 2 || Planned
+|-
+| E1 || [[HRV as ψ Proxy]] || E — Sensing || <math>J_\psi\propto</math> coherent neural firing (Wilson-Cowan) || Wave 3 || Planned
+|-
+| E2 || [[OPM Magnetometry for ψ Detection]] || E — Sensing || <math>T^{0i}_\psi=-\partial_t\psi\,\partial^i\psi</math> energy flux || Wave 3 || Planned
+|-
+| E3 || [[FBG Lattice Monitoring]] || E — Sensing || <math>\varepsilon_{\rm eff}</math> drift → <math>Q_\psi</math> degradation signal || Wave 3 || Planned
+|-
+| F1 || [[ψ Falsifiability Framework]] || F — Validation || <math>H_0:\psi=0</math> formal test || Wave 3 || Planned
+|-
+| F2 || [[Sham Control Design]] || F — Validation || Isolate ψ mode geometry as causal variable || Wave 3 || Planned
+|-
+| F3 || [[Mode Geometry Test]] || F — Validation || <math>\psi_{010}</math> vs detuned cavity — gateway experiment || Wave 4 || Planned
+|-
+| G1 || [[HelmKit Architecture (Engineering)]] || G — Systems || All branches integrated || Wave 5 || Planned
+|-
+| G2 || [[Psionic Power Systems]] || G — Systems || BST recovery + micro-fusion interface || Wave 5 || Planned
+|-
+| G3 || [[ψ Network Topology]] || G — Systems || Group coherence <math>N^4</math> energy scaling from <math>\lambda_{\rm eff}\psi^3</math> || Wave 5 || Planned
+|}
+
+----
+
+== Connections ==
+
+Psionic Engineering does not stand alone. It is the engineering bridge between the theoretical layer and the operational layer of the technical stack.
+
+{| class="wikitable" style="width:100%;"
+! Layer !! Primary Pages !! Role !! Relationship to Psionic Engineering
+|-
+| Field Theory || [[Psionics]] · [[5D Action Principle]] · [[Modified Einstein Equations with Psi]] · [[Soliton Solutions of Psi Field]] || States the ψ field equations and their derivation from first principles || Provides the master equation from which all Psionic Engineering derives
+|-
+| Symbolic Geometry || [[OSGS]] · [[Octahedral Semantic Manifold]] · [[Semantic Primitive Theory]] · [[Universal Semantic Manifold]] || Provides the Base-216 symbolic framework and the six primitive symbols || [[ψ Metamaterials]] (B9) hypothesizes each primitive symbol corresponds to a fundamental ψ mode topology — geometry as engineering
+|-
+| Engineering Science || '''This branch''' — all 42 pages || Derives components, materials, and systems from the field equations || The bridge discipline
+|-
+| Device Catalog || [[Psi-Tech]] · [[Psi Stabilizer]] · [[Psi Harmonizer]] · [[Psi Defender]] · [[HelmKit]] · [[PsiNet]] · [[Psi Emitters]] || Specifies deployed devices for operators || Each device is justified by the engineering derivations in this branch
+|-
+| Propulsion Integration || [[Magnetogravitic Rail Drives]] · [[Magnetogravitic Planetary Anchoring]] · [[MHD Core]] || Deploys ψ-adjacent metamaterial technology at vehicle scale || Shares TPMS lattice, BST composite, bifilar coil, and Shepard tone drive architecture with HelmKit
+|-
+| Operational Context || [[Psi-Ops]] · [[Psychotronics]] · [[Psionic Warfare]] · [[StarCom]] · [[Resonant Pipeline]] || Deploys [[Psi-Tech]] devices in field conditions || TML-5 validation occurs in these operational contexts
+|-
+| Characters || [[Jono Tho'ra]] · [[Tara Van Dekar]] · [[Raja]] || Archetypal operator profiles; primary users of [[Psi-Tech]] || Operator ψ impedance profiles, biological coupling coefficients, and coherence characteristics derive from character archetype definitions
+|}
+
+== See Also ==
+
+* [[Psionics]] — the field theory this branch derives from
+* [[5D Action Principle]] — the deepest derivation of the master equation
+* [[Psi-Tech]] — the device catalog this branch justifies
+* [[HelmKit Architecture]] — the primary deployment platform
+* [[Psi Stabilizer]] — the first device fully specified by this branch
+* [[Psi Harmonizer]] — second module; uses [[ψ Amplifier]] and [[ψ Oscillator]]
+* [[Psi Defender]] — third module; uses [[ψ Shield / Absorber]] and [[ψ Filter]]
+* [[Magnetogravitic Rail Drives]] — parallel metamaterial engineering at vehicle scale
+* [[Effective Scalar Waves]] — wave physics foundations
+* [[Scientific Foundations of Psionics]] — empirical literature supporting the framework
+* [[Tho'ra Tech Maturity Levels]] — the TML progression governing test campaign design
+* [[OSGS]] — symbolic geometry system whose primitives may map to ψ mode topologies
+* [[Wilson-Cowan Coupled to Psi]] — the biological source coupling equations
+* [[Soliton Solutions of Psi Field]] — the λψ³ soliton states exploited by [[ψ Memory Element]] and [[ψ Oscillator]]
+* [[Collective Consciousness]] — the N⁴ group coherence amplification effect
+* [[PsiNet]] — the network layer built from [[ψ Network Topology]]
+
+[[Category:Psionic Engineering]]
+[[Category:Psionics]]
+[[Category:Technology]]
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Equations]]
+[[Category:Metamaterials]]
+[[Category:Effective Physics]]

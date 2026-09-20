@@ -1,0 +1,27 @@
+The '''Coherence Beacon''' is a fixed-site low-power transmitter that radiates a known reference pattern — a Schumann harmonic, an HRV coherence pacer, or a pre-registered [[Astrological Frequency Harmonics|astrological-derived signal]] — for use as a calibration source for the [[Psi-Tech]] sensor fleet and as an operator-orientation reference in nearby grounds. Where the [[Schumann Lattice]] ''receives'' a planetary signal, the Coherence Beacon ''emits'' a local reference to anchor the receivers against.
+
+== Overview ==
+
+A Coherence Beacon does three things:
+
+* '''Calibrate''' — emit a precisely characterized reference (frequency, amplitude, modulation) that nearby [[Field Recorder]], [[Psi Tripwire]], and [[Schumann Lattice]] nodes can use to verify their own calibration.
+* '''Orient''' — provide a stable local environment for operators arriving at a site to baseline their gear quickly.
+* '''Publish''' — beacon characteristics are published to the [[Earth Intelligence Network]] so the calibration is third-party-auditable.
+
+Coherence Beacons are not personal devices; they are facility infrastructure, typically co-located with a [[Star Seer Observatory]].
+
+== See Also ==
+
+* [[Schumann Lattice]]
+* [[Field Recorder]]
+* [[Psi Tripwire]]
+* [[Star Seer Observatory]]
+* [[Earth Intelligence Network]]
+* [[Astrological Frequency Harmonics]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Infrastructure]]
+[[Category:PsiNet Substrate]]
+[[Category:Tho'ra HQ Module]]

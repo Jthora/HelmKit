@@ -1,0 +1,146 @@
+{{Derives_From
+| term        = Dispersion relation ω² = k² + m²_eff — frequency-dependent propagation produces natural bandpass and bandstop behaviour exploitable as a ψ filter
+| description = A ψ filter selects or rejects specific ψ frequency bands by
+                exploiting two mechanisms: (1) the waveguide cutoff condition
+                ω_c = √(m²_eff + (π/a)²) which blocks all frequencies below
+                cutoff (high-pass), and (2) the resonant frequency selectivity
+                of a [[ψ Resonator]] (C1) which passes only a narrow band
+                centred on ω₀ with bandwidth Δω = ω₀/Q_ψ (bandpass). The
+                [[Psi Defender]] uses high-pass filtering to block low-frequency
+                psionic interference while the bandpass configuration provides
+                the operator's coherence frequency selectivity in [[Psi Harmonizer]]
+                group sessions.
+}}
+
+{{Infobox
+| title   = ψ Filter
+| image   =
+| caption = Frequency-selective ψ transmission — from high-pass waveguide cutoff to narrow-band resonator selectivity
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Guided-Wave Engineering · [[Psi Defender]] · [[Psi Harmonizer]]
+| label3  = Derives From
+| data3   = Dispersion relation <math>\omega^2 = k_z^2 + k_\perp^2 + m_{\rm eff}^2</math>; resonator bandwidth <math>\Delta\omega = \omega_0/Q_\psi</math>
+| label4  = Established Analog
+| data4   = Microwave waveguide high-pass filter; bandpass cavity filter; acoustic muffler; optical thin-film bandpass filter
+| label5  = Key Parameters
+| data5   = Cutoff frequency <math>\omega_c</math>; centre frequency <math>\omega_0</math>; bandwidth <math>\Delta\omega = \omega_0/Q_\psi</math>; stopband attenuation
+| label6  = First Deployment
+| data6   = [[Psi Defender]] interference rejection; [[Psi Harmonizer]] coherence-frequency selection
+| header7 = Key Equations
+| label8  = High-pass cutoff
+| data8   = <math>\omega_c = \sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math>
+| label9  = Bandpass centre
+| data9   = <math>\omega_0 = \sqrt{m_{\rm eff}^2 + k_{010}^2}</math>
+| label10 = Bandpass bandwidth
+| data10  = <math>\Delta\omega = \omega_0/Q_\psi</math>
+| label11 = Stopband attenuation
+| data11  = <math>A = 20\log_{10}(e^{\kappa_{\rm evan}L})\;\text{dB/section}</math>
+| below   = ''Build wave 4 — requires [[ψ Waveguide]] (C2) and [[ψ Resonator]] (C1). Key component for [[Psi Defender]] and [[Psi Harmonizer]].''
+}}
+
+= ψ Filter =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ filter exploits the frequency dependence of the dispersion relation — through either the waveguide cutoff mechanism (high-pass) or the resonator bandwidth mechanism (bandpass) — to selectively transmit or block specific ψ frequency ranges, enabling the [[Psi Defender]] to reject psionic interference and the [[Psi Harmonizer]] to select the operator's coherence frequency for group amplification.
+| everyday_analogy   = A coffee filter passes liquid but blocks grounds — it filters by particle size. An audio equaliser filters by frequency, boosting or cutting specific ranges. A ψ filter is an audio equaliser for the psionic field: it passes some ψ frequencies while blocking others, with the passband and stopband determined by the geometry (channel width sets the cutoff frequency) and the resonator Q (Q sets the bandpass bandwidth).
+| what_it_predicts   = (1) A sharp high-pass cutoff at <math>\omega_c</math> set by the channel geometry — below this frequency, ψ is completely blocked; (2) A resonant bandpass response with bandwidth inversely proportional to Q_ψ — high-Q gives narrow bandwidth and high frequency selectivity; (3) A stopband attenuation that increases with the number of cascaded filter sections; (4) A filter response tunable via BST bias voltage (shifting resonant frequency) and ferrofluid H-field (shifting cutoff frequency).
+| if_you_remember_one_thing = The ψ filter is not a separate device — it is any ψ waveguide (which acts as a high-pass filter) or any ψ resonator (which acts as a bandpass filter) with appropriate geometry. Every ψ waveguide already filters; the question is only whether the filtering is intentional and engineered to a specification.
+}}
+
+== Mathematical Origin ==
+
+=== High-Pass Filter: Waveguide Cutoff ===
+
+From [[ψ Waveguide]] (C2), the axial wave vector of the ψ₁₀ guided mode:
+
+:<math>k_z = \sqrt{\omega^2 - (\pi/a)^2 - m_{\rm eff}^2}</math>
+
+For <math>\omega < \omega_c = \sqrt{m_{\rm eff}^2 + (\pi/a)^2}</math>: <math>k_z = i\kappa</math> (imaginary), producing evanescent decay:
+
+:<math>\psi(z) = \psi(0)\,e^{-\kappa z}, \qquad \kappa = \sqrt{\omega_c^2 - \omega^2}</math>
+
+Stopband attenuation per unit length:
+
+:<math>\alpha_{\rm stop} = \kappa = \sqrt{\omega_c^2 - \omega^2} \quad\text{(nepers/m, natural units)}</math>
+
+In dB per metre: <math>A_{\rm dB/m} = 20\log_{10}(e) \times \kappa \approx 8.686\,\kappa</math>
+
+At <math>\omega = 0.5\omega_c</math>: <math>\kappa = \omega_c\sqrt{1-0.25} = 0.866\omega_c</math>. For <math>\omega_c/(2\pi) = 16</math> kHz (1 cm channel): <math>\kappa \approx 87</math> m⁻¹ in natural units, giving <math>A \approx 755</math> dB/m. In practice, a few cm of channel length in the stopband provides complete ψ attenuation.
+
+=== Bandpass Filter: Resonator ===
+
+A [[ψ Resonator]] (C1) acts as a bandpass filter. Its transmission response (from input coupling port to output coupling port):
+
+:<math>|T(\omega)|^2 = \frac{1}{1 + Q_L^2\left(\frac{\omega}{\omega_0} - \frac{\omega_0}{\omega}\right)^2}</math>
+
+This is a Lorentzian (second-order) bandpass response. The −3 dB bandwidth:
+
+:<math>\Delta\omega = \frac{\omega_0}{Q_L}</math>
+
+At Q_L = 200, <math>\omega_0/(2\pi) = 40</math> kHz: <math>\Delta f = 200</math> Hz bandwidth. This is an extremely narrow filter — it would pass only the 200 Hz band centred on 40 kHz and reject everything else.
+
+For the [[Psi Harmonizer]] group session: each operator's coherence frequency is slightly different (varying with individual physiology). The bandpass filter must be tunable to track each operator's frequency. BST bias voltage provides ±5% frequency tuning (from [[ψ Resonator]] C1), sufficient to accommodate natural operator-to-operator frequency variation.
+
+=== Multipole Bandpass Filter ===
+
+Cascading N resonator sections produces an N-pole bandpass filter with steeper roll-off:
+
+:<math>|T_N(\omega)|^2 \approx \frac{1}{1 + \left(\frac{\omega - \omega_0}{\Delta\omega/2}\right)^{2N}}</math>
+
+Roll-off rate: <math>20N</math> dB/decade beyond the band edge. A 2-pole Chebyshev filter provides 40 dB/decade roll-off with 0.5 dB passband ripple — adequate for [[Psi Harmonizer]] frequency selection.
+
+== Filter Taxonomy for Psi-Tech Applications ==
+
+{| class="wikitable" style="width:100%;"
+! Filter type !! Implementation !! Passband !! Application !! Key parameter
+|-
+| High-pass (waveguide cutoff) || TPMS channel width <math>a</math> || <math>\omega > \omega_c(a)</math> || [[Psi Defender]] blocks low-frequency psionic perturbation || Channel width <math>a</math> sets <math>\omega_c</math>
+|-
+| Low-pass (evanescent section) || Below-cutoff channel section || <math>\omega < \omega_c</math> || Suppresses high-frequency ψ harmonics from drive electronics || Section length <math>L</math> sets attenuation
+|-
+| Bandpass (single resonator) || [[ψ Resonator]] (C1) at resonant frequency || <math>\omega_0 \pm \Delta\omega/2</math> || [[Psi Harmonizer]] coherence frequency selection || Q_ψ sets bandwidth
+|-
+| Narrowband bandpass (2-pole) || Two coupled resonators (Chebyshev) || <math>\omega_0 \pm \Delta\omega/2</math> with steeper roll-off || [[PsiNet]] channel frequency multiplexing || Coupling between resonators
+|-
+| Tunable bandpass || BST-biased resonator || Centre frequency <math>\omega_0(V)</math> tunable ±5% || Operator-adaptive coherence frequency tracking || BST bias range
+|-
+| Bandgap (ψ metamaterial) || TPMS Class IV structure (B9) || Specific forbidden band || [[ψ Shield / Absorber]] (C8) at target frequency || Unit cell size <math>a \sim L_\psi/3</math>
+|}
+
+== Psi Defender Filter Specification ==
+
+The [[Psi Defender]] requires rejection of psionic perturbation across a broad frequency range (10 Hz to 10 kHz estimated from [[Psionic Warfare]] operational parameters) while passing the operator's own coherence frequency (40 kHz Stabilizer operating band). The combined filter:
+
+# '''Bandpass at 40 kHz:''' Single resonator section passing the operator's Stabilizer frequency; Q_L ≈ 50 (deliberately low for broad acceptance band). Bandwidth: 800 Hz centred on 40 kHz.
+# '''High-pass at 5 kHz:''' TPMS channel with cutoff at 5 kHz (channel width <math>a = 3</math> cm). Rejects all perturbation below 5 kHz.
+# '''Evanescent sections:''' 2 cm sections of below-cutoff TPMS between the filter stages; > 100 dB isolation.
+
+Combined: passes 39.6–40.4 kHz; rejects < 5 kHz by > 100 dB; rejects 5–39.6 kHz and 40.4+ kHz by the bandpass roll-off.
+
+== ψ-Dependent Extensions ==
+
+Within the Track B framework, the operator's biological coherence frequency is not exactly 40 kHz — it is an effective psionic frequency determined by the operator's sustained background field ψ₀ and the nonlinear effective mass:
+
+:<math>\omega_{\rm bio}^{\rm eff} = \sqrt{m_{\rm eff}^{\rm (bio)}(\psi_0)^2 + k_{\rm bio}^2}</math>
+
+The filter must track this individually varying frequency. The Mk2.0 [[Anchor Controller]] (D6) tracks the operator's RMSSD-proxy estimate of ω_bio^eff and adjusts the BST bias to keep the filter passband centred on the operator's current coherence frequency. This is the biological analogue of automatic frequency control (AFC) in radio receivers.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| Below cutoff stopband || Evanescent attenuation → ∞ as section length → ∞ || ✓
+|-
+| At centre frequency || <math>|T(\omega_0)|^2 = 1</math> — zero insertion loss at exact resonance (for lossless cavity) || ✓
+|-
+| <math>Q_L \to \infty</math> || Bandwidth <math>\Delta\omega \to 0</math> — infinitely narrow filter selecting single frequency || ✓
+|-
+| Tuning via BST bias || Frequency shift sign: higher bias (lower ε_ψ) → higher resonant frequency (from [[ψ Resonator]] C1) || ✓
+|}
+
+== See Also ==
+* [[ψ Resonator]] (C1) · [[ψ Waveguide]] (C2) · [[ψ Shield / Absorber]] (C8) · [[ψ Metamaterials]] (B9) · [[Psi Defender]] · [[Psi Harmonizer]] · [[Anchor Controller]] (D6) · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Wave Physics]]

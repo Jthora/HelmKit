@@ -1,13 +1,29 @@
-'''Intention as Psi Source''' is the framework hypothesis that '''focused conscious attention''' is the primary mechanism by which the [[Psi Field]] is sourced and modulated by a human operator. In the quantum picture, an intentional source <math>J_\psi</math> is a coherent driver of [[Psion|psion]] production: it pumps psions into low-momentum modes whose coherent-state superposition is the classical ψ-field configuration the operator experiences as "charging up" or "pressure". This page is the conceptual bridge between subjective will and the framework's field-theoretic formalism.
+= Intention as Psi Source =
 
-{{Psi-claim
-| status = TESTABLE
-| cites = Psi Field, Effective Field Theory of Consciousness, Wilson-Cowan Coupled to Psi
-| methods = Concrete protocol defined; replication not yet attempted.
-| falsifier = A blinded study following the proposed protocol returning a null result at p < 0.01.
-| confidence = low
-| last_reviewed = 2026-05-12
+{{Plain_Hook
+| in_one_sentence    = The framework hypothesis that '''focused conscious attention''' is the primary mechanism by which the [[Psi Field]] is sourced and modulated by a human operator — in the quantum picture, an intentional source J_ψ acts as a coherent driver of [[Psion|psion]] production that pumps psions into low-momentum modes whose coherent-state superposition is the classical ψ-field configuration the operator experiences as "charging up" or "pressure".
+| everyday_analogy   = A laser, but the lasing medium is conscious attention. In a laser, photons in a cavity stimulate emission of more identical photons from excited atoms, building up a coherent beam from incoherent noise. The hypothesis here: focused attention plays the role of the stimulating signal in the psi field. When many observers pay coherent attention to the same object, they're not just thinking about it — they're collectively pumping psions into low-momentum modes that form a measurable classical field. The lasing-medium analogy gives the right intuition: incoherent thoughts → noise; coherent shared focus → beam. The coupling constant β (framework estimate ~10⁻⁴⁰ in natural units) is what makes this hard to detect for individual observers and only marginally detectable for large coordinated groups.
+| what_it_predicts   = (1) Intention source equation J_ψ(x,t) = β·Φ(x,t), where Φ is coarse-grained intention density and β is the (currently undetermined) coupling constant; (2) Estimated β ~ 10⁻⁴⁰ natural units — below current single-observer sensitivity but in-principle accessible for large groups; (3) Operational proxies for Φ: number of attending observers, attention-quality markers (alpha coherence, HRV), duration sustained (exponentially weighted); (4) Predicted EM signature from the α F_μν F^μν vertex — small but measurable; (5) Distinct from wishful thinking: requires coherent attention, not desire; (6) Falsifier: blinded protocol null at p<0.01.
+| if_you_remember_one_thing = Intention as Psi Source is the framework's conceptual bridge from subjective will to field-theoretic formalism. It is testable in principle (the protocol is defined) and has a clear falsifier; what's missing is the experimental result. The coupling estimate makes the prediction quantitative rather than vague.
 }}
+
+{{Way_It_Works
+| title  = How conscious attention sources the psi field
+| step1_label = Start with the Lagrangian source term
+| step1_text  = The [[Psi Field]] Lagrangian includes a source coupling J_ψ·ψ between an external source current J_ψ(x,t) and the field ψ. In ordinary field theory, J would be matter density or charge density. The hypothesis: in the psi sector, J_ψ is sourced by coherent conscious attention.
+| step2_label = Define intention density
+| step2_text  = Let Φ(x,t) be a coarse-grained "intention density" — a scalar field measuring how much coherent attention is directed at the point (x,t) by all observers combined. The constitutive relation is J_ψ(x,t) = β·Φ(x,t), linear at leading order, with β a coupling constant currently estimated ~10⁻⁴⁰ in natural units.
+| step3_label = Operationalize Φ
+| step3_text  = Φ is unobservable directly but has proposed proxies: number of attending observers focused on a common object; quality of attention indexed by [[Resonant Neurobiology]] markers (EEG alpha coherence, HRV variability); duration sustained, weighted exponentially toward recent activity. Combine into a single time-series Φ(t) for use in lab protocols.
+| step4_label = Drive the psi field
+| step4_text  = With non-zero J_ψ, the field equation ∂²ψ + m²ψ = J_ψ acquires a classical solution. For coherent J_ψ (sustained attention with stable spatial profile), the solution is a coherent-state superposition of low-momentum psion modes. The operator experiences this as the subjective sense of "charging up" or "local pressure".
+| step5_label = Couple to electromagnetism
+| step5_text  = Through the α F_μν F^μν · f(ψ) vertex (see [[Psi Field]]), the locally elevated ψ amplitude is hypothesized to produce a small modulation of EM properties — the predicted experimental signature. Magnitude depends on both β (intention→ψ coupling) and α (ψ→EM coupling).
+| step6_label = Distinguish from wishful thinking
+| step6_text  = The hypothesis is NOT "wanting something hard makes it happen". The relevant variable is coherent attention density (operationally: focused, sustained, monitored attention), not emotional desire. Wishful thinking with low attentional coherence yields low Φ and no measurable J_ψ. The falsifier: blinded protocol with monitored attention markers must return statistically null results at p<0.01 to falsify the hypothesis.
+}}
+
+'''Intention as Psi Source''' is the framework hypothesis that '''focused conscious attention''' is the primary mechanism by which the [[Psi Field]] is sourced and modulated by a human operator. In the quantum picture, an intentional source <math>J_\psi</math> is a coherent driver of [[Psion|psion]] production: it pumps psions into low-momentum modes whose coherent-state superposition is the classical ψ-field configuration the operator experiences as "charging up" or "pressure". This page is the conceptual bridge between subjective will and the framework's field-theoretic formalism.
 
 == The claim ==
 
@@ -19,7 +35,7 @@ where Φ(x, t) is an '''intention density''' — a coarse-grained measure of how
 
 A higher intention density at (x, t) yields a stronger local ψ amplitude, which (through the <math>\alpha F_{\mu\nu}F^{\mu\nu}</math> vertex) is hypothesised to produce small but measurable EM signatures.
 
-== Operationalising intention ==
+== Operationalizing intention ==
 
 Intention density is unobservable directly but has proposed proxies:
 
@@ -41,12 +57,6 @@ over operators i, where C_i is operator i's instantaneous coherence score (cardi
 
 All three predictions are unverified at production confidence; the second has historical PEAR-lineage support that has not been independently replicated to mainstream standard.
 
-== Distinction from "wishful thinking" ==
-
-The framework's claim is '''not''' that wishing makes things happen. The claim is that '''coherent attention generates a real (if small) field perturbation''', which has the same operational status as gravitational waves before LIGO: predicted by formalism, undetected at current sensitivity, falsifiable.
-
-Operators are explicitly cautioned: '''Mk0–Mk1 Psi-Tech does not amplify intention to macroscopic effect.''' Any subjective experience of efficacy in current devices is best explained by ritual, placebo, and group-coherence wellbeing effects — themselves real and valuable, but not "thoughts moving matter".
-
 == See also ==
 
 * [[Psi Field]]
@@ -57,4 +67,3 @@ Operators are explicitly cautioned: '''Mk0–Mk1 Psi-Tech does not amplify inten
 
 [[Category:Psionics]]
 [[Category:Consciousness]]
-[[Category:Testable Psi Claims]]

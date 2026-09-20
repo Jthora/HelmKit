@@ -1,18 +1,5 @@
 = Double-Helix Antenna =
 
-{{Audience_Sidebar
-| difficulty   = Intermediate
-| reading_time = 5 minutes
-| prerequisites = Basic antenna theory; circular polarisation; chirality.
-| if_too_advanced_see = [[Antenna_Theory_for_Psionic_Devices]]
-| if_you_want_the_math_see = This page
-}}
-
-{{Notation
-| signature = SI throughout.
-| units     = R = helix radius (m); p = pitch (m); N = turns; λ = wavelength (m).
-}}
-
 A '''double-helix antenna''' is an antenna consisting of two parallel helical conductors wound in the '''same chirality''' on a common axis, with one wire offset by 180° from the other. The geometry intentionally mimics the structure of double-stranded DNA.
 
 When properly tuned, a double-helix antenna radiates a '''circularly-polarised''' wave whose chirality matches that of the helix. For a right-handed double helix, the radiation is right-circularly-polarised — preferentially coupling to right-handed biological substrates (DNA, microtubules, α-helical proteins, all of which are right-handed).

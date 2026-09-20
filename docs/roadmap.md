@@ -4,7 +4,7 @@ The HelmKit is staged across seven steps along an `x.0` / `x.5` ladder. Each ste
 
 | Gen | Defining question | Status |
 |-----|-------------------|--------|
-| **Mk0.0** | Does it fit a real head, can it be printed, does it look the part? | ✅ Done (v2 type-b iter 9) |
+| **Mk0.0** | Does it fit a real head, can it be printed, does it look the part? | ✅ Done for the pre-topology-B iter9 frame; **topology B (the current, actively-developed frame) has not yet been printed or fit-tested** — see §Mk0 below |
 | **Mk0.5** | Does the L0+L1+L2 biofeedback floor (sensing + feedback, no stim) deliver measurable wearer benefit on its own? | 🚧 In flight (Sensor Wave 1 ETA 2026-05-16) |
 | **Mk1.0** | Does the bifilar-coil stim payload, sham-controlled, add value above the Mk0.5 floor for a stationary wearer (Tranquil mode)? | ⏸ Pending Mk0.5 G2 |
 | **Mk1.5** | Does the device retain Tranquil performance AND deliver a Combat-mode loop (motion-tolerant, sweat-tolerant) for a moving / exerting wearer? | ⏸ Pending Mk1.0 |
@@ -13,6 +13,8 @@ The HelmKit is staged across seven steps along an `x.0` / `x.5` ladder. Each ste
 | **Mk3.0** | Can two synchronized helmets deliver dyadic stabilization to a pair while engaging F7 and the Dicke superradiance $N^2$ scaling prediction? Manufacturable, regulatory-defensible. | ⏸ Pending Mk2.x |
 
 The bridge from each step to the next is **gated on evidence**, not on aesthetics or hardware count. See [mk_ladder.md §3](mk_ladder.md) for the gating logic.
+
+Wiki-grounded engineering translations (which parts of the wiki's `Psionic Engineering` content are buildable now vs. gated on capital equipment not in inventory) live under [`docs/psionic_engineering/`](psionic_engineering/README.md) — see that index for the current wiki-to-Mk-rung mapping, e.g. why the existing low-voltage bifilar PCB coil (not the wiki's newer 200V/TPMS-embedded design) remains the Mk1.0 stim payload.
 
 > **Note on numbering.** Earlier revisions of this roadmap used a coarser five-step ladder (`Mk0 / Mk1 / Mk1.5 / Mk2 / Mk3`). The current seven-step ladder is the May-2026 refinement after the sensor-wave purchase and the Tranquil-only vs Tranquil+Combat split was made explicit. The legacy `Mk1.5` (matched-$F^2$ H1-vs-H2) has been repositioned to `Mk2.5`; the legacy `Mk1` is now `Mk1.0`; a new `Mk0.5` and `Mk1.5` step have been inserted. The per-step detail in this file is being migrated to the new numbering; sections below may still reflect the legacy names until updated.
 
@@ -60,20 +62,22 @@ Per the wiki's [`Tho'ra Tech Maturity Levels`](https://wiki.fusiongirl.app/wiki/
 - Not a prototype in the engineering sense. No electronics, no sensors, no claims about wearer state.
 - Not safe-rated for anything beyond "wearing a printed plastic frame."
 
-### Existing assets (already in `3D-Models/HelmKit/`)
-- Latest frame: `helmkit_prototype_v2_mk0_type-b_iter9*.{blend,stl}`
+### Existing assets (already in `3D-Models/HelmKit_mk00/`)
+- Pre-topology-B frame: `helmkit_prototype_v2_mk0_type-b_iter9*.{blend,stl}` — the "✅ Done" exit criteria below refer to **this** iteration, printed and fit-tested.
 - Head ring (type-c): `helmkit_prototype_v2m0_type-c_parts_headRing_*.stl`
 - Ratchet: `helmkit_prototype_v2m0_type-c_parts_ratchet_1a.stl`
 - Ear shield: `helmkit_prototype_earShield-v3_iter4c.{blend,stl}`
-- Mk1-named modular frame parts (forehelm / rearhelm / sidehelm / temple) — these are *transitional* geometry already drafted toward Mk1 and should be treated as Mk1 candidates, not Mk0.
 
-### Exit criteria (already met)
+> **2026-08-05 correction**: this section previously listed old "Mk1-named modular frame parts (forehelm / rearhelm / sidehelm / temple)" as the transitional geometry toward Mk1. That topology was superseded by **"topology B"** — top-yoke + folding visor-bands + temple plates + pylons — specified in [`docs/mechanical/mk0.5_topology_beta_architecture.md`](mechanical/mk0.5_topology_beta_architecture.md) and implemented as 11 parametric generators in [`tools/blender/`](../tools/blender/README.md). Topology B is the current, actively-developed frame; the old forehelm/rearhelm/sidehelm/temple STLs are superseded, not "transitional." **Critically, topology B has never been printed or fit-tested** — the Mk0.0 "done" status below covers only the older iter9 frame, not the current topology-B part set. See the physical-validation checklist in `tools/blender/README.md` for what's still outstanding before topology B can claim the same "done" status.
+
+### Exit criteria (already met — for the pre-topology-B iter9 frame only)
 - ✅ Wearable, comfortable for at least one 30-minute session.
 - ✅ Frame and primary accessories print on a hobbyist FDM printer.
 - ✅ Mountable hardpoints exist on the frame (ear shields, temple pieces, fore/rear/side pads).
 
 ### Open Mk0 chores before Mk1 begins
-- [ ] Pick **one** canonical Mk0 frame from the iter9 set; freeze it as `Mk0/frame_final.stl`.
+- [ ] **Print and physically validate topology B** (all 11 parts) per `tools/blender/README.md`'s acceptance-gate checklist — this has not happened yet and is now the actual gate, not the iter9-frame chores below.
+- [ ] Pick **one** canonical Mk0 frame from the iter9 set; freeze it as `Mk0/frame_final.stl`. *(Historical iter9 chore — superseded in priority by the topology-B validation above, but left here for the record.)*
 - [ ] Document the head-fit ranges that frame supports (circumference, ear-to-ear).
 - [ ] Photograph and dimension the existing hardpoints; this becomes the input to the Mk1 hardpoint spec.
 
@@ -109,21 +113,26 @@ Mk1 carries three concurrent functional payloads:
 > **What Mk1 explicitly does NOT do (deferred to Mk1.5/Mk2+):** transmit 1.245 GHz, 2.45 GHz, or 300–900 MHz RF at the head. These bands require SAR measurement, FCC licensing review, and a biological-effects literature review that Mk1 will not have completed. See [safety.md](safety.md). The user's hypothesis space for those frequencies is preserved as Mk1.5/Mk2 R&D, not killed.
 
 ### Mk1 hardware blocks
-| Block | Role | Mounts to |
+
+> **2026-08-05 correction**: the "mounts to" column below still uses the pre-topology-B location names (rear-helm, ear-shield, forehelm) and, in several cases, hardpoint occupant assumptions that topology B's real mapping contradicts (`HP-EL`/`HP-ER` are Pylon mounts under topology B, not audio/ear-shield — see [`architecture.md` §2.1](architecture.md#21-hardpoint-locations-topology-b--mk05mk1-frame)). This table has **not** been re-verified against topology B's actual occupant list; flagged here rather than silently redesigned, since where audio/compute/battery actually go under topology B is an open engineering question this pass doesn't resolve.
+
+| Block | Role | Mounts to (pre-topology-B naming — needs re-verification) |
 |-------|------|-----------|
-| Compute node | Pi Zero 2 W or Pi 5 (depending on EEG decision) — same family psiStabilizer A01 uses | Rear-helm hardpoint |
-| Power | 1S Li-ion + protection PCB, hot-swappable | Rear-helm |
-| Sensor bus | I²C/SPI breakout, shielded short runs to temple boom | Internal channel along headband |
-| Audio out | Bone-conduction transducers | Ear-shield hardpoint |
-| Stim out | Coil driver OR LED driver (one, not both, in Mk1) | Temple hardpoint |
-| Indicator | Single status LED + recording-active LED | Forehelm |
-| Logging | NDJSON to onboard µSD, exact same schema as psiStabilizer `a01_capture` | Rear-helm compute |
+| Compute node | Pi Zero 2 W or Pi 5 (depending on EEG decision) — same family psiStabilizer A01 uses | Rear-helm hardpoint → topology B equivalent: `HP-SR` (compute pod) |
+| Power | 1S Li-ion + protection PCB, hot-swappable | Rear-helm → topology B equivalent: `HP-SL` (battery pod) |
+| Sensor bus | I²C/SPI breakout, shielded short runs to temple boom | Internal channel along headband → topology B: Top Yoke / Visor-Band internal raceway |
+| Audio out | Bone-conduction transducers | Ear-shield hardpoint → **no topology-B equivalent identified**; `HP-EL`/`HP-ER` are Pylon mounts now, not audio |
+| Stim out | Coil driver OR LED driver (one, not both, in Mk1) | Temple hardpoint → topology B: Temple Plate (currently assigned to Defender cradle, not the Mk1 bifilar coil — see note above) |
+| Indicator | Single status LED + recording-active LED | Forehelm → topology B: `HP-F` (currently the front Stabilizer panel) |
+| Logging | NDJSON to onboard µSD, exact same schema as psiStabilizer `a01_capture` | Rear-helm compute → `HP-SR` |
 
 ### Mk1 frame deltas vs Mk0
-- Convert the iter9 frame into a **modular** assembly. The Mk1-named `forehelm / rearhelm / sidehelm / temple` STLs already in the tree are the starting geometry.
-- Add **standardized hardpoints**: see [architecture.md](architecture.md#hardpoint-spec). Mk1 freezes v1 of that spec.
-- Internal cable channel along the headband (printed-in cable raceway).
-- Mountable battery bay on the rearhelm.
+
+> **2026-08-05 correction**: this section previously described converting the iter9 frame into a forehelm/rearhelm/sidehelm/temple modular assembly. That topology is superseded — see the Mk0 section above and [`architecture.md` §2.1](architecture.md#21-hardpoint-locations-topology-b--mk05mk1-frame). Per [`docs/mk_ladder.md`](mk_ladder.md) §6, Mk1.0 inherits topology B's mechanical contract from Mk0.5 **unchanged** — there is no separate "Mk1 frame conversion" step; the frame work is the topology-B physical-validation pass (see Mk0 section above), not a redesign at Mk1.
+
+- Standardized hardpoints already exist in topology B's frozen interface contracts: see [`architecture.md` §2.1](architecture.md#21-hardpoint-locations-topology-b--mk05mk1-frame) and [`mk0.5_topology_beta_architecture.md`](mechanical/mk0.5_topology_beta_architecture.md) §12.
+- Internal cable channel: already specified (Top Yoke + Visor-Band internal raceway, see topology B §6).
+- Battery bay: already specified (`HP-SL` sliding-dovetail pod, see topology B §12 `IFACE_TEMPLE_SIDEHELM_POD`).
 
 ### Mk1 software
 - Reuse `psistabilizer.capture.a01_capture` from the submodule. Same NDJSON schema.

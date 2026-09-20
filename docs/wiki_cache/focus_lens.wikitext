@@ -1,0 +1,27 @@
+The '''Focus Lens''' is a [[HelmKit]] optical-bay module that overlays attention-targeting reticles, salience markers, and [[Resonant Finder]] tile cues onto the operator's visual field. It is a software-driven attention aid built on top of standard waveguide or birdbath HUD optics; engineering-honestly, an information-density-managed AR overlay; doctrinally, a tool to keep operator attention where the moment requires it without forcing the operator's eye.
+
+== Overview ==
+
+The Focus Lens does, layered:
+
+* '''Mark''' — overlays a salience reticle on a single operator-selected target (a Resonant candidate, an anomaly bearing from the [[Psi Compass]], a [[Psi Tripwire]] alert location).
+* '''Track''' — head-tracking-compensated marker stability so the reticle stays anchored to the world, not to the eye.
+* '''Tier''' — multi-level information surface: primary marker, secondary context, full read-out on operator gesture.
+* '''Withdraw''' — the Lens auto-fades inactive markers; nothing stays in the eye-line longer than its operational relevance.
+
+The Lens is not a targeting computer and is doctrinally separated from anything that resembles weapon-cueing. It is an ''attention'' aid.
+
+== See Also ==
+
+* [[HelmKit]]
+* [[Star Seer]]
+* [[Resonant Finder]]
+* [[Psi Compass]]
+* [[Psi Tripwire]]
+* [[Psionic User Interface]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

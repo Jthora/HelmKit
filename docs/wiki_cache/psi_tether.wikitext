@@ -1,0 +1,29 @@
+The '''Psi Tether''' is a paired-operator [[Psi-Tech]] module that binds two units into a low-bandwidth coherence-sharing link for the duration of a defined session. Engineering-honestly, it is a synchronized HRV-coherence biofeedback channel between two operators, mediated by the [[Psi Mesh]]; doctrinally, it is the technological reflection of the [[Tho'ra Clan]]'s pair-bond practice — two operators ''with their gear coupled'' staying in coordinated state through a high-stress evolution.
+
+== Overview ==
+
+A Tether session, in protocol:
+
+* Two operators consent and pair their HelmKits via short-range NFC + Resonant-Card co-signature.
+* The Tether bonds their [[Psi Stabilizer]] coherence channels; each operator's anchor signal is informed by both biosignals.
+* Tether-active is visibly indicated to both operators (HUD ring color, audible tone).
+* Either operator can break the Tether instantly; the lanyard breaks both ends simultaneously.
+
+Tether use cases: [[Resonant Pipeline]] paired contact, high-stress operator rotation, mentor–trainee field exercises, joint analysis seats at [[StarCom]].
+
+== See Also ==
+
+* [[Psi-Tech]]
+* [[HelmKit]]
+* [[Psi Stabilizer]]
+* [[Psi Mesh]]
+* [[Resonant Card]]
+* [[Resonant Pipeline]]
+* [[Psionic User Interface]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:PsiNet Substrate]]

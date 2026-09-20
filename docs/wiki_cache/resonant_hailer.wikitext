@@ -1,0 +1,26 @@
+The '''Resonant Hailer''' is a directional, low-power, broadband acoustic-plus-EM(V2K:Voice to Skull) signaling device intended to ''call'' to potential [[Resonant|Resonants]] at distance — a parametric speaker + low-power UHF signal-tone emitter packaged in a handheld unit; doctrinally, a tool for the practice of ''hailing'' (offering an audible/visible sign of presence to a potential Resonant without compelling response).
+
+== Overview ==
+
+A Hail consists of:
+
+* '''Acoustic component''' — parametric directional speaker (ultrasound-modulated audio with a focused beam) carrying a Clan-signature audio motif at moderate volume.
+* '''EM component''' — low-power UHF tone burst at a Clan-published reference frequency (license-exempt band; ERP within general-public limits).
+* '''Visual component''' — small LED beacon mode (optional) for direct line-of-sight.
+* '''Duration''' — brief, characterized, repeated only on operator action.
+
+The Hail is ''offered'', not ''directed''. There is no payload, no message, no implicit demand. A Resonant who notices and responds, responds; a non-Resonant or non-noticer experiences a brief faint sound and nothing more.
+
+== See Also ==
+
+* [[Resonant]]
+* [[Resonant Pipeline]]
+* [[Psi-Tech]]
+* [[Tho'ra Mission Doctrine]]
+* [[Astrological Frequency Harmonics]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Tho'ra Clan Equipment]]
+[[Category:Communications]]

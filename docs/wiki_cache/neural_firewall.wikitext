@@ -1,3 +1,28 @@
+= Neural Firewall =
+
+{{Plain_Hook
+| in_one_sentence    = The Neural Firewall is a software/hardware defense system that protects the [[Neural Network Hardware]] mesh and [[PsiLink]] communications against electronic and psionic attack via four protection layers — cryptographic signal authentication, adaptive noise filtering, node isolation on compromise detection, and physical hardening — operating at the data/signal layer rather than the field/energy layer ([[Defense Discs]] handle field-level threats).
+| everyday_analogy   = A combination of TEMPEST hardening + network segmentation + intrusion-detection firewall, but for the psionic mesh. Just as a corporate IT firewall does multiple jobs — authenticates connections, filters malicious traffic, isolates compromised endpoints, and runs on physically hardened hardware — the Neural Firewall does all four for [[PsiSys]]. Each [[PsiLink]] transmission carries a cryptographic signature (so spoofed signals are rejected); adaptive filters strip [[Psi Jammer]] noise from genuine signals (like noise-cancelling headphones); if a node gets compromised ([[Neural Scrambler]] hit), the firewall isolates it so the cascade doesn't spread; and the underlying hardware is EMP-hardened so it survives [[EMP Pulse Blaster]]-class threats. The four layers reinforce each other: an attacker has to defeat ALL of them to penetrate the mesh.
+| what_it_predicts   = (1) Layer 1 — cryptographic authentication of every PsiLink transmission, rejecting any signal that doesn't match a known mesh-member signature; (2) Layer 2 — adaptive noise filtering with real-time jammer-noise characterisation and subtraction: Ŝ(t) = R(t) − N̂(t), where N̂(t) ≈ N_jammer(t); (3) Layer 3 — compromised-node isolation analogous to network segmentation, prevents cascading failure through [[Neural Network Hardware]]; (4) Layer 4 — physical hardening (TEMPEST-class shielding, EMP hardening) of the underlying hardware; (5) Defends against [[Psi Jammer]], digital psi attacks, [[Neural Scrambler]]; (6) Real-world parallels: TEMPEST emanation suppression, EMP hardening, network security firewalls.
+| if_you_remember_one_thing = The Neural Firewall is the DATA-LAYER complement to the FIELD-LAYER defenses. [[Defense Discs]] stop incoming psionic energy; the Neural Firewall stops malicious or corrupt psionic INFORMATION. You need both — either one alone leaves an open attack surface.
+}}
+
+{{Way_It_Works
+| title  = How the Neural Firewall protects the mesh in four layers
+| step1_label = Layer 1 — authenticate every transmission
+| step1_text  = Every [[PsiLink]] node holds a cryptographic identity (private key + cert chain rooted in the mesh's trust anchor). Every transmission is signed at the source and verified at the destination. Signals failing authentication are discarded silently — spoofed packets never reach higher-layer processing. This blocks man-in-the-middle, injection, and replay attacks at the mesh layer.
+| step2_label = Layer 2 — filter out jammer noise
+| step2_text  = Continuously characterise the ambient noise environment by sampling between transmissions. Build a real-time estimate N̂(t) of the [[Psi Jammer]] noise profile. Subtract: Ŝ(t) = R(t) − N̂(t), where R(t) is the received composite signal. The cleaned signal Ŝ(t) feeds Layer 1's authentication check. Adaptive: filter coefficients update as the jammer's spectrum changes.
+| step3_label = Layer 3 — isolate compromised nodes
+| step3_text  = If a node starts emitting signals that fail authentication OR exhibits anomalous timing/pattern signatures (heuristic indicators of [[Neural Scrambler]] capture), the firewall flags it. Mesh-wide policy: isolate the suspect node, route around it, alert operator. Analogous to network segmentation that contains a compromised endpoint without disrupting the rest of the network.
+| step4_label = Layer 4 — harden the hardware
+| step4_text  = The underlying [[Neural Network Hardware]] is physically protected: TEMPEST-class shielding to prevent emanation-based attacks; EMP hardening to survive [[EMP Pulse Blaster]] hits; tamper-evident enclosures; redundant power. This is the substrate on which Layers 1–3 run — if the hardware is compromised at the physical level, the higher layers cannot defend it. Hardening makes physical compromise expensive enough to deter most attackers.
+| step5_label = Compose the layers
+| step5_text  = An attacker must defeat ALL FOUR layers to penetrate. Defeat L4 (physical hardening) + L3 (isolation) + L2 (noise filtering) + L1 (authentication) is exponentially harder than defeating any single layer. The defense-in-depth principle: probability of total compromise = product of per-layer breach probabilities.
+| step6_label = Integrate with the broader defense stack
+| step6_text  = The Neural Firewall handles INFORMATION-level threats; field-level threats are handled by [[Defense Discs]] (incoming psionic energy intercept) and [[Psi Ward]] (area exclusion). [[Psi Defender]] coordinates the whole stack. The Neural Firewall reports compromise events upstream to [[PsiSys]] for situational awareness and threat-trend analysis.
+}}
+
 {| class="infobox" style="width:300px; font-size:90%; border:1px solid #aaa; background:#f9f9f9; margin:0.5em 0 0.5em 1em; padding:0.2em; float:right;"
 ! colspan="2" style="background:#333; color:#fff;" | '''Neural Firewall'''
 |-
@@ -95,6 +120,23 @@ sham]]). The Mk-level operational protocol above is unchanged.
 * [[PsiLink]] — Protected communication layer
 * [[Psi Jammer]] — Primary threat countered
 * [[Psi Devices]] — Master device catalog
+
+== Threat classes mitigated ==
+{| class="wikitable"
+! Threat class !! Mitigation level !! Mechanism
+|-
+| [[Photic_Band_Entrainment]] || Secondary (to Psi Ward) || Operator-worn decoupling of neural EM environment from external entrainment carriers.
+|-
+| [[Cardiac_Rate_Modulation_Attack]] || Secondary || Operator-worn attenuation of the modulated carrier; complements [[Cardio_Respiratory_Coherence|coherent-breathing]] state-reinforcement.
+|-
+| [[Demoralisation_Field]] || Secondary || Attenuates sustained-noise ingress to the operator's neural EM environment; reduces cumulative sympathetic loading.
+|-
+| [[Resonance_Hijacking]] || Primary (in field) || Continues protection where [[Psi Ward]] is unavailable; complements [[Psi Defender]] frequency-hopping.
+|-
+| [[Psi_Direct_Threat]] || Hypothetical || ψ-field decoupling by an operator-worn device is not established; included for completeness.
+|}
+
+For the full device-vs-threat matrix see [[Defense_in_Depth]].
 
 [[Category:Defenses]]
 [[Category:Psionics]]

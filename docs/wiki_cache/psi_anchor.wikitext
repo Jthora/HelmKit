@@ -1,0 +1,27 @@
+The '''Psi Anchor''' is a small site-installed, low-power, characterized resonant device whose stated purpose is to ''anchor'' a chosen location to a defined [[Psi Field]] reference state — engineering-honestly, a coil + reference-oscillator + low-amplitude near-field emitter packaged as a buried or wall-mounted unit; doctrinally, a site-blessing in technological form. Anchors are typically deployed at [[Tho'ra HQ]] grounds, [[Star Seer Observatory]] sites, and (with strict consent) operator-personal homes.
+
+== Overview ==
+
+A Psi Anchor:
+
+* '''Mounts''' at a fixed site (buried, wall-mounted, or in a dedicated enclosure).
+* '''Emits''' a low-amplitude near-field signal at a published reference (often a Schumann harmonic or an Observatory-derived local reference).
+* '''Anchors''' the local field to that reference within the near-field zone (≤ ~5 m practical).
+* '''Reports''' status to the local [[Psi Mesh]] or [[EIN Relay Node]] for audit.
+
+Anchors are not [[Coherence Beacon|Coherence Beacons]] (which calibrate sensors) — they are intended to establish an operator-experienced site quality. The distinction is doctrinally important; the engineering is similar.
+
+== See Also ==
+
+* [[Psi Field]]
+* [[Coherence Beacon]]
+* [[Schumann Lattice]]
+* [[Ley Lines Geophysical Hypothesis]]
+* [[Tho'ra HQ]]
+* [[Tho'ra Mission Doctrine]]
+* [[Tho'ra Tech Maturity Levels]]
+
+[[Category:Psi-Tech]]
+[[Category:Tho'ra Tech]]
+[[Category:Infrastructure]]
+[[Category:Speculative Psi Claims]]

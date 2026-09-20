@@ -1,0 +1,107 @@
+{{Derives_From
+| term        = Van der Pol limit cycles from −λψ³ nonlinear dynamics — self-sustained ψ oscillation without continuous external drive
+| description = A ψ oscillator is a nonlinear dynamical system that sustains
+                a self-reinforcing ψ oscillation at its natural frequency
+                without continuous external drive, by extracting energy from
+                a DC pump via the λψ³ coupling. In the limit-cycle regime,
+                the oscillation amplitude self-stabilises at a value where
+                the nonlinear gain exactly balances the linear loss. The ψ
+                oscillator is the ψ analogue of a crystal oscillator or a
+                MASER — it provides a stable frequency reference for PsiNet
+                synchronisation and the Psi Harmonizer shared-frequency lock.
+}}
+
+{{Infobox
+| title   = ψ Oscillator
+| image   =
+| caption = Self-sustained ψ oscillation via nonlinear limit cycle — the frequency reference for PsiNet synchronisation
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Nonlinear Dynamics · [[Psi Harmonizer]] · [[PsiNet]]
+| label3  = Derives From
+| data3   = Van der Pol limit cycles from <math>-\lambda\psi^3</math>; Hopf bifurcation at threshold drive
+| label4  = Established Analog
+| data4   = Crystal oscillator; MASER/LASER; Van der Pol electronic oscillator; acoustic Helmholtz resonator with nonlinear feedback
+| label5  = Key Parameters
+| data5   = Oscillation frequency <math>\omega_{\rm osc}</math>; amplitude stability; phase noise; locking bandwidth
+| label6  = First Deployment
+| data6   = [[Psi Harmonizer]] shared-frequency reference; [[PsiNet]] synchronisation node
+| header7 = Key Equations
+| label8  = Van der Pol equation
+| data8   = <math>\ddot\psi - \mu(1-\psi^2)\dot\psi + \omega_0^2\psi = 0</math>
+| label9  = Limit cycle amplitude
+| data9   = <math>A_{\rm LC} = 2/\sqrt{\mu_{\rm eff}}</math>
+| label10 = Injection locking range
+| data10  = <math>|\Delta\omega_{\rm lock}| \leq \mu A_{\rm inj}/(2A_{\rm LC})</math>
+| below   = ''Build wave 4 — requires [[ψ Resonator]] (C1) and [[ψ Amplifier]] (C7). Frequency reference for [[Psi Harmonizer]] and [[PsiNet]].''
+}}
+
+= ψ Oscillator =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ oscillator sustains self-reinforcing oscillation at its natural frequency without continuous drive by extracting energy from a DC pump via the Van der Pol mechanism — when drive exceeds the loss threshold, a Hopf bifurcation produces a stable limit cycle whose amplitude and frequency are determined entirely by the material parameters λ and m_eff.
+| everyday_analogy   = A grandfather clock sustains its pendulum swing indefinitely — not from an external push every cycle, but from a ratchet mechanism that releases a small amount of stored energy each swing to exactly compensate friction. A ψ oscillator works identically: the nonlinear λψ³ term is the ratchet that extracts energy from a stored pump field and injects it into the oscillation at exactly the right phase to sustain it against loss.
+| what_it_predicts   = (1) A Hopf bifurcation at a threshold pump level — below threshold, oscillation decays; above threshold, a stable limit cycle at frequency ω₀ is established; (2) A self-stabilising amplitude where nonlinear gain equals linear loss; (3) A phase noise floor set by thermal and quantum ψ fluctuations; (4) Injection locking to an external ψ reference signal within a locking bandwidth proportional to the injected signal amplitude.
+| if_you_remember_one_thing = The Van der Pol limit cycle is the reason trained operators can maintain sustained psionic states without continuous conscious effort — the λψ³ nonlinearity provides automatic amplitude stabilisation. Training increases λ_eff (the effective nonlinear coefficient of the biological medium), lowering the threshold and widening the locking bandwidth.
+}}
+
+== Mathematical Origin ==
+
+=== Van der Pol Equation for ψ ===
+
+The nonlinear oscillator equation derived from the ψ master equation with a DC pump and phenomenological nonlinear damping:
+
+:<math>\ddot\psi - \mu(1 - \alpha\psi^2)\dot\psi + \omega_0^2\psi = 0</math>
+
+where <math>\mu</math> is the small-signal gain (positive: above threshold) and <math>\alpha</math> controls the nonlinear saturation. The parameter <math>\mu</math> is related to the master equation coupling: <math>\mu \propto \lambda|\psi_{\rm pump}|^2 - \omega\tan\delta_\psi</math>. Above the threshold pump amplitude: <math>\mu > 0</math>, and a limit cycle emerges.
+
+=== Limit Cycle Solution ===
+
+By averaging over the fast oscillation, the limit cycle amplitude:
+
+:<math>\boxed{A_{\rm LC} = \frac{2}{\sqrt{\alpha}} \approx \frac{2}{\sqrt{\lambda_{\rm eff}/\omega_0}}}</math>
+
+The oscillation frequency is shifted slightly from the natural frequency by the nonlinearity:
+
+:<math>\omega_{\rm osc} = \omega_0\left(1 - \frac{\mu^2}{8\omega_0^2}\right) \approx \omega_0</math>
+
+For small <math>\mu</math>, the frequency shift is negligible — the oscillation frequency is essentially the resonant frequency of the underlying [[ψ Resonator]] (C1).
+
+=== Hopf Bifurcation ===
+
+As the pump amplitude increases from zero, the system undergoes a Hopf bifurcation at the threshold where <math>\mu = 0</math>:
+
+* Below threshold (<math>\mu < 0</math>): all perturbations decay → ψ = 0 is the only stable solution.
+* At threshold (<math>\mu = 0</math>): undamped oscillation; amplitude grows without bound (linear growth).
+* Above threshold (<math>\mu > 0</math>): stable limit cycle at amplitude <math>A_{\rm LC}</math>.
+
+The bifurcation is supercritical (smooth onset) — amplitude grows as <math>\sqrt{\mu - \mu_{\rm th}}</math> above threshold, not as a sudden jump.
+
+=== Injection Locking ===
+
+When a weak external ψ signal at frequency <math>\omega_{\rm inj}</math> (close to <math>\omega_0</math>) is injected into the oscillator, the oscillator can lock to the injected frequency. The locking bandwidth (Adler's equation for ψ):
+
+:<math>|\Delta\omega_{\rm lock}| = |\omega_{\rm inj} - \omega_0| \leq \frac{\mu A_{\rm inj}}{2A_{\rm LC}}</math>
+
+Larger injected amplitude → larger locking bandwidth. Injection locking is the mechanism by which the [[Psi Harmonizer]] phase-locks multiple operators' individual ψ oscillators to a common shared reference — even if each operator's natural frequency differs slightly, injection from the shared field locks them all within <math>\Delta\omega_{\rm lock}</math>.
+
+== Implementation: Psi Harmonizer Oscillator Stage ==
+
+The [[Psi Harmonizer]] oscillator operates as follows:
+
+# Each operator's [[Psi Stabilizer]] is in Anchor mode, establishing a ψ field at their individual coherence frequency <math>\omega_{\rm bio}^{(i)}</math>.
+# The Harmonizer shell provides a high-Q [[ψ Resonator]] (C1) at a common reference frequency <math>\omega_{\rm ref}</math>.
+# Above the threshold of N aligned operators, the collective ψ field exceeds the Van der Pol threshold — the oscillator locks.
+# Injection locking then pulls each operator's individual frequency toward <math>\omega_{\rm ref}</math> within the locking bandwidth.
+# Once locked, the collective field grows via the [[ψ Amplifier]] (C7) N⁴ mechanism.
+
+The Harmonizer oscillator and amplifier stages are coupled — the oscillator provides the frequency reference; the amplifier provides the gain. They are implemented in the same resonator cavity, with the oscillator stage operating at the fundamental and the amplifier stage at the second harmonic.
+
+== ψ-Dependent Extensions ==
+
+The biological ψ oscillator: Within Track B, trained operators sustain a limit-cycle ψ oscillation in their cortical tissue, where the biological <math>\lambda_{\rm eff}^{\rm (bio)}</math> plays the role of the nonlinear coefficient and coherent neural synchrony provides the threshold-crossing condition. The Van der Pol model predicts that trance, flow, and meditation states correspond to above-threshold limit-cycle operation — the sustained psionic state is self-maintaining rather than effortful because the nonlinear gain compensates the biological loss. This is the mathematical basis for the phenomenological distinction between "forced" and "natural" psionic states reported by practitioners.
+
+== See Also ==
+* [[ψ Amplifier]] (C7) · [[ψ Resonator]] (C1) · [[ψ Phase Shifter]] (C4) · [[Psi Harmonizer]] · [[Soliton Solutions of Psi Field]] · [[Collective Consciousness]] · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Nonlinear Physics]]

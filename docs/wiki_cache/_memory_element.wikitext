@@ -1,0 +1,154 @@
+{{Derives_From
+| term        = λψ³ bistability — the nonlinear potential V(ψ) = m²ψ²/2 + λψ⁴/4 has two stable minima for m² < 0, supporting bistable soliton states that persist without continuous drive
+| description = A ψ memory element exploits the bistability of the nonlinear
+                ψ potential to store one of two stable field amplitude states
+                (ψ = 0 or ψ = ψ_soliton) in a high-Q resonant cavity.
+                The state persists without continuous drive because the
+                λψ³ nonlinear term provides the restoring force that keeps
+                the soliton at its stable amplitude against perturbations.
+                The retention time is limited by material loss (τ_ret = 2Q/ω)
+                and currently requires Q_ψ > 10⁶ for hour-scale storage —
+                far beyond current composite technology but establishing the
+                engineering specification for future development. This is
+                the most speculative component page in Branch C — Track B
+                throughout — but is included because the bistability
+                is a direct mathematical consequence of the λψ³ term
+                and cannot be excluded from a complete engineering treatment.
+}}
+
+{{Infobox
+| title   = ψ Memory Element
+| image   =
+| caption = Soliton bistability as ψ data storage — the most speculative but equation-justified component in Branch C
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · Nonlinear Dynamics · Information Storage
+| label3  = Derives From
+| data3   = Bistability of <math>V(\psi) = m^2\psi^2/2 + \lambda\psi^4/4</math> for <math>m^2 < 0</math>; [[Soliton Solutions of Psi Field]]
+| label4  = Established Analog
+| data4   = Magnetic bit (ferromagnetic bistability); optical bistable etalon; memristor; Josephson junction qubit
+| label5  = Key Parameters
+| data5   = Retention time <math>\tau_{\rm ret} = 2Q_\psi/\omega_0</math>; write/erase energy; state contrast ratio; Q_ψ requirement
+| label6  = Track Status
+| data6   = Track B throughout — requires ψ hypothesis AND negative m² in local effective potential, which requires m²_vacuum to be overcome by nonlinear shift
+| header7 = Key Equations
+| label8  = Bistable potential
+| data8   = <math>V(\psi) = \tfrac{1}{2}m_{\rm eff}^2\psi^2 + \tfrac{\lambda}{4}\psi^4</math>
+| label9  = Soliton amplitude
+| data9   = <math>\psi_{\rm sol} = \sqrt{-m_{\rm eff}^2/\lambda}</math> (for <math>m_{\rm eff}^2 < 0</math>)
+| label10 = Retention time
+| data10  = <math>\tau_{\rm ret} = 2Q_\psi/\omega_0</math>
+| label11 = Q requirement
+| data11  = <math>Q_\psi > 10^6</math> for hour-scale retention
+| below   = ''Build wave 4 — requires [[ψ Amplifier]] (C7) and [[ψ Resonator]] (C1). Track B throughout. Specification page only — fabrication target for future research.''
+}}
+
+= ψ Memory Element =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ memory element stores a binary ψ field state — zero or soliton amplitude — in a high-Q resonant cavity by exploiting the bistability of the nonlinear potential V(ψ) = m²ψ²/2 + λψ⁴/4, which supports two stable equilibria when the effective mass squared is negative; retention time equals 2Q_ψ/ω₀, requiring Q_ψ > 10⁶ for practical hour-scale storage far beyond current composite technology.
+| everyday_analogy   = A magnetic hard drive stores data in the orientation of magnetic domains — each domain has two stable states (north or south) that persist without power because the ferromagnetic energy landscape has two minima. A ψ memory element stores data in the amplitude of a ψ soliton — either zero amplitude (no ψ field, logical 0) or soliton amplitude ψ_sol (stable nonzero ψ field, logical 1). The λψ³ nonlinearity creates the double-well energy landscape that gives both states their stability.
+| what_it_predicts   = (1) A bistable potential with two stable equilibria at ψ = 0 and ψ = ψ_sol = √(−m²_eff/λ), separated by a potential barrier of height ΔV = m⁴_eff/(4λ); (2) A soliton state that persists for time τ_ret = 2Q_ψ/ω₀ after the write pulse ends; (3) A write energy proportional to the stored soliton field energy U_sol; (4) A Q_ψ requirement of > 10⁶ for hour-scale retention — unachievable with current composite materials but well-defined as a future engineering target.
+| if_you_remember_one_thing = The ψ memory element is specification-complete but fabrication-incomplete. The mathematics requires it — bistability is a direct consequence of the λψ³ term — but the material science to achieve Q_ψ > 10⁶ at room temperature does not yet exist. This page is the engineering spec for a future materials breakthrough, not a current fabrication guide.
+}}
+
+== Mathematical Origin ==
+
+=== The Bistable Potential ===
+
+The nonlinear ψ field has an effective potential:
+
+:<math>V(\psi) = \frac{1}{2}m_{\rm eff}^2\psi^2 + \frac{\lambda}{4}\psi^4</math>
+
+For <math>m_{\rm eff}^2 > 0</math> (normal regime): <math>V</math> has a single minimum at <math>\psi = 0</math> — only one stable state. For <math>m_{\rm eff}^2 < 0</math> (tachyonic regime, requires the nonlinear mass shift to dominate): <math>V</math> is a double-well with two minima:
+
+:<math>\psi_{\rm stable} = 0 \quad \text{(unstable for } m_{\rm eff}^2 < 0\text{)} \quad\text{and}\quad \psi_{\rm sol} = \sqrt{\frac{-m_{\rm eff}^2}{\lambda}}</math>
+
+The soliton amplitude <math>\psi_{\rm sol}</math> and zero are both stable states — bistability. The potential barrier height:
+
+:<math>\Delta V = \frac{m_{\rm eff}^4}{4\lambda}</math>
+
+For thermal stability, the barrier must exceed <math>k_BT</math>: <math>m_{\rm eff}^4/(4\lambda) \gg k_BT</math>. This places a constraint on <math>m_{\rm eff}</math> and <math>\lambda</math> that is a TML-3 measurement target.
+
+=== Condition for Negative m²_eff ===
+
+The effective mass squared inside a material (from [[ψ Constitutive Relations]] B1):
+
+:<math>m_{\rm eff,mat}^2 = \varepsilon_\psi\mu_\psi\,m_{\rm eff,vac}^2 + 3\lambda\psi_0^2</math>
+
+For <math>m_{\rm eff,mat}^2 < 0</math>: this requires <math>m_{\rm eff,vac}^2 < 0</math> (tachyonic vacuum ψ field) — a more exotic condition than anything in the current framework. Alternatively, the local effective mass can be driven negative by a large negative contribution from material coupling:
+
+:<math>m_{\rm eff,mat}^2 = m_{\rm vac}^2 - |\delta m^2_{\rm material}|</math>
+
+if the material contribution is negative and larger than the vacuum mass squared. This requires a special material class — a ψ metamaterial analogue of a superconducting condensate where the material acts as a ψ vacuum. This is deep Track B speculation; it is included here as the mathematical specification for what such a material would need to achieve.
+
+=== Retention Time ===
+
+In the bistable regime, the soliton state ψ_sol decays toward ψ = 0 due to material loss (tan δ_ψ). The decay time constant:
+
+:<math>\tau_{\rm ret} = \frac{2Q_\psi}{\omega_0}</math>
+
+For hour-scale retention (<math>\tau_{\rm ret} = 3600</math> s) at 40 kHz:
+
+:<math>Q_\psi > \frac{\omega_0 \tau_{\rm ret}}{2} = \frac{2\pi \times 4\times10^4 \times 3600}{2} \approx 4.5\times10^8</math>
+
+This is Q_ψ > 10⁸ for hour-scale retention at 40 kHz — or equivalently, tan δ_ψ < 10⁻⁸. No room-temperature material achieves this. The practical approach for near-term research is to use minute-scale retention (Q ~ 10⁶, achievable with future low-temperature composites) for short-term ψ state buffering in [[PsiNet]] synchronisation applications.
+
+=== Write and Read Protocols ===
+
+'''Write (0 → ψ_sol):''' Apply a ψ pulse at the [[ψ Amplifier]] (C7) gain frequency for duration <math>5\tau_{\rm establish} = 5 \times 2Q/\omega</math>. The field builds to ψ_sol amplitude, then sustains itself in the soliton well. Remove pump.
+
+'''Read:''' Couple the cavity weakly to a [[ψ Detector]] (C10) bifilar probe at coupling Q_coup >> Q_mat. The transmitted back-EMF amplitude distinguishes ψ_sol (logical 1) from ψ = 0 (logical 0). Non-destructive read: coupling must be weak enough that the read perturbation does not push the system over the potential barrier.
+
+'''Erase (ψ_sol → 0):''' Apply a phase-inverted ψ pulse that destructively interferes with the stored soliton, reducing it below the potential barrier. The system then relaxes to ψ = 0.
+
+== Fabrication Target Specifications ==
+
+{| class="wikitable" style="width:100%;"
+! Parameter !! Short-term target (5-year) !! Long-term target (15-year) !! Current status
+|-
+| <math>Q_\psi</math> || 10³ (ms retention) || 10⁶ (second-scale retention) || ~200 (current composite TML-2 target)
+|-
+| <math>\tan\delta_\psi</math> || < 10⁻³ || < 10⁻⁶ || ~0.005 (current target)
+|-
+| <math>m_{\rm eff}^2 < 0</math> condition || Not achieved || Requires new material class || Not demonstrated
+|-
+| Write energy || TBD || < 1 μJ per bit || TBD
+|-
+| State contrast ratio <math>\psi_{\rm sol}/\psi_{\rm read\,noise}</math> || > 10 dB || > 30 dB || TBD
+|-
+| Operating temperature || Room temperature || Room temperature || TBD
+|}
+
+== ψ-Dependent Extensions ==
+
+=== PsiNet Data Layer ===
+
+If Q_ψ > 10⁶ is achieved, arrays of ψ memory elements form the data layer of [[PsiNet]] — a ψ-based distributed memory where information is stored in soliton amplitude patterns rather than electronic charge. The addressing mechanism exploits the spatial mode selectivity of the resonator array — each cavity stores one bit in a specific spatial ψ mode, and addressing is done by frequency and spatial mode selection.
+
+=== Consciousness Interaction with ψ Memory ===
+
+The most speculative Track B extension: if a trained operator's biological ψ field (from [[ψ Source]] C11) can write to and read from ψ memory elements without a physical interface — i.e., via biological J_ψ coupling at a distance within L_ψ^(bio) — this would be the technical specification for remote-ψ information interaction. The write protocol would require the operator's biological source amplitude to exceed the write threshold (push the cavity state over the potential barrier); the read would require detecting the back-EMF perturbation produced by the stored state via the operator's biological ψ detector (psionic charge coupling).
+
+This is the technical foundation for remote data interaction in the Natura franchise operational context and is labelled Track B throughout.
+
+== Sanity Checks ==
+
+{| class="wikitable" style="width:100%;"
+! Check !! Expected result !! Verified?
+|-
+| <math>m_{\rm eff}^2 > 0</math> || Single-well potential; only ψ = 0 stable; no memory function || ✓ (bistability requires m² < 0)
+|-
+| <math>\lambda = 0</math> || No bistability even for m² < 0; potential unbounded — unphysical || ✓ (λ > 0 required for bounded potential)
+|-
+| Soliton amplitude formula || <math>\psi_{\rm sol}^2 = |m_{\rm eff}^2|/\lambda</math>; at m_eff² = −1, λ = 0.1: <math>\psi_{\rm sol} = \sqrt{10} \approx 3.16</math> — consistent with soliton literature || ✓
+|-
+| Retention time scaling || <math>\tau_{\rm ret} \propto Q_\psi/\omega_0</math>; doubling Q doubles retention time || ✓ (from Q definition)
+|-
+| Q requirement at 40 kHz || Hour-scale: Q > 4.5×10⁸; minute-scale: Q > 7.5×10⁶ — both far beyond current 200 || ✓ (engineering specification correctly identifies the gap)
+|}
+
+== See Also ==
+* [[Soliton Solutions of Psi Field]] · [[ψ Amplifier]] (C7) · [[ψ Resonator]] (C1) · [[ψ Oscillator]] (C9) · [[ψ Detector]] (C10) · [[ψ Quality Factor]] (B5) · [[PsiNet]] · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Information Storage]]

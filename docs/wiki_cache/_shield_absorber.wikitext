@@ -1,0 +1,102 @@
+{{Derives_From
+| term        = Yukawa screening from −m²ψ: ψ(r) ∝ e^{−mr}/r — high effective mass material exponentially attenuates ψ over short distances
+| description = A ψ shield exploits the Yukawa screening mechanism to produce
+                a material region whose high effective mass m_eff >> 1/L
+                causes incident ψ to decay exponentially rather than
+                propagate. A Dirichlet boundary (ψ = 0 at wall) absorbs
+                all incident ψ. A high-m_eff Yukawa screen produces
+                exponential attenuation with characteristic length L_ψ = 1/m_eff.
+                The [[Psi Defender]] combines both mechanisms — a Yukawa screen
+                of L_ψ = 2 cm (H-field at ferrofluid saturation) with a
+                Dirichlet outer boundary — to achieve > 40 dB shielding
+                effectiveness against ambient psionic perturbation.
+}}
+
+{{Infobox
+| title   = ψ Shield / Absorber
+| image   =
+| caption = Exponential ψ attenuation via Yukawa screening and Dirichlet boundary absorption — the Psi Defender shielding mechanism
+| header1 = Overview
+| label2  = Domain
+| data2   = [[Psionic Engineering]] · [[Psi Defender]] · Shielding Engineering
+| label3  = Derives From
+| data3   = <math>\psi(r) \propto e^{-m_{\rm eff}r}/r</math> Yukawa screening; Dirichlet boundary condition <math>\psi|_{\partial V}=0</math>
+| label4  = Established Analog
+| data4   = EM shielding (Faraday cage, mu-metal); acoustic barrier; optical absorber; superconducting ψ Meissner analogue
+| label5  = Key Parameters
+| data5   = Shielding effectiveness SE_ψ (dB); shield thickness <math>d</math>; coherence length inside shield <math>L_\psi^{\rm (shield)}</math>
+| label6  = First Deployment
+| data6   = [[Psi Defender]] outer shell; [[ψ Resonator]] (C1) absorbing termination
+| header7 = Key Equations
+| label8  = Yukawa attenuation
+| data8   = <math>SE_\psi = 20\log_{10}(e^{d/L_\psi^{\rm (shield)}})\;\text{dB}</math>
+| label9  = Reflection coefficient
+| data9   = <math>|\Gamma|^2 \to 1</math> for Dirichlet boundary
+| label10 = Shield design equation
+| data10  = <math>d = L_\psi^{\rm (shield)} \cdot SE_\psi / 8.686</math>
+| below   = ''Build wave 4 — requires [[ψ Coherence Length]] (B6) and [[ψ Impedance Theory]] (A4). Primary [[Psi Defender]] mechanism.''
+}}
+
+= ψ Shield / Absorber =
+
+{{Plain_Hook
+| in_one_sentence    = A ψ shield uses high-effective-mass material to exponentially attenuate incident ψ via Yukawa screening — with shielding effectiveness SE_ψ = 8.686 × d/L_ψ dB per centimetre of shield thickness — and the [[Psi Defender]] achieves > 40 dB shielding by combining a 2 cm coherence length Yukawa screen with a Dirichlet outer boundary.
+| everyday_analogy   = A lead wall stops X-rays by absorbing them exponentially — each centimetre of lead attenuates by a fixed number of dB. A ψ shield works identically: each coherence length of high-m_eff material attenuates the ψ amplitude by e = 2.718, corresponding to 8.7 dB. To achieve 40 dB shielding with a 2 cm coherence length, you need d = 40/8.686 × 2 cm ≈ 9 cm of shield — a thick but feasible shell for a wearable device.
+| what_it_predicts   = (1) A shielding effectiveness of 8.686 dB per coherence length of shield material; (2) A Defender shell thickness of ~9 cm for 40 dB shielding at the 2 cm coherence length Defender design point; (3) A frequency-independent attenuation (unlike EM Faraday cages which fail at low frequencies) — ψ shielding via Yukawa mechanism works at all frequencies below the shield's cutoff; (4) A tunable shielding effectiveness via ferrofluid H-field — increasing H raises m_eff, shrinks L_ψ, and increases SE_ψ per centimetre.
+| if_you_remember_one_thing = SE_ψ = 8.686 × d/L_ψ dB. This is the ψ shielding design equation. Know L_ψ for your shield material (from [[ψ Coherence Length]] B6), know the required shielding effectiveness, and you know the minimum shield thickness. The ferrofluid H-field is the knob that controls L_ψ and therefore the shielding effectiveness at fixed thickness.
+}}
+
+== Mathematical Origin ==
+
+The Yukawa static field profile from [[ψ Green's Functions]] (A6):
+
+:<math>\psi(r) = -\frac{G_\psi Q_\psi}{r}\,e^{-r/L_\psi}</math>
+
+Inside a shield material of thickness <math>d</math> with coherence length <math>L_\psi^{\rm (shield)} = 1/m_{\rm eff}^{\rm (shield)}</math>, an incident plane ψ wave of amplitude <math>\psi_0</math> decays as:
+
+:<math>\psi(d) = \psi_0\,e^{-d/L_\psi^{\rm (shield)}}</math>
+
+Shielding effectiveness:
+
+:<math>\boxed{SE_\psi = 20\log_{10}\!\left(e^{d/L_\psi}\right) = \frac{20\ln(e)}{\ln(10)}\frac{d}{L_\psi} \approx 8.686\,\frac{d}{L_\psi}\;\text{dB}}</math>
+
+To achieve target SE_ψ, required shield thickness:
+
+:<math>d = L_\psi^{\rm (shield)} \times \frac{SE_\psi}{8.686}</math>
+
+=== Psi Defender Shielding Budget ===
+
+{| class="wikitable" style="width:100%;"
+! SE_ψ target !! <math>L_\psi^{\rm (shield)}</math> !! Required thickness <math>d</math> !! Ferrofluid H-field
+|-
+| 20 dB (90% amplitude rejection) || 2 cm || 4.6 cm || H = 5 kA/m
+|-
+| 40 dB (99% amplitude rejection) || 2 cm || 9.2 cm || H = 10 kA/m
+|-
+| 60 dB (99.9% amplitude rejection) || 2 cm || 13.8 cm || H = 10 kA/m (maximum)
+|-
+| 20 dB with thinner shell (1 cm) || 1 cm required || 2.3 cm || Requires m_eff = 100 m⁻¹
+|}
+
+The 40 dB design point requires a 9.2 cm thick shell at maximum ferrofluid H-field — too thick for a comfortable wearable. The practical Defender shell uses a thinner Yukawa screen (≈ 3 cm) for 28 dB attenuation, combined with a Dirichlet outer boundary (high-loss-tangent outer layer) providing additional reflective shielding. Combined SE_ψ target: > 35 dB.
+
+== Dirichlet Boundary Mechanism ==
+
+A material with very high ψ loss tangent (<math>\tan\delta_\psi \gg 1</math>) approximates a Dirichlet boundary — incident ψ is absorbed at the interface rather than transmitted. The reflection coefficient at a perfect Dirichlet boundary:
+
+:<math>\Gamma = -1 \qquad (|\Gamma|^2 = 1)</math>
+
+All incident ψ power is reflected. In practice, a finite-loss-tangent material provides partial reflection and partial absorption. The combined Defender mechanism:
+
+# '''Inner high-m_eff layer:''' Yukawa attenuation of transmitted ψ.
+# '''Outer high-tan δ layer:''' Dirichlet-approximating reflective boundary blocking incoming ψ.
+# '''Between them:''' the operator's protected ψ environment at design coherence length 20 cm ([[Psi Stabilizer]] mode).
+
+== ψ-Dependent Extensions ==
+
+The Meissner analogue: In a superconductor, the London penetration depth <math>\lambda_L</math> is the shielding length for magnetic fields — analogous to <math>L_\psi</math> for ψ. A perfect superconductor has complete Meissner expulsion of B. The psionic analogue would be a material with <math>m_{\rm eff} \to \infty</math> (<math>L_\psi \to 0</math>) providing complete ψ expulsion. No room-temperature material achieves this — but high-H ferrofluid saturation at cryogenic temperatures could approach it (speculative Track B).
+
+== See Also ==
+* [[ψ Coherence Length]] (B6) · [[ψ Boundary Conditions]] (A5) · [[ψ Impedance Theory]] (A4) · [[ψ Filter]] (C6) · [[Psi Defender]] · [[Psionic Engineering]]
+
+[[Category:Psionic Engineering]] [[Category:Psionics]] [[Category:Equations]] [[Category:Effective Physics]] [[Category:Shielding]]
