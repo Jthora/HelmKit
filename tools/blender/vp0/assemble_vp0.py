@@ -293,15 +293,16 @@ def build_assembly(with_head=True, trim="full", core="nape"):
         # pylons: the right side is the LEFT print turned 180 deg about the vertical axis through its socket (what you actually do)
         if core != "slab":
           P["pylon_L"] = style(build_pylon.base(+1), "pylon_base.L", "steel", add)
+          P["pylonp_L"] = style(build_pylon.peg(+1), "pylon_peg.L", "steel", add)
           P["pylonb_L"] = style(build_pylon.blade(+1), "pylon_blade.L", "graphite", add)
           P["pylonk_L"] = style(build_pylon.knob(+1), "pylon_knob.L", "bone", add)
           Mz = rot_about_z(C.REAR_SOCKET[0])
-          for k, nm in (("pylon", "pylon_base"), ("pylonb", "pylon_blade"), ("pylonk", "pylon_knob")):
-              P[f"{k}_R"] = style(L.transformed_copy(P[f"{k}_L"], Mz, f"{nm}.R"), f"{nm}.R", "steel" if k == "pylon" else ("graphite" if k == "pylonb" else "bone"), add)
+          for k, nm in (("pylon", "pylon_base"), ("pylonp", "pylon_peg"), ("pylonb", "pylon_blade"), ("pylonk", "pylon_knob")):
+              P[f"{k}_R"] = style(L.transformed_copy(P[f"{k}_L"], Mz, f"{nm}.R"), f"{nm}.R", "steel" if k in ("pylon", "pylonp") else ("graphite" if k == "pylonb" else "bone"), add)
     cradle = collection("Cradle")
     P["cradle"] = style(build_cradle_front.make(), "cradle_front", "accent", cradle)
     P["rear_L"] = style(build_rear_band_half.make(), "rear_band.L", "accent", cradle)
-    P["rear_R"] = style(L.transformed_copy(P["rear_L"], build_rear_band_half.right_half_matrix(), "rear_band.R"), "rear_band.R", "accent", cradle)
+    P["rear_R"] = style(build_rear_band_half.make(-1), "rear_band.R", "accent", cradle)   # v0.18: a mirrored print, not the left turned over
     nape = collection("Nape", cradle)
     if C.NAPE_MODULE == "core":
         P["nape_core"] = style(build_nape_core.make_base(), "nape_core_base", "steel", nape)
@@ -490,6 +491,7 @@ PRINT_ITEMS = [
     ("cover_rear_in", build_spine_covers.cover_rear_in, lambda: build_spine_covers.PARTS["cover_rear_in"][1], "accent"),
     *NAPE_ITEMS,
     ("pylon_base", lambda: build_pylon.base(+1), lambda: build_pylon.PARTS["pylon_base"][1], "steel"),
+    ("pylon_peg", lambda: build_pylon.peg(+1), lambda: build_pylon.PARTS["pylon_peg"][1], "steel"),
     ("pylon_blade", lambda: build_pylon.blade(+1, 0.0), lambda: build_pylon.PARTS["pylon_blade"][1], "graphite"),
     ("pylon_knob", lambda: build_pylon.knob(+1), lambda: build_pylon.PARTS["pylon_knob"][1], "bone"),
 ]

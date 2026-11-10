@@ -23,7 +23,7 @@ failures, material welding to the nozzle and finally a jam (2026-09-16). Drying 
 and a one-shot campaign is the wrong place to nurse a marginal spool. The X-Max 3 can print PAHT-CF and PC-CF (hardened
 nozzle, 350 C hotend, chamber heater) and those spools wait for the beta.
 
-Colours: matte grey PLA for the visible shells, black PLA for the structure, the internals and the housings. The PETG
+Colours: everything in black PLA from one spool (2026-09-29: switching spools spoils print quality). The PETG
 profiles further down are kept, unused, because PETG returns for the beta parts on a fresh spool.
 
 Run:  python3 tools/blender/vp0/make_usb.py [--out helmkit] [--only part,part] [--no-3mf]
@@ -97,11 +97,14 @@ FILAMENT_OVERRIDES = {"petg": dict(nozzle_temperature=["220"], nozzle_temperatur
                       # coupons A and B included. Roster A17 wants the fan off for three layers on anything over
                       # 100 mm, which is the first lever to pull IF a large part warps -- pass it per part as
                       # _filament=dict(close_fan_the_first_x_layers=["3"]). Not applied to anything yet.
-                      "pla": {}}
+                      "pla": dict(textured_plate_temp_initial_layer=["65"])}   # 65 C for layer 1 only (60 after): the arm-tip adhesion
 # colour folder -> (material, preview colour, density g/cm3)
 # No PETG in the prototype: the only PETG spool was 5+ years old and cost an evening in first-layer failures, material
 # welding to the nozzle and finally a jam (2026-09-16). Drying helped but did not make it dependable, and a one-shot
 # campaign is the wrong place to nurse a marginal spool. The PETG profiles above stay for the beta, unused for now.
+# Two colours, ONE switch (Jordan, 2026-09-29/10-08: "black is priority: switching spools spoils print quality"; 2 black
+# PLA spools and 1 grey): every black part prints first, then the spool changes once to grey for the visible shells and
+# never back. (2026-09-29 I misread that as "all black" and moved every grey row to black; restored 2026-10-08.)
 COLOURS = {"grey-pla": ("pla", "#9A9A9A", 1.24), "black-pla": ("pla", "#202020", 1.24)}
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -109,12 +112,44 @@ COLOURS = {"grey-pla": ("pla", "#9A9A9A", 1.24), "black-pla": ("pla", "#202020",
 # temperatures, fans, retraction 1 mm, z-hop 0.4, elephant's foot 0.15, pressure advance.
 # ---------------------------------------------------------------------------------------------------------------
 COMMON = dict(wall_loops="3", top_shell_layers="5", bottom_shell_layers="4", sparse_infill_pattern="gyroid",
-              sparse_infill_density="20%", brim_type="no_brim", skirt_loops="2", skirt_distance="3",
+              sparse_infill_density="20%", brim_type="no_brim", skirt_loops="0", skirt_distance="3",
               seam_position="aligned", enable_support="0", support_type="normal(auto)", support_top_z_distance="0.2",
               support_object_xy_distance="0.8", curr_bed_type=BED_TYPE,
-              initial_layer_speed=["30"], initial_layer_infill_speed=["40"])   # a slow first layer bonds; the preset's 50 did not for PETG
+              # THE FIRST LAYERS, for every part (2026-09-29: "the real problem is simply the first few layers"). No skirt (it
+              # peeled and was dragged at the cradle's arm tip); layer 1 at 20/25 mm/s; solid layers CONCENTRIC (the preset's
+              # short zig-zag strokes at 250 mm/s and 10000 mm/s2 were the violence on layer 2); fill speeds and sparse
+              # acceleration moderated; walls and everything else stock. The 65 C first-layer plate is in the PLA overrides.
+              initial_layer_speed=["20"], initial_layer_infill_speed=["25"],
+              bottom_surface_pattern="concentric", internal_solid_infill_pattern="concentric",
+              internal_solid_infill_speed=["120"], sparse_infill_speed=["200"], sparse_infill_acceleration=["5000"])
 BRIM = dict(brim_type="outer_only", brim_width="5")
 WIDE_BRIM = dict(brim_type="outer_only", brim_width="8")
+# CAREFUL: tall, thin, low-contact parts (Track P, 2026-09-25). The stock 0.20 Standard preset prints layer 1 at 30-40 mm/s
+# and 500 mm/s2, then jumps on layer 2 to inner walls at 300, outer 200, solid infill 250, sparse 270, at 5000-10000 mm/s2:
+# a 7-20x step. On the cradle's 7 mm band the solid bottom layers became thousands of short zig-zag strokes at full
+# acceleration, violent enough to wreck the print and to tug a part standing on 9 % of its footprint (Jordan's third try).
+# Here: every speed a third or less, accelerations 2000-3000, bottom and solid layers CONCENTRIC (they follow the band
+# instead of crossing it), and a brim on BOTH sides of the band (outer-only left the inside, where every node meets the
+# band, without any). Costs print time; buys a print that finishes.
+# GENTLE_START (2026-09-29) replaces CAREFUL on every part. Jordan: the frames and the whole-print slowdown were overkill;
+# the real problem is the first few layers, after which the printer does well. The first cradle failures were (a) the jump
+# from a slow first layer to the preset's solid bottom layers, laid as short zig-zag strokes at 250 mm/s and 10000 mm/s2,
+# and (b) the skirt and brim peeling at an arm tip on layer 1. So: layer 1 fixed (no skirt, 20 mm/s, 65 C plate, brim on
+# both sides), solid layers CONCENTRIC (no short strokes), fill speeds and sparse acceleration moderated; walls and the rest
+# stock. QIDI Studio's "slow down by height" keys (enable_height_slowdown, slowdown_*) are read by its settings and GUI code
+# but by nothing that writes g-code in the public source, so no per-height ramp is relied on.
+GENTLE_START = dict(brim_type="outer_and_inner", brim_width="8")   # the first-layer settings moved into COMMON (every part);
+                                                                   # this is now only the brim on BOTH sides, for long thin parts
+CAREFUL = dict(outer_wall_speed=["60"], inner_wall_speed=["90"], sparse_infill_speed=["100"], internal_solid_infill_speed=["80"],
+               top_surface_speed=["60"], gap_infill_speed=["50"], bridge_speed=["30"], travel_speed=["250"],
+               default_acceleration=["3000"], outer_wall_acceleration=["2000"], inner_wall_acceleration=["3000"],
+               sparse_infill_acceleration=["3000"], top_surface_acceleration=["2000"], travel_acceleration=["5000"],
+               bottom_surface_pattern="concentric", internal_solid_infill_pattern="concentric",
+               brim_type="outer_and_inner", brim_width="10",
+               # attempt 4 failed on its FIRST layer: the skirt (2 lone loops outside the brim, across the open U) and the brim
+               # peeled at an arm tip and the nozzle dragged them. No skirt, a slower first layer, a hotter plate and nozzle for it.
+               skirt_loops="0", initial_layer_speed=["20"], initial_layer_infill_speed=["25"],
+               _filament=dict(textured_plate_temp_initial_layer=["65"], nozzle_temperature_initial_layer=["215"]))
 # Process overrides by material, applied over COMMON and under the part's own. PETG at 220 wants slower walls than the
 # preset's 200 / 300 (the flow cap would throttle them anyway; these keep the estimate honest and the ringing down),
 # slow bridges (the tunnel ceilings and the pod bridges sag at 50), no travel across the outer walls between islands
@@ -142,20 +177,22 @@ MATERIAL_PROCESS = {"petg": dict(outer_wall_speed=["120"], inner_wall_speed=["18
 # ---------------------------------------------------------------------------------------------------------------
 PARTS = [
     # first prints
-    ("fit_coupon_d1",     "black-pla",   1, "coupon D1, the CRADLE GATE: hole ladders, round-vs-teardrop pairs, both Ø8 socket rows, loose peg. 8 mm brim; 20 % infill to match coupons A and B, which printed", dict(**WIDE_BRIM)),
+    ("fit_coupon_d1",     "black-pla",   1, "coupon D1 v2, the CRADLE GATE: every hole the cradle depends on, sized to the nails in the box. Pin-lock ladder 1.6-1.9 for the 16 ga, two U-pin pairs, horizontal 2.7 / 2.9 / 3.1 / 3.4 round + teardrop for the 12 ga tenon nail and the printed plunger, M3 tap / clear, M4 clear, the Ø4 blind sockets, both Ø8 socket rows (bed-face row is the cradle's own condition), a chamfered strap-slot pair for 12 mm webbing, the loose peg and a printed Ø3.2 plunger pin", dict(**WIDE_BRIM)),
     ("band_gauge_front",  "black-pla",   1, "head-fit gauge: wear it before the cradle prints",
                                             dict(enable_support="1", support_type="normal(auto)", support_threshold_angle="40", support_on_build_plate_only="1", **BRIM)),
     ("port_drill_guide",  "black-pla",   1, "drill guide for the 8 mm pegs' cross holes", {}),
     # cradle set (PETG)
-    ("cradle_front",      "black-pla", 1, "the cradle: 8 mm brim (4 % contact), 80 C bed, fan off for 3 layers (preset), door closed; leave the printer alone", dict(sparse_infill_density="40%", **WIDE_BRIM)),
-    ("rear_band_half",    "black-pla", 2, "two: the right one is the same print turned over; brim", dict(sparse_infill_density="40%", **BRIM)),
+    ("cradle_front_first_layers", "black-pla", 1, "FIRST-LAYER TEST for the cradle: its bottom 0.6 mm with the cradle's own settings and brim. Minutes, not hours. Every line flat and fused, the brim stuck all round, the arm tips above all; fix the plate or the Z offset before the cradle", dict(sparse_infill_density="40%", **GENTLE_START)),
+    ("cradle_front",      "black-pla", 1, "the cradle: GENTLE START (no skirt, first layer 20 mm/s on a 65 C plate, concentric solid layers, fill capped, walls stock), 8 mm brim INSIDE AND OUT, PRINT cradle_front_first_layers FIRST, fan off for 3 layers (preset), door closed; leave the printer alone", dict(sparse_infill_density="40%", **GENTLE_START)),
+    ("rear_band_half",    "black-pla", 1, "the LEFT half; GENTLE START, 8 mm brim both sides", dict(sparse_infill_density="40%", **GENTLE_START)),
+    ("rear_band_half_R",  "black-pla",   1, "the RIGHT half (v0.18): the left turned over, with its node end and tenon rebuilt for the right node. The old right half (a second copy of the left) cut 18 mm into the right node: keep it as a spare LEFT. Supports ON (build plate only): the tenon's underside starts as a 15 x 5 mm island 5 mm up", dict(enable_support="1", support_type="normal(auto)", support_on_build_plate_only="1", support_threshold_angle="30", **GENTLE_START)),
     ("cover_front",       "black-pla", 2, "two (one flipped); the file holds the strip in pieces (gaps at the tunnel stations); standing, brim", BRIM),
     ("cover_bottom",      "black-pla", 2, "two; 1 mm strips, flat", {}),
     ("cover_rear",        "black-pla", 2, "two; standing, brim", BRIM),
     ("cover_rear_in",     "black-pla", 2, "two; standing, brim", BRIM),
     ("silver_small_parts","black-pla", 1, "one plate: 2 knob clips, 2 visor sliders, 2 cover_side strips (small parts print together so each layer cools)", BRIM),
     # nape module + pads (black)
-    ("nape_core_base",    "black-pla",   1, "standing on its bottom end; brim", BRIM),
+    ("nape_core_base",    "black-pla",   1, "the nape pin-lock block + junction bay, standing on its bottom end; GENTLE START, 8 mm brim both sides; pin-lock holes 2.3 / 2.5 for the 16 ga nails", dict(**GENTLE_START)),
     ("nape_core_cap",     "black-pla",   1, "belt-only cap", {}),
     ("pad_front",         "black-pla",   1, "standing on its bottom edge; brim", BRIM),
     ("carrier_ppg",       "black-pla",   1, "plug down", {}),
@@ -165,11 +202,13 @@ PARTS = [
     ("pad_rear_L",        "black-pla",   1, "outer face down", {}),
     ("pad_rear_R",        "black-pla",   1, "outer face down", {}),
     # combat trim
-    ("sensor_bar",        "grey-pla",    1, "on its bottom face; brim", BRIM),
+    ("sensor_bar",        "grey-pla",     1, "on its bottom face; brim", BRIM),
     ("bar_carrier",       "black-pla",   1, "flat", {}),
+    ("port_coupler",      "black-pla", 2, "REPRINT of the two port couplers (the crown arch feet into the hub node sockets), now LYING on a flat: standing, the 30 mm pegs kept losing the plate and would have been weakest exactly where they are bent", dict(**WIDE_BRIM)),
     ("black_small_parts", "black-pla",   1, "one plate: 2 bar pins, 3 button caps, 2 port plugs, 4 flush plugs, 2 port couplers", BRIM),
-    # full trim (grey shells, PETG structure, black internals)
-    ("disk_dome",         "grey-pla",    2, "two; ON EDGE on the rim flat inside its PRINTED SADDLE (92 x 30 plate, six fins necked to the rim: snap the 0.8 mm necks off afterwards and trim the nubs), 0.16 mm layers, tree supports (interior only get built: the shell is under 19 deg), wide brim, 122 mm tall; print one, then the other",
+    # full trim (grey PLA shells, black PLA structure and internals; all black parts print before the one switch to grey)
+    ("disk_dome_first_layers", "grey-pla",  1, "FIRST-LAYER TEST for the dome: its bottom 0.64 mm (four 0.16 layers), the rim flat inside its saddle plate, with the dome's own layer height and brim. Minutes, not seven hours: the saddle and brim stuck flat all round, nothing lifting at the plate's ends", dict(_process=PROCESS_FINE, **WIDE_BRIM)),
+    ("disk_dome",         "grey-pla",     2, "two; ON EDGE on the rim flat inside its PRINTED SADDLE (92 x 30 plate, six fins necked to the rim: snap the 0.8 mm necks off afterwards and trim the nubs), 0.16 mm layers, tree supports (interior only get built: the shell is under 19 deg; the apex boss, the rim crown and the two lowest screw bosses are what they hold), wide brim, 122 mm tall; print one, then the other",
                                             dict(_process=PROCESS_FINE, sparse_infill_density="15%", enable_support="1", support_type="tree(auto)", support_threshold_angle="25",
                                                  support_top_z_distance="0.16", support_bottom_z_distance="0.16", outer_wall_speed=["80"], **WIDE_BRIM)),
     ("disk_back_L",       "black-pla",   1, "flat, boss up", {}),
@@ -180,17 +219,18 @@ PARTS = [
     ("nexus_spool",       "black-pla", 2, "two; plate down; near solid", dict(sparse_infill_density="80%")),
     ("coil_former",       "black-pla",   4, "four (two per disk); flat, flange down", {}),
     ("bay_spool",         "black-pla",   1, "flat", {}),
-    ("crown_arch_half",   "grey-pla",    2, "two; on edge, ridged face up; brim", BRIM),
-    ("apex_block",        "grey-pla",    1, "on end; brim", BRIM),
-    ("brow_center",       "grey-pla",    1, "standing on the bottom face; brim", BRIM),
-    ("brow_lid",          "grey-pla",    1, "flat, outer face down (transparent PETG is the alternative if the LEDs should shine through)", {}),
+    ("crown_arch_half",   "grey-pla",     2, "two; on edge, ridged face up; brim", dict(**GENTLE_START)),
+    ("apex_block",        "grey-pla",     1, "LYING on its side (M4 head counterbore down, nut pocket up): standing on end it tore off the plate halfway up", dict(**WIDE_BRIM)),
+    ("brow_center",       "grey-pla",     1, "standing on the bottom face; brim", BRIM),
+    ("brow_lid",          "grey-pla",     1, "flat, outer face down (transparent PETG is the alternative if the LEDs should shine through)", {}),
     ("brow_rail_L",       "grey-pla",    1, "lying on the ring face", {}),
     ("brow_rail_R",       "grey-pla",    1, "lying on the ring face", {}),
     ("brow_link_L",       "grey-pla",    1, "standing on the bottom edge; brim", BRIM),
     ("brow_link_R",       "grey-pla",    1, "standing on the bottom edge; brim", BRIM),
-    ("pylon_base",        "grey-pla",    2, "two; inverted, peg up", {}),
-    ("pylon_blade",       "grey-pla",    2, "two; on the flat inner face; 12 % gyroid (modelled solid)", dict(sparse_infill_density="12%")),
-    ("pylon_knob",        "grey-pla",    2, "two; flat", {}),
+    ("pylon_base",        "grey-pla",     2, "two; UPRIGHT on the block, hinge slot up (was inverted on its ear tops: a 43.5 mm tower on ~208 mm2, the ratio that tore the apex block off)", dict(**WIDE_BRIM)),
+    ("pylon_peg",         "black-pla",     2, "two; LYING on the flat like the port couplers; epoxy into the base's socket", dict(**WIDE_BRIM)),
+    ("pylon_blade",       "grey-pla",     2, "two; on the flat inner face; 12 % gyroid (modelled solid)", dict(sparse_infill_density="12%")),
+    ("pylon_knob",        "grey-pla",     2, "two; flat", {}),
     # electronics housings (black)
     ("core_pod_nape",     "black-pla",   1, "open side up", {}),
     ("core_pod_lid_nape", "black-pla",   1, "outer face down", {}),
@@ -212,13 +252,13 @@ P1 = {
     "coil_former": (1.85, 21), "core_pod_lid_nape": (0.97, 11), "core_pod_lid_slab": (0.43, 5),
     "core_pod_nape": (1.87, 21), "core_pod_slab": (1.73, 19), "core_socket_foot": (0.52, 6), "cover_bottom": (0.07, 1),
     "cover_front": (0.13, 2), "cover_rear": (0.08, 1), "cover_rear_in": (0.05, 1), "cover_side": (0.03, 0),
-    "cradle_front": (8.15, 98), "crown_arch_half": (1.67, 22), "disk_back_L": (2.38, 28), "disk_back_R": (2.38, 28),
+    "cradle_front": (8.15, 98), "cradle_front_first_layers": (0.25, 3), "port_coupler": (0.3, 2), "disk_dome_first_layers": (0.2, 3), "crown_arch_half": (1.67, 22), "disk_back_L": (2.38, 28), "disk_back_R": (2.38, 28),
     "disk_dome": (7.3, 95), "disk_knob": (0.35, 4), 
     "knob_clip": (0.03, 0), "nape_core_base": (2.68, 31), "nape_core_cap": (0.58, 7), "nexus_L": (2.07, 28),
     "nexus_R": (2.08, 28), "nexus_spool": (0.78, 10), "pad_front": (0.27, 3), "pad_hub_L": (0.25, 3),
     "pad_hub_R": (0.25, 3), "pad_rear_L": (0.18, 2), "pad_rear_R": (0.18, 2), "port_coupler": (0.23, 2),
-    "port_drill_guide": (0.52, 7), "port_plug": (0.17, 1), "port_plug_flush": (0.13, 1), "pylon_base": (0.85, 11),
-    "pylon_blade": (1.85, 25), "pylon_knob": (0.25, 3), "rear_band_half": (1.83, 23), "sensor_bar": (2.32, 29),
+    "port_drill_guide": (0.52, 7), "port_plug": (0.17, 1), "port_plug_flush": (0.13, 1), "pylon_base": (0.75, 10), "pylon_peg": (0.2, 1),
+    "pylon_blade": (1.85, 25), "pylon_knob": (0.25, 3), "rear_band_half": (1.83, 23), "rear_band_half_R": (1.83, 23), "sensor_bar": (2.32, 29),
     "visor_slider": (0.03, 1), "band_gauge_front": (1.55, 20), "fit_coupon_d1": (2.0, 60), 
     "silver_small_parts": (0.2, 2),    # 2 knob clips + 2 sliders + 2 cover_side
     "black_small_parts": (1.2, 12),    # 2 bar pins + 3 caps + 2 plugs + 4 flush plugs + 2 couplers
@@ -365,6 +405,13 @@ def main(argv=None) -> int:
         print(f"{colour:12s} {part:22s} x{qty}  {process:26s} {'ERR ' + err if err else 'ok'}")
     shutil.rmtree(work, ignore_errors=True)
 
+    if only:
+        # a partial rebuild describes a few parts; the manifest, log and README describe the whole set, so they stay as
+        # they are (2026-09-26: an --only run had rewritten MANIFEST.md with one row)
+        shutil.rmtree(work, ignore_errors=True)
+        print(f"wrote {out}  ({len(rows)} parts, {errors} errors; --only: MANIFEST, PRINT_LOG and README left as they were)")
+        return 1 if errors else 0
+
     # ---- manifest
     order = ["black-pla", "grey-pla"]
     lines = ["# HelmKit vp0.17 print manifest", "",
@@ -414,22 +461,26 @@ One entry per print. Copy the block. Every problem goes in exactly one bin; the 
 Everything prints in PLA now, so there is one set of offsets rather than one per material. Measure the hole with
 calipers, then test the fit by hand. The delta is what canon has to move by before any large part is regenerated.
 
-Hardware at the bench: calipers, a 3.2 nail, a 2 mm nail, an M3 thread-forming screw, an M3 nut, an M4 screw and nut.
+Hardware at the bench: calipers, a 12 ga nail (2.68), a 16 ga nail (1.59) and a second one bent into a U with its legs 3.9 mm apart, 12 mm webbing if to hand, an M3 thread-forming screw, an M3 nut, an M4 screw and nut.
 The Ø8 peg and the bayonet stub print as part of coupon A. Coupon C needs no hardware at all: its base and dial are
 both printed, so it can be tested the moment it comes off the plate.
 
 | fit | coupon | modelled | how to test | measured | delta | canon knob | new value |
 |---|---|---|---|---|---|---|---|
-| 3.2 nail press | A row 2 | 3.20 | the nail enters with light taps and does not fall out | | | `PIN_DIA` | |
-| 3.4 nail slip | A row 2 | 3.40 | the same nail falls through under its own weight | | | `PIN_DIA` | |
-| M3 thread-forming | A row 2 | 2.50 | an M3 screw cuts its own thread without splitting the plate | | | `M3_TAP_DIA` | |
-| 2 mm pin-lock hole | A row 2 | 2.20 | a 2 mm nail slides through freely | | | `NAPE_PINLOCK_PIN` | |
-| Ø8 peg in the socket, opens upward | A | 8.30 | the printed peg slides in by hand with no rock | | | `CYL_SOCKET_D` | |
+| 12 ga tenon nail, horizontal, round + teardrop | d1 v2 | 3.10 teardrop (2.68 shank) | the nail slides through the 3.1 teardrop under its own weight | first round to pass 3.1; teardrop passes at 2.9 (very snug) | 2026-09-25 | `PIN_DIA` 2.9 | stands |
+| printed Ø3.2 plunger in printed 3.4 | d1 v2 | 3.40 | the loose printed pin slides in the vertical 3.4 and the horizontal 3.4s without force | does not fit 3.4 or 3.6 (3.8 untested) | 2026-09-25 | index plunger, Phase 3 | keeper 3.9 with a 3.0 shank |
+| M3 thread-forming | d1 v2 | 3.00 | an M3 screw cuts its own thread without splitting the plate | 2.9 very tight but takes it; 3.4 smooth | 2026-09-25 | `M3_TAP_DIA` | 3.0 applied |
+| 16 ga pin-lock, vertical | d1 v2 | 2.30 snug / 2.50 clear (1.59 shank) | the nail presses into the snug hole with light taps and drops through the clear one | 1.6 to 1.9 none; 2.2 hard press (coupon B); 2.5 perfect | 2026-09-25 | `NAPE_PINLOCK_PIN` | 2.3 / 2.5 applied |
+| U-pin pair | d1 v2 | 1.8 and 1.9 pairs, legs 3.93 apart | a bent 16 ga nail drops in to its bridge and pulls out by it | not testable: both pairs under size (see the row above); retest on the pin-lock body at 2.5 | 2026-09-25 | `NAPE_PINLOCK_PIN` slot | Phase 2 |
+| strap slot pair, 12 mm webbing | d1 v2 | 14 x 4, 12 apart, 1 mm chamfers | webbing threads down one slot and up the other and runs over the chamfers | skipped, no webbing | 2026-09-25 | `STRAP_SLOT`, `_PITCH`, `_CHAMFER` | test on the cradle |
+| M4 clearance | d1 v2 | 4.60 | an M4 screw drops through | 4.4 snug; 4.6 and 4.8 drop | 2026-09-25 | `M4_CLEAR_DIA` | 4.6 applied |
+| M3 clearance | d1 v2 | 3.80 | an M3 screw drops through | 3.4 threads smoothly; 3.6 shoves in; 3.8 by extrapolation | 2026-09-25 | `M3_CLEAR_DIA` | 3.8 applied |
+| Ø8 peg in the socket, opens upward | d1 v2 | 8.50 | the printed peg slides in by hand with no rock | 8.3 snug / 8.5 smooth / 8.7 rattles | 2026-09-25 | `CYL_SOCKET_D` | 8.5 applied |
 | socket cross-pin | A | 3.20 | a 3.2 nail passes through both walls and the peg | | | `PIN_DIA` | |
 | bayonet drop and turn | H (after A, D2, E, F, G) | floor 3.8 under a lug at 4.0 | the stub drops in, turns ~107 deg up the ramp to the stop and seats snug-tight; the wrong way is blocked | snug-tight, both stubs, floor 3.8; 3.2 flat and 3.6 turn loose | 2026-09-20 | `BAYONET_CAM` (3.2, 3.8), `BAYONET_BOSS` 7.6 open, `BAYONET_BORE_CLEAR` 0.5, `BAYONET_NOTCH_CLEAR` 1.1 beyond the lug, `STALK_LUG` reach 2.6, `STALK_LUG_CHAMFER` 1.4, reverse block | applied to canon 2026-09-20; the knob-lock notch has no host until the lock post is designed |
 | ratchet direction | C | one way | the dial clicks freely one way and locks solid the other | | | `NAPE_RATCHET_DIR` | |
-| Ø8 peg, socket opening on the BED face | B | 8.30 | turn the coupon over; the peg must enter without force | | | `CYL_SOCKET_D` / elephant's foot | |
-| horizontal hole, round vs teardrop | B | 3.40 | the nail slips the teardrop; note whether the round one binds | | | drill 3.5 | |
+| Ø8 peg, socket opening on the BED face | d1 v2 | 8.70 | turn the coupon over; the peg must enter without force | 8.3 no / 8.5 snug / 8.7 smooth / 8.9 rattles | 2026-09-25 | `CYL_SOCKET_BED_D` | 8.7 applied (the cradle's node tops) |
+| horizontal hole, round vs teardrop | d1 v2 | 3.10 teardrop | the nail slips the teardrop; note whether the round one binds | 2.9 T very snug; 2.9 R no; 3.1 R + T pass; 3.4 R + T pass | 2026-09-25 | `PIN_DIA` 2.9 -> 3.1 teardrops | stands |
 | M3 nut, sideways pocket | B | 5.70 | an M3 nut presses in and will not spin | | | `NEXUS_NUT_POCKET` | |
 | ring on hub | B | 0.30 clearance | the ring turns freely on the hub without slop | | | `NEXUS_RING` | |
 | Ø4 pin in 4.1 / 4.3 | B | 4.10 / 4.30 | a printed Ø4 pin is snug in 4.1 and free in 4.3 | | | `SENSOR_BAR pin_fit` | |
@@ -467,9 +518,8 @@ the log to keep.
 5. At the printer: the spool the folder is named for, textured PEI plate, chamber heater off, door ajar or the top
    vented (PLA softens in a closed warm chamber).
 
-Colours: grey-pla = the visible shells (domes, brow, sensor bar, crown, apex, pylons); black-pla = everything else,
-which is the structure (cradle, rear halves, nexus, spools, knobs, covers), the internals and housings (nape module,
-pad frames, disk back plates, formers, pods, belt pack, small parts) and both coupons plus the gauge.
+Colours: TWO, with ONE spool change. Print everything in `black-pla/` first (the structure, internals and housings), then
+switch to grey once and print `grey-pla/` (the visible shells: domes, crown arch, apex, brow, pylons). Never switch back.
 
 Order: coupons A, B, D2, E, F, G, H (printed 2026-09-15..20; the bayonet is in canon) -> d1 (the cradle gate) -> band gauge -> calipers, calibration table, regenerate ->
 cradle -> rear halves + nape + pads + covers -> first wear -> sensor bar + carriers + small parts -> bench electronics ->

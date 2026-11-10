@@ -29,7 +29,13 @@ def make():
     L.union(panel, L.add_cyl_local("bead", MP, (T / 2, 0.0, H), C.BROW_TOP_BEAD_R, W - 0.4, axis="Y", verts=32))   # ends 0.2 inside: no coplanar caps
     # cavity opens to the FRONT: the faceplate (brow_lid) sits in a recess in the front face; the back face stays solid for the link pockets
     cav_x0, cav_x1 = C.BROW_WALL, T - LID_RECESS
-    L.cut(panel, L.add_box_local("cavity", MP, ((cav_x0 + cav_x1) / 2, 0.0, H / 2), (cav_x1 - cav_x0, C.BROW_CAV_W, C.BROW_CAV_H)))
+    # the cavity's roof slopes at 45 deg, highest at the open front and lowest at the back wall (2026-09-29): flat, it was a
+    # 10.5 mm shelf 115 mm long printed in mid air off the back wall (QIDI Studio "floating cantilever", 10.3 mm against 6).
+    # The triangle it gives up in the upper back corner holds no LED or wire.
+    z0c, z1c = (H - C.BROW_CAV_H) / 2, (H + C.BROW_CAV_H) / 2
+    cpoly = [(cav_x0, z0c), (cav_x1 + 0.5, z0c), (cav_x1 + 0.5, z1c), (cav_x0, z1c - (cav_x1 - cav_x0))]
+    Mc = MP @ Matrix.Rotation(math.radians(90.0), 4, "X")               # local X = the panel's x, local Y = its z, extrude along its y
+    L.cut(panel, L.extrude_polygon("cavity", cpoly, C.BROW_CAV_W, Mc, z0=-C.BROW_CAV_W / 2))
     L.cut(panel, L.add_box_local("recess", MP, (T - LID_RECESS / 2 + 1.0, 0.0, H / 2), (LID_RECESS + 2.0, C.BROW_CAV_W + 8.0, C.BROW_FACEPLATE_H + 0.8)))   # Track P: 0.8 not 0.4; the recess ceiling is a 2.2 mm cantilever and droops ~0.3 at its free edge
     ww, wt = C.BROW_LED_WINDOW
     L.cut(panel, L.add_box_local("ledwin", MP, (T / 2 - 1.0, 0.0, (H - C.BROW_CAV_H) / 2 - 1.0), (wt, ww, (H - C.BROW_CAV_H) / 2 + 1.0)))
@@ -39,7 +45,7 @@ def make():
     pd = C.BROW_LINK["pocket_depth"]
     for side in (+1, -1):
         Mk = MP @ Matrix.Translation((0.0, side * C.BROW_POCKET_Y, C.BROW_POCKET_Z)) @ Matrix.Rotation(-side * math.radians(C.BROW_LINK["angle"]), 4, "Z")
-        L.cut(panel, L.add_box_local("pocket", Mk, ((pd - 1.0) / 2, 0.0, 0.0), (pd + 1.0, C.RAIL_T + 0.3, C.RAIL_H + 0.3)))
+        L.cut(panel, L.add_box_local("pocket", Mk, ((pd - 1.0) / 2, 0.0, 0.0), (pd + 1.0, C.RAIL_T + 0.8, C.RAIL_H + 0.8)))   # v0.18: +0.8 not +0.3; a 7 x 20 printed bar did not slide into a printed pocket with 0.15 a side
         # mouth relief: a straight 1.5 mm recess around the pocket's opening so the 35-deg lip is not a knife edge
         mw = (C.RAIL_T + 0.3) / math.cos(math.radians(C.BROW_LINK["angle"])) + 2.0
         L.cut(panel, L.add_box_local("mouth", MP, (0.25, side * (C.BROW_POCKET_Y - 1.0), C.BROW_POCKET_Z), (2.5, mw, C.RAIL_H - 0.6)))   # shorter than the pocket: its top and bottom lie inside the pocket void, no shared planes, no ledge

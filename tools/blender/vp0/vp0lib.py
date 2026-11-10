@@ -484,10 +484,10 @@ def arc_index_range(pts, from_start, from_end):
     return [i for i in range(len(pts)) if from_start <= d[i] <= d[-1] - from_end]
 
 
-def groove_section(face, floor, over, wh, depth):
+def groove_section(face, floor, over, wh, depth, mouth_deep=True):
     """Track P: the section of a groove that prints without a ledge. A rectangular groove cut into a face has one
-    wall facing down in the print; this pentagon (rectangle plus a 45-degree wedge on the -W side, from the face to
-    the floor) turns that wall into a 45-degree overhang. Coordinates along N (face, floor, over = the cutter's
+    wall facing down in the print; this pentagon (rectangle plus a 45-degree wedge on the -W side, deepest at the
+    face) turns that wall into a 45-degree overhang that grows out of the body. Coordinates along N (face, floor, over = the cutter's
     overshoot beyond the face) and W (wh = half the groove width; the wedge extends `depth` below -wh).
     Returned counter-clockwise in (n, w) for ribbon(section=...)."""
     # the wedge starts where the cutter meets the face; when the cutter stops short of the face (a closed tunnel
@@ -496,7 +496,15 @@ def groove_section(face, floor, over, wh, depth):
         face = max(face, over + 0.2)
     else:
         face = min(face, over - 0.2)
-    pts = [(floor, wh), (over, wh), (over, -wh), (face, -wh), (floor, -wh - depth)]
+    # deep point at the MOUTH (2026-09-25): with it at the floor, the roof of an open groove began as a 0.2 mm lip at the face,
+    # bridging a whole free span between two nodes: QIDI Studio's "floating cantilever" on the cradle's spine channels. At the
+    # mouth, every roof layer grows out of the body. The open groove's mouth flares 45 deg below it (the potting fills it).
+    # A CLOSED run (the cradle's front run, a tunnel under a printed skin where the sensor bar's sockets sit) passes
+    # mouth_deep=False: its roof starts at a wall, not at air, and a wedge at the skin side would reach the sockets.
+    if mouth_deep:
+        pts = [(floor, wh), (over, wh), (over, -wh - depth), (face, -wh - depth), (floor, -wh)]
+    else:
+        pts = [(floor, wh), (over, wh), (over, -wh), (face, -wh), (floor, -wh - depth)]
     # orientation is decided by the geometry, not by a sign test, so sections along one path never flip
     return pts if over < floor else list(reversed(pts))
 
@@ -871,14 +879,35 @@ def overlap_count(a, b) -> int:
 # Finalize / export
 # ---------------------------------------------------------------------------
 
+WELD = 0.01    # mm: points closer than this are one point (a printer resolves ~0.05)
+
+
 def clean(ob) -> None:
-    bm = bmesh.new()
-    bm.from_mesh(ob.data)
-    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5)
-    bmesh.ops.dissolve_degenerate(bm, dist=1e-5, edges=bm.edges)
+    """Weld, drop degenerate geometry and TRIANGULATE, so what is measured is what the STL will be (Track P, 2026-09-25).
+    The exact boolean can leave an n-gon holding two points 0.004 mm apart; Blender counts it manifold, but split into
+    triangles at export it becomes a hairline sheet: 30 non-manifold edges on the cradle and QIDI Studio's "floating
+    cantilever". So: triangulate at the fine tolerance; only if that leaves non-manifold edges, try welding at WELD and
+    keep it when it is sounder. A blanket 0.01 weld closed the cradle's crack but broke four clean parts' small features."""
+    def attempt(dist):
+        bm = bmesh.new()
+        bm.from_mesh(ob.data)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=dist)
+        bmesh.ops.dissolve_degenerate(bm, dist=dist, edges=bm.edges)
+        bmesh.ops.triangulate(bm, faces=bm.faces, quad_method="BEAUTY", ngon_method="BEAUTY")
+        bmesh.ops.dissolve_degenerate(bm, dist=dist, edges=bm.edges)
+        bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3])
+        return bm, sum(1 for e in bm.edges if not e.is_manifold)
+    bm, nm = attempt(1e-5)
+    for dist in (WELD, 0.04):          # 0.04: the bayonet cam floor's 0.03 step (disk back, coupon H); still under what prints
+        if not nm:
+            break
+        bm2, nm2 = attempt(dist)
+        if nm2 < nm:
+            bm.free(); bm, nm = bm2, nm2
+        else:
+            bm2.free()
     bm.to_mesh(ob.data)
     bm.free()
-
 
 def to_print_frame(ob, rot: Matrix) -> None:
     ob.matrix_world = rot @ ob.matrix_world
@@ -888,6 +917,40 @@ def to_print_frame(ob, rot: Matrix) -> None:
     zs = [v.co.z for v in ob.data.vertices]
     ob.location = (-(max(xs) + min(xs)) / 2.0, -(max(ys) + min(ys)) / 2.0, -min(zs))
     apply_transform(ob)
+
+
+def add_rect_frustum(name, M: Matrix, w0, h0, z0, w1, h1, z1):
+    """A rectangular frustum in frame M: a (w0 x h0) rectangle at local z0 lofted to (w1 x h1) at local z1, centred on local Z."""
+    import bmesh
+    bm = bmesh.new()
+    rings = []
+    for z, w, h in ((z0, w0, h0), (z1, w1, h1)):
+        rings.append([bm.verts.new((sx * w / 2.0, sy * h / 2.0, z)) for sx, sy in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+    bm.faces.new(rings[0][::-1])
+    bm.faces.new(rings[1])
+    for i in range(4):
+        bm.faces.new((rings[0][i], rings[0][(i + 1) % 4], rings[1][(i + 1) % 4], rings[1][i]))
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    me = bpy.data.meshes.new(name)
+    bm.to_mesh(me)
+    bm.free()
+    ob = bpy.data.objects.new(name, me)
+    bpy.context.scene.collection.objects.link(ob)
+    ob.matrix_world = M
+    apply_transform(ob)
+    return ob
+
+
+def slot_chamfer(ob, M: Matrix, w: float, h: float, t: float, c: float):
+    """45-deg chamfer of leg `c` on all four edges of a rectangular through-slot, on BOTH faces (Track P: a printed slot edge
+    cuts webbing). M is the slot's frame: local X along its width w, local Z along its height h, local Y through the part's
+    thickness t. One frustum cut per face: its 45-deg sides pass through (w/2 + c, h/2 + c) at the face, its narrow end sits
+    0.3 inside the slot's own outline at depth c + 0.3 (so no face is coplanar with the slot's walls) and its wide end 0.5
+    outside the part. (Eight diamond prisms, one per edge, crossed at the slot's corners and left non-manifold slivers.)"""
+    for fy in (+1, -1):
+        Mf = M @ Matrix.Rotation(math.radians(-90.0 * fy), 4, "X")         # local Z of the frustum runs along fy * Y
+        cut(ob, add_rect_frustum("slotch", Mf, w - 0.6, h - 0.6, t / 2.0 - c - 0.3, w + 2.0 * c + 1.0, h + 2.0 * c + 1.0, t / 2.0 + 0.5))
+    return ob
 
 
 def bed_plane(ob, print_rot: Matrix, depth: float):

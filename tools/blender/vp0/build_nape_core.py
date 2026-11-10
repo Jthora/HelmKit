@@ -68,7 +68,11 @@ def make_base():
         L.cut(base, ND.box("zip", (u, -HV / 2, T / 2 + bd / 2), (uz, wall + 2.0, 2.2)))
     # jumper window through the outer wall (to the pod), and the pod / cap bosses with taps
     ww, wh, wv = NC["window"]
-    L.cut(base, ND.box("jwin", (0.0, wv, W_OUT - wall / 2), (ww, wh, wall + 2.0)))
+    # its +v edge prints as the window's ceiling: 45-deg corners 4 mm on each side leave an 8 mm bridge instead of 16, under
+    # QIDI Studio's cantilever limit (the flat 16 mm ceiling scored 7.5 mm against a 6 mm warning, 2026-09-26)
+    v0, v1, c = wv - wh / 2, wv + wh / 2, 4.0
+    jpoly = [(-ww / 2, v0), (ww / 2, v0), (ww / 2, v1 - c), (ww / 2 - c, v1), (-ww / 2 + c, v1), (-ww / 2, v1 - c)]
+    L.cut(base, L.extrude_polygon("jwin", jpoly, wall + 2.0, ND.M, z0=W_OUT - wall - 1.0))
     bdia, bh = NC["boss"]
     for (u, v) in NC["pod_screws"]:
         L.union(base, ND.cyl("boss", (u, v, W_OUT - wall - bh / 2 + 0.05), bdia / 2, bh + 0.1, verts=24))

@@ -77,7 +77,7 @@ def make_body():
     for u, v in C.NAPE_LID_SCREWS:
         L.cut(body, cyl("ls", (u, v, 0.0), C.M3_TAP_DIA / 2, 2 * CH + WALL + 4.0, verts=16))
     for u, v in C.NAPE_COVER_SCREWS:
-        L.cut(body, cyl("cs", (u, v, W1 + 3.0), C.M3_TAP_DIA / 2, 8.0, verts=16))
+        L.cut(body, cyl("cs", (u, v, W1 + 3.15), C.M3_TAP_DIA / 2, 7.7, verts=16))   # bottom at W1 - 0.7, not W1 - 1.0: that was exactly the rack channels' ceiling (CH + 1), and the two faces met along an edge (2026-09-25)
     L.union(body, ring("ring", W1, +1.0))
     return body
 

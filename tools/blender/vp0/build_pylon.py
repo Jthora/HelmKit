@@ -37,14 +37,32 @@ def base(side=+1):
         ear = L.add_box("ear", (SX, side * (SY + sy * (g + et / 2)), Z_TOP + bz + eh / 2 - 0.5), (28.0, et, eh + 1.0))
         L.fillet(ear, width=1.0)
         L.union(part, ear)
-    L.union(part, L.add_cyl("peg", (SX, side * SY, Z_TOP - C.CYL_PEG_LEN / 2 + 0.5), C.CYL_PEG_D / 2, C.CYL_PEG_LEN + 1.0, axis="Z", verts=48))
-    L.cut(part, L.add_teardrop("cross", (SX, side * SY, Z_TOP - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (0.0, 1.0, 0.0), (0.0, 0.0, -1.0), verts=24))   # prints inverted
-    L.cut(part, L.add_teardrop("bolt", (SX, side * SY, HZ), C.M3_CLEAR_DIA / 2, 2 * (g + et) + 4.0, (0.0, 1.0, 0.0), (0.0, 0.0, -1.0), verts=24))
+    # the peg is a separate part since 2026-10-07 (see peg()): a socket in the block's underside takes it, epoxied
+    L.cut(part, L.add_cyl("pegsock", (SX, side * SY, Z_TOP + (PEG_SOCKET - 1.0) / 2), C.CYL_SOCKET_BED_D / 2, PEG_SOCKET + 1.0, axis="Z", verts=48))
+    L.cut(part, L.add_teardrop("bolt", (SX, side * SY, HZ), C.M3_CLEAR_DIA / 2, 2 * (g + et) + 4.0, (0.0, 1.0, 0.0), (0.0, 0.0, 1.0), verts=24))   # prints upright: tip up
     L.cut(part, L.add_hex_prism("nutp", (SX, side * (SY - g - et + 1.5 - 1.0), HZ), 5.7, 5.0, axis="Y"))   # nut pocket on the inner ear's outer face
     sr = C.HINGE_SERR
     L.union(part, L.serration_solid("serr", (SX, side * (SY + g), HZ), (0.0, -side, 0.0),
                                     r_in=sr["r_in"], r_out=sr["r_out"], teeth=sr["teeth"], height=sr["height"], phase_deg=sr["phase_ear"]))
     return part
+
+
+PEG_SOCKET = 6.5      # the peg socket's depth in the base's 8 mm block: a 1.5 mm floor stays under the hinge slot
+PEG_IN_BASE = 6.0     # how far the peg goes into it (0.5 left at the bottom for the epoxy)
+PEG_FLAT = 0.8        # the print flat, as on the port couplers
+
+
+def peg(side=+1):
+    """The pylon's 8 mm peg as its own part (2026-10-07). With the peg built on, the base printed as a 43.5 mm tower on its
+    hinge-ear tops (~208 mm2), the ratio that tore the apex block off the plate; and standing, the peg's layers crossed the
+    node socket's mouth, exactly where the antenna bends it. Now the base prints upright on its block and the peg prints
+    LYING on a flat with its layers along it. Modelled where it sits: 6 mm into the base, 14.5 mm into the rear node."""
+    z0, z1 = Z_TOP - C.CYL_PEG_LEN, Z_TOP + PEG_IN_BASE
+    pg = L.add_cyl("pylon_peg", (SX, side * SY, (z0 + z1) / 2), C.CYL_PEG_D / 2, z1 - z0, axis="Z", verts=48)
+    L.cut(pg, L.add_cyl("cross", (SX, side * SY, Z_TOP - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    r = C.CYL_PEG_D / 2
+    L.cut(pg, L.add_box("flat", (SX + r - PEG_FLAT + 10.0, side * SY, (z0 + z1) / 2), (20.0, 20.0, z1 - z0 + 10.0)))
+    return pg
 
 
 def blade_frame(side=+1, angle=None):
@@ -133,7 +151,8 @@ def knob(side=+1):
 
 
 PARTS = {
-    "pylon_base": (lambda: base(+1), L.ROT_FLIP, ["print inverted (ear tops on the bed, peg up); 16 mm bridge; no supports", "8 mm peg into the rear node's top socket, M3 cross-bolt; hinge M3 x 30 + wave washer, nut in the inner ear"]),
+    "pylon_base": (lambda: base(+1), L.ROT_NONE, ["print UPRIGHT on its block, hinge slot opening upward; no supports. The peg is a separate part: epoxy it into the 8.7 socket underneath", "8 mm peg into the rear node's top socket, M3 cross-bolt; hinge M3 x 30 + wave washer, nut in the inner ear"]),
+    "pylon_peg": (lambda: peg(+1), L.ROT_NEGX_TO_Z, ["print LYING on its flat, cross hole vertical; epoxy 6 mm of it into the base's socket, the other 14.5 mm goes into the rear node's socket with the M3 cross-bolt"]),
     "pylon_blade": (lambda: blade(+1, 0.0), L.rot_dir_to(Vector((0.0, 1.0, 0.0)), (0.0, 0.0, 1.0)), ["print lying on the flat (inner) face; no supports; modelled solid: slice at 10-15 % gyroid (the mass report counts it solid)", "Ø4 wire bore from the flare to the tip"]),
     "pylon_knob": (lambda: knob(+1), L.ROT_Y_TO_Z, ["print flat; glue the M3 head into the pocket; tighten to lock the pylon"]),
 }

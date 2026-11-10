@@ -41,11 +41,20 @@ def plug_flush():
     return p
 
 
+COUPLER_FLAT = 0.8   # the print flat's depth: a D-section, 8 x 7.2; the underside then leans no lower than 37 deg
+
+
 def coupler():
+    """Printed LYING DOWN (2026-09-30): standing, a 30 mm peg on 50 mm2 kept losing the plate, and its layers crossed the
+    joint between arch foot and hub node, the one place it is bent. Lying down its layers run its length (several times
+    stronger in bending) and it stands 7.2 mm on a 4.8 x 30 mm flat. The flat is at +X here (the print's bottom after
+    PARTS' rotation); the cross holes run along X, so they print vertical and round."""
     length = 2 * C.CYL_PEG_LEN + 1.0
     p = peg("port_coupler", 0.0, length)
     for z in (length / 2 + C.CYL_PIN_Z, length / 2 - C.CYL_PIN_Z):     # 7 mm each side of the joint plane
-        L.cut(p, L.add_teardrop("cross", (0.0, 0.0, z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, (1.0, 0.0, 0.0), (0.0, 0.0, 1.0), verts=24))
+        L.cut(p, L.add_cyl("cross", (0.0, 0.0, z), C.M3_CLEAR_DIA / 2, C.CYL_PEG_D + 4.0, axis="X", verts=24))
+    r = C.CYL_PEG_D / 2
+    L.cut(p, L.add_box("flat", (r - COUPLER_FLAT + 10.0, 0.0, length / 2), (20.0, 20.0, length + 10.0)))
     return p
 
 
@@ -60,7 +69,7 @@ def drill_guide():
 PARTS = {
     "port_plug": (plug, L.ROT_NONE, ["print cap down; closes an unused cradle socket"]),
     "port_plug_flush": (plug_flush, L.ROT_NONE, ["print cap down, x4 for the combat trim: 1 mm cap, nail through the cross hole"]),
-    "port_coupler": (coupler, L.ROT_NONE, ["print standing; stacks an add-on peg on a cradle socket"]),
+    "port_coupler": (coupler, L.ROT_NEGX_TO_Z, ["print LYING on its flat (layers along the peg: strong where the arch foot meets the hub node); cross holes vertical. The flat leaves 1.3 mm of play along the bolt in the Ø8.5 socket: a dab of epoxy at assembly if the arch rattles"]),
     "port_drill_guide": (drill_guide, L.ROT_NONE, ["drill 8 mm aluminium rod or printed pegs for the cross-bolt"]),
 }
 

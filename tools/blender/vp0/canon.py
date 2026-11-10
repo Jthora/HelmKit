@@ -92,12 +92,12 @@ CX, CZ = BRAIN_CORE[0], BRAIN_CORE[2]
 
 MATERIAL = "PLA (prototype); PA12-CF or PC for the hit-rated build"
 DENSITY_G_CM3 = 1.24          # PLA
-M4_CLEAR_DIA = 4.4
+M4_CLEAR_DIA = 4.6            # d1 v2 (2026-09-25): 4.4 printed snug on an M4, 4.6 drops. Vertical Ø4.5 holes print ~0.45 under
 M4_HEAD_DIA = 7.0
 M4_NUT_AF = 7.0
 M4_NUT_T = 3.2
-M3_CLEAR_DIA = 3.4
-M3_TAP_DIA = 2.5
+M3_CLEAR_DIA = 3.8            # d1 v2: 3.4 printed ~2.8 (an M3 threads it), 3.6 ~3.1 (shoves in). Vertical Ø3 holes print ~0.55 under; horizontal ~0.4, so 3.8 gives ~3.3 / ~3.4
+M3_TAP_DIA = 3.0              # d1 v2: 2.9 printed a very tight thread, 3.4 a smooth one. 3.0 prints ~2.45 vertical (a proper pilot) and ~2.65 horizontal
 M5_CLEAR_DIA = 5.4
 M5_NUT_AF = 8.0
 M5_NUT_T = 4.0
@@ -105,8 +105,12 @@ FIT_CLEAR = 0.15
 FILLET_MM = 1.0
 FILLET_SEGMENTS = 2
 
-PIN_DIA = 3.2                 # nail shank ~3.0 mm slip fit (measure yours; epoxy fills the rest)
-PIN_HEAD_DIA = 6.5            # counterbore for the nail head
+# HOLE SHRINK, measured on d1 v2 (2026-09-25), the printed hole against its nominal: vertical Ø2 -0.75, Ø3 -0.55, Ø4.5 -0.45,
+# Ø8.5 -0.15, and a hole opening on the BED face another -0.2; horizontal Ø3 round -0.4, teardrop -0.25. Not a constant, so no
+# slicer hole compensation: every hole constant below carries its own offset. A printed pin runs ~+0.15 over its nominal.
+PIN_DIA = 2.9                 # the tenon pin: a 12 ga common nail, 2.68 mm shank, cut to length. Holes derive as PIN_DIA/2 + 0.1 -> Ø3.1 teardrops (slip);
+                              # the epoxy is the joint, the pin is alignment and a backstop. Head sealed under epoxy (bright steel + sweat). was 3.2 for a ~3.0 nail nobody had
+PIN_HEAD_DIA = 7.4            # counterbore for the 12 ga nail's ~6.8 mm head: a horizontal Ø7 round prints ~0.35 under (was 7.0)
 PIN_HEAD_DEPTH = 2.0
 ROPE_DIA = 3.5                # 2-4 mm rope / twine
 SPINE_GROOVE = (ROPE_DIA + 0.4, 2.8)     # width x depth of the rope-and-epoxy spine groove (crown arch, rear halves)
@@ -116,7 +120,8 @@ SPINE_GROOVE = (ROPE_DIA + 0.4, 2.8)     # width x depth of the rope-and-epoxy s
 # ---------------------------------------------------------------------------
 
 CYL_PEG_D = 8.0               # printed peg (a 3.2 mm nail down its core + epoxy makes it a composite)
-CYL_SOCKET_D = 8.3
+CYL_SOCKET_D = 8.5            # d1 v2: for the printed Ø8 peg, 8.3 snug / 8.5 smooth / 8.7 rattles, opening UPWARD. Large holes print only ~0.15 under
+CYL_SOCKET_BED_D = 8.7        # the same socket opening on the BED face (the cradle's node tops, inverted print): 8.5 snug / 8.7 smooth / 8.9 rattles. The first layer's lip costs 0.2
 CYL_DEPTH = 15.0
 CYL_PIN_Z = 7.0               # cross-bolt axis from the socket mouth (M3 through, or a nail)
 CYL_PEG_LEN = CYL_DEPTH - 0.5
@@ -214,7 +219,8 @@ NEXUS_HEAD_CBORE = (6.0, 3.5)            # head counterbore dia x depth on the f
 NEXUS_NUT_POCKET = (5.7, 2.7)            # hex pocket across-flats (M3 nut 5.5) x depth into the node's inner face; v0.17: 2.7 because the sideways bridge sags ~0.3
 HUB_NODE_EAR_CHAMFER = 3.0                # v0.17: 45-deg chamfer on the hub node's lower inner edge (the edge that sits 4 mm over the pinna on the phantom)
 NEXUS_SPOOL = (44.0, 1.0, 36.0, 8.0)     # thrust plate dia x thickness (y 100..101) + hub dia x height (y 101..109, bearing on the flange face): the visor ring's bearing and the bolt-0 spacer. v0.14: no flange pocket (a 0.5 mm bed-side recess does not print)
-NEXUS_RING = (44.0, 36.3, 7.0)           # visor ring OD, ID, thickness (y 101.05..108.05) on the spool hub; wave washer in the remaining 0.95; 7 mm bearing for the 118 mm lever
+NEXUS_RING = (44.0, 36.7, 7.0)   # v0.18: ID 36.7, as coupon D2 measured (36.3 did not turn on the printed 36.0 hub; the value was never applied before the rails printed)
+# was: NEXUS_RING = (44.0, 36.3, 7.0)           # visor ring OD, ID, thickness (y 101.05..108.05) on the spool hub; wave washer in the remaining 0.95; 7 mm bearing for the 118 mm lever
 NEXUS_RING_Y0 = HUB_NODE_OUT_Y + 1.05
 SPOOL_SPACER = dict(x_half=10.0, z0=CZ + 23.0, z1=CZ + 33.5, y1=HUB_NODE_OUT_Y + 8.9)   # block on the spool plate above the ring: the top bolts pass through it, it bears on the flange back
 HUB_NOTCHES = dict(angles=(-17.0, -2.0, 13.0, 28.0, 43.0, 58.0), w=2.8, d=2.0, y=(HUB_NODE_OUT_Y + 3.0, HUB_NODE_OUT_Y + 7.0))   # v0.14: notches span the pawl's y (slot 103.25..106.45); they started at 104 before and the tip could not seat   # pawl notches in the hub's OD at the visor positions only (the pawl rides on the rail); none near bolt 0 at 90 deg
@@ -237,9 +243,12 @@ RAIL_GUSSET = (13.0, 40.0)               # rail root gusset: half-height at the 
 REAR_TENON_W0 = -17.0                    # rear half centreline leaves the rear node here (z 38)
 CRADLE_TENON = (5.0, 26.0, 14.0, 3.0)    # y thickness, mouth height, depth, tip LOWER half-height: the W+ face (the band's top edge, on the bed) is straight, only the W- face tapers (v0.14: a symmetric taper was a 70-deg overhang)
 TENON_PIN_X = REAR_NODE_X - NODE_LEN / 2.0 + 8.0          # -50: nail through node + tenon along Y (Track P: 8 not 6, so the nail-head counterbore clears the right node groove's wedge by 2 mm; the tenon is 14 deep)
-STRAP_SLOT = (14.0, 4.0)                 # W height x along-band width, through the band, centred at W +4.5; pairs 8 mm apart
-CRADLE_STRAP_X = (49.0, 57.0)            # slot centres in front of the hub node (world x); slots sit below the spine channel (z 47.5..61.5)
-REAR_STRAP_S = (24.0, 32.0)              # slot centres along the rear half from the node (arc mm)
+STRAP_SLOT = (14.0, 4.0)                 # W height x along-band width, through the band, centred at W +4.5. 12 mm polyester webbing (15 does not pass 14)
+STRAP_SLOT_PITCH = 12.0                  # the two slots of a pair, centre to centre: an 8 mm web of band between them (was 8: a 4 mm web loaded across its layers)
+STRAP_SLOT_CHAMFER = 1.0
+SPINE_INTO_NODE = 3.0                    # the cradle's spine channel runs this far into each solid node (a potted rope end), the cover strips do not                 # 45-deg chamfer on every slot edge, both faces: a printed edge cuts webbing
+CRADLE_STRAP_X = (53.0 - STRAP_SLOT_PITCH / 2.0, 53.0 + STRAP_SLOT_PITCH / 2.0)   # (47, 59): a pair in front of the hub node (x -10..30), 15 mm clear of it; slots sit below the spine channel (z 47.5..61.5 vs 63..67)
+REAR_STRAP_S = (28.0 - STRAP_SLOT_PITCH / 2.0, 28.0 + STRAP_SLOT_PITCH / 2.0)     # (22, 34): slot centres along the rear half from the node (arc mm)
 CRADLE_FRONT_RISE = 12.0                 # the band's LOWER edge rises this much at the forehead (top edge stays at z 70): band bottom 12 mm above the eyebrow line
 
 
@@ -274,7 +283,7 @@ SENSOR_BAR = dict(half_arc=50.0, n=24.0, w=20.0, z=58.0, standoff=0.8, wall=2.0,
                   window=(18.0, 7.3, 17.3), recess=(25.4, 6.1, 18.5, 1.5), carrier=(25.0, 6.3, 18.3, 1.5),   # (half arc, normal from the band centreline .., depth)
                   camera=(0.0, 8.6), thermopile=(-11.0, 9.6), thermopile_tilt=15.0, ir_leds=((8.5, 5.2), (15.0, 5.2)), carrier_screws_s=(-21.5, 21.5),
                   exit=(30.0, 3.5, 5.3, 10.0), led_groove=(46.0, 20.0, 25.3, 2.2),            # cable exit: vertical Ø3.5 slot at arc +/-30 down the back wall, centred IN the wall (normal = CRADLE_T/2 + standoff + wall/2 = 5.3), out of the bar's bottom under the band edge
-                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.5), pin_fit=(0.1, 0.3), screw_z=59.5)   # v0.17: 59.5 so the teardrop roofs clear the bottom cable channel   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
+                  pins_s=(-42.0, 42.0), pin=(4.0, 5.0, 10.5), pin_fit=(0.35, 0.55), screw_z=59.5)   # d1 v2: pin_fit 0.35 / 0.55 (was 0.1 / 0.3), a horizontal Ø4 teardrop prints ~0.25 under and a standing Ø4 pin ~0.15 over. v0.17: 59.5 so the teardrop roofs clear the bottom cable channel   # pin_fit: (band socket, bar socket) clearance: snug in the band, loose in the bar      # pins clear the front pad taps at +/-36 (cut from the other face) and sit 2.3 above the bottom cable channel, 2.3 under the spine channel
 #   curved hollow bar hugging the band's outer front face in combat trim: 24 x 20 section (z 48..68), 1 mm chamfers, 2 mm walls, 4 mm floor with a
 #   window + flush recess for the sensor CARRIER (camera head, MLX90614 thermopile, two IR LEDs) screwed from below; LED pacer lane on the
 #   underside along the front edge; two printed Ø4 pins (the shear fuse) + one M3 x 8 into the band's outer face; cable holes in the floor
@@ -308,6 +317,8 @@ APEX_SLEEVE = (34.0, 64.0, CROWN_T + 0.4 + 2.0 + 3.0)   # 13.4: channel + floor 
 CROWN_APEX_Z = HEAD.vertex_z_mm + CROWN_PAD_T + APEX_FLOOR_T + 0.2 + CROWN_T / 2.0   # 152.2
 CROWN_SUPER_N = 2.6
 CROWN_OVERLAP = 40.0
+CROWN_FLAT_Y = CROWN_OVERLAP + 4.0   # v0.18: each half is straight and level at the apex height from here to -CROWN_OVERLAP, and half-width
+                                    # wherever the other half's bar lies beside it (|y| <= CROWN_OVERLAP + 1); the curve ends before the flat starts
 CROWN_BAR_W = CROWN_W / 2.0
 CROWN_SLOT_L = 26.0
 CROWN_SLOT_W = M4_CLEAR_DIA
@@ -352,7 +363,7 @@ RAIL_CHANNEL = (2.5, 2.5, 40.0, 72.0)    # LED cable groove in the rail's unders
 
 # serrated detent hinge (pylons): 24 teeth, 0.8 mm, wave washer + nyloc
 HINGE_SERR = dict(r_in=5.0, r_out=8.3, teeth=24, height=0.8, phase_ear=7.9, phase_tongue=0.4)
-HINGE_GAP = 6.9
+HINGE_GAP = 7.4                          # v0.18: 6.9 left 0.1 mm over the 6 mm tongue plus the ear's 0.8 mm teeth; printed, the slot closes ~0.3
 HINGE_BOLT = "M3 x 30, wave washer + nyloc"
 
 # ---------------------------------------------------------------------------
@@ -408,7 +419,8 @@ RACK_SHIFT = (1.0 + (RACK_LEN - _n * _p) / 2.0 + _p - RACK_Y0) % _p   # 2.78: ra
 # Enclosed dial (nape local frame: u = -Y, v = W up, w = outward; band mid-plane at w = 0)
 NAPE_MODULE = "core"                                    # print one: 'core' (v0.15: the pin-lock block with the electronics junction bay behind it), 'pinlock' (block only), 'dial' = the compact pull dial
 NAPE_PINLOCK_HOLES = (0.0, 0.5 * _p, _p, 1.5 * _p)      # u of the four vertical pin holes: whole-pitch settings use 0 and p, half-pitch ones p/2 and 3p/2 -> two nails, two teeth per rack
-NAPE_PINLOCK_PIN = dict(dia=2.0, hole=2.2, hole_bottom=2.1, cbore=(5.0, 1.0), relief=(3.0, 0.6), nail="2 x 45 nail (2 x 50 cut flush) or 2 mm rod")   # v0.17: entry relief on the bed-side face against elephant foot   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
+NAPE_PINLOCK_PIN = dict(dia=1.6, hole=2.5, hole_bottom=2.3, cbore=(5.0, 1.0), relief=(3.0, 0.6), slot=(9.0, 5.0, 1.0),
+                        nail="16 ga x 1 in common nail (1.59 mm) now; then a U-pin bent from 1.6 mm stainless rod, legs one rack pitch apart, its bridge in the slot")   # 2026-09-25, d1 v2 + coupon B: for the 1.59 nail a vertical Ø2 hole prints ~0.75 UNDER: 1.9 will not take it, 2.2 is a hard press, 2.5 a perfect slip. hole_bottom 2.3 snug / hole 2.5 clear (my 1.7 / 1.8 of 09-20 were a guess). slot = (along u, width, depth) for the U-pin's bridge   # v0.17: entry relief on the bed-side face against elephant foot   # tooth space 2.1 at the pitch line; the holes overlap into a 4-lobe slot (1.0 waists); snug in the bottom wall, head flush in a counterbore
 NAPE_HU, NAPE_HV = 60.0, 44.0                           # width = rack tip at the tightest (23) + end wall + margin; height = racks 36 + walls
 NAPE_WALL = 2.5
 NAPE_CH = 2.8                                           # channel half-thickness (racks are +/-2.5)
@@ -439,7 +451,8 @@ NAPE_COVER_W0 = NAPE_DIAL_W0 + NAPE_DIAL_T - NAPE_SPRING_WELL[1] + NAPE_SPRING["
 NAPE_COVER_T = 2.5
 NAPE_WINDOW_D = 28.0
 NAPE_AXLE = "M5 x 25 bolt: head epoxied to the lid; printed retainer threaded on the tip sets the spring preload"
-NAPE_LID_SCREWS = ((-20.0, 0.0), (20.0, 0.0), (0.0, 18.0), (0.0, -18.0))
+NAPE_LID_SCREWS = ((-20.0, 0.0), (20.0, 0.0), (0.0, 17.0), (0.0, -17.0))   # 2026-09-25: the end pair at v 17 not 18. With the M3 pilot at 3.0 an 18 put the hole's edge exactly on the rack channel's outer wall (19.5) and the body went non-manifold.
+                                                                            # FLAG (Phase 2): both end screws pass THROUGH the rack channel (v 4.7..19.5) at u 0, where both racks overlap; move them to the midline web (v 0, 9.4 mm wide, e.g. u +/-27) or prove the racks clear them
 NAPE_COVER_SCREWS = ((-22.0, -18.0), (22.0, -18.0), (-22.0, 18.0), (22.0, 18.0))
 NAPE_PAD = (48.0, 40.0, 10.0)
 

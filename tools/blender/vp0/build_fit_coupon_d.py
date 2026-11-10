@@ -36,18 +36,23 @@ PT = 4.0                      # plate thickness
 TILE = (110.0, 55.0)          # every plate is at or under coupon B's proven footprint
 LADDER_DX = 10.0
 
-PINLOCK   = [2.1, 2.3, 2.5, 2.7]     # nape pin-lock, nominal 2.1 snug / 2.2 clear
+PINLOCK   = [1.6, 1.7, 1.8, 1.9]     # nape pin-lock for the 16 ga nail (1.59): nominal 1.7 snug / 1.8 clear (v2, 2026-09-20)
+UPIN      = [1.8, 1.9]               # U-pin pairs: two holes one rack pitch apart under a merged 9 x 5 x 1 slot
+PLUNGER_D = 3.2                      # a printed pin, standing on a foot: does printed slide in printed 3.4?
 M3_TAP    = [2.5, 2.7, 2.9]
 M3_CLEAR  = [3.4, 3.6, 3.8]
 M4_CLEAR  = [4.4, 4.6, 4.8]
 PIN_SOCK  = [4.1, 4.3, 4.5, 4.7]     # sensor-bar pins: blind, so they sit in a raised pad
-HORIZ     = [(3.4, False), (3.4, True), (3.6, False), (3.6, True)]
+HORIZ     = [(2.7, False), (2.7, True), (2.9, False), (2.9, True), (3.1, False), (3.1, True), (3.4, False), (3.4, True)]   # 12 ga tenon nail (2.68) slip; 3.4 = the plunger's keeper
 SOCK_UP   = [8.3, 8.5, 8.7]
 SOCK_BED  = [8.3, 8.5, 8.7, 8.9]
 LUG_STEPS = [0.0, 0.3, 0.6]          # taken off each stub's lug width AND radial reach
 RING_STEPS = [36.3, 36.7, 37.1]      # ring bores tried on the Ø36.0 hub
 
-D1_NOTES = ["print flat, no supports, 8 mm brim; every ladder runs SMALL to LARGE, left to right",
+D1_NOTES = ["print flat, no supports, 8 mm brim; every ladder runs SMALL to LARGE, left to right. v2 (2026-09-20): the pin ladders are sized to the nails in the box, 12 ga (2.68) and 16 ga (1.59)",
+            "pin-lock row (top left, 1.6 / 1.7 / 1.8 / 1.9): the 16 ga nail should press into 1.7 and drop through 1.8. Right of the M4 row: two U-pin pairs (1.8, 1.9): bend a 16 ga nail into a U with legs one rack pitch (3.9 mm) apart, drop it in, pull it out",
+            "horizontal row (2.7 / 2.9 / 3.1 / 3.4, each round then teardrop): the 12 ga nail should slide through 3.1; note where the round binds and the teardrop passes. The printed Ø3.2 pin (loose, next to the peg) must slide in the 3.4 holes here and in the vertical 3.4 of the M3 row",
+            "second plate, between the socket rows: a strap-slot pair 12 mm apart with chamfered edges. If you have 12 mm webbing, thread it through both",
             "ladders: find the FIRST size that takes its gauge cleanly. The step above nominal is what the slicer owes us, and HALF of it is the xy_hole_compensation value (that setting is a radial offset)",
             "horizontal row: 3.4 and 3.6, each round then teardrop. If the teardrop passes where the round binds, teardrops are doing their job",
             "the second plate's Ø8 sockets: three open UPWARD, four open on the BED face (turn it over). The bed-face row is the cradle's own condition, so find the first that takes the peg WITHOUT force",
@@ -72,7 +77,7 @@ def _ladder(plate, cx, cy, dias, through=True):
 
 
 def make_d1():
-    """Plate 1: hole ladders + horizontal pairs.  Plate 2: the Ø8 socket rows.  Loose: the peg."""
+    """Plate 1: hole ladders, U-pin pairs, horizontal pairs.  Plate 2: the Ø8 socket rows and a strap-slot pair.  Loose: the peg, a plunger pin."""
     a = _tile("fit_coupon_d1", 0.0, 0.0)
     _ladder(a, -46.0, 16.0, PINLOCK)
     _ladder(a,  -2.0, 16.0, M3_TAP)
@@ -81,30 +86,48 @@ def make_d1():
     # the sensor-bar sockets are BLIND, so they need material under them: a raised pad
     L.union(a, L.add_box("padsock", (-1.0, 0.0, PT + 4.0 - 0.5), (46.0, 14.0, 8.0 + 1.0)))
     _ladder(a, -16.0, 0.0, PIN_SOCK, through=False)
+    # U-pin pairs: two vertical holes one rack pitch apart, the two counterbores merged into one slot for the U's bridge
+    pitch = math.pi * C.GEAR_MODULE
+    sl, sw_, sd = C.NAPE_PINLOCK_PIN["slot"]
+    for k, d in enumerate(UPIN):
+        cx = 32.0 + k * 13.0
+        L.cut(a, L.add_box(f"uslot{k}", (cx + pitch / 2.0, 0.0, PT - sd / 2.0 + 0.5), (sl, sw_, sd + 1.0)))
+        for j in (0, 1):
+            L.cut(a, L.add_cyl(f"upin{k}{j}", (cx + j * pitch, 0.0, PT / 2.0), d / 2.0, PT + 2.0, axis="Z", verts=20))
     # horizontal holes through a standing block, round vs teardrop
-    L.union(a, L.add_box("hblock", (0.0, -16.0, PT + 13.0 - 0.5), (66.0, 14.0, 26.0 + 1.0)))
+    L.union(a, L.add_box("hblock", (0.0, -16.0, PT + 9.0 - 0.5), (100.0, 14.0, 18.0 + 1.0)))
     for i, (d, td) in enumerate(HORIZ):
-        x = -24.0 + i * 16.0
+        x = -42.0 + i * 12.0
         if td:
-            L.cut(a, L.add_teardrop(f"ht{i}", (x, -16.0, PT + 13.0), d / 2.0, 20.0, (0.0, 1.0, 0.0), (0.0, 0.0, 1.0), verts=20))
+            L.cut(a, L.add_teardrop(f"ht{i}", (x, -16.0, PT + 9.0), d / 2.0, 20.0, (0.0, 1.0, 0.0), (0.0, 0.0, 1.0), verts=20))
         else:
-            L.cut(a, L.add_cyl(f"hr{i}", (x, -16.0, PT + 13.0), d / 2.0, 20.0, axis="Y", verts=20))
+            L.cut(a, L.add_cyl(f"hr{i}", (x, -16.0, PT + 9.0), d / 2.0, 20.0, axis="Y", verts=20))
 
     b = _tile("sockets", 0.0, -80.0)
     for i, d in enumerate(SOCK_UP):
         cx = -36.0 + i * 24.0
-        L.union(b, L.add_box(f"subox{i}", (cx, -66.0, PT + 9.0 - 0.5), (16.0, 16.0, 18.0 + 1.0)))
-        L.cut(b, L.add_cyl(f"sup{i}", (cx, -66.0, PT + 18.0 - C.CYL_DEPTH / 2.0 + 0.5), d / 2.0, C.CYL_DEPTH + 1.0, axis="Z", verts=48))
+        L.union(b, L.add_box(f"subox{i}", (cx, -62.0, PT + 9.0 - 0.5), (16.0, 16.0, 18.0 + 1.0)))
+        L.cut(b, L.add_cyl(f"sup{i}", (cx, -62.0, PT + 18.0 - C.CYL_DEPTH / 2.0 + 0.5), d / 2.0, C.CYL_DEPTH + 1.0, axis="Z", verts=48))
     for i, d in enumerate(SOCK_BED):
         cx = -36.0 + i * 24.0
-        L.union(b, L.add_box(f"sbbox{i}", (cx, -94.0, PT + 6.0 - 0.5), (16.0, 16.0, 12.0 + 1.0)))
-        L.cut(b, L.add_cyl(f"sbed{i}", (cx, -94.0, C.CYL_DEPTH / 2.0 - 1.0), d / 2.0, C.CYL_DEPTH, axis="Z", verts=48))
+        L.union(b, L.add_box(f"sbbox{i}", (cx, -98.0, PT + 6.0 - 0.5), (16.0, 16.0, 12.0 + 1.0)))
+        L.cut(b, L.add_cyl(f"sbed{i}", (cx, -98.0, C.CYL_DEPTH / 2.0 - 1.0), d / 2.0, C.CYL_DEPTH, axis="Z", verts=48))
+    # a strap-slot pair between the socket rows: 14 x 4 slots, STRAP_SLOT_PITCH apart, every edge chamfered
+    sh, sw = C.STRAP_SLOT
+    for k in (-1, +1):
+        Ms = L.frame((40.0, -80.0 + k * C.STRAP_SLOT_PITCH / 2.0, PT / 2.0), (1.0, 0.0, 0.0), (0.0, 1.0, 0.0))   # local X = width (along y), local Z = height (along x)
+        L.cut(b, L.add_box_local(f"strap{k}", Ms, (0.0, 0.0, 0.0), (sw + 0.3, PT + 2.0, sh)))
+        L.slot_chamfer(b, Ms, sw + 0.3, sh, PT, C.STRAP_SLOT_CHAMFER)
     L.union(a, b)
 
     peg = L.add_cyl("pegfoot", (0.0, -130.0, 0.75), 10.0, 1.5, axis="Z", verts=48)
     L.union(peg, L.add_cyl("peg", (0.0, -130.0, 1.5 + C.CYL_PEG_LEN / 2.0), C.CYL_PEG_D / 2.0, C.CYL_PEG_LEN, axis="Z", verts=48))
     L.cut(peg, L.add_cyl("pegpin", (0.0, -130.0, 1.5 + C.CYL_PEG_LEN - C.CYL_PIN_Z), C.M3_CLEAR_DIA / 2.0, C.CYL_PEG_D + 6.0, axis="X", verts=24))
     L.union(a, peg)
+    # the plunger pin: Ø3.2 x 20, standing on a Ø6 foot (a round shank for the fit test; the real plunger's orientation is a Phase 3 question)
+    pin = L.add_cyl("pinfoot", (22.0, -130.0, 0.75), 3.0, 1.5, axis="Z", verts=32)
+    L.union(pin, L.add_cyl("pin", (22.0, -130.0, 1.5 + 10.0), PLUNGER_D / 2.0, 20.0, axis="Z", verts=32))
+    L.union(a, pin)
     return a
 
 
