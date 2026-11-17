@@ -59,7 +59,8 @@ def _saddle(shell, side, yc):
     L.union(shell, sad)
 
 
-def dome(side=+1):
+def dome(side=+1, saddle=True):
+    """saddle=False: the dome as it is on the helm, its print saddle snapped off."""
     axis = "Y" if side > 0 else "-Y"
     yc = side * C.DISK_IN_Y
     rs = [C.DISK_R * i / 48 for i in range(49)]
@@ -90,7 +91,8 @@ def dome(side=+1):
     # v0.14: the dome prints ON EDGE (axis horizontal). A 0.15 mm flat at the rim's lowest point is its first layer (6 mm chord,
     # invisible), and a small notch in the dish rim at the bottom marks the knob's unlocked position.
     L.cut(shell, L.add_box("printflat", (C.CX, yc, C.CZ - C.DISK_R - 7.0 + C.DISK_PRINT_FLAT), (200.0, 80.0, 14.0)))
-    _saddle(shell, side, yc)
+    if saddle:
+        _saddle(shell, side, yc)
     mw, md = C.DISK_UNLOCK_MARK
     # at the bottom in the WORN pose: the dome turns with the plate, so in the modelled (entry) pose it sits `travel` further round
     a_mark = (90.0 if side > 0 else 270.0) + lock_travel_deg()
